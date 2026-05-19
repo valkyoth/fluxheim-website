@@ -120,6 +120,16 @@ html.light .roadmap-badge {
   color: #6d28d9 !important;
 }
 
+html.light .doc-link {
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .doc-link:hover {
+  background: #f8fafc !important;
+  border-color: rgba(8, 145, 178, 0.34) !important;
+}
+
 html.light .bg-gray-950,
 html.light .bg-gray-950\/80,
 html.light .bg-gray-950\/70 {
