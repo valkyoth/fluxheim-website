@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Installation & Quick Start — Fluxheim Docs</title>
+  <link rel="stylesheet" href="../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../assets/css/theme.css?v=20260519">
+  <script src="../assets/js/theme.js?v=20260519"></script>
+  <script src="../assets/js/tailwind.js"></script>
+  <style>
+    body { background-color: var(--fh-bg); }
+    .code-win { background: #0d1117; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; }
+    .code-win pre[class*="language-"] { margin: 0; padding: 1.2rem; background: transparent; font-size: 0.8rem; line-height: 1.7; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; } ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; color: white; margin: 2.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid #1f2937; }
+    .prose h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .prose h3 { font-size: 1.1rem; font-weight: 600; color: #e5e7eb; margin: 1.75rem 0 0.75rem; }
+    .prose p { color: #9ca3af; line-height: 1.75; margin-bottom: 1rem; }
+    .prose ul { margin: 0.75rem 0 1rem 1.25rem; list-style: disc; }
+    .prose ul li { color: #9ca3af; margin-bottom: 0.35rem; line-height: 1.65; }
+    .prose code { background: #1f2937; color: #22d3ee; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82em; }
+    .prose a { color: #22d3ee; } .prose a:hover { color: #67e8f9; }
+    .callout { padding: 1rem 1.25rem; border-radius: 10px; margin: 1.25rem 0; }
+    .callout-info { background: rgba(6,182,212,0.05); border: 1px solid rgba(6,182,212,0.2); }
+    .callout-warn { background: rgba(234,179,8,0.05); border: 1px solid rgba(234,179,8,0.2); }
+    .callout p { margin: 0; font-size: 0.9rem; }
+    .callout-info p { color: #a5f3fc; }
+    .callout-warn p { color: #fde68a; }
+    .step-num { width: 28px; height: 28px; background: rgba(6,182,212,0.15); border: 1px solid rgba(6,182,212,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: #22d3ee; flex-shrink: 0; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+
+  <nav x-data="{ open: false }" class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../index.html" class="flex items-center gap-3">
+          <img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg tracking-tight">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
+          <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-white transition-colors">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            GitHub
+          </a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16" x-data="{ mobileSidebar: false }">
+
+    <div x-show="mobileSidebar" @click="mobileSidebar = false" x-transition.opacity class="fixed inset-0 z-30 bg-gray-950/70 backdrop-blur-sm md:hidden"></div>
+
+    <!-- Sidebar -->
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3>
+          <ul class="space-y-0.5">
+            <li><a href="index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Introduction</a></li>
+            <li><a href="getting-started.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Installation & Quick Start</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3>
+          <ul class="space-y-0.5">
+            <li><a href="configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Config Reference</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3>
+          <ul class="space-y-0.5">
+            <li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Feature Matrix</a></li>
+            <li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">TLS & ACME</a></li>
+            <li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Cache System</a></li>
+            <li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Observability</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3>
+          <ul class="space-y-0.5">
+            <li><a href="deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Systemd & Containers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3>
+          <ul class="space-y-0.5">
+            <li><a href="advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">PHP-FPM, WAF & More</a></li>
+          </ul>
+        </div>
+        <div class="border-t border-gray-800/60 pt-5">
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3>
+          <ul class="space-y-0.5">
+            <li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">GitHub Repository</a></li>
+            <li><a href="../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Changelog</a></li>
+            <li><a href="../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Download</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="md:hidden px-4 py-3 border-b border-gray-800/60">
+        <button @click="mobileSidebar = true" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          Menu
+        </button>
+      </div>
+
+      <div class="max-w-3xl mx-auto px-6 lg:px-10 py-12">
+
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../index.html" class="hover:text-gray-300 transition-colors">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="index.html" class="hover:text-gray-300 transition-colors">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Installation & Quick Start</span>
+        </div>
+
+        <h1 class="text-4xl font-black text-white mb-4">Installation & Quick Start</h1>
+        <p class="text-gray-400 text-lg mb-10">Get Fluxheim running in under five minutes — from tarball, container, or source.</p>
+
+        <div class="prose">
+
+          <h2>Prerequisites</h2>
+          <ul>
+            <li>Linux x86_64 (kernel 4.14 or newer)</li>
+            <li>For source builds: Rust stable toolchain (pinned — use <code>rustup</code>)</li>
+            <li>For containers: Podman 4+ (rootless) or Docker</li>
+          </ul>
+
+          <h2>Option 1 — Tarball (Recommended)</h2>
+          <p>The tarball is the fastest way to get started. Download the pre-built binary, move it to your PATH, and you're ready.</p>
+
+          <div class="space-y-4 not-prose my-5">
+            <div class="flex gap-4">
+              <div class="step-num">1</div>
+              <div class="flex-1">
+                <p class="text-gray-300 font-medium text-sm mb-2">Download the tarball</p>
+                <div class="code-win">
+                  <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
+<pre class="language-bash"><code class="language-bash">curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.3.2/fluxheim-1.3.2-full-x86_64-linux.tar.gz \
+  -o fluxheim-1.3.2.tar.gz
+tar xzf fluxheim-1.3.2.tar.gz</code></pre>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="step-num">2</div>
+              <div class="flex-1">
+                <p class="text-gray-300 font-medium text-sm mb-2">Move binaries to your path</p>
+                <div class="code-win">
+                  <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
+<pre class="language-bash"><code class="language-bash">sudo mv fluxheim /usr/local/bin/
+sudo mv fluxheim-acme /usr/local/bin/            # ACME companion
+sudo mv fluxheim-config-tester /usr/local/bin/   # Config validator
+fluxheim --version</code></pre>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="step-num">3</div>
+              <div class="flex-1">
+                <p class="text-gray-300 font-medium text-sm mb-2">Create a minimal config and validate it</p>
+                <div class="code-win">
+                  <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
+<pre class="language-bash"><code class="language-bash">sudo mkdir -p /etc/fluxheim /srv/sites/example/public
+echo '&lt;h1&gt;Hello from Fluxheim&lt;/h1&gt;' | sudo tee /srv/sites/example/public/index.html
+fluxheim --check-config --config /etc/fluxheim/fluxheim.toml</code></pre>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="step-num">4</div>
+              <div class="flex-1">
+                <p class="text-gray-300 font-medium text-sm mb-2">Run it</p>
+                <div class="code-win">
+                  <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
+<pre class="language-bash"><code class="language-bash">sudo fluxheim --config /etc/fluxheim/fluxheim.toml
+
+# Test with curl
+curl -H 'Host: localhost' http://127.0.0.1:8080/</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h2>Option 2 — Container (Rootless Podman)</h2>
+
+          <div class="code-win my-5">
+            <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
+<pre class="language-bash"><code class="language-bash"># Pull the full image
+podman pull ghcr.io/valkyoth/fluxheim:1.3.2
+
+# Run rootless — ports 8080 (HTTP) and 8443 (HTTPS)
+podman run -d \
+  --name fluxheim \
+  --restart unless-stopped \
+  -p 8080:8080 \
+  -p 8443:8443 \
+  -v /srv/sites:/srv/sites:ro,z \
+  -v /etc/fluxheim:/etc/fluxheim:ro,z \
+  ghcr.io/valkyoth/fluxheim:1.3.2
+
+podman logs -f fluxheim</code></pre>
+          </div>
+
+          <h2>Option 3 — Build from Source</h2>
+
+          <div class="code-win my-5">
+            <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
+<pre class="language-bash"><code class="language-bash">git clone https://github.com/valkyoth/fluxheim
+cd fluxheim
+
+# Default profile: proxy + web + cache + tls-rustls + security
+cargo build --release
+
+# Validate and run
+./target/release/fluxheim --check-config --config examples/fluxheim.toml
+./target/release/fluxheim --config examples/fluxheim.toml
+
+# Run local checks
+scripts/checks.sh</code></pre>
+          </div>
+
+          <h2>Your First Config</h2>
+          <p>A minimal static site config. Save this to <code>/etc/fluxheim/fluxheim.toml</code>.</p>
+
+          <div class="code-win my-5">
+            <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">/etc/fluxheim/fluxheim.toml</span></div>
+<pre class="language-toml"><code class="language-toml">[server]
+listen = ["0.0.0.0:8080"]
+default_vhost = "site"
+
+[headers.response]
+enabled = true
+x_content_type_options = "nosniff"
+x_frame_options = "DENY"
+referrer_policy = "no-referrer"
+
+[[vhosts]]
+name = "site"
+hosts = ["example.test", "www.example.test"]
+
+[vhosts.web]
+root = "/srv/sites/example/public"
+index_files = ["index.html"]
+deny_dotfiles = true
+cache_control = "public, max-age=60"</code></pre>
+          </div>
+
+          <h2>Adding a Reverse Proxy Route</h2>
+
+          <div class="code-win my-5">
+            <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml — proxy route</span></div>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = "app"
+hosts = ["app.example.com"]
+
+# Route /api/* to a backend
+[[vhosts.routes]]
+name = "api"
+path_prefix = "/api"
+[vhosts.routes.proxy]
+upstreams = ["127.0.0.1:3000"]
+
+# Serve static assets from disk
+[[vhosts.routes]]
+name = "static"
+path_prefix = "/"
+[vhosts.routes.web]
+root = "/srv/sites/app/public"
+index_files = ["index.html"]
+
+[vhosts.web]
+root = "/srv/sites/app/public"
+index_files = ["index.html"]</code></pre>
+          </div>
+
+          <h2>Build Profiles</h2>
+          <p>Fluxheim uses Cargo feature aliases called <code>profile-*</code> for grouped builds. Choose the profile that matches your deployment role.</p>
+
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="border-b border-gray-800 bg-gray-900/60">
+                  <th class="text-left px-4 py-3 font-semibold text-gray-400">Profile</th>
+                  <th class="text-left px-4 py-3 font-semibold text-gray-400">Use case</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-800/50">
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-core</td><td class="px-4 py-3 text-gray-400">Default local/server baseline</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-static-site</td><td class="px-4 py-3 text-gray-400">Static sites without Fluxheim cache</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-reverse-proxy</td><td class="px-4 py-3 text-gray-400">Reverse proxy without static hosting or cache</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-cache-server</td><td class="px-4 py-3 text-gray-400">Static/proxy server with cache enabled</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-cache-edge</td><td class="px-4 py-3 text-gray-400">Cache edge without local static web serving</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-proxy-edge</td><td class="px-4 py-3 text-gray-400">Focused reverse proxy edge</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-load-balancer</td><td class="px-4 py-3 text-gray-400">Prepared load-balancer bundle; manual build before the 1.5 line</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-load-balancer-edge</td><td class="px-4 py-3 text-gray-400">Prepared load-balancer edge without cache or static web</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-observability</td><td class="px-4 py-3 text-gray-400">Core server with full metrics and tracing</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-privacy</td><td class="px-4 py-3 text-gray-400">Zero-retention static/proxy profile</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-web-server</td><td class="px-4 py-3 text-gray-400">Static webserver profile</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-full</td><td class="px-4 py-3 text-gray-400">All stable production modules</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">profile-development</td><td class="px-4 py-3 text-gray-400">Broad development build with compatible production modules</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="code-win my-5">
+            <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — build a focused profile</span></div>
+<pre class="language-bash"><code class="language-bash"># Cache edge with managed ACME
+cargo build --release --no-default-features \
+  --features profile-cache-edge,acme-client
+
+# Proxy edge
+cargo build --release --no-default-features \
+  --features profile-proxy-edge,acme-client
+
+# Full production build
+cargo build --release --no-default-features \
+  --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp
+
+# PHP-FPM build
+cargo build --release --no-default-features \
+  --features profile-web-server,php-fpm,acme-client</code></pre>
+          </div>
+
+          <div class="callout callout-info">
+            <p><strong>Validate custom features before building</strong> — <code>scripts/validate-features.sh proxy,web,tls-rustls</code> checks that the selected feature combination is coherent. TLS backends are mutually exclusive; pick exactly one.</p>
+          </div>
+
+        </div>
+
+        <!-- Prev / Next -->
+        <div class="flex items-center justify-between mt-14 pt-8 border-t border-gray-800/60">
+          <a href="index.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Introduction
+          </a>
+          <a href="configuration.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            Config Reference
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/js/alpine.min.js" defer></script>
+  <script src="../assets/js/prism.min.js"></script>
+  <script src="../assets/js/prism-bash.min.js"></script>
+  <script src="../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

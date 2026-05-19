@@ -1,0 +1,64 @@
+name: Bug Report
+description: Report a broken page, layout issue, bad link, or Alpine.js interaction bug.
+title: "[Bug]: "
+labels: ["bug", "frontend"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Thanks for reporting an issue!
+        Please fill out this form to help us diagnose and track down the website issue.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the broken page, bad link, layout issue, or interactive behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What did you expect to happen?
+      description: Describe what the page, link, layout, or Alpine.js component should do.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can we reproduce it?
+      description: Detail the manual actions needed to see the issue. Include the affected page path or URL.
+      placeholder: |
+        1. Open the page on a mobile viewport...
+        2. Click the affected link or interactive control...
+        3. Observe the broken behavior...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Browser & Viewport Environment
+      description: Frontend bugs are highly dependent on the rendering engine and viewport size.
+      placeholder: |
+        - Browser Name & Version (e.g., Safari 17.4, Chrome 124, Firefox):
+        - Operating System (e.g., iOS, Android, macOS, Linux, Windows):
+        - Viewport Size / Breakpoint (e.g., Mobile/sm, Tablet/md, Desktop/xl):
+        - How the site was served (e.g., opened from disk, Python http.server, Fluxheim container):
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Browser Developer Console Logs
+      description: Paste any explicit JavaScript runtime execution errors caught in your browser console.
+      render: text
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Extra Context & Screenshots
+      description: Visual bugs are best explained with images. Drag and drop any relevant screenshots or layout annotations here.

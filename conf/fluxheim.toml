@@ -1,0 +1,31 @@
+[server]
+listen = ["0.0.0.0:8080"]
+default_vhost = "site"
+
+[server.process]
+daemon = false
+
+[logging]
+level = "info"
+format = "json"
+target = "stderr"
+
+[logging.access]
+enabled = true
+include_host = true
+include_path = true
+request_id = true
+
+[[vhosts]]
+name = "site"
+hosts = ["fluxheim.eu"]
+
+[vhosts.web]
+root = "/srv/sites/fluxheim"
+index_files = ["index.html"]
+deny_dotfiles = true
+
+[vhosts.web.directory_listing]
+enabled = false
+exact_size = false
+local_time = false

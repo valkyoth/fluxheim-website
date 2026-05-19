@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Config Reference — Fluxheim Docs</title>
+  <link rel="stylesheet" href="../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../assets/css/theme.css?v=20260519">
+  <script src="../assets/js/theme.js?v=20260519"></script>
+  <script src="../assets/js/tailwind.js"></script>
+  <style>
+    body { background-color: var(--fh-bg); }
+    .code-win { background: #0d1117; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; }
+    .code-win pre[class*="language-"] { margin: 0; padding: 1.2rem; background: transparent; font-size: 0.8rem; line-height: 1.7; }
+    ::-webkit-scrollbar { width: 5px; height: 5px; } ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; color: white; margin: 2.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid #1f2937; }
+    .prose h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .prose h3 { font-size: 1.1rem; font-weight: 600; color: #e5e7eb; margin: 1.75rem 0 0.75rem; }
+    .prose p { color: #9ca3af; line-height: 1.75; margin-bottom: 1rem; }
+    .prose ul { margin: 0.75rem 0 1rem 1.25rem; list-style: disc; }
+    .prose ul li { color: #9ca3af; margin-bottom: 0.35rem; }
+    .prose code { background: #1f2937; color: #22d3ee; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82em; }
+    .prose a { color: #22d3ee; }
+    .key-table { width: 100%; border-collapse: collapse; }
+    .key-table th { text-align: left; padding: 0.6rem 1rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; background: #111827; border-bottom: 1px solid #1f2937; }
+    .key-table td { padding: 0.65rem 1rem; font-size: 0.85rem; border-bottom: 1px solid #111827; vertical-align: top; }
+    .key-table tr:last-child td { border-bottom: none; }
+    .key-table .key { font-family: ui-monospace, monospace; color: #22d3ee; white-space: nowrap; }
+    .key-table .type { color: #a78bfa; font-family: ui-monospace, monospace; font-size: 0.78rem; }
+    .key-table .desc { color: #9ca3af; }
+    .key-table .default { font-family: ui-monospace, monospace; color: #6b7280; font-size: 0.78rem; }
+    .section-ref { display: inline-block; padding: 0.15rem 0.6rem; background: #1f2937; border: 1px solid #374151; border-radius: 6px; font-family: ui-monospace, monospace; font-size: 0.8rem; color: #9ca3af; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+
+  <nav x-data="{ open: false }" class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../index.html" class="flex items-center gap-3">
+          <img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
+          <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">GitHub</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16" x-data="{ mobileSidebar: false }">
+    <div x-show="mobileSidebar" @click="mobileSidebar = false" x-transition.opacity class="fixed inset-0 z-30 bg-gray-950/70 backdrop-blur-sm md:hidden"></div>
+
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3>
+          <ul class="space-y-0.5">
+            <li><a href="index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Introduction</a></li>
+            <li><a href="getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Installation & Quick Start</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3>
+          <ul class="space-y-0.5">
+            <li><a href="configuration.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Config Reference</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3>
+          <ul class="space-y-0.5">
+            <li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Feature Matrix</a></li>
+            <li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">TLS & ACME</a></li>
+            <li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Cache System</a></li>
+            <li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Observability</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3>
+          <ul class="space-y-0.5">
+            <li><a href="deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Systemd & Containers</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3>
+          <ul class="space-y-0.5">
+            <li><a href="advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">PHP-FPM, WAF & More</a></li>
+          </ul>
+        </div>
+        <div class="border-t border-gray-800/60 pt-5">
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3>
+          <ul class="space-y-0.5">
+            <li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">GitHub Repository</a></li>
+            <li><a href="../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Changelog</a></li>
+            <li><a href="../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Download</a></li>
+          </ul>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="md:hidden px-4 py-3 border-b border-gray-800/60">
+        <button @click="mobileSidebar = true" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          Menu
+        </button>
+      </div>
+
+      <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
+
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Config Reference</span>
+        </div>
+
+        <h1 class="text-4xl font-black text-white mb-4">Config Reference</h1>
+        <p class="text-gray-400 text-lg mb-10">Fluxheim is configured via a single TOML file. Use <code class="bg-gray-800 text-cyan-400 px-1.5 py-0.5 rounded text-base">--check-config</code> to validate before restarting.</p>
+
+        <div class="prose">
+
+          <h2>Full Example</h2>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">/etc/fluxheim/fluxheim.toml</span></div>
+<pre class="language-toml"><code class="language-toml">[server]
+listen = ["0.0.0.0:80"]
+tls_listen = ["0.0.0.0:443"]
+default_vhost = "site"
+
+[admin]
+enabled = true
+listen = "127.0.0.1:9090"
+require_loopback = true
+token_file = "/run/secrets/fluxheim-admin-token"
+
+[headers.response]
+enabled = true
+x_content_type_options = "nosniff"
+x_frame_options = "DENY"
+referrer_policy = "no-referrer"
+
+[tls.acme]
+enabled = true
+storage = "/var/lib/fluxheim/acme"
+contact_email = "admin@example.com"
+default_issuer = "letsencrypt"
+
+[[vhosts]]
+name = "site"
+hosts = ["example.com", "www.example.com"]
+
+[vhosts.tls]
+enabled = true
+
+[vhosts.tls.acme]
+enabled = true
+
+[vhosts.web]
+root = "/srv/sites/example/public"
+index_files = ["index.html"]
+deny_dotfiles = true
+cache_control = "public, max-age=3600"
+
+[[vhosts.routes]]
+name = "api"
+path_prefix = "/api"
+[vhosts.routes.proxy]
+upstreams = ["127.0.0.1:3000"]
+
+[[vhosts.routes]]
+name = "old"
+path_prefix = "/old"
+[vhosts.routes.redirect]
+to = "/new"
+status = 301
+
+[vhosts.cache]
+enabled = true
+
+[vhosts.cache.memory]
+enabled = true
+max_size_bytes = "256MiB"</code></pre>
+            </div>
+          </div>
+
+          <h2>[server]</h2>
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="key-table">
+              <thead><tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td class="key">listen</td><td class="type">string[]</td><td class="default">["127.0.0.1:8080"]</td><td class="desc">Cleartext listener addresses. Each entry is <code class="section-ref">host:port</code>.</td></tr>
+                <tr><td class="key">tls_listen</td><td class="type">string[]</td><td class="default">[]</td><td class="desc">Explicit TLS listener addresses. Fluxheim does not infer TLS from port numbers.</td></tr>
+                <tr><td class="key">default_vhost</td><td class="type">string</td><td class="default">—</td><td class="desc">Name of the vhost to use when no Host header matches. Required.</td></tr>
+                <tr><td class="key">trusted_proxies</td><td class="type">string[]</td><td class="default">[]</td><td class="desc">Trusted direct peers for recursive client-IP restoration.</td></tr>
+                <tr><td class="key">[server.https_redirect].enabled</td><td class="type">bool</td><td class="default">false</td><td class="desc">Enable global HTTP to HTTPS redirect with safe Host validation.</td></tr>
+                <tr><td class="key">[server.host_routing].strict</td><td class="type">bool</td><td class="default">false</td><td class="desc">Reject missing, invalid, or unknown host identity instead of falling back to the default vhost.</td></tr>
+                <tr><td class="key">[server.limits].max_request_body_bytes</td><td class="type">string</td><td class="default">"16MiB"</td><td class="desc">Maximum request body size.</td></tr>
+                <tr><td class="key">[server.process].threads</td><td class="type">integer</td><td class="default">1</td><td class="desc">Pingora worker thread count. Process settings require a process upgrade.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>[admin]</h2>
+          <p>The admin control-plane provides health, status, purge, and config-reload endpoints. It requires bearer-token authentication on non-loopback listeners.</p>
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="key-table">
+              <thead><tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td class="key">enabled</td><td class="type">bool</td><td class="default">false</td><td class="desc">Enable the admin listener.</td></tr>
+                <tr><td class="key">listen</td><td class="type">string</td><td class="default">"127.0.0.1:9090"</td><td class="desc">Admin listener address. Keep loopback where possible.</td></tr>
+                <tr><td class="key">require_loopback</td><td class="type">bool</td><td class="default">true</td><td class="desc">Require the admin listener to stay loopback-only.</td></tr>
+                <tr><td class="key">token_env</td><td class="type">string</td><td class="default">—</td><td class="desc">Environment variable containing the bearer token.</td></tr>
+                <tr><td class="key">token_file</td><td class="type">string</td><td class="default">—</td><td class="desc">File containing the bearer token. Prefer container or systemd secrets.</td></tr>
+                <tr><td class="key">[admin.transport].mode</td><td class="type">string</td><td class="default">"local_only"</td><td class="desc">Use <code class="section-ref">trusted_tls_terminator</code> only when a trusted local sidecar terminates TLS/mTLS.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>[headers.response]</h2>
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="key-table">
+              <thead><tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td class="key">enabled</td><td class="type">bool</td><td class="default">true</td><td class="desc">Enable the secure response header policy.</td></tr>
+                <tr><td class="key">remove</td><td class="type">string[]</td><td class="default">[]</td><td class="desc">Headers to remove. Use <code class="section-ref">["server"]</code> to suppress the default server banner.</td></tr>
+                <tr><td class="key">[headers.response.add]</td><td class="type">table</td><td class="default">—</td><td class="desc">Headers to add or set, such as <code class="section-ref">cache-control</code>.</td></tr>
+                <tr><td class="key">x_content_type_options</td><td class="type">string</td><td class="default">"nosniff"</td><td class="desc">Sets <code class="section-ref">X-Content-Type-Options</code>.</td></tr>
+                <tr><td class="key">x_frame_options</td><td class="type">string</td><td class="default">—</td><td class="desc"><code class="section-ref">DENY</code>, <code class="section-ref">SAMEORIGIN</code>, or unset.</td></tr>
+                <tr><td class="key">referrer_policy</td><td class="type">string</td><td class="default">—</td><td class="desc">Sets <code class="section-ref">Referrer-Policy</code>.</td></tr>
+                <tr><td class="key">strict_transport_security</td><td class="type">string</td><td class="default">—</td><td class="desc">Sets <code class="section-ref">Strict-Transport-Security</code>. Only set when TLS is in use.</td></tr>
+                <tr><td class="key">content_security_policy</td><td class="type">string</td><td class="default">—</td><td class="desc">Sets <code class="section-ref">Content-Security-Policy</code>.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>[[vhosts]]</h2>
+          <p>Each vhost is a <code>[[vhosts]]</code> table in TOML (array of tables). They are matched by the <code>Host</code> header.</p>
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="key-table">
+              <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td class="key">name</td><td class="type">string</td><td class="desc">Unique identifier for this vhost. Used in logs and as the default_vhost reference.</td></tr>
+                <tr><td class="key">hosts</td><td class="type">string[]</td><td class="desc">List of <code class="section-ref">Host</code> header values that route to this vhost. Wildcard hosts are accepted for matching; managed ACME derives exact domains only unless configured.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>[vhosts.web]</h3>
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="key-table">
+              <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td class="key">root</td><td class="type">string</td><td class="desc">Absolute path to the document root directory.</td></tr>
+                <tr><td class="key">index_files</td><td class="type">string[]</td><td class="desc">List of filenames to serve as directory index. E.g. <code class="section-ref">["index.html"]</code>.</td></tr>
+                <tr><td class="key">deny_dotfiles</td><td class="type">bool</td><td class="desc">Deny requests for files or directories starting with <code class="section-ref">.</code>.</td></tr>
+                <tr><td class="key">cache_control</td><td class="type">string</td><td class="desc">Value for the <code class="section-ref">Cache-Control</code> response header.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>[vhosts.tls]</h3>
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="key-table">
+              <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td class="key">enabled</td><td class="type">bool</td><td class="desc">Enable TLS for this vhost. Requires a static certificate, managed ACME source, or global listener certificate.</td></tr>
+                <tr><td class="key">[vhosts.tls.acme].enabled</td><td class="type">bool</td><td class="desc">Enable managed ACME certificate issuance and renewal for this vhost.</td></tr>
+                <tr><td class="key">[vhosts.tls.acme].issuer</td><td class="type">string</td><td class="desc">ACME issuer to use. Defaults to <code class="section-ref">tls.acme.default_issuer</code>.</td></tr>
+                <tr><td class="key">[vhosts.tls.acme].domains</td><td class="type">string[]</td><td class="desc">Optional exact SAN names. If omitted, exact vhost hosts are used.</td></tr>
+                <tr><td class="key">[vhosts.tls.certificate].cert_path</td><td class="type">string</td><td class="desc">Path to PEM certificate file for static/bought certs.</td></tr>
+                <tr><td class="key">[vhosts.tls.certificate].key_path</td><td class="type">string</td><td class="desc">Path to PEM private key file.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>[[vhosts.routes]]</h3>
+          <p>Routes are matched in order. The first matching route wins.</p>
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="key-table">
+              <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td class="key">name</td><td class="type">string</td><td class="desc">Unique route name within the vhost. Used in cache scope and logs.</td></tr>
+                <tr><td class="key">path_exact</td><td class="type">string</td><td class="desc">Exact URL path matcher. Use one matcher only.</td></tr>
+                <tr><td class="key">path_prefix</td><td class="type">string</td><td class="desc">URL path prefix matcher. Use one matcher only.</td></tr>
+                <tr><td class="key">fallback</td><td class="type">bool</td><td class="desc">Fallback matcher when no earlier route matched. Use one matcher only.</td></tr>
+                <tr><td class="key">[vhosts.routes.proxy]</td><td class="type">table</td><td class="desc">Proxy action. Use <code class="section-ref">upstreams = ["127.0.0.1:3000"]</code> for one or more origins.</td></tr>
+                <tr><td class="key">[vhosts.routes.web]</td><td class="type">table</td><td class="desc">Route-scoped static web action.</td></tr>
+                <tr><td class="key">[vhosts.routes.redirect]</td><td class="type">table</td><td class="desc">Redirect action with <code class="section-ref">to</code> and optional <code class="section-ref">status</code> 301, 302, 307, or 308.</td></tr>
+                <tr><td class="key">[vhosts.routes.php]</td><td class="type">table</td><td class="desc">Route-scoped PHP action when built with a PHP runtime feature.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>[vhosts.cache]</h3>
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="key-table">
+              <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td class="key">enabled</td><td class="type">bool</td><td class="desc">Enable cache for this vhost.</td></tr>
+                <tr><td class="key">local_static</td><td class="type">bool</td><td class="desc">Opt in to caching local static responses as well as proxy responses.</td></tr>
+                <tr><td class="key">max_object_bytes</td><td class="type">string</td><td class="desc">Maximum cacheable object size, e.g. <code class="section-ref">"32MiB"</code>.</td></tr>
+                <tr><td class="key">status_ttls</td><td class="type">table</td><td class="desc">Per-status TTLs, e.g. <code class="section-ref">{ "200" = 3600, "404" = 60 }</code>.</td></tr>
+                <tr><td class="key">[vhosts.cache.memory].enabled</td><td class="type">bool</td><td class="desc">Enable memory cache tier.</td></tr>
+                <tr><td class="key">[vhosts.cache.disk].enabled</td><td class="type">bool</td><td class="desc">Enable disk cache tier. Requires <code class="section-ref">path</code>.</td></tr>
+                <tr><td class="key">[vhosts.cache.lock].enabled</td><td class="type">bool</td><td class="desc">Enable request collapsing for concurrent misses on the same cache key.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Gateway Recipes</h2>
+          <h3>Multi-vhost with shared TLS</h3>
+          <div class="not-prose">
+            <div class="code-win my-4">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml</span></div>
+<pre class="language-toml"><code class="language-toml">[server]
+listen = ["0.0.0.0:80"]
+tls_listen = ["0.0.0.0:443"]
+default_vhost = "main"
+
+[server.https_redirect]
+enabled = true
+
+[tls.acme]
+enabled = true
+storage = "/var/lib/fluxheim/acme"
+contact_email = "admin@example.com"
+
+[[vhosts]]
+name = "main"
+hosts = ["example.com", "www.example.com"]
+[vhosts.tls]
+enabled = true
+[vhosts.tls.acme]
+enabled = true
+[vhosts.web]
+root = "/srv/sites/main/public"
+
+[[vhosts]]
+name = "api"
+hosts = ["api.example.com"]
+[vhosts.tls]
+enabled = true
+[vhosts.tls.acme]
+enabled = true
+[[vhosts.routes]]
+name = "api"
+path_prefix = "/"
+[vhosts.routes.proxy]
+upstreams = ["127.0.0.1:4000"]</code></pre>
+            </div>
+          </div>
+
+          <h3>WordPress with PHP-FPM</h3>
+          <div class="not-prose">
+            <div class="code-win my-4">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml (requires php-fpm feature)</span></div>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = "wordpress"
+hosts = ["blog.example.com"]
+
+[vhosts.tls]
+enabled = true
+
+[vhosts.web]
+root = "/srv/sites/wordpress"
+index_files = ["index.php", "index.html"]
+deny_dotfiles = true
+
+[vhosts.php]
+enabled = true
+runtime = "php-fpm"
+root = "/srv/sites/wordpress"
+index = "index.php"
+allowed_extensions = ["php"]
+
+[vhosts.php.fpm]
+socket = "/run/php/php8.2-fpm.sock"</code></pre>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="flex items-center justify-between mt-14 pt-8 border-t border-gray-800/60">
+          <a href="getting-started.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Installation & Quick Start
+          </a>
+          <a href="features.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            Feature Matrix
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/js/alpine.min.js" defer></script>
+  <script src="../assets/js/prism.min.js"></script>
+  <script src="../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Advanced — Fluxheim Docs</title>
+  <link rel="stylesheet" href="../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../assets/css/theme.css?v=20260519">
+  <script src="../assets/js/theme.js?v=20260519"></script>
+  <script src="../assets/js/tailwind.js"></script>
+  <style>
+    body { background-color: var(--fh-bg); }
+    .code-win { background: #0d1117; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; }
+    .code-win pre[class*="language-"] { margin: 0; padding: 1.2rem; background: transparent; font-size: 0.8rem; line-height: 1.7; }
+    ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; color: white; margin: 2.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid #1f2937; }
+    .prose h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .prose h3 { font-size: 1.1rem; font-weight: 600; color: #e5e7eb; margin: 1.75rem 0 0.75rem; }
+    .prose p { color: #9ca3af; line-height: 1.75; margin-bottom: 1rem; }
+    .prose ul { margin: 0.75rem 0 1rem 1.25rem; list-style: disc; }
+    .prose ul li { color: #9ca3af; margin-bottom: 0.35rem; }
+    .prose code { background: #1f2937; color: #22d3ee; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82em; }
+    .callout-info { padding: 1rem 1.25rem; border-radius: 10px; margin: 1.25rem 0; background: rgba(6,182,212,0.05); border: 1px solid rgba(6,182,212,0.2); color: #a5f3fc; font-size: 0.9rem; }
+    .callout-warn { padding: 1rem 1.25rem; border-radius: 10px; margin: 1.25rem 0; background: rgba(234,179,8,0.05); border: 1px solid rgba(234,179,8,0.2); color: #fde68a; font-size: 0.9rem; }
+    .roadmap-badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.15rem 0.6rem; background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.25); border-radius: 4px; font-size: 0.7rem; color: #a78bfa; font-weight: 600; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+
+  <nav x-data="{ open: false }" class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../index.html" class="flex items-center gap-3">
+          <img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16" x-data="{ mobileSidebar: false }">
+    <div x-show="mobileSidebar" @click="mobileSidebar = false" x-transition.opacity class="fixed inset-0 z-30 bg-gray-950/70 backdrop-blur-sm md:hidden"></div>
+
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3>
+          <ul class="space-y-0.5">
+            <li><a href="advanced.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">PHP-FPM, WAF & More</a></li>
+          </ul>
+        </div>
+        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="md:hidden px-4 py-3 border-b border-gray-800/60">
+        <button @click="mobileSidebar = true" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>Menu
+        </button>
+      </div>
+
+      <div class="max-w-3xl mx-auto px-6 lg:px-10 py-12">
+
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Advanced</span>
+        </div>
+
+        <h1 class="text-4xl font-black text-white mb-4">Advanced Features</h1>
+        <p class="text-gray-400 text-lg mb-10">PHP-FPM, WASM extensibility, WAF, admin API, zero-retention privacy mode, and planned future modules.</p>
+
+        <div class="prose">
+
+          <h2>PHP-FPM Bridge</h2>
+          <p>Available since v1.3.1 via the <code>php-fpm</code> Cargo feature. The PHP-FPM bridge connects Fluxheim to a running PHP-FPM pool using the FastCGI protocol. It supports WordPress-style front-controller applications with strict script resolution and bounded request/response handling.</p>
+
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — build with PHP-FPM support</span></div>
+<pre class="language-bash"><code class="language-bash">cargo build --release --no-default-features \
+  --features profile-web-server,php-fpm,acme-client</code></pre>
+            </div>
+          </div>
+
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml — WordPress front-controller</span></div>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = "wordpress"
+hosts = ["blog.example.com"]
+
+[vhosts.tls]
+enabled = true
+
+[vhosts.web]
+root = "/srv/sites/wordpress"
+index_files = ["index.php", "index.html"]
+deny_dotfiles = true
+
+[vhosts.php]
+enabled = true
+runtime = "php-fpm"
+root = "/srv/sites/wordpress"
+index = "index.php"
+allowed_extensions = ["php"]
+
+[vhosts.php.fpm]
+socket = "/run/php/php8.2-fpm.sock"</code></pre>
+            </div>
+          </div>
+
+          <h3>How PHP routing works</h3>
+          <ul>
+            <li>Requests for existing <code>.php</code> files are routed directly to PHP-FPM</li>
+            <li>Requests for non-existent files fall back to the front controller (<code>index.php</code>)</li>
+            <li>Static assets (<code>.css</code>, <code>.js</code>, images) are served directly without touching PHP-FPM</li>
+            <li>Script resolution is strict — only files within the configured PHP <code>root</code> are passed to FPM</li>
+          </ul>
+
+          <h2>fluxheim-acme Companion</h2>
+          <p>Released in v1.3.2. <code>fluxheim-acme</code> is a standalone companion binary for managing ACME certificate renewal and reload operations outside of the main gateway process. It is designed for container and external service-manager deployments where the gateway does not own the renewal lifecycle.</p>
+
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — fluxheim-acme operations</span></div>
+<pre class="language-bash"><code class="language-bash"># Check ACME certificate status
+fluxheim-acme status
+
+# Trigger a certificate renewal (respects ACME rate limits)
+fluxheim-acme renew
+
+# Signal the gateway to reload certificates via Unix socket
+fluxheim-acme reload
+
+# Run as a daemon for automatic periodic renewal
+fluxheim-acme daemon --check-interval 12h</code></pre>
+            </div>
+          </div>
+
+          <p>The ACME reload socket lets <code>fluxheim-acme</code> signal the running gateway to pick up freshly issued certificates without a full restart. Configure the socket path in your <code>[server]</code> block.</p>
+
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml — ACME reload socket</span></div>
+<pre class="language-toml"><code class="language-toml">[server]
+acme_reload_socket = "/run/fluxheim/acme-reload.sock"</code></pre>
+            </div>
+          </div>
+
+          <h2>fluxheim-config-tester</h2>
+          <p>Released in v1.3.2. <code>fluxheim-config-tester</code> is a standalone binary that validates a Fluxheim config file without starting the gateway. Useful in CI pipelines and container entrypoints where config errors should be caught before being applied to a running service.</p>
+
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — validate config before apply</span></div>
+<pre class="language-bash"><code class="language-bash"># Validate a config file — exits 0 on success, non-zero on error
+fluxheim-config-tester --config /etc/fluxheim/fluxheim.toml
+
+# Use in a container entrypoint before starting the gateway
+fluxheim-config-tester --config /etc/fluxheim/fluxheim.toml && \
+  exec fluxheim --config /etc/fluxheim/fluxheim.toml</code></pre>
+            </div>
+          </div>
+
+          <h2>Zero-Retention Privacy Mode</h2>
+          <p>The <code>privacy-mode</code> feature compiles Fluxheim without any caching or metrics functionality, enforcing zero log retention at the build level. This is suitable for privacy-sensitive deployments where no request data should be stored or exported.</p>
+
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — zero-retention privacy build</span></div>
+<pre class="language-bash"><code class="language-bash"># privacy-mode is compile-time incompatible with cache and metrics
+# Always use --no-default-features (default build includes cache)
+cargo build --release --no-default-features \
+  --features profile-privacy
+
+# Validate the feature combination before building
+scripts/validate-features.sh proxy,web,tls-rustls,privacy-mode</code></pre>
+            </div>
+          </div>
+
+          <h3>What privacy-mode enforces</h3>
+          <ul>
+            <li>No cache module compiled — caching is impossible at the binary level</li>
+            <li>No metrics module compiled — no Prometheus or OTLP export</li>
+            <li>Access logs may be disabled in the config</li>
+            <li>Compile-time guarantee: no data is stored, no external telemetry is exported</li>
+          </ul>
+
+          <h2>Admin API</h2>
+          <p>The admin control-plane exposes a local HTTP API for health checks, config reload, cache purge, and status queries. It defaults to loopback-only and requires a bearer token on non-loopback listeners.</p>
+
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — admin API endpoints</span></div>
+<pre class="language-bash"><code class="language-bash">ADMIN="http://127.0.0.1:9090"
+TOKEN="your-admin-token"
+
+# Health check (authenticated)
+curl -H "Authorization: Bearer $TOKEN" $ADMIN/_fluxheim/health
+
+# Live config reload
+curl -X POST -H "Authorization: Bearer $TOKEN" $ADMIN/_fluxheim/reload
+
+# Cache purge by selected identity
+curl -X POST -H "Authorization: Bearer $TOKEN" \
+  "$ADMIN/_fluxheim/cache/purge?host=example.com&path=/app.js"
+
+# Aggregate cache status
+curl -H "Authorization: Bearer $TOKEN" \
+  "$ADMIN/_fluxheim/cache/status"
+
+# Cache warm through the CLI
+fluxheim --config /etc/fluxheim/fluxheim.toml cache-warm \
+  --host example.com --path /app.js</code></pre>
+            </div>
+          </div>
+
+          <h2>WASM Extensibility</h2>
+          <div class="not-prose mb-4">
+            <span class="roadmap-badge">Planned — v1.6</span>
+          </div>
+          <p>Fluxheim's WASM extensibility layer is planned for the 1.6 release. It will support nginx-Lua-style request/response hooks and VCL-like cache policy hooks through WebAssembly modules.</p>
+          <ul>
+            <li>Compile-time opt-in <code>wasm</code> feature</li>
+            <li>Hook points: request received, upstream response, cache policy, response send</li>
+            <li>Shared memory model between WASM modules and the host</li>
+            <li>Sandboxed execution with bounded resource limits</li>
+          </ul>
+
+          <h2>WAF Architecture</h2>
+          <div class="not-prose mb-4">
+            <span class="roadmap-badge">Planned — future</span>
+          </div>
+          <p>A Web Application Firewall module is documented in the architecture but not enabled in the current stable builds. It is planned as a compile-time optional module with rule-based request filtering, rate limiting per IP/path/method, and configurable block/log/challenge responses.</p>
+
+          <h2>Load Balancer</h2>
+          <p>The <code>load-balancer</code> feature adds Pingora's load-balancing module and health checks to the proxy runtime. It is opt-in and available today via <code>profile-load-balancer</code> or <code>profile-load-balancer-edge</code>.</p>
+
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml — upstream pool with health checks</span></div>
+<pre class="language-toml"><code class="language-toml">[[upstreams]]
+name = "app-pool"
+strategy = "round-robin"   # or "least-conn", "random"
+
+[[upstreams.backends]]
+address = "10.0.0.1:3000"
+weight = 1
+
+[[upstreams.backends]]
+address = "10.0.0.2:3000"
+weight = 1
+
+[upstreams.health_check]
+path = "/health"
+interval_secs = 5
+timeout_secs = 2
+healthy_threshold = 2
+unhealthy_threshold = 3
+
+[[vhosts.routes]]
+name = "app"
+path_prefix = "/"
+[vhosts.routes.proxy]
+upstreams = ["127.0.0.1:3000"]
+upstream_pool = "app-pool"</code></pre>
+            </div>
+          </div>
+
+          <h2>Security — Dependency & Vulnerability Policy</h2>
+          <p>Fluxheim enforces a strict dependency policy across all releases:</p>
+          <ul>
+            <li>Pinned Rust stable toolchain via <code>rust-toolchain.toml</code></li>
+            <li>Checked-in <code>Cargo.lock</code> for reproducible builds</li>
+            <li>GitHub CI with CodeQL scanning on all pushes</li>
+            <li><code>cargo deny</code> for license and dependency policy enforcement</li>
+            <li><code>cargo audit</code> for advisory checks against the RustSec database</li>
+            <li>Rootless Podman smoke tests before every container release</li>
+          </ul>
+          <p>Report vulnerabilities privately via <a href="https://github.com/valkyoth/fluxheim/blob/main/SECURITY.md" target="_blank" rel="noopener">SECURITY.md</a>.</p>
+
+        </div>
+
+        <div class="flex items-center justify-between mt-14 pt-8 border-t border-gray-800/60">
+          <a href="deployment.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Systemd & Containers
+          </a>
+          <a href="../download.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            Download v1.3.2
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/js/alpine.min.js" defer></script>
+  <script src="../assets/js/prism.min.js"></script>
+  <script src="../assets/js/prism-bash.min.js"></script>
+  <script src="../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

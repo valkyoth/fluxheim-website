@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Cache System — Fluxheim Docs</title>
+  <link rel="stylesheet" href="../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../assets/css/theme.css?v=20260519">
+  <script src="../assets/js/theme.js?v=20260519"></script>
+  <script src="../assets/js/tailwind.js"></script>
+  <style>
+    body { background-color: var(--fh-bg); }
+    .code-win { background: #0d1117; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; }
+    .code-win pre[class*="language-"] { margin: 0; padding: 1.2rem; background: transparent; font-size: 0.8rem; line-height: 1.7; }
+    ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; color: white; margin: 2.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid #1f2937; }
+    .prose h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .prose h3 { font-size: 1.1rem; font-weight: 600; color: #e5e7eb; margin: 1.75rem 0 0.75rem; }
+    .prose p { color: #9ca3af; line-height: 1.75; margin-bottom: 1rem; }
+    .prose ul { margin: 0.75rem 0 1rem 1.25rem; list-style: disc; }
+    .prose ul li { color: #9ca3af; margin-bottom: 0.35rem; }
+    .prose code { background: #1f2937; color: #22d3ee; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82em; }
+    .callout-info { padding: 1rem 1.25rem; border-radius: 10px; margin: 1.25rem 0; background: rgba(6,182,212,0.05); border: 1px solid rgba(6,182,212,0.2); color: #a5f3fc; font-size: 0.9rem; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+
+  <nav x-data="{ open: false }" class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../index.html" class="flex items-center gap-3">
+          <img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16" x-data="{ mobileSidebar: false }">
+    <div x-show="mobileSidebar" @click="mobileSidebar = false" x-transition.opacity class="fixed inset-0 z-30 bg-gray-950/70 backdrop-blur-sm md:hidden"></div>
+
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3>
+          <ul class="space-y-0.5">
+            <li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li>
+            <li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li>
+            <li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Cache System</a></li>
+            <li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li>
+          </ul>
+        </div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li></ul></div>
+        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="md:hidden px-4 py-3 border-b border-gray-800/60">
+        <button @click="mobileSidebar = true" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>Menu
+        </button>
+      </div>
+
+      <div class="max-w-3xl mx-auto px-6 lg:px-10 py-12">
+
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Cache System</span>
+        </div>
+
+        <h1 class="text-4xl font-black text-white mb-4">Cache System</h1>
+        <p class="text-gray-400 text-lg mb-10">Fluxheim's cache system supports memory, disk, tiered, and encrypted backends with route-scoped policies, cache locks, stale serving, distributed peer fill, and range caching.</p>
+
+        <div class="prose">
+
+          <h2>Enabling Cache</h2>
+          <p>The <code>cache</code> Cargo feature must be compiled in (default in pre-built binaries). Runtime cache is disabled until configured per-vhost.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml — basic memory cache</span></div>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = "site"
+hosts = ["example.com"]
+
+[vhosts.cache]
+enabled = true
+status_ttls = { "200" = 300 }
+stale_while_revalidate_secs = 30
+
+[vhosts.cache.memory]
+enabled = true
+max_size_bytes = "512MiB"
+
+[vhosts.cache.lock]
+enabled = true</code></pre>
+            </div>
+          </div>
+
+          <h2>Cache Backends</h2>
+
+          <h3>Memory Cache</h3>
+          <p>Fast in-process LRU cache. Lost on restart. Best for frequently accessed small-to-medium objects.</p>
+          <div class="not-prose">
+            <div class="code-win my-4">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">toml</span></div>
+<pre class="language-toml"><code class="language-toml">[vhosts.cache]
+enabled = true
+
+[vhosts.cache.memory]
+enabled = true
+max_size_bytes = "256MiB"</code></pre>
+            </div>
+          </div>
+
+          <h3>Disk Cache</h3>
+          <p>Persistent on-disk cache. Survives restarts. The storage-bin backend (v1.2.2+) is optimised for larger, high-churn caches.</p>
+          <div class="not-prose">
+            <div class="code-win my-4">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">toml</span></div>
+<pre class="language-toml"><code class="language-toml">[vhosts.cache]
+enabled = true
+
+[vhosts.cache.disk]
+enabled = true
+path = "/var/cache/fluxheim/site"
+max_size_bytes = "10GiB"
+backend = "storage-bin"</code></pre>
+            </div>
+          </div>
+
+          <h3>Tiered Cache</h3>
+          <p>Hot memory tier backed by disk. Objects are promoted to memory on repeated access and written through to disk for persistence.</p>
+          <div class="not-prose">
+            <div class="code-win my-4">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">toml</span></div>
+<pre class="language-toml"><code class="language-toml">[vhosts.cache]
+enabled = true
+
+[vhosts.cache.memory]
+enabled = true
+max_size_bytes = "256MiB"
+
+[vhosts.cache.disk]
+enabled = true
+path = "/var/cache/fluxheim/site"
+max_size_bytes = "20GiB"</code></pre>
+            </div>
+          </div>
+
+          <h3>Encrypted Disk Cache</h3>
+          <p>Available since v1.2.3. Cache objects are encrypted at rest using a local key or an OpenBao Transit engine.</p>
+          <div class="not-prose">
+            <div class="code-win my-4">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">toml</span></div>
+<pre class="language-toml"><code class="language-toml">[vhosts.cache]
+enabled = true
+
+[vhosts.cache.disk]
+enabled = true
+path = "/var/cache/fluxheim/site"
+
+[vhosts.cache.disk.encryption]
+enabled = true
+# Local key file
+key_file = "/etc/fluxheim/cache.key"
+key_id = "cache-v1"
+# Or: OpenBao Transit
+# provider = "openbao-transit"
+#
+# [vhosts.cache.disk.encryption.openbao]
+# address = "https://openbao.internal.example"
+# mount = "transit"
+# key_name = "fluxheim-cache"
+# token_credential = "openbao-token"</code></pre>
+            </div>
+          </div>
+
+          <h2>Cache Policies</h2>
+
+          <h3>Cache Lock (Stampede Prevention)</h3>
+          <p>With <code>[vhosts.cache.lock].enabled = true</code>, only one upstream request is made per cache key when a miss occurs. Other requests wait for the fill to complete and are served from cache.</p>
+
+          <h3>Stale While Revalidate</h3>
+          <p>With <code>stale_while_revalidate_secs</code>, expired cache entries are served immediately while a background request fills the cache with fresh content. Eliminates tail latency on cache expiry.</p>
+
+          <h2>Distributed Peer Fill</h2>
+          <p>Available since v1.2.4. When a request misses the local cache, Fluxheim can fetch from a cache peer before going to the upstream origin. Uses a safe <code>only-if-cached</code> semantics — if the peer doesn't have it, the request falls through to the origin.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">toml</span></div>
+<pre class="language-toml"><code class="language-toml">[vhosts.cache]
+enabled = true
+
+[vhosts.cache.disk]
+enabled = true
+path = "/var/cache/fluxheim/site"
+
+[vhosts.cache.peer_fill]
+enabled = true
+connect_timeout_secs = 2
+read_timeout_secs = 10
+max_concurrent_requests = 64
+fail_open = true
+
+[[vhosts.cache.peer_fill.peers]]
+name = "edge-a"
+base_url = "https://cache-peer-1.internal:9100"
+
+[[vhosts.cache.peer_fill.peers]]
+name = "edge-b"
+base_url = "https://cache-peer-2.internal:9100"</code></pre>
+            </div>
+          </div>
+
+          <h2>Range Caching</h2>
+          <p>Available since v1.2.5. Opt-in bounded range caching for large proxy-cache objects — useful for large media files and binary downloads.</p>
+
+          <h3>Fixed-Slice Range Cache (v1.2.6+)</h3>
+          <p>Extended range-cache mode that supports open-ended, suffix, and multipart byte-range responses by composing cached fixed-size slices.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">toml</span></div>
+<pre class="language-toml"><code class="language-toml">[vhosts.cache]
+enabled = true
+max_object_bytes = "32MiB"
+
+[vhosts.cache.disk]
+enabled = true
+path = "/var/cache/fluxheim/site"
+
+[vhosts.cache.range]
+enabled = true
+max_bytes = "128MiB"
+
+[vhosts.cache.range.slice]
+enabled = true
+size_bytes = "1MiB"
+max_slices = 128
+fill_missing = true</code></pre>
+            </div>
+          </div>
+
+          <h2>Cache Operations</h2>
+          <p>Fluxheim exposes protected cache status and purge endpoints through the admin API. Warming and key inspection are CLI operations.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — admin API cache operations</span></div>
+<pre class="language-bash"><code class="language-bash"># Inspect aggregate cache status
+curl http://127.0.0.1:9090/_fluxheim/cache/status \
+  -H "Authorization: Bearer $ADMIN_TOKEN"
+
+# Purge a specific cache identity
+curl -X POST "http://127.0.0.1:9090/_fluxheim/cache/purge?host=example.com&path=/css/main.css" \
+  -H "Authorization: Bearer $ADMIN_TOKEN" \
+
+# Preview the selected cache key without contacting origin
+fluxheim --config /etc/fluxheim/fluxheim.toml cache-key \
+  --host example.com --path /css/main.css
+
+# Warm through a running local listener
+fluxheim --config /etc/fluxheim/fluxheim.toml cache-warm \
+  --host example.com --path /css/main.css</code></pre>
+            </div>
+          </div>
+
+          <h2>Local Static-File Caching</h2>
+          <p>Opt-in since v1.2.1. When <code>local_static = true</code> is enabled on the cache policy, Fluxheim caches static files from the local filesystem through the cache layer for hot-path performance.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">toml</span></div>
+<pre class="language-toml"><code class="language-toml">[vhosts.web]
+root = "/srv/sites/example/public"
+index_files = ["index.html"]
+[vhosts.cache]
+enabled = true
+local_static = true
+
+[vhosts.cache.memory]
+enabled = true
+max_size_bytes = "128MiB"
+</code></pre>
+            </div>
+          </div>
+
+          <div class="callout-info not-prose">
+            <p><strong>Privacy builds:</strong> The <code>cache</code> feature is compile-time incompatible with <code>privacy-mode</code>. Zero-retention deployments must use <code>--no-default-features</code> with <code>profile-privacy</code> to ensure no caching occurs.</p>
+          </div>
+
+        </div>
+
+        <div class="flex items-center justify-between mt-14 pt-8 border-t border-gray-800/60">
+          <a href="tls-acme.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            TLS & ACME
+          </a>
+          <a href="observability.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            Observability
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/js/alpine.min.js" defer></script>
+  <script src="../assets/js/prism.min.js"></script>
+  <script src="../assets/js/prism-bash.min.js"></script>
+  <script src="../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

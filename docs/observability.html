@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Observability — Fluxheim Docs</title>
+  <link rel="stylesheet" href="../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../assets/css/theme.css?v=20260519">
+  <script src="../assets/js/theme.js?v=20260519"></script>
+  <script src="../assets/js/tailwind.js"></script>
+  <style>
+    body { background-color: var(--fh-bg); }
+    .code-win { background: #0d1117; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; }
+    .code-win pre[class*="language-"] { margin: 0; padding: 1.2rem; background: transparent; font-size: 0.8rem; line-height: 1.7; }
+    ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; color: white; margin: 2.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid #1f2937; }
+    .prose h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .prose h3 { font-size: 1.1rem; font-weight: 600; color: #e5e7eb; margin: 1.75rem 0 0.75rem; }
+    .prose p { color: #9ca3af; line-height: 1.75; margin-bottom: 1rem; }
+    .prose ul { margin: 0.75rem 0 1rem 1.25rem; list-style: disc; }
+    .prose ul li { color: #9ca3af; margin-bottom: 0.35rem; }
+    .prose code { background: #1f2937; color: #22d3ee; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82em; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+
+  <nav x-data="{ open: false }" class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../index.html" class="flex items-center gap-3">
+          <img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16" x-data="{ mobileSidebar: false }">
+    <div x-show="mobileSidebar" @click="mobileSidebar = false" x-transition.opacity class="fixed inset-0 z-30 bg-gray-950/70 backdrop-blur-sm md:hidden"></div>
+
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3>
+          <ul class="space-y-0.5">
+            <li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li>
+            <li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li>
+            <li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li>
+            <li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Observability</a></li>
+          </ul>
+        </div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li></ul></div>
+        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="md:hidden px-4 py-3 border-b border-gray-800/60">
+        <button @click="mobileSidebar = true" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>Menu
+        </button>
+      </div>
+
+      <div class="max-w-3xl mx-auto px-6 lg:px-10 py-12">
+
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Observability</span>
+        </div>
+
+        <h1 class="text-4xl font-black text-white mb-4">Observability</h1>
+        <p class="text-gray-400 text-lg mb-10">Fluxheim supports Prometheus metrics, OpenTelemetry metrics and traces, and structured logging. All observability features are opt-in at compile time.</p>
+
+        <!-- Feature overview -->
+        <div class="grid sm:grid-cols-3 gap-4 mb-10">
+          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl text-center">
+            <div class="text-teal-400 font-semibold text-sm mb-1">Prometheus</div>
+            <div class="text-gray-500 text-xs">Requires <code class="text-gray-400">metrics</code> feature</div>
+          </div>
+          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl text-center">
+            <div class="text-teal-400 font-semibold text-sm mb-1">OTLP Metrics</div>
+            <div class="text-gray-500 text-xs">Requires <code class="text-gray-400">metrics-otlp</code></div>
+          </div>
+          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl text-center">
+            <div class="text-teal-400 font-semibold text-sm mb-1">OTLP Tracing</div>
+            <div class="text-gray-500 text-xs">Requires <code class="text-gray-400">otel-tracing</code> + <code class="text-gray-400">otel-otlp</code></div>
+          </div>
+        </div>
+
+        <div class="prose">
+
+          <h2>Building with Observability</h2>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
+<pre class="language-bash"><code class="language-bash"># Full observability profile
+cargo build --release --no-default-features \
+  --features profile-observability
+
+# Or manually add to any profile
+cargo build --release --no-default-features \
+  --features profile-core,metrics,metrics-otlp,otel-tracing,otel-otlp</code></pre>
+            </div>
+          </div>
+          <p>The official <strong>full release binary</strong> includes all observability features. The cache and proxy edge binaries do not include metrics or tracing by default.</p>
+
+          <h2>Prometheus Metrics</h2>
+          <p>Enable a Prometheus-compatible <code>/metrics</code> scrape endpoint by configuring the metrics listener.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml</span></div>
+<pre class="language-toml"><code class="language-toml">[metrics]
+enabled = true
+listen = "127.0.0.1:9091"
+require_loopback = true</code></pre>
+            </div>
+          </div>
+
+          <h3>Scraping with Prometheus</h3>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">prometheus.yml</span></div>
+<pre class="language-toml"><code class="language-toml">scrape_configs:
+  - job_name: fluxheim
+    static_configs:
+      - targets: ['127.0.0.1:9091']
+    scrape_interval: 15s</code></pre>
+            </div>
+          </div>
+
+          <h3>Available Metrics</h3>
+          <ul>
+            <li><code>fluxheim_acme_events_total{event}</code> — bounded ACME lifecycle outcomes</li>
+            <li><code>fluxheim_cache_activity_total{tier,event}</code> — aggregate cache hit, miss, store, purge, stale, and peer-fill activity</li>
+            <li><code>fluxheim_cache_activity_scope_total{scope,vhost,route,tier,event}</code> — configured vhost/route cache activity without raw host or path labels</li>
+            <li><code>fluxheim_cache_operation_duration_seconds{scope,vhost,route,phase,operation}</code> — cache lookup and request-collapsing wait durations</li>
+            <li><code>fluxheim_cache_purger_runs_total{outcome}</code> and related purger metrics — cache cleanup health</li>
+            <li><code>fluxheim_metrics_otlp_exports_total{outcome}</code> — OTLP metrics exporter health</li>
+          </ul>
+
+          <h2>OpenTelemetry Metrics (OTLP)</h2>
+          <p>Requires the <code>metrics-otlp</code> Cargo feature. Exports metrics to an OTLP-compatible endpoint (Grafana Alloy, OpenTelemetry Collector, etc.).</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml</span></div>
+<pre class="language-toml"><code class="language-toml">[metrics.otlp]
+enabled = true
+endpoint = "http://127.0.0.1:9090/api/v1/otlp/v1/metrics"
+service_name = "fluxheim"
+interval_secs = 15
+timeout_secs = 2</code></pre>
+            </div>
+          </div>
+
+          <h2>OpenTelemetry Tracing</h2>
+          <p>Requires <code>otel-tracing</code> for trace context propagation and <code>otel-otlp</code> for exporting traces. Propagates W3C <code>traceparent</code> headers to upstream services.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml</span></div>
+<pre class="language-toml"><code class="language-toml">[tracing]
+enabled = true
+mode = "propagate_only"
+traceparent = true
+log_trace_id = true
+
+[tracing.otlp]
+enabled = true
+endpoint = "http://127.0.0.1:4318/v1/traces"
+service_name = "fluxheim"
+queue_size = 8192
+timeout_secs = 2</code></pre>
+            </div>
+          </div>
+
+          <h3>What gets traced</h3>
+          <ul>
+            <li>Inbound W3C <code>traceparent</code> validation and normalized propagation to upstreams</li>
+            <li>Structured access-log trace IDs when <code>log_trace_id</code> is enabled</li>
+            <li>Bounded request spans for OTLP export when <code>tracing.otlp.enabled</code> is true</li>
+            <li>Cache attributes for cache-phase timing when the binary includes the <code>cache</code> feature</li>
+          </ul>
+
+          <h2>Logging</h2>
+          <p>Fluxheim emits structured logs. Log level, format, target, and access-log fields are controlled by the <code>[logging]</code> config.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
+<pre class="language-toml"><code class="language-toml">[logging]
+level = "info"
+format = "json"
+target = "stderr"
+
+[logging.access]
+enabled = true
+include_host = true
+include_path = true
+request_id = true</code></pre>
+            </div>
+          </div>
+
+          <h2>profile-observability Build</h2>
+          <p>The <code>profile-observability</code> alias enables the full observability stack on top of <code>profile-core</code>: Prometheus metrics listener, OTLP metrics export, trace context propagation, and OTLP trace export.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
+<pre class="language-bash"><code class="language-bash">cargo build --release --no-default-features \
+  --features profile-observability,acme-client</code></pre>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="flex items-center justify-between mt-14 pt-8 border-t border-gray-800/60">
+          <a href="cache.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Cache System
+          </a>
+          <a href="deployment.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            Systemd & Containers
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/js/alpine.min.js" defer></script>
+  <script src="../assets/js/prism.min.js"></script>
+  <script src="../assets/js/prism-bash.min.js"></script>
+  <script src="../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

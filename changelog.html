@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Changelog — Fluxheim</title>
+  <meta name="description" content="Fluxheim release history and changelog.">
+  <link rel="stylesheet" href="assets/css/theme.css?v=20260519">
+  <script src="assets/js/theme.js?v=20260519"></script>
+  <script src="assets/js/tailwind.js"></script>
+  <style>
+    body { background-color: var(--fh-bg); }
+    .gradient-text { background: linear-gradient(135deg, #22d3ee, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+
+  <!-- NAV -->
+  <nav x-data="{ open: false }" class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" class="flex items-center gap-3">
+          <img src="assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg tracking-tight">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="docs/index.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Docs</a>
+          <a href="download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
+          <a href="changelog.html" class="text-sm font-medium text-cyan-400">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-white transition-colors">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            GitHub
+          </a>
+          <a href="download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+    <div x-show="open" x-transition class="md:hidden border-t border-gray-800/70 bg-gray-950">
+      <div class="px-4 py-3 space-y-1">
+        <a href="docs/index.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:bg-gray-800">Docs</a>
+        <a href="download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:bg-gray-800">Download</a>
+        <a href="changelog.html" class="block px-3 py-2 text-sm rounded-lg text-cyan-400 bg-cyan-500/5">Changelog</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="pt-24 pb-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="mb-12">
+        <h1 class="text-4xl font-black text-white mb-3">Changelog</h1>
+        <p class="text-gray-400">Release history for Fluxheim. Full release notes are on <a href="https://github.com/valkyoth/fluxheim/releases" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300 transition-colors">GitHub Releases</a>.</p>
+      </div>
+
+      <!-- Timeline -->
+      <div class="relative">
+        <!-- Vertical line -->
+        <div class="absolute left-4 top-0 bottom-0 w-px bg-gray-800"></div>
+
+        <div class="space-y-10 ml-12">
+
+          <!-- v1.3.2 Latest Stable -->
+          <div class="relative">
+            <div class="absolute -left-12 w-8 h-8 bg-cyan-500/20 border-2 border-cyan-500 rounded-full flex items-center justify-center">
+              <div class="w-2.5 h-2.5 bg-cyan-400 rounded-full"></div>
+            </div>
+            <div class="p-5 bg-gray-900/60 border border-cyan-800/40 rounded-xl ring-1 ring-cyan-500/10">
+              <div class="flex flex-wrap items-center gap-3 mb-1">
+                <span class="font-mono font-bold text-white text-lg">v1.3.2</span>
+                <span class="px-2 py-0.5 text-xs bg-cyan-500/10 text-cyan-400 rounded-full border border-cyan-500/20">Latest Stable</span>
+                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.3.2" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
+              </div>
+              <p class="text-gray-500 text-xs mb-4">Released May 18, 2026</p>
+              <ul class="space-y-2 text-sm text-gray-300">
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span><code class="text-cyan-400 text-xs">fluxheim-acme</code> standalone companion binary for certificate renewal, status, and ACME reload socket signalling</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span><code class="text-cyan-400 text-xs">fluxheim-config-tester</code> standalone binary for validating configs in CI and container entrypoints without starting the gateway</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>ACME reload Unix socket — live certificate pickup without gateway restart</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>New <code class="text-cyan-400 text-xs">profile-php</code> build profile — <code class="text-cyan-400 text-xs">proxy + web + php-fpm + tls-rustls + security</code></li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Security hardening improvements across the request pipeline</li>
+              </ul>
+              <div class="flex gap-2 mt-4">
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.2/fluxheim-1.3.2-full-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-lg transition-colors">full</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.2/fluxheim-1.3.2-cache-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">cache</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.2/fluxheim-1.3.2-proxy-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">proxy</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.2/fluxheim-1.3.2-php-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">php</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- v1.3.1 -->
+          <div class="relative">
+            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
+              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+            </div>
+            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
+              <div class="flex flex-wrap items-center gap-3 mb-1">
+                <span class="font-mono font-bold text-white text-lg">v1.3.1</span>
+                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.3.1" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
+              </div>
+              <p class="text-gray-500 text-xs mb-4">Released May 16, 2026</p>
+              <ul class="space-y-2 text-sm text-gray-300">
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Opt-in PHP-FPM FastCGI bridge for WordPress-style front-controller applications</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Strict script resolution and bounded FastCGI request/response handling</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Browser-validated WordPress proxy/PHP cookie compatibility fixes</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>PHP-FPM can serve static assets from same root while routing PHP to FPM</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>New <code class="text-cyan-400 text-xs">php-fpm</code> Cargo feature (implies <code class="text-cyan-400 text-xs">proxy</code> and <code class="text-cyan-400 text-xs">web</code>)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- v1.3.0 -->
+          <div class="relative">
+            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
+              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+            </div>
+            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
+              <div class="flex flex-wrap items-center gap-3 mb-1">
+                <span class="font-mono font-bold text-white text-lg">v1.3.0</span>
+                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.3.0" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
+              </div>
+              <p class="text-gray-500 text-xs mb-4">Released May 14, 2026</p>
+              <ul class="space-y-2 text-sm text-gray-300">
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Shared ingress/TLS feature-graph split — focused cache and proxy profiles are now TLS/ACME-capable</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>New <code class="text-cyan-400 text-xs">profile-cache-edge</code> — cache without static web module</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>New <code class="text-cyan-400 text-xs">profile-proxy-edge</code> — focused reverse proxy edge</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Official focused container images for cache and proxy profiles</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- v1.2.x -->
+          <div class="relative">
+            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
+              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+            </div>
+            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
+              <div class="flex flex-wrap items-center gap-3 mb-1">
+                <span class="font-mono font-bold text-white text-lg">v1.2.x</span>
+                <span class="px-2 py-0.5 text-xs bg-gray-700 text-gray-400 rounded-full">Series</span>
+              </div>
+              <p class="text-gray-500 text-xs mb-4">May 2026</p>
+              <div class="space-y-4">
+                <div>
+                  <p class="text-gray-400 text-xs font-semibold uppercase tracking-wide mb-1.5">v1.2.6</p>
+                  <ul class="space-y-1 text-sm text-gray-400 ml-3">
+                    <li>+ Fixed-slice range-cache composition: open-ended, suffix, and multipart byte-range</li>
+                    <li>+ Opt-in <code class="text-cyan-400 text-xs">range_slice_cache = true</code> extends bounded range caching</li>
+                  </ul>
+                </div>
+                <div>
+                  <p class="text-gray-400 text-xs font-semibold uppercase tracking-wide mb-1.5">v1.2.5</p>
+                  <ul class="space-y-1 text-sm text-gray-400 ml-3">
+                    <li>+ Bounded range caching for large proxy-cache objects</li>
+                  </ul>
+                </div>
+                <div>
+                  <p class="text-gray-400 text-xs font-semibold uppercase tracking-wide mb-1.5">v1.2.4</p>
+                  <ul class="space-y-1 text-sm text-gray-400 ml-3">
+                    <li>+ Distributed cache peer fill with safe <code class="text-cyan-400 text-xs">only-if-cached</code> peer fetches</li>
+                    <li>+ Bounded fail-open/fail-closed peer fill behavior</li>
+                  </ul>
+                </div>
+                <div>
+                  <p class="text-gray-400 text-xs font-semibold uppercase tracking-wide mb-1.5">v1.2.3</p>
+                  <ul class="space-y-1 text-sm text-gray-400 ml-3">
+                    <li>+ Optional disk cache encryption with local keys or OpenBao Transit</li>
+                  </ul>
+                </div>
+                <div>
+                  <p class="text-gray-400 text-xs font-semibold uppercase tracking-wide mb-1.5">v1.2.2</p>
+                  <ul class="space-y-1 text-sm text-gray-400 ml-3">
+                    <li>+ Storage-bin disk cache backend for larger high-churn caches</li>
+                  </ul>
+                </div>
+                <div>
+                  <p class="text-gray-400 text-xs font-semibold uppercase tracking-wide mb-1.5">v1.2.1</p>
+                  <ul class="space-y-1 text-sm text-gray-400 ml-3">
+                    <li>+ Opt-in local static-file caching via <code class="text-cyan-400 text-xs">local_static = true</code></li>
+                  </ul>
+                </div>
+                <div>
+                  <p class="text-gray-400 text-xs font-semibold uppercase tracking-wide mb-1.5">v1.2.0 — Cache & Observability Baseline</p>
+                  <ul class="space-y-1 text-sm text-gray-400 ml-3">
+                    <li>+ Vhost/route cache policy, memory/disk/tiered cache backends</li>
+                    <li>+ Cache locks, stale serving, purge and status endpoints</li>
+                    <li>+ Cache warm, key assertion, and lookup tooling</li>
+                    <li>+ Prometheus metrics listener</li>
+                    <li>+ OpenTelemetry export profiles (metrics + tracing)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- v1.1 -->
+          <div class="relative">
+            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
+              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+            </div>
+            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
+              <div class="flex flex-wrap items-center gap-3 mb-1">
+                <span class="font-mono font-bold text-white text-lg">v1.1 — Certificate Operations</span>
+              </div>
+              <p class="text-gray-500 text-xs mb-4">2026</p>
+              <ul class="space-y-1.5 text-sm text-gray-400">
+                <li>+ TLS policy profiles</li>
+                <li>+ Multi-certificate rustls SNI</li>
+                <li>+ Managed ACME certificate issuance and renewal</li>
+                <li>+ EAB-capable issuers (Actalis and others)</li>
+                <li>+ File-backed TLS secrets</li>
+                <li>+ <code class="text-cyan-400 text-xs">acme-init</code> guided issuer bootstrap tool</li>
+                <li>+ Packaged certificate renewal systemd units</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- v1.0 -->
+          <div class="relative">
+            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
+              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+            </div>
+            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
+              <div class="flex flex-wrap items-center gap-3 mb-1">
+                <span class="font-mono font-bold text-white text-lg">v1.0 — Gateway Foundation</span>
+                <span class="px-2 py-0.5 text-xs bg-gray-700 text-gray-400 rounded-full">Initial Stable</span>
+              </div>
+              <p class="text-gray-500 text-xs mb-4">2026</p>
+              <ul class="space-y-1.5 text-sm text-gray-400">
+                <li>+ Virtual host routing by Host header with default-vhost fallback</li>
+                <li>+ Route-level static, proxy, and redirect actions</li>
+                <li>+ Static file serving with MIME detection, ETag, conditional 304, byte ranges</li>
+                <li>+ Whole-vhost and route-level reverse proxying</li>
+                <li>+ rustls TLS with SNI, static/bought certificate support</li>
+                <li>+ Safe ACME HTTP-01 challenge forwarding</li>
+                <li>+ Admin control-plane with bearer-token auth and brute-force throttling</li>
+                <li>+ Secure request/response header policy</li>
+                <li>+ Optional HTTP → HTTPS redirect with safe Host validation</li>
+                <li>+ Systemd unit, RPM packaging</li>
+                <li>+ Rootless Podman container images</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Roadmap callout -->
+      <div class="mt-14 p-6 bg-gray-900/50 border border-gray-800 rounded-xl flex gap-4">
+        <div class="flex-shrink-0 w-10 h-10 bg-violet-500/10 rounded-lg flex items-center justify-center">
+          <svg class="w-5 h-5 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 16l4.553-2.276A1 1 0 0021 19.382V8.618a1 1 0 00-.553-.894L15 5m0 16V5m0 0L9 7"/></svg>
+        </div>
+        <div>
+          <h3 class="text-white font-semibold mb-1">What's Next</h3>
+          <p class="text-gray-400 text-sm">Later 1.3.x releases for PHP runtime follow-ups. <strong class="text-gray-300">1.4</strong> for advanced proxy parity. <strong class="text-gray-300">1.5</strong> for load-balancer parity. <strong class="text-gray-300">1.6</strong> for Wasm extensibility and VCL-like cache policy hooks.</p>
+          <a href="https://github.com/valkyoth/fluxheim/blob/main/ROADMAP.md" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 text-sm mt-2 transition-colors">View full roadmap →</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-gray-800/50 py-10 mt-4">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <img src="assets/img/fluxheim-logo.webp" alt="" class="h-6 w-auto opacity-60">
+        <span class="text-gray-600 text-sm">© 2026 Valkyoth · EUPL-1.2</span>
+      </div>
+      <div class="flex gap-5">
+        <a href="index.html" class="text-gray-600 hover:text-gray-400 text-sm">Home</a>
+        <a href="docs/index.html" class="text-gray-600 hover:text-gray-400 text-sm">Docs</a>
+        <a href="download.html" class="text-gray-600 hover:text-gray-400 text-sm">Download</a>
+        <a href="https://github.com/valkyoth/fluxheim" class="text-gray-600 hover:text-gray-400 text-sm">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/alpine.min.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>TLS & ACME — Fluxheim Docs</title>
+  <link rel="stylesheet" href="../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../assets/css/theme.css?v=20260519">
+  <script src="../assets/js/theme.js?v=20260519"></script>
+  <script src="../assets/js/tailwind.js"></script>
+  <style>
+    body { background-color: var(--fh-bg); }
+    .code-win { background: #0d1117; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; }
+    .code-win pre[class*="language-"] { margin: 0; padding: 1.2rem; background: transparent; font-size: 0.8rem; line-height: 1.7; }
+    ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+    .prose h2 { font-size: 1.5rem; font-weight: 700; color: white; margin: 2.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid #1f2937; }
+    .prose h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
+    .prose h3 { font-size: 1.1rem; font-weight: 600; color: #e5e7eb; margin: 1.75rem 0 0.75rem; }
+    .prose p { color: #9ca3af; line-height: 1.75; margin-bottom: 1rem; }
+    .prose ul { margin: 0.75rem 0 1rem 1.25rem; list-style: disc; }
+    .prose ul li { color: #9ca3af; margin-bottom: 0.35rem; }
+    .prose code { background: #1f2937; color: #22d3ee; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82em; }
+    .callout { padding: 1rem 1.25rem; border-radius: 10px; margin: 1.25rem 0; font-size: 0.9rem; }
+    .callout-info { background: rgba(6,182,212,0.05); border: 1px solid rgba(6,182,212,0.2); color: #a5f3fc; }
+    .callout-warn { background: rgba(234,179,8,0.05); border: 1px solid rgba(234,179,8,0.2); color: #fde68a; }
+  </style>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+
+  <nav x-data="{ open: false }" class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../index.html" class="flex items-center gap-3">
+          <img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-800">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16" x-data="{ mobileSidebar: false }">
+    <div x-show="mobileSidebar" @click="mobileSidebar = false" x-transition.opacity class="fixed inset-0 z-30 bg-gray-950/70 backdrop-blur-sm md:hidden"></div>
+
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3>
+          <ul class="space-y-0.5">
+            <li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li>
+            <li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">TLS & ACME</a></li>
+            <li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li>
+            <li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li>
+          </ul>
+        </div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li></ul></div>
+        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="md:hidden px-4 py-3 border-b border-gray-800/60">
+        <button @click="mobileSidebar = true" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>Menu
+        </button>
+      </div>
+
+      <div class="max-w-3xl mx-auto px-6 lg:px-10 py-12">
+
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">TLS & ACME</span>
+        </div>
+
+        <h1 class="text-4xl font-black text-white mb-4">TLS & ACME</h1>
+        <p class="text-gray-400 text-lg mb-10">Fluxheim ships with rustls as the default TLS backend and full managed ACME support for automatic certificate issuance and renewal.</p>
+
+        <div class="prose">
+
+          <h2>TLS Backends</h2>
+          <p>TLS backends are compile-time selections. Exactly one backend must be chosen when TLS is needed. Selecting more than one is a compile error.</p>
+
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="w-full text-sm">
+              <thead><tr class="border-b border-gray-800 bg-gray-900/60"><th class="text-left px-4 py-3 font-semibold text-gray-400">Feature</th><th class="text-left px-4 py-3 font-semibold text-gray-400">Status</th><th class="text-left px-4 py-3 font-semibold text-gray-400">Notes</th></tr></thead>
+              <tbody class="divide-y divide-gray-800/50">
+                <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">tls-rustls</td><td class="px-4 py-3"><span class="px-2 py-0.5 text-xs bg-cyan-500/10 text-cyan-400 rounded border border-cyan-500/20">Default & Recommended</span></td><td class="px-4 py-3 text-gray-400 text-xs">Memory-safe Rust TLS. Multi-cert SNI. Used in all official builds.</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-openssl</td><td class="px-4 py-3 text-gray-500 text-xs">Optional</td><td class="px-4 py-3 text-gray-400 text-xs">OpenSSL backend. FIPS-capable deployments.</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-boringssl</td><td class="px-4 py-3 text-gray-500 text-xs">Optional</td><td class="px-4 py-3 text-gray-400 text-xs">BoringSSL backend. FIPS-140-3 compliance path.</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-s2n</td><td class="px-4 py-3 text-gray-500 text-xs">Optional</td><td class="px-4 py-3 text-gray-400 text-xs">s2n-tls backend. AWS-backed TLS implementation.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h2>Static / Bought Certificates</h2>
+          <p>Configure a certificate and key file path per vhost. rustls supports multi-cert SNI — you can configure multiple vhosts each with their own certificate.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml — static cert</span></div>
+<pre class="language-toml"><code class="language-toml">[server]
+tls_listen = ["0.0.0.0:443"]
+
+[[vhosts]]
+name = "site"
+hosts = ["example.com"]
+
+[vhosts.tls]
+enabled = true
+
+[vhosts.tls.certificate]
+cert_path = "/etc/fluxheim/certs/example.com.pem"
+key_path = "/etc/fluxheim/certs/example.com.key"</code></pre>
+            </div>
+          </div>
+
+          <h2>Managed ACME — Auto-Issuance</h2>
+          <p>Enable global ACME storage and then enable ACME on each vhost that should receive managed certificates. Requires the <code>acme-client</code> Cargo feature for live issuance and renewal.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml — managed ACME</span></div>
+<pre class="language-toml"><code class="language-toml">[server]
+listen = ["0.0.0.0:80"]
+tls_listen = ["0.0.0.0:443"]
+
+[tls.acme]
+enabled = true
+storage = "/var/lib/fluxheim/acme"
+contact_email = "admin@example.com"
+default_issuer = "letsencrypt"
+challenge = "http-01"
+
+[[vhosts]]
+name = "site"
+hosts = ["example.com", "www.example.com"]
+
+[vhosts.tls]
+enabled = true
+
+[vhosts.tls.acme]
+enabled = true
+# issuer = "letsencrypt"
+# domains = ["example.com", "www.example.com"]</code></pre>
+            </div>
+          </div>
+
+          <h3>ACME Challenge Methods</h3>
+          <ul>
+            <li><strong>HTTP-01</strong> — Port 80 must be reachable from the internet. Fluxheim handles the challenge automatically.</li>
+            <li><strong>TLS-ALPN-01</strong> — Requires the <code>tls-rustls</code> backend and port 443 to be reachable. No HTTP dependency.</li>
+          </ul>
+
+          <h2>acme-init — Guided Bootstrap</h2>
+          <p>Packaged 1.3.x builds include <code>acme-init</code> for guided issuer bootstrap before the first run.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
+<pre class="language-bash"><code class="language-bash"># Bootstrap with Let's Encrypt
+sudo fluxheim acme-init letsencrypt
+
+# Bootstrap with Actalis (free, EAB-capable)
+sudo fluxheim acme-init actalis
+
+# After acme-init, start Fluxheim — certificates are issued on first request
+sudo systemctl start fluxheim</code></pre>
+            </div>
+          </div>
+
+          <h2>External ACME with fluxheim-acme</h2>
+          <p>The companion tool <code>fluxheim-acme</code> (included in release builds from v1.3.2) handles renewal, status checks, and graceful reload for service-manager and container deployments where certificates are managed externally.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
+<pre class="language-bash"><code class="language-bash">fluxheim-acme status          # check certificate status
+fluxheim-acme renew           # trigger renewal if due
+fluxheim-acme renew --vhost site
+fluxheim-acme reload          # signal Fluxheim to reload certs</code></pre>
+            </div>
+          </div>
+
+          <h2>EAB — External Account Binding</h2>
+          <p>Some ACME CAs (such as Actalis) require External Account Binding credentials. Configure EAB in the ACME issuer section.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml — EAB issuer</span></div>
+<pre class="language-toml"><code class="language-toml">[[tls.acme.issuers]]
+name = "actalis"
+directory_url = "https://acme-api.actalis.com/acme/directory"
+
+[tls.acme.issuers.eab]
+key_id_credential = "actalis-eab-kid"
+hmac_key_credential = "actalis-eab-hmac-key"</code></pre>
+            </div>
+          </div>
+          <p>See <code>examples/acme-actalis.toml</code> in the repository for a complete working example.</p>
+
+          <h2>TLS Policy Profiles</h2>
+          <p>Fluxheim supports two TLS policy profiles that control cipher suite and protocol version selection:</p>
+          <ul>
+            <li><code>modern</code> — TLS 1.3 only. Strongest security. May not support very old clients.</li>
+            <li><code>intermediate</code> — TLS 1.2 + 1.3. Broader client compatibility. Follows Mozilla intermediate guidelines.</li>
+          </ul>
+          <p>See <code>examples/tls-modern.toml</code> and <code>examples/tls-intermediate.toml</code> in the repository for checked policy examples.</p>
+
+          <div class="callout callout-warn not-prose">
+            <p><strong>Important:</strong> Set <code>strict_transport_security</code> in <code>[headers.response]</code> only when TLS is configured and working. An incorrect HSTS header on an HTTP-only host can make it unreachable.</p>
+          </div>
+
+        </div>
+
+        <div class="flex items-center justify-between mt-14 pt-8 border-t border-gray-800/60">
+          <a href="features.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Feature Matrix
+          </a>
+          <a href="cache.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+            Cache System
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/js/alpine.min.js" defer></script>
+  <script src="../assets/js/prism.min.js"></script>
+  <script src="../assets/js/prism-bash.min.js"></script>
+  <script src="../assets/js/prism-toml.min.js"></script>
+</body>
+</html>
