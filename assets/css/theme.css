@@ -71,8 +71,53 @@ html.light .gradient-text {
 }
 
 html.light .code-win {
-  background: var(--fh-code-bg) !important;
-  border-color: var(--fh-code-border) !important;
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .code-win pre[class*="language-"],
+html.light .code-win code[class*="language-"] {
+  background: transparent !important;
+  color: #334155 !important;
+  text-shadow: none !important;
+}
+
+html.light .token.comment,
+html.light .token.prolog,
+html.light .token.doctype,
+html.light .token.cdata {
+  color: #64748b !important;
+}
+
+html.light .token.punctuation,
+html.light .token.operator {
+  color: #475569 !important;
+}
+
+html.light .token.property,
+html.light .token.tag,
+html.light .token.boolean,
+html.light .token.number,
+html.light .token.constant,
+html.light .token.symbol,
+html.light .token.deleted {
+  color: #9333ea !important;
+}
+
+html.light .token.selector,
+html.light .token.attr-name,
+html.light .token.string,
+html.light .token.char,
+html.light .token.builtin,
+html.light .token.inserted {
+  color: #047857 !important;
+}
+
+html.light .token.key,
+html.light .token.keyword,
+html.light .token.function,
+html.light .token.class-name {
+  color: #0369a1 !important;
 }
 
 html.light .section-divider {
@@ -417,12 +462,17 @@ html.light .source-doc code {
 }
 
 html.light .source-doc pre {
-  background: #0f172a;
-  border-color: #1e293b;
+  background: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  color: #334155 !important;
+  box-shadow: none !important;
 }
 
 html.light .source-doc pre code {
-  color: #e2e8f0;
+  background: transparent !important;
+  color: inherit !important;
+  box-shadow: none !important;
+  border: 0 !important;
 }
 
 html.light .source-table th {
