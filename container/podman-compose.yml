@@ -5,7 +5,9 @@ services:
       dockerfile: container/Dockerfile
     image: fluxheim-website:1.3.2
     container_name: fluxheim-website
-    restart: unless-stopped
+    restart: always
+    stop_signal: SIGTERM
+    stop_grace_period: 15s
     ports:
       - "8080:8080"
     # Uncomment to mount a local config override without rebuilding:
