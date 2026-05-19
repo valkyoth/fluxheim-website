@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>WASM Extensibility — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">WASM Extensibility</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="wasm-extensibility">WASM Extensibility</h1>
+<p>Status: planned <code>1.6</code> optional module family.</p>
+<p>Planned Cargo features:</p>
+<ul>
+<li><code>wasm</code></li>
+<li><code>wasm-proxy-abi</code></li>
+<li><code>wasm-wasi</code></li>
+</ul>
+<p>Latest crate candidates checked on 2026-05-05:</p>
+<ul>
+<li><code>wasmtime 44.0.1</code></li>
+<li><code>wasmtime-wasi 44.0.1</code></li>
+<li><code>proxy-wasm 0.2.4</code></li>
+</ul>
+<p>WASM extensibility gives Fluxheim a sandboxed way to run operator-provided logic without compiling that logic into the Fluxheim binary. It should be treated as a major extension boundary, not as a small scripting feature. The same runtime should cover nginx-Lua-style request/response hooks and VCL-like cache policy hooks, instead of creating separate partial extension systems.</p>
+<h2 id="design-goals">Design Goals</h2>
+<ul>
+<li>Keep WASM runtime code out of default builds.</li>
+<li>Use a reviewed standard ABI where practical.</li>
+<li>Start with request/response header hooks, access-control hooks, and bounded</li>
+</ul>
+<p>cache-policy hooks.</p>
+<ul>
+<li>Make all host calls explicit, small, and auditable.</li>
+<li>Keep plugin execution bounded by memory, fuel, wall-time, and output limits.</li>
+<li>Prevent plugins from seeing secrets, bodies, filesystem, network, or admin</li>
+</ul>
+<p>APIs unless explicitly granted by policy.</p>
+<ul>
+<li>Make plugin failures isolated from the process and from unrelated requests.</li>
+</ul>
+<h2 id="stage-1-header-access-control-and-cache-policy-hooks">Stage 1: Header, Access-Control, And Cache Policy Hooks</h2>
+<p>The first useful scope should cover the common extension cases without exposing request bodies or arbitrary I/O.</p>
+<p>Allowed hooks:</p>
+<ul>
+<li>request headers before upstream selection;</li>
+<li>response headers before sending to the client;</li>
+<li>access-control decision: allow, deny with status, or continue;</li>
+<li>cache lookup/admission decision: bypass, pass, continue, or deny;</li>
+<li>bounded cache-key component decision with typed inputs and low-cardinality</li>
+</ul>
+<p>output limits;</p>
+<ul>
+<li>cache store-admission decision for TTL override, tag assignment, and safe</li>
+</ul>
+<p>response-header mutation;</p>
+<ul>
+<li>synthetic response with small bounded body for deny/error cases.</li>
+</ul>
+<p>Non-goals for the first stage:</p>
+<ul>
+<li>streaming body mutation;</li>
+<li>filesystem access;</li>
+<li>outbound network access;</li>
+<li>spawning processes;</li>
+<li>direct raw cache object access;</li>
+<li>admin/control API access.</li>
+</ul>
+<h2 id="stage-2-proxy-abi-compatibility">Stage 2: Proxy ABI Compatibility</h2>
+<p>Fluxheim should evaluate a proxy-oriented WASM ABI rather than inventing a large custom API.</p>
+<p>Compatibility goals:</p>
+<ul>
+<li>map Fluxheim request/response lifecycle into a stable plugin contract;</li>
+<li>expose only the subset of ABI calls Fluxheim can implement safely;</li>
+<li>reject unsupported ABI calls with deterministic errors;</li>
+<li>version the host ABI and require plugin compatibility checks at startup;</li>
+<li>support per-vhost and per-route plugin attachment.</li>
+</ul>
+<p>Compatibility does not mean every existing plugin should run unchanged. The security boundary and host-call behavior must stay explicit.</p>
+<h2 id="stage-3-wasi-and-policy-plugins">Stage 3: WASI And Policy Plugins</h2>
+<p>WASI should be separate from header/access-control plugins.</p>
+<p>Potential use cases:</p>
+<ul>
+<li>media policy decisions;</li>
+<li>custom auth decision transforms;</li>
+<li>custom log redaction;</li>
+<li>specialized request classification;</li>
+<li>feature-specific plugins that do not need direct filesystem or network</li>
+</ul>
+<p>access.</p>
+<p>WASI capabilities must be disabled by default and granted explicitly:</p>
+<ul>
+<li>no filesystem by default;</li>
+<li>no network by default;</li>
+<li>no clocks beyond coarse time unless needed;</li>
+<li>no randomness beyond host-provided safe APIs;</li>
+<li>no environment variables by default;</li>
+<li>no inherited process state.</li>
+</ul>
+<h2 id="resource-limits">Resource Limits</h2>
+<p>Required limits:</p>
+<ul>
+<li>maximum module size;</li>
+<li>maximum compiled artifact size;</li>
+<li>maximum linear memory;</li>
+<li>maximum fuel/instruction budget;</li>
+<li>maximum wall-time;</li>
+<li>maximum log bytes emitted by plugin;</li>
+<li>maximum header mutations;</li>
+<li>maximum synthetic response size;</li>
+<li>maximum per-vhost concurrent plugin executions.</li>
+</ul>
+<p>Compiled modules should be cached only with strong isolation by module hash, ABI version, feature set, and Fluxheim version.</p>
+<h2 id="security-requirements">Security Requirements</h2>
+<ul>
+<li>Disabled by default at compile time and runtime.</li>
+<li>Plugin files must be regular files below approved directories.</li>
+<li>Plugin paths must reject symlinks and symlinked parents.</li>
+<li>Plugin modules must be hashed and recorded in admin status.</li>
+<li>Host calls must never expose admin tokens, ACME/EAB secrets, private keys,</li>
+</ul>
+<p>authorization headers, cookies, raw request bodies, or filesystem paths unless explicitly allowed and redacted.</p>
+<ul>
+<li>Plugins must not control routing destinations or upstream TLS verification</li>
+</ul>
+<p>directly. Cache-key influence is allowed only through constrained typed hook outputs that Fluxheim validates, bounds, and records.</p>
+<ul>
+<li>Plugin panics, traps, timeout, or fuel exhaustion must produce configured</li>
+</ul>
+<p>fail behavior and must not crash Fluxheim.</p>
+<ul>
+<li><code>privacy-mode</code> should reject WASM features by default.</li>
+<li>WASM engine dependencies require license, advisory, and supply-chain review.</li>
+</ul>
+<h2 id="configuration-sketch">Configuration Sketch</h2>
+<pre class="language-toml"><code class="language-toml">[wasm.plugins.security_headers]
+path = &quot;/etc/fluxheim/plugins/security_headers.wasm&quot;
+abi = &quot;proxy&quot;
+max_memory = &quot;32MiB&quot;
+fuel = 5000000
+timeout = &quot;5ms&quot;
+fail_mode = &quot;fail_closed&quot;
+
+[[vhosts]]
+name = &quot;example&quot;
+hosts = [&quot;example.com&quot;]
+
+[[vhosts.wasm]]
+plugin = &quot;security_headers&quot;
+phase = &quot;response_headers&quot;
+paths = [&quot;/*&quot;]</code></pre>
+<h2 id="test-plan">Test Plan</h2>
+<ul>
+<li>Reject missing, symlinked, oversized, and invalid plugin files.</li>
+<li>Reject unsupported ABI versions.</li>
+<li>Verify request header mutation within limits.</li>
+<li>Verify response header mutation within limits.</li>
+<li>Verify deny decisions and synthetic responses.</li>
+<li>Verify plugins cannot access bodies, filesystem, network, env, or admin APIs</li>
+</ul>
+<p>without capability grants.</p>
+<ul>
+<li>Verify fuel exhaustion, timeout, trap, and panic behavior.</li>
+<li>Verify fail-open and fail-closed policy behavior.</li>
+<li>Verify sensitive field redaction.</li>
+<li>Verify plugin execution is isolated per request.</li>
+<li>Verify WASM code is absent from default and privacy builds.</li>
+</ul>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

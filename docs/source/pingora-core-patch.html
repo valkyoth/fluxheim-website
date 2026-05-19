@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Pingora Core Patch — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Pingora Core Patch</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="pingora-core-patch">Pingora Core Patch</h1>
+<p>Fluxheim vendors <code>pingora-core 0.8.0</code> only to expose one rustls listener hook that is required for the default <code>tls-rustls</code> build:</p>
+<ul>
+<li><code>TlsSettings::with_cert_resolver(...)</code></li>
+<li>an internal <code>cert_resolver</code> field used by the rustls listener when building</li>
+</ul>
+<p><code>rustls::ServerConfig</code></p>
+<p>The patch keeps Pingora&#x27;s existing single-certificate path unchanged. It only allows Fluxheim to pass a rustls <code>ResolvesServerCert</code> implementation so per-vhost certificates can be selected by SNI in the default build.</p>
+<p>This is a temporary compatibility patch, not a long-term fork. Keep it small, easy to audit, and limited to the rustls certificate resolver gap.</p>
+<h2 id="removal-criteria">Removal Criteria</h2>
+<p>Remove <code>vendor/pingora-core</code> and the <code>[patch.crates-io]</code> entry in <code>Cargo.toml</code> when an upstream Pingora release exposes equivalent rustls server certificate resolver support.</p>
+<p>Before removing the patch, verify:</p>
+<ul>
+<li><code>cargo check --no-default-features --features proxy,tls-rustls</code></li>
+<li><code>scripts/smoke_1_0_core.sh</code></li>
+<li>the smoke assertion that <code>app.test</code> receives the <code>app.test</code> certificate via</li>
+</ul>
+<p>SNI</p>
+<h2 id="upstream-candidate">Upstream Candidate</h2>
+<p>This patch is small enough to propose upstream. The cleaner upstream shape would be:</p>
+<ul>
+<li>re-export the needed rustls server certificate resolver types from</li>
+</ul>
+<p><code>pingora-rustls</code>, or add the direct rustls dependency in <code>pingora-core</code>;</p>
+<ul>
+<li>add <code>TlsSettings::with_cert_resolver(Arc&lt;dyn ResolvesServerCert&gt;)</code> for the</li>
+</ul>
+<p>rustls listener;</p>
+<ul>
+<li>preserve the existing <code>TlsSettings::intermediate(cert, key)</code> behavior for</li>
+</ul>
+<p>single-certificate listeners;</p>
+<ul>
+<li>keep ALPN handling through the existing <code>enable_h2</code> and <code>set_alpn</code> methods.</li>
+</ul>
+<p>Fluxheim should keep the vendored patch narrow and avoid unrelated edits to vendored Pingora source.</p>
+<h2 id="proposed-pr-steps">Proposed PR Steps</h2>
+<ol>
+<li>Fork the upstream Pingora repository and create a focused branch, for</li>
+</ol>
+<p>example <code>rustls-listener-cert-resolver</code>.</p>
+<ol>
+<li>Apply only the rustls listener API change:</li>
+</ol>
+<ul>
+<li>add a resolver field to the rustls listener <code>TlsSettings</code>;</li>
+<li>add <code>TlsSettings::with_cert_resolver(...)</code>;</li>
+<li>make <code>build()</code> use the resolver when present and keep the existing</li>
+</ul>
+<p><code>intermediate(cert, key)</code> single-certificate path unchanged.</p>
+<ol>
+<li>Prefer the smallest public API surface the upstream maintainers will accept.</li>
+</ol>
+<p>If <code>pingora-rustls</code> can re-export the needed rustls resolver types, that is cleaner than adding a broad direct dependency.</p>
+<ol>
+<li>Add or update an upstream test/example if the repository has a listener TLS</li>
+</ol>
+<p>test harness that can verify the resolver path without opening a real public socket.</p>
+<ol>
+<li>Run the upstream formatting and test commands documented by Pingora.</li>
+<li>Open the PR with a narrow description: rustls listeners need a server</li>
+</ol>
+<p>certificate resolver hook so applications can select certificates by SNI while keeping the existing single-certificate API.</p>
+<ol>
+<li>Link Fluxheim&#x27;s local patch as a real downstream use case, but do not include</li>
+</ol>
+<p>Fluxheim-specific config, docs, or behavior in the upstream PR.</p>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

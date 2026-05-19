@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Production Readiness — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Production Readiness</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="production-readiness">Production Readiness</h1>
+<p>Fluxheim has a stable <code>1.3</code> shared ingress and TLS feature split on top of the <code>1.2</code> cache/operations line, the <code>1.1</code> certificate-operations line, and the <code>1.0</code> gateway foundation. This page states what each released line supports and what operators should verify before using a build beyond local testing.</p>
+<h2 id="0-5-basic-sites-preview">0.5 Basic-Sites Preview</h2>
+<p>The <code>0.5.x</code> line is intentionally limited:</p>
+<ul>
+<li>static file hosting from configured vhost roots;</li>
+<li>simple whole-vhost reverse proxying to one configured upstream target;</li>
+<li>vhost routing by exact and wildcard host names;</li>
+<li>cache code compiled by default, with runtime caching disabled until a storage</li>
+</ul>
+<p>tier is configured;</p>
+<ul>
+<li>static certificate loading for user-managed certificates;</li>
+<li>rustls as the default TLS backend;</li>
+<li>secure default response header policy with configurable request and response</li>
+</ul>
+<p>header operations;</p>
+<ul>
+<li>explicit request header, URI, and body limits;</li>
+<li>optional cleartext-to-HTTPS redirect;</li>
+<li>rootless Podman deployment paths and container examples;</li>
+<li>local release gates for formatting, linting, tests, license policy,</li>
+</ul>
+<p>dependency advisories, core feature profiles, SBOM generation, reproducible build evidence, and localhost smoke checks.</p>
+<h2 id="stable-1-0-gateway-foundation">Stable 1.0 Gateway Foundation</h2>
+<p>The <code>1.0</code> line is the first gateway-ready release for representative real multi-site configs. In addition to the <code>0.5.x</code> behavior, it supports:</p>
+<ul>
+<li>static TLS with one default certificate;</li>
+<li>SNI certificate selection across multiple configured certificates in the</li>
+</ul>
+<p>default rustls build;</p>
+<ul>
+<li>route-level exact, prefix, and fallback matching;</li>
+<li>route actions for proxy, static serving, and redirects;</li>
+<li>cleartext ACME challenge exception routes plus HTTPS redirect for everything</li>
+</ul>
+<p>else;</p>
+<ul>
+<li>apex/<code>www</code> redirect vhosts that preserve the request URI safely;</li>
+<li>websocket-safe proxy smoke coverage for routes such as <code>/chat/</code>;</li>
+<li>per-route body limits, prefix stripping, and upstream connect/read/send</li>
+</ul>
+<p>timeouts;</p>
+<ul>
+<li>typed forwarding headers plus a small validated dynamic request-header</li>
+</ul>
+<p>template set for common proxy migrations;</p>
+<ul>
+<li>custom upstream error pages;</li>
+<li>static aliases and secure directory listing;</li>
+<li>container DNS behavior suitable for local Podman deployments, including</li>
+</ul>
+<p>graceful direct-proxy DNS failures;</p>
+<ul>
+<li>property-based invariant tests for parser, normalization, and security policy</li>
+</ul>
+<p>code that accepts attacker-controlled values;</p>
+<ul>
+<li>crate-level direct unsafe prohibition with safe wrappers for OS calls and</li>
+</ul>
+<p>safe test wakers;</p>
+<ul>
+<li>release-profile abort-on-panic plus clippy enforcement that production code</li>
+</ul>
+<p>does not use <code>unwrap()</code>, <code>expect()</code>, or <code>panic!()</code>;</p>
+<ul>
+<li>zeroizing admin token buffers and vetted constant-time comparison for</li>
+</ul>
+<p>authentication token verification;</p>
+<ul>
+<li>native systemd support for manually compiled binaries, including a hardened</li>
+</ul>
+<p>service unit, documented install paths, runtime directory handling, config validation before start, graceful shutdown/reload behavior, no-new-privileges, no ambient capabilities, strict filesystem protection, limited address families, and a conservative syscall filter.</p>
+<ul>
+<li>release evidence that includes SPDX/CycloneDX SBOMs, signed tags, checksums,</li>
+</ul>
+<p>immutable container digests, and a local reproducible-build check.</p>
+<h2 id="not-stable-in-1-0">Not Stable In 1.0</h2>
+<p>These features may exist in code, documentation, or feature flags, but they are not part of the <code>1.0</code> stable support promise:</p>
+<ul>
+<li>ACME runtime issuance or automatic renewal;</li>
+<li>load balancing and health-check policy;</li>
+<li>admin snapshot and rollback API;</li>
+<li>remote logging pipelines;</li>
+<li>metrics exporters;</li>
+<li>OpenTelemetry tracing;</li>
+<li>WAF, auth-request, image filters, media modules, or WASM extension points;</li>
+<li>in-process seccomp or Landlock sandboxing;</li>
+<li>PHP, CGI, or any dynamic script execution;</li>
+<li>Cloudflare automation;</li>
+<li>legacy HTTP compatibility listeners;</li>
+<li>WireGuard/Sentinel Mesh or clustered state.</li>
+</ul>
+<p>Treat these as design or incubator work until a later versioning-plan milestone promotes them. Some of these items have since been promoted in <code>1.1</code>, <code>1.2</code>, or <code>1.3</code>; use the sections below for the current support promise.</p>
+<h2 id="stable-1-1-certificate-operations">Stable 1.1 Certificate Operations</h2>
+<p>The <code>1.1</code> line makes TLS and certificate operations practical for normal production deployments. In addition to the <code>1.0</code> behavior, it supports:</p>
+<ul>
+<li>explicit safe TLS policy profiles;</li>
+<li>minimum TLS version config bounded to safe values;</li>
+<li>ALPN policy, curve preferences, cipher-suite allow-lists, and per-backend TLS</li>
+</ul>
+<p>validation;</p>
+<ul>
+<li>structured HSTS policy;</li>
+<li>ACME runtime issuance for Let&#x27;s Encrypt, Actalis, and Google Trust Services;</li>
+<li>HTTP-01 and rustls TLS-ALPN-01 challenge handling for configured vhosts;</li>
+<li>Actalis and Google Trust Services External Account Binding support;</li>
+<li>safe ACME storage and key/certificate permission validation;</li>
+<li>renewal scheduling with a configurable renew-before window;</li>
+<li>renewal failure behavior that keeps the previous valid certificate serving.</li>
+</ul>
+<p>DNS-01, wildcard automation, Cloudflare Origin CA automation, external secret store deploy hooks, and full zero-downtime reload through the later snapshot model are not part of the first <code>1.1</code> promise unless they are explicitly promoted with tests and release evidence.</p>
+<h2 id="stable-1-2-operations-and-cache">Stable 1.2 Operations And Cache</h2>
+<p>The <code>1.2</code> line is the cache-server and operations-hardening milestone. It promotes:</p>
+<ul>
+<li>vhost and route-scoped proxy cache policies with memory, disk, and tiered</li>
+</ul>
+<p>storage;</p>
+<ul>
+<li>cache key preview tooling, cache status visibility, and protected purge</li>
+</ul>
+<p>endpoints;</p>
+<ul>
+<li>indexed hard and soft purges by primary key, path, user tag, and cache tag;</li>
+<li>request collapsing with bounded cache-lock waits to reduce backend stampedes;</li>
+<li>stale-if-error and stale-while-revalidate behavior with explicit cache</li>
+</ul>
+<p>activity metrics;</p>
+<ul>
+<li>stable on-disk cache object metadata for combined keys, primary keys, tags,</li>
+</ul>
+<p>and path indexes;</p>
+<ul>
+<li>Prometheus metrics plus OpenTelemetry metric and trace export basics;</li>
+<li>strict host-routing mode that rejects missing, invalid, and unknown host</li>
+</ul>
+<p>headers instead of failing open to the default vhost;</p>
+<ul>
+<li>built-in admin bearer-token brute-force throttling with per-source and global</li>
+</ul>
+<p>failure windows, progressive lockouts, security logs, and metrics;</p>
+<ul>
+<li>authenticated admin health checks by default, with explicit loopback-only</li>
+</ul>
+<p>unauthenticated mode and optional empty <code>204</code> responses for local probes;</p>
+<ul>
+<li>fail-closed remote admin transport guardrails: non-loopback admin listeners</li>
+</ul>
+<p>require an explicit <code>trusted_tls_terminator</code> declaration until first-class admin TLS/mTLS lands;</p>
+<ul>
+<li>release-gate coverage for proxy cache, local observability smoke suites, and</li>
+</ul>
+<p>the published full/default, cache, and proxy container feature profiles.</p>
+<p>Release evidence for the <code>1.2</code> line includes the stable gate, cache behavior smokes, observability smokes, and focused follow-up checks. Bounded single-range caching, the storage-bin disk backend, optional encrypted cache at rest, distributed cache peer fill, and fixed-slice range composition are covered by focused <code>1.2.x</code> releases. Varnish-style ban expressions and WASM cache hooks remain future work unless explicitly promoted with tests and release evidence.</p>
+<h2 id="stable-1-3-split-profiles">Stable 1.3 Split Profiles</h2>
+<p>The <code>1.3.0</code> line starts the shared ingress/TLS feature-graph split. It does not make the future PHP, advanced proxy, load-balancer, or WASM milestones stable; instead it gives operators and packagers cleaner binaries and container images for the modules that are already supported.</p>
+<p>The <code>1.3.0</code> support promise includes:</p>
+<ul>
+<li>shared <code>ingress</code> and <code>tls</code> feature boundaries so TLS, ACME, proxy, cache, web,</li>
+</ul>
+<p>and future load-balancer modules can compose without every focused build compiling every application module;</p>
+<ul>
+<li>focused profile aliases: <code>profile-full</code>, <code>profile-web-server</code>,</li>
+</ul>
+<p><code>profile-cache-edge</code>, <code>profile-proxy-edge</code>, and <code>profile-load-balancer-edge</code>;</p>
+<ul>
+<li>official full/default, cache-edge, and proxy-edge container image variants;</li>
+<li>TLS and ACME support in focused cache and proxy builds without requiring local</li>
+</ul>
+<p>static web-serving config in those images;</p>
+<ul>
+<li>runtime config guardrails that reject enabled static web config when the</li>
+</ul>
+<p>binary was compiled without <code>web</code>, and reject enabled cache config when the binary was compiled without <code>cache</code>;</p>
+<ul>
+<li>full native and RPM packages that keep the broad production feature set for</li>
+</ul>
+<p>operators who prefer one complete binary.</p>
+<p>The load-balancer edge profile is compile- and config-validated in <code>1.3.0</code> so the feature graph is ready for <code>1.5</code>, but it is not a production load-balancing support promise yet.</p>
+<p>The <code>1.3.1</code> support promise adds an opt-in <code>php-fpm</code> module for PHP applications. PHP remains outside default and focused cache/proxy builds. A PHP-FPM build is production-eligible only when php-fpm is isolated separately, the PHP root is trusted, request body limits are configured, and operators have validated their framework/application behavior with their php-fpm pool. WordPress install, login, admin, plugin, and theme flows have release-candidate coverage for both direct PHP-FPM serving and reverse-proxy gateway deployments. The same release also normalizes split browser <code>Cookie</code> headers before proxying or generating PHP-FPM <code>HTTP_COOKIE</code>, matching the behavior WordPress expects behind HTTP/2 and container gateways.</p>
+<p>The same line also supports pending Fluxheim-managed ACME certificates during first issuance on reloadable SNI TLS backends. This lets operators add a new ACME vhost without taking existing HTTPS sites down: HTTP-01 can validate on port <code>80</code>, and the background renewal worker reloads the SNI certificate set after the certificate files are installed. Static certificate paths remain fail-closed.</p>
+<h2 id="operator-checks">Operator Checks</h2>
+<p>Before using a Fluxheim build for a real site, run the stable gate from the repo root:</p>
+<pre class="language-bash"><code class="language-bash">scripts/stable_release_gate.sh check</code></pre>
+<p>For <code>1.3</code> candidates, this gate also runs the proxy cache and local observability smoke suites, and verifies the published full, cache-edge, proxy-edge, and PHP-FPM container feature profiles against their packaged container configs. The load-balancer edge profile is compile/config validated only until the <code>1.5</code> load-balancer milestone promotes runtime load-balancing behavior.</p>
+<p>For a release candidate, also run the deeper optional checks that fit the deployment:</p>
+<pre class="language-bash"><code class="language-bash">FLUXHEIM_GATE_TLS_BACKENDS=1 \
+FLUXHEIM_GATE_TLS_SCAN=1 \
+FLUXHEIM_GATE_LOAD=1 \
+FLUXHEIM_GATE_FRAMING=1 \
+FLUXHEIM_GATE_FUZZ_CHECK=1 \
+scripts/stable_release_gate.sh check</code></pre>
+<p>Run the Podman smoke when container paths or image definitions change:</p>
+<pre class="language-bash"><code class="language-bash">FLUXHEIM_GATE_PODMAN=1 scripts/stable_release_gate.sh check</code></pre>
+<p>Keep the generated release evidence with the release notes:</p>
+<pre class="language-bash"><code class="language-bash">scripts/capture_release_gate_report.sh</code></pre>
+<h2 id="configuration-review">Configuration Review</h2>
+<p>Before starting the server:</p>
+<ul>
+<li>validate every config with <code>fluxheim --check-config --config &lt;path&gt;</code>;</li>
+<li>prefer split <code>conf.d</code> files with one <code>[[vhosts]]</code> per file;</li>
+<li>use <code>upstreams = [&quot;host:port&quot;]</code> for proxy targets;</li>
+<li>do not mix compatibility aliases such as <code>upstream</code> with preferred fields</li>
+</ul>
+<p>such as <code>upstreams</code>;</p>
+<ul>
+<li>keep TLS private keys, ACME storage, log files, cache roots, runtime paths,</li>
+</ul>
+<p>admin token files, and snapshot stores outside group- or world-writable directories;</p>
+<ul>
+<li>keep admin and metrics listeners loopback-only unless a trusted local</li>
+</ul>
+<p>sidecar or network policy protects them;</p>
+<ul>
+<li>set <code>[admin.transport] mode = &quot;trusted_tls_terminator&quot;</code> only when a trusted</li>
+</ul>
+<p>local TLS/mTLS terminator protects every remote hop to the admin plane;</p>
+<ul>
+<li>keep admin authentication throttling enabled unless a stricter external</li>
+</ul>
+<p>control-plane rate limiter is already enforcing equivalent limits;</p>
+<ul>
+<li>keep admin health authenticated unless a local-only supervisor needs an</li>
+</ul>
+<p>unauthenticated loopback probe;</p>
+<ul>
+<li>explicitly decide whether access logging may include raw host and path</li>
+</ul>
+<p>values.</p>
+<h2 id="deployment-notes">Deployment Notes</h2>
+<p>The recommended container mode is rootless with host ports mapped to the container&#x27;s high internal listener ports. If a deployment deliberately runs the container as root for direct low-port binding, keep mounted config, content, certificate, cache, and runtime directories separate and permission them for the chosen runtime user.</p>
+<p>The recommended native package mode binds public ports directly. The packaged default config listens on <code>80</code>, and the systemd unit grants only <code>CAP_NET_BIND_SERVICE</code> so the service can also bind <code>443</code> when TLS is enabled without running Fluxheim as root.</p>
+<p>Fluxheim&#x27;s memory-safety baseline does not replace operational security checks. Continue running dependency audits, license checks, malformed request framing tests, TLS scans, and load smoke tests for every stable release branch.</p>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

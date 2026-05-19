@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Release Runbook — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Release Runbook</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="release-runbook">Release Runbook</h1>
+<p>This is the maintainer procedure for publishing a Fluxheim release. It is the step-by-step operational companion to the broader release checklist.</p>
+<p>Use this from a clean <code>main</code> checkout. Set the release variables once, then reuse them through the commands below:</p>
+<pre class="language-bash"><code class="language-bash">RELEASE_VERSION=1.3.2
+TAG=&quot;v${RELEASE_VERSION}&quot;
+TITLE=&quot;Fluxheim ${RELEASE_VERSION}&quot;
+RELEASE_NOTES=&quot;release-notes/RELEASE_NOTES_${RELEASE_VERSION}.md&quot;
+TARGET=&quot;$(rustc -vV | sed -n &#x27;s/^host: //p&#x27;)&quot;
+DIST_NAME=&quot;fluxheim-${RELEASE_VERSION}-full-${TARGET}&quot;</code></pre>
+<h2 id="1-preflight">1. Preflight</h2>
+<p>Confirm you are on the release commit and the worktree is clean:</p>
+<pre class="language-bash"><code class="language-bash">git status --short --branch
+git pull --ff-only origin main
+git status --short --branch</code></pre>
+<p>Run the local release checks that match the release scope:</p>
+<pre class="language-bash"><code class="language-bash">cargo fmt --all -- --check
+cargo test --locked
+cargo clippy --locked -- -D warnings
+cargo audit
+scripts/generate-sbom.sh
+scripts/reproducible_build_check.sh
+scripts/validate-release-metadata.sh
+scripts/podman_smoke.sh</code></pre>
+<p>For stable or release-candidate builds, prefer the stable gate:</p>
+<pre class="language-bash"><code class="language-bash">scripts/stable_release_gate.sh release</code></pre>
+<p>For the <code>1.3</code> line this stable gate includes the proxy cache and local observability smoke suites, plus compile and packaged-config checks for the published full/default, cache, and proxy container image profiles. That keeps cache, Prometheus/OpenTelemetry basics, and focused image feature wiring covered by the same command used for release evidence.</p>
+<p>If <code>cargo audit</code> reports a known upstream advisory that cannot be fixed in this repository yet, record it explicitly in the release notes with the package, advisory ID, impact, and removal condition.</p>
+<h2 id="2-commit-the-release-prep">2. Commit The Release Prep</h2>
+<p>Commit any release-note, README, packaging, or metadata changes:</p>
+<pre class="language-bash"><code class="language-bash">git add .
+git commit -S -m &quot;Prepare Fluxheim ${RELEASE_VERSION} release&quot;
+git push origin main</code></pre>
+<p>If Git reports <code>nothing to commit</code>, continue from the current <code>HEAD</code>.</p>
+<p>Record the commit:</p>
+<pre class="language-bash"><code class="language-bash">git rev-parse HEAD</code></pre>
+<h2 id="3-create-and-push-the-signed-tag">3. Create And Push The Signed Tag</h2>
+<p>Create a signed tag:</p>
+<pre class="language-bash"><code class="language-bash">git tag -s &quot;${TAG}&quot; -m &quot;${TITLE}&quot;
+git tag -v &quot;${TAG}&quot;
+git push origin &quot;${TAG}&quot;</code></pre>
+<p>Record the <code>Good &quot;git&quot; signature ...</code> line from <code>git tag -v</code>.</p>
+<p>Pushing the tag starts the container image workflow.</p>
+<h2 id="4-build-the-binary-release-asset">4. Build The Binary Release Asset</h2>
+<p>Build the full production release binary:</p>
+<pre class="language-bash"><code class="language-bash">cargo build --release --locked --no-default-features --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp --bin fluxheim --bin fluxheim-acme</code></pre>
+<p>Create the release bundle:</p>
+<pre class="language-bash"><code class="language-bash">mkdir -p &quot;dist/${DIST_NAME}&quot;
+cp target/release/fluxheim &quot;dist/${DIST_NAME}/&quot;
+cp target/release/fluxheim-acme &quot;dist/${DIST_NAME}/&quot;
+cp README.md LICENSE CHANGELOG.md &quot;dist/${DIST_NAME}/&quot;
+cp -r docs examples packaging release-notes &quot;dist/${DIST_NAME}/&quot;
+tar -C dist -czf &quot;dist/${DIST_NAME}.tar.gz&quot; &quot;${DIST_NAME}&quot;
+sha256sum &quot;dist/${DIST_NAME}.tar.gz&quot;</code></pre>
+<p>For the cache-focused binary profile, rebuild with:</p>
+<pre class="language-bash"><code class="language-bash">DIST_NAME=&quot;fluxheim-${RELEASE_VERSION}-cache-${TARGET}&quot;
+cargo build --release --locked --no-default-features --features profile-cache-edge,acme-client --bin fluxheim --bin fluxheim-acme
+rm -rf &quot;dist/${DIST_NAME}&quot;
+mkdir -p &quot;dist/${DIST_NAME}&quot;
+cp target/release/fluxheim &quot;dist/${DIST_NAME}/&quot;
+cp target/release/fluxheim-acme &quot;dist/${DIST_NAME}/&quot;
+cp README.md LICENSE CHANGELOG.md &quot;dist/${DIST_NAME}/&quot;
+cp -r docs examples packaging release-notes &quot;dist/${DIST_NAME}/&quot;
+tar -C dist -czf &quot;dist/${DIST_NAME}.tar.gz&quot; &quot;${DIST_NAME}&quot;
+sha256sum &quot;dist/${DIST_NAME}.tar.gz&quot;</code></pre>
+<p>For the proxy-focused binary profile, rebuild with:</p>
+<pre class="language-bash"><code class="language-bash">DIST_NAME=&quot;fluxheim-${RELEASE_VERSION}-proxy-${TARGET}&quot;
+cargo build --release --locked --no-default-features --features profile-proxy-edge,acme-client --bin fluxheim --bin fluxheim-acme
+rm -rf &quot;dist/${DIST_NAME}&quot;
+mkdir -p &quot;dist/${DIST_NAME}&quot;
+cp target/release/fluxheim &quot;dist/${DIST_NAME}/&quot;
+cp target/release/fluxheim-acme &quot;dist/${DIST_NAME}/&quot;
+cp README.md LICENSE CHANGELOG.md &quot;dist/${DIST_NAME}/&quot;
+cp -r docs examples packaging release-notes &quot;dist/${DIST_NAME}/&quot;
+tar -C dist -czf &quot;dist/${DIST_NAME}.tar.gz&quot; &quot;${DIST_NAME}&quot;
+sha256sum &quot;dist/${DIST_NAME}.tar.gz&quot;</code></pre>
+<p>For the PHP-FPM web binary profile, rebuild with:</p>
+<pre class="language-bash"><code class="language-bash">DIST_NAME=&quot;fluxheim-${RELEASE_VERSION}-php-${TARGET}&quot;
+cargo build --release --locked --no-default-features --features profile-web-server,php-fpm,acme-client --bin fluxheim --bin fluxheim-acme
+rm -rf &quot;dist/${DIST_NAME}&quot;
+mkdir -p &quot;dist/${DIST_NAME}&quot;
+cp target/release/fluxheim &quot;dist/${DIST_NAME}/&quot;
+cp target/release/fluxheim-acme &quot;dist/${DIST_NAME}/&quot;
+cp README.md LICENSE CHANGELOG.md &quot;dist/${DIST_NAME}/&quot;
+cp -r docs examples packaging release-notes &quot;dist/${DIST_NAME}/&quot;
+tar -C dist -czf &quot;dist/${DIST_NAME}.tar.gz&quot; &quot;${DIST_NAME}&quot;
+sha256sum &quot;dist/${DIST_NAME}.tar.gz&quot;</code></pre>
+<p>Build one unified config-tester release asset. The tester is compiled with the broad development feature set and validates the intended runtime shape with <code>--profile full</code>, <code>--profile cache</code>, <code>--profile proxy</code>, or <code>--profile web-php</code>.</p>
+<pre class="language-bash"><code class="language-bash">TESTER_DIST_NAME=&quot;fluxheim-${RELEASE_VERSION}-config-tester-${TARGET}&quot;
+cargo build --release --locked --no-default-features --features profile-development --bin fluxheim-config-tester
+rm -rf &quot;dist/${TESTER_DIST_NAME}&quot;
+mkdir -p &quot;dist/${TESTER_DIST_NAME}&quot;
+cp target/release/fluxheim-config-tester &quot;dist/${TESTER_DIST_NAME}/&quot;
+cp README.md LICENSE CHANGELOG.md &quot;dist/${TESTER_DIST_NAME}/&quot;
+tar -C dist -czf &quot;dist/${TESTER_DIST_NAME}.tar.gz&quot; &quot;${TESTER_DIST_NAME}&quot;
+sha256sum &quot;dist/${TESTER_DIST_NAME}.tar.gz&quot;</code></pre>
+<p>Record all runtime and config-tester binary checksums.</p>
+<p>Generate SBOMs for the tagged source tree:</p>
+<pre class="language-bash"><code class="language-bash">scripts/generate-sbom.sh
+sha256sum target/release-evidence/fluxheim.spdx.json
+sha256sum target/release-evidence/fluxheim.cyclonedx.json</code></pre>
+<p>Upload both SBOM files as release assets, and record their checksums in the release notes.</p>
+<p>Verify that the local release builder can reproduce the release binary from two separate target directories:</p>
+<pre class="language-bash"><code class="language-bash">scripts/reproducible_build_check.sh</code></pre>
+<p>Record the reported binary hash as reproducible-build evidence.</p>
+<p>Do not commit <code>dist/</code>; it is local release output.</p>
+<h2 id="5-draft-the-github-release">5. Draft The GitHub Release</h2>
+<p>On GitHub:</p>
+<ol>
+<li>Open Releases.</li>
+<li>Draft a new release.</li>
+<li>Select the tag from <code>$TAG</code>.</li>
+<li>Use <code>$TITLE</code> as the release title.</li>
+<li>Paste the contents of <code>$RELEASE_NOTES</code>.</li>
+<li>Upload every runtime profile archive built in step 4:</li>
+</ol>
+<p><code>dist/fluxheim-${RELEASE_VERSION}-{full,cache,proxy,php}-${TARGET}.tar.gz</code>.</p>
+<ol>
+<li>Upload the unified config-tester archive built in step 4:</li>
+</ol>
+<p><code>dist/fluxheim-${RELEASE_VERSION}-config-tester-${TARGET}.tar.gz</code>.</p>
+<ol>
+<li>Upload <code>target/release-evidence/fluxheim.spdx.json</code>.</li>
+<li>Upload <code>target/release-evidence/fluxheim.cyclonedx.json</code>.</li>
+<li>Publish the release.</li>
+</ol>
+<p>It is normal to publish before every evidence field is filled. Source archives and container digests are available only after the tag/release and image workflow exist.</p>
+<h2 id="6-record-source-archive-checksums">6. Record Source Archive Checksums</h2>
+<p>After the tag is visible on GitHub, download GitHub&#x27;s generated source archives and hash them:</p>
+<pre class="language-bash"><code class="language-bash">mkdir -p dist/checksums
+curl -L -o &quot;dist/checksums/fluxheim-${RELEASE_VERSION}.tar.gz&quot; &quot;https://github.com/valkyoth/fluxheim/archive/refs/tags/${TAG}.tar.gz&quot;
+curl -L -o &quot;dist/checksums/fluxheim-${RELEASE_VERSION}.zip&quot; &quot;https://github.com/valkyoth/fluxheim/archive/refs/tags/${TAG}.zip&quot;
+sha256sum &quot;dist/checksums/fluxheim-${RELEASE_VERSION}.tar.gz&quot;
+sha256sum &quot;dist/checksums/fluxheim-${RELEASE_VERSION}.zip&quot;</code></pre>
+<p>Edit the GitHub release notes and add these checksums.</p>
+<p>After the tag and image workflows are available, the maintainer helper can collect the release evidence block:</p>
+<pre class="language-bash"><code class="language-bash">scripts/release_evidence.sh &quot;${RELEASE_VERSION}&quot;</code></pre>
+<h2 id="7-publish-and-verify-container-images">7. Publish And Verify Container Images</h2>
+<p>The image workflow publishes the configured image variants after the tag push. Wait for the workflow to finish before collecting digests.</p>
+<p>For GHCR, the package must be public if anonymous users should pull it:</p>
+<ol>
+<li>Open the Fluxheim container package on GitHub.</li>
+<li>Open Package settings.</li>
+<li>Use Danger Zone -&gt; Change visibility -&gt; Public.</li>
+</ol>
+<p>Then collect immutable digests:</p>
+<pre class="language-bash"><code class="language-bash">for image in \
+  &quot;${TAG}-wolfi&quot; \
+  &quot;${TAG}-alpine&quot; \
+  &quot;${TAG}-suse-micro&quot; \
+  &quot;${TAG}-debian&quot; \
+  &quot;${TAG}-cache-wolfi&quot; \
+  &quot;${TAG}-cache-alpine&quot; \
+  &quot;${TAG}-cache-suse-micro&quot; \
+  &quot;${TAG}-cache-debian&quot; \
+  &quot;${TAG}-proxy-wolfi&quot; \
+  &quot;${TAG}-proxy-alpine&quot; \
+  &quot;${TAG}-proxy-suse-micro&quot; \
+  &quot;${TAG}-proxy-debian&quot; \
+  &quot;${TAG}-php-wolfi&quot; \
+  &quot;${TAG}-php-alpine&quot; \
+  &quot;${TAG}-php-suse-micro&quot; \
+  &quot;${TAG}-php-debian&quot;
+do
+  podman pull &quot;ghcr.io/valkyoth/fluxheim:${image}&quot;
+  podman inspect &quot;ghcr.io/valkyoth/fluxheim:${image}&quot; --format &#x27;{{index .RepoDigests 0}}&#x27;
+done</code></pre>
+<p>If Docker Hub publishing is enabled, repeat the same pull/inspect process for the Docker Hub tags. If Quay publishing is enabled, repeat it for the Quay release tags as well:</p>
+<pre class="language-bash"><code class="language-bash">for image in \
+  &quot;${TAG}-wolfi&quot; \
+  &quot;${TAG}-alpine&quot; \
+  &quot;${TAG}-suse-micro&quot; \
+  &quot;${TAG}-debian&quot; \
+  &quot;${TAG}-cache-wolfi&quot; \
+  &quot;${TAG}-cache-alpine&quot; \
+  &quot;${TAG}-cache-suse-micro&quot; \
+  &quot;${TAG}-cache-debian&quot; \
+  &quot;${TAG}-proxy-wolfi&quot; \
+  &quot;${TAG}-proxy-alpine&quot; \
+  &quot;${TAG}-proxy-suse-micro&quot; \
+  &quot;${TAG}-proxy-debian&quot; \
+  &quot;${TAG}-php-wolfi&quot; \
+  &quot;${TAG}-php-alpine&quot; \
+  &quot;${TAG}-php-suse-micro&quot; \
+  &quot;${TAG}-php-debian&quot;
+do
+  podman pull &quot;quay.io/valkyoth/fluxheim:${image}&quot;
+  podman inspect &quot;quay.io/valkyoth/fluxheim:${image}&quot; --format &#x27;{{index .RepoDigests 0}}&#x27;
+done</code></pre>
+<p>For <code>v1.5.x</code> and newer tags, also collect the <code>load-balancer</code> image profile digests, for example <code>${TAG}-load-balancer-wolfi</code>.</p>
+<p>Edit the GitHub release notes and add one digest per image variant.</p>
+<h2 id="8-final-release-evidence-format">8. Final Release Evidence Format</h2>
+<p>The release notes should end with concrete evidence, not placeholders:</p>
+<pre class="language-markdown"><code class="language-markdown">## Checksums And Signatures
+
+- Source archive checksums:
+  - `...  fluxheim-${RELEASE_VERSION}.tar.gz`
+  - `...  fluxheim-${RELEASE_VERSION}.zip`
+- Binary checksums:
+  - `...  fluxheim-${RELEASE_VERSION}-linux-x86_64.tar.gz`
+- SBOM checksums:
+  - `...  fluxheim.spdx.json`
+  - `...  fluxheim.cyclonedx.json`
+- Reproducible build:
+  - `...  target/reproducible-a/release/fluxheim`
+- Container digests:
+  - GHCR full/default Wolfi: `ghcr.io/valkyoth/fluxheim@sha256:...`
+  - GHCR full/default Alpine: `ghcr.io/valkyoth/fluxheim@sha256:...`
+  - GHCR full/default SUSE Micro: `ghcr.io/valkyoth/fluxheim@sha256:...`
+  - GHCR full/default Debian: `ghcr.io/valkyoth/fluxheim@sha256:...`
+  - GHCR cache/proxy/php variants: `ghcr.io/valkyoth/fluxheim@sha256:...`
+  - Quay full/default Wolfi: `quay.io/valkyoth/fluxheim@sha256:...`
+  - Quay full/default Alpine: `quay.io/valkyoth/fluxheim@sha256:...`
+  - Quay full/default SUSE Micro: `quay.io/valkyoth/fluxheim@sha256:...`
+  - Quay full/default Debian: `quay.io/valkyoth/fluxheim@sha256:...`
+  - Quay cache/proxy/php variants: `quay.io/valkyoth/fluxheim@sha256:...`
+- Tag signature:
+  - `Good &quot;git&quot; signature for ...`</code></pre>
+<h2 id="9-post-release-smoke">9. Post-Release Smoke</h2>
+<p>Pull one published image and confirm the packaged default site starts:</p>
+<pre class="language-bash"><code class="language-bash">podman run --rm -d --name fluxheim-release-smoke -p 127.0.0.1:18080:8080 &quot;ghcr.io/valkyoth/fluxheim:${TAG}-wolfi&quot;
+curl -I http://127.0.0.1:18080/
+podman logs fluxheim-release-smoke
+podman stop fluxheim-release-smoke</code></pre>
+<p>Expected result:</p>
+<ul>
+<li>HTTP status is <code>200 OK</code>.</li>
+<li>The response includes <code>server: fluxheim</code>.</li>
+<li>Logs do not show startup errors.</li>
+</ul>
+<h2 id="10-local-cleanup">10. Local Cleanup</h2>
+<p>Remove local release artifacts when no longer needed:</p>
+<pre class="language-bash"><code class="language-bash">rm -rf dist/</code></pre>
+<p>Keep the signed tag and GitHub release immutable unless a serious release mistake requires a documented replacement release.</p>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

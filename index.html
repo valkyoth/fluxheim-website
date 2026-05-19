@@ -43,7 +43,8 @@
     .glow-cyan { box-shadow: 0 0 40px rgba(34,211,238,0.08); }
     .glow-cyan:hover { box-shadow: 0 0 40px rgba(34,211,238,0.18); }
     .code-win { background: #0d1117; border: 1px solid #21262d; border-radius: 12px; overflow: hidden; }
-    .code-win pre[class*="language-"] { margin: 0; padding: 1.5rem; background: transparent; font-size: 0.82rem; line-height: 1.65; }
+    .code-win pre[class*="language-"] { margin: 0; padding: 1.5rem; background: transparent; font-size: 0.82rem; line-height: 1.65; overflow-x: auto; white-space: pre; word-break: normal; overflow-wrap: normal; }
+    .code-win code[class*="language-"] { display: block; width: max-content; min-width: 100%; white-space: pre; word-break: normal; overflow-wrap: normal; }
     .token.key, .token.keyword { color: #79c0ff; }
     .token.string { color: #a5d6ff; }
     .token.comment { color: #8b949e; }
@@ -165,51 +166,35 @@
             <span class="ml-3 text-xs font-mono text-gray-500">/etc/fluxheim/fluxheim.toml</span>
           </div>
           <div class="overflow-x-auto">
-<pre class="language-toml"><code class="language-toml">[server]
+<pre class="language-toml"><code class="language-toml">include_conf_d = false
+
+[server]
 listen = ["0.0.0.0:80"]
 tls_listen = ["0.0.0.0:443"]
-default_vhost = "site"
+default_vhost = "fluxheim.eu"
 
-[headers.response]
+[tls]
 enabled = true
-x_frame_options = "DENY"
-referrer_policy = "no-referrer"
-x_content_type_options = "nosniff"
-
-[tls.acme]
-enabled = true
-storage = "/var/lib/fluxheim/acme"
-contact_email = "admin@example.com"
+backend = "rustls"
+profile = "intermediate"
+min_protocol = "tls1.2"
+alpn = "http1-and-http2"
+curve_preferences = ["X25519", "CurveP256", "CurveP384"]
 
 [[vhosts]]
-name = "site"
-hosts = ["example.com", "www.example.com"]
+name = "fluxheim.eu"
+hosts = ["fluxheim.eu"]
 
 [vhosts.tls]
 enabled = true
 
-[vhosts.tls.acme]
-enabled = true
+[vhosts.tls.certificate]
+cert_path = "/etc/fluxheim/tls/fluxheim.eu/fullchain.pem"
+key_path = "/etc/fluxheim/tls/fluxheim.eu/privkey.pem"
 
 [vhosts.web]
-root = "/srv/sites/example/public"
-index_files = ["index.html"]
-deny_dotfiles = true
-cache_control = "public, max-age=3600"
-
-[[vhosts.routes]]
-name = "api"
-path_prefix = "/api"
-
-[vhosts.routes.proxy]
-upstreams = ["127.0.0.1:8000"]
-
-[vhosts.cache]
-enabled = true
-
-[vhosts.cache.memory]
-enabled = true
-max_size_bytes = "256MiB"</code></pre>
+root = "/srv/sites/fluxheim.eu"
+index_files = ["index.html"]</code></pre>
           </div>
         </div>
 

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Cloudflare Origin Support — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Cloudflare Origin Support</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="cloudflare-origin-support">Cloudflare Origin Support</h1>
+<p>Cloudflare support is a feasible future optional module, but it should be split into phases. Fluxheim should first treat Cloudflare as a trusted proxy only after the direct peer is verified. Certificate automation and Authenticated Origin Pulls are valuable, but they involve credentials, TLS reload behavior, and security-sensitive trust decisions.</p>
+<p>No Cloudflare module should be compiled into the default binary.</p>
+<h2 id="goals">Goals</h2>
+<ul>
+<li>Restore the real visitor IP only for verified Cloudflare-originated requests.</li>
+<li>Correlate access logs with Cloudflare Ray IDs.</li>
+<li>Support Cloudflare IP range refresh without downtime.</li>
+<li>Support Cloudflare Origin CA certificate issuance as an optional automation.</li>
+<li>Support Authenticated Origin Pulls as an optional mTLS hardening layer.</li>
+<li>Keep Cloudflare credentials out of config snapshots and logs.</li>
+</ul>
+<h2 id="non-goals">Non-Goals</h2>
+<ul>
+<li>No dependency on Cloudflare in default builds.</li>
+<li>No blind trust in <code>CF-*</code> headers.</li>
+<li>No automatic mutation of Cloudflare zone settings in the MVP.</li>
+<li>No promise that Cloudflare global AOP proves the user&#x27;s specific account.</li>
+<li>No replacement for normal ACME/own-certificate support.</li>
+</ul>
+<h2 id="feature-flags">Feature Flags</h2>
+<p>Planned feature split:</p>
+<pre class="language-toml"><code class="language-toml">cloudflare = [&quot;dep:ipnet&quot;]
+cloudflare-api = [&quot;cloudflare&quot;, &quot;dep:cloudflare&quot;, &quot;dep:arc-swap&quot;]
+cloudflare-origin-ca = [&quot;cloudflare-api&quot;, &quot;dep:rcgen&quot;]
+cloudflare-aop = [&quot;cloudflare&quot;]</code></pre>
+<p>Reviewed crate candidates as of 2026-05-05:</p>
+<ul>
+<li><code>cloudflare 0.14.0</code>, BSD-3-Clause: Rust library for Cloudflare v4 API.</li>
+</ul>
+<p>Configure with <code>rustls-tls</code> if used so it follows Fluxheim&#x27;s default TLS direction.</p>
+<ul>
+<li><code>rcgen 0.14.7</code>, MIT/Apache-2.0: local CSR/private-key generation.</li>
+<li><code>ipnet 2.12.0</code>, MIT/Apache-2.0: CIDR parsing and membership checks.</li>
+<li><code>arc-swap 1.9.1</code>, MIT/Apache-2.0: atomic replacement of trusted IP range</li>
+</ul>
+<p>snapshots or certificate state.</p>
+<h2 id="trust-boundary">Trust Boundary</h2>
+<p>Cloudflare request headers are trusted only when at least one configured trust condition succeeds:</p>
+<ul>
+<li>the direct peer socket IP is in the validated Cloudflare IP range set;</li>
+<li>Authenticated Origin Pulls mTLS verification succeeded;</li>
+<li>a future explicit trusted listener is configured for private Cloudflare</li>
+</ul>
+<p>tunnel traffic.</p>
+<p>If none of those conditions succeeds, Fluxheim must treat <code>CF-Connecting-IP</code>, <code>CF-Ray</code>, <code>CF-IPCountry</code>, and related headers as untrusted remote input.</p>
+<p>The direct peer IP should remain available in logs as <code>peer_ip</code>. The restored client IP should be stored separately as <code>client_ip</code> or <code>real_ip</code> so operators can audit whether traffic is actually coming through Cloudflare.</p>
+<h2 id="header-handling">Header Handling</h2>
+<p>Accepted headers after trust validation:</p>
+<ul>
+<li><code>CF-Connecting-IP</code>: visitor IP to use for logs, WAF/rate-limit decisions, and</li>
+</ul>
+<p>admin visibility.</p>
+<ul>
+<li><code>CF-Ray</code>: request correlation ID for structured logs and optional response</li>
+</ul>
+<p>echoing.</p>
+<ul>
+<li><code>CF-IPCountry</code>: coarse country signal for logs/metrics after cardinality</li>
+</ul>
+<p>controls.</p>
+<ul>
+<li><code>CF-Visitor</code>: optional scheme metadata, parsed strictly as JSON if needed.</li>
+<li><code>CF-Worker</code> and <code>CF-Device-Type</code>: optional context fields, never security</li>
+</ul>
+<p>authorities.</p>
+<p>Security rules:</p>
+<ul>
+<li>Reject or ignore malformed IP values.</li>
+<li>Never let untrusted Cloudflare headers override socket-derived metadata.</li>
+<li>Never use <code>CF-IPCountry</code>, city, device, worker, or bot headers as</li>
+</ul>
+<p>authorization decisions.</p>
+<ul>
+<li>Keep metrics labels bounded. Country labels may be allowed only as fixed</li>
+</ul>
+<p>two-letter country codes plus <code>unknown</code>; never use free-form city names as labels.</p>
+<ul>
+<li>Redact or bound all header values in logs.</li>
+</ul>
+<h2 id="ip-range-refresh">IP Range Refresh</h2>
+<p>Startup:</p>
+<ul>
+<li>load a configured pinned Cloudflare IP range file;</li>
+<li>validate every CIDR;</li>
+<li>refuse startup if Cloudflare mode requires trusted ranges and none are</li>
+</ul>
+<p>usable.</p>
+<p>Optional background refresh:</p>
+<ul>
+<li>fetch Cloudflare&#x27;s official IP range API daily or on a configured interval;</li>
+<li>validate the complete response before swapping it in;</li>
+<li>keep the last known-good range set if refresh fails;</li>
+<li>record <code>last_success</code>, <code>last_failure</code>, and active range count in metrics and</li>
+</ul>
+<p>admin status;</p>
+<ul>
+<li>never block request workers while refreshing.</li>
+</ul>
+<p>Use <code>ArcSwap</code> or equivalent atomic state so new requests see the fresh range set without interrupting active requests.</p>
+<h2 id="origin-ca-automation">Origin CA Automation</h2>
+<p>Cloudflare Origin CA certificates are separate from Let&#x27;s Encrypt/ACME certificates. They are trusted by Cloudflare for edge-to-origin TLS, not by normal browsers directly.</p>
+<p>Planned flow:</p>
+<ol>
+<li>Generate a private key locally with strict permissions.</li>
+<li>Generate a CSR for configured hostnames.</li>
+<li>Call the Cloudflare Origin CA create-certificate API.</li>
+<li>Persist certificate and key through Fluxheim&#x27;s atomic snapshot/storage</li>
+</ol>
+<p>pattern.</p>
+<ol>
+<li>Validate certificate hostnames and expiry.</li>
+<li>Reload TLS state without downtime through the existing cert reload model.</li>
+<li>Optionally revoke superseded Origin CA certificates after a safe overlap</li>
+</ol>
+<p>period.</p>
+<p>Guardrails:</p>
+<ul>
+<li>API token must be least-privilege and loaded from a secret path or</li>
+</ul>
+<p>environment, not committed into config snapshots.</p>
+<ul>
+<li>Token, CSR private key, and certificate private key must never be logged.</li>
+<li>Renewal should happen well before expiry and expose failures through</li>
+</ul>
+<p>admin/metrics/logging.</p>
+<ul>
+<li>The operator must be able to disable automation and use their own</li>
+</ul>
+<p>certificate files.</p>
+<h2 id="authenticated-origin-pulls">Authenticated Origin Pulls</h2>
+<p>Authenticated Origin Pulls add mTLS client-certificate verification from Cloudflare to the origin.</p>
+<p>Modes:</p>
+<ul>
+<li>Global AOP: easiest setup, but the Cloudflare-provided client certificate is</li>
+</ul>
+<p>shared across Cloudflare accounts and proves only that the connection came from Cloudflare&#x27;s network.</p>
+<ul>
+<li>Zone-level AOP: uses a user-uploaded certificate and is stricter.</li>
+<li>Per-hostname AOP: uses a user-uploaded certificate for specific hostnames and</li>
+</ul>
+<p>is preferred for mixed or high-security deployments.</p>
+<p>Fluxheim should support:</p>
+<ul>
+<li>configured AOP CA bundle per listener/vhost;</li>
+<li>certificate verification during TLS handshake where the selected TLS backend</li>
+</ul>
+<p>supports it;</p>
+<ul>
+<li>certificate reload without dropping active requests;</li>
+<li>metrics/logs for AOP success/failure counts;</li>
+<li>clear validation warnings when a deployment relies only on global AOP.</li>
+</ul>
+<h2 id="config-shape">Config Shape</h2>
+<p>Initial target:</p>
+<pre class="language-toml"><code class="language-toml">[cloudflare]
+enabled = false
+mode = &quot;trusted_proxy&quot;
+trusted_ranges_file = &quot;/etc/fluxheim/cloudflare-ips.toml&quot;
+refresh_ranges = true
+refresh_interval_hours = 24
+require_cloudflare_peer = true
+restore_real_ip = true
+use_cf_ray_as_trace = true
+echo_cf_ray = false
+
+[cloudflare.origin_ca]
+enabled = false
+hostnames = [&quot;example.com&quot;, &quot;*.example.com&quot;]
+requested_validity_days = 90
+key_type = &quot;ecdsa&quot;
+cert_path = &quot;/var/lib/fluxheim/cloudflare/origin.pem&quot;
+key_path = &quot;/var/lib/fluxheim/cloudflare/origin.key&quot;
+token_file = &quot;/run/secrets/cloudflare-origin-ca-token&quot;
+renew_before_days = 21
+
+[cloudflare.aop]
+enabled = false
+mode = &quot;zone&quot;
+ca_bundle = &quot;/etc/fluxheim/cloudflare/aop-ca.pem&quot;
+fail_closed = true</code></pre>
+<p>Per-vhost override target:</p>
+<pre class="language-toml"><code class="language-toml">[vhosts.cloudflare]
+enabled = true
+require_cloudflare_peer = true
+restore_real_ip = true</code></pre>
+<h2 id="implementation-stages">Implementation Stages</h2>
+<ol>
+<li>Add feature guards and config validation.</li>
+<li>Add trusted Cloudflare range loading from a local pinned file.</li>
+<li>Restore real IP and Ray ID only after trust validation.</li>
+<li>Add structured log fields and metrics.</li>
+<li>Add background IP range refresh with last-known-good fallback.</li>
+<li>Add Cloudflare Origin CA CSR and renewal workflow.</li>
+<li>Add AOP/mTLS configuration and reload tests for the active TLS backend.</li>
+<li>Add optional API calls for managing AOP only after credential and permission</li>
+</ol>
+<p>scope is reviewed.</p>
+<h2 id="tests">Tests</h2>
+<p>Required tests:</p>
+<ul>
+<li>Default build does not compile Cloudflare modules.</li>
+<li>Spoofed <code>CF-Connecting-IP</code> from a non-Cloudflare peer is ignored.</li>
+<li>Valid Cloudflare peer restores <code>CF-Connecting-IP</code>.</li>
+<li>Malformed <code>CF-Connecting-IP</code> is ignored or denied according to config.</li>
+<li><code>CF-Ray</code> is logged only as a bounded correlation field.</li>
+<li>IP range refresh failure keeps the last known-good set.</li>
+<li>Empty or invalid trusted range config fails closed when required.</li>
+<li>API tokens are redacted from logs, admin status, and validation errors.</li>
+<li>Origin CA CSR includes only configured hostnames.</li>
+<li>Certificate reload does not interrupt active requests.</li>
+<li>AOP fail-closed denies requests without a valid client certificate.</li>
+</ul>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

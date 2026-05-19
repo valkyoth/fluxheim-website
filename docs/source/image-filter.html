@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Image Filter — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Image Filter</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="image-filter">Image Filter</h1>
+<p>Status: future optional module.</p>
+<p>Planned Cargo feature: <code>image-filter</code>.</p>
+<p>This module adds safe, bounded image validation and transformation at the edge. It is intended for small static sites, media-heavy origins, and cache-backed deployments that want predictable image variants without adding a separate image service.</p>
+<h2 id="design-goals">Design Goals</h2>
+<ul>
+<li>Keep image transformation code out of the default binary.</li>
+<li>Enable per-vhost and per-route policies.</li>
+<li>Support static files and proxied origin responses.</li>
+<li>Transform only explicitly allowed image content types.</li>
+<li>Bound input bytes, decoded pixels, output bytes, CPU time, and concurrency.</li>
+<li>Integrate with cache keys so transformed variants are isolated and purgeable.</li>
+<li>Prefer memory-safe Rust codecs where practical.</li>
+</ul>
+<h2 id="planned-transformations">Planned Transformations</h2>
+<p>Initial stable candidates:</p>
+<ul>
+<li>validate image type;</li>
+<li>report image metadata as JSON: width, height, format, animation flag;</li>
+<li>resize while preserving aspect ratio;</li>
+<li>crop to a target box;</li>
+<li>rotate by <code>90</code>, <code>180</code>, or <code>270</code> degrees;</li>
+<li>strip metadata by default;</li>
+<li>set JPEG/WebP/AVIF quality;</li>
+<li>choose output format based on explicit config and <code>Accept</code> negotiation.</li>
+</ul>
+<p>Future candidates:</p>
+<ul>
+<li>sharpen;</li>
+<li>blur;</li>
+<li>grayscale;</li>
+<li>background fill for transparent input;</li>
+<li>animated image policy: reject, preserve first frame, or preserve animation</li>
+</ul>
+<p>only when a reviewed codec supports it safely.</p>
+<h2 id="format-policy">Format Policy</h2>
+<p>Input formats should be explicit:</p>
+<ul>
+<li>JPEG;</li>
+<li>PNG;</li>
+<li>GIF, with animation policy disabled by default;</li>
+<li>WebP;</li>
+<li>AVIF after codec review.</li>
+</ul>
+<p>Output formats should be explicit:</p>
+<ul>
+<li>JPEG;</li>
+<li>PNG;</li>
+<li>WebP;</li>
+<li>AVIF after codec review.</li>
+</ul>
+<p>Default modern behavior should prefer WebP when the client advertises support and the vhost policy allows it. AVIF should remain beta until encoding speed, resource use, and codec maintenance are proven acceptable.</p>
+<h2 id="resource-limits">Resource Limits</h2>
+<p>Image processing is dangerous without hard limits because small compressed files can decode into very large pixel buffers.</p>
+<p>Required limits:</p>
+<ul>
+<li><code>max_input_bytes</code>;</li>
+<li><code>max_decoded_pixels</code>;</li>
+<li><code>max_output_bytes</code>;</li>
+<li><code>max_width</code>;</li>
+<li><code>max_height</code>;</li>
+<li><code>max_operations_per_request</code>;</li>
+<li>per-vhost concurrent transform limit;</li>
+<li>global concurrent transform limit;</li>
+<li>transform timeout.</li>
+</ul>
+<p>All limits must be enforced before decoding where possible and immediately after header parsing when dimensions are known. If dimensions are not known without a full decode, the request should use the stricter input-byte and timeout limits.</p>
+<h2 id="cache-interaction">Cache Interaction</h2>
+<p>Transformed images must use separate cache keys from original images.</p>
+<p>Variant key inputs:</p>
+<ul>
+<li>vhost;</li>
+<li>source cache key or source path;</li>
+<li>source ETag/Last-Modified when available;</li>
+<li>transform policy name and version;</li>
+<li>requested dimensions;</li>
+<li>crop mode;</li>
+<li>rotation;</li>
+<li>output format;</li>
+<li>quality;</li>
+<li>normalized <code>Accept</code> bucket.</li>
+</ul>
+<p>The module should support:</p>
+<ul>
+<li>cache transformed variants when <code>cache</code> is enabled;</li>
+<li>purge original and variants together when an index exists;</li>
+<li>refuse disk cache in <code>privacy-mode</code>;</li>
+<li>never cache transformed output when request or response policy says</li>
+</ul>
+<p><code>Cache-Control: no-store</code>.</p>
+<h2 id="security-requirements">Security Requirements</h2>
+<ul>
+<li>The module is disabled by default at compile time and runtime.</li>
+<li>Transform policy must be explicit per vhost or route.</li>
+<li>Only configured content types and extensions are eligible.</li>
+<li>Do not transform untrusted arbitrary binary responses.</li>
+<li>Do not process images from admin, metrics, ACME, CGI, PHP, or legacy</li>
+</ul>
+<p>listeners.</p>
+<ul>
+<li>Reject oversized metadata, malformed files, decoder errors, and unsupported</li>
+</ul>
+<p>formats with <code>415 Unsupported Media Type</code> or a configured safe error.</p>
+<ul>
+<li>Strip EXIF/GPS/comment metadata by default.</li>
+<li>Do not log raw image bytes or full source URLs with sensitive queries.</li>
+<li>Codec dependencies require license and advisory review before enabling the</li>
+</ul>
+<p>module in release builds.</p>
+<ul>
+<li>FFI-backed codecs must be behind separate feature flags and never included</li>
+</ul>
+<p>in default builds.</p>
+<h2 id="configuration-sketch">Configuration Sketch</h2>
+<pre class="language-toml"><code class="language-toml">[image_filter.profiles.thumbnail]
+input_formats = [&quot;jpeg&quot;, &quot;png&quot;, &quot;webp&quot;]
+output_formats = [&quot;webp&quot;, &quot;jpeg&quot;]
+prefer_webp = true
+strip_metadata = true
+max_input_bytes = &quot;8MiB&quot;
+max_decoded_pixels = 12000000
+max_output_bytes = &quot;4MiB&quot;
+timeout = &quot;500ms&quot;
+quality_jpeg = 82
+quality_webp = 78
+
+[[image_filter.profiles.thumbnail.transforms]]
+kind = &quot;resize&quot;
+width = 480
+height = 480
+mode = &quot;fit&quot;
+
+[[vhosts]]
+name = &quot;example&quot;
+hosts = [&quot;example.com&quot;]
+
+[vhosts.image_filter]
+enabled = true
+profile = &quot;thumbnail&quot;
+paths = [&quot;/images/*&quot;]</code></pre>
+<h2 id="test-plan">Test Plan</h2>
+<ul>
+<li>Reject unsupported formats.</li>
+<li>Reject oversized input before decode.</li>
+<li>Reject decode bombs through pixel limits.</li>
+<li>Validate resize, crop, and rotate output dimensions.</li>
+<li>Validate WebP negotiation and fallback behavior.</li>
+<li>Ensure transformed variants use distinct cache keys.</li>
+<li>Ensure metadata stripping removes EXIF/GPS data.</li>
+<li>Ensure malformed images return safe errors.</li>
+<li>Ensure transform timeouts and concurrency limits work.</li>
+<li>Ensure default builds do not include image-filter code.</li>
+<li>Ensure <code>privacy-mode</code> rejects incompatible transform/cache combinations.</li>
+</ul>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

@@ -36,6 +36,7 @@ The site is self-hosting: the included `container/Dockerfile` builds Fluxheim v1
 | Docs — Deployment | `docs/deployment.html` | Systemd, containers, Podman Quadlet |
 | Docs — Observability | `docs/observability.html` | Prometheus, OpenTelemetry, structured logging |
 | Docs — Advanced | `docs/advanced.html` | PHP-FPM, fluxheim-acme, config-tester, WAF, WASM |
+| Docs — Source Reference | `docs/reference.html` | Vendored upstream Fluxheim Markdown docs from main |
 
 ## Tech Stack
 
@@ -116,7 +117,9 @@ fluxheim-website/
 │   ├── cache.html
 │   ├── deployment.html
 │   ├── observability.html
-│   └── advanced.html
+│   ├── advanced.html
+│   ├── reference.html
+│   └── source/               # Vendored Markdown plus rendered source-doc HTML
 ├── assets/
 │   ├── css/
 │   │   ├── prism-dark.min.css
@@ -137,6 +140,8 @@ fluxheim-website/
 ├── container/
 │   ├── Dockerfile          # Multi-stage: Rust/Debian builder → Wolfi runtime
 │   └── podman-compose.yml
+├── tools/
+│   └── render-source-docs.py
 ├── .dockerignore
 └── .containerignore
 ```

@@ -1,0 +1,364 @@
+# Release Runbook
+
+This is the maintainer procedure for publishing a Fluxheim release. It is the
+step-by-step operational companion to the broader release checklist.
+
+Use this from a clean `main` checkout. Set the release variables once, then
+reuse them through the commands below:
+
+```bash
+RELEASE_VERSION=1.3.2
+TAG="v${RELEASE_VERSION}"
+TITLE="Fluxheim ${RELEASE_VERSION}"
+RELEASE_NOTES="release-notes/RELEASE_NOTES_${RELEASE_VERSION}.md"
+TARGET="$(rustc -vV | sed -n 's/^host: //p')"
+DIST_NAME="fluxheim-${RELEASE_VERSION}-full-${TARGET}"
+```
+
+## 1. Preflight
+
+Confirm you are on the release commit and the worktree is clean:
+
+```bash
+git status --short --branch
+git pull --ff-only origin main
+git status --short --branch
+```
+
+Run the local release checks that match the release scope:
+
+```bash
+cargo fmt --all -- --check
+cargo test --locked
+cargo clippy --locked -- -D warnings
+cargo audit
+scripts/generate-sbom.sh
+scripts/reproducible_build_check.sh
+scripts/validate-release-metadata.sh
+scripts/podman_smoke.sh
+```
+
+For stable or release-candidate builds, prefer the stable gate:
+
+```bash
+scripts/stable_release_gate.sh release
+```
+
+For the `1.3` line this stable gate includes the proxy cache and local
+observability smoke suites, plus compile and packaged-config checks for the
+published full/default, cache, and proxy container image profiles. That keeps
+cache, Prometheus/OpenTelemetry basics, and focused image feature wiring
+covered by the same command used for release evidence.
+
+If `cargo audit` reports a known upstream advisory that cannot be fixed in this
+repository yet, record it explicitly in the release notes with the package,
+advisory ID, impact, and removal condition.
+
+## 2. Commit The Release Prep
+
+Commit any release-note, README, packaging, or metadata changes:
+
+```bash
+git add .
+git commit -S -m "Prepare Fluxheim ${RELEASE_VERSION} release"
+git push origin main
+```
+
+If Git reports `nothing to commit`, continue from the current `HEAD`.
+
+Record the commit:
+
+```bash
+git rev-parse HEAD
+```
+
+## 3. Create And Push The Signed Tag
+
+Create a signed tag:
+
+```bash
+git tag -s "${TAG}" -m "${TITLE}"
+git tag -v "${TAG}"
+git push origin "${TAG}"
+```
+
+Record the `Good "git" signature ...` line from `git tag -v`.
+
+Pushing the tag starts the container image workflow.
+
+## 4. Build The Binary Release Asset
+
+Build the full production release binary:
+
+```bash
+cargo build --release --locked --no-default-features --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp --bin fluxheim --bin fluxheim-acme
+```
+
+Create the release bundle:
+
+```bash
+mkdir -p "dist/${DIST_NAME}"
+cp target/release/fluxheim "dist/${DIST_NAME}/"
+cp target/release/fluxheim-acme "dist/${DIST_NAME}/"
+cp README.md LICENSE CHANGELOG.md "dist/${DIST_NAME}/"
+cp -r docs examples packaging release-notes "dist/${DIST_NAME}/"
+tar -C dist -czf "dist/${DIST_NAME}.tar.gz" "${DIST_NAME}"
+sha256sum "dist/${DIST_NAME}.tar.gz"
+```
+
+For the cache-focused binary profile, rebuild with:
+
+```bash
+DIST_NAME="fluxheim-${RELEASE_VERSION}-cache-${TARGET}"
+cargo build --release --locked --no-default-features --features profile-cache-edge,acme-client --bin fluxheim --bin fluxheim-acme
+rm -rf "dist/${DIST_NAME}"
+mkdir -p "dist/${DIST_NAME}"
+cp target/release/fluxheim "dist/${DIST_NAME}/"
+cp target/release/fluxheim-acme "dist/${DIST_NAME}/"
+cp README.md LICENSE CHANGELOG.md "dist/${DIST_NAME}/"
+cp -r docs examples packaging release-notes "dist/${DIST_NAME}/"
+tar -C dist -czf "dist/${DIST_NAME}.tar.gz" "${DIST_NAME}"
+sha256sum "dist/${DIST_NAME}.tar.gz"
+```
+
+For the proxy-focused binary profile, rebuild with:
+
+```bash
+DIST_NAME="fluxheim-${RELEASE_VERSION}-proxy-${TARGET}"
+cargo build --release --locked --no-default-features --features profile-proxy-edge,acme-client --bin fluxheim --bin fluxheim-acme
+rm -rf "dist/${DIST_NAME}"
+mkdir -p "dist/${DIST_NAME}"
+cp target/release/fluxheim "dist/${DIST_NAME}/"
+cp target/release/fluxheim-acme "dist/${DIST_NAME}/"
+cp README.md LICENSE CHANGELOG.md "dist/${DIST_NAME}/"
+cp -r docs examples packaging release-notes "dist/${DIST_NAME}/"
+tar -C dist -czf "dist/${DIST_NAME}.tar.gz" "${DIST_NAME}"
+sha256sum "dist/${DIST_NAME}.tar.gz"
+```
+
+For the PHP-FPM web binary profile, rebuild with:
+
+```bash
+DIST_NAME="fluxheim-${RELEASE_VERSION}-php-${TARGET}"
+cargo build --release --locked --no-default-features --features profile-web-server,php-fpm,acme-client --bin fluxheim --bin fluxheim-acme
+rm -rf "dist/${DIST_NAME}"
+mkdir -p "dist/${DIST_NAME}"
+cp target/release/fluxheim "dist/${DIST_NAME}/"
+cp target/release/fluxheim-acme "dist/${DIST_NAME}/"
+cp README.md LICENSE CHANGELOG.md "dist/${DIST_NAME}/"
+cp -r docs examples packaging release-notes "dist/${DIST_NAME}/"
+tar -C dist -czf "dist/${DIST_NAME}.tar.gz" "${DIST_NAME}"
+sha256sum "dist/${DIST_NAME}.tar.gz"
+```
+
+Build one unified config-tester release asset. The tester is compiled with the
+broad development feature set and validates the intended runtime shape with
+`--profile full`, `--profile cache`, `--profile proxy`, or `--profile web-php`.
+
+```bash
+TESTER_DIST_NAME="fluxheim-${RELEASE_VERSION}-config-tester-${TARGET}"
+cargo build --release --locked --no-default-features --features profile-development --bin fluxheim-config-tester
+rm -rf "dist/${TESTER_DIST_NAME}"
+mkdir -p "dist/${TESTER_DIST_NAME}"
+cp target/release/fluxheim-config-tester "dist/${TESTER_DIST_NAME}/"
+cp README.md LICENSE CHANGELOG.md "dist/${TESTER_DIST_NAME}/"
+tar -C dist -czf "dist/${TESTER_DIST_NAME}.tar.gz" "${TESTER_DIST_NAME}"
+sha256sum "dist/${TESTER_DIST_NAME}.tar.gz"
+```
+
+Record all runtime and config-tester binary checksums.
+
+Generate SBOMs for the tagged source tree:
+
+```bash
+scripts/generate-sbom.sh
+sha256sum target/release-evidence/fluxheim.spdx.json
+sha256sum target/release-evidence/fluxheim.cyclonedx.json
+```
+
+Upload both SBOM files as release assets, and record their checksums in the
+release notes.
+
+Verify that the local release builder can reproduce the release binary from two
+separate target directories:
+
+```bash
+scripts/reproducible_build_check.sh
+```
+
+Record the reported binary hash as reproducible-build evidence.
+
+Do not commit `dist/`; it is local release output.
+
+## 5. Draft The GitHub Release
+
+On GitHub:
+
+1. Open Releases.
+2. Draft a new release.
+3. Select the tag from `$TAG`.
+4. Use `$TITLE` as the release title.
+5. Paste the contents of `$RELEASE_NOTES`.
+6. Upload every runtime profile archive built in step 4:
+   `dist/fluxheim-${RELEASE_VERSION}-{full,cache,proxy,php}-${TARGET}.tar.gz`.
+7. Upload the unified config-tester archive built in step 4:
+   `dist/fluxheim-${RELEASE_VERSION}-config-tester-${TARGET}.tar.gz`.
+8. Upload `target/release-evidence/fluxheim.spdx.json`.
+9. Upload `target/release-evidence/fluxheim.cyclonedx.json`.
+10. Publish the release.
+
+It is normal to publish before every evidence field is filled. Source archives
+and container digests are available only after the tag/release and image
+workflow exist.
+
+## 6. Record Source Archive Checksums
+
+After the tag is visible on GitHub, download GitHub's generated source archives
+and hash them:
+
+```bash
+mkdir -p dist/checksums
+curl -L -o "dist/checksums/fluxheim-${RELEASE_VERSION}.tar.gz" "https://github.com/valkyoth/fluxheim/archive/refs/tags/${TAG}.tar.gz"
+curl -L -o "dist/checksums/fluxheim-${RELEASE_VERSION}.zip" "https://github.com/valkyoth/fluxheim/archive/refs/tags/${TAG}.zip"
+sha256sum "dist/checksums/fluxheim-${RELEASE_VERSION}.tar.gz"
+sha256sum "dist/checksums/fluxheim-${RELEASE_VERSION}.zip"
+```
+
+Edit the GitHub release notes and add these checksums.
+
+After the tag and image workflows are available, the maintainer helper can
+collect the release evidence block:
+
+```bash
+scripts/release_evidence.sh "${RELEASE_VERSION}"
+```
+
+## 7. Publish And Verify Container Images
+
+The image workflow publishes the configured image variants after the tag push.
+Wait for the workflow to finish before collecting digests.
+
+For GHCR, the package must be public if anonymous users should pull it:
+
+1. Open the Fluxheim container package on GitHub.
+2. Open Package settings.
+3. Use Danger Zone -> Change visibility -> Public.
+
+Then collect immutable digests:
+
+```bash
+for image in \
+  "${TAG}-wolfi" \
+  "${TAG}-alpine" \
+  "${TAG}-suse-micro" \
+  "${TAG}-debian" \
+  "${TAG}-cache-wolfi" \
+  "${TAG}-cache-alpine" \
+  "${TAG}-cache-suse-micro" \
+  "${TAG}-cache-debian" \
+  "${TAG}-proxy-wolfi" \
+  "${TAG}-proxy-alpine" \
+  "${TAG}-proxy-suse-micro" \
+  "${TAG}-proxy-debian" \
+  "${TAG}-php-wolfi" \
+  "${TAG}-php-alpine" \
+  "${TAG}-php-suse-micro" \
+  "${TAG}-php-debian"
+do
+  podman pull "ghcr.io/valkyoth/fluxheim:${image}"
+  podman inspect "ghcr.io/valkyoth/fluxheim:${image}" --format '{{index .RepoDigests 0}}'
+done
+```
+
+If Docker Hub publishing is enabled, repeat the same pull/inspect process for
+the Docker Hub tags. If Quay publishing is enabled, repeat it for the Quay
+release tags as well:
+
+```bash
+for image in \
+  "${TAG}-wolfi" \
+  "${TAG}-alpine" \
+  "${TAG}-suse-micro" \
+  "${TAG}-debian" \
+  "${TAG}-cache-wolfi" \
+  "${TAG}-cache-alpine" \
+  "${TAG}-cache-suse-micro" \
+  "${TAG}-cache-debian" \
+  "${TAG}-proxy-wolfi" \
+  "${TAG}-proxy-alpine" \
+  "${TAG}-proxy-suse-micro" \
+  "${TAG}-proxy-debian" \
+  "${TAG}-php-wolfi" \
+  "${TAG}-php-alpine" \
+  "${TAG}-php-suse-micro" \
+  "${TAG}-php-debian"
+do
+  podman pull "quay.io/valkyoth/fluxheim:${image}"
+  podman inspect "quay.io/valkyoth/fluxheim:${image}" --format '{{index .RepoDigests 0}}'
+done
+```
+
+For `v1.5.x` and newer tags, also collect the `load-balancer` image profile
+digests, for example `${TAG}-load-balancer-wolfi`.
+
+Edit the GitHub release notes and add one digest per image variant.
+
+## 8. Final Release Evidence Format
+
+The release notes should end with concrete evidence, not placeholders:
+
+```markdown
+## Checksums And Signatures
+
+- Source archive checksums:
+  - `...  fluxheim-${RELEASE_VERSION}.tar.gz`
+  - `...  fluxheim-${RELEASE_VERSION}.zip`
+- Binary checksums:
+  - `...  fluxheim-${RELEASE_VERSION}-linux-x86_64.tar.gz`
+- SBOM checksums:
+  - `...  fluxheim.spdx.json`
+  - `...  fluxheim.cyclonedx.json`
+- Reproducible build:
+  - `...  target/reproducible-a/release/fluxheim`
+- Container digests:
+  - GHCR full/default Wolfi: `ghcr.io/valkyoth/fluxheim@sha256:...`
+  - GHCR full/default Alpine: `ghcr.io/valkyoth/fluxheim@sha256:...`
+  - GHCR full/default SUSE Micro: `ghcr.io/valkyoth/fluxheim@sha256:...`
+  - GHCR full/default Debian: `ghcr.io/valkyoth/fluxheim@sha256:...`
+  - GHCR cache/proxy/php variants: `ghcr.io/valkyoth/fluxheim@sha256:...`
+  - Quay full/default Wolfi: `quay.io/valkyoth/fluxheim@sha256:...`
+  - Quay full/default Alpine: `quay.io/valkyoth/fluxheim@sha256:...`
+  - Quay full/default SUSE Micro: `quay.io/valkyoth/fluxheim@sha256:...`
+  - Quay full/default Debian: `quay.io/valkyoth/fluxheim@sha256:...`
+  - Quay cache/proxy/php variants: `quay.io/valkyoth/fluxheim@sha256:...`
+- Tag signature:
+  - `Good "git" signature for ...`
+```
+
+## 9. Post-Release Smoke
+
+Pull one published image and confirm the packaged default site starts:
+
+```bash
+podman run --rm -d --name fluxheim-release-smoke -p 127.0.0.1:18080:8080 "ghcr.io/valkyoth/fluxheim:${TAG}-wolfi"
+curl -I http://127.0.0.1:18080/
+podman logs fluxheim-release-smoke
+podman stop fluxheim-release-smoke
+```
+
+Expected result:
+
+- HTTP status is `200 OK`.
+- The response includes `server: fluxheim`.
+- Logs do not show startup errors.
+
+## 10. Local Cleanup
+
+Remove local release artifacts when no longer needed:
+
+```bash
+rm -rf dist/
+```
+
+Keep the signed tag and GitHub release immutable unless a serious release
+mistake requires a documented replacement release.

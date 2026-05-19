@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Feature Matrix — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Feature Matrix</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="feature-matrix">Feature Matrix</h1>
+<p>Fluxheim uses Cargo features for compile-time module selection. The default binary is intentionally useful but conservative:</p>
+<pre class="language-toml"><code class="language-toml">default = [&quot;proxy&quot;, &quot;web&quot;, &quot;cache&quot;, &quot;tls-rustls&quot;, &quot;security&quot;]</code></pre>
+<p>Use <code>scripts/validate-features.sh</code> before packaging custom feature strings:</p>
+<pre class="language-bash"><code class="language-bash">scripts/validate-features.sh proxy,web,tls-rustls</code></pre>
+<p>The validator expands profile aliases and rejects unsupported combinations before Cargo starts compiling Pingora.</p>
+<h2 id="stable-core-features">Stable Core Features</h2>
+<div class="source-table"><table>
+<thead><tr><th>Feature</th><th>Default</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>proxy</code></td><td>Yes</td><td>Pingora proxy runtime and upstream forwarding.</td></tr>
+<tr><td><code>web</code></td><td>Yes</td><td>Static file resolver and static response planning.</td></tr>
+<tr><td><code>cache</code></td><td>Yes</td><td>Image cache module. Runtime caching still requires config.</td></tr>
+<tr><td><code>ingress</code></td><td>Yes, through <code>proxy</code>/TLS profiles</td><td>Shared Pingora/Tokio ingress primitives used by proxy, TLS, and ACME-capable focused builds.</td></tr>
+<tr><td><code>tls-rustls</code></td><td>Yes</td><td>rustls TLS backend.</td></tr>
+<tr><td><code>security</code></td><td>Yes</td><td>Security and release hardening helpers.</td></tr>
+</tbody></table></div>
+<h2 id="optional-implemented-features">Optional Implemented Features</h2>
+<div class="source-table"><table>
+<thead><tr><th>Feature</th><th>Default</th><th>Purpose</th></tr></thead>
+<tbody>
+<tr><td><code>load-balancer</code></td><td>No</td><td>Pingora load-balancing support and health-check setup.</td></tr>
+<tr><td><code>metrics</code></td><td>No</td><td>Prometheus metrics listener.</td></tr>
+<tr><td><code>metrics-otlp</code></td><td>No</td><td>Optional OTLP/HTTP JSON metrics export to a local Prometheus OTLP receiver or collector.</td></tr>
+<tr><td><code>otel-tracing</code></td><td>No</td><td>W3C <code>traceparent</code> propagation and access-log trace ID correlation.</td></tr>
+<tr><td><code>otel-otlp</code></td><td>No</td><td>Optional OTLP/HTTP JSON trace export to a local collector or Jaeger endpoint.</td></tr>
+<tr><td><code>acme</code></td><td>No</td><td>ACME config, renewal planning, managed certificate/account paths, local HTTP-01 and rustls TLS-ALPN-01 challenge serving, and the renewal executor contract.</td></tr>
+<tr><td><code>acme-client</code></td><td>No</td><td>Live ACME account/order HTTP client and background renewal service.</td></tr>
+<tr><td><code>privacy-mode</code></td><td>No</td><td>Zero-retention static/proxy build profile.</td></tr>
+<tr><td><code>tls</code></td><td>No</td><td>Internal marker for TLS-aware code; select a concrete backend for serving.</td></tr>
+</tbody></table></div>
+<h2 id="tls-backends">TLS Backends</h2>
+<p>Select at most one:</p>
+<div class="source-table"><table>
+<thead><tr><th>Feature</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td><code>tls-rustls</code></td><td>Default and recommended.</td></tr>
+<tr><td><code>tls-openssl</code></td><td>Optional OpenSSL backend.</td></tr>
+<tr><td><code>tls-boringssl</code></td><td>Optional BoringSSL backend.</td></tr>
+<tr><td><code>tls-s2n</code></td><td>Optional s2n-tls backend.</td></tr>
+</tbody></table></div>
+<p>Cargo features are additive, and Pingora does not support compiling multiple TLS backends together. The feature validator catches this before build. Pingora <code>0.8.0</code> does not expose an mbedTLS backend; supporting mbedTLS would require a new Pingora TLS integration rather than a Fluxheim feature toggle. <code>tls-boringssl</code> requires a build host with <code>libclang</code> available for bindgen. Use <code>scripts/validate-tls-backends.sh</code> to validate the supported TLS backends on the current machine.</p>
+<h2 id="cache-encryption-key-utility">Cache Encryption Key Utility</h2>
+<p><code>fluxheim cache-keygen</code> is available in every build profile. It prints one random 256-bit lowercase hex key suitable for <code>[cache.disk.encryption] provider = &quot;local&quot;</code>. The command does not write files itself; pipe it into the operator&#x27;s preferred secret manager, systemd credential source, or container secret.</p>
+<h2 id="acme-client-wiring">ACME Client Wiring</h2>
+<p><code>acme</code> contains the config, storage, challenge, certificate observation, and renewal-executor pieces. <code>acme-client</code> adds the live ACME HTTP client stack used to load or create issuer accounts and complete HTTP-01 or rustls TLS-ALPN-01 orders through <code>instant-acme</code>, plus the runtime background renewal service. Keep <code>acme-client</code> enabled only in builds that perform certificate issuance or renewal.</p>
+<h2 id="php-runtime-modules">PHP Runtime Modules</h2>
+<p><code>php-fpm</code> enables the <code>1.3.1</code> FastCGI bridge for PHP applications. It implies <code>proxy</code> and <code>web</code>, uses <code>fastcgi-client</code>, and must be selected explicitly:</p>
+<pre class="language-bash"><code class="language-bash">cargo build --no-default-features --features profile-web-server,php-fpm,acme-client</code></pre>
+<p>Only one PHP runtime feature may be selected in one binary. <code>php-turbine</code> and <code>php-phprs</code> are reserved feature gates for later <code>1.3.x</code> evaluation and do not add a production runtime yet.</p>
+<h2 id="profile-aliases">Profile Aliases</h2>
+<p>Cargo does not have a separate <code>--group</code> flag. Fluxheim provides normal Cargo feature aliases for common deployment shapes.</p>
+<div class="source-table"><table>
+<thead><tr><th>Profile</th><th>Expands to</th><th>Use case</th></tr></thead>
+<tbody>
+<tr><td><code>profile-core</code></td><td><code>proxy</code>, <code>web</code>, <code>cache</code>, <code>tls-rustls</code>, <code>security</code></td><td>Same intent as default.</td></tr>
+<tr><td><code>profile-static-site</code></td><td><code>proxy</code>, <code>web</code>, <code>tls-rustls</code>, <code>security</code></td><td>Static sites without Fluxheim cache.</td></tr>
+<tr><td><code>profile-reverse-proxy</code></td><td><code>proxy</code>, <code>tls-rustls</code>, <code>security</code></td><td>Reverse proxy without static hosting/cache.</td></tr>
+<tr><td><code>profile-cache-server</code></td><td><code>proxy</code>, <code>web</code>, <code>cache</code>, <code>tls-rustls</code>, <code>security</code></td><td>Static/proxy server with cache enabled.</td></tr>
+<tr><td><code>profile-load-balancer</code></td><td><code>proxy</code>, <code>web</code>, <code>cache</code>, <code>load-balancer</code>, <code>tls-rustls</code>, <code>security</code></td><td>Edge server with Pingora load balancing.</td></tr>
+<tr><td><code>profile-observability</code></td><td><code>profile-core</code>, <code>metrics</code>, <code>metrics-otlp</code>, <code>otel-tracing</code>, <code>otel-otlp</code></td><td>Core server with Prometheus metrics, optional local OTLP metrics export, trace context propagation, and optional local OTLP trace export.</td></tr>
+<tr><td><code>profile-privacy</code></td><td><code>proxy</code>, <code>web</code>, <code>tls-rustls</code>, <code>privacy-mode</code>, <code>security</code></td><td>Zero-retention static/proxy profile.</td></tr>
+<tr><td><code>profile-full</code></td><td><code>profile-load-balancer</code></td><td>All stable production modules.</td></tr>
+<tr><td><code>profile-development</code></td><td><code>profile-full</code>, <code>php-fpm</code>, <code>acme-client</code>, <code>metrics</code>, <code>metrics-otlp</code>, <code>otel-tracing</code>, <code>otel-otlp</code></td><td>Broad development build with all compatible production modules.</td></tr>
+<tr><td><code>profile-web-server</code></td><td><code>proxy</code>, <code>web</code>, <code>tls-rustls</code>, <code>security</code></td><td>Static webserver profile while serving still uses the shared proxy runtime.</td></tr>
+<tr><td><code>profile-cache-edge</code></td><td><code>proxy</code>, <code>cache</code>, <code>tls-rustls</code>, <code>security</code></td><td>Cache edge without local static web serving.</td></tr>
+<tr><td><code>profile-proxy-edge</code></td><td><code>proxy</code>, <code>tls-rustls</code>, <code>security</code></td><td>Focused reverse proxy edge.</td></tr>
+<tr><td><code>profile-load-balancer-edge</code></td><td><code>proxy</code>, <code>load-balancer</code>, <code>tls-rustls</code>, <code>security</code></td><td>Load-balancer edge without cache or static web serving.</td></tr>
+</tbody></table></div>
+<p>Examples that match the official release artifacts:</p>
+<pre class="language-bash"><code class="language-bash">cargo build --no-default-features --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp
+cargo build --no-default-features --features profile-development
+cargo build --no-default-features --features profile-cache-edge,acme-client
+cargo build --no-default-features --features profile-proxy-edge,acme-client
+cargo build --no-default-features --features profile-web-server,php-fpm,acme-client
+cargo build --no-default-features --features profile-privacy</code></pre>
+<p>The raw profile aliases do not force <code>acme-client</code>; that is intentional for offline or static-certificate custom builds. Official RPMs, images, and release tarballs add <code>acme-client</code> to the full, cache, and proxy profiles by default.</p>
+<p>Focused image profile status:</p>
+<ul>
+<li>TLS and ACME are shared ingress capabilities, not implicit static webserver</li>
+</ul>
+<p>capabilities.</p>
+<ul>
+<li>The <code>cache</code> and <code>proxy</code> focused profiles compile without local static web</li>
+</ul>
+<p>serving.</p>
+<ul>
+<li>Compatibility aliases may keep the older broad behavior, but published</li>
+</ul>
+<p>focused images are <code>full</code>, <code>cache</code>, and <code>proxy</code>. The <code>load-balancer</code> profile is prepared for the <code>1.5</code> line and can be included manually before then.</p>
+<h2 id="incompatible-combinations">Incompatible Combinations</h2>
+<div class="source-table"><table>
+<thead><tr><th>Combination</th><th>Reason</th></tr></thead>
+<tbody>
+<tr><td>Multiple <code>tls-*</code> backends</td><td>Pingora exposes one TLS backend at a time.</td></tr>
+<tr><td><code>privacy-mode</code> + <code>cache</code></td><td>Zero-retention builds must not compile request/response cache code.</td></tr>
+<tr><td><code>privacy-mode</code> + <code>metrics</code></td><td>Zero-retention builds must not compile request metrics.</td></tr>
+<tr><td><code>privacy-mode</code> + <code>metrics-otlp</code></td><td>Zero-retention builds must not compile metrics export.</td></tr>
+<tr><td><code>privacy-mode</code> + <code>otel-tracing</code></td><td>Zero-retention builds must not compile trace context propagation.</td></tr>
+<tr><td><code>privacy-mode</code> + <code>otel-otlp</code></td><td>Zero-retention builds must not compile trace export.</td></tr>
+</tbody></table></div>
+<p>Because <code>cache</code> is part of the default build, privacy builds must use <code>--no-default-features</code>.</p>
+<h2 id="planned-future-features">Planned Future Features</h2>
+<p>These are documented architecture tracks, not enabled Cargo features yet:</p>
+<div class="source-table"><table>
+<thead><tr><th>Future feature family</th><th>Document</th></tr></thead>
+<tbody>
+<tr><td>Compression</td><td><a href="compression.html" class="text-cyan-400 hover:text-cyan-300">Compression</a></td></tr>
+<tr><td>Image filter</td><td><a href="image-filter.html" class="text-cyan-400 hover:text-cyan-300">Image Filter</a></td></tr>
+<tr><td>Programmable media edge</td><td><a href="programmable-media-edge.html" class="text-cyan-400 hover:text-cyan-300">Programmable Media Edge</a></td></tr>
+<tr><td>OpenTelemetry OTLP export</td><td><a href="opentelemetry-tracing.html" class="text-cyan-400 hover:text-cyan-300">OpenTelemetry Tracing</a></td></tr>
+<tr><td>WASM extensibility</td><td><a href="wasm-extensibility.html" class="text-cyan-400 hover:text-cyan-300">WASM Extensibility</a></td></tr>
+<tr><td>WAF</td><td><a href="waf-architecture.html" class="text-cyan-400 hover:text-cyan-300">WAF Architecture</a></td></tr>
+<tr><td>Cloudflare origin support</td><td><a href="cloudflare-origin-support.html" class="text-cyan-400 hover:text-cyan-300">Cloudflare Origin Support</a></td></tr>
+<tr><td>External authorization request</td><td><a href="auth-request.html" class="text-cyan-400 hover:text-cyan-300">External Authorization Request</a></td></tr>
+<tr><td>Secure links</td><td><a href="secure-links.html" class="text-cyan-400 hover:text-cyan-300">Secure Links</a></td></tr>
+<tr><td>PHP runtimes</td><td><a href="php-runtime-support.html" class="text-cyan-400 hover:text-cyan-300">PHP Runtime Support</a></td></tr>
+<tr><td>Perl CGI</td><td><a href="perl-cgi-support.html" class="text-cyan-400 hover:text-cyan-300">Perl CGI Support</a></td></tr>
+<tr><td>Legacy static HTTP listeners</td><td><a href="legacy-static-http.html" class="text-cyan-400 hover:text-cyan-300">Legacy Static HTTP Support</a></td></tr>
+<tr><td>WireGuard smart load balancing</td><td><a href="sentinel-mesh.html" class="text-cyan-400 hover:text-cyan-300">Sentinel Mesh</a></td></tr>
+</tbody></table></div>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

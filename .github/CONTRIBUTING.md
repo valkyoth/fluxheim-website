@@ -33,6 +33,7 @@ podman rm -f fluxheim-test
 |------|---------|
 | `index.html`, `download.html`, `changelog.html` | Top-level site pages |
 | `docs/` | Documentation pages — one file per topic |
+| `docs/source/` | Vendored Markdown docs copied from Fluxheim main plus rendered HTML pages |
 | `assets/js/` | Vendored JavaScript (Tailwind, Alpine.js, Prism.js, theme toggle) |
 | `assets/css/` | Vendored CSS (Prism theme and shared light/dark theme overrides) |
 | `assets/img/` | Logo and images |
@@ -45,6 +46,8 @@ podman rm -f fluxheim-test
 **Editing a page:** Edit the HTML file directly. Pages share a common nav and footer pattern — if you update one, update all. Sidebar active-link state in the docs pages is set via the `bg-cyan-500/8 text-cyan-400 border-l-2` class on the relevant `<a>` element.
 
 **Adding a docs page:** Copy an existing docs page as your template. Add a link to the sidebar nav (present in every docs page) and to `docs/index.html` (the docs hub). Keep the file name lowercase with hyphens.
+
+**Syncing Fluxheim source docs:** Refresh `docs/source/` from the upstream Fluxheim `docs/*.md` files whenever the project docs change, then run `python3 tools/render-source-docs.py` to regenerate the styled HTML pages. Update `docs/reference.html` if files are added, removed, or renamed, and check `docs/features.html` against `docs/source/features.md`.
 
 **Updating for a new Fluxheim release:** Version strings appear in the nav button, download cards, changelog timeline, install code blocks, and the container image tags. Search for the old version and replace throughout. Update the changelog timeline and the download page release table to match the new release artifacts.
 

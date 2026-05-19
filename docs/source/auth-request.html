@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>External Authorization Request — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">External Authorization Request</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="external-authorization-request">External Authorization Request</h1>
+<p>Status: future optional module.</p>
+<p>Planned Cargo feature: <code>auth-request</code>.</p>
+<p>This module lets Fluxheim ask a configured authorization service whether a client request should continue. It is designed for deployments that already have a policy service, session service, identity gateway, or internal access decision API and want Fluxheim to enforce the decision before proxying or serving static content.</p>
+<h2 id="design-goals">Design Goals</h2>
+<ul>
+<li>Keep the default binary free of external-authorization code.</li>
+<li>Make authorization per-vhost and per-route.</li>
+<li>Support global authorization zones that protect all routes by default unless</li>
+</ul>
+<p>a route is explicitly excluded.</p>
+<ul>
+<li>Keep request workers protected with strict timeouts and response-size limits.</li>
+<li>Never trust headers supplied by the client as authorization facts.</li>
+<li>Make every fail-open/fail-closed choice explicit in config.</li>
+<li>Prefer local JWT/OIDC verification when a request can be decided without a</li>
+</ul>
+<p>network call.</p>
+<ul>
+<li>Support low-latency authorization hooks over HTTPS, Unix domain sockets, and</li>
+</ul>
+<p>later gRPC.</p>
+<ul>
+<li>Support static web, reverse proxy, and load-balancer routes without turning</li>
+</ul>
+<p>Fluxheim into an application runtime.</p>
+<h2 id="decision-contract">Decision Contract</h2>
+<p>Fluxheim sends a small authorization request to a configured internal endpoint. The authorization endpoint decides whether the original request may continue.</p>
+<p>Transport options should be explicit:</p>
+<ul>
+<li><code>https</code>: simplest integration with existing policy services.</li>
+<li><code>unix</code>: local sidecar/service integration without exposing a TCP port.</li>
+<li><code>grpc</code>: future persistent typed authorization API for high-throughput</li>
+</ul>
+<p>deployments.</p>
+<p>Decision handling:</p>
+<ul>
+<li><code>2xx</code>: allow the original request.</li>
+<li><code>401</code>: deny with <code>401</code>; pass through only configured challenge headers.</li>
+<li><code>403</code>: deny with <code>403</code>.</li>
+<li>Any other status: treat as an authorization service error.</li>
+</ul>
+<p>Error handling is configurable:</p>
+<ul>
+<li><code>fail_closed</code>: return <code>503</code> or configured error status.</li>
+<li><code>fail_open</code>: allow the request and emit a security event, only allowed when</li>
+</ul>
+<p>explicitly configured.</p>
+<p><code>fail_closed</code> should be the default.</p>
+<h2 id="request-shape">Request Shape</h2>
+<p>Fluxheim should not forward the full original request by default. The safe baseline is a header-only authorization probe:</p>
+<ul>
+<li>method;</li>
+<li>scheme;</li>
+<li>host;</li>
+<li>normalized path;</li>
+<li>query presence or query value depending on policy;</li>
+<li>configured request headers;</li>
+<li>verified client IP only when not in <code>privacy-mode</code> and only after trusted</li>
+</ul>
+<p>proxy processing;</p>
+<ul>
+<li>TLS/SNI metadata where useful;</li>
+<li>vhost name and route name.</li>
+</ul>
+<p>Request bodies are disabled by default. If an operator enables body forwarding, Fluxheim must enforce:</p>
+<ul>
+<li>a small <code>max_body_bytes</code>;</li>
+<li>allowed content types;</li>
+<li>redaction rules;</li>
+<li>timeout budgets;</li>
+<li>no body forwarding for streaming uploads unless explicitly supported.</li>
+</ul>
+<h2 id="header-policy">Header Policy</h2>
+<p>The module must use allow-lists, not pass-through-by-default behavior.</p>
+<p>Inbound headers stripped before auth:</p>
+<ul>
+<li><code>Authorization</code> unless explicitly forwarded;</li>
+<li>cookies unless explicitly forwarded;</li>
+<li>any <code>X-User-*</code>, <code>X-Auth-*</code>, <code>X-Forwarded-*</code>, or configured identity headers</li>
+</ul>
+<p>that could be spoofed by the client.</p>
+<p>Headers copied from the auth response to the original upstream request must also be allow-listed. Recommended defaults:</p>
+<ul>
+<li>no copied headers;</li>
+<li>optional namespaced verified headers such as <code>X-Fluxheim-User</code>,</li>
+</ul>
+<p><code>X-Fluxheim-Groups</code>, and <code>X-Fluxheim-Auth-Decision</code>;</p>
+<ul>
+<li>no raw token propagation unless explicitly configured.</li>
+</ul>
+<p>For <code>401</code>, challenge headers such as <code>WWW-Authenticate</code> may be passed to the client only from an allow-list.</p>
+<h2 id="identity-context-and-claim-mapping">Identity Context And Claim Mapping</h2>
+<p>Fluxheim should store the verified identity decision in request context after authorization. Later phases can then use the same typed identity object for upstream header injection, routing, logging, and metrics without reparsing tokens or trusting inbound headers.</p>
+<p>Claim/header mapping must be explicit:</p>
+<ul>
+<li>strip inbound identity headers before verification;</li>
+<li>map only verified claims from the auth response or local JWT verifier;</li>
+<li>prefer namespaced headers such as <code>X-Fluxheim-User</code>,</li>
+</ul>
+<p><code>X-Fluxheim-Groups</code>, and <code>X-Fluxheim-Tier</code>;</p>
+<ul>
+<li>never forward raw tokens unless the operator explicitly allow-lists them.</li>
+</ul>
+<p>Example:</p>
+<pre class="language-toml"><code class="language-toml">[auth_request.profiles.internal.claim_headers]
+x-fluxheim-user = &quot;user.id&quot;
+x-fluxheim-groups = &quot;groups&quot;
+x-fluxheim-tier = &quot;subscription.tier&quot;</code></pre>
+<h2 id="global-auth-zones">Global Auth Zones</h2>
+<p>For protected deployments, authorization should be opt-out at the route level rather than opt-in everywhere. A global auth zone can cover a vhost, with explicit exclusions for public assets and health checks.</p>
+<pre class="language-toml"><code class="language-toml">[vhosts.auth_request]
+enabled = true
+profile = &quot;internal&quot;
+mode = &quot;protect_all&quot;
+except = [&quot;/public/*&quot;, &quot;/favicon.ico&quot;, &quot;/_health&quot;]</code></pre>
+<p>Config validation must reject ambiguous policies where a route both requires and excludes auth through conflicting inherited settings.</p>
+<h2 id="local-jwt-verification">Local JWT Verification</h2>
+<p>When the identity provider issues signed JWTs, Fluxheim should be able to verify the token locally through the future <code>identity-oidc</code> module:</p>
+<ul>
+<li>OIDC discovery and JWKS cache;</li>
+<li>issuer and audience validation;</li>
+<li>expiry, not-before, and clock-skew validation;</li>
+<li>algorithm allow-listing;</li>
+<li>bounded token and key sizes;</li>
+<li>key rotation and stale-key behavior.</li>
+</ul>
+<p>Local verification avoids an auth-service round trip for normal requests. Live external authorization remains useful for session revocation, policy checks, device posture, and other decisions that cannot be encoded safely in a token.</p>
+<h2 id="denial-responses">Denial Responses</h2>
+<p>Denial behavior should be explicit and client-aware:</p>
+<ul>
+<li>browser requests may redirect to a configured login URL;</li>
+<li>redirects may include a safe return destination generated from the normalized</li>
+</ul>
+<p>original URL;</p>
+<ul>
+<li>API/AJAX requests can receive a JSON <code>401</code>/<code>403</code> response instead of a</li>
+</ul>
+<p>redirect;</p>
+<ul>
+<li>redirect destinations must be validated to avoid open redirects.</li>
+</ul>
+<h2 id="caching">Caching</h2>
+<p>Authorization decisions may be cached only when the operator enables it.</p>
+<p>Cache key isolation must include:</p>
+<ul>
+<li>vhost;</li>
+<li>route;</li>
+<li>method;</li>
+<li>normalized path or configured path bucket;</li>
+<li>selected identity/session token fingerprint;</li>
+<li>auth policy version.</li>
+</ul>
+<p>Negative and positive TTLs must be separate. Defaults should be conservative:</p>
+<ul>
+<li>positive cache disabled;</li>
+<li>negative cache disabled;</li>
+<li>max TTL bounded in config validation.</li>
+</ul>
+<p>Never cache decisions that include raw credentials, request bodies, or unbounded query strings.</p>
+<h2 id="security-requirements">Security Requirements</h2>
+<ul>
+<li>Auth backend URL must be explicit per vhost or inherited from a typed global</li>
+</ul>
+<p>profile.</p>
+<ul>
+<li>Auth backend TLS verification must be enabled by default.</li>
+<li>mTLS to the auth backend should be supported.</li>
+<li>Auth backend response headers and bodies must have strict size limits.</li>
+<li>Auth requests must have connect, read, and total timeouts.</li>
+<li>Redirect responses from the auth backend are errors unless explicitly</li>
+</ul>
+<p>allowed for a narrow use case.</p>
+<ul>
+<li>Auth loops must be impossible: auth endpoints cannot themselves require the</li>
+</ul>
+<p>same auth policy.</p>
+<ul>
+<li>Admin, metrics, ACME challenge, and internal control paths must be excluded</li>
+</ul>
+<p>unless explicitly allowed.</p>
+<ul>
+<li>Logs must record decision class, policy name, status, latency, and error</li>
+</ul>
+<p>class after redaction. They must not log raw tokens, cookies, or auth response bodies.</p>
+<ul>
+<li><code>privacy-mode</code> should be incompatible with <code>auth-request</code> by default because</li>
+</ul>
+<p>external authorization intentionally sends request metadata to another service.</p>
+<h2 id="configuration-sketch">Configuration Sketch</h2>
+<pre class="language-toml"><code class="language-toml">[auth_request.profiles.internal]
+endpoint = &quot;unix:///run/auth/check.sock&quot;
+timeout = &quot;250ms&quot;
+fail_mode = &quot;fail_closed&quot;
+forward_body = false
+max_response_header_bytes = &quot;16KiB&quot;
+max_response_body_bytes = &quot;4KiB&quot;
+
+[auth_request.profiles.internal.request_headers]
+allow = [&quot;authorization&quot;, &quot;cookie&quot;]
+
+[auth_request.profiles.internal.response_headers]
+copy_to_upstream = [&quot;x-fluxheim-user&quot;, &quot;x-fluxheim-groups&quot;]
+copy_to_client_on_401 = [&quot;www-authenticate&quot;]
+
+[auth_request.profiles.internal.denial]
+browser_redirect = &quot;https://auth.example.com/login&quot;
+return_parameter = &quot;rd&quot;
+api_response = &quot;json&quot;
+
+[[vhosts]]
+name = &quot;example&quot;
+hosts = [&quot;example.com&quot;]
+
+[vhosts.auth_request]
+enabled = true
+profile = &quot;internal&quot;
+mode = &quot;protect_all&quot;
+except = [&quot;/public/*&quot;, &quot;/favicon.ico&quot;]</code></pre>
+<h2 id="test-plan">Test Plan</h2>
+<ul>
+<li>Allow on <code>2xx</code>.</li>
+<li>Deny on <code>401</code> and <code>403</code>.</li>
+<li>Treat every other auth status as an error.</li>
+<li>Pass only allow-listed challenge headers on <code>401</code>.</li>
+<li>Strip spoofable identity headers before auth and before upstream forwarding.</li>
+<li>Enforce auth backend timeout and response-size limits.</li>
+<li>Reject recursive auth configuration.</li>
+<li>Verify <code>fail_closed</code> and explicit <code>fail_open</code> behavior.</li>
+<li>Verify positive/negative cache TTL boundaries when decision caching is</li>
+</ul>
+<p>enabled.</p>
+<ul>
+<li>Verify global auth zones protect routes by default and honor explicit</li>
+</ul>
+<p>exclusions.</p>
+<ul>
+<li>Verify UDS auth endpoints and later gRPC hooks enforce the same timeout and</li>
+</ul>
+<p>size limits as HTTPS endpoints.</p>
+<ul>
+<li>Verify local JWT issuer, audience, expiry, algorithm, and key rotation</li>
+</ul>
+<p>behavior.</p>
+<ul>
+<li>Verify claim mapping only injects values from verified identity context.</li>
+<li>Verify browser redirects preserve a safe return destination and API/AJAX</li>
+</ul>
+<p>requests can receive non-redirect denials.</p>
+<ul>
+<li>Verify <code>auth-request</code> is absent from default builds and rejected with</li>
+</ul>
+<p><code>privacy-mode</code>.</p>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

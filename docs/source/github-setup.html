@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>GitHub Repository Setup — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">GitHub Repository Setup</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="github-repository-setup">GitHub Repository Setup</h1>
+<p>This document explains how to connect this local Fluxheim folder to a GitHub repository that already contains placeholder files such as <code>.gitignore</code>, <code>README.md</code>, and <code>LICENSE</code>.</p>
+<h2 id="before-connecting">Before Connecting</h2>
+<p>From the Fluxheim folder:</p>
+<pre class="language-bash"><code class="language-bash">git status --short
+git remote -v</code></pre>
+<p>If the project is not initialized yet:</p>
+<pre class="language-bash"><code class="language-bash">git init
+git branch -M main</code></pre>
+<p>Fluxheim should keep <code>LICENSE</code> as <code>EUPL-1.2</code>. If the GitHub repository already has a different license file, decide before merging which license is authoritative.</p>
+<h2 id="recommended-safe-path">Recommended Safe Path</h2>
+<p>Use this when the remote has files you do not want to accidentally overwrite.</p>
+<ol>
+<li>Add the GitHub remote:</li>
+</ol>
+<pre class="language-bash"><code class="language-bash">git remote add origin git@github.com:OWNER/fluxheim.git</code></pre>
+<p>or with HTTPS:</p>
+<pre class="language-bash"><code class="language-bash">git remote add origin https://github.com/OWNER/fluxheim.git</code></pre>
+<ol>
+<li>Fetch the remote:</li>
+</ol>
+<pre class="language-bash"><code class="language-bash">git fetch origin</code></pre>
+<ol>
+<li>Inspect what is already on GitHub:</li>
+</ol>
+<pre class="language-bash"><code class="language-bash">git ls-tree --name-only origin/main
+git show origin/main:README.md
+git show origin/main:LICENSE
+git show origin/main:.gitignore</code></pre>
+<p>If the branch is named <code>master</code> remotely, use <code>origin/master</code> in those commands or rename the remote branch in GitHub before continuing.</p>
+<ol>
+<li>Create a local integration branch:</li>
+</ol>
+<pre class="language-bash"><code class="language-bash">git switch -c integrate-github-main</code></pre>
+<ol>
+<li>Merge the remote history:</li>
+</ol>
+<pre class="language-bash"><code class="language-bash">git merge origin/main --allow-unrelated-histories</code></pre>
+<ol>
+<li>Resolve conflicts deliberately:</li>
+</ol>
+<ul>
+<li>keep Fluxheim&#x27;s README if the remote README is empty;</li>
+<li>keep the EUPL-1.2 LICENSE;</li>
+<li>merge <code>.gitignore</code> entries if the remote has useful ignore patterns;</li>
+<li>do not delete Fluxheim docs or source files.</li>
+</ul>
+<ol>
+<li>Run checks:</li>
+</ol>
+<pre class="language-bash"><code class="language-bash">scripts/release_checks.sh</code></pre>
+<ol>
+<li>Commit the integration:</li>
+</ol>
+<pre class="language-bash"><code class="language-bash">git add .
+git commit -m &quot;Import Fluxheim project&quot;</code></pre>
+<ol>
+<li>Push:</li>
+</ol>
+<pre class="language-bash"><code class="language-bash">git push -u origin integrate-github-main</code></pre>
+<p>Open a pull request from <code>integrate-github-main</code> to <code>main</code>, or push to <code>main</code> after reviewing the diff.</p>
+<h2 id="fast-path-for-empty-placeholder-repositories">Fast Path For Empty Placeholder Repositories</h2>
+<p>Use this only if the remote files are truly empty/placeholders and you are comfortable replacing them with the local Fluxheim project.</p>
+<pre class="language-bash"><code class="language-bash">git remote add origin git@github.com:OWNER/fluxheim.git
+git fetch origin
+git push --force-with-lease -u origin main</code></pre>
+<p><code>--force-with-lease</code> is safer than plain <code>--force</code> because it refuses to overwrite new remote commits you have not fetched.</p>
+<h2 id="if-the-local-branch-is-not-main">If The Local Branch Is Not Main</h2>
+<p>Check the current branch:</p>
+<pre class="language-bash"><code class="language-bash">git branch --show-current</code></pre>
+<p>Rename it to <code>main</code>:</p>
+<pre class="language-bash"><code class="language-bash">git branch -M main</code></pre>
+<p>Then push:</p>
+<pre class="language-bash"><code class="language-bash">git push -u origin main</code></pre>
+<h2 id="if-the-remote-already-exists">If The Remote Already Exists</h2>
+<p>If <code>origin</code> is already configured:</p>
+<pre class="language-bash"><code class="language-bash">git remote -v</code></pre>
+<p>Change it with:</p>
+<pre class="language-bash"><code class="language-bash">git remote set-url origin git@github.com:OWNER/fluxheim.git</code></pre>
+<h2 id="what-to-commit-before-publishing">What To Commit Before Publishing</h2>
+<p>Before the first GitHub push, the repository should include:</p>
+<ul>
+<li><code>Cargo.toml</code> and <code>Cargo.lock</code>;</li>
+<li><code>rust-toolchain.toml</code>;</li>
+<li><code>deny.toml</code>;</li>
+<li><code>README.md</code>;</li>
+<li><code>CHANGELOG.md</code>;</li>
+<li><code>ROADMAP.md</code>;</li>
+<li><code>SECURITY.md</code>;</li>
+<li><code>LICENSE</code>;</li>
+<li><code>docs/</code>;</li>
+<li><code>examples/</code>;</li>
+<li><code>scripts/</code>;</li>
+<li><code>src/</code>;</li>
+<li><code>.github/workflows/ci.yml</code>;</li>
+<li><code>.github/dependabot.yml</code>;</li>
+<li><code>Containerfile</code>;</li>
+<li><code>.containerignore</code>;</li>
+<li><code>.cargo/</code> config if it contains project-specific build settings.</li>
+</ul>
+<p>Do not commit local secrets, private TLS keys, ACME account keys, Cloudflare API tokens, cache directories, Podman volumes, or generated release artifacts.</p>
+<h2 id="github-security-settings">GitHub Security Settings</h2>
+<p>After pushing, confirm these repository settings are enabled:</p>
+<ul>
+<li>Dependabot alerts;</li>
+<li>Dependabot version updates from <code>.github/dependabot.yml</code>;</li>
+<li>CodeQL default setup for code scanning alerts;</li>
+<li>private vulnerability reporting or GitHub security advisories.</li>
+</ul>
+<p>Keep only one active CodeQL configuration. If GitHub default setup is enabled, do not also add an advanced CodeQL workflow; GitHub rejects the duplicate SARIF upload.</p>
+<h2 id="first-tag-after-github-import">First Tag After GitHub Import</h2>
+<p>After the repository is on GitHub and checks pass, create a signed incubator tag instead of jumping straight to 1.0:</p>
+<pre class="language-bash"><code class="language-bash">git tag -s v0.1.0 -m &quot;Fluxheim 0.1.0 repository baseline&quot;
+git tag -v v0.1.0
+git push origin v0.1.0</code></pre>
+<p>Use the versioning plan to decide when the project is ready for <code>v1.0.0</code>.</p>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

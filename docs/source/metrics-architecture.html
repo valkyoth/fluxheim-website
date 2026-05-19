@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Metrics Architecture — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Metrics Architecture</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="metrics-architecture">Metrics Architecture</h1>
+<p>Fluxheim metrics capture aggregate health and performance. Logs explain what happened for an individual event; metrics answer questions such as request rate, error rate, p95/p99 latency, cache efficiency, and upstream health.</p>
+<p>The safe baseline is the existing Prometheus pull endpoint. Advanced per-vhost aggregation and remote push exporters are future optional add-ons.</p>
+<h2 id="goals">Goals</h2>
+<ul>
+<li>Keep <code>/metrics</code> pull mode available as the reliable baseline.</li>
+<li>Avoid global locks on request worker hot paths.</li>
+<li>Avoid unbounded label cardinality from attacker-controlled input.</li>
+<li>Make remote push optional and non-blocking.</li>
+<li>Keep local metrics available even when remote exporters fail.</li>
+</ul>
+<h2 id="feature-flags">Feature Flags</h2>
+<p>Planned feature split:</p>
+<pre class="language-toml"><code class="language-toml">metrics = [&quot;dep:prometheus&quot;]
+metrics-otlp = [&quot;metrics&quot;, &quot;dep:serde_json&quot;]
+metrics-advanced = [&quot;metrics&quot;]</code></pre>
+<p>Reviewed optional crate candidates:</p>
+<ul>
+<li><code>metrics 0.24.5</code>, MIT: facade option.</li>
+<li><code>hdrhistogram 7.5.4</code>, MIT/Apache-2.0: latency histogram option.</li>
+<li><code>opentelemetry-otlp 0.31.1</code>, Apache-2.0: optional OTLP exporter.</li>
+<li><code>dashmap</code>: latest observed release is <code>7.0.0-rc2</code>; avoid RC releases for MVP</li>
+</ul>
+<p>core. Re-evaluate a stable release if a concurrent map is needed.</p>
+<h2 id="cardinality-rules">Cardinality Rules</h2>
+<p>Metrics must never create labels directly from arbitrary remote input.</p>
+<p>Allowed labels:</p>
+<ul>
+<li>configured vhost name</li>
+<li>fixed request method bucket</li>
+<li>static status class</li>
+<li>known module name, for example <code>proxy</code>, <code>static</code>, <code>cache</code>, <code>admin</code></li>
+<li>configured upstream name/address only when it came from config</li>
+<li>fixed legacy listener name</li>
+</ul>
+<p>Forbidden labels:</p>
+<ul>
+<li>raw <code>Host</code></li>
+<li>path</li>
+<li>query string</li>
+<li>user-agent</li>
+<li>referer</li>
+<li>client IP</li>
+<li>request ID</li>
+<li>arbitrary upstream response header values</li>
+</ul>
+<p>Unknown or unsafe traffic must merge into fixed buckets:</p>
+<ul>
+<li><code>unknown</code></li>
+<li><code>invalid_host</code></li>
+<li><code>legacy_unidentified</code></li>
+<li><code>overflow</code></li>
+</ul>
+<p>This prevents Host-header and path-cardinality attacks from exhausting memory or making Prometheus unusable.</p>
+<h2 id="hot-path-design">Hot Path Design</h2>
+<p>For each runtime snapshot, Fluxheim should prebuild metric buckets for configured vhosts. Request handling should resolve to a stable vhost index and update a bucket directly.</p>
+<p>Per bucket:</p>
+<ul>
+<li>atomic request counters by status class</li>
+<li>atomic byte counters where byte counts are available</li>
+<li>atomic cache counters, or snapshot from cache activity counters</li>
+<li>latency buckets</li>
+</ul>
+<p>Current cache baseline:</p>
+<ul>
+<li><code>fluxheim_acme_events_total{event}</code></li>
+<li><code>fluxheim_cache_vhosts</code></li>
+<li><code>fluxheim_cache_enabled_vhosts</code></li>
+<li><code>fluxheim_cache_tiered_vhosts</code></li>
+<li><code>fluxheim_cache_configured_routes</code></li>
+<li><code>fluxheim_cache_policy_routes</code></li>
+<li><code>fluxheim_cache_enabled_routes</code></li>
+<li><code>fluxheim_cache_tiered_routes</code></li>
+<li><code>fluxheim_cache_memory_tiers</code></li>
+<li><code>fluxheim_cache_disk_tiers</code></li>
+<li><code>fluxheim_cache_lock_enabled_policies</code></li>
+<li><code>fluxheim_cache_lock_wait_timeout_max_seconds</code></li>
+<li><code>fluxheim_cache_peer_fill_enabled_policies</code></li>
+<li><code>fluxheim_cache_peer_fill_peers</code></li>
+<li><code>fluxheim_cache_peer_fill_max_concurrent_requests</code></li>
+<li><code>fluxheim_cache_activity_total{tier,event}</code></li>
+<li><code>fluxheim_cache_activity_scope_total{scope,vhost,route,tier,event}</code></li>
+<li><code>fluxheim_cache_operation_duration_seconds{scope,vhost,route,phase,operation}</code></li>
+<li><code>fluxheim_cache_purger_runs_total{outcome}</code></li>
+<li><code>fluxheim_cache_purger_entries_total{result}</code></li>
+<li><code>fluxheim_cache_purger_duration_seconds{outcome}</code></li>
+</ul>
+<p>The configuration gauges are aggregate, label-free, and populated from validated configuration when the metrics listener starts. The local observability smoke verifies the route/vhost cache policy gauges, the request-collapsing policy count, and the maximum configured lock wait timeout. <code>fluxheim_acme_events_total</code> uses only bounded lifecycle labels: <code>event</code> is <code>pending</code>, <code>renewed</code>, <code>failed</code>, <code>reload_success</code>, <code>reload_failed</code>, <code>reload_unavailable</code>, <code>tick_error</code>, or <code>other</code>. It intentionally avoids domain names, certificate paths, challenge URLs, and issuer secrets. <code>fluxheim_cache_activity_total</code> uses only bounded labels: <code>tier</code> is <code>memory</code>, <code>disk</code>, <code>policy</code>, or <code>other</code>, and <code>event</code> is <code>hit</code>, <code>miss</code>, <code>store</code>, <code>store_refusal</code>, <code>eviction</code>, <code>purge</code>, <code>pass</code>, <code>bypass</code>, <code>stale</code>, <code>revalidate</code>, <code>peer_fill_hit</code>, <code>peer_fill_miss</code>, <code>peer_fill_error</code>, <code>peer_fill_fallback</code>, <code>peer_fill_fail_closed</code>, or <code>other</code>. These metrics intentionally avoid raw hosts, paths, queries, cache keys, peer URLs, and purge identities. <code>fluxheim_cache_activity_scope_total</code> uses the same bounded <code>tier</code> and <code>event</code> labels plus configured-name labels: <code>scope</code> is <code>vhost</code> or <code>route</code>, <code>vhost</code> is the configured vhost name, and <code>route</code> is empty for vhost cache or the configured route name for route cache. It intentionally avoids raw <code>Host</code>, path, query, cache key, and purge identity labels. Cache operation duration histograms use the same configured-name labels plus bounded <code>phase</code> and <code>operation</code> labels. <code>operation</code> is <code>lookup</code> or <code>lock_wait</code>, so dashboards can separate storage lookup cost from request-collapsing wait time without high-cardinality request labels. Cache purger duration histograms use the bounded purger <code>outcome</code> label only, so operators can see when cleanup ticks are getting slow without exposing cache paths, queries, cache keys, and purge identities. Future OpenTelemetry attributes should mirror the same low-cardinality concepts used by admin JSON and Prometheus.</p>
+<p>Latency plan:</p>
+<ol>
+<li>Start with fixed histogram buckets implemented as atomics. This is easiest</li>
+</ol>
+<p>to bound and export.</p>
+<ol>
+<li>Evaluate <code>hdrhistogram</code> later with sharded/thread-local recorders and</li>
+</ol>
+<p>background aggregation. Avoid a single locked histogram on the request path.</p>
+<h2 id="metrics-to-track">Metrics To Track</h2>
+<p>Per vhost:</p>
+<ul>
+<li>request totals by status class</li>
+<li>latency histogram</li>
+<li>inbound/outbound bytes when available</li>
+<li>route module totals: static, proxy, cache, admin, future PHP/CGI, future</li>
+</ul>
+<p>legacy static</p>
+<p>Cache:</p>
+<ul>
+<li>hits</li>
+<li>misses</li>
+<li>stores</li>
+<li>store refusals</li>
+<li>purges</li>
+<li>memory entries/bytes</li>
+<li>disk entries/bytes</li>
+</ul>
+<p>Load balancer:</p>
+<ul>
+<li>selected upstream totals</li>
+<li>retries</li>
+<li>connect failures</li>
+<li>all-nodes-down</li>
+<li>upstream health state transitions</li>
+</ul>
+<p>Admin/security:</p>
+<ul>
+<li>admin auth failures</li>
+<li>snapshot/reload/rollback actions</li>
+<li>self-healing confirms/rollbacks</li>
+<li>denied traversal attempts</li>
+<li>denied request-smuggling/legacy misuse attempts</li>
+</ul>
+<p>Future PHP/CGI:</p>
+<ul>
+<li>runtime request totals</li>
+<li>runtime status/exit outcomes</li>
+<li>timeouts</li>
+<li>spawn/connect failures</li>
+<li>output limit violations</li>
+</ul>
+<h2 id="export">Export</h2>
+<p>Baseline:</p>
+<ul>
+<li>Prometheus/OpenMetrics text through the local metrics listener.</li>
+<li>Loopback by default.</li>
+<li>Local smoke coverage starts Fluxheim with <code>profile-observability</code>, sends a</li>
+</ul>
+<p>proxied request, verifies <code>traceparent</code> propagation, checks the local metrics listener for Fluxheim series, and optionally queries a Prometheus HTTP API. Use <code>scripts/smoke_observability_local.sh</code>; set <code>FLUXHEIM_PROMETHEUS_REQUIRE_FLUXHEIM=1</code> when a local Prometheus scrape job is expected to contain Fluxheim metrics, and <code>FLUXHEIM_PROMETHEUS_REQUIRE_OTLP=1</code> when Prometheus must have its OTLP metrics receiver enabled.</p>
+<p>Optional push:</p>
+<ul>
+<li>initial implementation spawns a background exporter thread when</li>
+</ul>
+<p><code>[metrics.otlp]</code> is enabled.</p>
+<ul>
+<li>future Pingora service integration can add richer lifecycle and health</li>
+</ul>
+<p>reporting.</p>
+<ul>
+<li>push failure must never block request workers.</li>
+<li>failed push keeps metrics locally available.</li>
+<li>do not buffer infinite historical metrics in memory.</li>
+</ul>
+<p>Optional OTLP:</p>
+<ul>
+<li>behind <code>metrics-otlp</code>.</li>
+<li>default off.</li>
+<li>use explicit endpoint, interval, service name, and timeout config.</li>
+<li>can target a Prometheus HTTP OTLP metrics receiver at</li>
+</ul>
+<p><code>/api/v1/otlp/v1/metrics</code> when Prometheus is started with <code>--web.enable-otlp-receiver</code>.</p>
+<ul>
+<li>covers metrics only; traces still need an OpenTelemetry Collector or tracing</li>
+</ul>
+<p>backend.</p>
+<ul>
+<li>implemented now for counters, gauges, and histograms gathered from the</li>
+</ul>
+<p>existing Prometheus registry. Summaries remain a future exporter extension.</p>
+<p>Exporter health metrics:</p>
+<ul>
+<li>implemented now for OTLP metrics exporter attempts:</li>
+</ul>
+<p><code>fluxheim_metrics_otlp_exports_total{outcome}</code> with bounded <code>success</code>, <code>failure</code>, or <code>other</code> outcomes.</p>
+<ul>
+<li>last successful push timestamp</li>
+<li>consecutive failures</li>
+<li>dropped export batches</li>
+<li>current circuit state</li>
+<li>reconnect attempts</li>
+</ul>
+<h2 id="legacy-protocol-guardrail">Legacy Protocol Guardrail</h2>
+<p>Future HTTP/0.9 and headerless HTTP/1.0 traffic must not create vhost labels from request data. Use <code>legacy_unidentified</code> or a configured legacy listener name.</p>
+<p>Legacy metrics should be isolated from normal modern-protocol metrics so old devices cannot pollute dashboards or trigger cardinality growth.</p>
+<h2 id="config-shape">Config Shape</h2>
+<p>Initial target:</p>
+<pre class="language-toml"><code class="language-toml">[metrics]
+enabled = true
+listen = &quot;127.0.0.1:9091&quot;
+require_loopback = true
+
+[metrics.otlp]
+enabled = false
+endpoint = &quot;http://127.0.0.1:9090/api/v1/otlp/v1/metrics&quot;
+service_name = &quot;fluxheim&quot;
+interval_secs = 15
+timeout_secs = 2
+
+[metrics.advanced]
+enabled = false
+max_metric_vhosts = 10000
+latency_buckets_ms = [1, 5, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000]
+unknown_vhost_bucket = &quot;unknown&quot;
+overflow_bucket = &quot;overflow&quot;
+</code></pre>
+<h2 id="implementation-stages">Implementation Stages</h2>
+<ol>
+<li>Harden current labels: ensure request outcome labels are derived from</li>
+</ol>
+<p>configured vhost names or fixed buckets only. Implemented for <code>fluxheim_proxy_requests_total</code>: it uses configured vhost names, fixed request method buckets, fixed outcome classes, and fixed status classes instead of raw status codes.</p>
+<ol>
+<li>Add vhost-indexed atomic counters.</li>
+<li>Add fixed atomic latency histograms.</li>
+<li>Add cache/load-balancer/admin/security counters.</li>
+<li>Add optional OTLP exporter. Implemented initially for counters/gauges over</li>
+</ol>
+<p>local OTLP/HTTP JSON.</p>
+<ol>
+<li>Add exporter health metrics.</li>
+<li>Add production-grade push/exporter lifecycle, retry, circuit breaker, and</li>
+</ol>
+<p>histogram support.</p>
+<h2 id="tests">Tests</h2>
+<p>Required tests:</p>
+<ul>
+<li>Unknown Host maps to fixed <code>unknown</code> bucket.</li>
+<li>Missing Host and future HTTP/0.9 traffic map to <code>legacy_unidentified</code> or a</li>
+</ul>
+<p>configured listener bucket.</p>
+<ul>
+<li>Thousands of fake Host headers do not create new metric labels.</li>
+<li>Latency buckets export expected counts.</li>
+<li>Metrics update path does not require a global mutex.</li>
+<li>Push exporter failure does not block request handling.</li>
+<li>Exporter health metrics update on failure and recovery.</li>
+</ul>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

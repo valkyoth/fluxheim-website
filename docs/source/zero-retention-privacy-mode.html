@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Zero-Retention Privacy Mode — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Zero-Retention Privacy Mode</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="zero-retention-privacy-mode">Zero-Retention Privacy Mode</h1>
+<p>Zero-retention privacy mode is a future compile-time build profile for users who want Fluxheim to serve static files and reverse-proxy requests without persisting request logs, client IPs, request metadata, or per-client telemetry.</p>
+<p>This is the better name for the requested &quot;dark mode&quot;: the goal is not visual appearance, but no application-level retention.</p>
+<h2 id="honest-boundary">Honest Boundary</h2>
+<p>Fluxheim cannot be literally zero-knowledge at the network layer. A TCP/TLS server necessarily sees the peer address transiently while accepting and routing a connection. The operating system, container runtime, firewall, CDN, and upstream applications may also log traffic.</p>
+<p>The privacy-mode guarantee should be scoped to Fluxheim itself:</p>
+<ul>
+<li>no Fluxheim access logs;</li>
+<li>no Fluxheim request audit logs;</li>
+<li>no Fluxheim request metrics;</li>
+<li>no persisted client IPs;</li>
+<li>no persisted request paths, user agents, cookies, request IDs, or real-IP</li>
+</ul>
+<p>headers;</p>
+<ul>
+<li>no Fluxheim disk cache of proxied responses;</li>
+<li>no client-IP forwarding to upstreams by default.</li>
+</ul>
+<p>Operators still need to configure the OS, Podman/systemd, firewall, CDN, and upstream services consistently if they want a whole deployment to be zero-retention.</p>
+<h2 id="goals">Goals</h2>
+<ul>
+<li>Compile a small static-web plus reverse-proxy binary.</li>
+<li>Exclude logging and metrics exporters from the binary.</li>
+<li>Strip inbound client-identifying forwarding headers.</li>
+<li>Avoid adding new client-identifying forwarding headers.</li>
+<li>Keep request data transient and memory-only.</li>
+<li>Keep startup/config diagnostics possible without request metadata.</li>
+</ul>
+<h2 id="non-goals">Non-Goals</h2>
+<ul>
+<li>No WAF audit logs.</li>
+<li>No Cloudflare real-IP restoration.</li>
+<li>No per-client metrics.</li>
+<li>No disk response cache.</li>
+<li>No PHP/CGI dynamic runtime execution.</li>
+<li>No legacy protocol compatibility mode.</li>
+<li>No claim that upstream applications will avoid logging.</li>
+</ul>
+<h2 id="feature-flags">Feature Flags</h2>
+<p>Target build:</p>
+<pre class="language-bash"><code class="language-bash">cargo build --no-default-features --features proxy,web,tls-rustls,privacy-mode</code></pre>
+<p>Implemented feature:</p>
+<pre class="language-toml"><code class="language-toml">privacy-mode = [&quot;proxy&quot;, &quot;web&quot;]</code></pre>
+<p><code>privacy-mode</code> must not be part of <code>default</code>.</p>
+<p>Initial implemented behavior: privacy builds strip inbound client-IP forwarding headers before proxying and do not synthesize <code>X-Forwarded-For</code> or RFC <code>Forwarded</code>, even when config requests those headers.</p>
+<p>Access logging is disabled by default in <code>privacy-mode</code>, the Pingora access-log emission hook is not compiled into privacy builds, and config validation rejects <code>logging.access.enabled = true</code> and <code>logging.file.enabled = true</code>. Privacy builds also do not generate Fluxheim request IDs for access-log correlation.</p>
+<p>Implemented compile-time incompatible features:</p>
+<ul>
+<li><code>metrics</code></li>
+<li><code>cache</code></li>
+</ul>
+<p>Because <code>cache</code> is part of the normal default build, privacy builds must use <code>--no-default-features</code> or the <code>profile-privacy</code> alias:</p>
+<pre class="language-bash"><code class="language-bash">cargo build --no-default-features --features profile-privacy</code></pre>
+<p>Use <code>examples/privacy.toml</code> as the baseline runtime config for this profile. It disables Fluxheim access logging, request ID generation, metrics, cache, and client-IP forwarding headers.</p>
+<p>Implemented incompatible features:</p>
+<ul>
+<li><code>metrics</code></li>
+<li><code>metrics-otlp</code></li>
+<li><code>otel-tracing</code></li>
+<li><code>otel-otlp</code></li>
+</ul>
+<p>Planned incompatible features:</p>
+<ul>
+<li><code>metrics-advanced</code></li>
+<li><code>metrics-push</code></li>
+<li><code>logging-remote</code></li>
+<li><code>logging-spool</code></li>
+<li><code>waf</code></li>
+<li><code>waf-native</code></li>
+<li><code>waf-hyperscan</code></li>
+<li><code>waf-proxy-wasm</code></li>
+<li><code>cloudflare</code></li>
+<li><code>cloudflare-api</code></li>
+<li><code>cloudflare-origin-ca</code></li>
+<li><code>cloudflare-aop</code></li>
+<li>PHP runtime features</li>
+<li>Perl CGI features</li>
+<li>legacy HTTP features</li>
+<li>disk cache features</li>
+</ul>
+<p>Where possible, enforce this with <code>compile_error!</code> guards so invalid builds fail early.</p>
+<h2 id="runtime-behavior">Runtime Behavior</h2>
+<p>Allowed:</p>
+<ul>
+<li>static file serving;</li>
+<li>reverse proxying;</li>
+<li>TLS termination with configured certificates;</li>
+<li>memory-only routing/config state;</li>
+<li>startup/config diagnostics without request metadata.</li>
+</ul>
+<p>Disabled or forbidden:</p>
+<ul>
+<li>access logs;</li>
+<li>request IDs persisted outside the request;</li>
+<li>remote logging;</li>
+<li>file logging;</li>
+<li>request metrics;</li>
+<li>admin endpoints that expose request activity;</li>
+<li>cache activity endpoints;</li>
+<li>disk cache;</li>
+<li>WAF audit events;</li>
+<li>Cloudflare real-IP restoration;</li>
+<li>self-healing systems that persist request/error samples.</li>
+</ul>
+<h2 id="header-policy">Header Policy</h2>
+<p>Privacy mode should strip inbound headers that may carry client identity before proxying unless a future non-privacy build explicitly allows them:</p>
+<ul>
+<li><code>X-Forwarded-For</code></li>
+<li><code>Forwarded</code></li>
+<li><code>X-Real-IP</code></li>
+<li><code>CF-Connecting-IP</code></li>
+<li><code>True-Client-IP</code></li>
+<li><code>X-Client-IP</code></li>
+<li><code>Client-IP</code></li>
+</ul>
+<p>Privacy mode must not synthesize:</p>
+<ul>
+<li><code>X-Forwarded-For</code></li>
+<li><code>Forwarded</code></li>
+<li><code>X-Real-IP</code></li>
+</ul>
+<p>It may still forward normal HTTP headers needed for the application, such as <code>Host</code>, <code>Accept</code>, <code>Content-Type</code>, and authentication headers, because removing those would break normal proxy behavior. Operators should understand that upstreams can still log whatever headers they receive.</p>
+<h2 id="static-file-serving">Static File Serving</h2>
+<p>Static serving is compatible with privacy mode if it:</p>
+<ul>
+<li>uses canonical path resolution;</li>
+<li>does not create per-client records;</li>
+<li>does not write request activity to disk;</li>
+<li>allows operators to set conservative static response cache headers;</li>
+<li>avoids directory listings unless explicitly enabled outside privacy mode.</li>
+</ul>
+<p>The privacy example uses <code>cache_control = &quot;no-store&quot;</code> to avoid encouraging client-side or intermediary retention. That is a deployment policy choice: Fluxheim&#x27;s zero-retention guarantee covers Fluxheim itself, not browsers, intermediate networks, or upstream applications.</p>
+<p>OS-level filesystem access times may still change depending on mount options. Operators who care about that should use <code>noatime</code>/<code>relatime</code> choices appropriate to their deployment.</p>
+<h2 id="reverse-proxying">Reverse Proxying</h2>
+<p>Reverse proxying is compatible with privacy mode if Fluxheim:</p>
+<ul>
+<li>does not log upstream choices per request;</li>
+<li>does not emit per-request metrics;</li>
+<li>does not persist failed request samples;</li>
+<li>strips client-IP forwarding headers;</li>
+<li>avoids disk cache;</li>
+<li>keeps only transient in-memory request state.</li>
+</ul>
+<p>Upstream applications must be configured separately to avoid logging IPs or request metadata.</p>
+<h2 id="config-shape">Config Shape</h2>
+<p>Initial target:</p>
+<pre class="language-toml"><code class="language-toml">[privacy]
+enabled = true
+deny_request_logging = true
+deny_metrics = true
+deny_disk_cache = true
+strip_forwarded_client_ip_headers = true
+forbid_client_ip_forwarding = true
+
+[server]
+listen = [&quot;0.0.0.0:80&quot;]
+tls_listen = [&quot;0.0.0.0:443&quot;]
+
+[[vhosts]]
+name = &quot;private-site&quot;
+hosts = [&quot;private.example.test&quot;]
+
+[vhosts.web]
+root = &quot;/srv/sites/private&quot;
+
+[vhosts.proxy]
+upstreams = [&quot;127.0.0.1:3000&quot;]</code></pre>
+<p>The config validator should reject privacy mode if request logging, metrics, disk cache, WAF, Cloudflare real-IP restoration, PHP/CGI, or legacy HTTP modules are enabled.</p>
+<h2 id="logging-policy">Logging Policy</h2>
+<p>Privacy builds should use a no-op request logger.</p>
+<p>Allowed operational messages:</p>
+<ul>
+<li>process start/stop;</li>
+<li>config validation failure without request data;</li>
+<li>certificate load failure without peer data;</li>
+<li>fatal internal errors without request data.</li>
+</ul>
+<p>Forbidden operational messages:</p>
+<ul>
+<li>client IP;</li>
+<li>restored real IP;</li>
+<li>request path;</li>
+<li>query string;</li>
+<li>user-agent;</li>
+<li>cookies;</li>
+<li>authorization headers;</li>
+<li>request ID;</li>
+<li>upstream selection tied to a request.</li>
+</ul>
+<h2 id="metrics-policy">Metrics Policy</h2>
+<p>The safest privacy build has no metrics module compiled.</p>
+<p>If a future operator asks for privacy-compatible metrics, it should be a separate feature and limited to process-level counters that cannot identify clients or requests, for example process uptime and build info. It should not be part of the first privacy mode.</p>
+<h2 id="tests">Tests</h2>
+<p>Required tests:</p>
+<ul>
+<li>Default build does not include <code>privacy-mode</code>.</li>
+<li>Privacy build excludes metrics and logging exporter features.</li>
+<li>Invalid feature combinations fail at compile time.</li>
+<li>Config validation rejects metrics, disk cache, WAF, Cloudflare real-IP</li>
+</ul>
+<p>restoration, PHP/CGI, and legacy HTTP when privacy mode is enabled.</p>
+<ul>
+<li>Proxy requests strip <code>X-Forwarded-For</code>, <code>Forwarded</code>, <code>X-Real-IP</code>,</li>
+</ul>
+<p><code>CF-Connecting-IP</code>, and <code>True-Client-IP</code>.</p>
+<ul>
+<li>Proxy requests do not synthesize new real-IP forwarding headers.</li>
+<li>Access logging hook emits no request event.</li>
+<li>No request path, IP, user-agent, cookie, or request ID is written by</li>
+</ul>
+<p>Fluxheim-controlled sinks.</p>
+<ul>
+<li>Static file serving still works.</li>
+<li>Reverse proxying still works.</li>
+<li>TLS still works with configured certificates.</li>
+</ul>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

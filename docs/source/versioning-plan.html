@@ -1,0 +1,2296 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Versioning Plan — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Versioning Plan</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="versioning-plan">Versioning Plan</h1>
+<p>Fluxheim should use SemVer, but with a conservative interpretation: a feature is not considered stable just because it compiles. A feature becomes stable only after it has docs, config validation, tests, release checks, and a clear security boundary.</p>
+<p>The main lesson from the roadmap is to avoid shipping one giant 1.0. The <code>0.5.x</code> line is the basic-sites preview: static HTML, vhosts, static TLS, containers, and simple whole-vhost proxying. Version <code>1.0.0</code> should be the first stable gateway release that can migrate Fluxheim&#x27;s own representative multi-site configs without losing core behavior. Larger modules then graduate in later minor releases.</p>
+<h2 id="versioning-rules">Versioning Rules</h2>
+<ul>
+<li><code>0.x</code>: incubator releases. Config shape and behavior may still change.</li>
+<li><code>1.0.x</code>: stable core bugfixes only.</li>
+<li><code>1.x.0</code>: add stable, production-supported modules without breaking existing</li>
+</ul>
+<p>1.x configs.</p>
+<ul>
+<li><code>2.0.0</code>: allowed only for breaking config/API behavior or major threat-model</li>
+</ul>
+<p>changes that cannot be feature-gated safely.</p>
+<p>Security fixes should be backported to the latest stable minor when practical.</p>
+<p>Every public release must pass the matching release security and stability gate in <code>docs/release-checklist.md</code>. Preview releases may document known gaps, but must still pass dependency, license, static/proxy smoke, and container checks for the behavior they claim. Stable <code>1.0.x</code> runs the full gate against route routing, static hosting, reverse proxying, TLS, cache policy, headers, and container delivery; later minors must add the same dependency, fuzzing, DAST, load, TLS, and malicious-input coverage for every newly stable module.</p>
+<h2 id="stability-levels">Stability Levels</h2>
+<p>Every module should carry one of these labels in docs and examples:</p>
+<ul>
+<li><code>stable</code>: supported for production use.</li>
+<li><code>beta</code>: usable by operators who can tolerate config/behavior changes.</li>
+<li><code>experimental</code>: compile-time opt-in only, not production-supported.</li>
+<li><code>research</code>: architecture documented, not implemented or not recommended for</li>
+</ul>
+<p>real deployments.</p>
+<p>Default builds should include only stable modules.</p>
+<h2 id="release-ladder">Release Ladder</h2>
+<h3 id="0-1-repository-and-safety-baseline">0.1 - Repository And Safety Baseline</h3>
+<p>Goal: make the project buildable and auditable.</p>
+<p>Scope:</p>
+<ul>
+<li>Rust toolchain pin.</li>
+<li>EUPL-1.2 license.</li>
+<li><code>deny.toml</code>.</li>
+<li><code>cargo fmt</code>, <code>cargo clippy</code>, <code>cargo test</code>, <code>cargo deny</code>, and <code>cargo audit</code></li>
+</ul>
+<p>release gates.</p>
+<ul>
+<li>Basic config parsing.</li>
+<li>GitHub-ready README, security policy, and examples.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li><code>scripts/release_checks.sh</code> passes.</li>
+<li>License/advisory policy is documented.</li>
+<li>Rootless Podman build path is documented, even if not final.</li>
+</ul>
+<h3 id="0-2-static-web-beta">0.2 - Static Web Beta</h3>
+<p>Goal: serve small static websites safely.</p>
+<p>Scope:</p>
+<ul>
+<li>Static file serving.</li>
+<li>Canonical path resolution.</li>
+<li>Index files.</li>
+<li>Dotfile denial.</li>
+<li>Content type detection.</li>
+<li>Basic vhost routing.</li>
+<li>Config directory loading.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Traversal tests pass.</li>
+<li>Static-only reduced build compiles.</li>
+<li>Example static site config validates.</li>
+</ul>
+<h3 id="0-3-reverse-proxy-beta">0.3 - Reverse Proxy Beta</h3>
+<p>Goal: proxy one upstream per vhost safely.</p>
+<p>Scope:</p>
+<ul>
+<li>Pingora reverse proxy.</li>
+<li>Plain HTTP and TLS-to-upstream support.</li>
+<li>Host/vhost routing.</li>
+<li>Request size limits.</li>
+<li>Basic upstream header policy.</li>
+<li>Static certificate TLS for downstream listeners.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Proxy-only reduced build compiles.</li>
+<li>Upstream TLS and plain upstream tests pass.</li>
+<li>Request-body limit tests cover <code>Content-Length</code> and streaming bodies.</li>
+</ul>
+<h3 id="0-4-operational-beta">0.4 - Operational Beta</h3>
+<p>Goal: make local/rootless operation repeatable.</p>
+<p>Scope:</p>
+<ul>
+<li>Rootless Podman image.</li>
+<li>Hardware-specific local build docs.</li>
+<li>Example configs for static, proxy, and mixed use.</li>
+<li>Process setting validation.</li>
+<li>Basic structured error output.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Podman smoke passes.</li>
+<li>Release checklist is complete.</li>
+<li>Config validation errors are clear enough for GitHub users.</li>
+</ul>
+<h3 id="0-5-basic-sites-preview">0.5 - Basic Sites Preview</h3>
+<p>Goal: publish a truthful preview release for simple real websites.</p>
+<p>Scope:</p>
+<ul>
+<li>Basic vhost routing by Host header.</li>
+<li>Static HTML/CSS/JS/image/font serving from one safe web root per vhost.</li>
+<li>Static TLS certificates with rustls as the default backend.</li>
+<li>Global cleartext-to-HTTPS redirect.</li>
+<li>Simple whole-vhost reverse proxying to one upstream.</li>
+<li>Header policy, request limits, static cache headers, ETag/conditional</li>
+</ul>
+<p>request handling, and byte ranges.</p>
+<ul>
+<li>Rootless Podman/container examples and shutdown behavior.</li>
+<li>GitHub CI, dependency/license checks, CodeQL, release notes, and docs.</li>
+</ul>
+<p>Known gaps:</p>
+<ul>
+<li>Multiple downstream certificates selected by SNI.</li>
+<li>Path/location routing.</li>
+<li>Per-route redirects, proxy/static actions, body limits, and timeouts.</li>
+<li>Websocket-specific upgrade handling.</li>
+<li>Custom upstream error pages.</li>
+<li>Static aliases and directory listing.</li>
+<li>Dynamic DNS re-resolution and upstream failure policy.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li><code>scripts/stable_release_gate.sh check</code> or an equivalent documented preview</li>
+</ul>
+<p>gate passes.</p>
+<ul>
+<li><code>scripts/smoke_1_0_core.sh</code> passes for the basic static/proxy/TLS behavior</li>
+</ul>
+<p>it currently covers.</p>
+<ul>
+<li>Release notes clearly say this is not the <code>1.0.0</code> gateway release.</li>
+<li>The version is tagged as <code>v0.5.0</code>.</li>
+</ul>
+<h3 id="1-0-gateway-core">1.0 - Gateway Core</h3>
+<p>Goal: a stable Fluxheim release that can migrate the representative real multi-site gateway configs without requiring another front server.</p>
+<p>The target configs include:</p>
+<ul>
+<li>apex plus <code>www</code> redirect hosts;</li>
+<li>cleartext ACME challenge exception paths plus HTTPS redirect for everything</li>
+</ul>
+<p>else;</p>
+<ul>
+<li>multiple TLS certificates on the same listener;</li>
+<li>whole-host proxy apps;</li>
+<li><code>/chat/</code> websocket-capable proxy routes with prefix stripping;</li>
+<li>per-host and per-route body-size limits;</li>
+<li>per-route upstream connect/read/send timeouts;</li>
+<li>custom <code>502</code> fallback pages;</li>
+<li>static alias-style repository paths, index files, and directory listing.</li>
+</ul>
+<p>Stable scope:</p>
+<ul>
+<li>Static web hosting.</li>
+<li>Reverse proxy.</li>
+<li>Cache module compiled in by default, with runtime cache disabled unless the</li>
+</ul>
+<p>operator configures a storage tier.</p>
+<ul>
+<li>Vhost routing.</li>
+<li>Caddy-inspired TOML config and <code>conf.d</code> loading.</li>
+<li>Static/bought certificate support.</li>
+<li>Rustls as the default TLS backend.</li>
+<li>Default downstream certificate support in the default rustls build.</li>
+<li>SNI certificate selection for multiple configured downstream certificates in</li>
+</ul>
+<p>the default rustls build and callback-capable TLS backends.</p>
+<ul>
+<li>Optional OpenSSL and s2n TLS builds when they pass the release matrix.</li>
+<li>Optional BoringSSL TLS builds on builders with <code>libclang</code> available for</li>
+</ul>
+<p>bindgen.</p>
+<ul>
+<li>TLS listener cipher/protocol policy follows the selected Pingora TLS backend</li>
+</ul>
+<p>defaults in <code>1.0</code>; user-configurable TLS policy is not stable until a later release.</p>
+<ul>
+<li>Secure header policy.</li>
+<li>Optional global cleartext-to-HTTPS redirect.</li>
+<li>Declarative route layer with exact, prefix, and fallback matching.</li>
+<li>Route actions for proxy, static serving, and redirects.</li>
+<li>Safe route URL rewriting, including prefix stripping for proxy backends.</li>
+<li>Per-route request body limits.</li>
+<li>Per-route upstream connect/read/send timeout policy.</li>
+<li>Websocket-safe upgrade proxying with tests.</li>
+<li>Custom upstream error pages with internal-only static serving.</li>
+<li>Static aliases and directory listing with traversal, symlink, dotfile, and</li>
+</ul>
+<p>generated-output tests.</p>
+<ul>
+<li>Request header/body limits.</li>
+<li>Container DNS names that work reliably for Podman deployments, with either</li>
+</ul>
+<p>safe startup resolution or documented/implemented re-resolution behavior.</p>
+<ul>
+<li>Rootless Podman runtime.</li>
+<li>Native systemd deployment support for manually compiled binaries:</li>
+</ul>
+<p><code>fluxheim.service</code>, optional environment file, tmpfiles/sysusers guidance, config validation before start, hardened service defaults, and documented graceful stop/reload behavior. The packaged unit is the stable <code>1.0</code> host sandbox: non-root runtime user, no ambient capabilities, no-new-privileges, strict filesystem protection, limited address families, namespace restrictions, and a conservative syscall filter.</p>
+<ul>
+<li>Explicit trusted proxy CIDR handling for forwarded client-IP headers. The</li>
+</ul>
+<p>richer trusted-client identity layer remains a later milestone.</p>
+<ul>
+<li>Release/security checks.</li>
+</ul>
+<p>Not in 1.0 stable scope:</p>
+<ul>
+<li>Load balancing.</li>
+<li>ACME runtime issuance.</li>
+<li>Admin snapshots/rollback.</li>
+<li>Prometheus metrics.</li>
+<li>Advanced logging pipelines.</li>
+<li>Full rewrite scripting or WASM extension hooks.</li>
+<li>WAF.</li>
+<li>Cloudflare automation.</li>
+<li>PHP/CGI.</li>
+<li>Legacy HTTP.</li>
+<li>Sentinel Mesh/WireGuard.</li>
+<li>In-process seccomp or Landlock sandboxing.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Default 1.0 binary contains only stable core modules.</li>
+<li><code>--no-default-features --features web</code> works.</li>
+<li><code>--no-default-features --features proxy</code> works.</li>
+<li>Static+proxy+TLS mixed config has integration coverage through the stable</li>
+</ul>
+<p>gateway smoke suite.</p>
+<ul>
+<li>A fixture set equivalent to the six representative gateway configs validates</li>
+</ul>
+<p>and passes local smoke tests.</p>
+<ul>
+<li>SNI selector tests prove each configured host maps to the intended</li>
+</ul>
+<p>certificate, and the stable gateway smoke suite verifies rustls SNI by checking the certificate served for a vhost-specific TLS handshake.</p>
+<ul>
+<li>Route tests prove ACME challenge exceptions, <code>www</code> redirects, <code>/chat/</code></li>
+</ul>
+<p>prefix stripping, websocket upgrade proxying, error-page fallback, and static alias/directory-listing behavior.</p>
+<ul>
+<li>No known <code>cargo audit</code> advisory without documented exception.</li>
+<li><code>cargo deny check</code> passes.</li>
+<li>The 1.0 security and stability launch gate in <code>docs/release-checklist.md</code></li>
+</ul>
+<p>has been run and recorded. This includes dependency checks, CodeQL/CI, malformed request framing tests, header scrubbing checks, local load testing, TLS scanning, and a deployment-side DAST pass.</p>
+<ul>
+<li>Fuzz targets exist or have been run for Fluxheim-owned parser and policy</li>
+</ul>
+<p>logic that can affect request routing, filesystem access, redirects, cache keys, or cache-header decisions.</p>
+<h3 id="1-1-tls-policy-and-certificate-operations">1.1 - TLS Policy And Certificate Operations</h3>
+<p>Goal: expose explicit TLS policy without making insecure combinations easy, and make normal ACME certificate issuance and renewal practical for production deployments without external copy scripts.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Named TLS policy profiles such as <code>modern</code> and <code>compat</code>, with <code>modern</code> as the</li>
+</ul>
+<p>TLS 1.3-only profile and <code>intermediate</code> as the default compatibility profile.</p>
+<ul>
+<li>Minimum protocol version config, bounded to safe values.</li>
+<li>ALPN policy for HTTP/1.1 and future HTTP/2/HTTP/3 work.</li>
+<li>Downstream curve preferences and cipher-suite allow-lists for rustls,</li>
+</ul>
+<p>OpenSSL, and BoringSSL where the selected backend exposes enforceable listener controls.</p>
+<ul>
+<li>Structured HSTS response policy.</li>
+<li>Per-backend validation that rejects cipher or protocol settings unsupported</li>
+</ul>
+<p>by the selected TLS backend.</p>
+<ul>
+<li>ACME runtime issuance for Let&#x27;s Encrypt, Actalis, and Google Trust Services.</li>
+<li>HTTP-01 and rustls TLS-ALPN-01 challenge handling for configured vhosts.</li>
+<li>External Account Binding support for Actalis and Google Trust Services.</li>
+<li>Safe ACME storage under a configured state directory, with private-key and</li>
+</ul>
+<p>certificate permission validation.</p>
+<ul>
+<li>Renewal queue with a user-chosen renew-before window.</li>
+<li>Renewal failures must not drop active traffic or remove the last valid</li>
+</ul>
+<p>certificate.</p>
+<ul>
+<li>Own/bought static certificates remain fully supported.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>Separate upstream TLS policy if upstream transport needs different</li>
+</ul>
+<p>compatibility than public downstream listeners.</p>
+<ul>
+<li>Zero-downtime dynamic certificate reload for reloadable downstream SNI</li>
+</ul>
+<p>resolvers/callbacks.</p>
+<ul>
+<li>Post-quantum hybrid groups, Encrypted Client Hello, TLS certificate</li>
+</ul>
+<p>compression, and HTTP/3/QUIC remain later milestones until the selected TLS and QUIC backends expose stable server APIs and release-grade interop tests.</p>
+<p>Exit criteria:</p>
+<ul>
+<li>Config validation rejects weak protocol versions and empty/unknown cipher</li>
+</ul>
+<p>lists.</p>
+<ul>
+<li><code>testssl.sh</code> scans are recorded for every stable TLS backend in the release</li>
+</ul>
+<p>matrix.</p>
+<ul>
+<li>TLS policy changes are classified correctly as reload-safe or requiring a</li>
+</ul>
+<p>process restart.</p>
+<ul>
+<li>ACME issuance and renewal tests cover issuer selection, EAB secret loading,</li>
+</ul>
+<p>challenge routing, systemd/container secret-file deployment, storage permissions, failed renewal, and keeping the previous valid certificate.</p>
+<ul>
+<li>Release notes clearly state whether certificate reload is automatic,</li>
+</ul>
+<p>restart-based, or deploy-hook based in <code>1.1.0</code>.</p>
+<h3 id="1-2-operations-and-cache-completion-pack">1.2 - Operations And Cache Completion Pack</h3>
+<p>Goal: add safe operational visibility, controlled reload tooling, and finish the production cache platform already started during the 1.2 gateway migration work.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Access/error logging with redaction.</li>
+<li>Private admin API on loopback by default.</li>
+<li>Config snapshots.</li>
+<li>Dry-run reload validation.</li>
+<li>Rollback.</li>
+<li>Basic self-healing rollback.</li>
+<li>Better config diagnostics for production operators: include source file paths</li>
+</ul>
+<p>for <code>conf.d</code> parse errors, vhost/route context for validation errors where available, and actionable hints for common table-shape mistakes. Static web root validation now reports whether the failing path belongs to global web config, a vhost, a route, or a proxy error-page web block.</p>
+<ul>
+<li>Production container migration docs and helpers:</li>
+<li>document the first-issuance sequence for HTTP-01, including the requirement</li>
+</ul>
+<p>that Fluxheim is the process serving public port 80 before ACME validation;</p>
+<ul>
+<li>provide direct <code>podman run --rm</code> validation and ACME examples for operators</li>
+</ul>
+<p>whose compose provider handles one-shot commands poorly;</p>
+<ul>
+<li>avoid example mounts that require creating nested mountpoints inside</li>
+</ul>
+<p>read-only image paths, and prefer stable paths such as <code>/var/lib/fluxheim/errors</code> for optional mounted error pages;</p>
+<ul>
+<li>document container secret mounts for EAB files without relabel suffixes</li>
+</ul>
+<p>when the host tree is already labeled for container access.</p>
+<ul>
+<li>Prometheus metrics baseline on loopback by default.</li>
+<li>Strict host-routing mode for hardened deployments: missing or invalid host</li>
+</ul>
+<p>identity returns <code>400</code>, unknown hosts return <code>421</code>, default-vhost fallback remains available for compatibility, and rejections are visible through low-cardinality metrics plus security logs.</p>
+<ul>
+<li>Built-in admin authentication brute-force throttling with bounded per-source</li>
+</ul>
+<p>and global failure windows, progressive lockouts, and metrics/security-log events for failed or throttled control-plane access.</p>
+<ul>
+<li>Authenticated admin health checks by default. Unauthenticated health is an</li>
+</ul>
+<p>explicit loopback-only compatibility mode, and health probes can use an empty <code>204</code> response to reduce control-plane fingerprinting.</p>
+<ul>
+<li>Remote admin transport must fail closed: non-loopback admin listeners require</li>
+</ul>
+<p>an explicit <code>trusted_tls_terminator</code> declaration until Fluxheim has first-class admin TLS/mTLS support.</p>
+<ul>
+<li>Observability changes should be designed as paired surfaces where practical:</li>
+</ul>
+<p>Prometheus metrics for aggregate dashboards and OpenTelemetry traces/attributes/events for request-path diagnosis. Cache observability in particular should expose the same low-cardinality vhost, route, tier, status, and reason concepts across admin JSON, Prometheus, and OpenTelemetry.</p>
+<ul>
+<li>Proxy response buffering and streaming/backpressure controls for production</li>
+</ul>
+<p>gateway migrations, including configurable response buffer count/size equivalents, bounded memory budgets per connection, safe streaming behavior when buffering is disabled, and tests proving slow clients cannot exhaust worker memory. Initial 1.2 work exposes downstream write timeout and minimum send-rate controls for proxied responses; full configurable response-buffer count/size remains a follow-up if Pingora exposes a stable hook for it.</p>
+<ul>
+<li>Route-scoped cache policies for selective production caches, such as</li>
+</ul>
+<p>repository avatar/assets paths, where only one proxy route should use a cache tier while the rest of the vhost remains uncached.</p>
+<ul>
+<li>Cache completion work promoted into 1.2:</li>
+<li><code>1.2</code> is the stable cache-completion release. The main cache safety and</li>
+</ul>
+<p>operations concerns are now in the current development line: the documented proxied <code>304 Not Modified</code> metadata merge edge, very large disk-cache loader/purger pacing and visibility, cache-debug/release-gate coverage, and production validation for stampede protection. Remaining work before tagging <code>1.2</code> should be release-candidate validation and narrow polish, not new cache architecture. Larger cache architecture extensions are split into focused <code>1.2.x</code> releases below so each follow-up has one clear job;</p>
+<ul>
+<li>disk-only cache admission now streams body chunks into a bounded temp file</li>
+</ul>
+<p>under the cache root before atomically committing the final object, so the disk tier no longer buffers the full response body in memory during admission. Startup also cleans stale Fluxheim-owned temp files after a conservative age threshold while preserving fresh active-writer temps. Reader-visible partial writes are not a 1.2 stable blocker and should move through a later focused cache follow-up if production testing proves it necessary;</p>
+<ul>
+<li>broader persistent cache index coverage for older disk object formats and</li>
+</ul>
+<p>future metadata migrations; new v5 disk objects rebuild purge metadata across process restarts with combined-key, primary-key, user-tag, cache-tag, and path-index metadata. Startup now merges the disk index checkpoint with a full deterministic shard scan so files outside a stale or truncated checkpoint cannot become eviction orphans, removes corrupt or unindexable <code>.fhc</code> objects, and enforces the disk-size budget before serving traffic. Disk index checkpoint writes now merge existing root entries so separate vhost and route cache policies sharing a disk root cannot erase each other&#x27;s restart purge metadata state, and regression coverage asserts insert bursts are checkpointed by the debounced background writer instead of synchronously per object. The memory and disk fast purge indexes no longer use an unrelated FIFO cap; memory eviction notifications remove evicted objects from the fast index, and purges still scan live object metadata as the source of truth;</p>
+<ul>
+<li>background or broader incremental disk purge/cleanup for very large purge</li>
+</ul>
+<p>scopes; indexed purge endpoints now accept bounded <code>batches</code> so operators can advance large scope, prefix, and wildcard purges without removing request limits, and <code>purge-stale</code> now provides bounded operator-triggered cleanup for expired indexed entries with dry-run mode and conservative batching for production safety checks. <code>[cache_purger]</code> now adds an opt-in process-wide background stale disk cleanup loop that uses the same indexed primitive per vhost and route cache. Truncated non-dry-run stale purges rotate scanned fresh entries to the back of the purge index, so batched stale cleanup can advance through fresh front pages and reach expired entries later in the same vhost or route bucket. Prometheus counters report background purger outcomes and scanned/stale/purged entry counts, and duration histograms report bounded per-tick cleanup time, so operators can see when cleanup is truncated, slow, or falling behind;</p>
+<ul>
+<li>cache warmer/preload command or admin workflow for release deploys;</li>
+</ul>
+<p><code>fluxheim cache-warm</code> now warms explicit paths through a running local HTTP listener so vhost, route, cache-key, and admission policy stay identical to production traffic;</p>
+<ul>
+<li>richer cache-tag policy controls on top of the initial exact-match</li>
+</ul>
+<p><code>Surrogate-Key</code> / <code>Cache-Tag</code> / <code>X-Cache-Tags</code> indexed purge support; cache policies can now configure or disable trusted tag headers with <code>tag_headers</code>;</p>
+<ul>
+<li>soft purge, where indexed scope, prefix, tag, and wildcard purge can mark</li>
+</ul>
+<p>objects stale and keep bodies available for revalidation instead of removing them immediately;</p>
+<ul>
+<li>broader hit-for-pass/pass-cache policy coverage; <code>pass_uncacheable_after</code></li>
+</ul>
+<p>now provides opt-in bounded pass decisions for repeated uncacheable cache keys;</p>
+<ul>
+<li>broader cache-header regressions beyond the current proxy cache HIT <code>Age</code>,</li>
+</ul>
+<p>conditional <code>304</code>/<code>200</code> validator match and mismatch behavior from <code>ETag</code> and <code>Last-Modified</code>, byte-range <code>206</code>, ETag/date <code>If-Range</code> match/mismatch behavior, HEAD probes that do not poison cached GET bodies, validator-based upstream revalidation from origin <code>304</code>, stale-object refresh from origin <code>200</code>, stale-while-revalidate serving during a background refresh, stale-if-error serving after an upstream connection failure, cache-lock request collapsing for concurrent misses, <code>Vary</code> variant isolation, disk HIT after restart, client refresh revalidation for <code>Cache-Control: no-cache</code>, <code>Cache-Control: max-age=0</code>, and <code>Pragma: no-cache</code>, and the bounded <code>Cache-Control: no-store</code> request-bypass reason in release smoke;</p>
+<ul>
+<li>full validator-based upstream revalidation edge-case coverage for proxied</li>
+</ul>
+<p>cache responses, including explicit behavior when origins change <code>Vary</code>, <code>ETag</code>, <code>Last-Modified</code>, or freshness headers during revalidation. 1.2 now preserves changed <code>Last-Modified</code> values from origin <code>304 Not Modified</code> responses and protects changed <code>Vary</code> values by refusing the revalidation metadata update until variance re-keying can move into the Pingora path;</p>
+<ul>
+<li>large-object range behavior is handled by explicit opt-in bounded</li>
+</ul>
+<p>range-cache policy in <code>1.2.5</code>: safe single <code>bytes=start-end</code> requests get a range-specific cache key and only matching upstream <code>206</code> metadata is admitted. A larger reader-visible multi-slice composition design can move to the later media-edge line if production needs it;</p>
+<ul>
+<li>cache manager/loader hardening beyond the current startup purge-index</li>
+</ul>
+<p>rebuild and stale purger: full deterministic startup scans now prevent checkpoint orphans, startup enforces the disk-size budget before serving, stale cleanup is bounded and observable, and aggregate pressure gauges show whether memory or disk caches are approaching their budgets. Additional configurable incremental loader/purger pacing can move to a later patch if production scale testing shows startup scans or cleanup ticks need more shaping;</p>
+<ul>
+<li>invalidation maturity beyond exact purge and wildcard/prefix/tag purge:</li>
+</ul>
+<p>evaluate whether stored metadata predicates are needed for the 1.2 stable baseline. If they are not required for production safety, keep them out of 1.2 and reserve any Varnish-style policy expressiveness for the later Wasm cache hook release;</p>
+<ul>
+<li>cache object inspection and debug tooling for production incidents,</li>
+</ul>
+<p>including object metadata lookup, freshness state, stored headers, purge-index membership, and dry-run invalidation output without dumping sensitive request data by default. <code>fluxheim cache-key</code> now provides safe cache-key preview by selecting the effective vhost/route policy and printing key hashes without contacting upstreams. <code>fluxheim cache-lookup</code> now adds the first object metadata lookup by checking selected memory/disk tiers and reporting status, size, freshness state, stale-serving eligibility, cache tags, and stored header names without reading cached bodies to stdout or dumping header values. Lookup output also reports purge-index membership so operators can tell whether indexed scope, prefix, tag, wildcard, and stale purges can reach an object without a full scan. <code>cache-key</code> and <code>cache-lookup</code> report the selected cache-lock state, wait timeout, cacheability predictor state, and memory/disk tier availability so operators can verify stampede-protection, predictor, and storage policy for the exact vhost or route that a request matches. <code>cache-key</code> can also fail closed with <code>--expect-eligible</code>, <code>--expect-cache-lock-enabled</code>, <code>--expect-cache-lock-wait-timeout-secs</code>, <code>--expect-cache-predictor-enabled</code>, <code>--expect-memory-tier-enabled</code>, <code>--expect-disk-tier-enabled</code>, and <code>--expect-storage-tiers</code>, plus <code>--expect-scope</code>, <code>--expect-vhost</code>, <code>--expect-route</code>, <code>--expect-namespace</code>, <code>--expect-key-namespace</code>, and <code>--expect-user-tag</code>, so deploy scripts can assert cache policy layout, selected vhost/route, internal namespace, and cache isolation boundary before warming objects. Both commands can include bounded safe request headers such as <code>Accept-Language</code> and <code>Accept-Encoding</code>, so operators can debug negotiated <code>Vary</code> variants without contacting upstreams. <code>cache-lookup</code> can fail closed for deploy checks with <code>--require-object</code>, <code>--expect-tier</code>, <code>--expect-status</code>, <code>--expect-body-bytes</code>, <code>--expect-fresh-ttl-secs</code>, <code>--expect-cache-tag</code>, <code>--expect-header-name</code>, <code>--expect-header &quot;Name: value&quot;</code>, <code>--expect-cache-lock-enabled</code>, <code>--expect-cache-lock-wait-timeout-secs</code>, <code>--expect-cache-predictor-enabled</code>, <code>--expect-memory-tier-enabled</code>, <code>--expect-disk-tier-enabled</code>, <code>--expect-storage-tiers</code>, <code>--expect-scope</code>, <code>--expect-vhost</code>, <code>--expect-route</code>, <code>--expect-namespace</code>, <code>--expect-key-namespace</code>, <code>--expect-user-tag</code>, <code>--expect-serve-stale-if-error</code>, <code>--expect-serve-stale-while-revalidate</code>, <code>--expect-purge-indexed</code>, and <code>--expect-freshness-state fresh|stale|expired</code>, so scripts can assert that warm objects exist, preserved expected response metadata and freshness policy, are purge-index reachable, and are in an acceptable serving state without contacting upstreams;</p>
+<ul>
+<li>cache warm/import/export workflows for deploys and repository mirrors,</li>
+</ul>
+<p>including clear failure accounting and no hidden best-effort misses. <code>cache-warm</code> now treats only 2xx/3xx responses as successful by default and requires explicit <code>--allow-status</code> opt-in for deliberate negative-cache warm targets such as configured 404 TTLs. It can also require expected cache-status header values so warm scripts fail when traffic bypasses the selected cache policy unexpectedly, can repeat each target with a cache-status sequence such as <code>MISS,HIT</code>, can warm negotiated variants with bounded safe request headers, now has smoke coverage for input-file dry-run validation, input-file warming, and deliberate 404 negative-cache warming, caps input files before parsing, and can dry-run target parsing without sending requests to a running server;</p>
+<ul>
+<li>cache observability through both Prometheus and OpenTelemetry, including</li>
+</ul>
+<p>per-vhost/per-route/tier hit, miss, stale, bypass, store, refusal, eviction, purge, and storage-pressure signals. Prometheus now exposes configured vhost/route scoped cache activity counters, purge counters, cache-lock coverage, aggregate memory/disk storage-pressure gauges, and policy-level pass/bypass/stale/revalidate decisions without cache keys, hosts, or paths. <code>otel-tracing</code> now provides W3C <code>traceparent</code> propagation and access-log trace ID correlation, <code>otel-otlp</code> now provides initial local OTLP/HTTP trace export, and <code>metrics-otlp</code> now provides local OTLP/HTTP metrics export for Prometheus/collector receivers with bounded exporter success/failure counters and histograms. Richer OpenTelemetry internal spans, sampling, and trace/event coverage remain planned.</p>
+<ul>
+<li>Production ACME companion operating mode:</li>
+<li>Keep the <code>1.1</code> in-process ACME background worker for simple single-binary</li>
+</ul>
+<p>installs.</p>
+<ul>
+<li>Add a dedicated <code>fluxheim-acme</code> binary or subprogram mode as the production</li>
+</ul>
+<p>companion interface while keeping <code>fluxheim acme-init</code> and <code>fluxheim acme-renew</code> compatibility for simple/manual workflows.</p>
+<ul>
+<li>Ship <code>fluxheim-acme.service</code> as a one-shot unit and</li>
+</ul>
+<p><code>fluxheim-acme.timer</code> for scheduled renewal. The main <code>fluxheim.service</code> remains the traffic-serving webserver and should not spawn long-lived child processes itself.</p>
+<ul>
+<li>Run the companion service as the same runtime user as Fluxheim by default,</li>
+</ul>
+<p>using systemd credentials or container secrets for EAB material. Prefer <code>key_id_credential</code> and <code>hmac_key_credential</code> config fields so the same TOML works under the web service, ACME service, and container secrets.</p>
+<ul>
+<li>Share only the configured ACME storage directory with the webserver. The</li>
+</ul>
+<p>webserver continues to serve HTTP-01 challenge files and exposes only a local protected certificate-reload control path for the companion after files change.</p>
+<ul>
+<li>Add an explicit <code>tls.acme.automation = &quot;background&quot; | &quot;external&quot;</code> config</li>
+</ul>
+<p>knob so production installs can prefer the service/timer model without losing the simple integrated mode.</p>
+<ul>
+<li>Improve renewal command output so each target reports <code>skipped</code>, <code>renewed</code>,</li>
+</ul>
+<p>or <code>failed</code>; failures should include the domain/order context and, for HTTP-01 authorization failures, the challenge URL/path that the CA could not validate.</p>
+<ul>
+<li>Make first issuance clearer: missing certificate files should be reported</li>
+</ul>
+<p>as due targets in normal due-only renewal output, while forced renewal remains documented as a rate-limit-sensitive recovery/testing command.</p>
+<p>Exit criteria:</p>
+<ul>
+<li>Admin and metrics listeners fail validation when exposed remotely without</li>
+</ul>
+<p>explicit opt-in.</p>
+<ul>
+<li>Snapshot and rollback tests pass.</li>
+<li>Logs redact secrets by default.</li>
+<li>Metrics labels are cardinality-safe.</li>
+<li>Cache metrics and OpenTelemetry attributes are cardinality-safe and never use</li>
+</ul>
+<p>raw path, query, cookie, authorization, or cache-key values by default.</p>
+<ul>
+<li>ACME CLI output is actionable for partial-success production runs and does</li>
+</ul>
+<p>not require operators to infer which target failed from issuer-level errors.</p>
+<ul>
+<li>Container migration docs include a validated HTTP-only first-issuance flow,</li>
+</ul>
+<p>HTTPS enablement flow, and SNI verification checklist.</p>
+<h3 id="1-3-0-shared-ingress-and-tls-feature-split">1.3.0 - Shared Ingress And TLS Feature Split</h3>
+<p>Goal: make Fluxheim&#x27;s module boundaries honest before PHP, advanced proxy, and load-balancer features add more code on top. TLS, ACME, admin/config validation, metrics, and runtime ingress are shared capabilities; static web, cache, reverse proxy, and load balancing should not be pulled into focused builds unless the operator selected them.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Introduce an explicit shared ingress/runtime feature boundary.</li>
+<li>Make <code>tls</code>, <code>tls-rustls</code>, <code>tls-openssl</code>, <code>tls-boringssl</code>, <code>tls-s2n</code>, <code>acme</code>,</li>
+</ul>
+<p>and <code>acme-client</code> depend on shared ingress/TLS primitives rather than implicitly selecting the generic <code>proxy</code> feature.</p>
+<ul>
+<li>Keep exactly one TLS backend selectable at a time.</li>
+<li>Keep ACME certificate loading and renewal usable for every TLS-capable</li>
+</ul>
+<p>focused profile.</p>
+<ul>
+<li>Split profile aliases into honest deployment profiles:</li>
+<li><code>profile-full</code>;</li>
+<li><code>profile-web-server</code>;</li>
+<li><code>profile-cache-edge</code>;</li>
+<li><code>profile-proxy-edge</code>;</li>
+<li><code>profile-load-balancer-edge</code>;</li>
+<li><code>profile-observability</code>;</li>
+<li><code>profile-privacy</code>.</li>
+<li>Keep compatibility aliases for older profile names where practical, but mark</li>
+</ul>
+<p>them transitional.</p>
+<ul>
+<li>Update container image profiles to follow the focused model:</li>
+<li><code>full</code>;</li>
+<li><code>cache</code>;</li>
+<li><code>proxy</code>.</li>
+<li>The <code>cache</code> image is TLS/ACME-capable but does not compile local static</li>
+</ul>
+<p>webserver behavior unless <code>web</code> is selected.</p>
+<ul>
+<li>The <code>proxy</code> image is TLS/ACME-capable but does not compile static web, cache,</li>
+</ul>
+<p>or load-balancer behavior unless selected.</p>
+<ul>
+<li>The <code>profile-web-server</code> and <code>profile-load-balancer-edge</code> feature aliases</li>
+</ul>
+<p>compile and validate, but official web-only and load-balancer images are not published as normal <code>1.3.0</code> tag outputs.</p>
+<ul>
+<li>The load-balancer image profile is prepared and manually dispatchable for</li>
+</ul>
+<p>pre-<code>1.5</code> testing, but normal tag publishing skips it until the <code>1.5</code> load-balancer line.</p>
+<ul>
+<li>Config validation must produce clear disabled-module errors such as</li>
+</ul>
+<p>&quot;web module not compiled&quot;, &quot;cache module not compiled&quot;, or &quot;load-balancer module not compiled&quot;.</p>
+<ul>
+<li>CI must build and test the focused profiles and prove unrelated modules are</li>
+</ul>
+<p>absent from the feature set.</p>
+<ul>
+<li>Release docs and image tags must explain the difference between the published</li>
+</ul>
+<p><code>full</code>, <code>cache</code>, and <code>proxy</code> images plus the prepared-but-gated <code>load-balancer</code> image profile.</p>
+<p>Exit criteria:</p>
+<ul>
+<li><code>cargo check --no-default-features --features profile-web-server</code></li>
+</ul>
+<p>succeeds.</p>
+<ul>
+<li><code>cargo check --no-default-features --features profile-cache-edge</code></li>
+</ul>
+<p>succeeds.</p>
+<ul>
+<li><code>cargo check --no-default-features --features profile-proxy-edge</code></li>
+</ul>
+<p>succeeds.</p>
+<ul>
+<li><code>cargo check --no-default-features --features profile-load-balancer-edge</code></li>
+</ul>
+<p>succeeds.</p>
+<ul>
+<li>TLS/ACME config validates in each TLS-capable focused profile.</li>
+<li>Static web config is rejected cleanly when <code>web</code> is not compiled.</li>
+<li>Cache config is rejected cleanly when <code>cache</code> is not compiled.</li>
+<li>Load-balancer config is rejected cleanly when <code>load-balancer</code> is not</li>
+</ul>
+<p>compiled.</p>
+<ul>
+<li>Image workflow publishes focused images from the new profile names.</li>
+</ul>
+<h3 id="1-3-1-php-application-server">1.3.1 - PHP Application Server</h3>
+<p>Goal: add production-compatible PHP support without making PHP part of the default Fluxheim threat model. The stable <code>1.3.1</code> target is a <code>php-fpm</code> FastCGI bridge for WordPress-style, front-controller, and legacy PHP deployments. Embedded Rust PHP integrations remain follow-up <code>1.3.x</code> work behind separate compile-time features.</p>
+<p>Stable scope for <code>1.3.1</code>:</p>
+<ul>
+<li>Compile-time <code>php</code> base module and <code>php-fpm</code> runtime module.</li>
+<li><code>php</code> remains absent from default, cache, privacy, and normal proxy builds.</li>
+<li>Per-vhost and per-route PHP enablement.</li>
+<li>PHP-FPM over Unix socket and explicit TCP endpoints.</li>
+<li><code>index.php</code> and WordPress-style front-controller support.</li>
+<li>Safe <code>.php</code> script resolution under a configured PHP root.</li>
+<li>Static fallback must never serve PHP source when PHP is enabled and a PHP</li>
+</ul>
+<p>route fails.</p>
+<ul>
+<li>Strict CGI/FastCGI param allow-list, including <code>SCRIPT_FILENAME</code>,</li>
+</ul>
+<p><code>SCRIPT_NAME</code>, <code>DOCUMENT_ROOT</code>, <code>REQUEST_METHOD</code>, <code>QUERY_STRING</code>, <code>REQUEST_URI</code>, <code>SERVER_NAME</code>, <code>SERVER_PORT</code>, and <code>SERVER_PROTOCOL</code>.</p>
+<ul>
+<li><code>PATH_INFO</code> disabled by default, with strict opt-in split rules.</li>
+<li>Request body limits, configurable response byte limits, streaming body</li>
+</ul>
+<p>accounting, connect/read/write timeouts, and response header byte limits.</p>
+<ul>
+<li>Strict parsing of PHP-generated status and headers.</li>
+<li>Sanitized, size-limited PHP STDERR logging and PHP metrics.</li>
+<li>WordPress and minimal PHP-FPM example configs.</li>
+<li>Browser-validated WordPress install, login, admin, plugin, and theme flows</li>
+</ul>
+<p>for direct PHP-FPM serving and reverse-proxy gateway deployments.</p>
+<ul>
+<li>Split <code>Cookie</code> header normalization for proxy upstreams and PHP-FPM</li>
+</ul>
+<p><code>HTTP_COOKIE</code>.</p>
+<h3 id="1-3-2-acme-companion-agent-and-config-tester">1.3.2 - ACME Companion Agent And Config Tester</h3>
+<p>Goal: make adding ACME-backed vhosts operationally smooth for existing multi-site gateways. A new vhost should be able to enter a pending certificate state, complete HTTP-01 issuance, and activate HTTPS without taking already serving vhosts down and without requiring operators to manually run a second restart after issuance. The same release should also make failed container startup easier to diagnose by shipping a small release-page config tester that can validate mounted configs even when the gateway container itself will not start.</p>
+<p>Stable scope for <code>1.3.2</code>:</p>
+<ul>
+<li>Ship a dedicated <code>fluxheim-acme</code> companion binary or subprogram mode for</li>
+</ul>
+<p>ACME lifecycle work.</p>
+<ul>
+<li>Keep <code>fluxheim</code> focused on serving traffic, challenge paths, and certificate</li>
+</ul>
+<p>handles; keep <code>fluxheim-acme</code> focused on account state, issuance, renewal scheduling, EAB secret access, and certificate installation.</p>
+<ul>
+<li>Add a local-only control channel, preferably a runtime-user owned Unix</li>
+</ul>
+<p>socket, that lets the ACME companion request certificate reloads from the running gateway after files are installed.</p>
+<ul>
+<li>Keep the control API small and non-general-purpose:</li>
+<li>renew all due targets;</li>
+<li>renew one vhost/target;</li>
+<li>report target status;</li>
+<li>request certificate-handle reload;</li>
+<li>expose health/status for service managers.</li>
+<li>Do not let the companion silently rewrite production config in the first</li>
+</ul>
+<p>stable version. Assisted config generation can be a later command that writes reviewed snippets or snapshots.</p>
+<ul>
+<li>Preserve pending managed ACME certificate startup behavior for reloadable SNI</li>
+</ul>
+<p>TLS backends, while keeping static certificate paths fail-closed.</p>
+<ul>
+<li>Integrate with packaged systemd units and containers so external</li>
+</ul>
+<p><code>fluxheim-acme.service</code>/timer-style renewals can activate certs in the running gateway without a full process restart.</p>
+<ul>
+<li>Document first-issuance flows for native systemd, rootless Podman, and the</li>
+</ul>
+<p>one-shot/manual CLI case.</p>
+<ul>
+<li>Publish a tiny <code>fluxheim-config-tester</code> release asset for every official</li>
+</ul>
+<p>release profile, but do not install it into normal RPMs or runtime images by default.</p>
+<ul>
+<li>The tester must reuse Fluxheim&#x27;s real config and runtime validation code</li>
+</ul>
+<p>rather than maintaining a separate parser.</p>
+<ul>
+<li>The tester must validate against the selected target profile, for example</li>
+</ul>
+<p><code>full</code>, <code>cache</code>, <code>proxy</code>, <code>web-php</code>, or future <code>load-balancer</code>, so operators do not get false positives from a broader binary than the image they run.</p>
+<ul>
+<li>Initial tester modes should cover config validation, runtime-path validation,</li>
+</ul>
+<p>TLS/ACME storage checks, ACME target preview, upstream resolution checks, and an <code>--explain</code> output mode that includes vhost/route/module context for filesystem, DNS, and disabled-module failures.</p>
+<p>Implementation status:</p>
+<ul>
+<li>Initial <code>fluxheim-config-tester</code> binary target added.</li>
+<li>Initial profile validation, runtime-path validation, TLS storage checks, ACME</li>
+</ul>
+<p>target preview, upstream DNS resolution, and <code>--explain</code> output added.</p>
+<ul>
+<li>Initial <code>fluxheim-acme</code> companion binary with <code>renew</code> and <code>targets</code> commands</li>
+</ul>
+<p>added.</p>
+<ul>
+<li>Local Unix-domain certificate reload socket added for companion-driven</li>
+</ul>
+<p>certificate-handle reloads.</p>
+<ul>
+<li><code>fluxheim-acme status</code> and <code>fluxheim-acme renew --vhost &lt;name&gt;</code> added for</li>
+</ul>
+<p>target status reporting and single-target renewal.</p>
+<ul>
+<li><code>fluxheim-acme reload</code> added for explicit local certificate reload requests</li>
+</ul>
+<p>through the companion control path.</p>
+<ul>
+<li>Bounded ACME lifecycle metric <code>fluxheim_acme_events_total{event}</code> added for</li>
+</ul>
+<p>pending, renewed, failed, and reload outcomes.</p>
+<ul>
+<li>Release evidence packaging for separate config-tester artifacts started.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Adding a new ACME vhost with missing cert files does not break existing TLS</li>
+</ul>
+<p>vhosts.</p>
+<ul>
+<li>HTTP-01 validation can complete while the new SNI certificate is pending.</li>
+<li>Successful companion-driven issuance reloads the running gateway certificate</li>
+</ul>
+<p>resolver/callback without restarting the process.</p>
+<ul>
+<li>Failed issuance leaves existing certificates and vhosts serving.</li>
+<li>The local control channel is unavailable remotely by default and protected by</li>
+</ul>
+<p>filesystem permissions or an equivalent local secret.</p>
+<ul>
+<li>Logs and metrics expose <code>pending</code>, <code>renewed</code>, <code>failed</code>, and <code>reload_failed</code></li>
+</ul>
+<p>states without leaking EAB material, account keys, or ACME token secrets.</p>
+<ul>
+<li>A downloaded <code>fluxheim-config-tester</code> can validate the same mounted config</li>
+</ul>
+<p>paths/operators use for Podman/systemd and report actionable context when the main gateway container cannot start.</p>
+<ul>
+<li>Tester release assets are produced for the official release profiles and are</li>
+</ul>
+<p>documented as diagnostics-only tools, not runtime dependencies.</p>
+<p>Follow-up <code>1.3.x</code> FIPS-capable TLS build plan:</p>
+<ul>
+<li>Add an explicit FIPS-capable compile/profile line without claiming that</li>
+</ul>
+<p>Fluxheim itself is a validated cryptographic module. The release wording must say &quot;FIPS-capable build using a validated cryptographic module&quot; and must point operators to the selected module certificate, security policy, platform limits, and install procedure.</p>
+<ul>
+<li>Treat the compliance documents as release requirements, not optional</li>
+</ul>
+<p>references:</p>
+<ul>
+<li>FIPS PUB 140-3 defines the cryptographic module security requirements.</li>
+<li>The current FIPS 140-3 Implementation Guidance defines how labs and</li>
+</ul>
+<p>vendors interpret those requirements for modern software modules.</p>
+<ul>
+<li>NIST SP 800-52 Rev. 2 defines the TLS versions, cipher suites, key sizes,</li>
+</ul>
+<p>and curves that a web server profile may allow.</p>
+<ul>
+<li>The chosen module&#x27;s CMVP Security Policy is the binding installation and</li>
+</ul>
+<p>invocation guide. Fluxheim documentation must point operators at the exact certificate/security-policy boundary used for the selected backend.</p>
+<ul>
+<li>Fluxheim&#x27;s responsibility in a FIPS-required build is enforcement and</li>
+</ul>
+<p>evidence: validate only FIPS-approved TLS versions/ciphers/curves, trigger or verify the selected backend&#x27;s FIPS mode exactly as its Security Policy requires, expose backend/provider evidence in diagnostics, and fail closed when the provider cannot prove approved operation. Fluxheim must not ship home-grown cryptography or describe itself as FIPS compliant merely because a feature flag was enabled.</p>
+<ul>
+<li>Add backend-specific feature gates rather than one vague <code>fips</code> switch:</li>
+<li><code>tls-rustls-fips</code>: rustls backend using rustls&#x27; <code>fips</code> feature and the</li>
+</ul>
+<p>AWS-LC FIPS provider path. This requires replacing current ring-specific rustls helpers with provider-aware helpers, installing <code>rustls::crypto::default_fips_provider()</code> at startup, and failing startup if generated <code>ServerConfig</code> / <code>ClientConfig</code> objects do not report FIPS status where rustls exposes that check. The feature should route builds to the AWS-LC FIPS crate path, document the CMake, Go, and C compiler build requirements, and explicitly construct rustls server/client configs from provider suites permitted by NIST SP 800-52 Rev. 2.</p>
+<ul>
+<li><code>tls-openssl-fips</code>: OpenSSL backend built and linked against OpenSSL 3.x</li>
+</ul>
+<p>with a validated FIPS provider. Operators remain responsible for installing the validated provider and running the provider setup expected by the module Security Policy, such as <code>openssl-fipsinstall</code> where applicable. Fluxheim should support an operator-supplied OpenSSL config path or environment contract, require provider/config diagnostics, and fail closed when FIPS-required mode cannot prove the FIPS provider/default properties are active.</p>
+<ul>
+<li><code>tls-boringssl-fips</code>: research-only until Fluxheim can prove it is linked</li>
+</ul>
+<p>to a BoringCrypto validated module stream, can query the module/version, and can document the exact CMVP certificate/security-policy boundary. Normal BoringSSL must not be described as FIPS validated.</p>
+<ul>
+<li><code>tls-s2n-fips</code>: research-only until the s2n/Pingora integration can prove</li>
+</ul>
+<p>s2n was built with FIPS-capable AWS-LC, expose <code>s2n_get_fips_mode</code>, and restrict configured s2n security policies to FIPS-approved cryptography.</p>
+<ul>
+<li>Add a high-level <code>fips-required</code> compile feature or config guard only after</li>
+</ul>
+<p>backend-specific checks exist. When enabled, non-FIPS TLS backends, non-FIPS cipher/curve choices, non-FIPS ACME/account crypto paths, and incompatible dependencies must fail validation instead of silently downgrading.</p>
+<ul>
+<li>Inventory internal cryptography before publishing FIPS profiles. Any</li>
+</ul>
+<p>security-sensitive operation outside TLS, including random request/session identifiers, admin token MACs, ACME/account signing, cache encryption, password hashing, CSRF/session/JWT support, and future plugin signing, must either route through the selected validated backend or be disabled/rejected in FIPS-required builds. Pure RustCrypto, ring, or other non-validated fallback paths cannot remain reachable for those operations in a FIPS-required binary.</p>
+<ul>
+<li>Add <code>profile-fips-rustls</code> and optionally <code>profile-fips-openssl</code> once CI can</li>
+</ul>
+<p>build them reproducibly. These profiles should be separate from default, cache, proxy, PHP, and load-balancer profiles so non-FIPS operators do not inherit large FIPS build dependencies.</p>
+<ul>
+<li>Add release evidence:</li>
+<li>compile logs and lockfile for the selected backend;</li>
+<li>runtime <code>--version --crypto</code> or equivalent output showing backend, provider,</li>
+</ul>
+<p>FIPS-required setting, and module/version evidence where available;</p>
+<ul>
+<li>config-tester checks that prove a FIPS-required config fails with a</li>
+</ul>
+<p>non-FIPS backend or missing provider;</p>
+<ul>
+<li>docs explaining that FIPS compliance also depends on OS/container base,</li>
+</ul>
+<p>provider installation, module integrity data, runtime configuration, and the operator&#x27;s deployment environment.</p>
+<ul>
+<li>Keep FIPS support incompatible with any backend or feature where we cannot</li>
+</ul>
+<p>prove the cryptographic boundary. &quot;Compiled with a FIPS-capable dependency&quot; is not enough for release claims.</p>
+<p>Follow-up <code>1.3.x</code> PHP runtime plan:</p>
+<ul>
+<li><code>1.3.3</code>: php-fpm hardening and production compatibility fixes.</li>
+<li>Connection pooling to php-fpm with idle pruning.</li>
+<li><code>fastcgi_keep_conn</code>-style reuse where the selected client/runtime can</li>
+</ul>
+<p>safely keep FastCGI connections open between requests, with stale-connection detection and a clear fallback to one request per connection.</p>
+<ul>
+<li>True streaming request and response bodies.</li>
+<li>Chunked upload disk-spooling so large uploads do not require full RAM</li>
+</ul>
+<p>buffering before php-fpm receives <code>CONTENT_LENGTH</code>.</p>
+<ul>
+<li>Custom FastCGI params in config. Implemented as validated</li>
+</ul>
+<p><code>[vhosts.php.params]</code> / <code>[vhosts.routes.php.params]</code> tables that cannot override Fluxheim-managed CGI parameters.</p>
+<ul>
+<li>Path mapping for separate Fluxheim/php-fpm container filesystem roots.</li>
+</ul>
+<p>Implemented as <code>php.fpm_root</code> for FastCGI <code>DOCUMENT_ROOT</code>, <code>SCRIPT_FILENAME</code>, and <code>PATH_TRANSLATED</code> mapping.</p>
+<ul>
+<li>Caddy-style PHP root override and optional root-symlink resolution for</li>
+</ul>
+<p>split container layouts, while keeping Fluxheim&#x27;s symlink escape checks.</p>
+<ul>
+<li>NGINX/Caddy-style <code>try_files</code> PHP presets for common apps:</li>
+</ul>
+<p>static-file first, directory index, front-controller fallback, and explicit <code>=404</code> behavior for sites that must not route everything through <code>index.php</code>. Implemented as <code>php.try_files = &quot;front-controller&quot;</code>, <code>&quot;wordpress&quot;</code>, or <code>&quot;strict&quot;</code>.</p>
+<ul>
+<li>Configurable <code>PATH_INFO</code> splitting model compatible with Caddy&#x27;s <code>split</code></li>
+</ul>
+<p>and NGINX&#x27;s <code>fastcgi_split_path_info</code>, but expressed as safe typed config rather than arbitrary regex by default. Implemented as <code>php.path_info = &quot;disabled&quot;</code> or <code>&quot;split&quot;</code>; <code>&quot;strict&quot;</code> is retained as a compatibility alias for <code>&quot;split&quot;</code>.</p>
+<ul>
+<li>Canonical directory slash redirect when <code>{path}/index.php</code> exists and the</li>
+</ul>
+<p>app expects <code>/dir/</code> semantics. Implemented as a <code>308</code> redirect before executing directory <code>index.php</code> scripts.</p>
+<ul>
+<li><code>fastcgi_pass_request_headers</code> / <code>fastcgi_pass_request_body</code> equivalents</li>
+</ul>
+<p>as explicit advanced switches, defaulting to today&#x27;s safe allow-list. Implemented as <code>php.pass_request_headers</code> and <code>php.pass_request_body</code>, both defaulting to <code>true</code>; disabled body pass-through still drains and limits the downstream body.</p>
+<ul>
+<li><code>X-Accel-Redirect</code> / <code>X-Sendfile</code> support for PHP-assisted static</li>
+</ul>
+<p>offload, plus internal-only target validation, <code>X-Accel-Expires</code> handling where it maps to Fluxheim cache metadata, and response-header stripping so backend control headers are not leaked to clients.</p>
+<ul>
+<li><code>fastcgi_intercept_errors</code>-style integration with Fluxheim error pages for</li>
+</ul>
+<p>selected PHP statuses, keeping normal PHP responses untouched by default.</p>
+<ul>
+<li>PHP response-header policy controls matching common NGINX migrations:</li>
+</ul>
+<p>hide/pass selected backend headers, ignore selected cache-control headers, and reject conflicting <code>Content-Length</code> / transfer headers.</p>
+<ul>
+<li>STDERR handling options: capture/log, truncate, severity mapping for 4xx/5xx</li>
+</ul>
+<p>responses, and optional fatal-error match that marks a response invalid for retry/failover. Initial controls implemented as <code>php.stderr_log</code> and <code>php.stderr_max_bytes</code>.</p>
+<ul>
+<li>php-fpm upstream load balancing and failover.</li>
+<li>FPM upstream retry policy aligned with NGINX/Apache/Caddy behavior:</li>
+</ul>
+<p>connect error, timeout, invalid header, selected 5xx statuses, max tries, total retry timeout, and retry-safe method matching.</p>
+<ul>
+<li>FPM upstream TLS and Unix/TCP socket controls should remain explicit; Unix</li>
+</ul>
+<p>sockets keep strict path/permission validation and TCP supports DNS refresh when the proxy resolver work lands.</p>
+<ul>
+<li>PHP-specific Prometheus/OpenTelemetry metrics.</li>
+<li>FastCGI cache-specific convenience config on top of Fluxheim&#x27;s cache</li>
+</ul>
+<p>engine.</p>
+<ul>
+<li>FastCGI cache semantics compatible with common NGINX deployments:</li>
+</ul>
+<p>cache key presets, status-based TTLs, <code>Cache-Control</code>/<code>Expires</code>/ <code>Set-Cookie</code>/<code>Vary</code> admission behavior, bypass/no-cache conditions, cache lock, stale-on-error/timeout, background refresh where available, and authenticated purge integration.</p>
+<ul>
+<li>WordPress-focused migration presets for <code>wp-admin</code>, <code>wp-login.php</code>,</li>
+</ul>
+<p><code>xmlrpc.php</code>, sitemap/feed exclusions, logged-in/commenter cookie bypass, Super Cache/W3TC static-file fallbacks, and denial of PHP execution under uploads/files-style directories.</p>
+<ul>
+<li>FastCGI multiplexing, authorizer, and filter-role review. These are not</li>
+</ul>
+<p>required for normal PHP-FPM web serving, but should be documented explicitly as unsupported or implemented if enterprise users need them.</p>
+<ul>
+<li><code>1.3.4</code>: embedded Rust PHP/Turbine-style integration if the source, license,</li>
+</ul>
+<p>API, isolation, reload, and concurrency model pass review.</p>
+<ul>
+<li><code>1.3.5</code>: pure-Rust PHP interpreter experiment behind <code>php-phprs</code>, beta or</li>
+</ul>
+<p>test-only until compatibility and maintenance are proven.</p>
+<p>Compile-time feature shape stays:</p>
+<pre class="language-toml"><code class="language-toml">php = []
+php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]
+php-turbine = [&quot;php&quot;]
+php-phprs = [&quot;php&quot;, &quot;dep:phprs&quot;]</code></pre>
+<p>Only one PHP runtime feature may be selected in one binary. Add compile-time guards for incompatible runtime combinations.</p>
+<p>Exit criteria:</p>
+<ul>
+<li><code>--features web,php-fpm</code> release build passes.</li>
+<li>Default, cache, privacy, and load-balancer profiles prove PHP is absent</li>
+</ul>
+<p>unless explicitly selected.</p>
+<ul>
+<li>PHP source files are never served as static fallback.</li>
+<li>Traversal, symlink escape, missing script, directory script, malformed</li>
+</ul>
+<p>FastCGI response, timeout, oversized body, and STDERR-size tests pass.</p>
+<ul>
+<li>WordPress-style front-controller routing, login/admin cookies, plugin/theme</li>
+</ul>
+<p>install/update/delete flows, and common cache-plugin bypass patterns are smoke tested against php-fpm.</p>
+<ul>
+<li>Config validation makes unsafe PHP roots, sockets, and runtime combinations</li>
+</ul>
+<p>actionable.</p>
+<h3 id="1-4-advanced-proxy">1.4 - Advanced Proxy</h3>
+<p>Feature-graph prerequisite:</p>
+<ul>
+<li><code>1.4</code> proxy images should compile the HTTP proxy and shared ingress/TLS</li>
+</ul>
+<p>surface without static web, local static cache, or load-balancer code unless explicitly selected.</p>
+<p>Goal: make Fluxheim&#x27;s HTTP and stream proxy layer migration-friendly for HAProxy and NGINX operators before expanding the load-balancer surface. This release should cover reverse-proxy behavior, connection management, backpressure, buffering, protocol bridging, and operator visibility that apply even when a route targets one upstream.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Compile-time proxy surface stays modular; advanced proxy capabilities remain</li>
+</ul>
+<p>available through explicit <code>proxy</code> subfeatures where they add dependencies or attack surface.</p>
+<ul>
+<li>New proxy dependencies must be deliberate and profile-gated. Prefer small</li>
+</ul>
+<p>in-tree policy implementations for bounded Fluxheim-specific behavior such as queue policy, rewrite validation, typed variables, and overload decisions; keep mature protocol/TLS/runtime crates for transport machinery unless a later dependency-reduction milestone proves an in-tree replacement safer.</p>
+<ul>
+<li>Per-vhost and per-route upstream connection controls:</li>
+<li>max in-flight requests/connections for a route or upstream target;</li>
+<li>bounded request queue with queue timeout, max depth, overflow action, and</li>
+</ul>
+<p>low-cardinality queue metrics;</p>
+<ul>
+<li>optional priority classes derived from safe request attributes such as</li>
+</ul>
+<p>route, method, authenticated policy result, or configured header allow-list;</p>
+<ul>
+<li>async backpressure so slow or saturated upstreams do not force unbounded</li>
+</ul>
+<p>buffering inside Fluxheim.</p>
+<ul>
+<li>Upstream keepalive and connection-pool tuning beyond the existing global</li>
+</ul>
+<p>pool size:</p>
+<ul>
+<li>per-route pool limits;</li>
+<li>idle timeout;</li>
+<li>maximum reuse count or lifetime;</li>
+<li>clear behavior when upstream closes an idle pooled connection.</li>
+<li>NGINX-style proxy buffering controls:</li>
+<li>request buffering on/off;</li>
+<li>response buffering on/off;</li>
+<li>header buffer size and response body buffer limits;</li>
+<li>spill-to-disk policy if implemented, with safe temp-path validation and</li>
+</ul>
+<p>privacy-mode rejection;</p>
+<ul>
+<li>streaming passthrough mode for long-lived or large responses.</li>
+<li>Safer large-payload proxying:</li>
+<li>explicit memory budget per proxied stream;</li>
+<li>cancellation on downstream disconnect;</li>
+<li>bounded body-copy buffers;</li>
+<li>documented zero-copy strategy. Kernel zero-copy should be pursued only</li>
+</ul>
+<p>where the Rust/Pingora/Tokio stack can expose it safely; otherwise the stable goal is bounded-copy streaming, not unsafe shortcuts.</p>
+<ul>
+<li>Protocol translation:</li>
+<li>client HTTP/2 to upstream HTTP/1.1 controls;</li>
+<li>client HTTP/1.1 to upstream HTTP/2 where Pingora support is stable;</li>
+<li>future HTTP/3 ingress may map to HTTP/1.1 or HTTP/2 upstreams, but QUIC</li>
+</ul>
+<p>itself remains a separate protocol milestone.</p>
+<ul>
+<li>WebSocket and upgrade handling parity with explicit timeout and header</li>
+</ul>
+<p>behavior.</p>
+<ul>
+<li>gRPC/gRPC-Web proxy compatibility where it fits Fluxheim&#x27;s HTTP/2 stack,</li>
+</ul>
+<p>including body-size, timeout, and status/trailer handling.</p>
+<ul>
+<li>NGINX-style request mirroring for HTTP routes with strict limits:</li>
+<li>mirror body on/off;</li>
+<li>mirror timeout;</li>
+<li>no effect on primary response;</li>
+<li>low-cardinality metrics for mirror success/failure.</li>
+<li>External auth request integration may stay in the existing auth-request</li>
+</ul>
+<p>design, but <code>1.4</code> should make it proxy-route complete: timeout, header forwarding, allowed response headers, deny status, and metrics.</p>
+<ul>
+<li>PROXY protocol support:</li>
+<li>accept Proxy Protocol v1/v2 on configured listeners;</li>
+<li>send Proxy Protocol to upstreams on configured routes;</li>
+<li>validate trust boundaries before restoring client identity.</li>
+<li>TCP stream proxy foundation:</li>
+<li>compile-time feature separate from HTTP proxy if needed;</li>
+<li>safe listener and upstream config;</li>
+<li>byte counters, idle timeout, connect timeout, and max connection limits;</li>
+<li>no HTTP header/cache/admin behavior on stream routes.</li>
+<li>UDP proxy foundation if it can be bounded safely:</li>
+<li>session table with TTL and max entries;</li>
+<li>per-source and global rate/byte limits;</li>
+<li>explicit DNS/gaming/IoT examples only after smoke tests;</li>
+<li>no claim of load balancing until the <code>1.5</code> load-balancer line owns</li>
+</ul>
+<p>multi-upstream UDP policy.</p>
+<ul>
+<li>Richer proxy variables for logging, headers, and future Wasm inputs:</li>
+<li>upstream connect time, first-byte time, response time, selected target,</li>
+</ul>
+<p>retry count, queue time, TLS protocol/cipher, request ID, vhost, route, cache phase, and protocol.</p>
+<ul>
+<li>variables must be bounded, typed, redacted where needed, and forbidden from</li>
+</ul>
+<p>creating high-cardinality metric labels by default.</p>
+<ul>
+<li>Variable-based structured logging:</li>
+<li>configured log fields from a typed allow-list;</li>
+<li>JSON output and existing access-log privacy controls;</li>
+<li>no raw query/cookie/authorization values unless explicitly enabled.</li>
+<li>Local operational socket:</li>
+<li>Unix-domain socket for fast local status and counters, similar in spirit to</li>
+</ul>
+<p>HAProxy&#x27;s stats socket;</p>
+<ul>
+<li>root/service-owner permissions, strict path validation, no network bind by</li>
+</ul>
+<p>default;</p>
+<ul>
+<li>read-only status first, with any mutating commands deferred or separately</li>
+</ul>
+<p>authorized.</p>
+<ul>
+<li>Regex-based request/response header and URI rewrite rules using Rust&#x27;s</li>
+</ul>
+<p>memory-safe regex engine:</p>
+<ul>
+<li>route-scoped allow-list of operations;</li>
+<li>replacement output length limits;</li>
+<li>deterministic failure behavior;</li>
+<li>no arbitrary code execution.</li>
+<li>Apache/NGINX/Caddy migration-oriented proxy knobs:</li>
+<li><code>ProxyPreserveHost</code> / Caddy default-host behavior as explicit host policy;</li>
+<li><code>ProxyPassReverse</code>/<code>proxy_redirect</code>-style <code>Location</code> and <code>Refresh</code> rewrite</li>
+</ul>
+<p>rules;</p>
+<ul>
+<li><code>ProxyPassReverseCookieDomain</code>, <code>ProxyPassReverseCookiePath</code>, and</li>
+</ul>
+<p>NGINX-style cookie flag/domain/path rewrites;</p>
+<ul>
+<li><code>proxy_set_header</code> / Caddy <code>header_up</code> and <code>header_down</code> parity including</li>
+</ul>
+<p>set, append, unset, wildcard unset, and bounded regex replacement;</p>
+<ul>
+<li>pass/drop request headers and request body switches for migration cases;</li>
+<li>method and URI rewrite before upstream dispatch;</li>
+<li>response interception hooks for selected statuses and headers;</li>
+<li>upstream TLS controls: SNI override, trust roots, mTLS client cert, protocol</li>
+</ul>
+<p>and cipher policy where supported, and explicit insecure-skip-verify rejection or audit warning;</p>
+<ul>
+<li>upstream DNS refresh for container/service-name targets so Fluxheim can</li>
+</ul>
+<p>start when optional backends are temporarily absent and recover when they appear.</p>
+<p>Out of scope for <code>1.4</code>:</p>
+<ul>
+<li>Load-balancer pool algorithms, active health checks, backup/drain/slow-start,</li>
+</ul>
+<p>redispatch, and sticky sessions. Those belong to <code>1.5</code>.</p>
+<ul>
+<li>Direct Server Return as a stable HTTP proxy feature. DSR is a layer-4/network</li>
+</ul>
+<p>topology feature and should be evaluated in the <code>1.5</code> load-balancer or later stream-proxy line after Linux routing, source-address, and observability constraints are documented.</p>
+<ul>
+<li>Cache engine work already completed in <code>1.2.x</code>, except where proxy buffering</li>
+</ul>
+<p>and streaming behavior must integrate correctly with cache admission.</p>
+<p>Exit criteria:</p>
+<ul>
+<li>HAProxy/NGINX migration fixtures cover queue limits, queue timeout,</li>
+</ul>
+<p>backpressure, request/response buffering, upstream keepalive, WebSocket, gRPC, request mirroring, PROXY protocol receive/send, external auth request, variable logging, and TCP stream proxy basics.</p>
+<ul>
+<li>Memory usage remains bounded under slow client, slow upstream, large upload,</li>
+</ul>
+<p>large download, and upstream stall tests.</p>
+<ul>
+<li>Queue, pool, buffering, mirror, stream, and protocol-translation metrics are</li>
+</ul>
+<p>available when metrics are enabled and stay low-cardinality.</p>
+<ul>
+<li>Privacy-mode rejects incompatible logging, temp-file buffering, stream</li>
+</ul>
+<p>identity restoration, or payload-retaining features.</p>
+<ul>
+<li>Config validation catches unsafe temp paths, impossible queue settings,</li>
+</ul>
+<p>invalid regex rewrites, unsupported protocol combinations, and unsafe PROXY protocol trust boundaries.</p>
+<h3 id="1-5-load-balancer">1.5 - Load Balancer</h3>
+<p>Feature-graph prerequisite:</p>
+<ul>
+<li><code>1.5</code> load-balancer images should compile load-balancer, shared ingress/TLS,</li>
+</ul>
+<p>ACME, metrics, and security modules without static web, local static cache, or generic single-upstream reverse-proxy-only code unless explicitly selected. The load balancer may reuse shared proxy transport abstractions internally, but the public feature name and image profile must not pull in unrelated webserver behavior.</p>
+<p>Goal: graduate Fluxheim&#x27;s load balancer to an enterprise-grade traffic management layer. The target is HAProxy/nginx migration parity plus the operator primitives people expect from F5 BIG-IP LTM: rich pool metadata, health/performance monitors, persistence, adaptive recovery behavior, and programmable traffic decisions. Palo Alto-style security expectations should be represented as clear policy integration points around the load balancer, not as a claim that Fluxheim is a full next-generation firewall in <code>1.5</code>.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Compile-time <code>load-balancer</code> module.</li>
+<li>Load-balancer additions should minimize dependency surface while preserving</li>
+</ul>
+<p>migration parity. Selection algorithms, persistence tables, circuit state, and policy evaluation are good candidates for in-tree Fluxheim implementations; protocol, TLS, async runtime, and cryptographic machinery should remain on reviewed mature crates until a far-future transport/core replacement line exists.</p>
+<ul>
+<li>Named upstream pools that can be selected globally, per vhost, or per route,</li>
+</ul>
+<p>so one vhost can proxy normal app traffic and route-specific traffic to different backend sets.</p>
+<ul>
+<li>Separate L4 and L7 load-balancing modes:</li>
+<li>HTTP/1.1 and HTTP/2 request-aware pools;</li>
+<li>gRPC-aware HTTP/2 pools where trailers/status handling is preserved;</li>
+<li>TCP stream pools built on the <code>1.4</code> stream-proxy foundation;</li>
+<li>UDP session pools only if the <code>1.4</code> UDP proxy foundation proves bounded</li>
+</ul>
+<p>and observable;</p>
+<ul>
+<li>HTTP/3/QUIC remains a later protocol milestone unless the QUIC ingress</li>
+</ul>
+<p>stack is already stable before <code>1.5</code>.</p>
+<ul>
+<li>Multiple upstreams per pool with safe address validation and per-upstream</li>
+</ul>
+<p>metadata: name, address, weight, backup, disabled/down, drain/maintenance, max in-flight requests or connections, max queue, priority group, manual resume, warm-up/slow-start after recovery, administrative tags, and optional per-upstream TLS/SNI settings.</p>
+<ul>
+<li>Weighted round-robin stable default.</li>
+<li>Selection policies needed for common HAProxy/nginx/F5 migrations and Pingora</li>
+</ul>
+<p>parity:</p>
+<ul>
+<li>weighted round-robin;</li>
+<li>least-connections / least-in-flight;</li>
+<li>least-time / EWMA latency-aware selection when metrics are trustworthy;</li>
+<li>power-of-two-choices for lower herd effects than naive least-connections;</li>
+<li>source-IP hash;</li>
+<li>generic hash by a bounded key template such as host, path, header, or</li>
+</ul>
+<p>request ID;</p>
+<ul>
+<li>consistent hash / Ketama for cache-stateful upstreams;</li>
+<li>bounded-load consistent hashing so overloaded nodes can be skipped without</li>
+</ul>
+<p>remapping the whole ring;</p>
+<ul>
+<li>random where it is useful for large homogeneous pools;</li>
+<li>priority-group selection for F5-style preferred/fallback groups.</li>
+<li>Session persistence:</li>
+<li>cookie persistence with signed/opaque cookies;</li>
+<li>source-address persistence with TTL and table-size limits;</li>
+<li>header-based persistence from a configured allow-list;</li>
+<li>TLS session/client-certificate persistence only after privacy/security</li>
+</ul>
+<p>review;</p>
+<ul>
+<li>persistence must be visible, bounded, purgeable, and incompatible with</li>
+</ul>
+<p>privacy-mode unless a no-retention policy is configured.</p>
+<ul>
+<li>Active health checks:</li>
+<li>TCP connect checks;</li>
+<li>TLS handshake checks with SNI and verification controls;</li>
+<li>HTTP checks with method, path, expected status range, expected response</li>
+</ul>
+<p>header/body substring, Host header, and upstream TLS/SNI where configured;</p>
+<ul>
+<li>HTTP/2 and gRPC health checks where protocol support is stable;</li>
+<li>UDP checks only with explicit send/expect patterns and timeout limits;</li>
+<li>interval, timeout, consecutive success/failure thresholds, initial state,</li>
+</ul>
+<p>jitter, parallel check controls, manual resume, and per-pool/per-member overrides.</p>
+<ul>
+<li>Adaptive health/performance monitors:</li>
+<li>track latency, error rate, queue time, and in-flight load;</li>
+<li>support optional adaptive thresholds for least-time and circuit breakers;</li>
+<li>make every automatic ejection explainable through admin status and logs.</li>
+<li>Passive health observation from real proxy traffic: connection failures,</li>
+</ul>
+<p>upstream timeout/error classes, selected HTTP status classes, bounded error-limit windows, and configurable actions such as mark-down, fast-recheck, temporary ejection, or circuit-open state.</p>
+<ul>
+<li>Circuit breaking and adaptive concurrency:</li>
+<li>per-pool and per-member circuit state;</li>
+<li>half-open probe limits;</li>
+<li>cooldown windows;</li>
+<li>optional adaptive concurrency inspired by queue/latency feedback, with</li>
+</ul>
+<p>minimum/maximum bounds and metrics.</p>
+<ul>
+<li>Retry and redispatch controls:</li>
+<li>bounded retries for connection failures and selected HTTP status codes;</li>
+<li>redispatch to a different healthy upstream after configured retry counts;</li>
+<li>method/body safety so non-idempotent or streaming requests are not retried</li>
+</ul>
+<p>unless explicitly allowed.</p>
+<ul>
+<li>Upstream TLS/SNI and certificate verification controls aligned with the</li>
+</ul>
+<p>existing proxy TLS surface.</p>
+<ul>
+<li>Client mTLS and upstream mTLS policy integration:</li>
+<li>route/pool decisions can use verified client-certificate attributes only</li>
+</ul>
+<p>from the typed identity layer;</p>
+<ul>
+<li>upstream client certificates are configured through safe secret paths or</li>
+</ul>
+<p>future secret-store providers;</p>
+<ul>
+<li>mTLS failures emit security events without exposing certificate secrets.</li>
+<li>Per-upstream and per-pool timeout/keepalive controls, including connect,</li>
+</ul>
+<p>read, send, idle keepalive, and reuse-pool sizing.</p>
+<ul>
+<li>Request queuing and overload behavior should integrate with the <code>1.4</code></li>
+</ul>
+<p>advanced proxy queue/backpressure layer:</p>
+<ul>
+<li>per-pool and per-member queue size;</li>
+<li>priority groups/classes;</li>
+<li>queue timeout;</li>
+<li>shed/503/backup-pool overflow actions;</li>
+<li>queue-time metrics and logs.</li>
+<li>Clear all-nodes-down behavior with configurable fail status, optional static</li>
+</ul>
+<p>error page integration, and no accidental fallback to an unrelated pool.</p>
+<ul>
+<li>Dynamic runtime operations:</li>
+<li>admin/API ability to drain, disable, enable, force-down, or manually resume</li>
+</ul>
+<p>a pool member when admin is enabled;</p>
+<ul>
+<li>safe persistence of dynamic state only after the config/snapshot model is</li>
+</ul>
+<p>clear;</p>
+<ul>
+<li>no unauthenticated or plaintext remote mutation.</li>
+<li>Security and policy integrations:</li>
+<li>edge rate limits per vhost/route/pool/member using token-bucket or</li>
+</ul>
+<p>leaky-bucket algorithms;</p>
+<ul>
+<li>reputation/Geo/IP-set decisions as inputs from the future trusted-client</li>
+</ul>
+<p>identity layer, never from untrusted headers;</p>
+<ul>
+<li>TLS fingerprint signals such as JA3/JA4-like fingerprints if rustls/boring</li>
+</ul>
+<p>expose enough ClientHello detail safely;</p>
+<ul>
+<li>WAF-lite/body inspection stays a separate WAF module, but load-balancer</li>
+</ul>
+<p>routing should be able to consume an allow/deny/risk decision from WAF, auth-request, or future Wasm policy.</p>
+<ul>
+<li>Programmability:</li>
+<li><code>1.5</code> defines stable load-balancer hook points and typed context for future</li>
+</ul>
+<p>iRules-like Wasm policy;</p>
+<ul>
+<li>actual Wasm execution belongs to the shared <code>1.6</code> runtime so Fluxheim does</li>
+</ul>
+<p>not grow one-off scripting engines;</p>
+<ul>
+<li>hooks should cover pool selection, persistence-key choice, request deny,</li>
+</ul>
+<p>header mutation, mirror/shadow target choice, and circuit/policy metadata.</p>
+<ul>
+<li>Load-balancer observability:</li>
+<li>Prometheus and OpenTelemetry counters/histograms for selected upstream,</li>
+</ul>
+<p>health transitions, retries, redispatches, ejections, all-down responses, in-flight requests, queue time, selected algorithm, circuit state, persistence hits/misses, slow-start state, and latency;</p>
+<ul>
+<li>admin status for each pool/upstream with health state, active traffic,</li>
+</ul>
+<p>queue depth, last error, last transition, circuit state, persistence table size, and drain/maintenance state;</p>
+<ul>
+<li>optional local Unix-socket status from the <code>1.4</code> proxy operations layer.</li>
+<li>Runtime/reload behavior:</li>
+<li>config validation catches duplicate upstream names, invalid weights,</li>
+</ul>
+<p>impossible thresholds, and unsafe hash/header keys;</p>
+<ul>
+<li>graceful reload keeps serving with the old pool until the new pool is</li>
+</ul>
+<p>validated;</p>
+<ul>
+<li>health-check background services, persistence tables, and dynamic pool</li>
+</ul>
+<p>state are included in reload impact classification.</p>
+<ul>
+<li>Migration docs mapping common HAProxy and nginx upstream concepts to Fluxheim</li>
+</ul>
+<p>config, plus F5-style monitors, persistence, priority groups, and iRules equivalents to Fluxheim config or future Wasm hooks.</p>
+<p>Beta scope:</p>
+<ul>
+<li>Dynamic service discovery beyond static config and normal DNS resolution,</li>
+</ul>
+<p>using Pingora&#x27;s service-discovery interface when it can be tested reliably.</p>
+<ul>
+<li>Weighted random two-choice as a distributed-load-balancer policy.</li>
+<li>Direct Server Return / transparent proxying after Linux routing, source</li>
+</ul>
+<p>address, NAT/SNAT, and observability constraints are documented and tested.</p>
+<ul>
+<li>Cross-node persistence-table replication.</li>
+<li>Global server load balancing (GSLB) / DNS-based traffic steering.</li>
+<li>Deep packet inspection and App-ID-like classification. This is a security</li>
+</ul>
+<p>platform feature, not a basic load-balancer feature; treat it as WAF/security policy integration unless a separate design exists.</p>
+<ul>
+<li>Live traffic visualizer UI. Metrics and admin API are stable first; a UI can</li>
+</ul>
+<p>layer on top later.</p>
+<p>Exit criteria:</p>
+<ul>
+<li><code>--features proxy,load-balancer</code> release build passes.</li>
+<li>Health check transitions are tested.</li>
+<li>Failover, retry, redispatch, all-down, backup, priority group, drain,</li>
+</ul>
+<p>manual-resume, slow-start, circuit breaking, adaptive health, persistence, and queue-overflow behavior are documented and smoke tested.</p>
+<ul>
+<li>Load-balancer metrics are available when <code>metrics</code> is enabled.</li>
+<li>OpenTelemetry attributes use low-cardinality pool/upstream names only and do</li>
+</ul>
+<p>not expose raw URLs, headers, cookies, or request bodies.</p>
+<ul>
+<li>HAProxy/nginx migration fixtures cover weighted round-robin, backup servers,</li>
+</ul>
+<p>least-connections, hash/consistent-hash routing, health-check failure, redispatch, and all-down behavior.</p>
+<ul>
+<li>F5-style migration fixtures cover monitor-driven down/up transitions,</li>
+</ul>
+<p>priority groups, persistence, manual drain/resume, slow-start, and iRules-equivalent hook-point documentation.</p>
+<ul>
+<li>Security integration tests prove rate limits, mTLS identity inputs, and</li>
+</ul>
+<p>reputation/Geo/IP-set decisions fail closed at trust boundaries.</p>
+<h3 id="cache-maturity-follow-ups">Cache Maturity Follow-Ups</h3>
+<p>Goal: add controlled image/static caching.</p>
+<p>Status: mostly promoted into the 1.2 Operations And Cache Completion Pack. Keep this section as the cache maturity checklist and move completed items upward as they land.</p>
+<p>Current implementation status:</p>
+<ul>
+<li>Implemented in the current 1.2 development line:</li>
+<li>memory, disk, and tiered memory+disk Pingora cache storage;</li>
+<li>route-scoped cache policies for selective production paths such as</li>
+</ul>
+<p>repository avatars/assets;</p>
+<ul>
+<li>method, extension, content-type, query participation, cache-key namespace,</li>
+</ul>
+<p>and cache-key-part controls;</p>
+<ul>
+<li>positive and negative status TTLs, optional origin freshness override,</li>
+</ul>
+<p><code>stale-if-error</code>, and <code>stale-while-revalidate</code> windows;</p>
+<ul>
+<li>configurable cache locks for request collapsing across memory, disk, and</li>
+</ul>
+<p>tiered cache policies;</p>
+<ul>
+<li>shared-cache safety controls for <code>Set-Cookie</code>, request bypass headers,</li>
+</ul>
+<p>request bypass cookies, request bypass query parameters, response-header hiding, origin <code>Cache-Control</code>/<code>Expires</code> override, explicit <code>Vary</code> request-header keys, and unsafe/sensitive <code>Vary</code> rejection. Full proxy smoke coverage now verifies configured request-header, header-value, cookie-name, cookie-value, query-param, and query-value bypasses expose the expected bounded <code>BYPASS</code> reasons and do not poison an existing public GET object;</p>
+<ul>
+<li>optional cache-status and cache-status-reason response headers;</li>
+<li>protected admin cache status, activity reset, single purge, bulk purge,</li>
+</ul>
+<p>indexed scope purge, prefix purge, tag purge, wildcard purge, stale purge, soft purge, and bounded purge batching endpoints;</p>
+<ul>
+<li>per-vhost and per-route admin status for storage tiers, storage pressure,</li>
+</ul>
+<p>purge metadata coverage, activity counters, hit/miss/store/refusal/eviction ratios, configured route count, cache-policy route count, and cache-route coverage ratio;</p>
+<ul>
+<li>live-object purge metadata indexes for memory and disk tiers;</li>
+<li>process-wide opt-in background stale disk purger;</li>
+<li><code>fluxheim cache-warm</code> path warming through the normal local listener with</li>
+</ul>
+<p>2xx/3xx success accounting and explicit <code>--allow-status</code> overrides for deliberate negative-cache warming, plus optional cache-status header expectations, per-target repeat sequences, dry-run target validation, and bounded summary counts for response statuses, cache-status values, and failure reasons;</p>
+<ul>
+<li>Prometheus cache activity metrics and initial OTLP metrics export.</li>
+</ul>
+<p>Prometheus also reports cache-lock-enabled policy count so request collapsing coverage is visible without high-cardinality labels. Cache admin status responses expose per-policy cache-lock wait timeouts, and Prometheus reports the maximum configured cache-lock wait timeout as a low-cardinality gauge. The policy-level pass/bypass/stale counters show configured scoped cache decisions without exposing request-specific labels. The proxy cache smoke suite now asserts bounded Prometheus purge counters and cache activity counters for disk hits, scoped purge events, policy bypasses, and allowed stale serving, while the local observability smoke asserts cache policy gauges and request-collapsing lock timeout gauges.</p>
+<ul>
+<li>Pingora cache primitives already used directly or through adapters:</li>
+</ul>
+<p><code>Storage</code>, <code>HandleHit</code>, <code>HandleMiss</code>, <code>CacheLock</code>, cache phase/reason reporting, variance keys for <code>Vary</code>, stale metadata, and bounded forced-freshness through <code>ForcedFreshness::ForceExpired</code> when operators opt in with <code>allow_client_cache_refresh</code> and clients send refresh headers such as <code>Cache-Control: no-cache</code>, <code>max-age=0</code>, or <code>Pragma: no-cache</code>. Pingora&#x27;s cacheability predictor is now available as an explicit opt-in policy through <code>[cache.predictor]</code>, <code>[vhosts.cache.predictor]</code>, and <code>[vhosts.routes.cache.predictor]</code>, with Fluxheim custom policy reasons skipped so configured bypass/refusal counters remain authoritative. Direct <code>CachePut</code>-style preload is useful but can land after the loopback <code>cache-warm</code> path because it is an operator convenience, not a correctness prerequisite. <code>HttpCacheDigest</code> lock/lookup timing is now exposed as Prometheus histograms, included in OTLP metrics export, and attached to OTLP request trace spans together with the bounded cache phase.</p>
+<p>Stable scope for declaring the cache pack complete:</p>
+<ul>
+<li>Memory cache with global and per-vhost size limits.</li>
+<li>Disk cache with global and per-vhost directory/size limits.</li>
+<li>Tiered memory+disk cache.</li>
+<li>Full cache-header semantics for static and proxied cacheable responses:</li>
+</ul>
+<p><code>Cache-Control</code>, <code>Expires</code>, <code>ETag</code>, <code>Last-Modified</code>, <code>Vary</code>, <code>Age</code>, <code>Accept-Ranges</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, request <code>Cache-Control</code>, <code>Pragma</code>, <code>Range</code>, and <code>If-Range</code>.</p>
+<ul>
+<li>User-configurable browser/CDN cache headers through global and per-vhost</li>
+</ul>
+<p>header policy.</p>
+<ul>
+<li>Route-scoped reverse-proxy cache policy for common gateway migrations,</li>
+</ul>
+<p>including path matchers for static upstream paths, operator-controlled cache keys, positive/negative status TTLs, stale-on-error behavior, cache-lock request collapsing, upstream <code>Cache-Control</code>/<code>Expires</code> override controls, response-header hiding for <code>Set-Cookie</code>, and optional cache-status response headers.</p>
+<ul>
+<li>Protected purge/status endpoints if admin module is enabled.</li>
+<li>Cache activity counters.</li>
+<li>Background/incremental cache cleanup with bounded work per tick and clear</li>
+</ul>
+<p>pressure metrics.</p>
+<ul>
+<li>Cache warm and metadata/debug commands suitable for release deploys and</li>
+</ul>
+<p>production incident response.</p>
+<ul>
+<li>Proxy cache HIT <code>Age</code>, conditional <code>304</code>/<code>200</code> validator match and mismatch</li>
+</ul>
+<p>behavior from <code>ETag</code> and <code>Last-Modified</code>, byte-range <code>206</code>, ETag/date <code>If-Range</code> match/mismatch behavior, cache-status HIT headers on cached conditional/range responses, HEAD probes that do not poison cached GET bodies, <code>Vary</code> variant isolation, stale-while-revalidate serving during background refresh, stale-if-error serving after upstream failure, cache-lock request collapsing for concurrent misses, disk HIT after restart, client refresh revalidation, and no-store request-bypass reason behavior are covered end to end. Admin exact/bulk purge, stale dry-run, tag purge, prefix purge, wildcard purge, and route-scoped purge are smoke tested against real cached objects after restart, with bounded Prometheus purge counters asserted for every protected purge shape in that smoke path.</p>
+<ul>
+<li>Proxied cache revalidation refreshes metadata safely when origins return</li>
+</ul>
+<p><code>304 Not Modified</code>. Freshness metadata, <code>ETag</code>, and changed <code>Last-Modified</code> values are covered in the current smoke suite. Changed <code>Vary</code> values on 304 are detected and treated as a refused revalidation metadata update so existing variant metadata is preserved; full changed-<code>Vary</code> re-keying remains a Pingora-path follow-up.</p>
+<ul>
+<li><code>scripts/stable_release_gate.sh</code> runs the promoted proxy-cache and local</li>
+</ul>
+<p>observability smoke suites before a <code>1.2</code> stable release.</p>
+<p>Focused cache-only follow-up releases after 1.2:</p>
+<ul>
+<li><code>1.2.1</code>: opt-in local/static vhost caching. This release has one job: make</li>
+</ul>
+<p>Fluxheim&#x27;s cache model consistent for operators who expect local <code>[vhosts.web]</code> and route-scoped web actions to participate in the same cache controls as proxied content. The local static-file cache supports whole-vhost and route-scoped web actions, prefers memory caching first to avoid duplicating local files on disk, keys by request identity plus canonical static file identity metadata, keeps the existing symlink/traversal protections, and exposes optional static cache-status and <code>Age</code> headers.</p>
+<ul>
+<li><code>1.2.2</code>: optional slab/bin disk storage backend for large, high-churn caches.</li>
+</ul>
+<p>This release has one job: evaluate and, if safe, add a storage-bin backend that pre-allocates large data files, stores objects in fixed-size or classed extents, maintains a durable free map and object index, supports crash recovery and compaction, and exposes fragmentation/space-amplification metrics. The filesystem object backend stays the portable default until slab storage proves safer and faster in production tests. The <code>1.2.2</code> line adds the <code>cache.disk.backend = &quot;storage-bin&quot;</code> runtime backend after the allocator, durable index, recovery path, and operational hooks are in place.</p>
+<ul>
+<li><code>1.2.3</code>: optional cache encryption at rest. This release has one job: add an</li>
+</ul>
+<p>opt-in cache encryption layer for disk cache objects, with key metadata designed alongside the storage-bin format. The default remains unencrypted and does not require OpenBao. The first implemented provider is a local file or systemd/container credential key source for small deployments. The OpenBao Transit provider supports regulated deployments that need centralized key custody, key versioning, and rotation while storing only Transit ciphertext in the cache backend. The cache object format records key id/version, nonce or Transit ciphertext marker, ciphertext length, and authenticated-data scope so objects cannot be swapped between cache keys. The release includes validated local-key and OpenBao example configs, local-key release-gate smoke coverage, and an optional Podman/OpenBao Transit smoke path.</p>
+<ul>
+<li><code>1.2.4</code>: distributed cache metadata and peer-fill. This release has one job:</li>
+</ul>
+<p>implement the first safe multi-node cache coherence model for clustered deployments, including peer-fill limits, failure behavior, metrics, and clear isolation between vhosts/routes. The release adds the <code>[cache.peer_fill]</code> config contract with bounded peer lists, explicit timeouts, fail-open behavior, and safe peer-origin validation. It also adds the safe <code>Cache-Control: only-if-cached</code> local-cache response path so peer fill can ask another node for a fresh cached object without causing that node to contact origin. Outbound peer-fill uses that path on local proxy-cache misses, stores valid peer hits locally, applies <code>fail_open</code> to decide whether a peer miss falls back to origin, preserves peer <code>Age</code>, stores <code>Vary</code> variants correctly, and is covered by a local multi-node smoke test.</p>
+<ul>
+<li><code>1.2.5</code>: focused bounded range-cache follow-up for large proxy-cache objects.</li>
+</ul>
+<p>This release adds opt-in caching for safe single <code>Range: bytes=start-end</code> proxy requests, stores range responses under range-specific cache keys, and admits only matching upstream <code>206</code> responses with correct <code>Content-Range</code> and <code>Content-Length</code>. It also rejects unkeyed upstream <code>206</code> responses from the full-object cache so partial responses cannot poison complete-object entries.</p>
+<ul>
+<li><code>1.2.6</code>: focused fixed-slice range-cache follow-up. This release adds</li>
+</ul>
+<p>opt-in slice composition for large proxy-cache objects, including bounded, open-ended, suffix, and multipart byte-range responses from fresh compatible slices, plus bounded missing-slice fill and per-slice request collapsing.</p>
+<p>Cross-cutting packaging follow-up for the next suitable <code>1.2.x</code> or <code>1.3</code> release: add proper manual pages for native deployments, including <code>fluxheim(8)</code>, <code>fluxheim.toml(5)</code>, ACME, cache, snapshot, reload/rollback, and config-validation workflows. The RPM should install the generated/static man pages into the distro manpath and the package checks should verify they are present.</p>
+<p>Exit criteria:</p>
+<ul>
+<li>Cache cannot exceed configured memory/disk budgets.</li>
+<li>Cache keys are collision-resistant and vhost-isolated.</li>
+<li>Operators can explicitly decide whether the query string participates in</li>
+</ul>
+<p>route-scoped static cache keys.</p>
+<ul>
+<li>Operators can set a cache key namespace per cache policy to intentionally</li>
+</ul>
+<p>isolate old and new route-cache contents without URL changes.</p>
+<ul>
+<li>Cache request-collapsing lock enablement and timeouts are configurable per</li>
+</ul>
+<p>cache policy. This is the cache-stampede protection path: one request for an uncached or expired key gets the origin writer permit while matching readers wait for the fill up to the configured timeout.</p>
+<ul>
+<li>Protected cache purge endpoints can target route-scoped cache policies by</li>
+</ul>
+<p>route name.</p>
+<ul>
+<li>Protected cache purge responses identify each requested host/method/path/query</li>
+</ul>
+<p>alongside the selected vhost/route and per-tier result, so production bulk purges are auditable.</p>
+<ul>
+<li>Cache respects method/content-type policy and request/response cache</li>
+</ul>
+<p>directives.</p>
+<ul>
+<li><code>Vary</code> handling is tested before negotiated variants are stable. Implemented</li>
+</ul>
+<p>initially with Pingora cache variance keys and unsafe/sensitive <code>Vary</code> rejection.</p>
+<ul>
+<li>Shared cache admission refuses <code>Set-Cookie</code> responses.</li>
+<li>Route-scoped proxy cache cannot leak personalized responses: upstream</li>
+</ul>
+<p><code>Set-Cookie</code> stripping and cache-header override controls require explicit config, are tested only on matched paths, and are documented with Forgejo-like static asset examples before being called stable.</p>
+<ul>
+<li>Route-scoped proxy cache can bypass lookup and storage when configured</li>
+</ul>
+<p>request headers such as <code>Cookie</code> or <code>Authorization</code> are present.</p>
+<ul>
+<li>Route-scoped proxy cache can explicitly include safe request headers such as</li>
+</ul>
+<p><code>Accept-Encoding</code> in the cache variance key when the origin omits <code>Vary</code>.</p>
+<ul>
+<li>Origin <code>Cache-Control</code>/<code>Expires</code> override controls are explicit opt-ins and</li>
+</ul>
+<p>remain scoped to matched cache routes.</p>
+<ul>
+<li>Route-scoped proxy cache can opt into <code>stale-if-error</code> windows so stored</li>
+</ul>
+<p>static objects may be served during upstream failures after normal freshness expires.</p>
+<ul>
+<li>Route-scoped proxy cache can opt into <code>stale-while-revalidate</code> windows so</li>
+</ul>
+<p>stored static objects may be served while Fluxheim revalidates them in the background.</p>
+<ul>
+<li>Proxied static-cache admission stores <code>200 OK</code> origin responses only when</li>
+</ul>
+<p>both the request extension and response media type match cache policy; non-200 statuses are admitted only when explicitly listed in cache <code>status_ttls</code>.</p>
+<ul>
+<li>Cache hits emit correct validator/freshness behavior, including <code>Age</code> where</li>
+</ul>
+<p>Fluxheim serves from cache. Pingora provides the cache-hit <code>Age</code>, conditional, and range hooks; Fluxheim&#x27;s smoke suite covers proxy cache HIT <code>Age</code>, conditional <code>304</code>/<code>200</code> validator match and mismatch behavior from <code>ETag</code> and <code>Last-Modified</code>, byte-range <code>206</code>, ETag/date <code>If-Range</code> match/mismatch behavior, cache-status HIT headers on cached conditional/range responses, HEAD probes that do not poison cached GET bodies, <code>Vary</code> variant isolation, stale-while-revalidate serving during background refresh, stale-if-error serving after upstream failure, cache-lock request collapsing for concurrent misses, disk HIT after restart, admin exact/bulk purge, stale dry-run, vhost prefix/tag/wildcard purge, route-scoped purge against real cached objects, and Prometheus purge counters for each protected purge shape, plus <code>Cache-Control</code>/<code>Pragma</code> refresh and bypass reason headers.</p>
+<ul>
+<li>HEAD requests intentionally bypass cache storage with the bounded</li>
+</ul>
+<p><code>method-head</code> reason in <code>1.2</code>; full HEAD-to-GET cache parity is deferred to beta/future compatibility work.</p>
+<ul>
+<li>Purge endpoints require admin protection and remove all stored <code>Vary</code></li>
+</ul>
+<p>variants for the selected cache identity.</p>
+<h3 id="1-6-wasm-extensibility">1.6 - WASM Extensibility</h3>
+<p>Goal: add one shared sandboxed extension runtime for nginx-Lua-style operator logic and VCL-like cache policy decisions, instead of creating separate partial extension systems for cache, proxy, WAF, or media features.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Compile-time <code>wasm</code> module.</li>
+<li>Plugin loading from approved directories with strict path, ownership, and</li>
+</ul>
+<p>symlink validation.</p>
+<ul>
+<li>Wasmtime-based sandbox evaluation after license/advisory review.</li>
+<li>Request header hook.</li>
+<li>Response header hook.</li>
+<li>Access-control hook returning allow, deny, or continue.</li>
+<li>Cache-policy hooks inspired by VCL, but designed as a constrained Rust/Wasm</li>
+</ul>
+<p>ABI rather than an embedded language:</p>
+<ul>
+<li>lookup/admission hook for bypass, pass, continue, or deny decisions;</li>
+<li>safe cache-key component hook with typed inputs and explicit</li>
+</ul>
+<p>low-cardinality output limits;</p>
+<ul>
+<li><code>put_object</code>/store-admission hook for response-header inspection,</li>
+</ul>
+<p>TTL override, tag assignment, and header mutation;</p>
+<ul>
+<li>invalidation hook for metadata predicates after the declarative 1.2 ban</li>
+</ul>
+<p>model is proven;</p>
+<ul>
+<li>all cache hooks must be bounded by fuel, wall time, memory, output size,</li>
+</ul>
+<p>and deterministic failure behavior.</p>
+<ul>
+<li>Strict module, memory, fuel, wall-time, log, mutation, synthetic response,</li>
+</ul>
+<p>and concurrency limits.</p>
+<ul>
+<li>Plugin hashing and admin/metrics visibility when those modules are enabled.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>Compile-time <code>wasm-proxy-abi</code> compatibility path.</li>
+<li>Per-vhost and per-route plugin chains.</li>
+<li>WASM-powered policy hooks for media, auth, WAF, or logging redaction.</li>
+</ul>
+<p>Experimental scope:</p>
+<ul>
+<li><code>wasm-wasi</code> with explicit capability grants.</li>
+<li>Streaming body hooks.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>WASM features are absent from default and privacy builds.</li>
+<li>Symlinked plugin files and symlinked parents are rejected.</li>
+<li>Unsupported ABI and host calls fail deterministically.</li>
+<li>Fuel exhaustion, timeout, trap, and plugin panic behavior is tested.</li>
+<li>Plugins cannot access bodies, filesystem, network, env, admin APIs, cache</li>
+</ul>
+<p>internals, or secrets without explicit capability grants.</p>
+<ul>
+<li>Plugins cannot directly control routing destinations or upstream TLS</li>
+</ul>
+<p>verification. Cache-key influence is allowed only through the constrained cache hook ABI with typed inputs, configured output limits, and explicit operator opt-in per vhost or route.</p>
+<h3 id="1-7-compression-pack">1.7 - Compression Pack</h3>
+<p>Goal: add safe, opt-in response compression without blocking request workers or breaking cache correctness.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Compile-time <code>compression</code> module.</li>
+<li><code>zstd</code> and <code>br</code> negotiation where client support and route policy allow it.</li>
+<li><code>gzip</code> compatibility fallback.</li>
+<li>Conservative MIME/content eligibility rules.</li>
+<li><code>Vary: Accept-Encoding</code> handling and cache-key isolation.</li>
+<li>Resource limits for input size, buffered size, level, and concurrency.</li>
+<li>Bounded offload for expensive compression work.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>Precompressed static asset discovery.</li>
+<li>Hardware or CPU-specific acceleration.</li>
+<li>Shared dictionary compression if standards and client support are mature.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Compressed and identity variants are cache-isolated.</li>
+<li>Already-compressed formats and <code>Cache-Control: no-transform</code> responses are</li>
+</ul>
+<p>not compressed.</p>
+<ul>
+<li>Personalized/sensitive responses are excluded by default.</li>
+<li>Downstream disconnects cancel or stop compression work.</li>
+<li>Default and <code>privacy-mode</code> builds prove compression is absent.</li>
+</ul>
+<h3 id="1-8-media-transform-pack">1.8 - Media Transform Pack</h3>
+<p>Goal: add safe, opt-in image transformation for static and proxied image responses.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Compile-time <code>image-filter</code> module.</li>
+<li>Per-vhost/per-route image transform policies.</li>
+<li>Image validation and metadata reporting.</li>
+<li>Resize, crop, and rotate by fixed safe angles.</li>
+<li>JPEG/PNG/GIF/WebP input support after codec review.</li>
+<li>JPEG/PNG/WebP output support after codec review.</li>
+<li>Metadata stripping by default.</li>
+<li>Hard limits for input bytes, decoded pixels, output bytes, dimensions,</li>
+</ul>
+<p>timeout, and concurrency.</p>
+<ul>
+<li>Transform cache-key isolation when <code>cache</code> is enabled.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>AVIF input/output.</li>
+<li>Sharpen/blur/grayscale transforms.</li>
+<li>Animated image preservation.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Default builds do not include image filtering.</li>
+<li>Codec dependencies pass license and advisory policy.</li>
+<li>Decode-bomb, malformed-image, timeout, and concurrency tests pass.</li>
+<li>Transformed variants are isolated by vhost, source, transform policy, output</li>
+</ul>
+<p>format, dimensions, quality, and <code>Accept</code> bucket.</p>
+<ul>
+<li><code>privacy-mode</code> rejects incompatible transform/cache combinations.</li>
+</ul>
+<h3 id="1-9-advanced-certificate-automation">1.9 - Advanced Certificate Automation</h3>
+<p>Goal: extend the <code>1.1</code> certificate lifecycle with provider-specific and zero-downtime automation that is too broad for the first ACME release.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Zero-downtime certificate reload through the runtime/snapshot model if it was</li>
+</ul>
+<p>not promoted in <code>1.1</code>.</p>
+<ul>
+<li>DNS-01 support for wildcard certificates if a safe provider interface exists.</li>
+<li>Certificate deployment hooks for external secret stores.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>Cloudflare Origin CA automation behind <code>cloudflare-origin-ca</code>.</li>
+<li>Additional ACME providers with non-standard account or challenge behavior.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Renewal failure does not drop active traffic.</li>
+<li>Private key storage permissions are validated.</li>
+<li>Tests cover renewal scheduling and reload classification.</li>
+</ul>
+<h3 id="1-10-privacy-and-security-profiles">1.10 - Privacy And Security Profiles</h3>
+<p>Goal: provide explicit security/privacy build profiles.</p>
+<p>Stable scope:</p>
+<ul>
+<li><code>privacy-mode</code> zero-retention build profile.</li>
+<li>Compile-time incompatibility guards.</li>
+<li>No access logs, request metrics, disk cache, WAF audit logs, or client-IP</li>
+</ul>
+<p>forwarding in privacy builds.</p>
+<ul>
+<li>Hardened filesystem trust checks inspect sensitive path ownership and write</li>
+</ul>
+<p>permissions consistently across config, TLS, ACME, admin token, snapshot, process, log, and cache paths. POSIX ACL inspection is tracked here as the next strict-profile hardening step after mode-bit enforcement.</p>
+<p>Beta scope:</p>
+<ul>
+<li>Native WAF header/body scoring behind <code>waf-native</code>.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Privacy build proves metrics/logging exporters are absent.</li>
+<li>Forwarded IP headers are stripped in privacy mode.</li>
+<li>WAF is dry-run capable and redacts secrets before beta promotion.</li>
+</ul>
+<h3 id="1-11-cloudflare-origin-pack">1.11 - Cloudflare Origin Pack</h3>
+<p>Goal: support Cloudflare as a verified trusted peer.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Trusted Cloudflare IP range loading.</li>
+<li>Safe real-IP restoration only after trust validation.</li>
+<li>Ray ID log correlation.</li>
+<li>Optional IP range refresh with last-known-good fallback.</li>
+<li>Integration with the future trusted-client identity layer when that layer</li>
+</ul>
+<p>exists, while still keeping Cloudflare support compile-time optional.</p>
+<p>Beta scope:</p>
+<ul>
+<li>AOP/mTLS automation.</li>
+<li>Origin CA automation if not stabilized in <code>1.9</code>.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Spoofed <code>CF-*</code> headers from non-Cloudflare peers are ignored.</li>
+<li>API tokens are never logged.</li>
+<li>AOP mode clearly distinguishes global, zone-level, and per-hostname trust.</li>
+</ul>
+<h3 id="1-12-trusted-client-identity-layer">1.12 - Trusted Client Identity Layer</h3>
+<p>Goal: make restored client identity safe, auditable, and reusable across load balancers, private gateways, and provider packs.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Typed request identity context with separate direct peer IP, trusted proxy</li>
+</ul>
+<p>chain, restored client IP, and provider metadata.</p>
+<ul>
+<li>Explicit trusted-client profiles with CIDRs, selected headers, recursive</li>
+</ul>
+<p>chain traversal, and <code>max_hops</code>.</p>
+<ul>
+<li>Last-untrusted-hop selection for multi-proxy <code>X-Forwarded-For</code> chains.</li>
+<li>Config validation for ambiguous or unsafe trust policies.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>Provider-managed trusted ranges with background refresh and last-known-good</li>
+</ul>
+<p>fallback.</p>
+<ul>
+<li>Proxy Protocol v2 listener support with bounded TLV metadata allow-lists.</li>
+<li>Optional local Geo/ASN/threat metadata enrichment.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Spoofed forwarded headers from untrusted peers are ignored.</li>
+<li>Malformed or oversized forwarding chains are rejected or ignored safely.</li>
+<li>Direct peer, restored client IP, and chain metadata remain separately</li>
+</ul>
+<p>inspectable in tests.</p>
+<ul>
+<li>Provider range refresh failure keeps the last valid set and reports health.</li>
+<li>Proxy Protocol v2 framing is tested independently from normal HTTP</li>
+</ul>
+<p>listeners.</p>
+<ul>
+<li>Privacy builds reject real-client restoration and IP enrichment unless a</li>
+</ul>
+<p>no-retention design is implemented.</p>
+<h3 id="1-13-advanced-metrics-and-logging">1.13 - Advanced Metrics And Logging</h3>
+<p>Goal: add richer observability without hurting the request path.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Advanced per-vhost metrics buckets.</li>
+<li>Cache/LB/admin/security counters.</li>
+<li>Bounded async logging dispatcher.</li>
+<li>Optional local file sink.</li>
+<li>Compile-time <code>otel-tracing</code> module.</li>
+<li>W3C Trace Context propagation.</li>
+<li>Trace-log correlation through structured log fields.</li>
+<li>Low-cardinality internal spans for vhost routing, request filtering, cache,</li>
+</ul>
+<p>upstream selection, upstream connect/response, and static file serving.</p>
+<ul>
+<li>Head-based probabilistic sampling.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>Remote logging sink with circuit breaker.</li>
+<li>Production-grade <code>metrics-otlp</code> and <code>otel-otlp</code> exporter health, TLS/gRPC</li>
+</ul>
+<p>transport, histogram export, and collector failure metrics on top of the initial local HTTP exporters.</p>
+<ul>
+<li>Latency-aware and status-aware trace sampling.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Remote sink failure never blocks request workers.</li>
+<li>Cardinality attack tests pass.</li>
+<li>Queue overflow behavior is explicit and tested.</li>
+<li>Malformed trace context is rejected or ignored without reflection.</li>
+<li>Trace IDs are propagated to upstreams and correlated in logs.</li>
+<li>Collector failure never blocks request workers.</li>
+<li>Sensitive span attributes are redacted.</li>
+<li>OpenTelemetry features are absent from default and privacy builds.</li>
+</ul>
+<h3 id="1-14-traffic-policy-and-safety-pack">1.14 - Traffic Policy And Safety Pack</h3>
+<p>Goal: add declarative redirect/rewrite policy plus controlled release-safety tools for operators who need to test new backends without changing client-visible responses.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Declarative redirect rules for common permanent and temporary redirects.</li>
+<li>Declarative request rewrite rules with named matchers.</li>
+<li>Path-template rewrites without raw string concatenation.</li>
+<li>Config-load loop detection for internal rewrites.</li>
+<li>Per-vhost traffic mirroring for idempotent requests.</li>
+<li>Percentage-based sampling.</li>
+<li>Mirror timeout budgets isolated from the primary request.</li>
+<li>Mirror result counters when <code>metrics</code> is enabled.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>Multi-pattern matcher compilation for large rule sets.</li>
+<li>Query-parameter merge, strip, and allow-list policies.</li>
+<li>WASM hook for complex rewrite decisions after the WASM sandbox is stable.</li>
+<li>Body redaction/transformation policies.</li>
+<li>Identity-claim based sampling if <code>identity</code> is enabled.</li>
+<li>Mirroring of non-idempotent methods with explicit operator opt-in.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Rewrite cycles are rejected at config load.</li>
+<li>Redirect destinations are validated to prevent open redirects.</li>
+<li>Matcher tests cover host, path, method, header, and query conditions.</li>
+<li>Mirror failures never alter the live client response.</li>
+<li>Credentials and cookies are stripped unless explicitly allow-listed.</li>
+<li>Mirroring is incompatible with <code>privacy-mode</code>.</li>
+<li>Tests cover cancellation, timeout, sampling, and redaction behavior.</li>
+</ul>
+<h3 id="1-15-external-authorization-and-identity-aware-routing">1.15 - External Authorization And Identity-Aware Routing</h3>
+<p>Goal: enforce access decisions through a trusted authorization service first, then add native identity verification and claim-aware routing.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Compile-time <code>auth-request</code> module.</li>
+<li>Per-vhost/per-route authorization probes.</li>
+<li>Global auth zones that protect a vhost by default with explicit route/path</li>
+</ul>
+<p>exclusions.</p>
+<ul>
+<li>Decision handling: allow on <code>2xx</code>, deny on <code>401</code>/<code>403</code>, and treat every other</li>
+</ul>
+<p>auth service status as an error.</p>
+<ul>
+<li>Fail-closed default with explicit <code>fail_open</code> opt-in.</li>
+<li>Header allow-lists for auth request metadata, auth response headers copied to</li>
+</ul>
+<p>upstreams, and challenge headers copied to clients.</p>
+<ul>
+<li>Auth backend timeouts and response-size limits.</li>
+<li>HTTPS and Unix-domain-socket auth hooks.</li>
+<li>Compile-time <code>identity-oidc</code> module.</li>
+<li>OIDC discovery and JWKS caching.</li>
+<li>JWT issuer, audience, expiry, and algorithm validation.</li>
+<li>Per-vhost claim-based allow/deny/routing policy.</li>
+<li>Verified header injection after stripping spoofable inbound identity headers.</li>
+<li>Configured browser login redirects and API/AJAX denial responses.</li>
+<li>Compile-time <code>secure-links</code> module for signed URL grants.</li>
+<li>HMAC and Ed25519 verification for signed route access.</li>
+<li>Expiry, path, method, audience, and route-claim validation.</li>
+<li>Redaction for secure-link tokens in logs and errors.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>Optional auth-decision caching with bounded positive/negative TTLs.</li>
+<li>Auth backend mTLS.</li>
+<li>gRPC authorization hooks.</li>
+<li>OAuth2 token introspection.</li>
+<li>Tenant/subscription-tier based upstream pool selection.</li>
+<li>Replay/usage controls for signed links when an explicit state backend is</li>
+</ul>
+<p>available.</p>
+<p>Exit criteria:</p>
+<ul>
+<li>Auth requests are absent from default builds and incompatible with</li>
+</ul>
+<p><code>privacy-mode</code>.</p>
+<ul>
+<li>Auth loops are rejected by config validation.</li>
+<li><code>2xx</code>, <code>401</code>, <code>403</code>, error-status, timeout, and response-size behavior are</li>
+</ul>
+<p>tested.</p>
+<ul>
+<li>Spoofable identity and forwarding headers are stripped before auth decisions.</li>
+<li>Raw tokens are never logged.</li>
+<li>Token and JWKS sizes are bounded.</li>
+<li>Key rotation and stale-key behavior are tested.</li>
+<li>Spoofed identity headers are stripped before verified replacements are added.</li>
+<li>Global auth zones are tested so protected vhosts cannot accidentally expose a</li>
+</ul>
+<p>route through missing per-route auth config.</p>
+<ul>
+<li>Browser redirect return destinations are normalized and validated.</li>
+<li>Signed links reject expired, malformed, wrong-path, wrong-method, and</li>
+</ul>
+<p>wrong-audience tokens.</p>
+<ul>
+<li>Signed-link tokens and decoded claims are redacted from logs and errors.</li>
+</ul>
+<h3 id="1-16-cluster-state">1.16 - Cluster State</h3>
+<p>Goal: let Fluxheim nodes share selected operational and security state without requiring external infrastructure for the first useful cases.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Compile-time <code>cluster-state</code> module.</li>
+<li>Authenticated peer identity and transport.</li>
+<li>Version negotiation.</li>
+<li>Gossip-style replication for low-risk state such as blocklists, drain state,</li>
+</ul>
+<p>backend health hints, and coarse counters.</p>
+<ul>
+<li>Admin/metrics visibility into cluster health.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>Strict global rate-limit leases.</li>
+<li>Consensus-backed state for policies that cannot safely diverge.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>State replication never appears in default or privacy builds.</li>
+<li>Split-brain, clock-skew, restart, and downgrade tests pass.</li>
+<li>Replicated state avoids raw paths, queries, cookies, authorization headers,</li>
+</ul>
+<p>user agents, and client IPs unless an explicit non-privacy policy allows it.</p>
+<ul>
+<li>Global rate limits document whether they are <code>local_only</code>, <code>eventual</code>, or</li>
+</ul>
+<p><code>strict</code>.</p>
+<h3 id="1-17-ai-gateway">1.17 - AI Gateway</h3>
+<p>Goal: add AI-aware proxy controls for cost, safety, and cacheability where operators explicitly opt in.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Compile-time <code>ai-gateway</code> module.</li>
+<li>Model allow-lists and per-vhost model routing.</li>
+<li>Provider API key redaction.</li>
+<li>Request/body limits for AI routes.</li>
+<li>Token accounting from provider usage metadata where available.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>Token-estimation fallback for providers without usage metadata.</li>
+<li>Token-per-minute and tenant quota enforcement.</li>
+<li>Prompt-guard dry-run scoring.</li>
+</ul>
+<p>Experimental scope:</p>
+<ul>
+<li>Semantic response caching through vector similarity.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Prompt and response logging is redacted by default.</li>
+<li>Cache entries are isolated by vhost, tenant, model, and policy version.</li>
+<li>Semantic caching is opt-in per route and refuses sensitive/private contexts by</li>
+</ul>
+<p>default.</p>
+<ul>
+<li>Tests cover token budgets, provider metadata parsing, redaction, cache</li>
+</ul>
+<p>isolation, and default/privacy build absence.</p>
+<h3 id="1-18-sentinel-mesh">1.18 - Sentinel Mesh</h3>
+<p>Goal: graduate the encrypted gateway-to-backend tunnel design into a supported small-cluster routing module.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Compile-time <code>sentinel-mesh</code> module.</li>
+<li>Authenticated node identity.</li>
+<li>Encrypted gateway-to-backend transport policy.</li>
+<li>Signed backend health/load telemetry.</li>
+<li>Smart load-balancer selection from verified telemetry.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>Userspace WireGuard transport for rootless deployments.</li>
+<li>Multi-datacenter route policy.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Wrong-peer, stale-telemetry, tunnel-restart, and failover tests pass.</li>
+<li>No plaintext fallback exists unless explicitly configured.</li>
+<li>Rootless Podman smoke coverage exists for the supported transport.</li>
+<li>Mesh code is absent from default and privacy builds.</li>
+</ul>
+<h3 id="1-19-optional-host-sandbox-module">1.19 - Optional Host Sandbox Module</h3>
+<p>Goal: provide an opt-in in-process Linux sandbox for deployments that cannot rely only on systemd or container runtime policy.</p>
+<p>Research scope:</p>
+<ul>
+<li>Compile-time <code>host-sandbox</code> module family, disabled by default.</li>
+<li>Linux-only subfeatures such as <code>host-sandbox-seccomp</code> and</li>
+</ul>
+<p><code>host-sandbox-landlock</code>.</p>
+<ul>
+<li>Apply the sandbox only after config parsing, certificate loading, listener</li>
+</ul>
+<p>binding, and runtime directory setup are complete.</p>
+<ul>
+<li>Deny process creation and executable loading after initialization:</li>
+</ul>
+<p><code>execve</code>, <code>execveat</code>, <code>fork</code>, <code>vfork</code>, and <code>clone</code> variants that create new processes.</p>
+<ul>
+<li>Landlock path policy for approved config, content, cache, log, runtime, and</li>
+</ul>
+<p>state roots.</p>
+<ul>
+<li>Compatibility mode for rootless containers and native systemd deployments.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Sandbox features are absent from default builds until promoted and tested.</li>
+<li>A failed sandbox install must fail closed unless the operator explicitly</li>
+</ul>
+<p>configures report-only mode for testing.</p>
+<ul>
+<li>Tests cover normal static/proxy serving, denied process execution, denied</li>
+</ul>
+<p>unapproved path access, reload behavior, and container/native differences.</p>
+<ul>
+<li>Documentation states that systemd/container sandboxing remains the stable</li>
+</ul>
+<p><code>1.0</code> boundary; in-process seccomp/Landlock is an additional hardening layer, not a replacement for least-privilege deployment.</p>
+<h3 id="2-0-remaining-dynamic-runtime-boundary">2.0 - Remaining Dynamic Runtime Boundary</h3>
+<p>Goal: add non-PHP dynamic runtime features only after a deliberate major boundary. PHP has moved into the <code>1.3.x</code> line because FastCGI/PHP-FPM support is the highest-priority adoption blocker, but other process-execution runtimes still need a separate threat-model boundary.</p>
+<p>Candidate scope:</p>
+<ul>
+<li>Perl CGI with process isolation.</li>
+</ul>
+<p>Reason for 2.0:</p>
+<p>Arbitrary CGI and other process-launch runtimes change Fluxheim from a proxy/static/PHP-FPM gateway into a broader application execution host. That is a larger threat-model change than cache, load balancing, or certificate automation.</p>
+<p>Exit criteria:</p>
+<ul>
+<li>Runtime modules are compile-time optional and disabled by default.</li>
+<li>Process isolation is tested.</li>
+<li>Source files are never served as static fallback.</li>
+<li>Rootless Podman examples exist for every runtime.</li>
+</ul>
+<h3 id="future-dependency-reduction-and-sovereign-core">Future - Dependency Reduction And Sovereign Core</h3>
+<p>Goal: after the main web, cache, PHP, proxy, load-balancer, and extension surfaces are stable, reduce long-term dependency risk by moving bounded Fluxheim-specific logic in-tree and hiding large external engines behind Fluxheim-owned interfaces.</p>
+<p>This is a far-future hardening track, not a reason to delay feature parity. During <code>1.4</code> and <code>1.5</code>, new code should still be designed with this direction in mind: keep dependency additions feature-gated, avoid exposing third-party types in Fluxheim&#x27;s public config/runtime boundaries, and prefer small local implementations where the behavior is narrow and security-reviewable.</p>
+<p>Good candidates:</p>
+<ul>
+<li>load-balancer selection algorithms and persistence tables;</li>
+<li>queue, overload, and circuit-breaker policy;</li>
+<li>cache indexing helpers and bounded metadata structures;</li>
+<li>header, rewrite, and variable evaluation helpers;</li>
+<li>release/build helper scripts where shell/Python dependencies can shrink.</li>
+</ul>
+<p>Poor candidates until much later:</p>
+<ul>
+<li>TLS and cryptographic primitives;</li>
+<li>HTTP/2, HTTP/3, QUIC, and complex protocol state machines;</li>
+<li>async runtime internals;</li>
+<li>compression codecs and media/container parsers;</li>
+<li>mature parser libraries where replacement bugs would become security bugs.</li>
+</ul>
+<p>Exit criteria before replacing a mature dependency:</p>
+<ul>
+<li>the replacement has fuzz/property tests where applicable;</li>
+<li>security behavior is documented and covered by malformed-input tests;</li>
+<li>performance and memory bounds match or improve the previous implementation;</li>
+<li>release notes explain the dependency removal and migration risk;</li>
+<li>the old implementation remains available behind a temporary feature gate when</li>
+</ul>
+<p>rollback risk is high.</p>
+<h3 id="2-1-programmable-media-edge">2.1 - Programmable Media Edge</h3>
+<p>Goal: add media-aware manifest, segment, and personalization features only after the cache, identity, metrics, and traffic-safety modules are mature.</p>
+<p>Stable scope:</p>
+<ul>
+<li>Compile-time <code>media-edge</code> module.</li>
+<li>HLS manifest parser and safe rewrite engine.</li>
+<li>Segment URL normalization and escape rejection.</li>
+<li>Manifest size, segment count, variant count, and recursion limits.</li>
+<li>Segment-aware cache-key design for HLS/VOD and live-window policies.</li>
+<li>Media metrics with cardinality-safe labels.</li>
+</ul>
+<p>Beta scope:</p>
+<ul>
+<li>DASH manifest parser after XML parser review.</li>
+<li>Dynamic manifest stitching through a trusted decision service.</li>
+<li>WASM policy plugins inside a strict sandbox.</li>
+</ul>
+<p>Research scope:</p>
+<ul>
+<li>Forensic watermarking.</li>
+<li>TS/fMP4 segment mutation.</li>
+<li>Edge transmuxing and packaging.</li>
+</ul>
+<p>Exit criteria:</p>
+<ul>
+<li>Media features are absent from default and privacy builds.</li>
+<li>Manifest parser fuzzing passes before beta.</li>
+<li>Segment cache keys isolate vhost, asset, representation, range, sequence,</li>
+</ul>
+<p>key ID, tenant/entitlement policy, and media policy version.</p>
+<ul>
+<li>Personalized URLs, tokens, entitlement claims, media keys, and raw manifests</li>
+</ul>
+<p>are redacted from logs.</p>
+<ul>
+<li>Stitched manifest failures cannot affect non-media routes.</li>
+<li>Any segment or bitstream mutation has parser fuzzing, codec/container</li>
+</ul>
+<p>compatibility tests, and a documented legal/privacy policy.</p>
+<h3 id="experimental-only-tracks">Experimental-Only Tracks</h3>
+<p>These should not be promised in a stable minor until proven:</p>
+<ul>
+<li>HTTP/3/QUIC, including UDP listener ownership, <code>Alt-Svc</code> advertisement,</li>
+</ul>
+<p>replay-safe 0-RTT policy, and parity with the normal vhost/proxy/cache pipeline.</p>
+<ul>
+<li>Legacy HTTP/1.0 and HTTP/0.9 static listeners.</li>
+<li>Coraza/Proxy-Wasm WAF compatibility.</li>
+<li>Pure Rust PHP interpreter experiments.</li>
+<li>Strict cluster consensus for hard global quotas.</li>
+<li>Semantic AI response caching.</li>
+<li>Forensic video watermarking.</li>
+<li>Edge transmuxing and packaging.</li>
+<li>WASI capability plugins.</li>
+<li>Streaming body mutation through WASM.</li>
+</ul>
+<h2 id="what-changes-in-cargo-defaults">What Changes In Cargo Defaults</h2>
+<p>The <code>0.5</code> and <code>1.0</code> default feature set is intentionally narrowed to core modules only:</p>
+<pre class="language-toml"><code class="language-toml">default = [&quot;proxy&quot;, &quot;web&quot;, &quot;cache&quot;, &quot;tls-rustls&quot;, &quot;security&quot;]</code></pre>
+<p>Modules such as <code>load-balancer</code>, <code>acme</code>, <code>metrics</code>, <code>admin</code>, <code>privacy-mode</code>, <code>image-filter</code>, <code>media-edge</code>, <code>wasm</code>, <code>waf</code>, <code>cloudflare</code>, PHP, CGI, and legacy HTTP should be selected explicitly until their target release graduates them.</p>
+<p>The <code>1.3.0</code> feature graph starts splitting shared ingress/TLS from feature families that happen to use it. <code>tls-rustls</code> no longer selects the full proxy module by itself, and focused cache/proxy image profiles no longer compile local static web serving. The current shared building blocks are:</p>
+<pre class="language-toml"><code class="language-toml">ingress = [&quot;dep:pingora&quot;, &quot;dep:tokio&quot;, &quot;dep:bytes&quot;, &quot;dep:http&quot;]
+proxy = [&quot;ingress&quot;, ...]
+web = [...]
+cache = [...]
+load-balancer = [&quot;proxy&quot;, ...] # transitional until the 1.5 load-balancer line
+tls = [&quot;ingress&quot;, &quot;dep:rustix&quot;]
+tls-rustls = [&quot;tls&quot;, &quot;pingora/rustls&quot;, &quot;dep:rustls&quot;, &quot;rustls/ring&quot;]
+tls-rustls-fips = [&quot;tls&quot;, &quot;pingora/rustls&quot;, &quot;dep:rustls&quot;, &quot;rustls/fips&quot;] # planned; provider-aware AWS-LC FIPS path
+fips-required = [] # planned guard after backend/provider checks and internal crypto routing exist
+acme = [&quot;tls&quot;, ...]</code></pre>
+<p>The contract should not change: TLS and ACME are ingress capabilities, not webserver capabilities. FIPS-capable TLS features should follow the same rule: they are backend-specific ingress capabilities and must not pull in unrelated web/cache/proxy/load-balancer behavior.</p>
+<p>Grouped builds should be exposed as Cargo feature aliases, not a custom <code>--group</code> flag. The initial profile aliases are <code>profile-core</code>, <code>profile-static-site</code>, <code>profile-reverse-proxy</code>, <code>profile-cache-server</code>, <code>profile-load-balancer</code>, <code>profile-observability</code>, and <code>profile-privacy</code>.</p>
+<p>The first focused profile aliases are:</p>
+<ul>
+<li><code>profile-web-server</code>: static/local web serving with TLS. In the initial</li>
+</ul>
+<p><code>1.3.0</code> split this still selects the shared proxy runtime because static serving has not yet been separated from that ingress service.</p>
+<ul>
+<li><code>profile-cache-edge</code>: cache server with TLS/ACME and proxy-cache transport,</li>
+</ul>
+<p>but no local static webserver behavior unless <code>web</code> is also selected.</p>
+<ul>
+<li><code>profile-proxy-edge</code>: reverse proxy with TLS/ACME and advanced proxy</li>
+</ul>
+<p>controls, but no static web/cache/LB unless selected.</p>
+<ul>
+<li><code>profile-load-balancer-edge</code>: load balancer with TLS/ACME and observability,</li>
+</ul>
+<p>but no static web/cache or single-upstream proxy extras unless selected.</p>
+<ul>
+<li><code>profile-full</code>: convenience all-in profile for operators who want one binary</li>
+</ul>
+<p>with every stable production module.</p>
+<p>Container image profiles follow the same names where the release line publishes them:</p>
+<ul>
+<li><code>full</code>: all stable production modules.</li>
+<li><code>cache</code>: focused cache edge, TLS-capable, no local webserver by default.</li>
+<li><code>proxy</code>: focused reverse proxy, TLS-capable.</li>
+<li><code>load-balancer</code>: focused load balancer, TLS-capable; prepared and manually</li>
+</ul>
+<p>dispatchable in <code>1.3.0</code>, normally published once the <code>1.5</code> line promotes the runtime behavior.</p>
+<p>The <code>profile-web-server</code> feature alias exists for native/custom builds. A separate official web-only image can be added with the PHP line if it becomes useful for operators.</p>
+<p>Each focused image must have CI checks proving that unrelated modules are absent from the binary feature set. Runtime config validation should reject disabled module config with actionable errors such as &quot;web module not compiled&quot; or &quot;load-balancer module not compiled&quot;.</p>
+<p>Package scripts that accept a raw <code>--features</code> value should run <code>scripts/validate-features.sh</code> before Cargo. This catches unsupported feature combinations, especially multiple TLS backends, before dependency compilation reaches Pingora.</p>
+<h2 id="git-tags">Git Tags</h2>
+<p>Use signed annotated tags. This repository should have SSH signing configured locally with <code>gpg.format=ssh</code>, <code>user.signingkey</code>, and <code>tag.gpgSign=true</code>; verify with <code>git config --local --get tag.gpgSign</code>.</p>
+<pre class="language-bash"><code class="language-bash">git tag -s v0.5.0 -m &quot;Fluxheim 0.5.0&quot;
+git tag -v v0.5.0
+git push origin v0.5.0
+
+git tag -s v1.0.0 -m &quot;Fluxheim 1.0.0&quot;
+git tag -v v1.0.0
+git push origin v1.0.0</code></pre>
+<p>Patch releases should normally contain fixes only. The <code>1.2.x</code> cache line is the exception while the cache server is being completed as a focused sequence:</p>
+<ul>
+<li><code>v0.5.1</code>: security or bug fixes for the basic-sites preview.</li>
+<li><code>v1.0.1</code>: security or bug fixes for stable core.</li>
+<li><code>v1.1.1</code>: fixes for TLS policy hardening.</li>
+<li><code>v1.2.1</code>: focused opt-in local static-file caching for whole vhosts or</li>
+</ul>
+<p>matched web routes.</p>
+<ul>
+<li><code>v1.2.2</code>: focused slab/bin cache storage backend, if it proves safe enough</li>
+</ul>
+<p>after <code>1.2</code>.</p>
+<ul>
+<li><code>v1.2.3</code>: focused optional cache encryption at rest with local-key support</li>
+</ul>
+<p>and OpenBao Transit provider support.</p>
+<ul>
+<li><code>v1.2.4</code>: focused distributed cache metadata and peer-fill release.</li>
+<li><code>v1.2.5</code>: focused bounded range-cache follow-up for large proxy-cache</li>
+</ul>
+<p>objects before <code>1.3</code>.</p>
+<ul>
+<li><code>v1.2.6</code>: focused fixed-slice range-cache composition follow-up before</li>
+</ul>
+<p><code>1.3</code>.</p>
+<ul>
+<li><code>v1.3.1</code>: <code>php-fpm</code> FastCGI bridge.</li>
+<li><code>v1.3.2</code>: ACME companion agent, zero-downtime first-issuance activation, and</li>
+</ul>
+<p>release-page config tester binaries.</p>
+<ul>
+<li><code>v1.3.3</code>: focused php-fpm hardening and compatibility fixes.</li>
+<li><code>v1.3.4</code>: embedded Rust PHP/Turbine-style integration if review passes.</li>
+<li><code>v1.3.5</code>: pure-Rust PHP interpreter experiment behind <code>php-phprs</code>.</li>
+<li><code>v1.4.1</code>: fixes for advanced proxy parity.</li>
+<li><code>v1.5.1</code>: fixes for load balancer.</li>
+<li><code>v1.6.1</code>: fixes for the shared Wasm extensibility runtime.</li>
+</ul>
+<h2 id="changelog-shape">Changelog Shape</h2>
+<p>Every release should include:</p>
+<ul>
+<li>stable features added;</li>
+<li>beta/experimental features included but not supported as stable;</li>
+<li>security fixes;</li>
+<li>dependency updates;</li>
+<li>migration notes;</li>
+<li>known limitations;</li>
+<li>exact release check command output summary.</li>
+</ul>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

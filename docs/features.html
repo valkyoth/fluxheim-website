@@ -88,6 +88,7 @@
           <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3>
           <ul class="space-y-0.5">
             <li><a href="advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">PHP-FPM, WAF & More</a></li>
+            <li><a href="reference.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Source Reference</a></li>
           </ul>
         </div>
         <div class="border-t border-gray-800/60 pt-5">
@@ -313,6 +314,27 @@ cargo build --release --no-default-features \
         </div>
 
         <div class="prose">
+          <h2>Cache Encryption Key Utility</h2>
+          <p><code>fluxheim cache-keygen</code> is available in every build profile. It prints one random 256-bit lowercase hex key suitable for <code>[cache.disk.encryption] provider = "local"</code>. The command does not write files; pipe it into your secret manager, systemd credential source, or container secret workflow.</p>
+        </div>
+
+        <div class="code-win my-6">
+          <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — local cache encryption key</span></div>
+<pre class="language-bash"><code class="language-bash">fluxheim cache-keygen</code></pre>
+        </div>
+
+        <div class="prose">
+          <h2>Feature Validation</h2>
+          <p>Use <code>scripts/validate-features.sh</code> before packaging custom feature strings. The validator expands profile aliases and rejects unsupported combinations before Cargo starts compiling Pingora.</p>
+        </div>
+
+        <div class="code-win my-6">
+          <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — feature validation</span></div>
+<pre class="language-bash"><code class="language-bash">scripts/validate-features.sh proxy,web,tls-rustls
+scripts/validate-features.sh profile-privacy</code></pre>
+        </div>
+
+        <div class="prose">
           <h2>Privacy Build Constraints</h2>
           <p>The <code>privacy-mode</code> feature is incompatible with <code>cache</code>, <code>metrics</code>, <code>metrics-otlp</code>, <code>otel-tracing</code>, and <code>otel-otlp</code> at compile time. Always use <code>--no-default-features</code> with <code>profile-privacy</code>, since the default build includes <code>cache</code>.</p>
         </div>
@@ -325,6 +347,37 @@ cargo build --release --no-default-features \
 
 # Validate custom feature combination before building
 scripts/validate-features.sh proxy,web,tls-rustls,privacy-mode</code></pre>
+        </div>
+
+        <div class="prose">
+          <h2>Planned Future Feature Families</h2>
+          <p>These are documented architecture tracks, not enabled Cargo features in v1.3.2. The full upstream source documents are available in the <a href="reference.html" class="text-cyan-400 hover:text-cyan-300">Source Reference</a>.</p>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-gray-800 my-6">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-gray-800 bg-gray-900/60">
+                <th class="text-left px-4 py-3 font-semibold text-gray-400">Feature family</th>
+                <th class="text-left px-4 py-3 font-semibold text-gray-400">Source document</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-800/50">
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">Compression</td><td class="px-4 py-3"><a href="source/compression.html" class="text-cyan-400 hover:text-cyan-300">compression.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">Image filter</td><td class="px-4 py-3"><a href="source/image-filter.html" class="text-cyan-400 hover:text-cyan-300">image-filter.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">Programmable media edge</td><td class="px-4 py-3"><a href="source/programmable-media-edge.html" class="text-cyan-400 hover:text-cyan-300">programmable-media-edge.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">OpenTelemetry OTLP export</td><td class="px-4 py-3"><a href="source/opentelemetry-tracing.html" class="text-cyan-400 hover:text-cyan-300">opentelemetry-tracing.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">WASM extensibility</td><td class="px-4 py-3"><a href="source/wasm-extensibility.html" class="text-cyan-400 hover:text-cyan-300">wasm-extensibility.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">WAF</td><td class="px-4 py-3"><a href="source/waf-architecture.html" class="text-cyan-400 hover:text-cyan-300">waf-architecture.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">Cloudflare origin support</td><td class="px-4 py-3"><a href="source/cloudflare-origin-support.html" class="text-cyan-400 hover:text-cyan-300">cloudflare-origin-support.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">External authorization request</td><td class="px-4 py-3"><a href="source/auth-request.html" class="text-cyan-400 hover:text-cyan-300">auth-request.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">Secure links</td><td class="px-4 py-3"><a href="source/secure-links.html" class="text-cyan-400 hover:text-cyan-300">secure-links.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">PHP runtimes</td><td class="px-4 py-3"><a href="source/php-runtime-support.html" class="text-cyan-400 hover:text-cyan-300">php-runtime-support.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">Perl CGI</td><td class="px-4 py-3"><a href="source/perl-cgi-support.html" class="text-cyan-400 hover:text-cyan-300">perl-cgi-support.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">Legacy static HTTP listeners</td><td class="px-4 py-3"><a href="source/legacy-static-http.html" class="text-cyan-400 hover:text-cyan-300">legacy-static-http.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">WireGuard smart load balancing</td><td class="px-4 py-3"><a href="source/sentinel-mesh.html" class="text-cyan-400 hover:text-cyan-300">sentinel-mesh.html</a></td></tr>
+            </tbody>
+          </table>
         </div>
 
         <div class="flex items-center justify-between mt-14 pt-8 border-t border-gray-800/60">

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Compression — Fluxheim Source Docs</title>
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Compression</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="compression">Compression</h1>
+<p>Status: future optional module.</p>
+<p>Planned Cargo features:</p>
+<ul>
+<li><code>compression</code>: shared config, negotiation, eligibility checks, and response</li>
+</ul>
+<p>body filter integration.</p>
+<ul>
+<li><code>compression-zstd</code>: Zstandard response encoding.</li>
+<li><code>compression-brotli</code>: Brotli response encoding.</li>
+<li><code>compression-gzip</code>: gzip compatibility fallback.</li>
+</ul>
+<p>Compression should be a CPU-efficiency feature, not just a smaller-response feature. The default build should stay free of compression code until the body filter, cache-variant, and resource-limit behavior is proven.</p>
+<h2 id="goals">Goals</h2>
+<ul>
+<li>Prefer modern encodings first: Zstandard for dynamic or streaming responses</li>
+</ul>
+<p>and Brotli for static web assets where it wins.</p>
+<ul>
+<li>Keep gzip as a compatibility fallback for older clients.</li>
+<li>Avoid compressing already-compressed or low-value content.</li>
+<li>Keep request workers responsive by moving expensive compression work out of</li>
+</ul>
+<p>the main request path.</p>
+<ul>
+<li>Integrate with cache keys, <code>Vary: Accept-Encoding</code>, validators, and range</li>
+</ul>
+<p>behavior safely.</p>
+<ul>
+<li>Make all resource costs explicit: CPU budget, output size, input size,</li>
+</ul>
+<p>compression level, and concurrency.</p>
+<h2 id="negotiation">Negotiation</h2>
+<p>Fluxheim should negotiate response encoding from <code>Accept-Encoding</code> and route policy:</p>
+<ol>
+<li>choose <code>zstd</code> when the client supports it and the policy allows it;</li>
+<li>choose <code>br</code> for eligible static assets when the client supports it;</li>
+<li>choose <code>gzip</code> only as a fallback;</li>
+<li>serve identity when content is already compressed, too small, too large,</li>
+</ol>
+<p>streaming in an unsupported way, or policy disables compression.</p>
+<p>Every compressed response must set or update:</p>
+<ul>
+<li><code>Content-Encoding</code>;</li>
+<li><code>Vary: Accept-Encoding</code>;</li>
+<li><code>ETag</code> or validator behavior according to the selected variant;</li>
+<li><code>Content-Length</code> only when the encoded length is known.</li>
+</ul>
+<h2 id="eligibility">Eligibility</h2>
+<p>Do not compress by default:</p>
+<ul>
+<li>JPEG, PNG, GIF, WebP, AVIF, MP4, WebM, MP3, OGG, WOFF2, ZIP, gzip, Brotli,</li>
+</ul>
+<p>Zstandard, or other already-compressed formats;</p>
+<ul>
+<li>responses with <code>Cache-Control: no-transform</code>;</li>
+<li>responses carrying sensitive per-user content unless the operator explicitly</li>
+</ul>
+<p>allows it and cache admission remains disabled;</p>
+<ul>
+<li>partial/range responses unless a future range-aware design exists;</li>
+<li>responses above configured input/output limits.</li>
+</ul>
+<p>Initial positive MIME types should be conservative:</p>
+<ul>
+<li><code>text/html</code>;</li>
+<li><code>text/css</code>;</li>
+<li><code>text/plain</code>;</li>
+<li><code>text/javascript</code>;</li>
+<li><code>application/javascript</code>;</li>
+<li><code>application/json</code>;</li>
+<li><code>application/xml</code>;</li>
+<li><code>image/svg+xml</code>.</li>
+</ul>
+<h2 id="execution-model">Execution Model</h2>
+<p>Compression can be CPU-heavy. Fluxheim should use a bounded worker pool or blocking task pool for non-trivial compression so Pingora request workers do not stall behind large JSON or static asset encoding jobs.</p>
+<p>The module must enforce:</p>
+<ul>
+<li>global and per-vhost compression concurrency;</li>
+<li>maximum input bytes;</li>
+<li>maximum buffered bytes before switching to streaming or identity;</li>
+<li>per-encoding level bounds;</li>
+<li>timeout or cancellation behavior when clients disconnect.</li>
+</ul>
+<h2 id="cache-integration">Cache Integration</h2>
+<p>Compression variants must be cache-isolated by:</p>
+<ul>
+<li>vhost;</li>
+<li>route;</li>
+<li>source cache key;</li>
+<li>normalized <code>Accept-Encoding</code> bucket;</li>
+<li>selected encoding;</li>
+<li>compression policy version.</li>
+</ul>
+<p><code>Vary: Accept-Encoding</code> must be present for all negotiated variants. Shared cache admission must still reject unsafe personalized responses such as responses with <code>Set-Cookie</code>.</p>
+<p>Precompressed static assets may be supported later through files such as <code>index.html.br</code>, <code>app.js.zst</code>, or <code>style.css.gz</code>, but config validation and cache lookup must prevent serving a variant to a client that did not advertise support.</p>
+<h2 id="hardware-and-native-acceleration">Hardware And Native Acceleration</h2>
+<p>Hardware acceleration and CPU-specific codecs are future beta work. Any QAT, SIMD, or platform-specific backend must be selected through explicit feature flags or runtime capability detection with a safe fallback. Release artifacts must document whether they are generic or CPU-specific.</p>
+<h2 id="privacy-and-security">Privacy And Security</h2>
+<p>Compression can create side-channel risk when secrets and attacker-controlled input share the same compressed response. Safe defaults:</p>
+<ul>
+<li>do not compress admin, metrics, auth, or internal control responses;</li>
+<li>do not compress responses with cookies or authorization-dependent content</li>
+</ul>
+<p>unless explicitly enabled per route;</p>
+<ul>
+<li>do not log compressed bytes or response bodies;</li>
+<li>reject the module with <code>privacy-mode</code> until a no-retention, no-side-channel</li>
+</ul>
+<p>design is written and tested.</p>
+<h2 id="configuration-sketch">Configuration Sketch</h2>
+<pre class="language-toml"><code class="language-toml">[compression]
+enabled = true
+encodings = [&quot;zstd&quot;, &quot;br&quot;, &quot;gzip&quot;]
+min_bytes = &quot;1KiB&quot;
+max_input_bytes = &quot;16MiB&quot;
+concurrency = 8
+
+[compression.zstd]
+level = 3
+
+[compression.brotli]
+level = 5
+static_only = true
+
+[compression.gzip]
+level = 4
+
+[[vhosts.routes]]
+name = &quot;assets&quot;
+match = { prefix = &quot;/assets/&quot; }
+action = &quot;web&quot;
+compression = { enabled = true, encodings = [&quot;br&quot;, &quot;gzip&quot;] }</code></pre>
+<h2 id="test-plan">Test Plan</h2>
+<ul>
+<li>Negotiates <code>zstd</code>, <code>br</code>, <code>gzip</code>, and identity correctly.</li>
+<li>Adds <code>Vary: Accept-Encoding</code>.</li>
+<li>Does not compress excluded MIME types or <code>no-transform</code> responses.</li>
+<li>Keeps cache variants isolated by encoding.</li>
+<li>Rejects unsafe cache admission for personalized compressed responses.</li>
+<li>Enforces input size, output size, level, and concurrency limits.</li>
+<li>Cancels compression work when the downstream client disconnects.</li>
+<li>Proves compression code is absent from default and <code>privacy-mode</code> builds.</li>
+</ul>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

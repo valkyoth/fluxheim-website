@@ -8,6 +8,7 @@ target/
 dist/
 logs/
 *.log
+*.md
 *.tmp
 tmp/
 
