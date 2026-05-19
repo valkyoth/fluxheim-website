@@ -878,15 +878,22 @@ Follow-up `1.3.x` PHP runtime plan:
     Implemented as `php.pass_request_headers` and `php.pass_request_body`, both
     defaulting to `true`; disabled body pass-through still drains and limits the
     downstream body.
+  - Configurable CGI response-header limits.
+    Implemented as `php.max_response_header_bytes`, defaulting to `64KiB`.
   - `X-Accel-Redirect` / `X-Sendfile` support for PHP-assisted static
     offload, plus internal-only target validation, `X-Accel-Expires` handling
     where it maps to Fluxheim cache metadata, and response-header stripping so
     backend control headers are not leaked to clients.
   - `fastcgi_intercept_errors`-style integration with Fluxheim error pages for
     selected PHP statuses, keeping normal PHP responses untouched by default.
+    Initial generic interception implemented as `php.intercept_error_statuses`;
+    static fallback pages are supported with `[[vhosts.php.error_pages]]` and
+    `[[vhosts.routes.php.error_pages]]`.
   - PHP response-header policy controls matching common NGINX migrations:
     hide/pass selected backend headers, ignore selected cache-control headers,
     and reject conflicting `Content-Length` / transfer headers.
+    Initial hide controls implemented as `php.hide_response_headers`; hop-by-hop
+    PHP response headers are stripped by default.
   - STDERR handling options: capture/log, truncate, severity mapping for 4xx/5xx
     responses, and optional fatal-error match that marks a response invalid for
     retry/failover.
@@ -899,7 +906,10 @@ Follow-up `1.3.x` PHP runtime plan:
   - FPM upstream TLS and Unix/TCP socket controls should remain explicit; Unix
     sockets keep strict path/permission validation and TCP supports DNS refresh
     when the proxy resolver work lands.
-  - PHP-specific Prometheus/OpenTelemetry metrics.
+  - PHP-specific Prometheus metrics for bounded request totals and durations.
+    Implemented as `fluxheim_php_requests_total` and
+    `fluxheim_php_request_duration_seconds`; deeper pool, timeout, and STDERR
+    counters remain planned.
   - FastCGI cache-specific convenience config on top of Fluxheim's cache
     engine.
   - FastCGI cache semantics compatible with common NGINX deployments:
@@ -911,6 +921,7 @@ Follow-up `1.3.x` PHP runtime plan:
     `xmlrpc.php`, sitemap/feed exclusions, logged-in/commenter cookie bypass,
     Super Cache/W3TC static-file fallbacks, and denial of PHP execution under
     uploads/files-style directories.
+    Initial execution denial implemented as `php.deny_path_prefixes`.
   - FastCGI multiplexing, authorizer, and filter-role review. These are not
     required for normal PHP-FPM web serving, but should be documented
     explicitly as unsupported or implemented if enterprise users need them.
@@ -2023,6 +2034,204 @@ Exit criteria:
 - Process isolation is tested.
 - Source files are never served as static fallback.
 - Rootless Podman examples exist for every runtime.
+
+### 1.9 - Crypto RPC Edge
+
+Goal: add a compile-time optional crypto RPC edge family for blockchain-aware
+JSON-RPC/WebSocket proxying, safe POST-body caching, and node-health-aware
+routing. Ethereum/EVM should be the first concrete implementation because it has
+the strongest dApp fit and a comparatively standard HTTP/WebSocket JSON-RPC
+surface. Bitcoin, Cardano, and XRPL should be documented as later chain-specific
+modules, not forced into the Ethereum policy model.
+
+This is a future module family after the web, PHP, proxy, load-balancer, and
+WASM foundations have enough stability to support chain-specific edge gateways
+without weakening the default build.
+
+Shared family shape:
+
+```toml
+chain-edge-core = ["proxy", "cache", "dep:serde_json", "dep:sha2"]
+eth = ["chain-edge-core"]
+eth-verify = ["eth"] # future proof-verification/co-processing review
+btc = ["chain-edge-core"] # future review
+ada = ["chain-edge-core"] # future review
+xrpl = ["chain-edge-core"] # future review
+```
+
+`chain-edge-core` should contain only bounded shared primitives: JSON-RPC
+parsing, batch limits, method policy dispatch, cache-key helpers, upstream
+health snapshots, retry safety classification, redacted logging/tracing helpers,
+and WebSocket sticky-routing primitives. It must not contain chain-specific
+method allow-lists or finality rules.
+
+First implementation feature shape:
+
+```toml
+eth = ["proxy", "cache", "dep:serde_json", "dep:sha2"]
+eth-ens = ["eth"] # future review; exact dependencies intentionally undecided
+eth-verify = ["eth"] # future proof-verification/co-processing review
+profile-ethereum-rpc = ["proxy", "cache", "eth", "tls-rustls", "security"]
+```
+
+The first implementation should focus on native Ethereum JSON-RPC proxy/cache
+behavior. ENS routing is documented for later review as `eth-ens`, but should
+not block or expand the initial `eth` scope.
+
+Stable Ethereum `eth` scope:
+
+- HTTP JSON-RPC `POST` pass-through with bounded body, response, method, and
+  batch limits.
+- JSON-RPC 2.0 single-call and batch classifier.
+- Chain-id verification with `eth_chainId` before serving traffic.
+- Health probes using `eth_blockNumber`, `eth_syncing`, and finalized/safe
+  block data when available.
+- Upstream ejection or de-prioritization for syncing nodes, stale nodes, chain
+  mismatch, repeated transport failures, and selected read-only JSON-RPC error
+  classes.
+- Conservative retry only for read-only calls; no default retry for
+  transaction submission or signing/account methods.
+- Native cache-key generation for Ethereum JSON-RPC POST requests.
+- Cache admission only for whitelisted immutable/finality-safe methods.
+- Cache integration with existing memory/disk cache backends and cache metrics.
+- Multi-provider upstream routing so applications are not dependent on one
+  centralized RPC provider. Operators should be able to mix local nodes,
+  community nodes, and hosted providers, with explicit failover and optional
+  quorum/compare modes for high-value reads.
+- Censorship-resistance controls that can detect repeated provider-side
+  denials, lag, or method-specific failures and move read traffic to healthier
+  upstreams without client-side code changes.
+- Redacted logging and tracing that records method and policy decisions but not
+  full params or responses by default.
+- Privacy-preserving RPC modes should be researched as a separate beta track:
+  request metadata minimization, no body/param logging, optional cache-only
+  answers for immutable data, client IP/header stripping before upstream, and
+  future relay/blind-query designs. Fluxheim must not claim full verifiable
+  anonymization until the design can prove the gateway cannot link requester,
+  query, and response.
+
+Initial cacheable method candidates:
+
+- `eth_getBlockByHash`;
+- `eth_getBlockByNumber` for explicit old block numbers, `safe`, or
+  `finalized`;
+- `eth_getBlockTransactionCountByHash`;
+- `eth_getBlockTransactionCountByNumber` under the same block-number policy;
+- `eth_getTransactionByHash` with conservative TTL/negative-cache controls;
+- `eth_getTransactionReceipt`, with long TTL only after the containing block is
+  known finalized;
+- `eth_getLogs` only for bounded ranges entirely finalized or older than the
+  configured finality depth.
+
+Do not cache in the initial stable module:
+
+- `latest` or `pending` requests unless a later explicit short-TTL policy is
+  designed;
+- `eth_sendRawTransaction`, signing methods, account methods, txpool/debug/admin
+  namespaces, or any method with side effects;
+- `eth_call`, `eth_estimateGas`, fee methods, or gas-price methods until a
+  method-specific block-tag/TTL policy exists;
+- WebSocket subscriptions.
+
+Beta scope:
+
+- WebSocket pass-through with sticky upstream selection.
+- `eth_subscribe` health-aware placement for new sessions.
+- Hosted-provider fallback with quota-aware routing.
+- Quorum reads for selected immutable methods, comparing responses from two or
+  more upstreams before caching or returning high-assurance data.
+- Privacy-preserving relay mode for JSON-RPC reads after a threat-model review.
+- Proof-verification co-processing behind `eth-verify`, including
+  `eth_getProof`/Merkle-Patricia proof checks, light-client header validation,
+  and later ZK proof verification where mature libraries exist.
+- More method-specific cache policies after production traces prove safe
+  behavior.
+
+Future `eth-verify` review:
+
+- Verify selected blockchain-derived data at the edge before returning or
+  caching it.
+- Use account/storage proofs, transaction/receipt inclusion checks, or
+  Helios-style light-client state instead of trusting a single RPC provider.
+- Keep proof engines behind a separate compile-time feature because trie,
+  consensus, precompile, and ZK dependencies are too heavy for a normal RPC
+  cache/proxy build.
+- Bound proof bytes, trie depth, verification time, worker concurrency, and
+  cache metadata size.
+- Fail closed for protected methods when proof verification fails, checkpoints
+  are stale, or the provider response does not match the verified state root.
+- Treat privacy as a separate design problem: proof requests can reveal the
+  account, storage key, or contract state being queried unless combined with a
+  stronger relay/blinding design.
+
+Future `eth-ens` review:
+
+- Resolve ENS registry/resolver records through Ethereum RPC.
+- Read and decode resolver `contenthash()` records.
+- Proxy or redirect IPFS/Arweave content through configured gateways.
+- Cache resolver/contenthash answers with block/finality awareness.
+- Explicitly document browser and TLS limitations: browsers do not normally
+  resolve raw `.eth` names through DNS, public ACME does not issue for raw
+  `.eth`, and Fluxheim can route `.eth` hosts only when traffic reaches it with
+  that Host header or through a gateway-domain pattern.
+
+Future `btc` review:
+
+- Bitcoin Core JSON-RPC proxy/cache for selected chain methods.
+- Confirmation-depth-based cache safety instead of Ethereum `finalized`/`safe`
+  tags.
+- Candidate cached methods: `getblockhash`, `getblock`, `getblockheader`, and
+  carefully gated `getrawtransaction`.
+- Wallet, mining, raw transaction submission, and node/admin methods denied by
+  default or explicitly pass-through only.
+- Pruned-node and `txindex` behavior documented before any cache claims.
+
+Future `ada` review:
+
+- Cardano support should likely target Ogmios first, or explicitly choose a
+  higher-level provider API after review.
+- Chain points, slots, epochs, rollbacks, and UTXO-state cache invalidation
+  require Cardano-specific policy.
+- Cache candidates include known-point block queries, transaction lookup,
+  stable epoch protocol parameters, and selected UTXO queries tied to a known
+  point.
+
+Future `xrpl` review:
+
+- XRPL HTTP JSON-RPC/WebSocket proxy/cache with ledger-aware routing.
+- Validated ledger queries can be cache candidates; current/open ledger queries
+  and subscriptions are not cacheable by default.
+- Transaction submission stays non-retry/non-cache by default.
+- Health probes should track validated ledger progress and full-history node
+  behavior.
+
+Exit criteria:
+
+- Default, PHP, static-site, cache-edge, proxy-edge, privacy, and
+  load-balancer builds prove crypto RPC modules are absent unless selected.
+- `--features eth` and `profile-ethereum-rpc` release builds pass.
+- Malformed JSON, oversized batches, unknown methods, cache-key limits, and
+  oversized upstream responses are tested.
+- `latest`, `pending`, side-effect, account, signing, debug/admin, and
+  transaction-submission methods are not cached by default.
+- Finalized/old-block responses are cached with deterministic cache keys and
+  purge-compatible metadata.
+- Chain-id mismatch and syncing/stale upstreams are rejected or ejected before
+  serving normal traffic.
+- Metrics avoid account, transaction, block, contract, calldata, and ENS-name
+  label cardinality.
+- Documentation includes Geth, Erigon, Reth, and hosted-provider examples.
+- Documentation includes a decentralization and privacy threat model explaining
+  what Fluxheim can protect, what it cannot protect, and why "verifiably
+  anonymized" RPC needs more than ordinary reverse proxying.
+- Later chain modules must ship their own method-safety matrix, finality model,
+  health probes, and cache-admission tests before stable release.
+- `eth-verify` cannot be promoted until default and `eth`-only builds prove
+  verification dependencies are absent, malformed proofs fail safely, stale
+  light-client checkpoints fail closed, and verified cache entries record the
+  verified block/state-root context.
+
+Detailed design lives in [Crypto RPC Edge](crypto-rpc-edge.md).
 
 ### Future - Dependency Reduction And Sovereign Core
 

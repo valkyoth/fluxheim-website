@@ -1412,6 +1412,7 @@ root = "/srv/sites/php.example.test/public"
 fpm_root = "/app/public"
 index = "index.php"
 allowed_extensions = ["php"]
+deny_path_prefixes = ["/wp-content/uploads/"]
 # `wordpress` and `front-controller` fall back to index.php for missing paths.
 # `strict` only executes explicit PHP scripts or directory PHP indexes.
 try_files = "wordpress"
@@ -1421,10 +1422,21 @@ pass_request_body = true
 request_timeout_secs = 30
 max_request_body_bytes = "64MiB"
 max_response_bytes = "64MiB"
+max_response_header_bytes = "64KiB"
 stderr_log = true
 stderr_max_bytes = "2KiB"
+hide_response_headers = ["x-powered-by"]
+intercept_error_statuses = []
 # Use "split" only when the application expects PATH_INFO after script.php.
 path_info = "disabled"
+
+[[vhosts.routes.php.error_pages]]
+status = 502
+path = "/502.html"
+
+[vhosts.routes.php.error_pages.web]
+root = "/srv/errors"
+index_files = ["index.html"]
 
 [vhosts.routes.php.params]
 APP_ENV = "production"
@@ -1464,6 +1476,14 @@ php-fpm and `max_response_bytes` bounds the buffered FastCGI response returned
 from php-fpm. `php.fpm_root` optionally rewrites `DOCUMENT_ROOT`,
 `SCRIPT_FILENAME`, and `PATH_TRANSLATED` for separate php-fpm container
 filesystem roots while Fluxheim still checks scripts under `php.root`.
+`php.max_response_header_bytes` caps the CGI-style response header block before
+body parsing and defaults to `64KiB`.
+`php.deny_path_prefixes` rejects PHP script execution for configured absolute
+URI path prefixes before php-fpm is contacted. Use it for WordPress-style media
+directories such as `/wp-content/uploads/` where uploaded PHP files must never
+execute. This is defense in depth on top of filesystem permissions; it blocks
+Fluxheim's PHP execution path for matching URI prefixes even if a writable
+upload directory accidentally contains a `.php` file.
 `php.try_files` is a typed replacement for common `try_files` recipes:
 `front-controller` keeps the default `/index.php` fallback, `wordpress` is an
 explicit alias for WordPress-style front-controller sites, and `strict` behaves
@@ -1481,6 +1501,23 @@ stdin.
 `php.stderr_log` controls whether FastCGI STDERR is written to Fluxheim logs.
 `php.stderr_max_bytes` bounds each logged STDERR message and defaults to `2KiB`;
 larger output is sanitized and marked as truncated.
+`php.hide_response_headers` removes selected headers emitted by php-fpm before
+Fluxheim applies the normal response header policy. This is useful for
+NGINX-style migrations that hide `X-Powered-By` or other backend-only headers.
+Fluxheim always strips hop-by-hop php-fpm response headers such as
+`Connection`, `Transfer-Encoding`, and headers named by `Connection` before it
+frames the client response.
+`php.intercept_error_statuses` is an explicit `fastcgi_intercept_errors`-style
+status list. When PHP returns one of those 4xx/5xx statuses, Fluxheim discards
+the PHP response body and sends a Fluxheim-generated error response instead.
+It defaults to an empty list so PHP applications keep their normal error pages
+unless the operator opts in.
+`[[vhosts.php.error_pages]]` and `[[vhosts.routes.php.error_pages]]` are
+internal static fallback pages for selected PHP statuses. A configured error
+page also intercepts that status; if the static page cannot be served, Fluxheim
+falls back to its generated error response. Use this for NGINX-style
+`fastcgi_intercept_errors` migrations where PHP 502/503/504 responses should
+never expose backend details.
 When a slashless request resolves to a directory PHP index, Fluxheim returns a
 canonical `308` redirect before executing the script, for example `/blog` to
 `/blog/` when `/blog/index.php` exists.

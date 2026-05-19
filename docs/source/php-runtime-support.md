@@ -70,15 +70,27 @@ runtime = "php-fpm"
 root = "/srv/sites/php.example.test/public"
 index = "index.php"
 allowed_extensions = ["php"]
+deny_path_prefixes = ["/wp-content/uploads/"]
 request_timeout_secs = 30
 max_request_body_bytes = "16MiB"
 max_response_bytes = "64MiB"
+max_response_header_bytes = "64KiB"
 pass_request_headers = true
 pass_request_body = true
 stderr_log = true
 stderr_max_bytes = "2KiB"
+hide_response_headers = ["x-powered-by"]
+intercept_error_statuses = []
 # Use "split" only when the application expects PATH_INFO after script.php.
 path_info = "disabled"
+
+[[vhosts.php.error_pages]]
+status = 502
+path = "/502.html"
+
+[vhosts.php.error_pages.web]
+root = "/srv/errors"
+index_files = ["index.html"]
 
 [vhosts.php.fpm]
 tcp = "127.0.0.1:9000"
@@ -106,6 +118,7 @@ eligible:
   targets.
 - Never build `SCRIPT_FILENAME` through string concatenation alone.
 - Deny dotfiles and hidden path segments by default.
+- Deny configured PHP execution path prefixes before contacting php-fpm.
 - Never pass arbitrary process environment to PHP.
 - Use a small allow-list for CGI/FastCGI params.
 - Set `SCRIPT_NAME`, `SCRIPT_FILENAME`, `DOCUMENT_ROOT`, `REQUEST_METHOD`,
@@ -130,9 +143,21 @@ eligible:
 - Apply runtime request timeouts and connection timeouts.
 - Log php-fpm STDERR only when `stderr_log` is enabled, sanitize controls, and
   cap each log message with `stderr_max_bytes`.
+- Remove selected php-fpm response headers with `hide_response_headers` before
+  the response reaches clients.
 - Cap response header bytes returned by PHP.
+  Implemented as `php.max_response_header_bytes`, defaulting to `64KiB`.
 - Parse PHP-generated headers strictly; reject malformed status lines and
   header injection.
+- Strip hop-by-hop php-fpm response headers, including `Connection`-named
+  headers and `Transfer-Encoding`, before Fluxheim frames the client response.
+- Optionally intercept selected PHP 4xx/5xx responses with
+  `intercept_error_statuses` and replace them with Fluxheim-generated error
+  responses.
+- Serve configured static PHP error pages with `[[vhosts.php.error_pages]]` or
+  `[[vhosts.routes.php.error_pages]]`; an error-page entry also intercepts that
+  status and falls back to Fluxheim's generated error if the static page cannot
+  be served.
 - Log PHP STDERR only through size-limited sanitized logs.
 - Keep php-fpm sockets private and validate Unix socket path permissions where
   possible.
@@ -194,20 +219,29 @@ Planned `1.3.3` php-fpm hardening:
 - `X-Accel-Redirect` / `X-Sendfile` support.
 - `X-Accel-Expires` mapping into Fluxheim cache metadata where safe.
 - `fastcgi_intercept_errors`-style integration with Fluxheim error pages.
+  Initial generic interception implemented as `php.intercept_error_statuses`.
 - Response header hide/pass/ignore controls for PHP backends.
+  Initial hide controls implemented as `php.hide_response_headers`; hop-by-hop
+  PHP response headers are stripped by default.
 - STDERR capture/truncation/severity controls and fatal-error matching.
   Initial controls implemented as `php.stderr_log` and
   `php.stderr_max_bytes`.
 - php-fpm upstream load balancing and failover.
 - Retry policy for connect error, timeout, invalid header, selected statuses,
   max tries, total retry timeout, and retry-safe methods.
-- PHP-specific Prometheus/OpenTelemetry metrics.
+- PHP-specific Prometheus metrics for bounded request totals and durations.
+  Implemented as `fluxheim_php_requests_total` and
+  `fluxheim_php_request_duration_seconds`; OpenTelemetry export follows the
+  existing metrics exporter path when enabled.
 - FastCGI cache-specific convenience config.
 - FastCGI cache compatibility presets: cache keys, status TTLs, bypass/no-cache
   predicates, cache lock, stale-on-error/timeout, background refresh, and purge.
 - WordPress cache-plugin migration presets for Super Cache/W3TC-style static
   fallbacks, logged-in/commenter cookie bypass, admin/login exclusions, and
   denial of PHP execution under uploads/files directories.
+  Initial execution denial implemented as `php.deny_path_prefixes`; this is
+  defense in depth above local filesystem permissions and stops Fluxheim from
+  sending matching PHP scripts to php-fpm.
 - FastCGI multiplexing, authorizer, and filter-role review. These are not
   needed for normal PHP-FPM web serving, but should be explicitly unsupported
   or implemented if enterprise users need them.
@@ -248,5 +282,6 @@ Per-vhost PHP routing policy may later become snapshot-safe, but only after
 path resolution, runtime handles, and request isolation are immutable per
 runtime snapshot.
 
-Operational metrics should include request totals by runtime, PHP status codes,
-runtime errors, timeouts, STDERR counts, and php-fpm connection failures.
+Operational metrics include bounded Prometheus request totals and durations for
+the PHP handler. Future follow-ups should add STDERR counts, pool saturation,
+timeouts, and php-fpm connection-failure detail.

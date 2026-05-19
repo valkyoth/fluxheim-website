@@ -39,6 +39,7 @@ DOCS = {
     "versioning-plan.md": "Versioning Plan",
     "waf-architecture.md": "WAF Architecture",
     "wasm-extensibility.md": "WASM Extensibility",
+    "crypto-rpc-edge.md": "Crypto RPC Edge",
     "compression.md": "Compression",
     "image-filter.md": "Image Filter",
     "programmable-media-edge.md": "Programmable Media Edge",
