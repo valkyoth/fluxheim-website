@@ -8,7 +8,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Fluxheim">
   <meta property="og:title" content="Fluxheim">
-  <meta property="og:description" content="Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust on Cloudflare's Pingora framework.">
+  <meta property="og:description" content="Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.">
   <meta property="og:url" content="https://fluxheim.eu/">
   <meta property="og:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
   <meta property="og:image:secure_url" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
@@ -18,7 +18,7 @@
   <meta property="og:image:alt" content="Fluxheim logo">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Fluxheim">
-  <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust on Pingora.">
+  <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust.">
   <meta name="twitter:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
   <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
   <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -265,31 +265,31 @@ scripts/podman_smoke_variants.sh</code></pre>
 </ul>
 <p>The workflow publishes OS-variant tags for the full/default image profile:</p>
 <ul>
-<li><code>v1.3.1-wolfi</code>, <code>v1.3.1-alpine</code>, <code>v1.3.1-suse-micro</code>, <code>v1.3.1-debian</code></li>
+<li><code>v1.3.3-wolfi</code>, <code>v1.3.3-alpine</code>, <code>v1.3.3-suse-micro</code>, <code>v1.3.3-debian</code></li>
 <li><code>sha-&lt;short-sha&gt;-wolfi</code>, <code>sha-&lt;short-sha&gt;-alpine</code>, etc.</li>
 <li><code>latest-wolfi</code>, <code>latest-alpine</code>, etc. when run from the default branch</li>
 </ul>
 <p>For the recommended Wolfi runtime, the full/default profile also gets short aliases:</p>
 <ul>
-<li><code>v1.3.1</code></li>
-<li><code>v1.3.1-base</code></li>
+<li><code>v1.3.3</code></li>
+<li><code>v1.3.3-base</code></li>
 <li><code>latest</code></li>
 <li><code>latest-base</code></li>
 </ul>
 <p>The <code>-base</code> aliases are kept for compatibility with earlier release notes and automation. They point at the full/default image profile.</p>
 <p>The cache and proxy image profiles publish tags with a profile segment:</p>
 <ul>
-<li><code>v1.3.1-cache-wolfi</code>, <code>v1.3.1-cache-alpine</code>,</li>
+<li><code>v1.3.3-cache-wolfi</code>, <code>v1.3.3-cache-alpine</code>,</li>
 </ul>
-<p><code>v1.3.1-cache-suse-micro</code>, <code>v1.3.1-cache-debian</code></p>
+<p><code>v1.3.3-cache-suse-micro</code>, <code>v1.3.3-cache-debian</code></p>
 <ul>
-<li><code>v1.3.1-proxy-wolfi</code>, <code>v1.3.1-proxy-alpine</code>,</li>
+<li><code>v1.3.3-proxy-wolfi</code>, <code>v1.3.3-proxy-alpine</code>,</li>
 </ul>
-<p><code>v1.3.1-proxy-suse-micro</code>, <code>v1.3.1-proxy-debian</code></p>
+<p><code>v1.3.3-proxy-suse-micro</code>, <code>v1.3.3-proxy-debian</code></p>
 <ul>
-<li><code>v1.3.1-php-wolfi</code>, <code>v1.3.1-php-alpine</code>,</li>
+<li><code>v1.3.3-php-wolfi</code>, <code>v1.3.3-php-alpine</code>,</li>
 </ul>
-<p><code>v1.3.1-php-suse-micro</code>, <code>v1.3.1-php-debian</code></p>
+<p><code>v1.3.3-php-suse-micro</code>, <code>v1.3.3-php-debian</code></p>
 <ul>
 <li><code>sha-&lt;short-sha&gt;-cache-wolfi</code>, <code>sha-&lt;short-sha&gt;-proxy-wolfi</code>,</li>
 </ul>
@@ -299,7 +299,7 @@ scripts/podman_smoke_variants.sh</code></pre>
 </ul>
 <p>run from the default branch</p>
 <ul>
-<li>Wolfi short aliases: <code>v1.3.1-cache</code>, <code>v1.3.1-proxy</code>, <code>v1.3.1-php</code>,</li>
+<li>Wolfi short aliases: <code>v1.3.3-cache</code>, <code>v1.3.3-proxy</code>, <code>v1.3.3-php</code>,</li>
 </ul>
 <p><code>latest-cache</code>, <code>latest-proxy</code>, and <code>latest-php</code></p>
 <p>The load-balancer image profile is prepared for the <code>1.5</code> line. It is skipped on normal pre-<code>1.5</code> tag pushes, but can be included in manual workflow runs by setting <code>include_load_balancer=true</code>. Its tags follow the same shape, for example <code>v1.5.0-load-balancer-wolfi</code> and the Wolfi alias <code>v1.5.0-load-balancer</code>.</p>
@@ -316,7 +316,7 @@ scripts/podman_smoke_variants.sh</code></pre>
   --acme-targets \
   --resolve-upstreams \
   --explain</code></pre>
-<p>Use <code>--profile full</code>, <code>--profile cache</code>, <code>--profile proxy</code>, or <code>--profile web-php</code> to match the release artifact or image profile you plan to run.</p>
+<p>Use <code>--profile full</code>, <code>--profile cache</code>, <code>--profile proxy</code>, or <code>--profile web-php</code> to match the release artifact or image profile you plan to run. Add <code>--no-runtime-paths</code> when you only need syntax, semantic, and profile validation from outside the gateway container and do not have access to the service runtime mount such as <code>/run/fluxheim</code>. Leave that flag off when you want the tester to inspect <code>server.process.pid_file</code>, upgrade socket, and certificate reload socket paths as part of a deployment preflight.</p>
 <p>Runtime images and RPMs do include <code>fluxheim-acme</code>, which is the ACME companion entry point for service-manager or container-scheduled renewal workflows:</p>
 <pre class="language-bash"><code class="language-bash">fluxheim-acme --config /etc/fluxheim/fluxheim.toml targets
 fluxheim-acme --config /etc/fluxheim/fluxheim.toml status
@@ -545,8 +545,8 @@ upstream_tls = false</code></pre>
 <h2 id="native-systemd">Native systemd</h2>
 <p>For manually compiled binaries or RPM-style native installs, Fluxheim ships a systemd unit, sysusers file, tmpfiles file, and optional environment file under <code>packaging/systemd</code> and <code>packaging/rpm</code>. See <a href="systemd.html" class="text-cyan-400 hover:text-cyan-300">systemd Deployment</a> for the install steps and default paths. Native packages use <a href="https://github.com/valkyoth/fluxheim/blob/main/packaging/default/fluxheim.toml" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">packaging/default/fluxheim.toml</a>, which listens on port <code>80</code> by default; the bundled systemd unit grants only <code>CAP_NET_BIND_SERVICE</code> so the service can bind <code>80/443</code> while still running as the unprivileged <code>fluxheim</code> user.</p>
 <p>For local binary RPM smoke builds, use the containerized helper:</p>
-<pre class="language-bash"><code class="language-bash">scripts/build_fluxheim_rpm.py 1.3.1 --target opensuse-tumbleweed
-scripts/build_fluxheim_rpm.py 1.3.1 native --target fedora-44</code></pre>
+<pre class="language-bash"><code class="language-bash">scripts/build_fluxheim_rpm.py 1.3.3 --target opensuse-tumbleweed
+scripts/build_fluxheim_rpm.py 1.3.3 native --target fedora-44</code></pre>
 <p>Untagged <code>latest</code> builds use the package name <code>fluxheim-unstable</code> and a date version so they are clearly separated from stable release packages:</p>
 <pre class="language-bash"><code class="language-bash">scripts/build_fluxheim_rpm.py latest native --target opensuse-tumbleweed
 scripts/build_fluxheim_rpm.py latest native --target opensuse-tumbleweed --rpm-release 2</code></pre>

@@ -847,9 +847,13 @@ Follow-up `1.3.x` PHP runtime plan:
   - `fastcgi_keep_conn`-style reuse where the selected client/runtime can
     safely keep FastCGI connections open between requests, with stale-connection
     detection and a clear fallback to one request per connection.
-  - True streaming request and response bodies.
+  - True streaming request and response bodies. Request-body disk replay is in
+    place for large PHP bodies; direct downstream-to-FastCGI and
+    FastCGI-to-client streaming remain future work.
   - Chunked upload disk-spooling so large uploads do not require full RAM
-    buffering before php-fpm receives `CONTENT_LENGTH`.
+    buffering before php-fpm receives `CONTENT_LENGTH`. Implemented with
+    `php.request_body_spool_threshold_bytes` and
+    `php.request_body_spool_dir`.
   - Custom FastCGI params in config. Implemented as validated
     `[vhosts.php.params]` / `[vhosts.routes.php.params]` tables that cannot
     override Fluxheim-managed CGI parameters.
@@ -858,12 +862,17 @@ Follow-up `1.3.x` PHP runtime plan:
     `SCRIPT_FILENAME`, and `PATH_TRANSLATED` mapping.
   - Caddy-style PHP root override and optional root-symlink resolution for
     split container layouts, while keeping Fluxheim's symlink escape checks.
+    Implemented with `php.fpm_root` and default-off
+    `php.resolve_root_symlink` for final-root symlinks.
   - NGINX/Caddy-style `try_files` PHP presets for common apps:
     static-file first, directory index, front-controller fallback, and explicit
     `=404` behavior for sites that must not route everything through
     `index.php`.
     Implemented as `php.try_files = "front-controller"`, `"wordpress"`, or
     `"strict"`.
+    WordPress PHP-side migration defaults are also available as
+    `php.preset = "wordpress"`, which combines WordPress front-controller
+    behavior with deny prefixes for common upload/file execution paths.
   - Configurable `PATH_INFO` splitting model compatible with Caddy's `split`
     and NGINX's `fastcgi_split_path_info`, but expressed as safe typed config
     rather than arbitrary regex by default.
@@ -881,66 +890,132 @@ Follow-up `1.3.x` PHP runtime plan:
   - Configurable CGI response-header limits.
     Implemented as `php.max_response_header_bytes`, defaulting to `64KiB`.
   - `X-Accel-Redirect` / `X-Sendfile` support for PHP-assisted static
-    offload, plus internal-only target validation, `X-Accel-Expires` handling
-    where it maps to Fluxheim cache metadata, and response-header stripping so
-    backend control headers are not leaked to clients.
+    offload. Implemented with targets constrained under `php.root`,
+    `X-Sendfile` mapped from `php.fpm_root` for split containers, and PHP
+    script extensions refused as offload targets. `X-Accel-Expires` is
+    initially implemented for PHP responses by stripping the backend control
+    header, mapping valid TTLs to normal cache headers, treating zero or past
+    expiries as `no-store`, and keeping cookie responses private.
   - `fastcgi_intercept_errors`-style integration with Fluxheim error pages for
     selected PHP statuses, keeping normal PHP responses untouched by default.
     Initial generic interception implemented as `php.intercept_error_statuses`;
     static fallback pages are supported with `[[vhosts.php.error_pages]]` and
     `[[vhosts.routes.php.error_pages]]`.
+  - Retry policy for connection failures and connect timeouts before PHP returns
+    a response. Implemented as `php.fpm.max_retries` and
+    `php.fpm.retry_methods`, with `php.fpm.retry_timeout_secs` as an optional
+    per-request retry window, defaulting to no retries and excluding request
+    timeouts to avoid duplicated side effects. Broader status and invalid-header
+    retry controls are opt-in as `php.fpm.retry_invalid_response` and
+    `php.fpm.retry_statuses`. With `tcp_upstreams`, Fluxheim tries
+    enough endpoints to cover the configured list for safe methods even when
+    `max_retries = 0`.
   - PHP response-header policy controls matching common NGINX migrations:
     hide/pass selected backend headers, ignore selected cache-control headers,
     and reject conflicting `Content-Length` / transfer headers.
-    Initial hide controls implemented as `php.hide_response_headers`; hop-by-hop
-    PHP response headers are stripped by default.
+    Initial hide controls implemented as `php.hide_response_headers`;
+    `php.ignore_origin_cache_headers` removes PHP-generated `Cache-Control`,
+    `Expires`, and `Pragma`; hop-by-hop PHP response headers are stripped by
+    default.
   - STDERR handling options: capture/log, truncate, severity mapping for 4xx/5xx
     responses, and optional fatal-error match that marks a response invalid for
     retry/failover.
-    Initial controls implemented as `php.stderr_log` and
-    `php.stderr_max_bytes`.
-  - php-fpm upstream load balancing and failover.
+    Initial controls implemented as `php.stderr_log`, `php.stderr_log_level`,
+    `php.stderr_max_bytes`, and `php.stderr_failure_patterns` for opt-in
+    invalid-response handling.
+  - Initial php-fpm TCP upstream list and failover. Implemented as
+    `php.fpm.tcp_upstreams` with round-robin selection and safe-method
+    failover on connection failures and connect timeouts.
   - FPM upstream retry policy aligned with NGINX/Apache/Caddy behavior:
     connect error, timeout, invalid header, selected 5xx statuses, max tries,
     total retry timeout, and retry-safe method matching.
+    Implemented for connection errors, connect timeouts, malformed FastCGI
+    responses, and configured 5xx statuses; request timeouts stay non-retryable.
   - FPM upstream TLS and Unix/TCP socket controls should remain explicit; Unix
     sockets keep strict path/permission validation and TCP supports DNS refresh
     when the proxy resolver work lands.
   - PHP-specific Prometheus metrics for bounded request totals and durations.
+    Multi-upstream keepalive pools use stable indexed pool labels.
     Implemented as `fluxheim_php_requests_total` and
-    `fluxheim_php_request_duration_seconds`; deeper pool, timeout, and STDERR
-    counters remain planned.
+    `fluxheim_php_request_duration_seconds`,
+    `fluxheim_php_stderr_events_total`,
+    `fluxheim_php_fpm_retries_total`,
+    `fluxheim_php_fpm_pool_idle_connections`, and
+    `fluxheim_php_fpm_pool_events_total`. OTLP request spans include
+    low-cardinality `fluxheim.php.runtime` and `fluxheim.php.outcome`
+    attributes for PHP-handled requests when `otel-otlp` is enabled.
   - FastCGI cache-specific convenience config on top of Fluxheim's cache
     engine.
   - FastCGI cache semantics compatible with common NGINX deployments:
-    cache key presets, status-based TTLs, `Cache-Control`/`Expires`/
+    cache key presets, status-based TTLs, any-query bypass for WordPress-style
+    dynamic URLs, `Cache-Control`/`Expires`/
     `Set-Cookie`/`Vary` admission behavior, bypass/no-cache conditions,
     cache lock, stale-on-error/timeout, background refresh where available, and
     authenticated purge integration.
   - WordPress-focused migration presets for `wp-admin`, `wp-login.php`,
     `xmlrpc.php`, sitemap/feed exclusions, logged-in/commenter cookie bypass,
-    Super Cache/W3TC static-file fallbacks, and denial of PHP execution under
-    uploads/files-style directories.
+    and denial of PHP execution under uploads/files-style directories.
     Initial execution denial implemented as `php.deny_path_prefixes`.
-  - FastCGI multiplexing, authorizer, and filter-role review. These are not
-    required for normal PHP-FPM web serving, but should be documented
-    explicitly as unsupported or implemented if enterprise users need them.
-- `1.3.4`: embedded Rust PHP/Turbine-style integration if the source, license,
-  API, isolation, reload, and concurrency model pass review.
-- `1.3.5`: pure-Rust PHP interpreter experiment behind `php-phprs`, beta or
-  test-only until compatibility and maintenance are proven.
+    Super Cache/W3TC static-file fallbacks remain future work and need typed
+    static-file probing rather than rewrite-string interpolation.
+  - Flat-root PHP applications such as classic forum/wiki packages expose a
+    separate web/static concern: they often need arbitrary private directory
+    denial while still serving selected static asset directories. This is not a
+    PHP-FPM protocol gap; track a generic static `deny_path_prefixes` /
+    allow-list policy before recommending broad static roots for those apps.
+  - FastCGI multiplexing, authorizer, and filter-role review. Documented as
+    unsupported for `1.3.x`; Fluxheim supports the normal one-request-at-a-time
+    `FCGI_RESPONDER` PHP-FPM web-serving subset.
+- Later `1.3.x`: managed php-fpm mode under the existing `php-fpm` feature.
+  This should be a runtime config choice, not a separate `php-fpm-managed`
+  Cargo feature, because it still uses the same FastCGI bridge and security
+  model. The target operator experience is `mode = "managed"` plus a small
+  worker count, where Fluxheim generates a minimal private php-fpm config,
+  creates a Fluxheim-owned Unix socket, starts php-fpm in foreground mode,
+  supervises restarts, enforces max-request recycling, and shuts workers down
+  cleanly during reload or gateway shutdown.
+  - Keep `mode = "external"` as the default and fully supported behavior.
+  - Managed mode must use the system php-fpm binary, not a long-lived
+    `php-cli` stdin/stdout worker protocol, for production apps. Persistent
+    CLI workers do not provide the request isolation expected by WordPress,
+    Laravel, Symfony, phpBB, XenForo, MediaWiki, and similar applications.
+  - The generated pool config should expose only a small, auditable subset:
+    binary path, worker count, max requests per worker, optional user/group
+    where safe, environment allow-list, php_admin_value overrides for session
+    path and upload temp path, socket directory, and timeout controls.
+  - The generated socket, config, pid, logs, and temporary directories must use
+    the same safe-path ownership, symlink, and writable-parent checks used by
+    ACME/cache/runtime paths.
+  - On validation, Fluxheim should fail clearly when php-fpm is missing,
+    incompatible, or cannot write to its managed directories, and should
+    distinguish process-start failure from FastCGI request failure in logs,
+    metrics, and config-tester output.
+  - Future php-cgi support can be evaluated separately for tiny deployments,
+    but it should not block managed php-fpm because php-cgi process-per-request
+    behavior is a different performance and compatibility tradeoff.
+- Later `1.3.x`: pure-Rust PHP interpreter experiment behind
+  `experimental-pure-php`, test-only until compatibility, security, and
+  maintenance are proven. The feature must warn operators at startup that it is
+  intended for testing and zero-dependency edge microservices only, and that
+  production applications such as WordPress, Laravel, Symfony, phpBB, XenForo,
+  and MediaWiki should use the stable `php-fpm` module.
+- Turbine-style PHP app servers are not Fluxheim runtime targets. Treat them as
+  HTTP upstreams that Fluxheim can reverse-proxy to unless a future project
+  exposes a small, auditable library API with a clearly safer boundary than
+  reverse proxying.
 
 Compile-time feature shape stays:
 
 ```toml
 php = []
 php-fpm = ["php", "dep:fastcgi-client"]
-php-turbine = ["php"]
-php-phprs = ["php", "dep:phprs"]
+experimental-pure-php = ["php"] # add dep:phprs only after engine review
 ```
 
 Only one PHP runtime feature may be selected in one binary. Add compile-time
 guards for incompatible runtime combinations.
+Managed php-fpm is not a separate runtime feature; it belongs behind
+`php-fpm` because it changes process lifecycle, not the request protocol.
 
 Exit criteria:
 
@@ -2443,8 +2518,8 @@ the exception while the cache server is being completed as a focused sequence:
 - `v1.3.2`: ACME companion agent, zero-downtime first-issuance activation, and
   release-page config tester binaries.
 - `v1.3.3`: focused php-fpm hardening and compatibility fixes.
-- `v1.3.4`: embedded Rust PHP/Turbine-style integration if review passes.
-- `v1.3.5`: pure-Rust PHP interpreter experiment behind `php-phprs`.
+- Later `v1.3.x`: experimental pure-Rust PHP research behind
+  `experimental-pure-php`; Turbine-style PHP app servers stay proxy upstreams.
 - `v1.4.1`: fixes for advanced proxy parity.
 - `v1.5.1`: fixes for load balancer.
 - `v1.6.1`: fixes for the shared Wasm extensibility runtime.

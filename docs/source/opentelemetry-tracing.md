@@ -106,8 +106,10 @@ Implemented in the first exporter:
 
 - background worker;
 - bounded queue with drop-on-full behavior;
-- OTLP/HTTP JSON export to `http://` endpoints such as local Jaeger
-  `http://127.0.0.1:4318/v1/traces`;
+- OTLP/HTTP JSON export to `http://` or `https://` endpoints such as local
+  Jaeger `http://127.0.0.1:4318/v1/traces`;
+- optional `tracing.otlp.tls_ca_cert_path` PEM CA bundle for private-PKI HTTPS
+  collectors;
 - request-level server spans with trace ID, regenerated span ID, optional parent
   span ID, method, vhost, route index, status, error flag, and body byte counts.
 
@@ -118,12 +120,14 @@ Requirements:
 - support explicit overflow behavior: `drop_new`, `drop_oldest`, or
   `block_startup_only`;
 - never block request workers on collector availability;
-- support TLS to the collector where the selected crate stack permits it;
+- use HTTPS for remote collectors unless the network is already isolated and
+  authenticated;
 - redact all configured sensitive fields before export.
 
-The current exporter intentionally starts with local HTTP only. Production-grade
-remote export should add TLS and/or gRPC before encouraging network collector
-endpoints.
+The exporter supports HTTP and HTTPS. Keep loopback HTTP for local collectors;
+use HTTPS for collector endpoints that cross a host or container trust boundary.
+When no private CA bundle is configured, the HTTPS client uses the bundled
+WebPKI roots. Plaintext HTTP to a non-loopback collector logs a startup warning.
 
 ## Sampling
 
@@ -161,6 +165,7 @@ endpoint = "http://127.0.0.1:4318/v1/traces"
 service_name = "fluxheim"
 queue_size = 8192
 timeout_secs = 2
+# tls_ca_cert_path = "/etc/fluxheim/otlp-ca.pem"
 ```
 
 `mode = "propagate_only"` is the only implemented mode in stage 1. It validates

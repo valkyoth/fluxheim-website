@@ -85,6 +85,10 @@ Current cache baseline:
 - `fluxheim_acme_events_total{event}`
 - `fluxheim_php_requests_total{vhost,method,outcome,status_class}`
 - `fluxheim_php_request_duration_seconds{vhost,method,outcome,status_class}`
+- `fluxheim_php_stderr_events_total{vhost,state}`
+- `fluxheim_php_fpm_retries_total{vhost,reason}`
+- `fluxheim_php_fpm_pool_idle_connections{vhost,pool}`
+- `fluxheim_php_fpm_pool_events_total{vhost,pool,event}`
 - `fluxheim_cache_vhosts`
 - `fluxheim_cache_enabled_vhosts`
 - `fluxheim_cache_tiered_vhosts`
@@ -117,8 +121,22 @@ names, certificate paths, challenge URLs, and issuer secrets.
 `fluxheim_php_requests_total` and `fluxheim_php_request_duration_seconds` use
 configured vhost names plus bounded method, outcome, and status-class labels.
 `outcome` is `declined`, `redirect`, `forbidden`, `not_found`, `fpm_error`,
-`invalid_response`, `intercepted`, `response`, or `other`; these metrics avoid
-raw paths, queries, script filenames, usernames, cookies, and FastCGI params.
+`connect_timeout`, `request_timeout`, `connection_error`,
+`configuration_error`, `invalid_response`, `intercepted`, `offload`,
+`offload_error`, `response`, or `other`; these metrics avoid raw paths,
+queries, script filenames, usernames, cookies, and FastCGI params.
+`fluxheim_php_stderr_events_total` uses configured vhost names plus bounded
+`state` labels of `emitted`, `truncated`, or `other`; it counts STDERR presence
+without exposing PHP error text.
+`fluxheim_php_fpm_retries_total` uses configured vhost names plus bounded
+`reason` labels of `connect_timeout`, `connection_error`, or `other`; it counts
+retry attempts without exposing upstream addresses, socket paths, raw request
+paths, cookies, or FastCGI params.
+`fluxheim_php_fpm_pool_idle_connections` and
+`fluxheim_php_fpm_pool_events_total` use configured vhost and pool labels. The
+`pool` label is `default` for a vhost-level PHP runtime or the configured route
+name for a route-level PHP runtime. Pool `event` labels are bounded to `connect`,
+`reuse`, `return`, `drop_stale`, `discard_full`, or `other`.
 `fluxheim_cache_activity_total` uses only bounded labels: `tier` is `memory`,
 `disk`, `policy`, or `other`, and `event` is `hit`, `miss`, `store`,
 `store_refusal`, `eviction`, `purge`, `pass`, `bypass`, `stale`,
@@ -265,6 +283,7 @@ endpoint = "http://127.0.0.1:9090/api/v1/otlp/v1/metrics"
 service_name = "fluxheim"
 interval_secs = 15
 timeout_secs = 2
+# tls_ca_cert_path = "/etc/fluxheim/otlp-ca.pem"
 
 [metrics.advanced]
 enabled = false
@@ -274,6 +293,12 @@ unknown_vhost_bucket = "unknown"
 overflow_bucket = "overflow"
 
 ```
+
+The OTLP metrics exporter accepts `http://` and `https://` endpoints. Use
+loopback HTTP for same-host collectors and HTTPS for remote collectors.
+`metrics.otlp.tls_ca_cert_path` can point at a PEM CA bundle for private PKI
+collectors; otherwise the HTTPS client uses the bundled WebPKI roots. Plaintext
+HTTP to a non-loopback collector logs a startup warning.
 
 ## Implementation Stages
 

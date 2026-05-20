@@ -86,9 +86,15 @@ renewal.
 cargo build --no-default-features --features profile-web-server,php-fpm,acme-client
 ```
 
-Only one PHP runtime feature may be selected in one binary. `php-turbine` and
-`php-phprs` are reserved feature gates for later `1.3.x` evaluation and do not
-add a production runtime yet.
+Future managed php-fpm process supervision is planned as a runtime config mode
+inside this same `php-fpm` feature, not as a separate Cargo feature. It still
+uses the FastCGI bridge; only php-fpm process lifecycle changes from
+operator-managed to Fluxheim-supervised.
+
+Only one PHP runtime feature may be selected in one binary. Future pure-Rust
+PHP work is reserved behind `experimental-pure-php`; it is not a production
+runtime and must warn operators to use `php-fpm` for real PHP applications
+until compatibility is proven.
 
 ## Profile Aliases
 

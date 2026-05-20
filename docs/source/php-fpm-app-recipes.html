@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>PHP-FPM Application Recipes — Fluxheim Source Docs</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fluxheim">
+  <meta property="og:title" content="Fluxheim">
+  <meta property="og:description" content="Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.">
+  <meta property="og:url" content="https://fluxheim.eu/">
+  <meta property="og:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <meta property="og:image:secure_url" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Fluxheim logo">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fluxheim">
+  <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust.">
+  <meta name="twitter:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">PHP-FPM Application Recipes</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="php-fpm-application-recipes">PHP-FPM Application Recipes</h1>
+<p>This page maps common PHP application web-server requirements to Fluxheim&#x27;s php-fpm/FastCGI primitives. It is intentionally documentation-first: add an application preset only after repeated production testing proves that a stable, security-sensitive pattern is common enough to encode in Fluxheim itself.</p>
+<p>References checked for this page:</p>
+<ul>
+<li>WordPress NGINX handbook, including single-site, multisite, upload PHP-deny,</li>
+</ul>
+<p>and cache examples: &lt;https://developer.wordpress.org/advanced-administration/server/web-server/nginx/&gt;</p>
+<ul>
+<li>Laravel deployment docs:</li>
+</ul>
+<p>&lt;https://laravel.com/docs/12.x/deployment&gt;</p>
+<ul>
+<li>Symfony web-server configuration:</li>
+</ul>
+<p>&lt;https://symfony.com/doc/current/setup/web_server_configuration.html&gt;</p>
+<ul>
+<li>Flarum install and URL rewriting docs:</li>
+</ul>
+<p>&lt;https://docs.flarum.org/install/&gt;</p>
+<ul>
+<li>XenForo friendly URL docs:</li>
+</ul>
+<p>&lt;https://docs.xenforo.com/manual/configuration/friendly-urls&gt;</p>
+<ul>
+<li>MediaWiki short URL NGINX docs:</li>
+</ul>
+<p>&lt;https://www.mediawiki.org/wiki/Manual:Short_URL/Nginx&gt;</p>
+<ul>
+<li>MyBB SEF URL, install, and security docs:</li>
+</ul>
+<p>&lt;https://docs.mybb.com/1.8/administration/configuring-search-engine-friendly-URLs/&gt; &lt;https://docs.mybb.com/1.8/install/&gt; &lt;https://docs.mybb.com/1.8/administration/security/protection/&gt;</p>
+<ul>
+<li>phpBB on NGINX Unit, used as a compact PHP routing reference:</li>
+</ul>
+<p>&lt;https://docs.nginx.com/nginx-unit/howto/apps/phpbb/&gt;</p>
+<ul>
+<li>Discourse install docs:</li>
+</ul>
+<p>&lt;https://github.com/discourse/discourse/blob/main/docs/INSTALL-cloud.md&gt;</p>
+<h2 id="supported-php-fpm-functionality">Supported PHP-FPM Functionality</h2>
+<p>Fluxheim has the PHP-FPM primitives needed by the reviewed PHP applications. The authoritative field-by-field reference is <a href="config-reference.md#vhosts-and-routes" class="text-cyan-400 hover:text-cyan-300">Config Reference</a>; this section is the operational checklist.</p>
+<p>FastCGI and backend connectivity:</p>
+<ul>
+<li><code>php.runtime = &quot;php-fpm&quot;</code> uses the one-request-at-a-time FastCGI</li>
+</ul>
+<p><code>FCGI_RESPONDER</code> web-serving subset.</p>
+<ul>
+<li><code>php.fpm.socket</code>, <code>php.fpm.tcp</code>, and <code>php.fpm.tcp_upstreams</code> cover Unix</li>
+</ul>
+<p>sockets, a single TCP endpoint, or multiple TCP php-fpm backends.</p>
+<ul>
+<li><code>php.fpm.keepalive</code>, <code>pool_max_idle</code>, and <code>idle_timeout_secs</code> enable</li>
+</ul>
+<p>optional FastCGI keep-connection pooling.</p>
+<ul>
+<li><code>php.fpm.connect_timeout_secs</code>, <code>read_timeout_secs</code>,</li>
+</ul>
+<p><code>write_timeout_secs</code>, <code>max_retries</code>, <code>retry_timeout_secs</code>, <code>retry_methods</code>, <code>retry_invalid_response</code>, and <code>retry_statuses</code> provide conservative safe-method retry/failover before php-fpm has side effects, or after explicitly configured malformed/5xx responses.</p>
+<p>CGI/FastCGI request construction:</p>
+<ul>
+<li>Fluxheim generates <code>SCRIPT_FILENAME</code>, <code>SCRIPT_NAME</code>, <code>DOCUMENT_ROOT</code>,</li>
+</ul>
+<p><code>DOCUMENT_URI</code>, <code>REQUEST_URI</code>, <code>QUERY_STRING</code>, <code>REQUEST_METHOD</code>, <code>CONTENT_TYPE</code>, <code>CONTENT_LENGTH</code>, <code>SERVER_NAME</code>, <code>SERVER_PORT</code>, <code>HTTPS</code>, <code>REQUEST_SCHEME</code>, <code>REMOTE_ADDR</code>, <code>REMOTE_PORT</code>, and related CGI variables.</p>
+<ul>
+<li><code>php.pass_request_headers</code> safely translates inbound HTTP headers to</li>
+</ul>
+<p><code>HTTP_*</code>, including <code>HTTP_HOST</code> and <code>HTTP_AUTHORIZATION</code>, while dropping <code>Proxy</code> for HTTPoxy mitigation.</p>
+<ul>
+<li><code>php.pass_request_body</code> controls whether the bounded HTTP body is forwarded</li>
+</ul>
+<p>to FastCGI STDIN.</p>
+<ul>
+<li><code>php.server_port</code> can pin CGI <code>SERVER_PORT</code> when a deployment needs an</li>
+</ul>
+<p>application-visible port different from the listener port.</p>
+<ul>
+<li><code>[vhosts.php.params]</code> and <code>[vhosts.routes.php.params]</code> add validated custom</li>
+</ul>
+<p>FastCGI params without allowing overrides of Fluxheim-owned CGI fields. Treat <code>PHP_VALUE</code> and <code>PHP_ADMIN_VALUE</code> as privileged php-fpm controls: Fluxheim logs high-risk warnings for sensitive PHP directives, but the operator remains responsible for not weakening production PHP policy.</p>
+<p>Path mapping and application routing:</p>
+<ul>
+<li><code>php.root</code> is the local root Fluxheim validates before any PHP execution.</li>
+<li><code>php.fpm_root</code> maps that validated root to a different path visible inside a</li>
+</ul>
+<p>separate php-fpm container or chroot.</p>
+<ul>
+<li><code>php.resolve_root_symlink</code> allows only a trusted final root symlink for</li>
+</ul>
+<p>current-release deploy layouts.</p>
+<ul>
+<li><code>php.index</code> chooses the front-controller or directory index script.</li>
+<li><code>php.allowed_extensions</code> limits executable script extensions.</li>
+<li><code>php.deny_path_prefixes</code> blocks PHP execution under upload/private</li>
+</ul>
+<p>directories even if a matching script file exists.</p>
+<ul>
+<li><code>php.try_files = &quot;front-controller&quot;</code>, <code>&quot;wordpress&quot;</code>, or <code>&quot;strict&quot;</code> covers</li>
+</ul>
+<p>missing-path front controllers and strict <code>try_files $uri =404</code> execution.</p>
+<ul>
+<li><code>php.path_info = &quot;split&quot;</code> enables safe <code>PATH_INFO</code> for apps that route</li>
+</ul>
+<p>through <code>/index.php/foo</code>.</p>
+<ul>
+<li><code>php.preset = &quot;wordpress&quot;</code> combines WordPress front-controller behavior with</li>
+</ul>
+<p>upload/file PHP execution denies.</p>
+<p>Request and response controls:</p>
+<ul>
+<li><code>php.max_request_body_bytes</code> bounds request bodies sent to php-fpm.</li>
+<li><code>php.request_body_spool_threshold_bytes</code> and</li>
+</ul>
+<p><code>php.request_body_spool_dir</code> spill larger request bodies to a safe temporary file before php-fpm dispatch so retries can replay them without cloning a large buffer.</p>
+<ul>
+<li><code>php.max_response_bytes</code> bounds combined FastCGI STDOUT/STDERR buffering.</li>
+<li><code>php.max_response_header_bytes</code> bounds the CGI response header block.</li>
+<li><code>php.hide_response_headers</code> removes selected php-fpm response headers before</li>
+</ul>
+<p>Fluxheim response policy runs.</p>
+<ul>
+<li><code>php.ignore_origin_cache_headers</code> discards PHP <code>Cache-Control</code>, <code>Expires</code>,</li>
+</ul>
+<p>and <code>Pragma</code> response headers when Fluxheim should own cache directives.</p>
+<ul>
+<li>Fluxheim consumes PHP <code>X-Accel-Redirect</code>, <code>X-Sendfile</code>, and</li>
+</ul>
+<p><code>X-Accel-Expires</code> for internal static offload and cache-control behavior instead of forwarding those headers to clients.</p>
+<ul>
+<li>Hop-by-hop php-fpm response headers such as <code>Connection</code> and</li>
+</ul>
+<p><code>Transfer-Encoding</code> are stripped automatically.</p>
+<ul>
+<li><code>php.intercept_error_statuses</code> and <code>[[vhosts.php.error_pages]]</code> implement</li>
+</ul>
+<p><code>fastcgi_intercept_errors</code>-style generated or static fallback error pages.</p>
+<p>Logging and observability:</p>
+<ul>
+<li><code>php.stderr_log</code>, <code>stderr_log_level</code>, and <code>stderr_max_bytes</code> control</li>
+</ul>
+<p>sanitized FastCGI STDERR logging.</p>
+<ul>
+<li><code>php.stderr_failure_patterns</code> can mark a response invalid when STDERR</li>
+</ul>
+<p>contains configured fatal patterns, which can trigger safe-method failover when <code>retry_invalid_response</code> is enabled.</p>
+<ul>
+<li>Metrics builds expose PHP request/error/retry and php-fpm pool metrics.</li>
+</ul>
+<p>The common application-level gap is not a FastCGI protocol gap. Some flat-root applications, especially classic forum/wiki packages, expect the web server to deny arbitrary private directories while still serving selected static directories. Fluxheim currently has dotfile denial and PHP execution <code>deny_path_prefixes</code>, but it does not yet have a first-class static <code>deny_path_prefixes</code> or static allow-list policy. For flat-root applications, prefer public-directory installs where available, or expose only explicit static routes until a generic static deny/allow policy exists.</p>
+<h2 id="wordpress">WordPress</h2>
+<p>WordPress single-site installs need the normal PHP-FPM front-controller shape: serve existing static files, route missing paths to <code>index.php</code>, and execute real <code>.php</code> scripts only through php-fpm. The official NGINX guidance also denies PHP execution under upload/file directories. Fluxheim&#x27;s <code>php.preset = &quot;wordpress&quot;</code> encodes that PHP-side behavior.</p>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = &quot;wordpress.example.test&quot;
+hosts = [&quot;wordpress.example.test&quot;]
+max_request_body_bytes = &quot;64MiB&quot;
+
+[vhosts.php]
+preset = &quot;wordpress&quot;
+enabled = true
+runtime = &quot;php-fpm&quot;
+root = &quot;/srv/sites/wordpress.example.test/public&quot;
+index = &quot;index.php&quot;
+allowed_extensions = [&quot;php&quot;]
+request_timeout_secs = 30
+max_request_body_bytes = &quot;64MiB&quot;
+max_response_bytes = &quot;64MiB&quot;
+max_response_header_bytes = &quot;64KiB&quot;
+hide_response_headers = [&quot;x-powered-by&quot;]
+stderr_log = true
+
+[vhosts.php.fpm]
+tcp = &quot;127.0.0.1:9000&quot;
+connect_timeout_secs = 5
+read_timeout_secs = 30
+write_timeout_secs = 30
+
+[vhosts.web]
+root = &quot;/srv/sites/wordpress.example.test/public&quot;
+index_files = [&quot;index.html&quot;, &quot;index.php&quot;]
+deny_dotfiles = true
+
+[vhosts.web.directory_listing]
+enabled = false</code></pre>
+<p>If php-fpm runs in a separate container with a different filesystem root, keep <code>root</code> as the path Fluxheim validates and add the path php-fpm sees:</p>
+<pre class="language-toml"><code class="language-toml">[vhosts.php]
+root = &quot;/srv/sites/wordpress.example.test/public&quot;
+fpm_root = &quot;/app/public&quot;</code></pre>
+<p>For a shared edge cache in front of WordPress, use Fluxheim&#x27;s WordPress cache preset only when you want shared cache behavior. It bypasses common admin, login, XML-RPC, cron, sitemap, query-string, authorization, and logged-in cookie paths. It does not implement WP Super Cache or W3 Total Cache static file probing.</p>
+<pre class="language-toml"><code class="language-toml">[vhosts.cache]
+preset = &quot;wordpress&quot;
+enabled = true
+status_ttls = { &quot;200&quot; = 300, &quot;301&quot; = 300, &quot;302&quot; = 300, &quot;404&quot; = 60 }
+stale_if_error_secs = 60
+
+[vhosts.cache.memory]
+enabled = true
+max_size_bytes = &quot;256MiB&quot;</code></pre>
+<h2 id="wordpress-multisite">WordPress Multisite</h2>
+<p>Modern WordPress Multisite uses the same PHP-FPM primitives as single-site WordPress. WordPress handles subdirectory blog paths through <code>index.php</code>, and subdomain networks need the same front-controller behavior for every mapped host. Keep the Multisite constants and domain mapping in <code>wp-config.php</code>; the Fluxheim part is host matching, TLS coverage, static serving, and PHP-FPM dispatch.</p>
+<p>Subdirectory Multisite:</p>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = &quot;wordpress-ms.example.test&quot;
+hosts = [&quot;wordpress-ms.example.test&quot;]
+max_request_body_bytes = &quot;64MiB&quot;
+
+[vhosts.php]
+preset = &quot;wordpress&quot;
+enabled = true
+runtime = &quot;php-fpm&quot;
+root = &quot;/srv/sites/wordpress-ms.example.test/public&quot;
+index = &quot;index.php&quot;
+allowed_extensions = [&quot;php&quot;]
+max_request_body_bytes = &quot;64MiB&quot;
+max_response_bytes = &quot;64MiB&quot;
+stderr_log = true
+
+[vhosts.php.fpm]
+tcp = &quot;127.0.0.1:9000&quot;
+
+[vhosts.web]
+root = &quot;/srv/sites/wordpress-ms.example.test/public&quot;
+index_files = [&quot;index.html&quot;, &quot;index.php&quot;]
+deny_dotfiles = true
+
+[vhosts.web.directory_listing]
+enabled = false</code></pre>
+<p>Subdomain Multisite:</p>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = &quot;wordpress-ms-subdomains&quot;
+hosts = [&quot;example.test&quot;, &quot;*.example.test&quot;]
+max_request_body_bytes = &quot;64MiB&quot;
+
+[vhosts.tls]
+enabled = true
+
+# Wildcards require a certificate that already covers the wildcard name.
+# HTTP-01 ACME cannot issue wildcard certificates.
+[vhosts.tls.certificate]
+cert_path = &quot;/etc/fluxheim/tls/example.test/fullchain.pem&quot;
+key_path = &quot;/etc/fluxheim/tls/example.test/privkey.pem&quot;
+
+[vhosts.php]
+preset = &quot;wordpress&quot;
+enabled = true
+runtime = &quot;php-fpm&quot;
+root = &quot;/srv/sites/example.test/public&quot;
+index = &quot;index.php&quot;
+allowed_extensions = [&quot;php&quot;]
+max_request_body_bytes = &quot;64MiB&quot;
+max_response_bytes = &quot;64MiB&quot;
+stderr_log = true
+
+[vhosts.php.fpm]
+tcp = &quot;127.0.0.1:9000&quot;
+
+[vhosts.web]
+root = &quot;/srv/sites/example.test/public&quot;
+index_files = [&quot;index.html&quot;, &quot;index.php&quot;]
+deny_dotfiles = true</code></pre>
+<p>For named domain-mapped sites instead of a wildcard, list the concrete host names in <code>hosts</code> and cover each name through the vhost certificate or ACME target. Older WordPress Multisite deployments that still use legacy <code>/files/</code> and <code>blogs.dir</code> rewrite/offload rules may need app-specific static aliases or an upstream NGINX/Apache helper until Fluxheim has typed static fallback and internal-route rules. The PHP-FPM part is still covered by the WordPress preset.</p>
+<h2 id="generic-front-controller-apps">Generic Front-Controller Apps</h2>
+<p>This shape fits Laravel, Symfony, and Flarum public-directory installs. It also fits many modern PHP applications that serve static assets from a public root and route missing paths to <code>index.php</code>.</p>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = &quot;app.example.test&quot;
+hosts = [&quot;app.example.test&quot;]
+max_request_body_bytes = &quot;64MiB&quot;
+
+[vhosts.php]
+enabled = true
+runtime = &quot;php-fpm&quot;
+root = &quot;/srv/apps/app.example.test/public&quot;
+index = &quot;index.php&quot;
+try_files = &quot;front-controller&quot;
+path_info = &quot;disabled&quot;
+allowed_extensions = [&quot;php&quot;]
+request_timeout_secs = 30
+max_request_body_bytes = &quot;64MiB&quot;
+max_response_bytes = &quot;64MiB&quot;
+max_response_header_bytes = &quot;64KiB&quot;
+hide_response_headers = [&quot;x-powered-by&quot;]
+stderr_log = true
+
+[vhosts.php.params]
+APP_ENV = &quot;production&quot;
+
+[vhosts.php.fpm]
+tcp = &quot;127.0.0.1:9000&quot;
+connect_timeout_secs = 5
+read_timeout_secs = 30
+write_timeout_secs = 30
+
+[vhosts.web]
+root = &quot;/srv/apps/app.example.test/public&quot;
+index_files = [&quot;index.html&quot;, &quot;index.php&quot;]
+deny_dotfiles = true
+
+[vhosts.web.directory_listing]
+enabled = false</code></pre>
+<p>Application notes:</p>
+<ul>
+<li>Laravel requires the public directory to be the web root and routes all</li>
+</ul>
+<p>requests to <code>public/index.php</code> when no static file matches. The example above matches that model. Keep writable <code>storage/</code> and <code>bootstrap/cache/</code> outside the public root.</p>
+<ul>
+<li>Symfony&#x27;s public directory and front-controller model also matches this</li>
+</ul>
+<p>config. Use <code>php.resolve_root_symlink = true</code> only when your deployment uses a final <code>current</code> symlink and php-fpm sees the same resolved path, or set <code>php.fpm_root</code> when php-fpm runs in a different container root.</p>
+<ul>
+<li>Flarum should use the normal <code>public</code> directory install with this shape. The</li>
+</ul>
+<p>Flarum no-public-dir layout relies on extra protection rules for sensitive resources; keep that behind a web server with explicit deny rules until Fluxheim has static deny/allow path policy.</p>
+<h2 id="symfony-with-final-root-symlink">Symfony With Final Root Symlink</h2>
+<p>Symfony and Caddy-style deployments often point the web root at a <code>current</code> symlink. Fluxheim rejects symlinked parents by default. If only the final root component is a trusted release symlink, opt in explicitly:</p>
+<pre class="language-toml"><code class="language-toml">[vhosts.php]
+enabled = true
+runtime = &quot;php-fpm&quot;
+root = &quot;/srv/apps/example/current/public&quot;
+resolve_root_symlink = true
+index = &quot;index.php&quot;
+try_files = &quot;front-controller&quot;
+hide_response_headers = [&quot;x-powered-by&quot;]
+
+[vhosts.web]
+root = &quot;/srv/apps/example/current/public&quot;
+index_files = [&quot;index.html&quot;, &quot;index.php&quot;]
+deny_dotfiles = true</code></pre>
+<p>If php-fpm sees the same release under a different path, add:</p>
+<pre class="language-toml"><code class="language-toml">[vhosts.php]
+fpm_root = &quot;/app/public&quot;</code></pre>
+<h2 id="mediawiki">MediaWiki</h2>
+<p>MediaWiki is not a pure single-front-controller app. Official NGINX examples use selected PHP entry points under <code>/w/</code>, optional REST <code>PATH_INFO</code>, static asset paths, image handling rules, and a <code>/wiki/</code> short-URL rewrite to <code>/w/index.php</code>.</p>
+<p>Fluxheim can cover the PHP-FPM pieces:</p>
+<ul>
+<li>explicit PHP entry points with <code>try_files = &quot;strict&quot;</code>;</li>
+<li>short URL route to <code>index.php</code>;</li>
+<li>REST paths with <code>php.path_info = &quot;split&quot;</code>;</li>
+<li><code>php.index = &quot;index.php&quot;</code> for article routes.</li>
+</ul>
+<p>Keep image/private-path rules conservative. The official NGINX example denies <code>/w/images/deleted</code> and treats uploaded HTML-like files specially. Fluxheim does not yet provide equivalent static deny/type-override rules, so avoid exposing private upload paths directly.</p>
+<p>Example split-route sketch:</p>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = &quot;wiki.example.test&quot;
+hosts = [&quot;wiki.example.test&quot;]
+
+[[vhosts.routes]]
+name = &quot;wiki-short-urls&quot;
+path_prefix = &quot;/wiki/&quot;
+
+[vhosts.routes.php]
+enabled = true
+runtime = &quot;php-fpm&quot;
+root = &quot;/srv/mediawiki/w&quot;
+index = &quot;index.php&quot;
+try_files = &quot;front-controller&quot;
+path_info = &quot;disabled&quot;
+
+[vhosts.routes.php.fpm]
+tcp = &quot;127.0.0.1:9000&quot;
+
+[[vhosts.routes]]
+name = &quot;wiki-entry-points&quot;
+path_prefix = &quot;/w/&quot;
+strip_prefix = &quot;/w&quot;
+
+[vhosts.routes.php]
+enabled = true
+runtime = &quot;php-fpm&quot;
+root = &quot;/srv/mediawiki/w&quot;
+index = &quot;index.php&quot;
+try_files = &quot;strict&quot;
+path_info = &quot;split&quot;
+deny_path_prefixes = [&quot;/mw-config/&quot;]
+
+[vhosts.routes.php.fpm]
+tcp = &quot;127.0.0.1:9000&quot;</code></pre>
+<p>MediaWiki still needs matching <code>LocalSettings.php</code> values such as <code>$wgScriptPath</code>, <code>$wgArticlePath</code>, and <code>$wgUsePathInfo</code>.</p>
+<h2 id="phpbb">phpBB</h2>
+<p>phpBB needs both direct PHP entry scripts and a fallback front controller (<code>app.php</code> in the NGINX Unit reference). Fluxheim supports that at the PHP-FPM level by setting <code>php.index = &quot;app.php&quot;</code> and using front-controller routing.</p>
+<p>The security-sensitive part is private path exposure. The NGINX Unit reference denies paths such as cache, config, files, store, and uploaded avatars before serving static files. Fluxheim can block PHP execution for those paths, but it does not yet block arbitrary static access by prefix. Prefer an upstream with explicit deny rules, or expose only selected static directories with route-level <code>[vhosts.routes.web]</code>.</p>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = &quot;phpbb.example.test&quot;
+hosts = [&quot;phpbb.example.test&quot;]
+
+[vhosts.php]
+enabled = true
+runtime = &quot;php-fpm&quot;
+root = &quot;/srv/phpbb&quot;
+index = &quot;app.php&quot;
+try_files = &quot;front-controller&quot;
+path_info = &quot;split&quot;
+deny_path_prefixes = [
+  &quot;/cache/&quot;,
+  &quot;/config/&quot;,
+  &quot;/files/&quot;,
+  &quot;/store/&quot;,
+  &quot;/images/avatars/upload/&quot;,
+  &quot;/config.php&quot;,
+  &quot;/common.php&quot;,
+]
+stderr_log = true
+
+[vhosts.php.fpm]
+tcp = &quot;127.0.0.1:9000&quot;</code></pre>
+<p>Do not add a broad <code>[vhosts.web] root = &quot;/srv/phpbb&quot;</code> unless you have audited the static paths that become public.</p>
+<h2 id="xenforo">XenForo</h2>
+<p>XenForo friendly URLs need a front-controller fallback to <code>index.php</code>, strict execution for real PHP scripts, and private directory protection for paths such as <code>internal_data</code>, <code>src</code>, <code>install/data</code>, and legacy <code>library</code>.</p>
+<p>Fluxheim covers the PHP-FPM part. The same flat-root static caution applies: do not expose the whole XenForo root as static content unless you have explicit private-path protection outside Fluxheim or a future static deny policy.</p>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = &quot;xenforo.example.test&quot;
+hosts = [&quot;xenforo.example.test&quot;]
+
+[vhosts.php]
+enabled = true
+runtime = &quot;php-fpm&quot;
+root = &quot;/srv/xenforo&quot;
+index = &quot;index.php&quot;
+try_files = &quot;front-controller&quot;
+path_info = &quot;disabled&quot;
+deny_path_prefixes = [
+  &quot;/install/data/&quot;,
+  &quot;/install/templates/&quot;,
+  &quot;/internal_data/&quot;,
+  &quot;/library/&quot;,
+  &quot;/src/&quot;,
+]
+
+[vhosts.php.fpm]
+tcp = &quot;127.0.0.1:9000&quot;
+
+[[vhosts.routes]]
+name = &quot;xenforo-styles&quot;
+path_prefix = &quot;/styles/&quot;
+
+[vhosts.routes.web]
+root = &quot;/srv/xenforo&quot;
+index_files = [&quot;index.html&quot;]
+deny_dotfiles = true</code></pre>
+<p>Add explicit static routes for the public asset directories your XenForo installation requires.</p>
+<h2 id="mybb">MyBB</h2>
+<p>MyBB&#x27;s PHP-FPM requirements are simple: execute real PHP scripts and optionally translate search-engine-friendly URL patterns to legacy PHP endpoints such as <code>forumdisplay.php</code>, <code>showthread.php</code>, and <code>member.php</code>.</p>
+<p>Fluxheim does not currently have a generic regex rewrite engine for MyBB&#x27;s classic SEF URL rules. Use MyBB&#x27;s non-SEF URLs, place NGINX/Apache in front for those specific rewrites, or wait for typed rewrite support. This is not a FastCGI protocol gap.</p>
+<p>MyBB also documents writable directories such as <code>cache/</code>, <code>uploads/</code>, <code>uploads/avatars/</code>, and optional <code>admin/backups/</code>. Avoid serving writable directories as PHP and avoid exposing backup/config files as static content.</p>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = &quot;mybb.example.test&quot;
+hosts = [&quot;mybb.example.test&quot;]
+
+[vhosts.php]
+enabled = true
+runtime = &quot;php-fpm&quot;
+root = &quot;/srv/mybb&quot;
+index = &quot;index.php&quot;
+try_files = &quot;strict&quot;
+path_info = &quot;disabled&quot;
+deny_path_prefixes = [
+  &quot;/cache/&quot;,
+  &quot;/uploads/&quot;,
+  &quot;/uploads/avatars/&quot;,
+  &quot;/admin/backups/&quot;,
+  &quot;/inc/config.php&quot;,
+  &quot;/inc/settings.php&quot;,
+]
+
+[vhosts.php.fpm]
+tcp = &quot;127.0.0.1:9000&quot;</code></pre>
+<p>Serve only audited static directories until Fluxheim has first-class static deny/allow path controls.</p>
+<h2 id="discourse">Discourse</h2>
+<p>Discourse is not a PHP-FPM application. The official install path is a Docker application stack with its own Rails/Unicorn/PostgreSQL/Redis deployment model. In Fluxheim, treat Discourse as a reverse-proxy upstream, not as <code>[vhosts.php]</code>.</p>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = &quot;discourse.example.test&quot;
+hosts = [&quot;discourse.example.test&quot;]
+max_request_body_bytes = &quot;64MiB&quot;
+
+[vhosts.proxy]
+upstreams = [&quot;discourse_app:80&quot;]
+upstream_tls = false
+connect_timeout_secs = 5
+read_timeout_secs = 90
+send_timeout_secs = 90</code></pre>
+<p>Keep Discourse&#x27;s own documented container lifecycle and upgrade path intact.</p>
+<h2 id="when-to-add-a-fluxheim-feature">When To Add A Fluxheim Feature</h2>
+<p>Prefer documentation unless the missing behavior is generic and safety-critical. Good future candidates are:</p>
+<ul>
+<li>Static <code>deny_path_prefixes</code> / allow-list policy for flat-root PHP apps.</li>
+<li>Typed rewrite mappings for legacy forum SEF URLs without arbitrary regex</li>
+</ul>
+<p>replacement strings.</p>
+<ul>
+<li>A typed internal redirect action for app-specific private/offload paths.</li>
+</ul>
+<p>Avoid app-named presets unless the behavior is stable across versions and hard to express safely with generic Fluxheim primitives.</p>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

@@ -18,6 +18,16 @@ starts the service:
 fluxheim --validate-config --config /etc/fluxheim/fluxheim.toml
 ```
 
+When debugging a container or mounted config from outside the runtime
+environment, use the release-asset tester. `--no-runtime-paths` skips only
+`server.process` runtime path inspection, which is useful when `/run/fluxheim`
+is not mounted locally, while other config semantics and profile checks still
+run:
+
+```bash
+fluxheim-config-tester --config /etc/fluxheim/fluxheim.toml --profile web-php --no-runtime-paths
+```
+
 For split config directories, Fluxheim reads `*.toml` files in sorted order:
 
 ```bash
@@ -89,6 +99,7 @@ Notes:
 - `listen` must not be empty.
 - TLS listeners are explicit through `tls_listen`; Fluxheim does not infer TLS
   from port numbers.
+- `listen` and `tls_listen` are each capped at 64 entries.
 - `default_vhost`, when set, must match a configured `[[vhosts]].name`.
 - `[server.host_routing].strict = false` preserves compatibility by falling
   back to `default_vhost` for missing, invalid, or unknown host names. Set it
@@ -102,7 +113,7 @@ Notes:
   gateway, Cloudflare, or a trusted edge proxy. When the direct peer is trusted,
   Fluxheim walks `X-Forwarded-For` from right to left and restores the last
   non-trusted hop for generated client-IP headers, equivalent to nginx
-  `real_ip_recursive on`.
+  `real_ip_recursive on`. The list is capped at 512 entries.
 - `[server.process]` maps safe process settings into Pingora's `ServerConf`.
   Changes to these values require a process upgrade, not a live snapshot
   reload. Keep `threads` conservative in containers because Pingora allocates
@@ -236,14 +247,19 @@ endpoint = "http://127.0.0.1:9090/api/v1/otlp/v1/metrics"
 service_name = "fluxheim"
 interval_secs = 15
 timeout_secs = 2
+# Optional PEM CA bundle for private-PKI HTTPS collectors.
+# tls_ca_cert_path = "/etc/fluxheim/otlp-ca.pem"
 ```
 
 The `metrics` compile-time feature is not part of `profile-privacy`.
-`metrics.otlp.enabled = true` requires the `metrics-otlp` feature. The initial
-exporter sends OTLP/HTTP JSON over `http://` only and is intended for a local
-Prometheus OTLP receiver or local collector. When enabled,
-`fluxheim_metrics_otlp_exports_total{outcome}` records bounded exporter
-success and failure attempts through the local Prometheus metrics surface.
+`metrics.otlp.enabled = true` requires the `metrics-otlp` feature. The exporter
+sends OTLP/HTTP JSON to `http://` or `https://` endpoints. Prefer local
+loopback HTTP for same-host collectors and HTTPS for remote collectors.
+`metrics.otlp.tls_ca_cert_path` can point at a PEM CA bundle for private PKI
+collectors; when omitted, the bundled WebPKI roots are used. Plaintext HTTP to
+non-loopback collectors logs a warning. When enabled,
+`fluxheim_metrics_otlp_exports_total{outcome}` records bounded exporter success
+and failure attempts through the local Prometheus metrics surface.
 
 ## Tracing
 
@@ -264,6 +280,8 @@ endpoint = "http://127.0.0.1:4318/v1/traces"
 service_name = "fluxheim"
 queue_size = 8192
 timeout_secs = 2
+# Optional PEM CA bundle for private-PKI HTTPS collectors.
+# tls_ca_cert_path = "/etc/fluxheim/otlp-ca.pem"
 ```
 
 Implemented values:
@@ -276,12 +294,15 @@ Implemented values:
 
 `tracing.enabled = true` is rejected when Fluxheim is built without
 `otel-tracing`. `tracing.otlp.enabled = true` requires the `otel-otlp` feature.
-The initial exporter supports OTLP/HTTP JSON over `http://` only, intended for a
-local collector or local Jaeger during development. When Fluxheim is built with
-the `cache` feature, exported request spans include bounded cache attributes
-for the cache phase plus cache lookup and request-collapsing wait durations.
-They do not include cache keys, paths beyond the normal HTTP span name, query
-strings, cookies, or request header values. `otel-tracing` and `otel-otlp` are
+The exporter supports OTLP/HTTP JSON over `http://` or `https://`.
+`tracing.otlp.tls_ca_cert_path` can point at a PEM CA bundle for private PKI
+collectors; when omitted, the bundled WebPKI roots are used. Prefer loopback
+HTTP for local collectors and HTTPS for remote collectors; plaintext HTTP to a
+non-loopback collector logs a warning. When Fluxheim is built with the `cache`
+feature, exported request spans include bounded cache attributes for the cache
+phase plus cache lookup and request-collapsing wait durations. They do not
+include cache keys, paths beyond the normal HTTP span name, query strings,
+cookies, or request header values. `otel-tracing` and `otel-otlp` are
 incompatible with `privacy-mode`.
 
 ## Logging
@@ -419,7 +440,9 @@ For header mutations, `remove`/`add` are the preferred readable names.
 `[vhosts.headers.*.operations]` tables are useful when you want all explicit
 header operations grouped together. Do not define the same header in more than
 one `set`, `add`, or `operations.add` table in the same policy; Fluxheim rejects
-that as ambiguous.
+that as ambiguous. Each header mutation policy is bounded: remove/unset, set/add,
+and append header-name collections are capped at 128 entries each, and a single
+append header may contain at most 32 values.
 
 Security headers are easy to enable globally:
 
@@ -484,6 +507,8 @@ cache_control = "private, no-store"
 
 Every `upstreams` entry must be an authority such as
 `127.0.0.1:3000` or `origin.example.test:443`.
+Proxy upstream lists are capped at 64 entries and reject duplicates
+case-insensitively. Proxy error-page lists are also capped at 64 entries.
 
 `upstreams` is the preferred proxy target form for both one and many origins.
 The older single `upstream = "host:port"` field remains supported for simple
@@ -533,7 +558,8 @@ local_time = false
 Static serving requires `web.root` to be a real directory, not a symlink and
 not below a symlinked parent directory. Request paths are symlink-free,
 including intermediate directories. Static serving also rejects traversal,
-dotfiles by default, and unknown nested index file names. Static body reads
+dotfiles by default, and unknown nested index file names. `index_files` is
+capped at 32 entries. Static body reads
 re-check the opened file handle and full-body reads are length-exact, failing
 if the file changes while it is being read. The current static response path is
 buffered and refuses response bodies larger than 64 MiB; larger-file streaming
@@ -561,6 +587,7 @@ compiled.
 
 ```toml
 [cache]
+preset = "none"
 enabled = false
 local_static = false
 status_header = "X-Cache-Status"
@@ -569,12 +596,16 @@ hide_response_headers = ["set-cookie"]
 tag_headers = ["surrogate-key", "cache-tag", "x-cache-tags"]
 no_store_response_headers = ["x-app-no-store"]
 no_store_response_header_values = { x-app-cache = "private" }
+bypass_path_prefixes = ["/wp-admin/"]
+bypass_path_exact = ["/wp-login.php", "/xmlrpc.php"]
 bypass_request_headers = ["cookie", "authorization"]
 bypass_request_header_values = { x-preview-mode = "1" }
 bypass_cookie_names = ["sessionid", "wordpress_logged_in"]
+bypass_cookie_name_prefixes = ["wordpress_logged_in_", "wordpress_sec_"]
 bypass_cookie_values = { preview = "1" }
 bypass_query_params = ["preview", "token"]
 bypass_query_values = { mode = "private" }
+bypass_query = false
 allow_client_cache_refresh = false
 vary_request_headers = ["accept-encoding"]
 ignore_origin_cache_headers = false
@@ -876,6 +907,16 @@ through standard `Cache-Control` directives.
 listed origin response header has the exact configured value. Use it for
 bounded app signals such as `x-app-cache = "private"` when header presence
 alone is too broad.
+`preset = "wordpress"` expands common WordPress shared-cache bypasses for
+admin/login paths, app/mail/register/index and sitemap endpoints,
+auth-related cookies, any non-empty query string, and authorization headers.
+Explicit fields still work normally and are not removed by the preset.
+Cache bypass, header, status, vary, content-type, extension, and method lists
+are capped to bounded sizes to keep validation and per-request matching work
+predictable.
+`bypass_path_prefixes` and `bypass_path_exact` disable both cache lookup and
+storage for matching request paths. Prefixes are useful for app admin areas;
+exact paths are useful for login, XML-RPC, cron, sitemap, or legacy WordPress endpoints.
 `bypass_request_headers` disables both cache lookup and cache storage when any
 listed request header is present. Use it on routes where a header such as
 `Cookie` or `Authorization` changes the upstream response but should not become
@@ -885,13 +926,18 @@ asset routes can still cache browser requests that carry unrelated cookies.
 request header has the exact configured value. Use it for bounded flags such as
 `x-preview-mode = "1"` when header presence alone is too broad.
 `bypass_cookie_names` disables both cache lookup and cache storage when a
-listed cookie name appears in any `Cookie` request header. Only names are
-matched; values are ignored. This is narrower than bypassing on every `Cookie`
-header and is useful for static routes where only session or preview cookies
-make the response unsafe to share.
+listed cookie name appears in any `Cookie` request header. Only exact names are
+matched; values are ignored. `bypass_cookie_name_prefixes` applies the same
+behavior to cookie-name prefixes such as WordPress hashed login cookies.
+This is narrower than bypassing on every `Cookie` header and is useful for
+static routes where only session or preview cookies make the response unsafe to
+share.
 `bypass_cookie_values` disables both cache lookup and cache storage when a
 listed cookie name appears with the exact configured value. Use it for bounded
 flags such as `preview = "1"` when the cookie name alone is too broad.
+`bypass_query = true` disables both cache lookup and cache storage for any
+non-empty query string. This matches common WordPress FastCGI cache examples
+where query-string requests are treated as dynamic.
 `bypass_query_params` disables both cache lookup and cache storage when the raw
 request query string contains any listed parameter name. Matching is exact on
 the raw key before `=`, so `preview=true` matches `preview`, while
@@ -918,10 +964,10 @@ cache key, which gives operators a simple cache-versioning knob. Bump it, for
 example from `repoheim-assets-v1` to `repoheim-assets-v2`, to isolate new
 objects from an older route cache without changing URLs.
 `key_parts` controls which safe request fields are included in the primary
-cache key. Valid values are `method`, `host`, `path`, and `query`; `path` is
-required and duplicates are rejected. This gives operators the useful part of
-cache-key templates without allowing arbitrary interpolation. `query` is still
-ignored when `include_query = false`.
+cache key. Valid values are `method`, `host`, `path`, and `query`; the list is
+capped at 4 entries, `path` is required, and duplicates are rejected. This gives
+operators the useful part of cache-key templates without allowing arbitrary
+interpolation. `query` is still ignored when `include_query = false`.
 `min_uses` delays cache admission until the same cache key has produced a
 cacheable origin response at least that many times within a short bounded
 window. The default is `1`, which stores the first cacheable response. Increase
@@ -1076,6 +1122,8 @@ Rust API does not currently expose TLS 1.3 cipher-suite allow-lists, so explicit
 TLS 1.3 `cipher_suites` are rejected for that backend. The s2n backend
 currently accepts only Fluxheim's default TLS 1.2+ / HTTP/1.1+HTTP/2 listener
 policy because the project does not yet expose the needed s2n listener controls.
+Explicit `curve_preferences` are capped at 16 entries, and explicit
+`cipher_suites` are capped at 32 entries.
 
 Supported curve names are `X25519`, `CurveP256`, and `CurveP384`.
 `X25519MLKEM768` is accepted by the config schema for future post-quantum
@@ -1102,6 +1150,7 @@ build supports this through a rustls certificate resolver. Callback-capable TLS
 backends use their native certificate callback APIs. TLS backends without SNI
 certificate selection support reject vhost-specific certificates at startup
 instead of silently serving the default certificate.
+The global `[[tls.certificates]]` table is capped at 1024 certificate pairs.
 
 Release validation must still scan every release candidate with a TLS scanner
 before publishing a stable release.
@@ -1196,6 +1245,7 @@ with file-backed External Account Binding secrets.
 
 Built-in issuer names include `letsencrypt`, `letsencrypt-staging`,
 `actalis`, `google-trust-services`, and `google-trust-services-staging`.
+The custom `[[tls.acme.issuers]]` list is capped at 128 entries.
 Actalis and Google Trust Services require External Account Binding. Their EAB
 secret sources are configured through environment variables, files, or
 credential names. Credential names are preferred for production because the same
@@ -1262,6 +1312,9 @@ below `tls.acme.storage` using a sanitized and hashed vhost directory:
 The exact directory segment is intentionally generated by Fluxheim rather than
 accepted from config, so vhost names cannot create path traversal or hidden
 filesystem locations.
+Explicit `vhosts.tls.acme.domains` lists are capped at 64 domains. If
+`domains` is omitted, Fluxheim derives the ACME names from the vhost `hosts`
+list after excluding wildcard hosts.
 
 ACME account credentials are stored under the same storage root with a sanitized
 and hashed issuer directory:
@@ -1304,6 +1357,9 @@ the configured static or ACME-managed vhost certificate selected by SNI.
 Vhosts bind hostnames to per-site web, proxy, PHP-FPM, TLS, cache, and header settings.
 TOML uses `[[vhosts]]` to start a new vhost. Every `[vhosts.*]` table that
 follows belongs to that current vhost until the next `[[vhosts]]`.
+Vhost names and route names are capped at 128 bytes. These names are operator
+labels used in logs, admin responses, and metrics; use DNS-style or short
+service names rather than long descriptive strings.
 
 ```toml
 # First vhost. The tables below belong to example.test.
@@ -1336,6 +1392,8 @@ upstream_tls = false
 
 Hostnames are normalized to lower case. Duplicate hosts are rejected. A single
 left-most wildcard label is supported, for example `*.api.example.test`.
+The config is capped at 1024 vhosts; each vhost may define up to 64 host
+aliases and 256 routes.
 `max_request_body_bytes` is optional on a vhost and overrides the global
 `server.limits.max_request_body_bytes` for that host. Route-level
 `max_request_body_bytes` still wins when a matching route sets its own limit.
@@ -1365,6 +1423,7 @@ no_store_response_header_values = { x-app-cache = "private" }
 bypass_request_header_values = { x-preview-mode = "1" }
 bypass_cookie_values = { preview = "1" }
 bypass_query_values = { mode = "private" }
+bypass_query = false
 status_ttls = { "200" = 3600, "302" = 3600, "404" = 60 }
 stale_while_revalidate_secs = 30
 stale_if_error_secs = 120
@@ -1404,9 +1463,13 @@ strip_prefix = "/app"
 max_request_body_bytes = "64MiB"
 
 [vhosts.routes.php]
+preset = "wordpress"
 enabled = true
 runtime = "php-fpm"
 root = "/srv/sites/php.example.test/public"
+# Default false. When true, only the final php.root component may be a symlink;
+# Fluxheim resolves it once at startup and still rejects symlinked parents.
+resolve_root_symlink = false
 # Optional: path visible inside a separate php-fpm container.
 # When omitted, Fluxheim sends php.root as DOCUMENT_ROOT/SCRIPT_FILENAME.
 fpm_root = "/app/public"
@@ -1419,13 +1482,21 @@ try_files = "wordpress"
 # Advanced migration switches; both default to true.
 pass_request_headers = true
 pass_request_body = true
+# Optional override for CGI SERVER_PORT; otherwise Host port or scheme default is used.
+server_port = 8443
 request_timeout_secs = 30
 max_request_body_bytes = "64MiB"
+# Optional: spill larger PHP request bodies to disk before FastCGI dispatch.
+request_body_spool_threshold_bytes = "4MiB"
+request_body_spool_dir = "/var/lib/fluxheim/php-spool/example.test"
 max_response_bytes = "64MiB"
 max_response_header_bytes = "64KiB"
 stderr_log = true
+stderr_log_level = "warn"
 stderr_max_bytes = "2KiB"
+stderr_failure_patterns = ["PHP Fatal error:"]
 hide_response_headers = ["x-powered-by"]
+ignore_origin_cache_headers = false
 intercept_error_statuses = []
 # Use "split" only when the application expects PATH_INFO after script.php.
 path_info = "disabled"
@@ -1444,9 +1515,20 @@ PHP_VALUE = "memory_limit=256M"
 
 [vhosts.routes.php.fpm]
 tcp = "php-fpm:9000"
+# Or list multiple TCP endpoints for simple safe-method failover:
+# tcp_upstreams = ["php-fpm-a:9000", "php-fpm-b:9000"]
+connect_timeout_secs = 5
+read_timeout_secs = 30
+write_timeout_secs = 30
 keepalive = true
 pool_max_idle = 8
 idle_timeout_secs = 60
+# Conservative retry policy for connection failures before php-fpm returns data.
+max_retries = 1
+retry_timeout_secs = 5
+retry_methods = ["GET", "HEAD", "OPTIONS"]
+retry_invalid_response = false
+retry_statuses = [500, 502, 503, 504]
 
 [vhosts.acme_challenge]
 enabled = true
@@ -1471,11 +1553,27 @@ body limit for uploads handled by that route. Proxy actions accept
 proxy timeout values override the vhost/global proxy timeout values because the
 route owns its own proxy action.
 
-For PHP actions, `max_request_body_bytes` bounds the buffered request sent to
-php-fpm and `max_response_bytes` bounds the buffered FastCGI response returned
-from php-fpm. `php.fpm_root` optionally rewrites `DOCUMENT_ROOT`,
+For PHP actions, `max_request_body_bytes` bounds the request sent to php-fpm
+and `max_response_bytes` bounds the FastCGI STDOUT/STDERR bytes accepted from
+php-fpm before Fluxheim rejects the response. Set `php.request_body_spool_threshold_bytes` with
+`php.request_body_spool_dir` to spill larger request bodies to an owner-safe
+temporary file before php-fpm dispatch. This keeps `CONTENT_LENGTH` exact for
+FastCGI and lets retries replay the same upload without cloning a large memory
+buffer; both spool settings must be configured together, and the spool file is
+removed when the request completes. When `php.max_request_body_bytes` is set on
+the same PHP action, the spool threshold must be lower than that body limit.
+Existing spool paths must be directories, and existing directories must not be
+group/world writable. Fluxheim rechecks those permissions after creating a
+missing spool directory and before writing upload bodies.
+`php.fpm_root` optionally rewrites `DOCUMENT_ROOT`,
 `SCRIPT_FILENAME`, and `PATH_TRANSLATED` for separate php-fpm container
 filesystem roots while Fluxheim still checks scripts under `php.root`.
+`php.resolve_root_symlink = true` allows Caddy-style/current-release deploy
+layouts where the final `php.root` path is a symlink. The default is false.
+When enabled, Fluxheim resolves that final symlink at startup and still rejects
+parent-directory traversal, symlinked parent directories, and unsafe writable
+parents; script resolution and static offload continue to run under the
+canonical target root.
 `php.max_response_header_bytes` caps the CGI-style response header block before
 body parsing and defaults to `64KiB`.
 `php.deny_path_prefixes` rejects PHP script execution for configured absolute
@@ -1483,7 +1581,14 @@ URI path prefixes before php-fpm is contacted. Use it for WordPress-style media
 directories such as `/wp-content/uploads/` where uploaded PHP files must never
 execute. This is defense in depth on top of filesystem permissions; it blocks
 Fluxheim's PHP execution path for matching URI prefixes even if a writable
-upload directory accidentally contains a `.php` file.
+upload directory accidentally contains a `.php` file. The list is capped at 128
+prefixes.
+`php.allowed_extensions` is capped at 16 plain extension names and rejects
+case-insensitive duplicates.
+`php.preset = "wordpress"` applies PHP-side WordPress migration defaults: it
+uses the WordPress front-controller mode when `try_files` is otherwise unset and
+adds deny prefixes for common upload/file directories such as
+`/wp-content/uploads/` and `/files/`.
 `php.try_files` is a typed replacement for common `try_files` recipes:
 `front-controller` keeps the default `/index.php` fallback, `wordpress` is an
 explicit alias for WordPress-style front-controller sites, and `strict` behaves
@@ -1493,17 +1598,51 @@ to be served by `[vhosts.web]`.
 that expect safe trailing `PATH_INFO` after an explicit PHP script such as
 `/index.php/user/1`. The older `strict` spelling is accepted as an alias for
 `split`.
+`php.fpm.connect_timeout_secs` caps connecting to php-fpm and is also bounded
+by `php.request_timeout_secs`. `read_timeout_secs` and `write_timeout_secs`
+currently act as stricter caps on the buffered FastCGI request phase; the
+shortest of `php.request_timeout_secs`, `php.fpm.read_timeout_secs`, and
+`php.fpm.write_timeout_secs` is used until the future streaming FastCGI path
+can enforce separate per-direction timeouts.
 `php.pass_request_headers` controls whether safe inbound request headers are
-translated to CGI `HTTP_*` params. `php.pass_request_body` controls whether the
+translated to CGI `HTTP_*` params. `php.server_port` can override CGI
+`SERVER_PORT`; when omitted, Fluxheim uses an explicit port from the request
+`Host` authority and otherwise falls back to `443` for TLS or `80` for
+cleartext. `php.pass_request_body` controls whether the
 HTTP request body is sent to php-fpm; when disabled, Fluxheim still drains and
 limits the downstream body but sends `CONTENT_LENGTH=0` and an empty FastCGI
 stdin.
 `php.stderr_log` controls whether FastCGI STDERR is written to Fluxheim logs.
+`php.stderr_log_level` controls the emitted log level and accepts `error`,
+`warn`, `info`, or `debug`; the default is `warn`.
 `php.stderr_max_bytes` bounds each logged STDERR message and defaults to `2KiB`;
 larger output is sanitized and marked as truncated.
+`php.stderr_failure_patterns` is a default-empty list of literal ASCII-safe
+substrings. If any configured pattern appears in FastCGI STDERR, Fluxheim treats
+the PHP response as invalid. With `php.fpm.retry_invalid_response = true`, this
+can fail over safe methods to another php-fpm upstream for fatal PHP runtime
+failures such as `PHP Fatal error:`. Matching STDERR is still sanitized,
+bounded by `php.stderr_max_bytes`, and logged when `php.stderr_log` is enabled
+before Fluxheim rejects the response. Up to 32 patterns are allowed, each 1 to
+512 bytes without ASCII control characters.
 `php.hide_response_headers` removes selected headers emitted by php-fpm before
 Fluxheim applies the normal response header policy. This is useful for
 NGINX-style migrations that hide `X-Powered-By` or other backend-only headers.
+The list is case-insensitively deduplicated and capped at 64 header names.
+`php.ignore_origin_cache_headers` removes PHP-generated `Cache-Control`,
+`Expires`, and `Pragma` response headers after Fluxheim has consumed internal PHP
+control headers. It defaults to `false`; use response header policy to set
+replacement cache directives when needed.
+Fluxheim consumes PHP `X-Accel-Redirect` and `X-Sendfile` headers for
+PHP-assisted static offload instead of forwarding them to clients.
+`X-Accel-Redirect` targets are internal URI paths resolved under `php.root`;
+`X-Sendfile` targets are absolute filesystem paths resolved under `php.root`,
+and are mapped from `php.fpm_root` for split-container layouts. Fluxheim refuses
+to offload files with configured PHP script extensions.
+Fluxheim also consumes PHP `X-Accel-Expires` control headers instead of
+forwarding them to clients. Positive TTLs become normal `Cache-Control` and
+`Expires` headers; responses with `Set-Cookie` use `private` cache directives,
+and zero or past expiries become `no-store, private`.
 Fluxheim always strips hop-by-hop php-fpm response headers such as
 `Connection`, `Transfer-Encoding`, and headers named by `Connection` before it
 frames the client response.
@@ -1511,27 +1650,56 @@ frames the client response.
 status list. When PHP returns one of those 4xx/5xx statuses, Fluxheim discards
 the PHP response body and sends a Fluxheim-generated error response instead.
 It defaults to an empty list so PHP applications keep their normal error pages
-unless the operator opts in.
+unless the operator opts in. The status list is capped at the valid 400-599
+error-status range and cannot contain duplicates.
 `[[vhosts.php.error_pages]]` and `[[vhosts.routes.php.error_pages]]` are
 internal static fallback pages for selected PHP statuses. A configured error
 page also intercepts that status; if the static page cannot be served, Fluxheim
 falls back to its generated error response. Use this for NGINX-style
 `fastcgi_intercept_errors` migrations where PHP 502/503/504 responses should
-never expose backend details.
+never expose backend details. PHP error-page lists are capped at 64 entries and
+cannot contain duplicate statuses.
 When a slashless request resolves to a directory PHP index, Fluxheim returns a
 canonical `308` redirect before executing the script, for example `/blog` to
 `/blog/` when `/blog/index.php` exists.
 `max_response_bytes` defaults to `64MiB`; set a smaller value on
-memory-constrained or high-assurance edge nodes. `php.fpm.keepalive` enables
+memory-constrained or high-assurance edge nodes. Because PHP responses are
+currently buffered, the configured value is capped at `64MiB`. Use
+`X-Accel-Redirect` or `X-Sendfile` for large files so Fluxheim can serve the
+static asset path instead of buffering PHP output.
+`php.fpm.keepalive` enables
 FastCGI keep-connection reuse with an idle pool capped by
 `php.fpm.pool_max_idle`; it is off by default for conservative compatibility.
+Use either `php.fpm.socket`, `php.fpm.tcp`, or `php.fpm.tcp_upstreams`; the
+endpoint modes are mutually exclusive. `tcp_upstreams` enables round-robin TCP
+selection and conservative failover across configured php-fpm backends. The
+`tcp_upstreams` list is capped at 64 entries and rejects duplicate authorities.
 When enabled, stale idle entries older than `php.fpm.idle_timeout_secs` are
 discarded before reuse. `pool_max_idle` must be between 1 and 1024 when
-keepalive is enabled. `[vhosts.php.params]` or `[vhosts.routes.php.params]`
+keepalive is enabled. `php.fpm.max_retries` defaults to `0`; when set,
+Fluxheim retries only connection failures and connect timeouts for configured
+`php.fpm.retry_methods` before php-fpm has returned a response.
+`php.fpm.retry_timeout_secs` optionally caps the total retry window for one PHP
+request. With
+`tcp_upstreams`, Fluxheim tries enough endpoints to cover the configured list
+for safe methods even when `max_retries = 0`. Request timeouts are not retried
+to avoid duplicating side effects. `php.fpm.retry_invalid_response` and
+`php.fpm.retry_statuses` extend the same safe-method retry policy to malformed
+FastCGI responses and selected PHP 5xx responses. They default to disabled;
+configure them only for idempotent request methods where replaying the PHP
+request is acceptable. `php.fpm.retry_methods` is capped at 16 uppercase safe-method
+tokens and only accepts `GET`, `HEAD`, `OPTIONS`, and `TRACE`; `php.fpm.retry_statuses` is capped at the valid 500-599 server-error
+status range.
+`[vhosts.php.params]` or `[vhosts.routes.php.params]`
 adds administrator-controlled FastCGI parameters such as `APP_ENV` or
 `PHP_VALUE`; Fluxheim rejects unsafe names, control-character values, and core
 CGI parameters that it owns, including `SCRIPT_FILENAME`, `CONTENT_LENGTH`,
-`HTTPS`, and `HTTP_PROXY`.
+`HTTPS`, and all `HTTP_*` request-header parameters. Custom parameter tables are capped at 128 entries;
+each parameter name is capped at 128 bytes and each value at 16KiB. `PHP_VALUE`
+and `PHP_ADMIN_VALUE` are powerful php-fpm controls; Fluxheim logs high-risk
+warnings when they mention directives such as `open_basedir`,
+`disable_functions`, `allow_url_include`, or `allow_url_fopen`, and logs an
+error-level warning if `PHP_ADMIN_VALUE` overrides `disable_functions`.
 
 `[vhosts.routes.cache]` is optional. When present, it replaces the vhost cache
 policy for that matched route only. Routes without a cache block continue to use
@@ -1545,7 +1713,8 @@ that path. Advanced route configs can still use `https_redirect_exempt = true`
 for deliberate non-ACME cleartext exceptions.
 Use either `upstream = "host:port"` or `upstreams = ["host:port"]`; do not set
 both. The helper accepts the same `upstream_tls` and upstream timeout fields as
-normal proxy actions.
+normal proxy actions. ACME challenge upstream lists are capped at 64 entries
+and reject duplicates case-insensitively.
 
 `[vhosts.redirect]` creates a fallback redirect route for the whole vhost. It is
 intended for canonical-host vhosts such as `www` to apex redirects. Do not

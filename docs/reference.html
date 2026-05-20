@@ -8,7 +8,7 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Fluxheim">
   <meta property="og:title" content="Fluxheim">
-  <meta property="og:description" content="Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust on Cloudflare's Pingora framework.">
+  <meta property="og:description" content="Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.">
   <meta property="og:url" content="https://fluxheim.eu/">
   <meta property="og:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
   <meta property="og:image:secure_url" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
@@ -18,7 +18,7 @@
   <meta property="og:image:alt" content="Fluxheim logo">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Fluxheim">
-  <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust on Pingora.">
+  <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust.">
   <meta name="twitter:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
   <link rel="stylesheet" href="../assets/css/prism-dark.min.css">
   <link rel="stylesheet" href="../assets/css/theme.css?v=20260519">
@@ -48,7 +48,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.2</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -96,8 +96,8 @@
         <p class="text-gray-400 text-lg mb-10">The complete upstream Markdown documentation from Fluxheim main is vendored here so the website exposes the full operator, architecture, and roadmap reference set.</p>
 
         <div class="grid sm:grid-cols-3 gap-4 mb-10">
-          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-white">34</div><div class="text-gray-500 text-xs">source docs</div></div>
-          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-cyan-400">1.3.2</div><div class="text-gray-500 text-xs">current release line</div></div>
+          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-white">35</div><div class="text-gray-500 text-xs">source docs</div></div>
+          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-cyan-400">1.3.3</div><div class="text-gray-500 text-xs">current release line</div></div>
           <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-emerald-400">main</div><div class="text-gray-500 text-xs">synced source branch</div></div>
         </div>
 
@@ -133,6 +133,7 @@
           <a class="doc-link" href="source/logging-architecture.html"><span><strong class="text-white">Logging Architecture</strong><span class="block text-sm text-gray-500">Log classes, event fields, pipeline, overflow policy, sinks, circuit breaker, and security requirements.</span></span><code class="text-cyan-400 text-xs">logging-architecture.html</code></a>
           <a class="doc-link" href="source/opentelemetry-tracing.html"><span><strong class="text-white">OpenTelemetry Tracing</strong><span class="block text-sm text-gray-500">Trace context propagation, internal spans, OTLP trace export, sampling, and security requirements.</span></span><code class="text-cyan-400 text-xs">opentelemetry-tracing.html</code></a>
           <a class="doc-link" href="source/php-runtime-support.html"><span><strong class="text-white">PHP Runtime Support</strong><span class="block text-sm text-gray-500">Current PHP-FPM recommendation, config shape, security requirements, runtime plans, and operations.</span></span><code class="text-cyan-400 text-xs">php-runtime-support.html</code></a>
+          <a class="doc-link" href="source/php-fpm-app-recipes.html"><span><strong class="text-white">PHP-FPM Application Recipes</strong><span class="block text-sm text-gray-500">Recipes for WordPress, WordPress Multisite, Laravel, Symfony, Flarum, MediaWiki, phpBB, XenForo, MyBB, and Discourse-as-proxy.</span></span><code class="text-cyan-400 text-xs">php-fpm-app-recipes.html</code></a>
           <a class="doc-link" href="source/perl-cgi-support.html"><span><strong class="text-white">Perl CGI Support</strong><span class="block text-sm text-gray-500">Current recommendation, compile-time features, request flow, security requirements, and testing plan.</span></span><code class="text-cyan-400 text-xs">perl-cgi-support.html</code></a>
         </div>
 
