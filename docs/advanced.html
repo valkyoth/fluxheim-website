@@ -148,6 +148,51 @@ socket = "/run/php/php8.2-fpm.sock"</code></pre>
             </div>
           </div>
 
+          <h3>Managed PHP-FPM</h3>
+          <p>Available since v1.3.7. Managed mode keeps the same FastCGI/php-fpm request path, but Fluxheim starts and supervises a private php-fpm master process for the vhost. External php-fpm remains the default; use managed mode when you want Fluxheim to generate the pool config and own the private socket lifecycle.</p>
+
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml — managed php-fpm pool</span></div>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = "managed-wordpress"
+hosts = ["managed.example.com"]
+
+[vhosts.web]
+root = "/srv/sites/wordpress"
+index_files = ["index.php", "index.html"]
+deny_dotfiles = true
+
+[vhosts.php]
+enabled = true
+runtime = "php-fpm"
+root = "/srv/sites/wordpress"
+index = "index.php"
+allowed_extensions = ["php"]
+preset = "wordpress"
+try_files = "wordpress"
+deny_path_prefixes = ["/wp-content/uploads", "/wp-content/cache"]
+
+[vhosts.php.fpm]
+mode = "managed"
+php_fpm_binary = "/usr/sbin/php-fpm"
+socket_dir = "/run/fluxheim/php"
+workers = 4
+max_requests_per_worker = 1000
+process_manager = "static" # "static", "dynamic", or "ondemand"
+request_terminate_timeout_secs = 30
+request_slowlog_timeout_secs = 5
+clear_env = true
+catch_workers_output = true
+
+# Configure both when php-fpm starts as root and should drop worker privileges.
+user = "fluxheim"
+group = "fluxheim"</code></pre>
+            </div>
+          </div>
+
+          <p>Do not set <code>socket</code>, <code>tcp</code>, or <code>tcp_upstreams</code> in managed mode. Fluxheim creates the private Unix socket under <code>socket_dir</code>, generates the php-fpm pool files, shuts the master down on reload or gateway shutdown, and respawns it with bounded backoff if it crashes after startup.</p>
+
           <h3>How PHP routing works</h3>
           <ul>
             <li>Requests for existing <code>.php</code> files are routed directly to PHP-FPM</li>
