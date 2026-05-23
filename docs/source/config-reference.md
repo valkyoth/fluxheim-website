@@ -751,6 +751,11 @@ configured key id plus combined cache key are passed as associated data, so a
 stored ciphertext is bound to the cache object identity. The default local-key
 provider does not require OpenBao.
 
+In FIPS/ISO-required mode, OpenBao Transit is further restricted to local
+numeric loopback HTTP (`http://127.0.0.1` or `http://[::1]`). Remote OpenBao
+and HTTPS OpenBao endpoints require outbound TLS evidence that Fluxheim does
+not provide yet.
+
 For local validation, `examples/podman-compose-openbao.yml` starts an OpenBao
 development server and `scripts/smoke_openbao_cache_encryption.sh` runs an
 end-to-end proxy-cache test against OpenBao Transit. The smoke test enables the
@@ -1081,6 +1086,14 @@ cipher_suites = [
   "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256",
 ]
 
+[tls.fips]
+required = false
+require_disk_cache_encryption = false
+
+[tls.iso19790]
+required = false
+require_disk_cache_encryption = false
+
 [[tls.certificates]]
 cert_path = "tls/fullchain.pem"
 key_path = "tls/key.pem"
@@ -1154,6 +1167,60 @@ The global `[[tls.certificates]]` table is capped at 1024 certificate pairs.
 
 Release validation must still scan every release candidate with a TLS scanner
 before publishing a stable release.
+
+### FIPS / ISO-Capable TLS Guard
+
+`[tls.fips] required = true` is accepted by the config schema as a fail-closed
+guard for FIPS/ISO-capable TLS builds. `[tls.iso19790] required = true` is an
+ISO/IEC 19790 terminology alias for the same validated-provider enforcement
+path. Neither setting is a blanket FIPS or ISO/IEC 19790 compliance claim. When
+enabled, Fluxheim rejects non-NIST or unproven groups such as `X25519` and
+`X25519MLKEM768`, rejects non-approved cipher choices such as ChaCha20 suites,
+and requires a backend-specific proof path.
+
+Default builds fail closed because they do not contain a FIPS/ISO-capable proof
+path. Builds compiled with `tls-openssl-fips` or the
+`tls-openssl-iso19790` alias may use `backend = "openssl"`: runtime validation
+then checks that the OpenSSL FIPS provider can be loaded and that an approved
+cipher can be fetched with the `fips=yes` property query, enables OpenSSL
+default FIPS properties for the process-default library context, verifies those
+default properties, and checks that the default fetch path rejects a non-FIPS
+cipher.
+Builds compiled with `tls-rustls-fips` may use `backend = "rustls"`: runtime
+validation checks the rustls AWS-LC FIPS provider, TLS setup uses
+`rustls::crypto::default_fips_provider()`, and listener startup rejects a
+FIPS/ISO-required config unless `ServerConfig::fips()` reports true.
+Operators still need the selected module's CMVP certificate, Security Policy,
+provider/build configuration, platform evidence, and deployment records.
+Fluxheim does not hardcode an OpenSSL provider path; OpenSSL provider discovery
+follows the platform OpenSSL configuration and environment visible to the
+process. The rustls/AWS-LC FIPS path follows rustls and aws-lc-fips-sys build
+requirements, including CMake, Go, and a C compiler.
+
+Use `fluxheim crypto` or `fluxheim-config-tester --crypto` to print compiled
+TLS backend diagnostics. Use [FIPS-Capable Deployments](fips.md) for the full
+compliance boundary and roadmap. Do not treat a Cargo feature or this config
+block alone as a FIPS compliance claim.
+
+FIPS/ISO-required mode also applies internal-crypto guards outside the TLS
+listener. Config validation rejects managed ACME (`[tls.acme] enabled = true`)
+because ACME account key generation, JWS account signing, EAB handling,
+outbound ACME HTTPS transport, and TLS-ALPN certificate generation are not yet
+routed through the selected validated module. It allows
+`admin.enabled = true` only in `tls-openssl-fips` or `tls-rustls-fips` builds,
+where bearer-token HMAC is routed through OpenSSL FIPS or AWS-LC FIPS. It
+rejects local disk-cache encryption because that path uses ring AES-GCM.
+`provider = "openbao-transit"` cache encryption is allowed only through local
+numeric loopback HTTP as an external evidence boundary, and OTLP metrics/traces
+export is allowed only to numeric local `http://` loopback collectors
+(`127.0.0.1` or `[::1]`) until outbound TLS can be provider-aligned. Disk cache
+without encryption is still allowed, but Fluxheim logs a compliance warning
+because cached response bodies are written at rest without a Fluxheim-managed
+encryption boundary. Set `tls.fips.require_disk_cache_encryption = true` or
+`tls.iso19790.require_disk_cache_encryption = true` to promote that warning to
+a hard config error.
+Request IDs and temporary object names are treated as non-secret operational
+identifiers, not SSPs.
 
 Check certificate storage permissions separately:
 
@@ -1514,7 +1581,11 @@ APP_ENV = "production"
 PHP_VALUE = "memory_limit=256M"
 
 [vhosts.routes.php.fpm]
+# Default mode. Fluxheim connects to an operator-managed php-fpm pool.
+mode = "external"
 tcp = "php-fpm:9000"
+# Or use a private Unix socket:
+# socket = "/run/php/php-fpm.sock"
 # Or list multiple TCP endpoints for simple safe-method failover:
 # tcp_upstreams = ["php-fpm-a:9000", "php-fpm-b:9000"]
 connect_timeout_secs = 5
@@ -1529,6 +1600,50 @@ retry_timeout_secs = 5
 retry_methods = ["GET", "HEAD", "OPTIONS"]
 retry_invalid_response = false
 retry_statuses = [500, 502, 503, 504]
+
+# Managed mode keeps the same FastCGI/php-fpm protocol but lets Fluxheim start
+# and supervise a private php-fpm master process. Do not set socket, tcp, or
+# tcp_upstreams in managed mode; Fluxheim creates the socket itself.
+# mode = "managed"
+# php_fpm_binary = "/usr/sbin/php-fpm"
+# socket_dir = "/run/fluxheim/php"
+# workers = 4
+# max_requests_per_worker = 1000
+# process_manager = "static" # "static", "dynamic", or "ondemand"
+# listen_backlog = 128
+# Optional socket ownership controls for managed pools that drop privileges.
+# Defaults to a private 0600 socket.
+# listen_owner = "fluxheim"
+# listen_group = "php"
+# listen_mode = "0660" # "0600" or "0660"
+#
+# Dynamic pool sizing, only when process_manager = "dynamic":
+# start_servers = 2
+# min_spare_servers = 1
+# max_spare_servers = 4
+# max_spawn_rate = 8
+#
+# Ondemand pool sizing, only when process_manager = "ondemand":
+# process_idle_timeout_secs = 10
+#
+# Request lifecycle and diagnostics:
+# request_terminate_timeout_secs = 30
+# request_terminate_timeout_track_finished = false
+# request_slowlog_timeout_secs = 5
+# request_slowlog_trace_depth = 20
+# clear_env = true
+# catch_workers_output = true
+# decorate_workers_output = true
+# session_save_path = "/run/fluxheim/php/session"
+# upload_tmp_dir = "/run/fluxheim/php/upload"
+#
+# Optional, configure both together when php-fpm starts as root and should drop
+# worker privileges. Pair with listen_owner/listen_group/listen_mode when
+# Fluxheim itself is not running as the same user.
+# user = "fluxheim"
+# group = "fluxheim"
+# Generated socket/config/pid/log files live under socket_dir. Forced process
+# termination can leave stale files; remove them only while Fluxheim is stopped.
 
 [vhosts.acme_challenge]
 enabled = true

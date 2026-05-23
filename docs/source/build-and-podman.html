@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -87,8 +87,29 @@ cargo build --release --no-default-features --features profile-full,acme-client,
 cargo build --release --no-default-features --features profile-cache-edge,acme-client
 cargo build --release --no-default-features --features profile-proxy-edge,acme-client
 cargo build --release --no-default-features --features profile-web-server,php-fpm,acme-client</code></pre>
-<p>The default build enables <code>proxy</code>, <code>web</code>, <code>cache</code>, <code>tls-rustls</code>, and <code>security</code>. Cargo does not have a separate <code>--group</code> flag, so Fluxheim exposes grouped build profiles as normal feature aliases such as <code>profile-core</code>, <code>profile-static-site</code>, <code>profile-reverse-proxy</code>, <code>profile-cache-server</code>, <code>profile-load-balancer</code>, <code>profile-observability</code>, and <code>profile-privacy</code>. Fluxheim 1.3 also adds focused profile aliases: <code>profile-full</code>, <code>profile-web-server</code>, <code>profile-cache-edge</code>, <code>profile-proxy-edge</code>, and <code>profile-load-balancer-edge</code>. <code>profile-development</code> is a broad development profile with all compatible production modules enabled: full proxy/web/cache and load-balancer support, PHP-FPM, ACME, Prometheus, OTLP metrics, and OTel tracing.</p>
-<p>TLS backends are mutually exclusive. Select exactly one of <code>tls-rustls</code>, <code>tls-openssl</code>, <code>tls-boringssl</code>, or <code>tls-s2n</code>; <code>tls-rustls</code> is the default and recommended backend.</p>
+<p>The default build enables <code>proxy</code>, <code>web</code>, <code>cache</code>, <code>tls-rustls</code>, and <code>security</code>. Cargo does not have a separate <code>--group</code> flag, so Fluxheim exposes grouped build profiles as normal feature aliases such as <code>profile-core</code>, <code>profile-static-site</code>, <code>profile-reverse-proxy</code>, <code>profile-cache-server</code>, <code>profile-load-balancer</code>, <code>profile-observability</code>, and <code>profile-privacy</code>. Fluxheim 1.3 also adds focused profile aliases: <code>profile-full</code>, <code>profile-web-server</code>, <code>profile-cache-edge</code>, <code>profile-proxy-edge</code>, <code>profile-load-balancer-edge</code>, <code>profile-fips-openssl</code>, and <code>profile-iso19790-openssl</code>. The <code>1.3.5</code> release line introduced <code>profile-fips-rustls</code> and <code>profile-iso19790-rustls</code> for the rustls/AWS-LC FIPS candidate path, and <code>1.3.6</code> adds fail-closed internal-crypto gates and compliance evidence templates around those FIPS/ISO profiles. <code>profile-development</code> is a broad development profile with all compatible production modules enabled: full proxy/web/cache and load-balancer support, PHP-FPM, ACME, Prometheus, OTLP metrics, and OTel tracing.</p>
+<p>TLS backends are mutually exclusive. Select exactly one of <code>tls-rustls</code>, <code>tls-rustls-fips</code>, <code>tls-openssl</code>, <code>tls-boringssl</code>, or <code>tls-s2n</code>; <code>tls-rustls</code> is the default and recommended non-FIPS backend.</p>
+<p>For FIPS/ISO-capable OpenSSL testing, build with <code>tls-openssl-fips</code> or the <code>tls-openssl-iso19790</code> alias instead of the default rustls backend and configure <code>[tls] backend = &quot;openssl&quot;</code> plus <code>[tls.fips] required = true</code> or <code>[tls.iso19790] required = true</code>. The build must link to an OpenSSL 3 installation with a validated provider installed and configured by the operator:</p>
+<pre class="language-bash"><code class="language-bash">cargo build --release --no-default-features --features profile-fips-openssl
+cargo build --release --no-default-features --features profile-iso19790-openssl
+fluxheim crypto</code></pre>
+<p>For rustls/AWS-LC FIPS candidate testing, build with <code>tls-rustls-fips</code> or a matching profile and configure <code>[tls] backend = &quot;rustls&quot;</code> plus <code>[tls.fips] required = true</code> or <code>[tls.iso19790] required = true</code>. This path builds <code>aws-lc-fips-sys</code>, so the build host needs CMake, Go, and a C compiler:</p>
+<pre class="language-bash"><code class="language-bash">cargo build --release --no-default-features --features profile-fips-rustls
+cargo build --release --no-default-features --features profile-iso19790-rustls
+scripts/validate-fips-rustls.sh check</code></pre>
+<p>Use an AWS-LC-supported FIPS builder for <code>scripts/validate-fips-rustls.sh release</code>. Rolling distribution compilers can be ahead of AWS-LC FIPS support; newer GCC/Clang families may fail inside <code>aws-lc-fips-sys</code> before Fluxheim code is compiled. The helper fails early for known newer compiler families and documents the investigation-only override in <a href="fips.html" class="text-cyan-400 hover:text-cyan-300">FIPS-Capable Deployments</a>.</p>
+<p>The FIPS/ISO profile aliases are narrow proof profiles, not a limitation of the FIPS features. For custom cache or PHP-FPM builds, select raw modules so that the binary has exactly one TLS backend:</p>
+<pre class="language-bash"><code class="language-bash"># FIPS/ISO-capable cache edge
+cargo build --release --no-default-features \
+  --features proxy,cache,security,tls-openssl-fips
+
+# FIPS/ISO-capable PHP-FPM web build
+cargo build --release --no-default-features \
+  --features php-fpm,security,tls-openssl-fips</code></pre>
+<p>For the rustls/AWS-LC candidate, replace <code>tls-openssl-fips</code> with <code>tls-rustls-fips</code> in those raw feature examples.</p>
+<p>These examples intentionally omit <code>acme-client</code>. For stricter FIPS/ISO deployment boundaries, prefer local/static certificate files generated and renewed by an approved external process. If you add <code>acme-client</code>, treat ACME account key generation, JWS account signing, EAB handling, ACME HTTPS client behavior, challenge certificate generation, and CA policy as a separate evidence area outside the TLS provider proof. In FIPS/ISO-required configs, Fluxheim rejects <code>[tls.acme] enabled = true</code>; compile-time availability of <code>acme-client</code> does not make managed ACME part of the approved boundary.</p>
+<p>The OpenSSL feature makes Fluxheim fail closed, loads the OpenSSL FIPS provider, enables default FIPS properties for the process, and exposes provider/default property diagnostics. The rustls/AWS-LC candidate installs or passes the rustls FIPS provider and checks rustls&#x27; FIPS indicators for required configs. Either deployment still needs the selected module&#x27;s CMVP certificate, Security Policy, provider/build configuration, and platform evidence. See <a href="fips.html" class="text-cyan-400 hover:text-cyan-300">FIPS-Capable Deployments</a>.</p>
+<p><code>1.3.6</code> also closes other non-TLS crypto paths in FIPS/ISO-required mode: provider-backed admin auth is allowed in OpenSSL FIPS or rustls/AWS-LC FIPS builds, while local cache encryption, managed ACME, and remote/HTTPS OTLP export are rejected unless the path is non-secret, numeric-local-loopback-only, or externally evidenced as documented in the FIPS guide.</p>
 <p>PHP support starts with <code>php-fpm</code> in <code>1.3.1</code>. It is never compiled by default; build it explicitly with <code>profile-web-server,php-fpm</code> when Fluxheim should serve PHP applications through php-fpm.</p>
 <p>See <a href="features.html" class="text-cyan-400 hover:text-cyan-300">Feature Matrix</a> for the complete feature/profile list.</p>
 <p>Fluxheim&#x27;s production RPM intentionally compiles <code>profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp</code> for the <code>1.3.x</code> line. That keeps the normal packaged binary broad while the container and tarball release assets also provide focused cache/proxy builds. Custom source builds can still omit <code>acme-client</code>, load-balancer, cache, web, or observability features when they are not needed.</p>
@@ -173,7 +194,7 @@ sudo dnf install gcc gcc-c++ make cmake perl pkgconf-pkg-config ca-certificates<
 <li><code>php</code>: <code>profile-web-server,php-fpm,acme-client</code></li>
 <li><code>load-balancer</code>: <code>profile-load-balancer-edge,acme-client</code></li>
 </ul>
-<p>These focused profiles use TLS/ACME as shared ingress capabilities. The <code>cache</code> image is TLS-capable and omits local static web serving. The <code>proxy</code> image is TLS-capable and omits cache and static web serving. The <code>php</code> image is TLS-capable, includes static web serving and PHP-FPM support, and omits cache and proxy-edge extras. The <code>load-balancer</code> image is TLS-capable and omits cache and static web serving, but is only published automatically for the <code>1.5</code> load-balancer line. The focused images still reuse the shared proxy runtime internally until lower-level serving internals are split further. Override <code>FLUXHEIM_FEATURES</code> only when you intentionally want a custom image.</p>
+<p>These focused profiles use TLS/ACME as shared ingress capabilities. The <code>cache</code> image is TLS-capable and omits local static web serving. The <code>proxy</code> image is TLS-capable and omits cache and static web serving. The <code>php</code> image is TLS-capable, includes static web serving and PHP-FPM support, and omits cache and proxy-edge extras. Starting with <code>1.3.7</code>, the recommended Wolfi <code>php</code> image also installs <code>php-8.5-fpm</code> and uses <a href="https://github.com/valkyoth/fluxheim/blob/main/packaging/container/php-managed.toml" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">packaging/container/php-managed.toml</a> so <code>mode = &quot;managed&quot;</code> works out of the box for content mounted under <code>/srv/fluxheim</code>. The non-Wolfi PHP image variants keep the external php-fpm container config unless their runtime packages are customized. The <code>load-balancer</code> image is TLS-capable and omits cache and static web serving, but is only published automatically for the <code>1.5</code> load-balancer line. The focused images still reuse the shared proxy runtime internally until lower-level serving internals are split further. Override <code>FLUXHEIM_FEATURES</code> only when you intentionally want a custom image.</p>
 <p>Release images remain tag-driven. When a development container is useful, manually trigger the Quay-only development image build:</p>
 <pre class="language-bash"><code class="language-bash">scripts/publish_dev_image.py --watch</code></pre>
 <p>That workflow publishes <code>quay.io/&lt;namespace&gt;/&lt;repository&gt;:dev-wolfi</code> plus an immutable <code>dev-&lt;short-sha&gt;-wolfi</code> tag from <code>main</code>. The development image is intentionally not mirrored to GHCR or Docker Hub, and it does not publish from pull requests, so registry secrets are not exposed to forked PR builds.</p>
@@ -200,6 +221,15 @@ podman build -t fluxheim:debian -f containers/Containerfile.debian .</code></pre
   --build-arg FLUXHEIM_CONFIG=examples/php-fpm.toml \
   -t fluxheim:php-fpm-wolfi \
   -f containers/Containerfile.wolfi .</code></pre>
+<p>Build the self-contained managed PHP-FPM Wolfi profile locally:</p>
+<pre class="language-bash"><code class="language-bash">podman build \
+  --build-arg FLUXHEIM_FEATURES=profile-web-server,php-fpm,acme-client \
+  --build-arg FLUXHEIM_CONFIG=packaging/container/php-managed.toml \
+  --build-arg FLUXHEIM_RUNTIME_PACKAGES=php-8.5-fpm \
+  -t fluxheim:php-wolfi \
+  -f containers/Containerfile.wolfi .</code></pre>
+<p>The matching smoke test builds that image when needed and verifies <code>/index.php</code> is executed through Fluxheim-managed php-fpm:</p>
+<pre class="language-bash"><code class="language-bash">scripts/smoke_fluxheim_php_wolfi.sh</code></pre>
 <p>Build the development Wolfi profile locally:</p>
 <pre class="language-bash"><code class="language-bash">podman build \
   --build-arg FLUXHEIM_FEATURES=profile-development \
@@ -265,31 +295,31 @@ scripts/podman_smoke_variants.sh</code></pre>
 </ul>
 <p>The workflow publishes OS-variant tags for the full/default image profile:</p>
 <ul>
-<li><code>v1.3.3-wolfi</code>, <code>v1.3.3-alpine</code>, <code>v1.3.3-suse-micro</code>, <code>v1.3.3-debian</code></li>
+<li><code>v1.3.7-wolfi</code>, <code>v1.3.7-alpine</code>, <code>v1.3.7-suse-micro</code>, <code>v1.3.7-debian</code></li>
 <li><code>sha-&lt;short-sha&gt;-wolfi</code>, <code>sha-&lt;short-sha&gt;-alpine</code>, etc.</li>
 <li><code>latest-wolfi</code>, <code>latest-alpine</code>, etc. when run from the default branch</li>
 </ul>
 <p>For the recommended Wolfi runtime, the full/default profile also gets short aliases:</p>
 <ul>
-<li><code>v1.3.3</code></li>
-<li><code>v1.3.3-base</code></li>
+<li><code>v1.3.7</code></li>
+<li><code>v1.3.7-base</code></li>
 <li><code>latest</code></li>
 <li><code>latest-base</code></li>
 </ul>
 <p>The <code>-base</code> aliases are kept for compatibility with earlier release notes and automation. They point at the full/default image profile.</p>
 <p>The cache and proxy image profiles publish tags with a profile segment:</p>
 <ul>
-<li><code>v1.3.3-cache-wolfi</code>, <code>v1.3.3-cache-alpine</code>,</li>
+<li><code>v1.3.7-cache-wolfi</code>, <code>v1.3.7-cache-alpine</code>,</li>
 </ul>
-<p><code>v1.3.3-cache-suse-micro</code>, <code>v1.3.3-cache-debian</code></p>
+<p><code>v1.3.7-cache-suse-micro</code>, <code>v1.3.7-cache-debian</code></p>
 <ul>
-<li><code>v1.3.3-proxy-wolfi</code>, <code>v1.3.3-proxy-alpine</code>,</li>
+<li><code>v1.3.7-proxy-wolfi</code>, <code>v1.3.7-proxy-alpine</code>,</li>
 </ul>
-<p><code>v1.3.3-proxy-suse-micro</code>, <code>v1.3.3-proxy-debian</code></p>
+<p><code>v1.3.7-proxy-suse-micro</code>, <code>v1.3.7-proxy-debian</code></p>
 <ul>
-<li><code>v1.3.3-php-wolfi</code>, <code>v1.3.3-php-alpine</code>,</li>
+<li><code>v1.3.7-php-wolfi</code>, <code>v1.3.7-php-alpine</code>,</li>
 </ul>
-<p><code>v1.3.3-php-suse-micro</code>, <code>v1.3.3-php-debian</code></p>
+<p><code>v1.3.7-php-suse-micro</code>, <code>v1.3.7-php-debian</code></p>
 <ul>
 <li><code>sha-&lt;short-sha&gt;-cache-wolfi</code>, <code>sha-&lt;short-sha&gt;-proxy-wolfi</code>,</li>
 </ul>
@@ -299,7 +329,7 @@ scripts/podman_smoke_variants.sh</code></pre>
 </ul>
 <p>run from the default branch</p>
 <ul>
-<li>Wolfi short aliases: <code>v1.3.3-cache</code>, <code>v1.3.3-proxy</code>, <code>v1.3.3-php</code>,</li>
+<li>Wolfi short aliases: <code>v1.3.7-cache</code>, <code>v1.3.7-proxy</code>, <code>v1.3.7-php</code>,</li>
 </ul>
 <p><code>latest-cache</code>, <code>latest-proxy</code>, and <code>latest-php</code></p>
 <p>The load-balancer image profile is prepared for the <code>1.5</code> line. It is skipped on normal pre-<code>1.5</code> tag pushes, but can be included in manual workflow runs by setting <code>include_load_balancer=true</code>. Its tags follow the same shape, for example <code>v1.5.0-load-balancer-wolfi</code> and the Wolfi alias <code>v1.5.0-load-balancer</code>.</p>
@@ -545,8 +575,8 @@ upstream_tls = false</code></pre>
 <h2 id="native-systemd">Native systemd</h2>
 <p>For manually compiled binaries or RPM-style native installs, Fluxheim ships a systemd unit, sysusers file, tmpfiles file, and optional environment file under <code>packaging/systemd</code> and <code>packaging/rpm</code>. See <a href="systemd.html" class="text-cyan-400 hover:text-cyan-300">systemd Deployment</a> for the install steps and default paths. Native packages use <a href="https://github.com/valkyoth/fluxheim/blob/main/packaging/default/fluxheim.toml" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">packaging/default/fluxheim.toml</a>, which listens on port <code>80</code> by default; the bundled systemd unit grants only <code>CAP_NET_BIND_SERVICE</code> so the service can bind <code>80/443</code> while still running as the unprivileged <code>fluxheim</code> user.</p>
 <p>For local binary RPM smoke builds, use the containerized helper:</p>
-<pre class="language-bash"><code class="language-bash">scripts/build_fluxheim_rpm.py 1.3.3 --target opensuse-tumbleweed
-scripts/build_fluxheim_rpm.py 1.3.3 native --target fedora-44</code></pre>
+<pre class="language-bash"><code class="language-bash">scripts/build_fluxheim_rpm.py 1.3.7 --target opensuse-tumbleweed
+scripts/build_fluxheim_rpm.py 1.3.7 native --target fedora-44</code></pre>
 <p>Untagged <code>latest</code> builds use the package name <code>fluxheim-unstable</code> and a date version so they are clearly separated from stable release packages:</p>
 <pre class="language-bash"><code class="language-bash">scripts/build_fluxheim_rpm.py latest native --target opensuse-tumbleweed
 scripts/build_fluxheim_rpm.py latest native --target opensuse-tumbleweed --rpm-release 2</code></pre>

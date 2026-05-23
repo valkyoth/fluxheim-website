@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -102,6 +102,10 @@ cargo install --locked cargo-sbom --version 0.10.0</code></pre>
 <ul>
 <li>Run <code>cargo update</code> only as a deliberate dependency maintenance step.</li>
 <li>Review every new dependency for maintenance status and SPDX license metadata.</li>
+<li>Review every new build script, procedural macro, <code>*-sys</code> crate, vendored</li>
+</ul>
+<p>native source, native tool invocation, Cargo alias, and CI workflow edit as build-host code execution.</p>
+<ul>
 <li>Keep <code>deny.toml</code> strict: unknown registries, git sources, and unknown licenses</li>
 </ul>
 <p>stay denied.</p>
@@ -163,16 +167,27 @@ cargo install --locked cargo-sbom --version 0.10.0</code></pre>
 <pre class="language-bash"><code class="language-bash">scripts/stable_release_gate.sh release</code></pre>
 <p>For faster iteration before release week, run the same local gate in check mode:</p>
 <pre class="language-bash"><code class="language-bash">scripts/stable_release_gate.sh check</code></pre>
+<p>The stable gate includes the mapped OWASP Top 10 2025 baseline in quick <code>check</code> mode. Run the deeper representative-test mode when the release touches request handling, admin, PHP, TLS, logging, cache, dependency, or error-handling code:</p>
+<pre class="language-bash"><code class="language-bash">scripts/validate-owasp-top10-2025.sh run</code></pre>
 <p>The stable gate includes the promoted cache and observability smoke tests for the <code>1.2</code> line. Optional gates below still cover slower or environment-specific checks such as TLS backend matrices, load testing, fuzz target compilation, and Podman image smoke tests.</p>
-<p>For release-candidate validation, run the deeper local gate. It enables the TLS backend matrix, local TLS scan, local load smoke, raw request-framing smoke, and fuzz target compile check:</p>
+<p>For release-candidate validation, run the deeper local gate. It enables the TLS backend matrix, OpenSSL FIPS-capable validation, rustls/AWS-LC FIPS-capable validation, local TLS scan, local load smoke, raw request-framing smoke, and fuzz target compile check:</p>
 <pre class="language-bash"><code class="language-bash">scripts/stable_release_deep_gate.sh release</code></pre>
+<p>If the local release builder can run the rest of the deep gate but is not an AWS-LC-supported rustls FIPS builder, disable only that gate and attach rustls evidence from the supported builder separately:</p>
+<pre class="language-bash"><code class="language-bash">FLUXHEIM_GATE_FIPS_RUSTLS=0 scripts/stable_release_deep_gate.sh release</code></pre>
 <p>Enable optional local matrices when the release includes those deliverables:</p>
 <pre class="language-bash"><code class="language-bash">FLUXHEIM_GATE_TLS_BACKENDS=1 scripts/stable_release_gate.sh release
+FLUXHEIM_GATE_FIPS_OPENSSL=1 scripts/stable_release_gate.sh release
+FLUXHEIM_GATE_FIPS_RUSTLS=1 scripts/stable_release_gate.sh release
+FLUXHEIM_GATE_OWASP_RUN=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_TLS_SCAN=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_LOAD=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_FRAMING=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_FUZZ_CHECK=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_PODMAN=1 FLUXHEIM_GATE_PODMAN_VARIANTS=1 scripts/stable_release_gate.sh release</code></pre>
+<p>For release builders that are expected to have a working OpenSSL FIPS provider, make absence a hard failure:</p>
+<pre class="language-bash"><code class="language-bash">FLUXHEIM_REQUIRE_FIPS_PROVIDER=1 \
+FLUXHEIM_GATE_FIPS_OPENSSL=1 \
+scripts/stable_release_gate.sh release</code></pre>
 <ul>
 <li>Dependency and license policy:</li>
 </ul>
@@ -197,6 +212,10 @@ scripts/smoke_1_0_core.sh</code></pre>
 </ul>
 <p>deny production <code>unwrap()</code>, <code>expect()</code>, and <code>panic!()</code> through clippy. Keep operational errors on <code>Result</code> or explicit fallback responses. Test-only assertions may continue using panicking helpers.</p>
 <ul>
+<li>Native dependency policy. FIPS-capable profiles can intentionally pull native</li>
+</ul>
+<p>cryptographic modules such as OpenSSL providers or <code>aws-lc-fips-sys</code>. Record the provider/module certificate, compiler, platform, and Security Policy in release evidence, and run sanitizer builds where supported by that native dependency and target platform.</p>
+<ul>
 <li>Secret handling policy. Admin bearer tokens are read into zeroizing buffers,</li>
 </ul>
 <p>hashed, and compared through a vetted constant-time equality primitive. Keep new long-lived credentials in <code>zeroize</code>/<code>ZeroizeOnDrop</code> types, and use <code>subtle</code> for any equality check involving authentication tokens, signing secrets, or derived verifiers. Disk cache encryption keys and OpenBao tokens are long-lived credentials and must follow this policy. Do not classify normal cache object bodies as secrets unless a future module explicitly stores private user data.</p>
@@ -208,6 +227,10 @@ scripts/smoke_1_0_core.sh</code></pre>
 <li>Supply-chain evidence. Stable release gates must generate SPDX and CycloneDX</li>
 </ul>
 <p>SBOMs with <code>cargo-sbom</code>, record their checksums, and run a local reproducible-build check that compiles the release binary twice from separate target directories and compares the resulting executable hash. This does not prove cross-machine bit-for-bit reproducibility; it proves the published builder can reproduce its own release artifact from the tagged source and pinned lockfile. Cross-distro/container reproducibility remains a future hardening goal.</p>
+<ul>
+<li>Human dependency review. Track the <code>cargo-vet</code> adoption path in</li>
+</ul>
+<p><a href="supply-chain-security.html" class="text-cyan-400 hover:text-cyan-300">Rust Supply-Chain Security</a>. Do not make <code>cargo-vet</code> a blocking release gate until the initial exemption set and trusted audit imports have been reviewed.</p>
 <ul>
 <li>Request framing and smuggling regression tests. The unit suite must keep</li>
 </ul>
@@ -314,12 +337,20 @@ cargo build --release --no-default-features --features profile-full
 cargo build --release --no-default-features --features profile-cache-edge
 cargo build --release --no-default-features --features profile-proxy-edge
 cargo build --release --no-default-features --features profile-observability
+scripts/validate-fips-openssl.sh check
+scripts/validate-fips-rustls.sh check
 scripts/smoke_peer_fill_cache.sh
 scripts/smoke_observability_local.sh</code></pre>
 <p>TLS backend validation is split into its own helper because BoringSSL requires <code>libclang</code> for bindgen on the build host:</p>
 <pre class="language-bash"><code class="language-bash">scripts/validate-tls-backends.sh release
 FLUXHEIM_REQUIRE_BORINGSSL=1 scripts/validate-tls-backends.sh release</code></pre>
 <p>Use the second command on release builders that are expected to support <code>tls-boringssl</code>; otherwise the helper validates Rustls, OpenSSL, and s2n and prints an explicit skip when <code>libclang</code> is unavailable.</p>
+<p>The rustls/AWS-LC FIPS validation helper requires the <code>aws-lc-fips-sys</code> build toolchain, including CMake, Go, and a C compiler. Skip it on release builders that are not intended to produce rustls/AWS-LC FIPS candidate evidence.</p>
+<p>For release evidence, use an AWS-LC-supported FIPS builder. Rolling distribution compilers can be too new for <code>aws-lc-fips-sys</code>; the helper fails early for known newer GCC/Clang families unless the investigation-only <code>FLUXHEIM_ALLOW_EXPERIMENTAL_AWS_LC_FIPS_TOOLCHAIN=1</code> override is set.</p>
+<p>If local OpenSSL FIPS evidence works but rustls/AWS-LC evidence must be collected elsewhere, run <code>scripts/release_evidence.sh VERSION --skip-fips-rustls</code> locally and attach the rustls/AWS-LC evidence captured from the supported builder separately. Use <code>--skip-fips-openssl</code> for the opposite case, or <code>--skip-fips</code> only when no FIPS evidence is relevant to that release.</p>
+<p>For a clean container check on common stable tooling, run the helper inside a Debian Bookworm Rust image with CMake, Go, Clang/libclang, and pkg-config:</p>
+<pre class="language-bash"><code class="language-bash">podman run --rm -v &quot;$PWD:/work:Z&quot; -w /work docker.io/library/rust:1-bookworm \
+  bash -c &#x27;set -e; export PATH=/usr/local/cargo/bin:$PATH; apt-get update; apt-get install -y --no-install-recommends cmake golang-go clang libclang-dev pkg-config perl ca-certificates; CARGO_TARGET_DIR=/tmp/fluxheim-target scripts/validate-fips-rustls.sh release&#x27;</code></pre>
 <p>For hardware-specific local binaries, use <code>target-cpu=native</code> only for the machine that will run the binary. Do not publish those binaries as portable artifacts:</p>
 <pre class="language-bash"><code class="language-bash">RUSTFLAGS=&quot;-C target-cpu=native&quot; cargo build --release</code></pre>
 <h2 id="rootless-podman">Rootless Podman</h2>

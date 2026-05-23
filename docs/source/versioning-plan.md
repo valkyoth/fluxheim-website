@@ -372,7 +372,7 @@ Stable scope:
   tier while the rest of the vhost remains uncached.
 - Cache completion work promoted into 1.2:
   - `1.2` is the stable cache-completion release. The main cache safety and
-    operations concerns are now in the current development line: the documented
+    operations concerns are now in the 1.2 release line: the documented
     proxied `304 Not Modified` metadata merge edge, very large disk-cache
     loader/purger pacing and visibility, cache-debug/release-gate coverage,
     and production validation for stampede protection. Remaining work before
@@ -765,6 +765,16 @@ Exit criteria:
 
 Follow-up `1.3.x` FIPS-capable TLS build plan:
 
+The standalone operator and implementation reference is
+[FIPS-Capable Deployments](fips.md). The `1.3.4` line completes the OpenSSL
+FIPS-capable TLS path: terminology guardrails, compliance-boundary
+documentation, crypto inventory, backend diagnostics, fail-closed TLS-policy
+validation, OpenSSL provider proof, OpenSSL default FIPS property enablement,
+and release evidence. Broader FIPS-required deployment readiness should remain
+staged after `1.3.4`: rustls/AWS-LC FIPS after provider-aware rustls helpers
+exist, and internal crypto closure before any broad FIPS-required profile is
+recommended for production.
+
 - Add an explicit FIPS-capable compile/profile line without claiming that
   Fluxheim itself is a validated cryptographic module. The release wording must
   say "FIPS-capable build using a validated cryptographic module" and must
@@ -789,14 +799,13 @@ Follow-up `1.3.x` FIPS-capable TLS build plan:
   a feature flag was enabled.
 - Add backend-specific feature gates rather than one vague `fips` switch:
   - `tls-rustls-fips`: rustls backend using rustls' `fips` feature and the
-    AWS-LC FIPS provider path. This requires replacing current ring-specific
-    rustls helpers with provider-aware helpers, installing
-    `rustls::crypto::default_fips_provider()` at startup, and failing startup
-    if generated `ServerConfig` / `ClientConfig` objects do not report FIPS
-    status where rustls exposes that check. The feature should route builds to
-    the AWS-LC FIPS crate path, document the CMake, Go, and C compiler build
-    requirements, and explicitly construct rustls server/client configs from
-    provider suites permitted by NIST SP 800-52 Rev. 2.
+    AWS-LC FIPS provider path. The `1.3.5` candidate replaces ring-specific
+    rustls helpers with provider-aware helpers, installs/passes
+    `rustls::crypto::default_fips_provider()`, and fails startup if a
+    FIPS-required generated `ServerConfig` does not report FIPS status. The
+    feature routes builds to the AWS-LC FIPS crate path, documents the CMake,
+    Go, and C compiler build requirements, and constrains configured rustls
+    suites/groups through the Fluxheim FIPS TLS policy.
   - `tls-openssl-fips`: OpenSSL backend built and linked against OpenSSL 3.x
     with a validated FIPS provider. Operators remain responsible for installing
     the validated provider and running the provider setup expected by the
@@ -804,7 +813,10 @@ Follow-up `1.3.x` FIPS-capable TLS build plan:
     Fluxheim should support an operator-supplied OpenSSL config path or
     environment contract, require provider/config diagnostics, and fail closed
     when FIPS-required mode cannot prove the FIPS provider/default properties
-    are active.
+    are active. The `1.3.4` path proves provider availability with an explicit
+    `fips=yes` fetch, enables OpenSSL default FIPS properties through a small
+    local support crate, verifies those properties, and checks that a non-FIPS
+    cipher is rejected through the default fetch path.
   - `tls-boringssl-fips`: research-only until Fluxheim can prove it is linked
     to a BoringCrypto validated module stream, can query the module/version, and
     can document the exact CMVP certificate/security-policy boundary. Normal
@@ -812,10 +824,11 @@ Follow-up `1.3.x` FIPS-capable TLS build plan:
   - `tls-s2n-fips`: research-only until the s2n/Pingora integration can prove
     s2n was built with FIPS-capable AWS-LC, expose `s2n_get_fips_mode`, and
     restrict configured s2n security policies to FIPS-approved cryptography.
-- Add a high-level `fips-required` compile feature or config guard only after
-  backend-specific checks exist. When enabled, non-FIPS TLS backends, non-FIPS
-  cipher/curve choices, non-FIPS ACME/account crypto paths, and incompatible
-  dependencies must fail validation instead of silently downgrading.
+- Keep `tls.fips.required` as the high-level config guard and require
+  backend-specific proof features underneath it. When enabled, non-FIPS TLS
+  backends, non-FIPS cipher/curve choices, non-FIPS ACME/account crypto paths,
+  and incompatible dependencies must fail validation instead of silently
+  downgrading.
 - Inventory internal cryptography before publishing FIPS profiles. Any
   security-sensitive operation outside TLS, including random request/session
   identifiers, admin token MACs, ACME/account signing, cache encryption,
@@ -823,10 +836,12 @@ Follow-up `1.3.x` FIPS-capable TLS build plan:
   either route through the selected validated backend or be disabled/rejected in
   FIPS-required builds. Pure RustCrypto, ring, or other non-validated fallback
   paths cannot remain reachable for those operations in a FIPS-required binary.
-- Add `profile-fips-rustls` and optionally `profile-fips-openssl` once CI can
-  build them reproducibly. These profiles should be separate from default,
-  cache, proxy, PHP, and load-balancer profiles so non-FIPS operators do not
-  inherit large FIPS build dependencies.
+- Add narrow FIPS/ISO profile aliases separately from default, cache, PHP, and
+  load-balancer profiles so non-FIPS operators do not inherit OpenSSL or AWS-LC
+  FIPS build/provider requirements. `profile-fips-openssl` and
+  `profile-iso19790-openssl` ship with the `1.3.4` OpenSSL path;
+  `tls-rustls-iso19790`, `profile-fips-rustls`, and
+  `profile-iso19790-rustls` are part of the `1.3.5` rustls/AWS-LC candidate.
 - Add release evidence:
   - compile logs and lockfile for the selected backend;
   - runtime `--version --crypto` or equivalent output showing backend, provider,
@@ -839,6 +854,33 @@ Follow-up `1.3.x` FIPS-capable TLS build plan:
 - Keep FIPS support incompatible with any backend or feature where we cannot
   prove the cryptographic boundary. "Compiled with a FIPS-capable dependency"
   is not enough for release claims.
+
+Post-`1.3.4` implementation ladder:
+
+- `1.3.5`: rustls/AWS-LC FIPS candidate. Refactor current ring-specific rustls
+  helpers into provider-aware helpers, use rustls' AWS-LC FIPS provider path,
+  verify rustls FIPS status on provider/server configs, add rustls FIPS/ISO
+  profiles and examples, and document AWS-LC FIPS build requirements and CMVP
+  Security Policy evidence.
+- `1.3.6`: internal crypto closure and compliance evidence package. Classify
+  ACME, EAB, admin tokens,
+  request IDs, temp names, cache encryption, OpenBao Transit, OTLP HTTPS, and
+  future signing/session features as validated-backend-routed, externally
+  evidenced, non-security-sensitive, or disabled in FIPS-required builds. The
+  implementation routes admin bearer-token HMAC through OpenSSL FIPS or AWS-LC
+  FIPS in the matching FIPS builds, rejects managed ACME, local cache
+  encryption, and remote/HTTPS OTLP in FIPS/ISO-required configs, while
+  allowing OpenBao Transit cache encryption only through local numeric loopback
+  HTTP as an external evidence boundary and documenting request IDs/temp names
+  as non-secret operational identifiers. Publish a repeatable release evidence
+  template with SBOM notes, build command, module certificate, Security Policy,
+  provider config, runtime crypto diagnostics, and scanner output checklist.
+  Include Common Criteria evidence alignment from
+  `common-criteria-roadmap.md`: candidate TOE boundary, Security Target-style
+  draft, security-relevant interfaces, operational-environment assumptions,
+  validation-script identifiers, and vulnerability-analysis records. This is
+  an actionable evidence track, not a Common Criteria certification or EAL
+  claim.
 
 Follow-up `1.3.x` PHP runtime plan:
 
@@ -966,7 +1008,10 @@ Follow-up `1.3.x` PHP runtime plan:
   - FastCGI multiplexing, authorizer, and filter-role review. Documented as
     unsupported for `1.3.x`; Fluxheim supports the normal one-request-at-a-time
     `FCGI_RESPONDER` PHP-FPM web-serving subset.
-- Later `1.3.x`: managed php-fpm mode under the existing `php-fpm` feature.
+- `1.3.4`: OpenSSL FIPS-capable TLS build path, fail-closed provider
+  validation for FIPS-required configs, runtime crypto diagnostics, and
+  release-gate evidence for FIPS-capable builds.
+- `1.3.7`: managed php-fpm mode under the existing `php-fpm` feature.
   This should be a runtime config choice, not a separate `php-fpm-managed`
   Cargo feature, because it still uses the same FastCGI bridge and security
   model. The target operator experience is `mode = "managed"` plus a small
@@ -979,10 +1024,17 @@ Follow-up `1.3.x` PHP runtime plan:
     `php-cli` stdin/stdout worker protocol, for production apps. Persistent
     CLI workers do not provide the request isolation expected by WordPress,
     Laravel, Symfony, phpBB, XenForo, MediaWiki, and similar applications.
-  - The generated pool config should expose only a small, auditable subset:
-    binary path, worker count, max requests per worker, optional user/group
-    where safe, environment allow-list, php_admin_value overrides for session
-    path and upload temp path, socket directory, and timeout controls.
+  - The generated pool config exposes only a small, auditable subset: binary
+    path, private socket directory, static/dynamic/ondemand process manager
+    mode, worker count, dynamic spare/start sizing, ondemand idle timeout,
+    listen backlog, max requests per worker, request terminate timeout,
+    slowlog controls, private socket owner/group/mode, worker stdout/stderr
+    decoration, `clear_env`,
+    session-save and upload-temp directories, and optional user/group where
+    safe.
+  - A managed php-fpm watchdog should respawn the php-fpm master after
+    post-start crashes with bounded backoff, while reload/shutdown paths must
+    terminate the old master gracefully without blocking async worker threads.
   - The generated socket, config, pid, logs, and temporary directories must use
     the same safe-path ownership, symlink, and writable-parent checks used by
     ACME/cache/runtime paths.
@@ -993,12 +1045,13 @@ Follow-up `1.3.x` PHP runtime plan:
   - Future php-cgi support can be evaluated separately for tiny deployments,
     but it should not block managed php-fpm because php-cgi process-per-request
     behavior is a different performance and compatibility tradeoff.
-- Later `1.3.x`: pure-Rust PHP interpreter experiment behind
-  `experimental-pure-php`, test-only until compatibility, security, and
-  maintenance are proven. The feature must warn operators at startup that it is
-  intended for testing and zero-dependency edge microservices only, and that
-  production applications such as WordPress, Laravel, Symfony, phpBB, XenForo,
-  and MediaWiki should use the stable `php-fpm` module.
+- Pure-Rust PHP/phprs is no longer planned for the 1.3 line. Managed php-fpm
+  covers the zero-admin PHP deployment goal while preserving normal php-fpm
+  compatibility and isolation.
+- `1.3.6` completed the admin API JSON cleanup: dynamic admin responses now
+  serialize through `serde_json::to_vec` instead of hand-written `format!`
+  bodies, while retaining the existing response schemas and response-size
+  safety limit.
 - Turbine-style PHP app servers are not Fluxheim runtime targets. Treat them as
   HTTP upstreams that Fluxheim can reverse-proxy to unless a future project
   exposes a small, auditable library API with a clearly safer boundary than
@@ -1009,11 +1062,8 @@ Compile-time feature shape stays:
 ```toml
 php = []
 php-fpm = ["php", "dep:fastcgi-client"]
-experimental-pure-php = ["php"] # add dep:phprs only after engine review
 ```
 
-Only one PHP runtime feature may be selected in one binary. Add compile-time
-guards for incompatible runtime combinations.
 Managed php-fpm is not a separate runtime feature; it belongs behind
 `php-fpm` because it changes process lifecycle, not the request protocol.
 
@@ -1027,11 +1077,12 @@ Exit criteria:
   FastCGI response, timeout, oversized body, and STDERR-size tests pass.
 - WordPress-style front-controller routing, login/admin cookies, plugin/theme
   install/update/delete flows, and common cache-plugin bypass patterns are smoke
-  tested against php-fpm.
+  tested against php-fpm. For `1.3.7`, the local WordPress smoke must pass in
+  `external`, all managed process-manager modes, and `managed-respawn` mode.
 - Config validation makes unsafe PHP roots, sockets, and runtime combinations
   actionable.
 
-### 1.4 - Advanced Proxy
+### 1.4 - Production Proxy Parity
 
 Feature-graph prerequisite:
 
@@ -1039,11 +1090,71 @@ Feature-graph prerequisite:
   surface without static web, local static cache, or load-balancer code unless
   explicitly selected.
 
-Goal: make Fluxheim's HTTP and stream proxy layer migration-friendly for
-HAProxy and NGINX operators before expanding the load-balancer surface. This
-release should cover reverse-proxy behavior, connection management,
-backpressure, buffering, protocol bridging, and operator visibility that apply
-even when a route targets one upstream.
+Goal: make Fluxheim's proxy layer migration-friendly for NGINX, HAProxy, Envoy,
+and Caddy operators. This line should close the operational gaps that matter
+most before adding a new major feature family: rate limiting, IP ACLs,
+compression, upstream selection, passive health/outlier detection, mTLS/client
+certificate authentication, PROXY protocol, gRPC-safe HTTP/2 handling, traffic
+mirroring, dynamic upstream discovery, buffering/streaming controls, rewrite
+policy, and local operational visibility.
+
+Reference parity map:
+
+| Capability | Reference behavior | Fluxheim 1.4 target |
+| --- | --- | --- |
+| Rate and connection limiting | NGINX `limit_req`/`limit_conn`, HAProxy stick-table counters, Envoy local/global rate limit filters | Local per-vhost/per-route token bucket and concurrency limits first; external/global service later only if needed |
+| IP ACLs | NGINX `allow`/`deny`, HAProxy ACL rules, Envoy RBAC | Ordered CIDR allow/deny at listener, vhost, and route scopes with trusted-proxy-aware client IP |
+| Compression | NGINX/HAProxy compression, Envoy compressor, Caddy `encode` | Opt-in gzip/zstd/brotli negotiation with MIME/size rules, resource caps, and cache-safe `Vary: Accept-Encoding` |
+| Load balancing | NGINX RR/least_conn/ip_hash/hash, HAProxy algorithms/stick tables, Envoy policies | Weighted round-robin, least-connections, power-of-two, source/header/cookie hash, bounded sticky sessions |
+| Passive health/outlier detection | Envoy outlier ejection, HAProxy observed errors, Caddy passive health | Per-upstream failure, timeout, 5xx, and latency counters with temporary ejection and circuit-open state |
+| mTLS/client auth | NGINX `ssl_verify_client`, HAProxy `verify required`, Envoy TLS validation context | Listener-level required/optional client cert verification, CA bundle validation, identity variables, and route/admin policy use |
+| PROXY protocol | NGINX/HAProxy/Envoy listener and upstream support | Accept v1/v2 only from trusted peers; optionally send v1/v2 upstream |
+| gRPC | Envoy first-class gRPC/trailers, NGINX `grpc_pass` | Preserve HTTP/2 trailers/status/body limits/timeouts; no transcoding in 1.4 |
+| HTTP/3/QUIC | NGINX/Caddy/Envoy support | Track behind a protocol milestone; do not block 1.4 unless Pingora server support is stable enough |
+| Traffic mirroring | NGINX `mirror`, Envoy shadowing | Bounded shadow requests with body on/off, sampling, timeout, redaction, and no effect on primary response |
+| Dynamic discovery | Envoy xDS, Caddy dynamic upstreams, DNS/service integrations | DNS refresh and file-watched upstream lists first; xDS/Kubernetes/Consul later |
+| Extension hooks | NGINX/HAProxy Lua, Envoy Wasm | Typed policy inputs and hook points in 1.4; actual shared Wasm runtime remains 1.6 |
+
+Release shape:
+
+- `1.4.0` - edge policy and compression:
+  - local request-rate token bucket with burst, nodelay/delay modes, and
+    configurable rejection status;
+  - per-route, per-vhost, and per-listener connection limits and bounded queues;
+  - ordered CIDR allow/deny policy with trusted-proxy integration;
+  - response compression feature with gzip compatibility, zstd/brotli where
+    supported, MIME/size allow-lists, concurrency and memory limits,
+    privacy-mode rejection, and cache-safe `Vary` behavior.
+- `1.4.1` - upstream selection and resilience:
+  - named upstream pools and per-route pool selection;
+  - weighted round-robin, least-connections, power-of-two choices, source hash,
+    URI hash, header hash, and cookie stickiness;
+  - retry/redispatch controls, retry budgets, idempotency-aware defaults, backup
+    servers, drain, and slow-start;
+  - passive health/outlier detection with consecutive failure, 5xx, timeout,
+    and latency ejection; active HTTP health checks may land here if they fit.
+- `1.4.2` - TLS, identity, and protocol parity:
+  - listener-level mTLS/client certificate auth with `off`, `optional`, and
+    `required` modes, safe CA file handling, and identity variables for logs,
+    headers, route policy, and admin hardening;
+  - upstream TLS controls: SNI override, trust roots, upstream mTLS client cert,
+    protocol/cipher policy where supported, and auditable insecure-skip-verify
+    behavior;
+  - PROXY protocol v1/v2 accept/send with explicit trust boundaries;
+  - gRPC-safe HTTP/2 proxying for trailers, status, timeouts, body limits, and
+    streaming behavior. gRPC-Web/JSON transcoding remains out of scope unless a
+    mature crate or small adapter is justified.
+- `1.4.3` - discovery, mirroring, and operator hooks:
+  - DNS-refreshing upstreams for container/service-name targets;
+  - file-watched upstream lists for service discovery without full config reload;
+  - traffic mirroring/shadowing with sampling, body controls, redaction,
+    timeout budgets, and metrics;
+  - richer typed proxy variables and structured JSON access logs;
+  - route-scoped header, URI, `Location`, `Refresh`, and cookie rewrite policy;
+  - local Unix operational socket for read-only pool, queue, rate-limit,
+    circuit, and mirror status;
+  - typed hook points for future Wasm/Lua-like policy without executing plugins
+    in 1.4.
 
 Stable scope:
 
@@ -1063,6 +1174,24 @@ Stable scope:
     route, method, authenticated policy result, or configured header allow-list;
   - async backpressure so slow or saturated upstreams do not force unbounded
     buffering inside Fluxheim.
+- Local rate limiting and overload controls:
+  - token bucket per client IP, route, vhost, header, authenticated identity, or
+    configured variable;
+  - burst, delay/nodelay, dry-run, and custom rejection status/body;
+  - bounded state tables with TTL and eviction behavior;
+  - low-cardinality metrics only by default.
+- IP filtering and route ACLs:
+  - ordered allow/deny CIDR lists;
+  - trusted-proxy-aware source IP selection;
+  - explicit behavior for missing/invalid forwarded identity;
+  - route/vhost/listener inheritance and clear deny status.
+- Response compression:
+  - gzip compatibility path plus zstd/brotli when dependencies and browser
+    behavior justify them;
+  - content-type and minimum-size eligibility;
+  - resource caps for CPU, memory, and concurrent compression jobs;
+  - cache-key isolation and `Vary: Accept-Encoding` correctness;
+  - disabled in privacy mode unless the policy proves no extra retention.
 - Upstream keepalive and connection-pool tuning beyond the existing global
   pool size:
   - per-route pool limits;
@@ -1092,6 +1221,22 @@ Stable scope:
   behavior.
 - gRPC/gRPC-Web proxy compatibility where it fits Fluxheim's HTTP/2 stack,
   including body-size, timeout, and status/trailer handling.
+- Advanced upstream selection and resilience:
+  - weighted round-robin;
+  - least-connections for uneven PHP/app request durations;
+  - source/header/cookie/URI hash;
+  - sticky sessions with bounded state and safe cookie defaults;
+  - retry/redispatch budgets, backup/drain/slow-start state;
+  - passive health/outlier detection and circuit-breaker state based on
+    connection errors, timeouts, selected response-status classes, and latency.
+- Client mTLS and certificate-derived identity:
+  - listener-level client-auth mode first because TLS verification happens
+    before normal HTTP routing;
+  - optional SNI/vhost-specific behavior only after backend support is proven;
+  - expose verified subject, SAN, serial, issuer, and fingerprint as typed
+    variables after redaction rules;
+  - safe use for admin endpoint hardening, route ACLs, upstream headers, and
+    Cloudflare Authenticated Origin Pulls.
 - NGINX-style request mirroring for HTTP routes with strict limits:
   - mirror body on/off;
   - mirror timeout;
@@ -1104,6 +1249,12 @@ Stable scope:
   - accept Proxy Protocol v1/v2 on configured listeners;
   - send Proxy Protocol to upstreams on configured routes;
   - validate trust boundaries before restoring client identity.
+- Dynamic service discovery:
+  - DNS refresh for upstream hostnames with TTL/refresh controls;
+  - file-watched upstream lists for container/service-name environments;
+  - strict validation before replacing an active pool;
+  - later xDS/Kubernetes/Consul support only after the local discovery model is
+    stable.
 - TCP stream proxy foundation:
   - compile-time feature separate from HTTP proxy if needed;
   - safe listener and upstream config;
@@ -1158,30 +1309,40 @@ Stable scope:
 
 Out of scope for `1.4`:
 
-- Load-balancer pool algorithms, active health checks, backup/drain/slow-start,
-  redispatch, and sticky sessions. Those belong to `1.5`.
 - Direct Server Return as a stable HTTP proxy feature. DSR is a layer-4/network
   topology feature and should be evaluated in the `1.5` load-balancer or later
   stream-proxy line after Linux routing, source-address, and observability
   constraints are documented.
+- Full Envoy-style global rate-limit service, xDS control plane, Kubernetes
+  controller, Consul integration, gRPC-Web transcoding, gRPC-JSON transcoding,
+  and HTTP/3/QUIC are tracked as later work unless a low-risk subset becomes
+  available through existing dependencies.
+- Arbitrary Lua/Wasm script execution. `1.4` should define typed hook points and
+  bounded policy surfaces; the shared Wasm runtime remains a separate `1.6`
+  line.
 - Cache engine work already completed in `1.2.x`, except where proxy buffering
   and streaming behavior must integrate correctly with cache admission.
 
 Exit criteria:
 
 - HAProxy/NGINX migration fixtures cover queue limits, queue timeout,
-  backpressure, request/response buffering, upstream keepalive, WebSocket,
-  gRPC, request mirroring, PROXY protocol receive/send, external auth request,
-  variable logging, and TCP stream proxy basics.
+  backpressure, local rate limits, connection limits, IP ACLs, compression,
+  request/response buffering, upstream keepalive, advanced selection policies,
+  passive health/outlier ejection, mTLS client-auth, WebSocket, gRPC, request
+  mirroring, PROXY protocol receive/send, external auth request, variable
+  logging, and TCP stream proxy basics.
 - Memory usage remains bounded under slow client, slow upstream, large upload,
-  large download, and upstream stall tests.
-- Queue, pool, buffering, mirror, stream, and protocol-translation metrics are
-  available when metrics are enabled and stay low-cardinality.
+  large download, compressed-response, rate-limit abuse, and upstream stall
+  tests.
+- Queue, pool, rate-limit, ACL, compression, circuit, mTLS, buffering, mirror,
+  stream, and protocol-translation metrics are available when metrics are
+  enabled and stay low-cardinality.
 - Privacy-mode rejects incompatible logging, temp-file buffering, stream
-  identity restoration, or payload-retaining features.
+  identity restoration, compression, mirroring, or payload-retaining features.
 - Config validation catches unsafe temp paths, impossible queue settings,
-  invalid regex rewrites, unsupported protocol combinations, and unsafe PROXY
-  protocol trust boundaries.
+  impossible rate-limit tables, invalid ACLs, unsafe compression/cache
+  combinations, invalid regex rewrites, unsupported protocol combinations,
+  unsafe client-cert CA paths, and unsafe PROXY protocol trust boundaries.
 
 ### 1.5 - Load Balancer
 
@@ -1194,26 +1355,31 @@ Feature-graph prerequisite:
   internally, but the public feature name and image profile must not pull in
   unrelated webserver behavior.
 
-Goal: graduate Fluxheim's load balancer to an enterprise-grade traffic
-management layer. The target is HAProxy/nginx migration parity plus the
-operator primitives people expect from F5 BIG-IP LTM: rich pool metadata,
-health/performance monitors, persistence, adaptive recovery behavior, and
-programmable traffic decisions. Palo Alto-style security expectations should be
+Goal: stabilize the `1.4` proxy/load-balancing primitives for larger
+enterprise estates. Since `1.4` now owns the common single-node parity features,
+`1.5` should focus on operational scale: runtime pool mutation, multi-instance
+state, deeper active/adaptive health policy, admin workflows, migration tooling,
+and F5-style estate management. Palo Alto-style security expectations should be
 represented as clear policy integration points around the load balancer, not as
 a claim that Fluxheim is a full next-generation firewall in `1.5`.
 
 Stable scope:
 
-- Compile-time `load-balancer` module.
-- Load-balancer additions should minimize dependency surface while preserving
-  migration parity. Selection algorithms, persistence tables, circuit state,
-  and policy evaluation are good candidates for in-tree Fluxheim
-  implementations; protocol, TLS, async runtime, and cryptographic machinery
-  should remain on reviewed mature crates until a far-future transport/core
-  replacement line exists.
-- Named upstream pools that can be selected globally, per vhost, or per route,
-  so one vhost can proxy normal app traffic and route-specific traffic to
-  different backend sets.
+- Compile-time `load-balancer` module remains the place for estate-scale
+  features that go beyond one Fluxheim instance's normal proxy routing.
+- Runtime pool and member mutation through a local authenticated control plane:
+  add, remove, drain, disable, resume, weight change, slow-start, and metadata
+  update without full process restart.
+- Persisted pool state for operator actions and reload survival, with safe
+  snapshot/write semantics and audit events.
+- Cluster-aware state sharing for selected tables where single-node behavior is
+  insufficient:
+  - sticky-session tables;
+  - rate-limit counters if local-only limits prove insufficient;
+  - passive health/circuit state only where sharing is safe and bounded.
+- Named upstream pools can be selected globally, per vhost, or per route, so one
+  vhost can proxy normal app traffic and route-specific traffic to different
+  backend sets.
 - Separate L4 and L7 load-balancing modes:
   - HTTP/1.1 and HTTP/2 request-aware pools;
   - gRPC-aware HTTP/2 pools where trailers/status handling is preserved;
@@ -1227,20 +1393,14 @@ Stable scope:
   max in-flight requests or connections, max queue, priority group, manual
   resume, warm-up/slow-start after recovery, administrative tags, and optional
   per-upstream TLS/SNI settings.
-- Weighted round-robin stable default.
-- Selection policies needed for common HAProxy/nginx/F5 migrations and Pingora
-  parity:
-  - weighted round-robin;
-  - least-connections / least-in-flight;
+- `1.4` selection algorithms remain the single-node default. `1.5` adds
+  operational controls around them: priority groups, maintenance mode,
+  runtime-safe weight changes, pool-level policy templates, and migration tools
+  that translate common HAProxy/nginx pool definitions into Fluxheim config.
   - least-time / EWMA latency-aware selection when metrics are trustworthy;
-  - power-of-two-choices for lower herd effects than naive least-connections;
-  - source-IP hash;
-  - generic hash by a bounded key template such as host, path, header, or
-    request ID;
   - consistent hash / Ketama for cache-stateful upstreams;
   - bounded-load consistent hashing so overloaded nodes can be skipped without
     remapping the whole ring;
-  - random where it is useful for large homogeneous pools;
   - priority-group selection for F5-style preferred/fallback groups.
 - Session persistence:
   - cookie persistence with signed/opaque cookies;
@@ -1385,7 +1545,7 @@ they land.
 
 Current implementation status:
 
-- Implemented in the current 1.2 development line:
+- Implemented in the 1.2 release line:
   - memory, disk, and tiered memory+disk Pingora cache storage;
   - route-scoped cache policies for selective production paths such as
     repository avatars/assets;
@@ -1672,19 +1832,12 @@ Exit criteria:
   cache hook ABI with typed inputs, configured output limits, and explicit
   operator opt-in per vhost or route.
 
-### 1.7 - Compression Pack
+### 1.7 - Reserved
 
-Goal: add safe, opt-in response compression without blocking request workers or
-breaking cache correctness.
-
-Stable scope:
-
-- Compile-time `compression` module.
-- `zstd` and `br` negotiation where client support and route policy allow it.
-- `gzip` compatibility fallback.
-- Conservative MIME/content eligibility rules.
-- `Vary: Accept-Encoding` handling and cache-key isolation.
-- Resource limits for input size, buffered size, level, and concurrency.
+Compression was pulled forward into the `1.4` production proxy parity line
+because it is a normal reverse-proxy expectation rather than a separate feature
+family. Keep `1.7` reserved until a later major planning pass identifies a
+coherent post-Wasm release theme.
 - Bounded offload for expensive compression work.
 
 Beta scope:
@@ -1771,7 +1924,10 @@ Stable scope:
 - Hardened filesystem trust checks inspect sensitive path ownership and write
   permissions consistently across config, TLS, ACME, admin token, snapshot,
   process, log, and cache paths. POSIX ACL inspection is tracked here as the
-  next strict-profile hardening step after mode-bit enforcement.
+  next strict-profile hardening step after mode-bit enforcement. Linux
+  `openat2(RESOLVE_NO_SYMLINKS)` support is also tracked for collapsing
+  remaining check/open windows on secret files where the platform can provide
+  it.
 
 Beta scope:
 
@@ -2427,8 +2583,10 @@ web = [...]
 cache = [...]
 load-balancer = ["proxy", ...] # transitional until the 1.5 load-balancer line
 tls = ["ingress", "dep:rustix"]
-tls-rustls = ["tls", "pingora/rustls", "dep:rustls", "rustls/ring"]
-tls-rustls-fips = ["tls", "pingora/rustls", "dep:rustls", "rustls/fips"] # planned; provider-aware AWS-LC FIPS path
+tls-rustls-backend = ["tls", "pingora/rustls", "dep:rustls"]
+tls-rustls = ["tls-rustls-backend", "rustls/ring"]
+tls-rustls-fips = ["tls-rustls-backend", "rustls/fips"] # rustls/AWS-LC FIPS candidate path
+tls-rustls-iso19790 = ["tls-rustls-fips"] # terminology alias for ISO/IEC 19790 evidence
 fips-required = [] # planned guard after backend/provider checks and internal crypto routing exist
 acme = ["tls", ...]
 ```
@@ -2518,10 +2676,15 @@ the exception while the cache server is being completed as a focused sequence:
 - `v1.3.2`: ACME companion agent, zero-downtime first-issuance activation, and
   release-page config tester binaries.
 - `v1.3.3`: focused php-fpm hardening and compatibility fixes.
-- Later `v1.3.x`: experimental pure-Rust PHP research behind
-  `experimental-pure-php`; Turbine-style PHP app servers stay proxy upstreams.
-- `v1.4.1`: fixes for advanced proxy parity.
-- `v1.5.1`: fixes for load balancer.
+- `v1.3.4`: OpenSSL FIPS-capable TLS build path and release evidence.
+- `v1.3.5`: rustls/AWS-LC FIPS-capable candidate build path and evidence
+  workflow.
+- `v1.3.7`: managed php-fpm process supervision under the existing `php-fpm`
+  feature.
+- `v1.4.0` through `v1.4.3`: production proxy parity in a few larger releases:
+  edge policy/compression, upstream resilience, TLS/protocol parity, then
+  discovery/mirroring/operator hooks.
+- `v1.5.1`: fixes for enterprise load-balancer operations.
 - `v1.6.1`: fixes for the shared Wasm extensibility runtime.
 
 ## Changelog Shape

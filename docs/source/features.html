@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -88,7 +88,8 @@
 <tr><td><code>cache</code></td><td>Yes</td><td>Image cache module. Runtime caching still requires config.</td></tr>
 <tr><td><code>ingress</code></td><td>Yes, through <code>proxy</code>/TLS profiles</td><td>Shared Pingora/Tokio ingress primitives used by proxy, TLS, and ACME-capable focused builds.</td></tr>
 <tr><td><code>tls-rustls</code></td><td>Yes</td><td>rustls TLS backend.</td></tr>
-<tr><td><code>security</code></td><td>Yes</td><td>Security and release hardening helpers.</td></tr>
+<tr><td><code>tls-rustls-fips</code></td><td>No</td><td>rustls/AWS-LC FIPS-capable TLS backend candidate.</td></tr>
+<tr><td><code>security</code></td><td>Yes</td><td>Compile-time security profile marker plus release hardening checks. Runtime enforcement lives in the concrete config, TLS, filesystem, admin, and request-handling modules.</td></tr>
 </tbody></table></div>
 <h2 id="optional-implemented-features">Optional Implemented Features</h2>
 <div class="source-table"><table>
@@ -110,6 +111,8 @@
 <thead><tr><th>Feature</th><th>Status</th></tr></thead>
 <tbody>
 <tr><td><code>tls-rustls</code></td><td>Default and recommended.</td></tr>
+<tr><td><code>tls-rustls-fips</code></td><td>Optional rustls/AWS-LC FIPS-capable candidate.</td></tr>
+<tr><td><code>tls-rustls-iso19790</code></td><td>ISO/IEC 19790 terminology alias for <code>tls-rustls-fips</code>.</td></tr>
 <tr><td><code>tls-openssl</code></td><td>Optional OpenSSL backend.</td></tr>
 <tr><td><code>tls-boringssl</code></td><td>Optional BoringSSL backend.</td></tr>
 <tr><td><code>tls-s2n</code></td><td>Optional s2n-tls backend.</td></tr>
@@ -122,8 +125,8 @@
 <h2 id="php-runtime-modules">PHP Runtime Modules</h2>
 <p><code>php-fpm</code> enables the <code>1.3.1</code> FastCGI bridge for PHP applications. It implies <code>proxy</code> and <code>web</code>, uses <code>fastcgi-client</code>, and must be selected explicitly:</p>
 <pre class="language-bash"><code class="language-bash">cargo build --no-default-features --features profile-web-server,php-fpm,acme-client</code></pre>
-<p>Future managed php-fpm process supervision is planned as a runtime config mode inside this same <code>php-fpm</code> feature, not as a separate Cargo feature. It still uses the FastCGI bridge; only php-fpm process lifecycle changes from operator-managed to Fluxheim-supervised.</p>
-<p>Only one PHP runtime feature may be selected in one binary. Future pure-Rust PHP work is reserved behind <code>experimental-pure-php</code>; it is not a production runtime and must warn operators to use <code>php-fpm</code> for real PHP applications until compatibility is proven.</p>
+<p>Fluxheim <code>1.3.7</code> adds managed php-fpm process supervision as a runtime config mode inside this same <code>php-fpm</code> feature, not as a separate Cargo feature. It still uses the FastCGI bridge; only php-fpm process lifecycle changes from operator-managed to Fluxheim-supervised.</p>
+<p>Fluxheim no longer reserves a pure-Rust PHP/phprs runtime for <code>1.3.8</code>. Managed php-fpm is the supported zero-admin PHP direction.</p>
 <h2 id="profile-aliases">Profile Aliases</h2>
 <p>Cargo does not have a separate <code>--group</code> flag. Fluxheim provides normal Cargo feature aliases for common deployment shapes.</p>
 <div class="source-table"><table>
@@ -142,6 +145,10 @@
 <tr><td><code>profile-cache-edge</code></td><td><code>proxy</code>, <code>cache</code>, <code>tls-rustls</code>, <code>security</code></td><td>Cache edge without local static web serving.</td></tr>
 <tr><td><code>profile-proxy-edge</code></td><td><code>proxy</code>, <code>tls-rustls</code>, <code>security</code></td><td>Focused reverse proxy edge.</td></tr>
 <tr><td><code>profile-load-balancer-edge</code></td><td><code>proxy</code>, <code>load-balancer</code>, <code>tls-rustls</code>, <code>security</code></td><td>Load-balancer edge without cache or static web serving.</td></tr>
+<tr><td><code>profile-fips-openssl</code></td><td><code>proxy</code>, <code>security</code>, <code>tls-openssl-fips</code></td><td>FIPS-capable OpenSSL proxy build that links to the operator-selected OpenSSL provider.</td></tr>
+<tr><td><code>profile-iso19790-openssl</code></td><td><code>profile-fips-openssl</code>, <code>tls-openssl-iso19790</code></td><td>ISO/IEC 19790 terminology alias for the same OpenSSL validated-provider proof path.</td></tr>
+<tr><td><code>profile-fips-rustls</code></td><td><code>proxy</code>, <code>security</code>, <code>tls-rustls-fips</code></td><td>FIPS-capable rustls/AWS-LC candidate build.</td></tr>
+<tr><td><code>profile-iso19790-rustls</code></td><td><code>profile-fips-rustls</code>, <code>tls-rustls-iso19790</code></td><td>ISO/IEC 19790 terminology alias for the same rustls/AWS-LC candidate path.</td></tr>
 </tbody></table></div>
 <p>Examples that match the official release artifacts:</p>
 <pre class="language-bash"><code class="language-bash">cargo build --no-default-features --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp
@@ -149,8 +156,31 @@ cargo build --no-default-features --features profile-development
 cargo build --no-default-features --features profile-cache-edge,acme-client
 cargo build --no-default-features --features profile-proxy-edge,acme-client
 cargo build --no-default-features --features profile-web-server,php-fpm,acme-client
-cargo build --no-default-features --features profile-privacy</code></pre>
+cargo build --no-default-features --features profile-privacy
+cargo build --no-default-features --features profile-fips-openssl
+cargo build --no-default-features --features profile-iso19790-openssl
+cargo build --no-default-features --features profile-fips-rustls
+cargo build --no-default-features --features profile-iso19790-rustls</code></pre>
 <p>The raw profile aliases do not force <code>acme-client</code>; that is intentional for offline or static-certificate custom builds. Official RPMs, images, and release tarballs add <code>acme-client</code> to the full, cache, and proxy profiles by default.</p>
+<h2 id="fips-capable-tls-features">FIPS-Capable TLS Features</h2>
+<p><code>tls-openssl-fips</code> is an opt-in OpenSSL 3 FIPS-provider proof path. It expands to <code>tls-openssl</code> and adds OpenSSL provider diagnostics plus default FIPS property enforcement for configurations that set <code>[tls.fips] required = true</code> or <code>[tls.iso19790] required = true</code>. <code>tls-openssl-iso19790</code> and <code>profile-iso19790-openssl</code> are terminology aliases for European/international operator evidence; they use the same validated-provider enforcement path. The build still depends on the operator installing and configuring a validated OpenSSL FIPS/ISO provider according to that module&#x27;s Security Policy.</p>
+<p><code>tls-rustls-fips</code> is the rustls/AWS-LC FIPS-capable candidate path. It enables rustls&#x27; <code>fips</code> feature, uses <code>rustls::crypto::default_fips_provider()</code>, and checks rustls provider/server-config FIPS indicators when FIPS or ISO-required mode is active. Building this path pulls in <code>aws-lc-fips-sys</code> and requires CMake, Go, and a C compiler. <code>tls-rustls-iso19790</code> and <code>profile-iso19790-rustls</code> are terminology aliases for European/international operator evidence; they use the same rustls/AWS-LC FIPS candidate logic.</p>
+<pre class="language-bash"><code class="language-bash">cargo build --no-default-features --features profile-fips-openssl
+cargo build --no-default-features --features profile-iso19790-openssl
+cargo build --no-default-features --features profile-fips-rustls
+cargo build --no-default-features --features profile-iso19790-rustls</code></pre>
+<p>Those profile aliases are deliberately narrow proof builds. FIPS/ISO-capable TLS is not limited to those aliases: custom builds can combine <code>tls-openssl-fips</code> or <code>tls-rustls-fips</code> with cache, static web serving, reverse proxying, or PHP-FPM. Do not add a FIPS-capable TLS backend to an existing profile alias that already enables <code>tls-rustls</code>, because Cargo features are additive and Fluxheim supports only one Pingora TLS backend per binary. Select the raw modules instead:</p>
+<pre class="language-bash"><code class="language-bash"># FIPS/ISO-capable cache edge
+cargo build --no-default-features \
+  --features proxy,cache,security,tls-openssl-fips
+
+# FIPS/ISO-capable PHP-FPM web build
+cargo build --no-default-features \
+  --features php-fpm,security,tls-openssl-fips</code></pre>
+<p>Use <code>tls-rustls-fips</code> instead of <code>tls-openssl-fips</code> in the raw feature examples when you want the rustls/AWS-LC candidate path.</p>
+<p>These combinations make Fluxheim&#x27;s TLS boundary FIPS/ISO-capable when the operator provides the selected backend&#x27;s validated provider evidence. They do not automatically make the whole deployment FIPS compliant: PHP application cryptography, ACME account operations, local cache encryption, OTLP export, and other non-TLS crypto paths must be separately routed through validated modules, externally evidenced, or disabled for a strict FIPS-required deployment.</p>
+<p>For the cleanest regulated boundary, prefer local/static certificates that were issued and renewed outside Fluxheim through an approved process. You can compile <code>acme-client</code> into a FIPS-capable TLS build for non-required configs, but <code>[tls.fips] required = true</code> and <code>[tls.iso19790] required = true</code> now reject managed ACME at config validation time. Use externally issued static certificates, or keep ACME outside the strict FIPS/ISO-required Fluxheim boundary until ACME account key generation, JWS account signing, EAB, outbound ACME HTTPS transport, and challenge certificate generation are rerouted or separately evidenced.</p>
+<p>Use <code>fluxheim crypto</code> or <code>fluxheim-config-tester --crypto</code> to see whether the binary can load or report the selected FIPS-capable provider in the current environment. The <code>fips-openssl</code> and <code>iso19790-openssl</code> config-tester profiles validate that a fixture uses <code>backend = &quot;openssl&quot;</code> and either <code>[tls.fips] required = true</code> or <code>[tls.iso19790] required = true</code>; see <code>examples/fips-openssl.toml</code> and <code>examples/iso19790-openssl.toml</code>. The <code>fips-rustls</code> and <code>iso19790-rustls</code> profiles validate the same guard with <code>backend = &quot;rustls&quot;</code>; see <code>examples/fips-rustls.toml</code>, <code>examples/iso19790-rustls.toml</code>, and <code>scripts/validate-fips-rustls.sh</code>. See <a href="fips.html" class="text-cyan-400 hover:text-cyan-300">FIPS-Capable Deployments</a> before using this for regulated systems.</p>
 <p>Focused image profile status:</p>
 <ul>
 <li>TLS and ACME are shared ingress capabilities, not implicit static webserver</li>

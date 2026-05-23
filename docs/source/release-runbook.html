@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -76,7 +76,7 @@
 <h1 id="release-runbook">Release Runbook</h1>
 <p>This is the maintainer procedure for publishing a Fluxheim release. It is the step-by-step operational companion to the broader release checklist.</p>
 <p>Use this from a clean <code>main</code> checkout. Set the release variables once, then reuse them through the commands below:</p>
-<pre class="language-bash"><code class="language-bash">RELEASE_VERSION=1.3.3
+<pre class="language-bash"><code class="language-bash">RELEASE_VERSION=1.3.7
 TAG=&quot;v${RELEASE_VERSION}&quot;
 TITLE=&quot;Fluxheim ${RELEASE_VERSION}&quot;
 RELEASE_NOTES=&quot;release-notes/RELEASE_NOTES_${RELEASE_VERSION}.md&quot;
@@ -88,14 +88,20 @@ DIST_NAME=&quot;fluxheim-${RELEASE_VERSION}-full-${TARGET}&quot;</code></pre>
 git pull --ff-only origin main
 git status --short --branch</code></pre>
 <p>Run the local release checks that match the release scope:</p>
-<pre class="language-bash"><code class="language-bash">cargo fmt --all -- --check
+<pre class="language-bash"><code class="language-bash">cargo fmt --all --check
 cargo test --locked
 cargo clippy --locked -- -D warnings
 cargo audit
 scripts/generate-sbom.sh
 scripts/reproducible_build_check.sh
 scripts/validate-release-metadata.sh
+scripts/validate-owasp-top10-2025.sh check
 scripts/podman_smoke.sh</code></pre>
+<p>For PHP-FPM releases, also run:</p>
+<pre class="language-bash"><code class="language-bash">scripts/smoke_wordpress_php_fpm.sh both
+scripts/smoke_fluxheim_php_wolfi.sh</code></pre>
+<p>When collecting release evidence on a host that cannot build every FIPS backend, use the per-backend evidence skips and attach the missing backend evidence from its supported builder. For example, rolling distro compilers may be too new for <code>aws-lc-fips-sys</code>, so rustls/AWS-LC FIPS evidence can be collected in the Bookworm container documented in <a href="release-checklist.html" class="text-cyan-400 hover:text-cyan-300">Release Checklist</a>:</p>
+<pre class="language-bash"><code class="language-bash">scripts/release_evidence.sh &quot;${RELEASE_VERSION}&quot; --skip-fips-rustls</code></pre>
 <p>For stable or release-candidate builds, prefer the stable gate:</p>
 <pre class="language-bash"><code class="language-bash">scripts/stable_release_gate.sh release</code></pre>
 <p>For the <code>1.3</code> line this stable gate includes the proxy cache and local observability smoke suites, plus compile and packaged-config checks for the published full/default, cache, and proxy container image profiles. That keeps cache, Prometheus/OpenTelemetry basics, and focused image feature wiring covered by the same command used for release evidence.</p>
@@ -178,6 +184,30 @@ sha256sum target/release-evidence/fluxheim.cyclonedx.json</code></pre>
 <pre class="language-bash"><code class="language-bash">scripts/reproducible_build_check.sh</code></pre>
 <p>Record the reported binary hash as reproducible-build evidence.</p>
 <p>Do not commit <code>dist/</code>; it is local release output.</p>
+<h3 id="optional-fips-capable-evidence">Optional FIPS-Capable Evidence</h3>
+<p>For releases that changed FIPS-capable TLS code or docs, capture the local backend evidence when the release builder has the selected provider/toolchain installed:</p>
+<pre class="language-bash"><code class="language-bash">scripts/validate-fips-openssl.sh release
+scripts/validate-fips-rustls.sh release</code></pre>
+<p>Record the command output, package/provider version, provider or build config, and the selected module Security Policy reference. The rustls/AWS-LC validation requires the <code>aws-lc-fips-sys</code> build toolchain, including CMake, Go, and a C compiler. If the local builder can collect OpenSSL FIPS evidence but not rustls/AWS-LC evidence, use <code>scripts/release_evidence.sh VERSION --skip-fips-rustls</code> locally and attach rustls/AWS-LC evidence from the supported builder separately. If the release builder does not have a FIPS provider/toolchain installed, record the expected fail-closed output instead. OpenSSL <code>release</code> mode fails closed by default; set <code>FLUXHEIM_REQUIRE_FIPS_PROVIDER=0</code> only for explicit stub-only validation environments where provider evidence is intentionally not being collected.</p>
+<h3 id="optional-common-criteria-aligned-evidence">Optional Common Criteria-Aligned Evidence</h3>
+<p>For releases that changed security-enforcing behavior, complete the relevant sections of <a href="compliance-evidence-template.html" class="text-cyan-400 hover:text-cyan-300">Compliance Evidence Package Template</a> and record any relevant notes from <a href="common-criteria-roadmap.html" class="text-cyan-400 hover:text-cyan-300">Common Criteria Readiness Roadmap</a>:</p>
+<ul>
+<li>TOE boundary assumptions affected by the release.</li>
+<li>Security Target-style draft notes: security problem, objectives, and</li>
+</ul>
+<p>security-relevant interfaces affected by the release.</p>
+<ul>
+<li>Security-relevant interfaces changed by the release.</li>
+<li>Validation scripts or pentest regressions that provide evidence.</li>
+<li>External dependencies and operational-environment assumptions.</li>
+<li>Vulnerability-analysis records for pentest, CodeQL, audit, or internal</li>
+</ul>
+<p>findings, including the fixed/accepted/false-positive/deferred decision and remediation commit.</p>
+<p>This is evidence organization only. Do not describe the release as Common Criteria certified, Protection Profile compliant, or EAL compliant.</p>
+<h3 id="owasp-baseline-evidence">OWASP Baseline Evidence</h3>
+<p>For releases that changed request parsing, TLS, authentication-adjacent controls, PHP-FPM handling, config validation, or observability, capture the mapped in-repo OWASP Top 10 2025 baseline:</p>
+<pre class="language-bash"><code class="language-bash">scripts/validate-owasp-top10-2025.sh run</code></pre>
+<p>Record the script output as release evidence. This is an engineering baseline for Fluxheim-owned controls, not an OWASP compliance claim for applications served behind Fluxheim.</p>
 <h2 id="5-draft-the-github-release">5. Draft The GitHub Release</h2>
 <p>On GitHub:</p>
 <ol>
@@ -209,6 +239,7 @@ sha256sum &quot;dist/checksums/fluxheim-${RELEASE_VERSION}.zip&quot;</code></pre
 <p>Edit the GitHub release notes and add these checksums.</p>
 <p>After the tag and image workflows are available, the maintainer helper can collect the release evidence block:</p>
 <pre class="language-bash"><code class="language-bash">scripts/release_evidence.sh &quot;${RELEASE_VERSION}&quot;</code></pre>
+<p>The helper includes OpenSSL and rustls/AWS-LC FIPS-capable evidence by running <code>scripts/validate-fips-openssl.sh release</code> and <code>scripts/validate-fips-rustls.sh release</code>, and OWASP Top 10 2025 baseline evidence by running <code>scripts/validate-owasp-top10-2025.sh run</code>. Use <code>--skip-fips-openssl</code> or <code>--skip-fips-rustls</code> when that backend&#x27;s evidence is collected on another builder. Use <code>--skip-fips</code> or <code>--skip-owasp</code> only for release lines where that evidence is not relevant.</p>
 <h2 id="7-publish-and-verify-container-images">7. Publish And Verify Container Images</h2>
 <p>The image workflow publishes the configured image variants after the tag push. Wait for the workflow to finish before collecting digests.</p>
 <p>For GHCR, the package must be public if anonymous users should pull it:</p>

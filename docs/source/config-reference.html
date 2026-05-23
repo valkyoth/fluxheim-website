@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -488,6 +488,7 @@ fill_missing = true</code></pre>
 <p><code>cache.disk.backend</code> defaults to <code>filesystem</code>, the stable complete-object disk backend used by <code>1.2.0</code> and <code>1.2.1</code>. <code>storage-bin</code> selects the focused <code>1.2.2</code> slab/bin disk backend, which stores objects inside bounded <code>.fhbin</code> data files with a durable object index and free-range reuse. The <code>[cache.disk.storage_bin]</code> table defines the allocator shape: <code>bin_size_bytes</code> must be at least <code>cache.max_object_bytes</code> and no larger than <code>cache.disk.max_size_bytes</code>, <code>preallocate</code> controls whether Fluxheim should reserve full bin files ahead of object writes, and <code>max_open_bins</code> bounds the number of concurrently opened bin files.</p>
 <p><code>[cache.disk.encryption]</code> is disabled by default. When <code>enabled = true</code> with <code>provider = &quot;local&quot;</code>, Fluxheim encrypts disk cache objects with AES-256-GCM before they are written to the filesystem or storage-bin backend. The local key must be a 64-character hex-encoded 256-bit key loaded from exactly one of <code>key_file</code> or <code>key_credential</code>; credential names are resolved through <code>$CREDENTIALS_DIRECTORY</code> when present or <code>/run/secrets</code> otherwise. <code>key_id</code> is stored with the encrypted object and is included with the combined cache key as authenticated data, so objects cannot be silently swapped between cache keys. Local cache encryption is intended for cache-at-rest protection; it does not encrypt memory cache contents.</p>
 <p><code>provider = &quot;openbao-transit&quot;</code> uses OpenBao Transit for regulated deployments that need centralized key custody and rotation. Fluxheim calls the Transit <code>encrypt</code> and <code>decrypt</code> endpoints for disk cache objects and stores only the returned <code>vault:v...</code> ciphertext in the filesystem or storage-bin backend. The OpenBao endpoint must be HTTPS unless it is loopback HTTP, and the token must come from exactly one safe <code>token_file</code> or <code>token_credential</code> source. The configured key id plus combined cache key are passed as associated data, so a stored ciphertext is bound to the cache object identity. The default local-key provider does not require OpenBao.</p>
+<p>In FIPS/ISO-required mode, OpenBao Transit is further restricted to local numeric loopback HTTP (<code>http://127.0.0.1</code> or <code>http://[::1]</code>). Remote OpenBao and HTTPS OpenBao endpoints require outbound TLS evidence that Fluxheim does not provide yet.</p>
 <p>For local validation, <code>examples/podman-compose-openbao.yml</code> starts an OpenBao development server and <code>scripts/smoke_openbao_cache_encryption.sh</code> runs an end-to-end proxy-cache test against OpenBao Transit. The smoke test enables the Transit engine, creates a cache key, serves a cacheable object through Fluxheim, verifies <code>MISS</code> then <code>HIT</code>, and checks that the stored cache object contains OpenBao <code>vault:v...</code> ciphertext rather than the plaintext response body. It is intentionally optional because normal CI should not depend on a local Podman/OpenBao runtime. <code>examples/cache-encryption-local.toml</code> and <code>examples/cache-encryption-openbao.toml</code> provide full example policies using the storage-bin backend with local-key and OpenBao Transit encryption. See <code>docs/cache-encryption.md</code> for key setup and rotation guidance.</p>
 <p><code>local_static</code> is disabled by default. When set to <code>true</code>, the same cache policy may also store local <code>[web]</code>, <code>[vhosts.web]</code>, and route-scoped <code>[vhosts.routes.web]</code> file responses. Local static caching is opt-in because it changes an otherwise direct file-read path into a shared in-process cache path. Fluxheim keys local static cache objects by the request cache key plus canonical file identity metadata, so a changed local file creates a new cache key instead of serving the old body. Memory storage is preferred when both memory and disk tiers are configured, avoiding a second disk copy of files that already exist under the static site root. Disk-only cache policies are still accepted for operators who explicitly want disk-backed local static caching.</p>
 <p><code>status_header</code> is optional. When set, Fluxheim emits a cache debug header such as <code>X-Cache-Status: HIT</code>, <code>MISS</code>, <code>STALE</code>, <code>BYPASS</code>, <code>EXPIRED</code>, or <code>REVALIDATED</code> for requests that participate in the proxy cache or opt-in local static cache. <code>status_reason_header</code> is optional. When set, Fluxheim emits a bounded reason header such as <code>OriginNotCache</code>, <code>ResponseTooLarge</code>, or <code>cache-min-uses</code> when the cache phase has an explicit no-cache reason. Leave it unset unless you are actively debugging cache policy.</p>
@@ -539,6 +540,14 @@ cipher_suites = [
   &quot;TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256&quot;,
 ]
 
+[tls.fips]
+required = false
+require_disk_cache_encryption = false
+
+[tls.iso19790]
+required = false
+require_disk_cache_encryption = false
+
 [[tls.certificates]]
 cert_path = &quot;tls/fullchain.pem&quot;
 key_path = &quot;tls/key.pem&quot;</code></pre>
@@ -570,6 +579,11 @@ cert_path = &quot;tls/example-fullchain.pem&quot;
 key_path = &quot;tls/example-key.pem&quot;</code></pre>
 <p>Fluxheim selects vhost certificates by SNI using the vhost <code>hosts</code> list, including one-label wildcards such as <code>*.api.example.test</code>. The default rustls build supports this through a rustls certificate resolver. Callback-capable TLS backends use their native certificate callback APIs. TLS backends without SNI certificate selection support reject vhost-specific certificates at startup instead of silently serving the default certificate. The global <code>[[tls.certificates]]</code> table is capped at 1024 certificate pairs.</p>
 <p>Release validation must still scan every release candidate with a TLS scanner before publishing a stable release.</p>
+<h3 id="fips-iso-capable-tls-guard">FIPS / ISO-Capable TLS Guard</h3>
+<p><code>[tls.fips] required = true</code> is accepted by the config schema as a fail-closed guard for FIPS/ISO-capable TLS builds. <code>[tls.iso19790] required = true</code> is an ISO/IEC 19790 terminology alias for the same validated-provider enforcement path. Neither setting is a blanket FIPS or ISO/IEC 19790 compliance claim. When enabled, Fluxheim rejects non-NIST or unproven groups such as <code>X25519</code> and <code>X25519MLKEM768</code>, rejects non-approved cipher choices such as ChaCha20 suites, and requires a backend-specific proof path.</p>
+<p>Default builds fail closed because they do not contain a FIPS/ISO-capable proof path. Builds compiled with <code>tls-openssl-fips</code> or the <code>tls-openssl-iso19790</code> alias may use <code>backend = &quot;openssl&quot;</code>: runtime validation then checks that the OpenSSL FIPS provider can be loaded and that an approved cipher can be fetched with the <code>fips=yes</code> property query, enables OpenSSL default FIPS properties for the process-default library context, verifies those default properties, and checks that the default fetch path rejects a non-FIPS cipher. Builds compiled with <code>tls-rustls-fips</code> may use <code>backend = &quot;rustls&quot;</code>: runtime validation checks the rustls AWS-LC FIPS provider, TLS setup uses <code>rustls::crypto::default_fips_provider()</code>, and listener startup rejects a FIPS/ISO-required config unless <code>ServerConfig::fips()</code> reports true. Operators still need the selected module&#x27;s CMVP certificate, Security Policy, provider/build configuration, platform evidence, and deployment records. Fluxheim does not hardcode an OpenSSL provider path; OpenSSL provider discovery follows the platform OpenSSL configuration and environment visible to the process. The rustls/AWS-LC FIPS path follows rustls and aws-lc-fips-sys build requirements, including CMake, Go, and a C compiler.</p>
+<p>Use <code>fluxheim crypto</code> or <code>fluxheim-config-tester --crypto</code> to print compiled TLS backend diagnostics. Use <a href="fips.html" class="text-cyan-400 hover:text-cyan-300">FIPS-Capable Deployments</a> for the full compliance boundary and roadmap. Do not treat a Cargo feature or this config block alone as a FIPS compliance claim.</p>
+<p>FIPS/ISO-required mode also applies internal-crypto guards outside the TLS listener. Config validation rejects managed ACME (<code>[tls.acme] enabled = true</code>) because ACME account key generation, JWS account signing, EAB handling, outbound ACME HTTPS transport, and TLS-ALPN certificate generation are not yet routed through the selected validated module. It allows <code>admin.enabled = true</code> only in <code>tls-openssl-fips</code> or <code>tls-rustls-fips</code> builds, where bearer-token HMAC is routed through OpenSSL FIPS or AWS-LC FIPS. It rejects local disk-cache encryption because that path uses ring AES-GCM. <code>provider = &quot;openbao-transit&quot;</code> cache encryption is allowed only through local numeric loopback HTTP as an external evidence boundary, and OTLP metrics/traces export is allowed only to numeric local <code>http://</code> loopback collectors (<code>127.0.0.1</code> or <code>[::1]</code>) until outbound TLS can be provider-aligned. Disk cache without encryption is still allowed, but Fluxheim logs a compliance warning because cached response bodies are written at rest without a Fluxheim-managed encryption boundary. Set <code>tls.fips.require_disk_cache_encryption = true</code> or <code>tls.iso19790.require_disk_cache_encryption = true</code> to promote that warning to a hard config error. Request IDs and temporary object names are treated as non-secret operational identifiers, not SSPs.</p>
 <p>Check certificate storage permissions separately:</p>
 <pre class="language-bash"><code class="language-bash">fluxheim --config path/to/fluxheim.toml --check-tls-storage</code></pre>
 <p>On Unix, private keys should be owner-only and ACME storage directories should be owner-only. The storage checker rejects symlinked certificate files, private key files, ACME EAB secret files, ACME storage directories, and paths below symlinked or group- or world-writable directories; mount or configure the real paths directly. If Fluxheim cannot inspect any TLS path prefix for symlinks, validation fails closed and reports the path as unreadable. Config validation also rejects static certificate paths, ACME storage paths, and ACME EAB secret files when their nearest existing parent directory is group- or world-writable. EAB secret files are checked with the same owner-only permission rule as private keys.</p>
@@ -783,7 +797,11 @@ APP_ENV = &quot;production&quot;
 PHP_VALUE = &quot;memory_limit=256M&quot;
 
 [vhosts.routes.php.fpm]
+# Default mode. Fluxheim connects to an operator-managed php-fpm pool.
+mode = &quot;external&quot;
 tcp = &quot;php-fpm:9000&quot;
+# Or use a private Unix socket:
+# socket = &quot;/run/php/php-fpm.sock&quot;
 # Or list multiple TCP endpoints for simple safe-method failover:
 # tcp_upstreams = [&quot;php-fpm-a:9000&quot;, &quot;php-fpm-b:9000&quot;]
 connect_timeout_secs = 5
@@ -798,6 +816,50 @@ retry_timeout_secs = 5
 retry_methods = [&quot;GET&quot;, &quot;HEAD&quot;, &quot;OPTIONS&quot;]
 retry_invalid_response = false
 retry_statuses = [500, 502, 503, 504]
+
+# Managed mode keeps the same FastCGI/php-fpm protocol but lets Fluxheim start
+# and supervise a private php-fpm master process. Do not set socket, tcp, or
+# tcp_upstreams in managed mode; Fluxheim creates the socket itself.
+# mode = &quot;managed&quot;
+# php_fpm_binary = &quot;/usr/sbin/php-fpm&quot;
+# socket_dir = &quot;/run/fluxheim/php&quot;
+# workers = 4
+# max_requests_per_worker = 1000
+# process_manager = &quot;static&quot; # &quot;static&quot;, &quot;dynamic&quot;, or &quot;ondemand&quot;
+# listen_backlog = 128
+# Optional socket ownership controls for managed pools that drop privileges.
+# Defaults to a private 0600 socket.
+# listen_owner = &quot;fluxheim&quot;
+# listen_group = &quot;php&quot;
+# listen_mode = &quot;0660&quot; # &quot;0600&quot; or &quot;0660&quot;
+#
+# Dynamic pool sizing, only when process_manager = &quot;dynamic&quot;:
+# start_servers = 2
+# min_spare_servers = 1
+# max_spare_servers = 4
+# max_spawn_rate = 8
+#
+# Ondemand pool sizing, only when process_manager = &quot;ondemand&quot;:
+# process_idle_timeout_secs = 10
+#
+# Request lifecycle and diagnostics:
+# request_terminate_timeout_secs = 30
+# request_terminate_timeout_track_finished = false
+# request_slowlog_timeout_secs = 5
+# request_slowlog_trace_depth = 20
+# clear_env = true
+# catch_workers_output = true
+# decorate_workers_output = true
+# session_save_path = &quot;/run/fluxheim/php/session&quot;
+# upload_tmp_dir = &quot;/run/fluxheim/php/upload&quot;
+#
+# Optional, configure both together when php-fpm starts as root and should drop
+# worker privileges. Pair with listen_owner/listen_group/listen_mode when
+# Fluxheim itself is not running as the same user.
+# user = &quot;fluxheim&quot;
+# group = &quot;fluxheim&quot;
+# Generated socket/config/pid/log files live under socket_dir. Forced process
+# termination can leave stale files; remove them only while Fluxheim is stopped.
 
 [vhosts.acme_challenge]
 enabled = true

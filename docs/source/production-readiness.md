@@ -188,6 +188,36 @@ port `80`, and the background renewal worker reloads the SNI certificate set
 after the certificate files are installed. Static certificate paths remain
 fail-closed.
 
+The `1.3.4` support promise adds an OpenSSL FIPS/ISO-capable TLS build path for
+operators who need to validate a deployment against an externally validated
+OpenSSL 3 provider. This path is opt-in through `profile-fips-openssl` /
+`tls-openssl-fips` or the ISO/IEC 19790 aliases
+`profile-iso19790-openssl` / `tls-openssl-iso19790`, and requires `[tls]
+backend = "openssl"` plus `[tls.fips] required = true` or `[tls.iso19790]
+required = true`. Fluxheim validates the TLS policy, loads the FIPS provider,
+enables OpenSSL default FIPS properties for the process-default library
+context, verifies those default properties, and exposes release evidence
+through `fluxheim crypto`, `fluxheim-config-tester --crypto`, and
+`scripts/validate-fips-openssl.sh`. It does not make Fluxheim itself a
+validated cryptographic module; operators still need the selected module's CMVP
+certificate, Security Policy, provider configuration, platform evidence, and
+operational records.
+
+The `1.3.5` release line adds a rustls/AWS-LC FIPS candidate through
+`profile-fips-rustls`, `tls-rustls-fips`, and the ISO/IEC 19790 terminology
+alias `profile-iso19790-rustls`. It requires `[tls] backend = "rustls"` plus a
+FIPS/ISO-required guard, uses rustls' AWS-LC FIPS provider path, and requires
+the `aws-lc-fips-sys` build toolchain including CMake, Go, and a C compiler.
+Treat it as backend evidence only, with the same non-TLS crypto caveats.
+
+The `1.3.7` support promise completes the production PHP-FPM line. External
+php-fpm remains the default, while `mode = "managed"` lets Fluxheim generate a
+private php-fpm pool, supervise the php-fpm master, respawn it after post-start
+crashes with bounded backoff, and run WordPress-compatible PHP through the same
+FastCGI request path. The recommended Wolfi PHP image includes `php-8.5-fpm`
+for this managed mode; other image variants keep the external php-fpm
+deployment shape unless customized.
+
 ## Operator Checks
 
 Before using a Fluxheim build for a real site, run the stable gate from the repo
@@ -209,12 +239,20 @@ deployment:
 
 ```bash
 FLUXHEIM_GATE_TLS_BACKENDS=1 \
+FLUXHEIM_GATE_FIPS_OPENSSL=1 \
+FLUXHEIM_GATE_FIPS_RUSTLS=1 \
 FLUXHEIM_GATE_TLS_SCAN=1 \
 FLUXHEIM_GATE_LOAD=1 \
 FLUXHEIM_GATE_FRAMING=1 \
 FLUXHEIM_GATE_FUZZ_CHECK=1 \
 scripts/stable_release_gate.sh check
 ```
+
+Use `check` mode for local development on rolling distributions. For release
+mode rustls/AWS-LC FIPS evidence, prefer the supported builder workflow in
+[FIPS-Capable Deployments](fips.md); otherwise set
+`FLUXHEIM_GATE_FIPS_RUSTLS=0` locally and attach the rustls evidence from that
+builder.
 
 Run the Podman smoke when container paths or image definitions change:
 
@@ -242,6 +280,15 @@ Before starting the server:
   such as `upstreams`;
 - keep TLS private keys, ACME storage, log files, cache roots, runtime paths,
   admin token files, and snapshot stores outside group- or world-writable directories;
+- audit POSIX extended ACLs on those same sensitive paths. Fluxheim rejects
+  unsafe Unix mode bits and symlinks, but it does not yet parse extended ACL
+  entries that can grant write access without setting `020` or `002`;
+- run Fluxheim with a restrictive umask such as `0077` or `0027`; Fluxheim sets
+  private modes for its snapshot store, but a restrictive service umask remains
+  useful defense in depth for operator-created paths and future state files;
+- disable swap and core dumps, or use equivalent host controls, for deployments
+  that treat admin bearer tokens, EAB credentials, TLS private keys, or cache
+  encryption credentials as high-assurance secrets;
 - keep admin and metrics listeners loopback-only unless a trusted local
   sidecar or network policy protects them;
 - set `[admin.transport] mode = "trusted_tls_terminator"` only when a trusted

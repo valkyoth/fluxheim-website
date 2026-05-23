@@ -7,24 +7,22 @@ every PHP path is opt-in at compile time and opt-in per vhost or route.
 
 ## Current Recommendation
 
-Use this order for implementation and evaluation:
+Use this implementation model:
 
-1. `php-fpm`: stable backwards-compatible path for real PHP applications today.
-   This is implemented in `1.3.1`.
-2. Managed `php-fpm`: future zero-admin deployment mode inside the existing
-   `php-fpm` feature. Fluxheim would generate a minimal private php-fpm pool,
-   spawn and supervise php-fpm, and connect to its private socket, while still
-   using the same FastCGI request path as external php-fpm.
-3. `experimental-pure-php`: future pure-Rust interpreter path, likely based on
-   a reviewed `phprs`-style engine if compatibility and maintenance are proven.
-   This is useful for research, tests, and long-term optionality, not for
-   production PHP hosting yet.
+1. `php-fpm`: stable backwards-compatible path for PHP applications. This is
+   implemented in `1.3.1`.
+2. Managed `php-fpm`: zero-admin deployment mode inside the existing `php-fpm`
+   feature. Fluxheim generates a minimal private php-fpm pool, spawns and
+   supervises php-fpm, and connects to its private socket while still using the
+   same FastCGI request path as external php-fpm.
 
 As of the current review, `fastcgi-client 0.11.1` is available for the php-fpm
-path under Apache-2.0. `phprs 0.1.9` exists under Apache-2.0 but is still young.
-`ripht-php-sapi 0.1.0-rc.7` exists under MIT as an embedding reference. Turbine
-is no longer a Fluxheim runtime target; it is better treated as an external PHP
-application server that Fluxheim can reverse-proxy to if an operator chooses it.
+path under Apache-2.0. Pure-Rust PHP/phprs support is no longer planned for the
+1.3 line because managed php-fpm covers the useful zero-admin deployment goal
+without adopting an immature interpreter. `ripht-php-sapi 0.1.0-rc.7` remains an
+embedding reference only. Turbine is not a Fluxheim runtime target; it is better
+treated as an external PHP application server that Fluxheim can reverse-proxy to
+if an operator chooses it.
 
 ## Compile-Time Features
 
@@ -33,14 +31,11 @@ Implemented feature flags:
 ```toml
 php = ["proxy", "web"]
 php-fpm = ["php", "dep:fastcgi-client", "dep:tokio", "fastcgi-client/runtime-tokio"]
-experimental-pure-php = ["php"]
 ```
 
-Only one PHP runtime feature may be selected in one binary. Fluxheim enforces
-this at compile time and in `scripts/validate-features.sh`.
-`experimental-pure-php` is a reserved feature gate today; it does not add a
-production runtime until a pure-Rust engine passes review and integration
-tests.
+`php-fpm` is the only PHP runtime feature in the 1.3 line. Managed php-fpm is a
+runtime configuration mode under the same feature because it changes process
+lifecycle, not the request protocol.
 
 The default feature set must not include `php`.
 
@@ -53,12 +48,13 @@ Release order:
   normalization, and browser-validated WordPress login/admin flows.
 - `1.3.3`: focused php-fpm hardening and compatibility fixes found during
   production tests.
-- Later `1.3.x`: managed php-fpm mode as a config option under the existing
+- `1.3.7`: managed php-fpm mode as a config option under the existing
   `php-fpm` feature, not as a separate Cargo runtime. The goal is a
   single-binary operator experience while retaining normal php-fpm request
   isolation and compatibility.
-- Later `1.3.x`: `experimental-pure-php` pure-Rust interpreter research,
-  test-only unless compatibility, security, and maintenance are proven.
+- Pure-Rust PHP/phprs is intentionally out of scope for the 1.3 line. Revisit
+  only if an upstream interpreter has mature compatibility, maintenance, and
+  security evidence.
 
 ## Config Shape
 
@@ -103,7 +99,7 @@ tcp = "127.0.0.1:9000"
 # socket = "/run/php/php-fpm.sock"
 ```
 
-A future managed php-fpm mode should keep the runtime selection in
+Managed php-fpm mode keeps the runtime selection in
 `[vhosts.php.fpm]` instead of adding a new compile-time PHP runtime:
 
 ```toml
@@ -113,14 +109,57 @@ php_fpm_binary = "/usr/sbin/php-fpm"
 workers = 4
 max_requests_per_worker = 1000
 socket_dir = "/run/fluxheim/php"
+process_manager = "static" # "static", "dynamic", or "ondemand"
+# listen_backlog = 128
+# Optional socket ownership controls when php-fpm changes socket ownership
+# after dropping privileges. Defaults to a private 0600 socket.
+# listen_owner = "fluxheim"
+# listen_group = "php"
+# listen_mode = "0660"
+# request_terminate_timeout_secs = 30
+# request_slowlog_timeout_secs = 5
+# clear_env = true
+# catch_workers_output = true
+# decorate_workers_output = true
+# Optional, configure both together when php-fpm starts as root and should drop
+# worker privileges. Pair with listen_owner/listen_group/listen_mode when
+# Fluxheim itself is not running as the same user.
+user = "fluxheim"
+group = "fluxheim"
 ```
 
-Managed mode should generate a minimal private php-fpm config, create a
-Fluxheim-owned Unix socket, supervise the php-fpm master process, restart it on
-failure, and shut it down cleanly on reload or gateway shutdown. It should not
-be implemented as a persistent `php-cli` stdin/stdout worker pool for production
-apps, because normal WordPress, Laravel, Symfony, forum, and wiki applications
-expect per-request PHP isolation.
+Managed mode generates a minimal private php-fpm config, creates a
+Fluxheim-owned Unix socket, supervises the php-fpm master process, and shuts it
+down cleanly on reload or gateway shutdown. It is not implemented as a
+persistent `php-cli` stdin/stdout worker pool for production apps, because
+normal WordPress, Laravel, Symfony, forum, and wiki applications expect
+per-request PHP isolation.
+
+The generated socket, config, pid, and php-fpm log files live under
+`socket_dir`. Normal reload/drop cleanup removes the generated control files,
+but forced process termination can leave stale files behind because destructors
+do not run. They are safe to remove when Fluxheim is stopped.
+
+Managed pools support the php-fpm process manager modes operators usually tune
+in `www.conf`:
+
+- `process_manager = "static"` starts exactly `workers` children.
+- `process_manager = "dynamic"` uses `workers` as `pm.max_children` and
+  requires `min_spare_servers` and `max_spare_servers`; `start_servers` and
+  `max_spawn_rate` are optional.
+- `process_manager = "ondemand"` uses `workers` as `pm.max_children` and can
+  set `process_idle_timeout_secs`.
+
+Fluxheim also writes bounded php-fpm directives for `listen_backlog`,
+`listen_owner`, `listen_group`, `listen_mode`,
+`request_terminate_timeout_secs`,
+`request_terminate_timeout_track_finished`, `request_slowlog_timeout_secs`,
+`request_slowlog_trace_depth`, `clear_env`, `catch_workers_output`,
+`decorate_workers_output`, `session_save_path`, and `upload_tmp_dir`.
+`session_save_path` and `upload_tmp_dir` are created with owner-only
+permissions when missing; if the managed pool drops to another `user`/`group`,
+make those directories writable by that PHP worker identity before starting
+Fluxheim.
 
 The PHP handler runs before static fallback. Existing non-PHP files under the
 PHP root are declined so the normal static server can serve assets. Missing
@@ -241,7 +280,27 @@ classification, spooled request-body replay and cleanup, and bounded STDERR
 handling. Local WordPress php-fpm and proxied WordPress TLS smoke tests live in
 `scripts/smoke_wordpress_php_fpm.sh` and
 `scripts/smoke_wordpress_proxy_tls.sh`; keep running them as release evidence
-when PHP behavior changes.
+when PHP behavior changes. The local WordPress smoke accepts `external`,
+`managed-static`, `managed-dynamic`, `managed-ondemand`, `managed-all`, or
+`managed-respawn`, or `both` so the same install/login/admin flow can verify an
+operator-managed php-fpm container, every Fluxheim-managed php-fpm process
+manager mode, and the managed php-fpm post-start crash respawn watchdog.
+`scripts/smoke_fluxheim_php_wolfi.sh` verifies the self-contained Wolfi PHP
+image path with bundled `php-8.5-fpm` and managed php-fpm enabled.
+
+Managed php-fpm starts the php-fpm master with a cleared environment and a
+minimal `PATH`, so Fluxheim process secrets such as admin tokens are not
+inherited by the child process. On reload/shutdown, Fluxheim asks the managed
+php-fpm master to terminate gracefully before escalating to a forced kill after
+a short deadline. A per-pool watchdog monitors the php-fpm master after startup
+and respawns it with bounded backoff if it crashes, so managed PHP service can
+recover without a Fluxheim config reload.
+
+When a managed php-fpm pool drops workers to a different `user`/`group`,
+configure `listen_owner` and `listen_group` when the php-fpm master should chown
+the private socket for Fluxheim, and use `listen_mode = "0660"` only when a
+shared service group is intentional. The default remains `listen_mode = "0600"`
+for single-user/rootless deployments.
 
 `1.3.3` php-fpm hardening status:
 
@@ -264,7 +323,10 @@ when PHP behavior changes.
   `[vhosts.routes.php.params]` with protected core CGI params.
 - Path mapping for separate Fluxheim/php-fpm container filesystem roots.
   Implemented as `php.fpm_root` for FastCGI `DOCUMENT_ROOT`,
-  `SCRIPT_FILENAME`, and `PATH_TRANSLATED` mapping.
+  `SCRIPT_FILENAME`, and `PATH_TRANSLATED` mapping. Existing local
+  `php.fpm_root` paths are rejected when they include symlink components; missing
+  absolute values are allowed for split-container paths that exist only inside
+  the php-fpm environment.
 - PHP root override for split container filesystem layouts. Implemented with
   `php.fpm_root` for the path sent to php-fpm and
   `php.resolve_root_symlink` for opt-in final `php.root` symlink resolution in
@@ -372,25 +434,18 @@ Fluxheim should not duplicate that model as an embedded PHP runtime unless a
 future project exposes a small auditable library API with a clearly safer
 security boundary than reverse proxying.
 
-### `experimental-pure-php`
+### Pure-Rust PHP
 
-`phprs` is interesting because it points toward a pure-Rust PHP runtime, but it
-must stay experimental. The feature name is intentionally
-`experimental-pure-php`, not `php` or a project-specific crate name, so
-operators do not confuse it with normal PHP compatibility.
+Pure-Rust PHP/phprs is not a Fluxheim runtime target for the 1.3 line. Managed
+php-fpm provides the useful single-binary operational model while preserving the
+normal php-fpm compatibility and isolation boundary. Revisit only if a future
+interpreter has mature PHP/framework compatibility, security testing,
+performance evidence, and a clear maintenance signal.
 
-When this feature is compiled, Fluxheim must warn at startup:
-
-```text
-WARNING: experimental pure-Rust PHP engine feature enabled.
-This is intended for testing and zero-dependency edge microservices.
-For production PHP apps such as WordPress, Laravel, Symfony, phpBB, XenForo, or MediaWiki, use the stable php-fpm module.
-```
-
-Before it is considered production-capable, Fluxheim needs language
-compatibility tests, framework compatibility tests, extension behavior
-analysis, security tests, performance benchmarks, and a clear upstream
-maintenance signal.
+Fluxheim 1.3.6 also completed the adjacent admin API JSON cleanup. This is not
+part of the PHP runtime, but it landed in the same hardening window: dynamic
+admin responses now serialize through `serde_json::to_vec` while preserving the
+existing admin API schemas and regression coverage.
 
 ## Reload And Operations
 

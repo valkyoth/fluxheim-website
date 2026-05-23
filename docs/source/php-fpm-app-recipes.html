@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -123,6 +123,14 @@
 <li><code>php.fpm.socket</code>, <code>php.fpm.tcp</code>, and <code>php.fpm.tcp_upstreams</code> cover Unix</li>
 </ul>
 <p>sockets, a single TCP endpoint, or multiple TCP php-fpm backends.</p>
+<ul>
+<li><code>php.fpm.mode = &quot;external&quot;</code> is the default and connects to an</li>
+</ul>
+<p>operator-managed php-fpm pool. <code>php.fpm.mode = &quot;managed&quot;</code> makes Fluxheim generate a private php-fpm pool config, start the configured php-fpm binary, and connect to the private Unix socket it creates.</p>
+<ul>
+<li>Managed mode supports <code>process_manager = &quot;static&quot;</code>, <code>&quot;dynamic&quot;</code>, or</li>
+</ul>
+<p><code>&quot;ondemand&quot;</code> plus the bounded pool sizing, slowlog, terminate-timeout, socket ownership, session-save, and upload-temp knobs documented in <a href="php-runtime-support.html" class="text-cyan-400 hover:text-cyan-300">PHP Runtime Support</a>.</p>
 <ul>
 <li><code>php.fpm.keepalive</code>, <code>pool_max_idle</code>, and <code>idle_timeout_secs</code> enable</li>
 </ul>

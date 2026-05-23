@@ -53,7 +53,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -136,7 +136,7 @@
         </div>
 
         <h1 class="text-4xl font-black text-white mb-4">Feature Matrix</h1>
-        <p class="text-gray-400 text-lg mb-10">All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.3.3.</p>
+        <p class="text-gray-400 text-lg mb-10">All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.3.7.</p>
 
         <div class="prose">
           <h2>Individual Features</h2>
@@ -176,12 +176,27 @@
               <tr class="hover:bg-gray-900/30">
                 <td class="px-4 py-3 font-mono text-cyan-400 text-xs">security</td>
                 <td class="px-4 py-3 text-center"><svg class="w-4 h-4 text-emerald-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></td>
-                <td class="px-4 py-3 text-gray-400">Security helpers and release hardening checks.</td>
+                <td class="px-4 py-3 text-gray-400">Compile-time security profile marker plus release hardening checks. Runtime enforcement lives in concrete config, TLS, filesystem, admin, and request-handling modules.</td>
               </tr>
               <tr class="hover:bg-gray-900/30">
                 <td class="px-4 py-3 font-mono text-cyan-400 text-xs">tls-rustls</td>
                 <td class="px-4 py-3 text-center"><svg class="w-4 h-4 text-emerald-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></td>
                 <td class="px-4 py-3 text-gray-400">rustls TLS backend (default and recommended). Mutually exclusive with other TLS features.</td>
+              </tr>
+              <tr class="hover:bg-gray-900/30">
+                <td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-rustls-backend</td>
+                <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
+                <td class="px-4 py-3 text-gray-400">Internal rustls backend marker shared by ring-backed rustls and the AWS-LC FIPS-capable candidate path.</td>
+              </tr>
+              <tr class="hover:bg-gray-900/30">
+                <td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-rustls-fips</td>
+                <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
+                <td class="px-4 py-3 text-gray-400">Optional rustls/AWS-LC FIPS-capable TLS backend candidate.</td>
+              </tr>
+              <tr class="hover:bg-gray-900/30">
+                <td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-rustls-iso19790</td>
+                <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
+                <td class="px-4 py-3 text-gray-400">ISO/IEC 19790 terminology alias for <code class="text-cyan-400 text-xs">tls-rustls-fips</code>.</td>
               </tr>
               <tr class="hover:bg-gray-900/30">
                 <td class="px-4 py-3 font-mono text-gray-400 text-xs">tls</td>
@@ -234,11 +249,6 @@
                 <td class="px-4 py-3 text-gray-400">PHP-FPM FastCGI bridge for WordPress-style PHP applications. Implies <code class="text-cyan-400 text-xs">proxy</code> and <code class="text-cyan-400 text-xs">web</code>.</td>
               </tr>
               <tr class="hover:bg-gray-900/30">
-                <td class="px-4 py-3 font-mono text-gray-400 text-xs">experimental-pure-php</td>
-                <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
-                <td class="px-4 py-3 text-gray-400">Reserved pure-Rust PHP interpreter experiment. Not a production runtime in v1.3.3; operators should use <code class="text-cyan-400 text-xs">php-fpm</code> for real PHP applications.</td>
-              </tr>
-              <tr class="hover:bg-gray-900/30">
                 <td class="px-4 py-3 font-mono text-gray-400 text-xs">privacy-mode</td>
                 <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
                 <td class="px-4 py-3 text-gray-400">Zero-retention static/proxy profile. Incompatible with cache, metrics, and tracing/export features.</td>
@@ -247,6 +257,16 @@
                 <td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-openssl</td>
                 <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
                 <td class="px-4 py-3 text-gray-400">Optional OpenSSL TLS backend. Mutually exclusive with other TLS features.</td>
+              </tr>
+              <tr class="hover:bg-gray-900/30">
+                <td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-openssl-fips</td>
+                <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
+                <td class="px-4 py-3 text-gray-400">OpenSSL 3 FIPS-provider proof path with provider diagnostics and fail-closed FIPS/ISO-required startup checks.</td>
+              </tr>
+              <tr class="hover:bg-gray-900/30">
+                <td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-openssl-iso19790</td>
+                <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
+                <td class="px-4 py-3 text-gray-400">ISO/IEC 19790 terminology alias for <code class="text-cyan-400 text-xs">tls-openssl-fips</code>.</td>
               </tr>
               <tr class="hover:bg-gray-900/30">
                 <td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-boringssl</td>
@@ -290,6 +310,10 @@
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-web-server</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, web, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Static webserver profile</td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-full</td><td class="px-4 py-3 text-gray-500 font-mono">profile-load-balancer</td><td class="px-4 py-3 text-gray-400">All stable production modules</td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-development</td><td class="px-4 py-3 text-gray-500 font-mono">profile-full + php-fpm, acme-client, metrics, otel-*</td><td class="px-4 py-3 text-gray-400">Broad development build</td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-fips-openssl</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, security, tls-openssl-fips</td><td class="px-4 py-3 text-gray-400">FIPS-capable OpenSSL proof build</td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-iso19790-openssl</td><td class="px-4 py-3 text-gray-500 font-mono">profile-fips-openssl + tls-openssl-iso19790</td><td class="px-4 py-3 text-gray-400">ISO/IEC 19790 terminology alias for the OpenSSL proof path</td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-fips-rustls</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, security, tls-rustls-fips</td><td class="px-4 py-3 text-gray-400">FIPS-capable rustls/AWS-LC candidate build</td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-iso19790-rustls</td><td class="px-4 py-3 text-gray-500 font-mono">profile-fips-rustls + tls-rustls-iso19790</td><td class="px-4 py-3 text-gray-400">ISO/IEC 19790 terminology alias for the rustls/AWS-LC candidate path</td></tr>
             </tbody>
           </table>
         </div>
@@ -301,19 +325,19 @@
 
         <div class="code-win my-6">
           <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — official release build commands</span></div>
-<pre class="language-bash"><code class="language-bash"># Full release build (matches fluxheim-1.3.3-full-*.tar.gz)
+<pre class="language-bash"><code class="language-bash"># Full release build (matches fluxheim-1.3.7-full-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp
 
-# Cache edge build (matches fluxheim-1.3.3-cache-*.tar.gz)
+# Cache edge build (matches fluxheim-1.3.7-cache-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-cache-edge,acme-client
 
-# Proxy edge build (matches fluxheim-1.3.3-proxy-*.tar.gz)
+# Proxy edge build (matches fluxheim-1.3.7-proxy-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-proxy-edge,acme-client
 
-# PHP-FPM build (matches fluxheim-1.3.3-php-*.tar.gz)
+# PHP-FPM build (matches fluxheim-1.3.7-php-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-web-server,php-fpm,acme-client
 
@@ -361,7 +385,7 @@ scripts/validate-features.sh proxy,web,tls-rustls,privacy-mode</code></pre>
 
         <div class="prose">
           <h2>Planned Future Feature Families</h2>
-          <p>These are documented architecture tracks, not enabled Cargo features in v1.3.3. The full upstream source documents are available in the <a href="reference.html" class="text-cyan-400 hover:text-cyan-300">Source Reference</a>.</p>
+          <p>These are documented architecture tracks, not enabled Cargo features in v1.3.7. The full upstream source documents are available in the <a href="reference.html" class="text-cyan-400 hover:text-cyan-300">Source Reference</a>.</p>
         </div>
 
         <div class="overflow-x-auto rounded-xl border border-gray-800 my-6">

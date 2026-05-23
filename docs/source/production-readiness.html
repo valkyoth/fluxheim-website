@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -254,17 +254,23 @@
 <p>The load-balancer edge profile is compile- and config-validated in <code>1.3.0</code> so the feature graph is ready for <code>1.5</code>, but it is not a production load-balancing support promise yet.</p>
 <p>The <code>1.3.1</code> support promise adds an opt-in <code>php-fpm</code> module for PHP applications. PHP remains outside default and focused cache/proxy builds. A PHP-FPM build is production-eligible only when php-fpm is isolated separately, the PHP root is trusted, request body limits are configured, and operators have validated their framework/application behavior with their php-fpm pool. WordPress install, login, admin, plugin, and theme flows have release-candidate coverage for both direct PHP-FPM serving and reverse-proxy gateway deployments. The same release also normalizes split browser <code>Cookie</code> headers before proxying or generating PHP-FPM <code>HTTP_COOKIE</code>, matching the behavior WordPress expects behind HTTP/2 and container gateways.</p>
 <p>The same line also supports pending Fluxheim-managed ACME certificates during first issuance on reloadable SNI TLS backends. This lets operators add a new ACME vhost without taking existing HTTPS sites down: HTTP-01 can validate on port <code>80</code>, and the background renewal worker reloads the SNI certificate set after the certificate files are installed. Static certificate paths remain fail-closed.</p>
+<p>The <code>1.3.4</code> support promise adds an OpenSSL FIPS/ISO-capable TLS build path for operators who need to validate a deployment against an externally validated OpenSSL 3 provider. This path is opt-in through <code>profile-fips-openssl</code> / <code>tls-openssl-fips</code> or the ISO/IEC 19790 aliases <code>profile-iso19790-openssl</code> / <code>tls-openssl-iso19790</code>, and requires <code>[tls] backend = &quot;openssl&quot;</code> plus <code>[tls.fips] required = true</code> or <code>[tls.iso19790] required = true</code>. Fluxheim validates the TLS policy, loads the FIPS provider, enables OpenSSL default FIPS properties for the process-default library context, verifies those default properties, and exposes release evidence through <code>fluxheim crypto</code>, <code>fluxheim-config-tester --crypto</code>, and <code>scripts/validate-fips-openssl.sh</code>. It does not make Fluxheim itself a validated cryptographic module; operators still need the selected module&#x27;s CMVP certificate, Security Policy, provider configuration, platform evidence, and operational records.</p>
+<p>The <code>1.3.5</code> release line adds a rustls/AWS-LC FIPS candidate through <code>profile-fips-rustls</code>, <code>tls-rustls-fips</code>, and the ISO/IEC 19790 terminology alias <code>profile-iso19790-rustls</code>. It requires <code>[tls] backend = &quot;rustls&quot;</code> plus a FIPS/ISO-required guard, uses rustls&#x27; AWS-LC FIPS provider path, and requires the <code>aws-lc-fips-sys</code> build toolchain including CMake, Go, and a C compiler. Treat it as backend evidence only, with the same non-TLS crypto caveats.</p>
+<p>The <code>1.3.7</code> support promise completes the production PHP-FPM line. External php-fpm remains the default, while <code>mode = &quot;managed&quot;</code> lets Fluxheim generate a private php-fpm pool, supervise the php-fpm master, respawn it after post-start crashes with bounded backoff, and run WordPress-compatible PHP through the same FastCGI request path. The recommended Wolfi PHP image includes <code>php-8.5-fpm</code> for this managed mode; other image variants keep the external php-fpm deployment shape unless customized.</p>
 <h2 id="operator-checks">Operator Checks</h2>
 <p>Before using a Fluxheim build for a real site, run the stable gate from the repo root:</p>
 <pre class="language-bash"><code class="language-bash">scripts/stable_release_gate.sh check</code></pre>
 <p>For <code>1.3</code> candidates, this gate also runs the proxy cache and local observability smoke suites, and verifies the published full, cache-edge, proxy-edge, and PHP-FPM container feature profiles against their packaged container configs. The load-balancer edge profile is compile/config validated only until the <code>1.5</code> load-balancer milestone promotes runtime load-balancing behavior.</p>
 <p>For a release candidate, also run the deeper optional checks that fit the deployment:</p>
 <pre class="language-bash"><code class="language-bash">FLUXHEIM_GATE_TLS_BACKENDS=1 \
+FLUXHEIM_GATE_FIPS_OPENSSL=1 \
+FLUXHEIM_GATE_FIPS_RUSTLS=1 \
 FLUXHEIM_GATE_TLS_SCAN=1 \
 FLUXHEIM_GATE_LOAD=1 \
 FLUXHEIM_GATE_FRAMING=1 \
 FLUXHEIM_GATE_FUZZ_CHECK=1 \
 scripts/stable_release_gate.sh check</code></pre>
+<p>Use <code>check</code> mode for local development on rolling distributions. For release mode rustls/AWS-LC FIPS evidence, prefer the supported builder workflow in <a href="fips.html" class="text-cyan-400 hover:text-cyan-300">FIPS-Capable Deployments</a>; otherwise set <code>FLUXHEIM_GATE_FIPS_RUSTLS=0</code> locally and attach the rustls evidence from that builder.</p>
 <p>Run the Podman smoke when container paths or image definitions change:</p>
 <pre class="language-bash"><code class="language-bash">FLUXHEIM_GATE_PODMAN=1 scripts/stable_release_gate.sh check</code></pre>
 <p>Keep the generated release evidence with the release notes:</p>
@@ -289,6 +295,18 @@ scripts/stable_release_gate.sh check</code></pre>
 <li>keep TLS private keys, ACME storage, log files, cache roots, runtime paths,</li>
 </ul>
 <p>admin token files, and snapshot stores outside group- or world-writable directories;</p>
+<ul>
+<li>audit POSIX extended ACLs on those same sensitive paths. Fluxheim rejects</li>
+</ul>
+<p>unsafe Unix mode bits and symlinks, but it does not yet parse extended ACL entries that can grant write access without setting <code>020</code> or <code>002</code>;</p>
+<ul>
+<li>run Fluxheim with a restrictive umask such as <code>0077</code> or <code>0027</code>; Fluxheim sets</li>
+</ul>
+<p>private modes for its snapshot store, but a restrictive service umask remains useful defense in depth for operator-created paths and future state files;</p>
+<ul>
+<li>disable swap and core dumps, or use equivalent host controls, for deployments</li>
+</ul>
+<p>that treat admin bearer tokens, EAB credentials, TLS private keys, or cache encryption credentials as high-assurance secrets;</p>
 <ul>
 <li>keep admin and metrics listeners loopback-only unless a trusted local</li>
 </ul>

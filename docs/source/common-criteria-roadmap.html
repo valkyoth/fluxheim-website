@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Common Criteria Roadmap — Fluxheim Source Docs</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fluxheim">
+  <meta property="og:title" content="Fluxheim">
+  <meta property="og:description" content="Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.">
+  <meta property="og:url" content="https://fluxheim.eu/">
+  <meta property="og:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <meta property="og:image:secure_url" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Fluxheim logo">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fluxheim">
+  <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust.">
+  <meta name="twitter:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Common Criteria Roadmap</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="common-criteria-readiness-roadmap">Common Criteria Readiness Roadmap</h1>
+<p>This document tracks how Fluxheim can use ISO/IEC 15408:2026 concepts as an engineering and evidence framework. It is not a certification claim. Common Criteria evaluation is a product evaluation track, while FIPS 140-3 and ISO/IEC 19790 are cryptographic-module tracks. They can support each other, but they are not interchangeable.</p>
+<p>The practical value for Fluxheim is to make product boundaries, security functions, operator assumptions, tests, and lifecycle evidence explicit enough that a future Protection Profile or Security Target can be written without reconstructing years of engineering decisions.</p>
+<h2 id="source-scope">Source Scope</h2>
+<p>The local reference set reviewed was the ISO/IEC 15408:2026 series:</p>
+<ul>
+<li>Part 1: introduction and general model.</li>
+<li>Part 2: security functional components.</li>
+<li>Part 3: security assurance components.</li>
+<li>Part 4: evaluation methods and activities framework.</li>
+<li>Part 5: predefined packages of security requirements.</li>
+</ul>
+<p>Do not copy licensed standard text into Fluxheim docs. Use this roadmap as a derived engineering checklist only.</p>
+<h2 id="product-boundary">Product Boundary</h2>
+<p>A future evaluation has to define the Target of Evaluation (TOE). Fluxheim should prepare for multiple possible TOE shapes:</p>
+<ul>
+<li><code>fluxheim</code> gateway binary only.</li>
+<li>RPM installation including systemd units, default directories, and helper</li>
+</ul>
+<p>binaries.</p>
+<ul>
+<li>Container image including entrypoint, base image, runtime filesystem layout,</li>
+</ul>
+<p>and <code>fluxheim-acme</code> / <code>fluxheim-config-tester</code>.</p>
+<ul>
+<li>FIPS/ISO OpenSSL profile where the validated OpenSSL provider is outside the</li>
+</ul>
+<p>Fluxheim TOE but part of the operational environment.</p>
+<p>For each TOE shape, the evidence should identify:</p>
+<ul>
+<li>Physical and logical scope.</li>
+<li>Required non-TOE hardware, software, firmware, services, and operator</li>
+</ul>
+<p>procedures.</p>
+<ul>
+<li>Security functionality provided by Fluxheim itself.</li>
+<li>Security functionality delegated to the operating system, OpenSSL, OpenBao,</li>
+</ul>
+<p>ACME issuer, container runtime, or external upstream.</p>
+<ul>
+<li>Interfaces that are security-enforcing or security-supporting.</li>
+</ul>
+<h2 id="security-problem-definition">Security Problem Definition</h2>
+<p>Fluxheim should keep a living product-level security problem definition. It should not be limited to cryptography.</p>
+<p>Candidate assets:</p>
+<ul>
+<li>TLS private keys and ACME account material.</li>
+<li>Admin bearer tokens and control-socket access.</li>
+<li>Configuration snapshots and release artifacts.</li>
+<li>Cache encryption keys, object metadata, and cached response bodies.</li>
+<li>Request identity metadata, logs, traces, and metrics.</li>
+<li>PHP-FPM request parameters and spooled request bodies.</li>
+</ul>
+<p>Candidate threat classes:</p>
+<ul>
+<li>Remote request smuggling, routing bypass, cache poisoning, header injection,</li>
+</ul>
+<p>path traversal, request-body exhaustion, and protocol downgrade.</p>
+<ul>
+<li>Local filesystem and symlink attacks against runtime state, cache, spool,</li>
+</ul>
+<p>ACME, snapshot, and TLS paths.</p>
+<ul>
+<li>Misconfiguration that silently disables security controls.</li>
+<li>Compromised or lagging upstream services in proxy, PHP-FPM, ACME, OpenBao,</li>
+</ul>
+<p>OTLP, and future crypto-RPC deployments.</p>
+<ul>
+<li>Supply-chain compromise of build inputs, dependencies, container bases, and</li>
+</ul>
+<p>release artifacts.</p>
+<p>Candidate operational assumptions:</p>
+<ul>
+<li>The service runs as a dedicated Unix user.</li>
+<li>Runtime state directories are owned by the service user and not writable by</li>
+</ul>
+<p>untrusted users.</p>
+<ul>
+<li>Admin endpoints and control sockets are reachable only from trusted networks</li>
+</ul>
+<p>or local operators.</p>
+<ul>
+<li>Operators preserve release evidence, SBOMs, checksums, signatures, and module</li>
+</ul>
+<p>Security Policies.</p>
+<ul>
+<li>External cryptographic modules and services are installed and operated within</li>
+</ul>
+<p>their own validation boundaries when a regulated deployment claims them.</p>
+<h2 id="functional-requirement-mapping">Functional Requirement Mapping</h2>
+<p>Fluxheim should map existing and planned features to Common Criteria-style security functional areas. This is a roadmap classification, not formal SFR language.</p>
+<h3 id="security-audit">Security Audit</h3>
+<p>Current and planned evidence should cover:</p>
+<ul>
+<li>Structured access logs with request IDs.</li>
+<li>Admin, config reload, self-healing, ACME, cache, TLS provider, and startup</li>
+</ul>
+<p>events.</p>
+<ul>
+<li>Clear separation between security-relevant events and routine traffic noise.</li>
+<li>Log size, retention, and redaction guidance for secrets and personal data.</li>
+<li>Failure behavior when logging sinks are unavailable.</li>
+</ul>
+<h3 id="cryptographic-support">Cryptographic Support</h3>
+<p>This links to <a href="fips.html" class="text-cyan-400 hover:text-cyan-300">FIPS / ISO-Capable Deployments</a>:</p>
+<ul>
+<li>Backend selection and status reporting.</li>
+<li>TLS protocol, cipher, group, and signature restrictions.</li>
+<li>Clear handling for non-TLS crypto such as ACME, cache encryption, OpenBao,</li>
+</ul>
+<p>request IDs, and outbound HTTPS.</p>
+<ul>
+<li>Evidence showing whether crypto is internal, delegated to a validated module,</li>
+</ul>
+<p>or disabled in regulated profiles.</p>
+<h3 id="identification-and-authentication">Identification And Authentication</h3>
+<p>Relevant Fluxheim surfaces:</p>
+<ul>
+<li>Admin API bearer-token validation.</li>
+<li>Control socket permissions and command scope.</li>
+<li>Optional future mTLS or stronger admin authentication.</li>
+<li>Login throttling, lockout, token rotation, and audit events.</li>
+</ul>
+<h3 id="security-management">Security Management</h3>
+<p>Relevant Fluxheim controls:</p>
+<ul>
+<li>Config validation and <code>fluxheim-config-tester</code> profiles.</li>
+<li>Safe defaults, deny-unknown-fields parsing, and fail-closed feature guards.</li>
+<li>Runtime reload, self-healing snapshots, and rollback controls.</li>
+<li>Clear operator roles for package install, service runtime, admin API, ACME</li>
+</ul>
+<p>renewal, and release signing.</p>
+<h3 id="protection-of-security-functionality">Protection Of Security Functionality</h3>
+<p>Evidence should cover:</p>
+<ul>
+<li>Safe path handling with ownership, mode, symlink, and <code>O_NOFOLLOW</code> checks.</li>
+<li>Config snapshot integrity and rollback behavior.</li>
+<li>Startup diagnostics and self-tests for selected crypto providers.</li>
+<li>Panic policy, error handling, and no-unsafe-code boundaries.</li>
+<li>Separation between Fluxheim-controlled state and untrusted web content.</li>
+</ul>
+<h3 id="resource-utilization">Resource Utilization</h3>
+<p>Evidence should cover:</p>
+<ul>
+<li>Request header/body limits.</li>
+<li>PHP-FPM response/body/spool limits.</li>
+<li>Cache memory, disk, peer-fill, and object-size limits.</li>
+<li>Upstream retry, timeout, and connection-pool limits.</li>
+<li>Fuzzing and regression tests for parser and buffering limits.</li>
+</ul>
+<h3 id="trusted-channels-and-paths">Trusted Channels And Paths</h3>
+<p>Evidence should cover:</p>
+<ul>
+<li>Downstream TLS policies.</li>
+<li>Upstream TLS policies.</li>
+<li>OTLP HTTPS and custom CA behavior.</li>
+<li>OpenBao Transit connectivity.</li>
+<li>ACME issuer connectivity.</li>
+<li>Admin API and control-socket access expectations.</li>
+</ul>
+<h2 id="assurance-evidence">Assurance Evidence</h2>
+<p>The ISO/IEC 15408-3 assurance families are useful as a release evidence checklist even without claiming an EAL.</p>
+<p>Fluxheim should maintain:</p>
+<ul>
+<li>Architecture notes for security-enforcing modules and interfaces.</li>
+<li>Functional specifications for config validation, routing, TLS, ACME, cache,</li>
+</ul>
+<p>PHP-FPM, admin, snapshots, logging, and telemetry.</p>
+<ul>
+<li>Operational guidance and preparative procedures for RPM, container, systemd,</li>
+</ul>
+<p>and source builds.</p>
+<ul>
+<li>Configuration management evidence: signed tags, SBOMs, lockfiles, release</li>
+</ul>
+<p>notes, changelog, build scripts, and dependency audit output.</p>
+<ul>
+<li>Delivery evidence: checksums, signatures, image digests, release runbook, and</li>
+</ul>
+<p>reproducible-build output where available.</p>
+<ul>
+<li>Flaw remediation evidence: security policy, issue process, pentest fixes,</li>
+</ul>
+<p>CodeQL, cargo-audit, cargo-deny, fuzzing, and regression tests.</p>
+<ul>
+<li>Developer test coverage and independent-test entry points that a third party</li>
+</ul>
+<p>can run without privileged production access.</p>
+<ul>
+<li>Vulnerability analysis records for public-domain issues and pentest findings.</li>
+</ul>
+<h2 id="evaluation-methods">Evaluation Methods</h2>
+<p>ISO/IEC 15408-4 is most useful to Fluxheim as a format for repeatable local security checks.</p>
+<p>Every major security check should have:</p>
+<ul>
+<li>A stable identifier.</li>
+<li>Scope and objective.</li>
+<li>Required inputs and environment.</li>
+<li>Tool requirements.</li>
+<li>Execution steps.</li>
+<li>Pass/fail criteria.</li>
+<li>Output artifacts to archive.</li>
+<li>Rationale linking the check to a threat, requirement, or release gate.</li>
+</ul>
+<p>Existing scripts that fit this pattern include release metadata validation, OWASP baseline checks, FIPS-capable OpenSSL and rustls/AWS-LC validation, config fixture validation, fuzzing targets, cargo-audit, cargo-deny, CodeQL, and PHP-FPM regression tests.</p>
+<h2 id="package-strategy">Package Strategy</h2>
+<p>ISO/IEC 15408-5 packages are useful for long-term planning, but Fluxheim should not claim an EAL or Common Criteria conformance until a real Security Target and accredited evaluation path exist.</p>
+<p>Practical near-term approach:</p>
+<ul>
+<li>Use EAL terminology only internally as an evidence maturity reference.</li>
+<li>Avoid &quot;EAL-ready&quot; marketing language.</li>
+<li>Prefer &quot;Common Criteria evidence-aligned&quot; for documentation.</li>
+<li>Track composed deployments separately, because Fluxheim often depends on</li>
+</ul>
+<p>OpenSSL, PHP-FPM, OpenBao, container runtimes, ACME issuers, and upstream applications.</p>
+<h2 id="roadmap">Roadmap</h2>
+<h3 id="phase-1-evidence-alignment">Phase 1 - Evidence Alignment</h3>
+<ul>
+<li>Added in <code>1.3.6</code>: <a href="compliance-evidence-template.html" class="text-cyan-400 hover:text-cyan-300">Compliance Evidence Package Template</a></li>
+</ul>
+<p>provides sections for TOE boundary, assumptions, security functions, operational environment, external dependencies, cryptographic module evidence, scanner output, and vulnerability-analysis records.</p>
+<ul>
+<li>Added in <code>1.3.6</code>: stable validation-script identifiers are documented in the</li>
+</ul>
+<p>evidence template for release metadata, feature validation, FIPS OpenSSL, FIPS rustls, OWASP baseline, SBOM, reproducible-build, cargo-audit, cargo-deny, CodeQL, and aggregated release evidence.</p>
+<ul>
+<li>Expand docs so each security feature has operator guidance and test evidence.</li>
+</ul>
+<h3 id="phase-2-security-target-draft">Phase 2 - Security Target Draft</h3>
+<ul>
+<li>Draft a non-certification Security Target-style document for one TOE shape:</li>
+</ul>
+<p>the RPM gateway profile is likely the most concrete first target.</p>
+<ul>
+<li>Define the TOE boundary, security problem, objectives, requirements mapping,</li>
+</ul>
+<p>and summary specification in Fluxheim terminology.</p>
+<ul>
+<li>Keep it explicitly marked as an engineering draft, not an evaluated ST.</li>
+</ul>
+<h3 id="phase-3-protection-profile-research">Phase 3 - Protection Profile Research</h3>
+<ul>
+<li>Check whether an existing firewall, TLS gateway, web server, reverse proxy,</li>
+</ul>
+<p>or network device Protection Profile can reasonably fit Fluxheim.</p>
+<ul>
+<li>If no profile fits, document why and identify which SFR groups would need a</li>
+</ul>
+<p>custom PP or direct-rationale ST.</p>
+<h3 id="phase-4-external-evaluation-decision">Phase 4 - External Evaluation Decision</h3>
+<ul>
+<li>Only pursue formal Common Criteria evaluation if there is a sponsor, a fixed</li>
+</ul>
+<p>TOE boundary, a lab, a target assurance package, and a maintenance budget.</p>
+<ul>
+<li>Do not combine formal Common Criteria claims with FIPS/ISO cryptographic</li>
+</ul>
+<p>module claims unless the evidence boundary for each is separately clear.</p>
+<h2 id="documentation-rules">Documentation Rules</h2>
+<p>Use:</p>
+<ul>
+<li>&quot;Common Criteria evidence-aligned&quot;</li>
+<li>&quot;ISO/IEC 15408-inspired evidence&quot;</li>
+<li>&quot;Security Target-style draft&quot;</li>
+<li>&quot;TOE boundary candidate&quot;</li>
+<li>&quot;operator assumptions&quot;</li>
+</ul>
+<p>Avoid:</p>
+<ul>
+<li>&quot;Common Criteria certified&quot;</li>
+<li>&quot;EAL compliant&quot;</li>
+<li>&quot;Protection Profile compliant&quot;</li>
+<li>&quot;evaluated Security Target&quot;</li>
+<li>Any wording that implies an accredited evaluation has happened.</li>
+</ul>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

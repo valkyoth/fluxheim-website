@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.3</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -73,7 +73,7 @@
         </div>
 
         <article class="source-doc">
-<h1 id="pingora-core-patch">Pingora Core Patch</h1>
+<h1 id="pingora-patches">Pingora Patches</h1>
 <p>Fluxheim vendors <code>pingora-core 0.8.0</code> only to expose one rustls listener hook that is required for the default <code>tls-rustls</code> build:</p>
 <ul>
 <li><code>TlsSettings::with_cert_resolver(...)</code></li>
@@ -109,6 +109,9 @@
 <li>keep ALPN handling through the existing <code>enable_h2</code> and <code>set_alpn</code> methods.</li>
 </ul>
 <p>Fluxheim should keep the vendored patch narrow and avoid unrelated edits to vendored Pingora source.</p>
+<h2 id="pingora-openssl-patch">Pingora OpenSSL Patch</h2>
+<p>Fluxheim also vendors <code>pingora-openssl 0.8.0</code> for one dependency-policy change: the crates.io package forces <code>openssl = { features = [&quot;vendored&quot;] }</code>. Fluxheim&#x27;s <code>tls-openssl-fips</code> path must be able to link against the operator-installed OpenSSL 3 FIPS provider, so the local patch removes only the <code>vendored</code> feature from <code>pingora-openssl</code>&#x27;s OpenSSL dependency.</p>
+<p>This patch does not change Pingora&#x27;s OpenSSL API or runtime behavior. It only lets normal Cargo/OpenSSL discovery use the system OpenSSL selected by the operator. Remove <code>vendor/pingora-openssl</code> and its <code>[patch.crates-io]</code> entry when upstream makes OpenSSL vendoring optional or no longer enables it by default.</p>
 <h2 id="proposed-pr-steps">Proposed PR Steps</h2>
 <ol>
 <li>Fork the upstream Pingora repository and create a focused branch, for</li>
