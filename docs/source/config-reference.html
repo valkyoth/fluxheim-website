@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -92,6 +92,7 @@ listen = [&quot;127.0.0.1:8080&quot;]
 tls_listen = []
 default_vhost = &quot;example.test&quot;
 trusted_proxies = [&quot;127.0.0.1&quot;]
+proxy_protocol = &quot;off&quot;
 
 [server.limits]
 max_request_header_bytes = &quot;64KiB&quot;
@@ -141,6 +142,10 @@ strict = false</code></pre>
 </ul>
 <p>gateway, Cloudflare, or a trusted edge proxy. When the direct peer is trusted, Fluxheim walks <code>X-Forwarded-For</code> from right to left and restores the last non-trusted hop for generated client-IP headers, equivalent to nginx <code>real_ip_recursive on</code>. The list is capped at 512 entries.</p>
 <ul>
+<li><code>proxy_protocol</code> defaults to <code>off</code>. Set it to <code>v1</code> or <code>v2</code> only on listeners reached</li>
+</ul>
+<p>exclusively through trusted load balancers or edge proxies that send HAProxy PROXY protocol before TLS/HTTP bytes. Fluxheim requires <code>server.trusted_proxies</code> when this is enabled, rejects direct peers outside that trust list before parsing the header, and restores the PROXY source address before TLS and HTTP handling. The v2 parser supports TCP4/TCP6 and LOCAL/UNSPEC frames, skips bounded TLV payloads, and rejects unsupported address families or oversized v2 payloads.</p>
+<ul>
 <li><code>[server.process]</code> maps safe process settings into Pingora&#x27;s <code>ServerConf</code>.</li>
 </ul>
 <p>Changes to these values require a process upgrade, not a live snapshot reload. Keep <code>threads</code> conservative in containers because Pingora allocates worker threads per service.</p>
@@ -182,6 +187,12 @@ base_lockout_secs = 30
 max_lockout_secs = 900
 max_sources = 4096
 
+[admin.client_certificate]
+required = false
+sha256_header = &quot;x-client-cert-sha256&quot;
+allow_sha256 = []
+deny_sha256 = []
+
 [admin.self_healing]
 enabled = false
 validation_window_secs = 30
@@ -190,6 +201,7 @@ min_successful_checks = 1
 max_error_rate_per_mille = 100</code></pre>
 <p>If <code>admin.enabled = true</code>, configure <code>token_env</code> or <code>token_file</code>. Snapshot and rollback endpoints also require <code>snapshot_store</code>. <code>token_file</code> and <code>snapshot_store</code> must not contain parent traversal, must not sit below a symlinked parent directory, and on Unix must not use a group- or world-writable existing parent such as <code>/tmp</code>. The snapshot store runtime applies the same rule when it is used directly by CLI/admin paths.</p>
 <p>Remote admin exposure fails closed. Keep <code>admin.listen</code> loopback whenever possible. If <code>admin.require_loopback = false</code> and <code>admin.listen</code> is non-loopback, Fluxheim requires <code>[admin.transport] mode = &quot;trusted_tls_terminator&quot;</code> to make the operator explicitly declare that a trusted local sidecar, reverse proxy, or load balancer terminates TLS/mTLS before traffic reaches the plain admin listener. Direct first-class admin TLS/mTLS remains planned; do not expose the admin listener over cleartext networks.</p>
+<p><code>admin.client_certificate</code> is an extra hardening gate for that trusted terminator pattern. The admin listener still receives plain HTTP from the trusted local sidecar, but Fluxheim can require a validated downstream client certificate fingerprint that the sidecar injects into <code>sha256_header</code>. <code>required = true</code> rejects requests without a single valid 64-character SHA-256 hex value, <code>deny_sha256</code> rejects matching fingerprints, and <code>allow_sha256</code> restricts admin access to the listed fingerprints when it is non-empty. The trusted terminator must strip any incoming copy of this header before adding its own value; do not rely on this option for directly exposed cleartext admin listeners. When this option is enabled on a loopback admin listener, Fluxheim emits a security warning because local processes can inject the configured header unless a trusted local terminator strips and rewrites it.</p>
 <p>Admin endpoint paths are capped at 2048 bytes and query strings are capped at 16 KiB before endpoint-specific parsing. Prefer headers for long cache purge values.</p>
 <p><code>admin.auth_throttle</code> is enabled by default and protects all authenticated <code>/_fluxheim/*</code> endpoints, including the built-in health check unless it is explicitly configured for loopback-only unauthenticated probes. Repeated failed bearer-token attempts are tracked per direct socket source and globally over <code>window_secs</code>; once either limit is reached, Fluxheim returns <code>429</code> until the progressive lockout expires. <code>max_sources</code> bounds the in-memory per-source failure table. With metrics enabled, <code>fluxheim_admin_auth_events_total{event,scope}</code> records failed and throttled admin authentication events, and security logs are emitted without reflecting the attempted token.</p>
 <p>The protected cache purge endpoints accept the optional <code>vhost</code> and <code>route</code> query parameters, or <code>x-fluxheim-cache-vhost</code> and <code>x-fluxheim-cache-route</code> headers, to target either a vhost cache policy or a named route-scoped cache policy. Route names are resolved within the selected vhost. Purge responses include the selected vhost/route, the normalized <code>host</code>, <code>method</code>, <code>path</code>, optional query, cache key, and per-tier purge result so bulk purge output can be audited without decoding cache keys. Indexed scope, prefix, tag, and wildcard purge endpoints accept <code>soft=true</code> or <code>x-fluxheim-cache-soft: true</code> to mark matched objects stale without deleting their cached bodies. Hard purge remains the default.</p>
@@ -263,6 +275,12 @@ request_id_header = &quot;x-request-id&quot;</code></pre>
 <p>In <code>privacy-mode</code> builds, access logging and file logging must stay disabled. Fluxheim rejects <code>logging.access.enabled = true</code> and <code>logging.file.enabled = true</code>.</p>
 <p><code>logging.access.include_path = false</code> keeps access logging enabled while emitting an empty <code>path</code> field. This is useful when request paths may contain tenant IDs, filenames, or other sensitive identifiers.</p>
 <p><code>logging.access.include_host = false</code> keeps access logging enabled while emitting an empty raw <code>host</code> field. The configured <code>vhost</code> name is still logged after Fluxheim resolves the request.</p>
+<p><code>logging.access.include_client_ip = false</code> emits an empty <code>client_ip</code> field. When enabled, the logged address is the same trusted-proxy-aware client IP used by access policy and rate limiting.</p>
+<p><code>logging.access.include_cache_phase = false</code> emits an empty <code>cache_phase</code> field. When enabled in cache-capable builds, Fluxheim logs the effective request cache phase, such as <code>hit</code>, <code>miss</code>, <code>bypass</code>, or <code>disabled</code>.</p>
+<p>Access log events include <code>compression_encoding</code> when Fluxheim applies response compression; the field is empty when the response is served without a Fluxheim compression encoder.</p>
+<p>Access log events include downstream TLS identity fields: <code>tls_version</code>, <code>tls_cipher</code>, <code>tls_client_cert_sha256</code>, <code>tls_client_cert_serial</code>, and <code>tls_client_cert_organization</code>. These fields are empty when the request is not TLS, when no client certificate was presented, or when the selected TLS backend does not expose a given certificate attribute.</p>
+<p>Access log events also include the resolved route name and selected upstream address when a request reaches a proxy action; fallback, local static, or unrouted requests emit empty <code>route</code> or <code>upstream</code> fields as applicable.</p>
+<p><code>logging.access.include_route = false</code> emits an empty <code>route</code> field. <code>logging.access.include_upstream = false</code> emits an empty <code>upstream</code> field, which is useful when internal backend addresses should not appear in logs.</p>
 <h2 id="headers">Headers</h2>
 <p>Header policies can be global or per-vhost. Vhost policies overlay the global policy.</p>
 <pre class="language-toml"><code class="language-toml">[headers.request]
@@ -299,7 +317,23 @@ vary = [&quot;Accept-Encoding&quot;]
 
 [headers.response.operations]
 remove = [&quot;x-origin-banner&quot;]
-add = { x-content-source = &quot;fluxheim&quot; }</code></pre>
+add = { x-content-source = &quot;fluxheim&quot; }
+
+[[headers.response.rewrite.location]]
+from = &quot;http://backend.internal/&quot;
+to = &quot;https://www.example.com/&quot;
+
+[[headers.response.rewrite.refresh]]
+from = &quot;http://backend.internal/&quot;
+to = &quot;https://www.example.com/&quot;
+
+[[headers.response.rewrite.cookie_domain]]
+from = &quot;backend.internal&quot;
+to = &quot;www.example.com&quot;
+
+[[headers.response.rewrite.cookie_path]]
+from = &quot;/app/&quot;
+to = &quot;/&quot;</code></pre>
 <p><code>x_forwarded_for</code> values: <code>off</code>, <code>replace</code>, <code>append</code>. <code>x_real_ip = true</code> emits <code>X-Real-IP</code> from the effective client address. If the direct peer matches <code>server.trusted_proxies</code>, Fluxheim recursively restores that address from the trusted <code>X-Forwarded-For</code> chain before writing <code>X-Real-IP</code>, <code>X-Forwarded-For</code>, <code>Forwarded</code>, or <code>{remote_addr}</code> templates. In privacy builds it defaults off and client-IP forwarding remains stripped.</p>
 <p>Request header values can use a small safe dynamic template set:</p>
 <ul>
@@ -310,10 +344,22 @@ add = { x-content-source = &quot;fluxheim&quot; }</code></pre>
 <li><code>{path}</code>: current request path.</li>
 <li><code>{query}</code>: current request query without <code>?</code>, or empty.</li>
 <li><code>{request_id}</code>: Fluxheim request ID when access request IDs are enabled.</li>
+<li><code>{tls.cipher}</code> and <code>{tls.version}</code>: downstream TLS cipher and protocol when</li>
+</ul>
+<p>the request arrived over TLS.</p>
+<ul>
+<li><code>{tls.client_cert_sha256}</code>: lowercase SHA-256 fingerprint of the verified</li>
+</ul>
+<p>downstream client certificate when one was presented.</p>
+<ul>
+<li><code>{tls.client_cert_serial}</code> and <code>{tls.client_cert_organization}</code>: serial number</li>
+</ul>
+<p>and organization parsed from the verified downstream client certificate when the TLS backend exposes them.</p>
+<ul>
 <li><code>{http.&lt;header-name&gt;}</code>: safe request-header forwarding, for example</li>
 </ul>
 <p><code>{http.upgrade}</code>.</p>
-<p>Unknown variables fail config validation. Rendered values are still passed through HTTP header validation before Fluxheim sends them upstream.</p>
+<p>Unknown variables fail config validation. Rendered values are still passed through HTTP header validation before Fluxheim sends them upstream. Do not put TLS identity templates in <code>[headers.request.append]</code> or <code>[vhosts.headers.request.append]</code>; Fluxheim rejects that configuration because an attacker-supplied inbound header would otherwise remain before the TLS-derived value. Use <code>add</code>/<code>set</code> for TLS identity headers so Fluxheim removes any inbound copy before forwarding the trusted value.</p>
 <p>Common proxy migration headers:</p>
 <pre class="language-toml"><code class="language-toml">[headers.request.add]
 host = &quot;{host}&quot;
@@ -321,6 +367,7 @@ x-real-ip = &quot;{remote_addr}&quot;
 x-forwarded-for = &quot;{remote_addr}&quot;
 x-forwarded-proto = &quot;{scheme}&quot;
 x-forwarded-host = &quot;{host}&quot;
+x-client-cert-sha256 = &quot;{tls.client_cert_sha256}&quot;
 upgrade = &quot;{http.upgrade}&quot;
 connection = &quot;upgrade&quot;</code></pre>
 <p>Prefer the typed <code>x_forwarded_for</code>, <code>x_real_ip</code>, <code>x_forwarded_host</code>, and <code>x_forwarded_proto</code> fields where they fit. Use dynamic values when a backend expects an exact legacy-style header.</p>
@@ -339,27 +386,76 @@ include_subdomains = false
 preload = false</code></pre>
 <p>You may still set <code>headers.response.strict_transport_security</code> directly as a raw header value, but do not combine it with <code>[headers.response.hsts]</code> in the same policy. HSTS and CSP are intentionally not enabled blindly in examples because they are site-specific and can break local HTTP testing or asset policies.</p>
 <p>Fluxheim sets <code>Server: fluxheim</code> and strips <code>X-Powered-By</code> by default. Operators who do not want a server banner can remove it with <code>remove = [&quot;server&quot;]</code>, and operators who want a different banner can set one through <code>[headers.response.add]</code>.</p>
+<p><code>[[headers.response.rewrite.location]]</code> and <code>[[headers.response.rewrite.refresh]]</code> provide bounded prefix rewrites for upstream redirect headers, similar to NGINX <code>proxy_redirect</code> or Apache <code>ProxyPassReverse</code>. <code>Location</code> rewrites apply to the whole header value. <code>Refresh</code> rewrites apply only to the URL after <code>url=</code> and preserve the refresh delay. <code>from</code> and <code>to</code> values must be absolute <code>http://</code> / <code>https://</code> prefixes or absolute paths, must not contain control characters, and each header supports up to 32 rules.</p>
+<p><code>[[headers.response.rewrite.cookie_domain]]</code> and <code>[[headers.response.rewrite.cookie_path]]</code> rewrite <code>Set-Cookie</code> <code>Domain=</code> and <code>Path=</code> attributes. Domain rewrites are exact case-insensitive matches against safe ASCII domain labels. Path rewrites are prefix replacements and must use absolute paths. Vhost and route response-header policies inherit global rewrite rules and can append additional rules.</p>
 <h2 id="proxy">Proxy</h2>
 <p><code>[proxy]</code> is the global fallback proxy policy. Vhosts can override it with <code>[vhosts.proxy]</code>.</p>
 <pre class="language-toml"><code class="language-toml">[proxy]
 upstreams = [&quot;127.0.0.1:3000&quot;, &quot;127.0.0.1:3001&quot;]
+upstream_weights = [1, 2]
+upstream_aliases = [&quot;app-a&quot;, &quot;app-b&quot;]
+backup_upstreams = [&quot;127.0.0.1:3001&quot;]
+drain_upstreams = []
 upstream_tls = false
 upstream_sni = &quot;origin.example.test&quot;
+upstream_verify_cert = true
+upstream_verify_hostname = true
+upstream_alternative_cn = &quot;fallback-origin.example.test&quot;
+upstream_ca_path = &quot;/etc/fluxheim/upstreams/origin-ca.pem&quot;
+upstream_client_cert_path = &quot;/etc/fluxheim/upstreams/client-chain.pem&quot;
+upstream_client_key_path = &quot;/etc/fluxheim/upstreams/client-key.pem&quot;
+upstream_proxy_protocol = &quot;off&quot;
+upstream_http_version = &quot;http1&quot;
+# upstream_h2_max_streams = 64
+# upstream_h2_ping_interval_secs = 30
 connect_timeout_secs = 5
+upstream_total_connection_timeout_secs = 10
+upstream_idle_timeout_secs = 120
+upstream_tcp_keepalive_idle_secs = 30
+upstream_tcp_keepalive_interval_secs = 10
+upstream_tcp_keepalive_count = 3
+upstream_tcp_user_timeout_ms = 15000
+upstream_tcp_recv_buffer_bytes = &quot;1MiB&quot;
+upstream_dscp = 46
+upstream_tcp_fast_open = false
 read_timeout_secs = 60
 send_timeout_secs = 30
 downstream_write_timeout_secs = 30
 downstream_min_send_rate_bytes_per_sec = 8192
 
 [proxy.load_balance]
+selection = &quot;round-robin&quot;
 max_iterations = 256
 
 [proxy.load_balance.health_check]
 enabled = true
+protocol = &quot;tcp&quot;
 interval_secs = 1
 consecutive_success = 1
 consecutive_failure = 1
 parallel = false
+path = &quot;/&quot;
+host = &quot;origin.example.test&quot;
+expected_statuses = []
+reuse_connection = false
+
+[proxy.load_balance.slow_start]
+enabled = false
+duration_secs = 30
+
+[proxy.load_balance.passive_health]
+enabled = false
+consecutive_failure = 3
+ejection_secs = 30
+failure_statuses = []
+max_latency_ms = 0
+
+[proxy.load_balance.retry]
+enabled = false
+max_retries = 1
+methods = [&quot;GET&quot;, &quot;HEAD&quot;, &quot;OPTIONS&quot;]
+budget_per_window = 0
+budget_window_secs = 1
 
 [[proxy.error_pages]]
 status = 502
@@ -368,10 +464,53 @@ path = &quot;/502.html&quot;
 [proxy.error_pages.web]
 root = &quot;/srv/fluxheim/errors&quot;
 cache_control = &quot;private, no-store&quot;</code></pre>
-<p>Every <code>upstreams</code> entry must be an authority such as <code>127.0.0.1:3000</code> or <code>origin.example.test:443</code>. Proxy upstream lists are capped at 64 entries and reject duplicates case-insensitively. Proxy error-page lists are also capped at 64 entries.</p>
-<p><code>upstreams</code> is the preferred proxy target form for both one and many origins. The older single <code>upstream = &quot;host:port&quot;</code> field remains supported for simple configs, but do not set both fields in the same proxy block. Fluxheim rejects that as ambiguous. A single <code>upstreams = [&quot;host:port&quot;]</code> entry behaves like a normal single proxy target in all builds and is resolved when requests are proxied, so a missing backend does not prevent the gateway from starting. Two or more entries activate the Pingora load-balancer path in builds compiled with <code>load-balancer</code>; those entries may be resolved by load-balancer setup and health checking. <code>connect_timeout_secs</code>, <code>read_timeout_secs</code>, and <code>send_timeout_secs</code> are optional. They map to the upstream connection timeout, upstream response/read timeout, and upstream request-body/write timeout. <code>downstream_write_timeout_secs</code> and <code>downstream_min_send_rate_bytes_per_sec</code> protect the client-facing side of proxied responses. The write timeout caps stalled downstream writes; the minimum send rate asks Pingora to derive a timeout from each response chunk size and is mainly useful against slow HTTP/1 clients. These fields are optional and can be set globally, per vhost, or on a route-level proxy block.</p>
+<p>Every <code>upstreams</code> entry must be an authority such as <code>127.0.0.1:3000</code> or <code>origin.example.test:443</code>. Proxy upstream lists are capped at 64 entries and reject duplicates case-insensitively. Proxy error-page lists are also capped at 64 entries. When <code>upstream_tls = true</code>, Fluxheim sends TLS to the origin. <code>upstream_sni</code> overrides the SNI name; if it is omitted, Fluxheim derives SNI from the primary upstream host. <code>upstream_verify_cert</code> and <code>upstream_verify_hostname</code> default to <code>true</code>. Disabling certificate verification is an explicit insecure policy and also requires <code>upstream_verify_hostname = false</code> so the config cannot imply hostname validation while certificate validation is off. <code>upstream_alternative_cn</code> adds one additional hostname that may match the upstream certificate when the configured SNI does not. Wildcards are rejected for this field. <code>upstream_ca_path</code> points at a PEM CA bundle used instead of the platform trust store for this proxy policy. <code>upstream_client_cert_path</code> and <code>upstream_client_key_path</code> configure an upstream client certificate and private key for origin mTLS and must be set together. These file paths are resolved relative to the containing config file, reject parent-directory traversal, reject symlinked existing path components, and reject group/world-writable existing parents. Rustls, OpenSSL, and BoringSSL builds support custom upstream trust roots and upstream client certificates. s2n builds currently reject these fields until Fluxheim has panic-free PEM loading for that backend. <code>upstream_proxy_protocol</code> defaults to <code>off</code>. Set it to <code>v1</code> or <code>v2</code> to send a HAProxy PROXY protocol header to the origin immediately after the upstream TCP/Unix connection is established and before any upstream TLS handshake. The source address is trusted-proxy-aware: if the direct peer is trusted and <code>X-Forwarded-For</code> restores a client IP, that restored IP is used with source port <code>0</code>; otherwise the direct downstream socket address is used. If Fluxheim cannot produce a same-family TCP4/TCP6 source and destination pair, it sends <code>PROXY UNKNOWN</code> for v1 or an empty v2 PROXY/UNSPEC frame for v2. <code>upstream_http_version</code> defaults to <code>http1</code>. Set it to <code>http2</code> for origins that require HTTP/2, including gRPC-style upstreams, or to <code>http1-and-http2</code> to allow HTTP/2 with HTTP/1.1 fallback where the selected TLS/backend connector can negotiate it. For plaintext origins, <code>http2</code> means h2c; use it only when the origin is known to accept cleartext HTTP/2. <code>upstream_h2_max_streams</code> limits concurrent streams per upstream HTTP/2 connection and must be between 1 and 1024. <code>upstream_h2_ping_interval_secs</code> enables upstream HTTP/2 keepalive pings. Both h2 settings require <code>upstream_http_version</code> to allow HTTP/2. For explicit gRPC routes, set route-scoped <code>[vhosts.routes.grpc] enabled = true</code>; Fluxheim then requires the route proxy to allow upstream HTTP/2, rejects non-<code>POST</code> requests, accepts only <code>application/grpc</code> or <code>application/grpc+*</code> content types, and leaves gRPC-Web/JSON transcoding out of scope. <code>connect_timeout_secs</code> bounds the low-level socket connect phase. <code>upstream_total_connection_timeout_secs</code> wraps full upstream establishment, including protocol/TLS setup where the selected connector exposes it. <code>upstream_idle_timeout_secs</code> controls how long reusable idle upstream connections remain in Pingora&#x27;s keepalive pool before they are closed. <code>upstream_tcp_keepalive_idle_secs</code>, <code>upstream_tcp_keepalive_interval_secs</code>, and <code>upstream_tcp_keepalive_count</code> configure TCP keepalive probes on upstream connections and must be set together. <code>upstream_tcp_user_timeout_ms</code> maps to Linux <code>TCP_USER_TIMEOUT</code> through the same keepalive setting and is ignored by non-Linux kernels. <code>upstream_tcp_recv_buffer_bytes</code> requests a receive-buffer size for new upstream sockets, capped at 256MiB. <code>upstream_dscp</code> accepts a DSCP value from 0 through 63. <code>upstream_tcp_fast_open</code> enables upstream TCP Fast Open where the platform and kernel allow it. <code>upstream_weights</code> is optional and, when set, must contain one positive weight for each <code>upstreams</code> entry. It enables weighted selection in <code>load-balancer</code> builds. Each weight must be at most 1000 and the total configured weight must fit in Pingora&#x27;s weighted selector. <code>upstream_aliases</code> is optional and, when set, must contain one safe low-cardinality alias for each <code>upstreams</code> entry. Aliases may contain ASCII letters, digits, dots, dashes, and underscores, are capped at 64 bytes, and must be unique case-insensitively. Fluxheim uses them only for operator-facing metrics and status surfaces; they are not sent upstream and do not affect selection. <code>backup_upstreams</code> and <code>drain_upstreams</code> are optional subsets of <code>upstreams</code>. Backups stay out of normal rotation and are selected only when no non-backup backend is currently selectable. Drained upstreams remain configured for health and operator visibility but receive no new selections. Backup and drain sets must not overlap, and at least one upstream must remain a normal primary. <code>proxy.load_balance.selection</code> defaults to <code>round-robin</code>. It also accepts <code>least-connections</code>, <code>power-of-two</code>, <code>source-hash</code>, <code>uri-hash</code>, <code>header-hash</code>, <code>cookie-hash</code>, <code>consistent-source-hash</code>, <code>consistent-uri-hash</code>, <code>consistent-header-hash</code>, and <code>consistent-cookie-hash</code>. Header-hash modes require <code>proxy.load_balance.hash_header = &quot;x-session&quot;</code> or another valid HTTP header name. Cookie-hash modes require <code>proxy.load_balance.hash_cookie = &quot;session&quot;</code> or another valid cookie name. Hash modes use weighted FNV selection; consistent modes use Pingora&#x27;s weighted Ketama ring for lower remapping when upstream membership changes. <code>least-connections</code> uses Fluxheim-held in-flight request permits and Pingora&#x27;s current backend health state. <code>power-of-two</code> samples two healthy backends through Pingora&#x27;s random weighted selector and chooses the lower in-flight count. With metrics enabled, load-balanced selections, unavailable pools, retries, and success/failure/ejection outcomes are counted by <code>fluxheim_load_balancer_events_total</code> with bounded configured vhost/route labels. The metric does not label raw upstream addresses; it uses <code>upstream_aliases</code> when present and otherwise leaves the upstream label empty. <code>proxy.load_balance.health_check.protocol</code> defaults to <code>tcp</code>, which verifies TCP reachability and, when <code>upstream_tls = true</code>, a TLS handshake. Set <code>protocol = &quot;http&quot;</code> to send a <code>GET</code> request to <code>path</code>; by default only <code>200</code> passes, or <code>expected_statuses = [200, 204]</code> can define an explicit allow-list. <code>host</code> overrides the health-check <code>Host</code> header and TLS SNI fallback, <code>reuse_connection = true</code> allows Pingora to reuse check connections, and <code>port_override</code> sends checks to a different port on the same backend address. Omit <code>port_override</code> to check the backend&#x27;s normal port. <code>proxy.load_balance.passive_health.enabled = true</code> adds opt-in passive outlier detection. Fluxheim records selected upstream outcomes, treats 5xx responses as failures by default, and temporarily ejects a backend after <code>consecutive_failure</code> failures for <code>ejection_secs</code>. <code>failure_statuses</code> may narrow the failure set to specific 5xx status codes. <code>max_latency_ms = 0</code> disables latency ejection; a positive value treats responses at or above that latency as passive failures. Active health checks and passive ejection are combined; if no backend is currently selectable, Fluxheim returns a proxy error instead of falling back to a configured primary upstream. <code>proxy.load_balance.slow_start.enabled = true</code> warms newly seen and passively recovered load-balanced backends over <code>duration_secs</code> before they receive their full normal selection share. If all otherwise healthy candidates are still warming, Fluxheim allows a selection instead of failing the entire pool, so slow-start is a traffic-shaping guard rather than an availability blocker. <code>proxy.load_balance.retry.enabled = true</code> enables bounded redispatch for connection failures that happen before the request is sent upstream. It is limited by <code>max_retries</code>, by Pingora&#x27;s process-wide retry cap, and by <code>methods</code>, which accepts only safe method tokens such as <code>GET</code>, <code>HEAD</code>, <code>OPTIONS</code>, and <code>TRACE</code>. <code>budget_per_window = 0</code> disables the shared retry budget; set it to a positive value with <code>budget_window_secs</code> to cap total redispatch attempts for this vhost or route over a moving window. Fluxheim does not retry after response streaming has started; status-code retries remain a later buffering-aware feature.</p>
+<p><code>upstreams</code> is the preferred proxy target form for both one and many origins. The older single <code>upstream = &quot;host:port&quot;</code> field remains supported for simple configs, but do not set both fields in the same proxy block. Fluxheim rejects that as ambiguous. A single <code>upstreams = [&quot;host:port&quot;]</code> entry behaves like a normal single proxy target in all builds and is resolved when requests are proxied, so a missing backend does not prevent the gateway from starting. Two or more entries activate the Pingora load-balancer path in builds compiled with <code>load-balancer</code>; those entries may be resolved by load-balancer setup and health checking. The same <code>proxy.load_balance</code> policy applies inside <code>[[vhosts.routes.proxy]]</code> route proxy blocks; route-level pools get their own selection, passive-health, retry, and health-check state. <code>connect_timeout_secs</code>, <code>read_timeout_secs</code>, and <code>send_timeout_secs</code> are optional. They map to the upstream connection timeout, upstream response/read timeout, and upstream request-body/write timeout. <code>downstream_write_timeout_secs</code> and <code>downstream_min_send_rate_bytes_per_sec</code> protect the client-facing side of proxied responses. The write timeout caps stalled downstream writes; the minimum send rate asks Pingora to derive a timeout from each response chunk size and is mainly useful against slow HTTP/1 clients. These fields are optional and can be set globally, per vhost, or on a route-level proxy block.</p>
 <p>For websocket-style upgrades, Fluxheim keeps the downstream <code>Connection: Upgrade</code> and <code>Upgrade</code> headers unless your header policy removes or replaces them. Route-level proxy blocks can use longer read/send timeouts for these long-lived paths without changing the whole vhost.</p>
 <p><code>[[proxy.error_pages]]</code> entries are internal static fallback pages for proxy failures. The <code>path</code> is an internal request path resolved below the entry&#x27;s <code>web.root</code>; it is not exposed as a public route unless you also configure a route for that root.</p>
+<h2 id="compression">Compression</h2>
+<p><code>[compression]</code> is a global opt-in response compression policy. It is available only in binaries built with one or more codec features: <code>compression-gzip</code>, <code>compression-zstd</code>, or <code>compression-brotli</code>. The 1.4 production profile aliases used for official full/cache/proxy/PHP artifacts compile all three codecs so operators can enable compression by vhost or route without rebuilding; default developer builds still omit compression code. <code>privacy-mode</code> builds reject compression at compile time.</p>
+<pre class="language-toml"><code class="language-toml">[compression]
+enabled = true
+gzip = true
+zstd = false
+brotli = false
+min_bytes = &quot;1KiB&quot;
+max_input_bytes = &quot;1MiB&quot;
+max_output_bytes = &quot;2MiB&quot;
+gzip_level = 4
+zstd_level = 3
+brotli_quality = 4</code></pre>
+<p>Each vhost inherits the global compression policy unless it declares <code>[vhosts.compression]</code>. Each route inherits the vhost compression policy unless it declares <code>[vhosts.routes.compression]</code>. This lets one site enable compression while another site continues to serve identity responses, or lets a specific path prefix opt in or out:</p>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = &quot;docs&quot;
+hosts = [&quot;docs.example.com&quot;]
+
+[vhosts.compression]
+enabled = true
+gzip = true
+zstd = true
+brotli = false
+min_bytes = &quot;1KiB&quot;
+max_input_bytes = &quot;2MiB&quot;
+max_output_bytes = &quot;4MiB&quot;
+
+[[vhosts.routes]]
+name = &quot;uploads&quot;
+path_prefix = &quot;/wp-content/uploads/&quot;
+
+[vhosts.routes.proxy]
+upstream = &quot;127.0.0.1:8080&quot;
+
+[vhosts.routes.compression]
+enabled = true
+gzip = true
+zstd = true
+min_bytes = &quot;1KiB&quot;
+max_input_bytes = &quot;2MiB&quot;
+max_output_bytes = &quot;4MiB&quot;</code></pre>
+<p>The compression path compresses only eligible <code>GET</code> responses with known <code>Content-Length</code>, status <code>200</code>, a matching client <code>Accept-Encoding</code>, no existing <code>Content-Encoding</code>, no <code>Set-Cookie</code>, no request <code>Cookie</code> or <code>Authorization</code>, no <code>Content-Range</code>, no <code>Cache-Control: no-transform</code>, and a conservative text, JavaScript, JSON, XML, or SVG media type. Fluxheim prefers <code>br</code>, then <code>zstd</code>, then <code>gzip</code> when those codecs are enabled and accepted by the client. Fluxheim removes <code>Content-Length</code> and <code>ETag</code> from compressed responses and adds <code>Vary: Accept-Encoding</code>.</p>
+<p><code>min_bytes</code> and <code>max_input_bytes</code> bound the original response size. <code>max_output_bytes</code> bounds the encoded response size. The configured input maximum cannot exceed 64 MiB and the output maximum cannot exceed 128 MiB. <code>gzip_level</code> must be between <code>0</code> and <code>9</code>, <code>zstd_level</code> between <code>1</code> and <code>19</code>, and <code>brotli_quality</code> between <code>0</code> and <code>11</code>.</p>
 <h2 id="web">Web</h2>
 <pre class="language-toml"><code class="language-toml">[web]
 root = &quot;/srv/sites/example&quot;
@@ -550,7 +689,11 @@ require_disk_cache_encryption = false
 
 [[tls.certificates]]
 cert_path = &quot;tls/fullchain.pem&quot;
-key_path = &quot;tls/key.pem&quot;</code></pre>
+key_path = &quot;tls/key.pem&quot;
+
+[tls.client_auth]
+mode = &quot;off&quot;
+# ca_path = &quot;tls/client-ca.pem&quot;</code></pre>
 <p>TLS backend values: <code>rustls</code>, <code>openssl</code>, <code>boringssl</code>, <code>s2n</code>.</p>
 <p>Exactly one matching TLS compile-time feature should be selected: <code>tls-rustls</code>, <code>tls-openssl</code>, <code>tls-boringssl</code>, or <code>tls-s2n</code>. The default build uses <code>tls-rustls</code>.</p>
 <p>TLS policy values:</p>
@@ -578,6 +721,11 @@ enabled = true
 cert_path = &quot;tls/example-fullchain.pem&quot;
 key_path = &quot;tls/example-key.pem&quot;</code></pre>
 <p>Fluxheim selects vhost certificates by SNI using the vhost <code>hosts</code> list, including one-label wildcards such as <code>*.api.example.test</code>. The default rustls build supports this through a rustls certificate resolver. Callback-capable TLS backends use their native certificate callback APIs. TLS backends without SNI certificate selection support reject vhost-specific certificates at startup instead of silently serving the default certificate. The global <code>[[tls.certificates]]</code> table is capped at 1024 certificate pairs.</p>
+<p>Downstream client certificate authentication is configured globally for TLS listeners:</p>
+<pre class="language-toml"><code class="language-toml">[tls.client_auth]
+mode = &quot;required&quot; # &quot;off&quot;, &quot;optional&quot;, or &quot;required&quot;
+ca_path = &quot;/etc/fluxheim/tls/client-ca.pem&quot;</code></pre>
+<p><code>mode = &quot;required&quot;</code> rejects TLS handshakes that do not present a certificate chain trusted by <code>ca_path</code>. <code>mode = &quot;optional&quot;</code> asks for a client certificate and verifies it when present, but still accepts clients without one. The CA bundle path uses the same safe-path validation as other TLS files: no parent-directory traversal, no symlinked path components, and no group- or world-writable existing parent directory. The current implementation wires rustls and OpenSSL/BoringSSL listeners. The s2n backend fails closed when client auth is enabled until Fluxheim exposes panic-free CA bundle loading for that backend. Verified client-certificate identity can be forwarded explicitly with request header templates such as <code>{tls.client_cert_sha256}</code>. Route decisions based on certificate identity remain future work; do not rely on client-cert attributes for routing or authorization unless a later release documents that exact policy surface.</p>
 <p>Release validation must still scan every release candidate with a TLS scanner before publishing a stable release.</p>
 <h3 id="fips-iso-capable-tls-guard">FIPS / ISO-Capable TLS Guard</h3>
 <p><code>[tls.fips] required = true</code> is accepted by the config schema as a fail-closed guard for FIPS/ISO-capable TLS builds. <code>[tls.iso19790] required = true</code> is an ISO/IEC 19790 terminology alias for the same validated-provider enforcement path. Neither setting is a blanket FIPS or ISO/IEC 19790 compliance claim. When enabled, Fluxheim rejects non-NIST or unproven groups such as <code>X25519</code> and <code>X25519MLKEM768</code>, rejects non-approved cipher choices such as ChaCha20 suites, and requires a backend-specific proof path.</p>
@@ -676,6 +824,28 @@ upstream_tls = false
 [vhosts.headers.response.add]
 access-control-allow-origin = &quot;https://example.test&quot;
 
+[vhosts.access]
+allow = [&quot;198.51.100.0/24&quot;, &quot;2001:db8:100::/48&quot;]
+deny = [&quot;198.51.100.66&quot;]
+require_client_cert = false
+allow_client_cert_sha256 = []
+deny_client_cert_sha256 = []
+
+[vhosts.rate_limit]
+enabled = true
+requests_per_second = 50
+burst = 100
+mode = &quot;nodelay&quot;
+status = 429
+reject_indeterminate = false
+
+[vhosts.concurrency]
+enabled = true
+max_in_flight = 256
+max_queue = 1024
+queue_timeout_ms = 0
+status = 503
+
 # Second vhost. The tables below belong to api.example.test.
 [[vhosts]]
 name = &quot;api.example.test&quot;
@@ -685,11 +855,15 @@ hosts = [&quot;api.example.test&quot;, &quot;*.api.example.test&quot;]
 upstreams = [&quot;127.0.0.1:4000&quot;, &quot;127.0.0.1:4001&quot;]
 upstream_tls = false</code></pre>
 <p>Hostnames are normalized to lower case. Duplicate hosts are rejected. A single left-most wildcard label is supported, for example <code>*.api.example.test</code>. The config is capped at 1024 vhosts; each vhost may define up to 64 host aliases and 256 routes. <code>max_request_body_bytes</code> is optional on a vhost and overrides the global <code>server.limits.max_request_body_bytes</code> for that host. Route-level <code>max_request_body_bytes</code> still wins when a matching route sets its own limit.</p>
+<p><code>[vhosts.access]</code> and <code>[vhosts.routes.access]</code> provide the first <code>1.4</code> ACL surface. IP rules accept exact IP addresses or CIDR ranges. <code>deny</code> entries win first. When <code>allow</code> is non-empty, the effective client IP must match at least one allow entry. The effective client IP is the direct peer address unless the direct peer matches <code>server.trusted_proxies</code>; only then does Fluxheim inspect <code>X-Forwarded-For</code> recursively. Client-certificate rules use the verified downstream certificate SHA-256 fingerprint exposed by the TLS backend. <code>require_client_cert = true</code> rejects requests without a verified client certificate, <code>deny_client_cert_sha256</code> rejects matching fingerprints, and <code>allow_client_cert_sha256</code> restricts access to the listed fingerprints when it is non-empty. Fingerprints are 64-character hex SHA-256 values and are matched case-insensitively. A vhost policy is evaluated before any matching route policy, so route ACLs can further restrict traffic but cannot bypass a vhost-level denial. With metrics enabled, ACL denials are counted by <code>fluxheim_edge_policy_events_total</code> with bounded labels.</p>
+<p><code>[vhosts.rate_limit]</code> and <code>[vhosts.routes.rate_limit]</code> enable local token-bucket request limiting. The first implementation keys by the same trusted-proxy-aware client IP used for ACLs. <code>requests_per_second</code> sets the refill rate, <code>burst</code> sets the bucket capacity, and <code>status</code> controls the rejection status. <code>mode = &quot;nodelay&quot;</code> consumes burst capacity immediately and rejects once the bucket is empty. <code>mode = &quot;delay&quot;</code> reserves future tokens and sleeps the request up to <code>max_delay_ms</code>; if the backlog would exceed that bounded delay budget, Fluxheim rejects instead of queueing indefinitely. If <code>burst</code> is omitted or zero, Fluxheim uses <code>requests_per_second</code> as the burst. State is bounded by <code>table_max_entries</code> and stale entries are pruned after <code>entry_ttl_secs</code>. Vhost limits are checked before route limits. If Fluxheim cannot determine an effective client IP, the request uses one shared anonymous bucket for that vhost or route; do not rely on anonymous-IP rate limiting as the only protection for sensitive internal paths. Set <code>reject_indeterminate = true</code> to reject those requests instead of placing them in the shared bucket. With metrics enabled, delayed and rejected rate-limit decisions are counted by <code>fluxheim_edge_policy_events_total</code> with bounded labels.</p>
+<p><code>[vhosts.concurrency]</code> and <code>[vhosts.routes.concurrency]</code> cap active in-flight requests. They are local process limits, not distributed cluster limits. <code>max_in_flight</code> sets the active request budget and <code>status</code> controls the rejection status when the budget is exhausted. <code>queue_timeout_ms = 0</code> rejects immediately. A positive <code>queue_timeout_ms</code> lets Fluxheim wait briefly for a permit before rejecting. <code>max_queue</code> caps waiting requests; <code>0</code> derives a bounded default from <code>max_in_flight</code>. Vhost permits are acquired before route permits and are released automatically when the request finishes. With metrics enabled, concurrency-limit rejections are counted by <code>fluxheim_edge_policy_events_total</code> with bounded labels.</p>
 <p>Vhosts can also contain ordered route tables. Exact matches win first, then the longest prefix match, then one optional fallback route. A route must define one action: <code>redirect</code>, <code>proxy</code>, <code>web</code>, or <code>php</code>.</p>
 <pre class="language-toml"><code class="language-toml">[[vhosts.routes]]
 name = &quot;chat&quot;
 path_prefix = &quot;/chat/&quot;
 strip_prefix = &quot;/chat/&quot;
+rewrite_prefix = &quot;/backend/chat/&quot;
 max_request_body_bytes = &quot;64MiB&quot;
 
 [vhosts.routes.proxy]
@@ -697,6 +871,10 @@ upstreams = [&quot;127.0.0.1:6012&quot;]
 connect_timeout_secs = 5
 read_timeout_secs = 600
 send_timeout_secs = 600
+
+[vhosts.routes.grpc]
+enabled = false
+require_content_type = true
 
 [vhosts.routes.cache]
 enabled = true
@@ -873,7 +1051,8 @@ send_timeout_secs = 30
 enabled = true
 to = &quot;https://example.test{uri}&quot;
 status = 308</code></pre>
-<p><code>strip_prefix</code> is useful when a backend or alias root should receive <code>/room</code> instead of <code>/chat/room</code>. Redirect targets must be absolute <code>http://</code> or <code>https://</code> templates and may use <code>{uri}</code>, <code>{path}</code>, and <code>{query}</code>. Use <code>max_request_body_bytes</code> on a route to narrow or expand the vhost or global body limit for uploads handled by that route. Proxy actions accept <code>connect_timeout_secs</code>, <code>read_timeout_secs</code>, and <code>send_timeout_secs</code>; route proxy timeout values override the vhost/global proxy timeout values because the route owns its own proxy action.</p>
+<p><code>strip_prefix</code> is useful when a backend or alias root should receive <code>/room</code> instead of <code>/chat/room</code>. Add <code>rewrite_prefix</code> when the stripped suffix should be attached to an upstream path prefix, for example <code>/chat/room?id=7</code> to <code>/backend/chat/room?id=7</code>; it must be paired with <code>strip_prefix</code> and must be an absolute safe path. Redirect targets must be absolute <code>http://</code> or <code>https://</code> templates and may use <code>{uri}</code>, <code>{path}</code>, and <code>{query}</code>. Use <code>max_request_body_bytes</code> on a route to narrow or expand the vhost or global body limit for uploads handled by that route. Proxy actions accept <code>connect_timeout_secs</code>, <code>read_timeout_secs</code>, and <code>send_timeout_secs</code>; route proxy timeout values override the vhost/global proxy timeout values because the route owns its own proxy action.</p>
+<p><code>[vhosts.routes.grpc]</code> is disabled by default and is valid only on proxy routes. When enabled, the route proxy must set <code>upstream_http_version = &quot;http2&quot;</code> or <code>&quot;http1-and-http2&quot;</code>, cache must remain disabled for that route, and <code>require_content_type</code> must stay <code>true</code>. This is a pass-through compatibility policy: Fluxheim preserves HTTP/2 proxying behavior and rejects obvious non-gRPC requests before forwarding, but it does not transcode gRPC-Web or JSON to gRPC.</p>
 <p>For PHP actions, <code>max_request_body_bytes</code> bounds the request sent to php-fpm and <code>max_response_bytes</code> bounds the FastCGI STDOUT/STDERR bytes accepted from php-fpm before Fluxheim rejects the response. Set <code>php.request_body_spool_threshold_bytes</code> with <code>php.request_body_spool_dir</code> to spill larger request bodies to an owner-safe temporary file before php-fpm dispatch. This keeps <code>CONTENT_LENGTH</code> exact for FastCGI and lets retries replay the same upload without cloning a large memory buffer; both spool settings must be configured together, and the spool file is removed when the request completes. When <code>php.max_request_body_bytes</code> is set on the same PHP action, the spool threshold must be lower than that body limit. Existing spool paths must be directories, and existing directories must not be group/world writable. Fluxheim rechecks those permissions after creating a missing spool directory and before writing upload bodies. <code>php.fpm_root</code> optionally rewrites <code>DOCUMENT_ROOT</code>, <code>SCRIPT_FILENAME</code>, and <code>PATH_TRANSLATED</code> for separate php-fpm container filesystem roots while Fluxheim still checks scripts under <code>php.root</code>. <code>php.resolve_root_symlink = true</code> allows Caddy-style/current-release deploy layouts where the final <code>php.root</code> path is a symlink. The default is false. When enabled, Fluxheim resolves that final symlink at startup and still rejects parent-directory traversal, symlinked parent directories, and unsafe writable parents; script resolution and static offload continue to run under the canonical target root. <code>php.max_response_header_bytes</code> caps the CGI-style response header block before body parsing and defaults to <code>64KiB</code>. <code>php.deny_path_prefixes</code> rejects PHP script execution for configured absolute URI path prefixes before php-fpm is contacted. Use it for WordPress-style media directories such as <code>/wp-content/uploads/</code> where uploaded PHP files must never execute. This is defense in depth on top of filesystem permissions; it blocks Fluxheim&#x27;s PHP execution path for matching URI prefixes even if a writable upload directory accidentally contains a <code>.php</code> file. The list is capped at 128 prefixes. <code>php.allowed_extensions</code> is capped at 16 plain extension names and rejects case-insensitive duplicates. <code>php.preset = &quot;wordpress&quot;</code> applies PHP-side WordPress migration defaults: it uses the WordPress front-controller mode when <code>try_files</code> is otherwise unset and adds deny prefixes for common upload/file directories such as <code>/wp-content/uploads/</code> and <code>/files/</code>. <code>php.try_files</code> is a typed replacement for common <code>try_files</code> recipes: <code>front-controller</code> keeps the default <code>/index.php</code> fallback, <code>wordpress</code> is an explicit alias for WordPress-style front-controller sites, and <code>strict</code> behaves like <code>try_files $uri =404</code> for PHP execution while still allowing static files to be served by <code>[vhosts.web]</code>. <code>php.path_info</code> defaults to <code>disabled</code>; set it to <code>split</code> only for applications that expect safe trailing <code>PATH_INFO</code> after an explicit PHP script such as <code>/index.php/user/1</code>. The older <code>strict</code> spelling is accepted as an alias for <code>split</code>. <code>php.fpm.connect_timeout_secs</code> caps connecting to php-fpm and is also bounded by <code>php.request_timeout_secs</code>. <code>read_timeout_secs</code> and <code>write_timeout_secs</code> currently act as stricter caps on the buffered FastCGI request phase; the shortest of <code>php.request_timeout_secs</code>, <code>php.fpm.read_timeout_secs</code>, and <code>php.fpm.write_timeout_secs</code> is used until the future streaming FastCGI path can enforce separate per-direction timeouts. <code>php.pass_request_headers</code> controls whether safe inbound request headers are translated to CGI <code>HTTP_*</code> params. <code>php.server_port</code> can override CGI <code>SERVER_PORT</code>; when omitted, Fluxheim uses an explicit port from the request <code>Host</code> authority and otherwise falls back to <code>443</code> for TLS or <code>80</code> for cleartext. <code>php.pass_request_body</code> controls whether the HTTP request body is sent to php-fpm; when disabled, Fluxheim still drains and limits the downstream body but sends <code>CONTENT_LENGTH=0</code> and an empty FastCGI stdin. <code>php.stderr_log</code> controls whether FastCGI STDERR is written to Fluxheim logs. <code>php.stderr_log_level</code> controls the emitted log level and accepts <code>error</code>, <code>warn</code>, <code>info</code>, or <code>debug</code>; the default is <code>warn</code>. <code>php.stderr_max_bytes</code> bounds each logged STDERR message and defaults to <code>2KiB</code>; larger output is sanitized and marked as truncated. <code>php.stderr_failure_patterns</code> is a default-empty list of literal ASCII-safe substrings. If any configured pattern appears in FastCGI STDERR, Fluxheim treats the PHP response as invalid. With <code>php.fpm.retry_invalid_response = true</code>, this can fail over safe methods to another php-fpm upstream for fatal PHP runtime failures such as <code>PHP Fatal error:</code>. Matching STDERR is still sanitized, bounded by <code>php.stderr_max_bytes</code>, and logged when <code>php.stderr_log</code> is enabled before Fluxheim rejects the response. Up to 32 patterns are allowed, each 1 to 512 bytes without ASCII control characters. <code>php.hide_response_headers</code> removes selected headers emitted by php-fpm before Fluxheim applies the normal response header policy. This is useful for NGINX-style migrations that hide <code>X-Powered-By</code> or other backend-only headers. The list is case-insensitively deduplicated and capped at 64 header names. <code>php.ignore_origin_cache_headers</code> removes PHP-generated <code>Cache-Control</code>, <code>Expires</code>, and <code>Pragma</code> response headers after Fluxheim has consumed internal PHP control headers. It defaults to <code>false</code>; use response header policy to set replacement cache directives when needed. Fluxheim consumes PHP <code>X-Accel-Redirect</code> and <code>X-Sendfile</code> headers for PHP-assisted static offload instead of forwarding them to clients. <code>X-Accel-Redirect</code> targets are internal URI paths resolved under <code>php.root</code>; <code>X-Sendfile</code> targets are absolute filesystem paths resolved under <code>php.root</code>, and are mapped from <code>php.fpm_root</code> for split-container layouts. Fluxheim refuses to offload files with configured PHP script extensions. Fluxheim also consumes PHP <code>X-Accel-Expires</code> control headers instead of forwarding them to clients. Positive TTLs become normal <code>Cache-Control</code> and <code>Expires</code> headers; responses with <code>Set-Cookie</code> use <code>private</code> cache directives, and zero or past expiries become <code>no-store, private</code>. Fluxheim always strips hop-by-hop php-fpm response headers such as <code>Connection</code>, <code>Transfer-Encoding</code>, and headers named by <code>Connection</code> before it frames the client response. <code>php.intercept_error_statuses</code> is an explicit <code>fastcgi_intercept_errors</code>-style status list. When PHP returns one of those 4xx/5xx statuses, Fluxheim discards the PHP response body and sends a Fluxheim-generated error response instead. It defaults to an empty list so PHP applications keep their normal error pages unless the operator opts in. The status list is capped at the valid 400-599 error-status range and cannot contain duplicates. <code>[[vhosts.php.error_pages]]</code> and <code>[[vhosts.routes.php.error_pages]]</code> are internal static fallback pages for selected PHP statuses. A configured error page also intercepts that status; if the static page cannot be served, Fluxheim falls back to its generated error response. Use this for NGINX-style <code>fastcgi_intercept_errors</code> migrations where PHP 502/503/504 responses should never expose backend details. PHP error-page lists are capped at 64 entries and cannot contain duplicate statuses. When a slashless request resolves to a directory PHP index, Fluxheim returns a canonical <code>308</code> redirect before executing the script, for example <code>/blog</code> to <code>/blog/</code> when <code>/blog/index.php</code> exists. <code>max_response_bytes</code> defaults to <code>64MiB</code>; set a smaller value on memory-constrained or high-assurance edge nodes. Because PHP responses are currently buffered, the configured value is capped at <code>64MiB</code>. Use <code>X-Accel-Redirect</code> or <code>X-Sendfile</code> for large files so Fluxheim can serve the static asset path instead of buffering PHP output. <code>php.fpm.keepalive</code> enables FastCGI keep-connection reuse with an idle pool capped by <code>php.fpm.pool_max_idle</code>; it is off by default for conservative compatibility. Use either <code>php.fpm.socket</code>, <code>php.fpm.tcp</code>, or <code>php.fpm.tcp_upstreams</code>; the endpoint modes are mutually exclusive. <code>tcp_upstreams</code> enables round-robin TCP selection and conservative failover across configured php-fpm backends. The <code>tcp_upstreams</code> list is capped at 64 entries and rejects duplicate authorities. When enabled, stale idle entries older than <code>php.fpm.idle_timeout_secs</code> are discarded before reuse. <code>pool_max_idle</code> must be between 1 and 1024 when keepalive is enabled. <code>php.fpm.max_retries</code> defaults to <code>0</code>; when set, Fluxheim retries only connection failures and connect timeouts for configured <code>php.fpm.retry_methods</code> before php-fpm has returned a response. <code>php.fpm.retry_timeout_secs</code> optionally caps the total retry window for one PHP request. With <code>tcp_upstreams</code>, Fluxheim tries enough endpoints to cover the configured list for safe methods even when <code>max_retries = 0</code>. Request timeouts are not retried to avoid duplicating side effects. <code>php.fpm.retry_invalid_response</code> and <code>php.fpm.retry_statuses</code> extend the same safe-method retry policy to malformed FastCGI responses and selected PHP 5xx responses. They default to disabled; configure them only for idempotent request methods where replaying the PHP request is acceptable. <code>php.fpm.retry_methods</code> is capped at 16 uppercase safe-method tokens and only accepts <code>GET</code>, <code>HEAD</code>, <code>OPTIONS</code>, and <code>TRACE</code>; <code>php.fpm.retry_statuses</code> is capped at the valid 500-599 server-error status range. <code>[vhosts.php.params]</code> or <code>[vhosts.routes.php.params]</code> adds administrator-controlled FastCGI parameters such as <code>APP_ENV</code> or <code>PHP_VALUE</code>; Fluxheim rejects unsafe names, control-character values, and core CGI parameters that it owns, including <code>SCRIPT_FILENAME</code>, <code>CONTENT_LENGTH</code>, <code>HTTPS</code>, and all <code>HTTP_*</code> request-header parameters. Custom parameter tables are capped at 128 entries; each parameter name is capped at 128 bytes and each value at 16KiB. <code>PHP_VALUE</code> and <code>PHP_ADMIN_VALUE</code> are powerful php-fpm controls; Fluxheim logs high-risk warnings when they mention directives such as <code>open_basedir</code>, <code>disable_functions</code>, <code>allow_url_include</code>, or <code>allow_url_fopen</code>, and logs an error-level warning if <code>PHP_ADMIN_VALUE</code> overrides <code>disable_functions</code>.</p>
 <p><code>[vhosts.routes.cache]</code> is optional. When present, it replaces the vhost cache policy for that matched route only. Routes without a cache block continue to use the vhost cache policy, so selective caches can cover paths such as <code>/assets/</code>, <code>/avatars/</code>, or repository image content without caching every backend response.</p>
 <p>When global <code>[server.https_redirect]</code> is enabled, non-redirect routes are redirected on cleartext requests by default. <code>[vhosts.acme_challenge]</code> creates the standard HTTP-01 <code>/.well-known/acme-challenge/</code> proxy route and exempts only that path. Advanced route configs can still use <code>https_redirect_exempt = true</code> for deliberate non-ACME cleartext exceptions. Use either <code>upstream = &quot;host:port&quot;</code> or <code>upstreams = [&quot;host:port&quot;]</code>; do not set both. The helper accepts the same <code>upstream_tls</code> and upstream timeout fields as normal proxy actions. ACME challenge upstream lists are capped at 64 entries and reject duplicates case-insensitively.</p>

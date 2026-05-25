@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -86,10 +86,10 @@
 <pre class="language-text"><code class="language-text">/var/lib/fluxheim/snapshots
 ├── current
 └── configs
-    ├── s1777900000-123456789-1200.toml
-    └── s1777900000-123456789-1200.meta.toml</code></pre>
+    ├── s1777900000-123456789-42.toml
+    └── s1777900000-123456789-42.meta.toml</code></pre>
 <p><code>current</code> contains the active snapshot id. Fluxheim uses an atomically replaced pointer file instead of a symlink. A symlink swap is a good Linux-only design, but the pointer file keeps the store straightforward in rootless Podman, restricted volume mounts, and non-Unix development environments while still using write-temp-and-rename semantics.</p>
-<p>Snapshot config files contain the validated effective config, written back as TOML. Metadata files contain the snapshot id, creation time, and optional operator message. Operator messages are trimmed and limited to 4096 bytes of non-control text before they are written or loaded.</p>
+<p>Snapshot config files contain the validated effective config, written back as TOML. Metadata files contain the snapshot id, creation time, and optional operator message. Operator messages are trimmed and limited to 4096 bytes of non-control text before they are written or loaded. Generated snapshot ids contain Unix time plus a process-local sequence; they do not include the Fluxheim process id.</p>
 <p>The store is deliberately conservative about filesystem indirection. Snapshot ids may only contain ASCII letters, digits, <code>_</code>, and <code>-</code>, and are limited to 128 bytes; the store root cannot contain <code>..</code> or sit below a symlinked parent directory; the store root and <code>configs</code> directory must be real directories; the <code>configs</code> directory must remain inside the snapshot store; and <code>current</code>, snapshot TOML files, and metadata TOML files are opened as regular files. Symlinked store roots, pointer, config, metadata, or <code>configs</code> paths are rejected so a rollback cannot be redirected to an operator-unapproved file. Atomic writes also require an already validated real parent directory and will not replace a symlinked destination. Snapshot reads are bounded: <code>current</code> is limited to 4 KiB and snapshot TOML/metadata reads are limited to 16 MiB. Snapshot stores are limited to 1024 snapshots; operators should export or prune old snapshots before that limit.</p>
 <p>On Unix, Fluxheim normalizes the snapshot store root and <code>configs</code> directory to mode <code>0700</code>, and writes <code>current</code>, config snapshots, and metadata snapshots as mode <code>0600</code>. Operators should still run the service with a restrictive umask such as <code>0077</code> or <code>0027</code> as defense in depth for any future state files.</p>
 <h2 id="commands">Commands</h2>
@@ -102,7 +102,7 @@
 <p>Move the current pointer back to the previous snapshot:</p>
 <pre class="language-bash"><code class="language-bash">fluxheim rollback --store /var/lib/fluxheim/snapshots</code></pre>
 <p>Move to a specific snapshot:</p>
-<pre class="language-bash"><code class="language-bash">fluxheim rollback --store /var/lib/fluxheim/snapshots --to s1777900000-123456789-1200</code></pre>
+<pre class="language-bash"><code class="language-bash">fluxheim rollback --store /var/lib/fluxheim/snapshots --to s1777900000-123456789-42</code></pre>
 <p>Rollback updates the durable current pointer by default. Before applying a rollback to a live process, classify the change:</p>
 <pre class="language-bash"><code class="language-bash">fluxheim --reload-from /var/lib/fluxheim/snapshots/configs/current.toml \
   --config /var/lib/fluxheim/snapshots/configs/target.toml</code></pre>
@@ -155,7 +155,7 @@ max_error_rate_per_mille = 100</code></pre>
 <p>Move the durable current pointer to a specific snapshot:</p>
 <pre class="language-bash"><code class="language-bash">curl -sS -X POST \
   -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
-  &quot;http://127.0.0.1:9090/_fluxheim/rollback?to=s1777900000-123456789-1200&quot;</code></pre>
+  &quot;http://127.0.0.1:9090/_fluxheim/rollback?to=s1777900000-123456789-42&quot;</code></pre>
 <p>Live-apply the previous snapshot when it is snapshot-safe:</p>
 <pre class="language-bash"><code class="language-bash">curl -sS -X POST \
   -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \

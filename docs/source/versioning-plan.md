@@ -1098,6 +1098,22 @@ certificate authentication, PROXY protocol, gRPC-safe HTTP/2 handling, traffic
 mirroring, dynamic upstream discovery, buffering/streaming controls, rewrite
 policy, and local operational visibility.
 
+Current parity estimate after the `1.4.0` proxy baseline:
+
+- Fluxheim is roughly 75-80% of the way to NGINX OSS parity for common
+  HTTP/HTTPS reverse-proxy, static-file, PHP-FPM, and edge-cache deployments.
+  The largest adoption blocker is regex routing with capture-aware rewrites;
+  `auth_request`-style external authorization is the next common migration
+  blocker.
+- Fluxheim is roughly 60-65% of the way to HAProxy parity for HTTP load
+  balancing. The remaining major gaps are TCP stream mode, stick-table-style
+  multidimensional tracking, runtime backend mutation/drain commands, and
+  composable ACL expressions.
+- Fluxheim is already ahead of the reference proxies in regulated-deployment
+  ergonomics: Rust memory safety, native OTLP, FIPS/ISO-capable TLS build
+  paths, BREACH-safe compression defaults, and config snapshot/self-healing
+  controls.
+
 Reference parity map:
 
 | Capability | Reference behavior | Fluxheim 1.4 target |
@@ -1113,11 +1129,17 @@ Reference parity map:
 | HTTP/3/QUIC | NGINX/Caddy/Envoy support | Track behind a protocol milestone; do not block 1.4 unless Pingora server support is stable enough |
 | Traffic mirroring | NGINX `mirror`, Envoy shadowing | Bounded shadow requests with body on/off, sampling, timeout, redaction, and no effect on primary response |
 | Dynamic discovery | Envoy xDS, Caddy dynamic upstreams, DNS/service integrations | DNS refresh and file-watched upstream lists first; xDS/Kubernetes/Consul later |
+| Regex routing and rewrites | NGINX `location ~`, named captures, `rewrite`; HAProxy regex ACLs | Rust `regex`-based route matchers, capture variables, and bounded rewrite/header templates |
+| External auth subrequest | NGINX `auth_request`, OAuth2 proxy patterns, Envoy external authz | Route/vhost auth subrequest policy with bounded header forwarding, timeout, response handling, and metrics |
+| Response and URI rewrites | NGINX `proxy_redirect`, Apache `ProxyPassReverse`, NGINX `proxy_cookie_domain`/`proxy_cookie_path`, NGINX `rewrite`/HAProxy path replace | Bounded `Location`, `Refresh`, `Set-Cookie` domain/path rewrites, route `strip_prefix`/`rewrite_prefix`, then regex/template rewrite policy |
+| Geo policy | NGINX GeoIP2 module, HAProxy maps/ACLs | Optional `geoip` feature using MaxMind DB for country/ASN variables, ACLs, and route selection |
+| TCP stream proxy | NGINX stream, HAProxy TCP mode | Separate stream feature with byte-copy proxying, TLS passthrough/SNI sniffing later, TCP metrics, and no HTTP semantics |
 | Extension hooks | NGINX/HAProxy Lua, Envoy Wasm | Typed policy inputs and hook points in 1.4; actual shared Wasm runtime remains 1.6 |
 
 Release shape:
 
-- `1.4.0` - edge policy and compression:
+- `1.4.0` - production proxy parity baseline:
+  - edge policy and compression:
   - local request-rate token bucket with burst, nodelay/delay modes, and
     configurable rejection status;
   - per-route, per-vhost, and per-listener connection limits and bounded queues;
@@ -1125,36 +1147,201 @@ Release shape:
   - response compression feature with gzip compatibility, zstd/brotli where
     supported, MIME/size allow-lists, concurrency and memory limits,
     privacy-mode rejection, and cache-safe `Vary` behavior.
-- `1.4.1` - upstream selection and resilience:
+  - response `Location` and `Refresh` prefix rewrite rules are implemented
+    under `headers.response.rewrite` for common `proxy_redirect` /
+    `ProxyPassReverse` migrations. `Set-Cookie` `Domain=` and `Path=` rewrites
+    are implemented under the same response rewrite policy. Route
+    `rewrite_prefix` is implemented for bounded public-prefix to upstream-prefix
+    URI mapping after `strip_prefix`; regex/template URI rewrites remain later
+    1.4 work.
+  - upstream selection and resilience:
   - named upstream pools and per-route pool selection;
   - weighted round-robin, least-connections, power-of-two choices, source hash,
     URI hash, header hash, and cookie stickiness;
   - retry/redispatch controls, retry budgets, idempotency-aware defaults, backup
     servers, drain, and slow-start;
   - passive health/outlier detection with consecutive failure, 5xx, timeout,
-    and latency ejection; active HTTP health checks may land here if they fit.
-- `1.4.2` - TLS, identity, and protocol parity:
+    and latency ejection; active HTTP health checks may land here if they fit;
+  - Prometheus now counts load-balanced selections, unavailable pools, retries,
+    and selected upstream success/failure outcomes through bounded vhost/route
+    labels. It also counts passive-health ejection transitions.
+    `proxy.upstream_aliases` now provides optional safe low-cardinality backend
+    labels for operator-facing metrics; richer per-backend health transition
+    metrics remain later work.
+  - TLS, identity, and protocol parity:
   - listener-level mTLS/client certificate auth with `off`, `optional`, and
-    `required` modes, safe CA file handling, and identity variables for logs,
-    headers, route policy, and admin hardening;
+    `required` modes plus safe CA file handling for rustls and
+    OpenSSL/BoringSSL is implemented. Verified downstream TLS/client
+    certificate identity can now be forwarded through explicit request header
+    templates such as `{tls.client_cert_sha256}` and is included in structured
+    access logs through bounded `tls_*` fields. Vhost and route access policies
+    can require a verified client certificate or allow/deny specific
+    certificate SHA-256 fingerprints. The admin control plane can also require
+    or allow/deny SHA-256 client-certificate fingerprints supplied by a trusted
+    TLS/mTLS terminator through `[admin.client_certificate]`. Remaining work is
+    s2n parity;
   - upstream TLS controls: SNI override, trust roots, upstream mTLS client cert,
     protocol/cipher policy where supported, and auditable insecure-skip-verify
-    behavior;
-  - PROXY protocol v1/v2 accept/send with explicit trust boundaries;
+    behavior. SNI override already existed; certificate verification, hostname
+    verification, alternative-CN controls, custom upstream trust roots, and
+    upstream mTLS client certificates are implemented for rustls, OpenSSL, and
+    BoringSSL. Remaining work is s2n parity and per-upstream protocol/cipher
+    policy;
+  - PROXY protocol v1/v2 accept/send with explicit trust boundaries. Listener
+    v1/v2 receive is implemented through `server.proxy_protocol` with mandatory
+    trusted-peer gating, and upstream v1/v2 send is implemented through
+    `proxy.upstream_proxy_protocol`. v2 support is conservative TCP4/TCP6 plus
+    LOCAL/UNSPEC only; TLV interpretation remains future work;
   - gRPC-safe HTTP/2 proxying for trailers, status, timeouts, body limits, and
-    streaming behavior. gRPC-Web/JSON transcoding remains out of scope unless a
-    mature crate or small adapter is justified.
-- `1.4.3` - discovery, mirroring, and operator hooks:
+    streaming behavior. Upstream HTTP version selection is implemented through
+    `proxy.upstream_http_version` with `http1`, `http2`, and
+    `http1-and-http2`, plus bounded h2 stream and ping controls. Route-scoped
+    `[vhosts.routes.grpc]` policy now validates gRPC pass-through routes by
+    requiring an HTTP/2-capable proxy action and rejecting obvious non-gRPC
+    requests before forwarding. Remaining work is explicit end-to-end h2
+    trailer/status fixture coverage. gRPC-Web/JSON transcoding remains out of
+    scope unless a mature crate or small adapter is justified.
+- `1.4.1` - HTTP migration blockers and proxy operations:
+  - stop line: ship only HTTP reverse-proxy migration blockers and read-only
+    operational visibility. Do not add GeoIP policy, advanced ACL expression
+    evaluation, stick-table tracking, runtime backend mutation, response body
+    substitution, TCP stream proxying, UDP proxying, HTTP/3, gRPC
+    transcoding, or arbitrary Wasm/Lua execution in `1.4.1`;
+  - regex path routing using Rust's `regex` crate. Matching order should be
+    exact routes first, then prefix routes, then configured regex routes in
+    documented order. Regex size limits and config-time compilation failures
+    are required; untrusted catastrophic-backtracking behavior is avoided by
+    the Rust regex engine design. Regex routing must be disabled by default
+    behind an explicit global config opt-in such as
+    `server.regex_enabled = true`; config validation must reject route regexes,
+    capture-aware rewrites, and regex-backed templates unless that global opt-in
+    is set. This keeps accidental high-cardinality or overly broad regex policy
+    out of normal prefix/exact-route deployments;
+  - named and numbered regex captures exposed as bounded typed variables for
+    `rewrite_prefix` successors, request-header templates, structured logs,
+    and future typed hooks. Capture variables must not become metric labels by
+    default;
+  - method-based route matching through `methods = ["GET", "HEAD"]`, with
+    config-time normalization and validation, so read/write routing can be
+    expressed without Lua or duplicated vhosts;
+  - WebSocket and generic HTTP/1.1 upgrade parity: explicit
+    `proxy.websocket = true` / upgrade policy, tested `101 Switching
+    Protocols` handling, hop-by-hop header behavior, timeout semantics, and
+    forced compression/cache bypass for upgraded connections;
+  - `auth_request`-style external authorization for vhosts and routes. The
+    first implementation should make one bounded HTTP subrequest before
+    forwarding, send only configured request headers, enforce connect/read
+    timeouts, treat 2xx as allow and 4xx/5xx as deny/error according to policy,
+    optionally copy allow-listed auth response headers into the upstream
+    request, and count decisions with low-cardinality metrics;
   - DNS-refreshing upstreams for container/service-name targets;
   - file-watched upstream lists for service discovery without full config reload;
   - traffic mirroring/shadowing with sampling, body controls, redaction,
     timeout budgets, and metrics;
-  - richer typed proxy variables and structured JSON access logs;
-  - route-scoped header, URI, `Location`, `Refresh`, and cookie rewrite policy;
+  - custom proxy error pages at vhost/route scope, loaded from safe filesystem
+    paths and used by fail-to-proxy/error-response paths;
+  - richer typed proxy variables and structured JSON access logs. Structured
+    access logs already include trusted-proxy-aware client IP, effective cache
+    phase, resolved vhost, route identity, and selected upstream address; OTLP
+    spans also use the resolved route identity; access logs and OTLP spans also
+    record Fluxheim-applied response compression encoding, and Prometheus
+    metrics count applied compression by bounded encoding;
+  - route-scoped regex/template rewrite policy. `Location`, `Refresh`, and
+    `Set-Cookie` response rewrites are already implemented through the
+    inherited response-header policy path, and route `rewrite_prefix` handles
+    simple upstream path-prefix mapping;
   - local Unix operational socket for read-only pool, queue, rate-limit,
     circuit, and mirror status;
   - typed hook points for future Wasm/Lua-like policy without executing plugins
     in 1.4.
+- `1.4.2` - advanced policy and HAProxy-style operations:
+  - stop line: ship advanced HTTP policy and backend operations only. Do not
+    add TCP stream listeners, TLS passthrough SNI routing, UDP proxying,
+    HTTP/3, gRPC transcoding, xDS/Kubernetes/Consul control planes, global
+    distributed rate-limit services, arbitrary Wasm/Lua execution, built-in
+    GeoIP database downloading, remote GeoIP lookup fallbacks, or impossible
+    travel/anomaly engines in `1.4.2`;
+  - optional `geoip` Cargo feature as a bounded Geo-Context foundation, not a
+    broad programmable geo engine. Use `maxminddb` for local MaxMind GeoIP2/ASN
+    databases, load database files with the same safe path rules used for other
+    operator-supplied files, and reload by atomically swapping an `Arc` on
+    config reload;
+  - expose GeoIP as typed request context, not spoofable inbound headers.
+    Initial fields are country ISO code and ASN; city/latitude/longitude should
+    stay out of the first stable surface unless an operator explicitly enables
+    them because they are more privacy-sensitive;
+  - use the typed geo context in route/access policy, request-header templates,
+    structured access logs, and OTLP span attributes. Metric labels must be
+    bounded to low-cardinality values such as country and policy decision;
+    never emit city, IP, or raw organization strings as default metric labels;
+  - privacy-mode behavior: either reject GeoIP entirely or restrict it to
+    policy-only country/ASN evaluation with no logs, trace attributes, headers,
+    or persisted request context. Decide before implementation and test both
+    compile-time and config-time behavior;
+  - defer GeoIP auto-update sidecars, ETag/Last-Modified URL polling, L1 lookup
+    caches, remote sidecar lookup fallbacks, adaptive rate-limit weighting,
+    programmable rhai/Wasm geo logic, and impossible-travel detection to `1.5`
+    or `1.6` after the typed context and policy model are stable;
+  - implementation order: define the typed geo context and privacy behavior
+    before adding policy consumers; wire it into ACL/routing decisions before
+    any load-balancer weighting; keep enterprise load-balancer operations in
+    `1.5` unless they are required to make the `1.4.2` ACL surface correct;
+  - advanced ACL composition with a small typed boolean expression AST:
+    `and`, `or`, `not`, plus leaf conditions for source IP, client certificate
+    fingerprint, method, path prefix, path regex, host, safe header values, and
+    optional geo fields. Keep existing flat allow/deny lists for compatibility;
+  - stick-table-style local tracking for HTTP requests: configurable keys
+    such as IP, header, cookie, or query parameter; counters for request rate,
+    connection count, bytes, selected status/error rate, and last-seen time;
+    TTL-bounded eviction; and conditions that integrate with the advanced ACL
+    evaluator;
+  - runtime backend management through the authenticated admin API and/or local
+    operational socket: drain, disable, enable, and weight changes first; adding
+    brand-new backends at runtime only after atomic pool replacement is proven;
+  - drain semantics tied to existing load-balanced connection permits, so a
+    drained backend stops receiving new selections while in-flight requests are
+    allowed to complete;
+  - NGINX `map`-style variable mapping after regex routing exists: exact and
+    regex match rules, bounded output variables such as `{map.lang}`, and no
+    arbitrary scripting;
+  - response body substitution as an explicit bounded feature, not a default:
+    text content types only, input/output size caps, ETag stripping, correct
+    interaction order with compression, and identity pass-through for bodies
+    above the configured limit.
+- `1.4.3` - TCP stream proxy foundation:
+  - stop line: ship L4 TCP stream proxy basics only. Do not add UDP proxying,
+    DNS-specific UDP load balancing, generic L7 policy on stream routes,
+    HTTP cache/compression/auth/PHP behavior on stream routes, xDS/Kubernetes
+    service discovery, or Wasm/Lua stream filters in `1.4.3`;
+  - compile-time feature separate from HTTP proxy if needed;
+  - port/listener-based stream routing to one or more upstreams, reusing the
+    load-balancer selection and health primitives where they are transport
+    neutral;
+  - bidirectional Tokio byte copy with half-close handling, idle/connect
+    timeout controls, per-direction byte counters, max connection limits, and
+    graceful drain behavior;
+  - upstream PROXY protocol send where configured, and listener-side PROXY
+    protocol receive only behind trusted peer rules;
+  - optional upstream TLS and upstream mTLS using the same safe certificate/key
+    loading model as HTTP upstream TLS;
+  - TLS passthrough SNI routing only as a later subfeature after a bounded
+    ClientHello parser and preread buffer limits are tested. SNI passthrough
+    must forward the original bytes unmodified after peeking;
+  - no HTTP headers, cache, auth subrequest, compression, or PHP behavior on
+    stream routes.
+
+Version discipline for the rest of `1.4.x`:
+
+- A version is releasable when every item above its stop line is either
+  implemented, explicitly documented as deferred, or removed from that version
+  before the release candidate. Do not keep adding adjacent parity requests to
+  the active version after that point.
+- Security fixes, correctness fixes, test coverage, docs, and release evidence
+  may still land inside the active version. New feature families must move to
+  the next planned version unless they are required to make an already-in-scope
+  item safe.
+- If a pentest uncovers a design gap in a not-yet-started feature family, record
+  it under the future version instead of expanding the current release.
 
 Stable scope:
 
@@ -1169,7 +1356,9 @@ Stable scope:
 - Per-vhost and per-route upstream connection controls:
   - max in-flight requests/connections for a route or upstream target;
   - bounded request queue with queue timeout, max depth, overflow action, and
-    low-cardinality queue metrics;
+    low-cardinality queue metrics. Prometheus now counts concurrency-limit
+    rejections through bounded edge-policy labels; queue wait/depth histograms
+    remain later work;
   - optional priority classes derived from safe request attributes such as
     route, method, authenticated policy result, or configured header allow-list;
   - async backpressure so slow or saturated upstreams do not force unbounded
@@ -1179,10 +1368,12 @@ Stable scope:
     configured variable;
   - burst, delay/nodelay, dry-run, and custom rejection status/body;
   - bounded state tables with TTL and eviction behavior;
-  - low-cardinality metrics only by default.
+  - low-cardinality metrics only by default. Prometheus now counts rate-limit
+    delay and rejection decisions through bounded edge-policy labels.
 - IP filtering and route ACLs:
   - ordered allow/deny CIDR lists;
   - trusted-proxy-aware source IP selection;
+  - Prometheus now counts ACL denials through bounded edge-policy labels;
   - explicit behavior for missing/invalid forwarded identity;
   - route/vhost/listener inheritance and clear deny status.
 - Response compression:
@@ -1194,10 +1385,17 @@ Stable scope:
   - disabled in privacy mode unless the policy proves no extra retention.
 - Upstream keepalive and connection-pool tuning beyond the existing global
   pool size:
-  - per-route pool limits;
-  - idle timeout;
-  - maximum reuse count or lifetime;
-  - clear behavior when upstream closes an idle pooled connection.
+  - upstream idle timeout is implemented through
+    `proxy.upstream_idle_timeout_secs`;
+  - total connection establishment timeout is implemented through
+    `proxy.upstream_total_connection_timeout_secs`;
+  - upstream TCP keepalive, Linux user timeout, receive-buffer size, DSCP, and
+    TCP Fast Open socket controls are implemented through `proxy.upstream_tcp_*`,
+    `proxy.upstream_tcp_recv_buffer_bytes`, `proxy.upstream_dscp`, and
+    `proxy.upstream_tcp_fast_open`;
+  - remaining work: per-route pool limits, maximum reuse count or lifetime, and
+    clear behavior documentation when an upstream closes an idle pooled
+    connection.
 - NGINX-style proxy buffering controls:
   - request buffering on/off;
   - response buffering on/off;
@@ -1246,8 +1444,10 @@ Stable scope:
   design, but `1.4` should make it proxy-route complete: timeout, header
   forwarding, allowed response headers, deny status, and metrics.
 - PROXY protocol support:
-  - accept Proxy Protocol v1/v2 on configured listeners;
-  - send Proxy Protocol to upstreams on configured routes;
+  - accept Proxy Protocol v1/v2 on configured listeners. Listener v1/v2 receive
+    is implemented through `server.proxy_protocol` with trusted peer gating;
+  - send Proxy Protocol to upstreams on configured routes. Upstream v1/v2 send
+    is implemented through `proxy.upstream_proxy_protocol`;
   - validate trust boundaries before restoring client identity.
 - Dynamic service discovery:
   - DNS refresh for upstream hostnames with TTL/refresh controls;
@@ -1255,17 +1455,13 @@ Stable scope:
   - strict validation before replacing an active pool;
   - later xDS/Kubernetes/Consul support only after the local discovery model is
     stable.
-- TCP stream proxy foundation:
-  - compile-time feature separate from HTTP proxy if needed;
-  - safe listener and upstream config;
-  - byte counters, idle timeout, connect timeout, and max connection limits;
-  - no HTTP header/cache/admin behavior on stream routes.
-- UDP proxy foundation if it can be bounded safely:
-  - session table with TTL and max entries;
-  - per-source and global rate/byte limits;
-  - explicit DNS/gaming/IoT examples only after smoke tests;
-  - no claim of load balancing until the `1.5` load-balancer line owns
-    multi-upstream UDP policy.
+- TCP stream proxy foundation is tracked as `1.4.3`, not as part of the HTTP
+  proxy runtime. It should reuse listener/TLS/load-balancer building blocks
+  where possible but remain a separate stream feature with no HTTP semantics.
+- UDP proxying is deliberately deferred. Pingora does not provide UDP support,
+  and raw UDP forwarding needs a session/NAT table, affinity model, and
+  protocol-specific health semantics. Do not build it until a concrete DNS,
+  syslog, DTLS, gaming, or IoT requirement justifies the extra surface.
 - Richer proxy variables for logging, headers, and future Wasm inputs:
   - upstream connect time, first-byte time, response time, selected target,
     retry count, queue time, TLS protocol/cipher, request ID, vhost, route,
@@ -1316,10 +1512,14 @@ Out of scope for `1.4`:
 - Full Envoy-style global rate-limit service, xDS control plane, Kubernetes
   controller, Consul integration, gRPC-Web transcoding, gRPC-JSON transcoding,
   and HTTP/3/QUIC are tracked as later work unless a low-risk subset becomes
-  available through existing dependencies.
+  available through existing dependencies. HTTP/3/QUIC is specifically
+  upstream-blocked until Pingora exposes stable server-side QUIC support.
 - Arbitrary Lua/Wasm script execution. `1.4` should define typed hook points and
   bounded policy surfaces; the shared Wasm runtime remains a separate `1.6`
   line.
+- HTTP/2 server push should be skipped permanently unless the browser ecosystem
+  reverses course; mainstream clients removed or never enabled it, so it is not
+  a useful parity target.
 - Cache engine work already completed in `1.2.x`, except where proxy buffering
   and streaming behavior must integrate correctly with cache admission.
 
@@ -1328,9 +1528,11 @@ Exit criteria:
 - HAProxy/NGINX migration fixtures cover queue limits, queue timeout,
   backpressure, local rate limits, connection limits, IP ACLs, compression,
   request/response buffering, upstream keepalive, advanced selection policies,
-  passive health/outlier ejection, mTLS client-auth, WebSocket, gRPC, request
-  mirroring, PROXY protocol receive/send, external auth request, variable
-  logging, and TCP stream proxy basics.
+  passive health/outlier ejection, mTLS client-auth, WebSocket, gRPC, regex
+  routing, method routing, request mirroring, PROXY protocol receive/send,
+  external auth request, variable logging, advanced ACL composition, GeoIP
+  policy when compiled, runtime backend drain/disable/enable, and TCP stream
+  proxy basics.
 - Memory usage remains bounded under slow client, slow upstream, large upload,
   large download, compressed-response, rate-limit abuse, and upstream stall
   tests.
@@ -1384,8 +1586,8 @@ Stable scope:
   - HTTP/1.1 and HTTP/2 request-aware pools;
   - gRPC-aware HTTP/2 pools where trailers/status handling is preserved;
   - TCP stream pools built on the `1.4` stream-proxy foundation;
-  - UDP session pools only if the `1.4` UDP proxy foundation proves bounded
-    and observable;
+  - UDP session pools only after a concrete post-`1.4` requirement proves raw
+    UDP forwarding can be bounded and observable;
   - HTTP/3/QUIC remains a later protocol milestone unless the QUIC ingress
     stack is already stable before `1.5`.
 - Multiple upstreams per pool with safe address validation and per-upstream
@@ -2681,9 +2883,22 @@ the exception while the cache server is being completed as a focused sequence:
   workflow.
 - `v1.3.7`: managed php-fpm process supervision under the existing `php-fpm`
   feature.
-- `v1.4.0` through `v1.4.3`: production proxy parity in a few larger releases:
-  edge policy/compression, upstream resilience, TLS/protocol parity, then
-  discovery/mirroring/operator hooks.
+- `v1.4.0`: production proxy parity baseline: edge policy/compression,
+  upstream resilience, TLS/protocol parity, mTLS/client certificate policy,
+  PROXY protocol, upstream TLS controls, HTTP/2 origin controls, and gRPC
+  pass-through policy.
+- `v1.4.1`: discovery, mirroring, structured logs, richer rewrite policy,
+  regex and method routing, WebSocket/upgrade verification, auth subrequests,
+  local operational sockets, and typed operator hook points.
+- `v1.4.2`: optional bounded Geo-Context foundation, advanced ACL composition,
+  local stick-table-style tracking, runtime backend management, map-style
+  variables, and bounded response body substitution. GeoIP scope stops at local
+  MMDB country/ASN context, privacy controls, route/access decisions, and
+  bounded observability; dynamic database downloaders, remote lookup sidecars,
+  programmable geo logic, and anomaly engines are later work.
+- `v1.4.3`: TCP stream proxy foundation with separate stream semantics,
+  listener/upstream trust boundaries, metrics, and optional TLS passthrough SNI
+  routing only after a bounded ClientHello parser is proven.
 - `v1.5.1`: fixes for enterprise load-balancer operations.
 - `v1.6.1`: fixes for the shared Wasm extensibility runtime.
 

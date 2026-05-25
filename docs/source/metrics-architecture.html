@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -165,6 +165,9 @@ metrics-advanced = [&quot;metrics&quot;]</code></pre>
 <li><code>fluxheim_cache_purger_runs_total{outcome}</code></li>
 <li><code>fluxheim_cache_purger_entries_total{result}</code></li>
 <li><code>fluxheim_cache_purger_duration_seconds{outcome}</code></li>
+<li><code>fluxheim_edge_policy_events_total{scope,vhost,route,policy,outcome}</code></li>
+<li><code>fluxheim_load_balancer_events_total{scope,vhost,route,upstream,event}</code></li>
+<li><code>fluxheim_response_compressions_total{scope,vhost,route,encoding}</code></li>
 </ul>
 <p>The configuration gauges are aggregate, label-free, and populated from validated configuration when the metrics listener starts. The local observability smoke verifies the route/vhost cache policy gauges, the request-collapsing policy count, and the maximum configured lock wait timeout. <code>fluxheim_acme_events_total</code> uses only bounded lifecycle labels: <code>event</code> is <code>pending</code>, <code>renewed</code>, <code>failed</code>, <code>reload_success</code>, <code>reload_failed</code>, <code>reload_unavailable</code>, <code>tick_error</code>, or <code>other</code>. It intentionally avoids domain names, certificate paths, challenge URLs, and issuer secrets. <code>fluxheim_php_requests_total</code> and <code>fluxheim_php_request_duration_seconds</code> use configured vhost names plus bounded method, outcome, and status-class labels. <code>outcome</code> is <code>declined</code>, <code>redirect</code>, <code>forbidden</code>, <code>not_found</code>, <code>fpm_error</code>, <code>connect_timeout</code>, <code>request_timeout</code>, <code>connection_error</code>, <code>configuration_error</code>, <code>invalid_response</code>, <code>intercepted</code>, <code>offload</code>, <code>offload_error</code>, <code>response</code>, or <code>other</code>; these metrics avoid raw paths, queries, script filenames, usernames, cookies, and FastCGI params. <code>fluxheim_php_stderr_events_total</code> uses configured vhost names plus bounded <code>state</code> labels of <code>emitted</code>, <code>truncated</code>, or <code>other</code>; it counts STDERR presence without exposing PHP error text. <code>fluxheim_php_fpm_retries_total</code> uses configured vhost names plus bounded <code>reason</code> labels of <code>connect_timeout</code>, <code>connection_error</code>, or <code>other</code>; it counts retry attempts without exposing upstream addresses, socket paths, raw request paths, cookies, or FastCGI params. <code>fluxheim_php_fpm_pool_idle_connections</code> and <code>fluxheim_php_fpm_pool_events_total</code> use configured vhost and pool labels. The <code>pool</code> label is <code>default</code> for a vhost-level PHP runtime or the configured route name for a route-level PHP runtime. Pool <code>event</code> labels are bounded to <code>connect</code>, <code>reuse</code>, <code>return</code>, <code>drop_stale</code>, <code>discard_full</code>, or <code>other</code>. <code>fluxheim_cache_activity_total</code> uses only bounded labels: <code>tier</code> is <code>memory</code>, <code>disk</code>, <code>policy</code>, or <code>other</code>, and <code>event</code> is <code>hit</code>, <code>miss</code>, <code>store</code>, <code>store_refusal</code>, <code>eviction</code>, <code>purge</code>, <code>pass</code>, <code>bypass</code>, <code>stale</code>, <code>revalidate</code>, <code>peer_fill_hit</code>, <code>peer_fill_miss</code>, <code>peer_fill_error</code>, <code>peer_fill_fallback</code>, <code>peer_fill_fail_closed</code>, or <code>other</code>. These metrics intentionally avoid raw hosts, paths, queries, cache keys, peer URLs, and purge identities. <code>fluxheim_cache_activity_scope_total</code> uses the same bounded <code>tier</code> and <code>event</code> labels plus configured-name labels: <code>scope</code> is <code>vhost</code> or <code>route</code>, <code>vhost</code> is the configured vhost name, and <code>route</code> is empty for vhost cache or the configured route name for route cache. It intentionally avoids raw <code>Host</code>, path, query, cache key, and purge identity labels. Cache operation duration histograms use the same configured-name labels plus bounded <code>phase</code> and <code>operation</code> labels. <code>operation</code> is <code>lookup</code> or <code>lock_wait</code>, so dashboards can separate storage lookup cost from request-collapsing wait time without high-cardinality request labels. Cache purger duration histograms use the bounded purger <code>outcome</code> label only, so operators can see when cleanup ticks are getting slow without exposing cache paths, queries, cache keys, and purge identities. Future OpenTelemetry attributes should mirror the same low-cardinality concepts used by admin JSON and Prometheus.</p>
 <p>Latency plan:</p>
@@ -197,12 +200,13 @@ metrics-advanced = [&quot;metrics&quot;]</code></pre>
 </ul>
 <p>Load balancer:</p>
 <ul>
-<li>selected upstream totals</li>
-<li>retries</li>
-<li>connect failures</li>
-<li>all-nodes-down</li>
-<li>upstream health state transitions</li>
+<li><code>fluxheim_load_balancer_events_total</code> counts selected upstreams, retries,</li>
 </ul>
+<p>all-nodes-down/unavailable pools, success/failure outcomes, and passive-health ejections with bounded configured vhost/route labels. The <code>upstream</code> label is empty unless the operator configures a safe low-cardinality <code>proxy.upstream_aliases</code> entry.</p>
+<ul>
+<li>richer upstream health state transition metrics remain planned; they should</li>
+</ul>
+<p>not label raw upstream addresses unless an explicit low-cardinality alias is configured.</p>
 <p>Admin/security:</p>
 <ul>
 <li>admin auth failures</li>

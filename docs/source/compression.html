@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -74,25 +74,23 @@
 
         <article class="source-doc">
 <h1 id="compression">Compression</h1>
-<p>Status: future optional module.</p>
-<p>Planned Cargo features:</p>
+<p>Status: initial optional <code>1.4</code> module.</p>
+<p>Cargo features:</p>
 <ul>
-<li><code>compression</code>: shared config, negotiation, eligibility checks, and response</li>
-</ul>
-<p>body filter integration.</p>
-<ul>
+<li><code>compression</code>: shared config and response filter integration.</li>
+<li><code>compression-brotli</code>: Brotli response encoding through <code>brotli</code>.</li>
+<li><code>compression-gzip</code>: gzip response encoding through <code>flate2</code>.</li>
 <li><code>compression-zstd</code>: Zstandard response encoding.</li>
-<li><code>compression-brotli</code>: Brotli response encoding.</li>
-<li><code>compression-gzip</code>: gzip compatibility fallback.</li>
 </ul>
-<p>Compression should be a CPU-efficiency feature, not just a smaller-response feature. The default build should stay free of compression code until the body filter, cache-variant, and resource-limit behavior is proven.</p>
+<p>Compression remains opt-in. Default builds do not include compression code, and <code>privacy-mode</code> builds reject compression at compile time because response-body transforms can create side-channel and retention risks.</p>
+<p>The <code>1.4.0</code> production profile aliases used by official full, cache-edge, proxy-edge, load-balancer-edge, and PHP/web artifacts compile all three codecs so operators can enable compression by vhost or route without rebuilding. A compiled codec is inert until <code>compression.enabled = true</code> is set in config.</p>
 <h2 id="goals">Goals</h2>
 <ul>
-<li>Prefer modern encodings first: Zstandard for dynamic or streaming responses</li>
+<li>Keep gzip as a conservative compatibility baseline.</li>
+<li>Keep Zstandard and Brotli behind explicit Cargo features because they add</li>
 </ul>
-<p>and Brotli for static web assets where it wins.</p>
+<p>extra codec dependencies and operational behavior.</p>
 <ul>
-<li>Keep gzip as a compatibility fallback for older clients.</li>
 <li>Avoid compressing already-compressed or low-value content.</li>
 <li>Keep request workers responsive by moving expensive compression work out of</li>
 </ul>
@@ -106,14 +104,8 @@
 </ul>
 <p>compression level, and concurrency.</p>
 <h2 id="negotiation">Negotiation</h2>
-<p>Fluxheim should negotiate response encoding from <code>Accept-Encoding</code> and route policy:</p>
-<ol>
-<li>choose <code>zstd</code> when the client supports it and the policy allows it;</li>
-<li>choose <code>br</code> for eligible static assets when the client supports it;</li>
-<li>choose <code>gzip</code> only as a fallback;</li>
-<li>serve identity when content is already compressed, too small, too large,</li>
-</ol>
-<p>streaming in an unsupported way, or policy disables compression.</p>
+<p>Fluxheim negotiates response compression from <code>Accept-Encoding</code> when <code>compression.enabled = true</code> and the binary is built with at least one codec feature. Gzip is available through <code>compression-gzip</code>, Zstandard through <code>compression-zstd</code>, and Brotli through <code>compression-brotli</code>. <code>q=0</code> is respected for each coding. When multiple accepted codings are enabled, Fluxheim prefers <code>br</code>, then <code>zstd</code>, then <code>gzip</code>.</p>
+<p>Identity is served when no enabled coding is accepted by the client, the response is already encoded, the response is too small or too large, the content length is unknown, or policy disables compression.</p>
 <p>Every compressed response must set or update:</p>
 <ul>
 <li><code>Content-Encoding</code>;</li>
@@ -148,17 +140,25 @@
 <li><code>image/svg+xml</code>.</li>
 </ul>
 <h2 id="execution-model">Execution Model</h2>
-<p>Compression can be CPU-heavy. Fluxheim should use a bounded worker pool or blocking task pool for non-trivial compression so Pingora request workers do not stall behind large JSON or static asset encoding jobs.</p>
-<p>The module must enforce:</p>
+<p>The first codec implementation is intentionally bounded:</p>
 <ul>
-<li>global and per-vhost compression concurrency;</li>
-<li>maximum input bytes;</li>
-<li>maximum buffered bytes before switching to streaming or identity;</li>
-<li>per-encoding level bounds;</li>
-<li>timeout or cancellation behavior when clients disconnect.</li>
+<li>only responses with a known <code>Content-Length</code> are compressed;</li>
+<li>input must fit between <code>compression.min_bytes</code> and</li>
 </ul>
+<p><code>compression.max_input_bytes</code>;</p>
+<ul>
+<li>encoded output must stay within <code>compression.max_output_bytes</code>;</li>
+<li><code>compression.max_input_bytes</code> is capped at 64 MiB by config validation;</li>
+<li><code>compression.max_output_bytes</code> is capped at 128 MiB by config validation;</li>
+<li>gzip levels are restricted to <code>0..=9</code>;</li>
+<li>zstd levels are restricted to <code>1..=19</code>;</li>
+<li>Brotli quality is restricted to <code>0..=11</code>;</li>
+<li>Fluxheim removes <code>Content-Length</code> after enabling compression because the encoded</li>
+</ul>
+<p>length is streamed out through the body filter.</p>
+<p>A later implementation may add bounded compression worker pools, per-vhost concurrency, and precompressed static asset variants.</p>
 <h2 id="cache-integration">Cache Integration</h2>
-<p>Compression variants must be cache-isolated by:</p>
+<p>Future shared-cache compression variants must be cache-isolated by:</p>
 <ul>
 <li>vhost;</li>
 <li>route;</li>
@@ -167,7 +167,7 @@
 <li>selected encoding;</li>
 <li>compression policy version.</li>
 </ul>
-<p><code>Vary: Accept-Encoding</code> must be present for all negotiated variants. Shared cache admission must still reject unsafe personalized responses such as responses with <code>Set-Cookie</code>.</p>
+<p><code>Vary: Accept-Encoding</code> is added to every compressed response. Shared cache admission must still reject unsafe personalized responses such as responses with <code>Set-Cookie</code>.</p>
 <p>Precompressed static assets may be supported later through files such as <code>index.html.br</code>, <code>app.js.zst</code>, or <code>style.css.gz</code>, but config validation and cache lookup must prevent serving a variant to a client that did not advertise support.</p>
 <h2 id="hardware-and-native-acceleration">Hardware And Native Acceleration</h2>
 <p>Hardware acceleration and CPU-specific codecs are future beta work. Any QAT, SIMD, or platform-specific backend must be selected through explicit feature flags or runtime capability detection with a safe fallback. Release artifacts must document whether they are generic or CPU-specific.</p>
@@ -177,44 +177,76 @@
 <li>do not compress admin, metrics, auth, or internal control responses;</li>
 <li>do not compress responses with cookies or authorization-dependent content</li>
 </ul>
-<p>unless explicitly enabled per route;</p>
+<p>unless explicitly enabled for a selected vhost;</p>
 <ul>
 <li>do not log compressed bytes or response bodies;</li>
 <li>reject the module with <code>privacy-mode</code> until a no-retention, no-side-channel</li>
 </ul>
 <p>design is written and tested.</p>
-<h2 id="configuration-sketch">Configuration Sketch</h2>
+<h2 id="configuration">Configuration</h2>
 <pre class="language-toml"><code class="language-toml">[compression]
 enabled = true
-encodings = [&quot;zstd&quot;, &quot;br&quot;, &quot;gzip&quot;]
 min_bytes = &quot;1KiB&quot;
-max_input_bytes = &quot;16MiB&quot;
-concurrency = 8
+max_input_bytes = &quot;1MiB&quot;
+max_output_bytes = &quot;2MiB&quot;
+gzip = true
+gzip_level = 4
+zstd = false
+zstd_level = 3
+brotli = false
+brotli_quality = 4</code></pre>
+<p>The global block is the default for every vhost. A vhost can override it with <code>[vhosts.compression]</code>, and a route can override the vhost with <code>[vhosts.routes.compression]</code>. This lets one site enable compression while another site keeps identity responses, or lets one path prefix opt in while the rest of the vhost stays uncompressed.</p>
+<pre class="language-toml"><code class="language-toml">[compression]
+enabled = false
 
-[compression.zstd]
-level = 3
+[[vhosts]]
+name = &quot;static-site&quot;
+hosts = [&quot;static.example.com&quot;]
 
-[compression.brotli]
-level = 5
-static_only = true
+[vhosts.compression]
+enabled = true
+gzip = true
+zstd = true
+brotli = true
+min_bytes = &quot;1KiB&quot;
+max_input_bytes = &quot;2MiB&quot;
+max_output_bytes = &quot;4MiB&quot;</code></pre>
+<p>Path-scoped compression can be modeled as a route override:</p>
+<pre class="language-toml"><code class="language-toml">[compression]
+enabled = false
 
-[compression.gzip]
-level = 4
+[[vhosts]]
+name = &quot;wordpress&quot;
+hosts = [&quot;www.example.com&quot;]
+
+[vhosts.compression]
+enabled = false
 
 [[vhosts.routes]]
-name = &quot;assets&quot;
-match = { prefix = &quot;/assets/&quot; }
-action = &quot;web&quot;
-compression = { enabled = true, encodings = [&quot;br&quot;, &quot;gzip&quot;] }</code></pre>
+name = &quot;uploads&quot;
+path_prefix = &quot;/wp-content/uploads/&quot;
+
+[vhosts.routes.proxy]
+upstream = &quot;127.0.0.1:8080&quot;
+
+[vhosts.routes.compression]
+enabled = true
+gzip = true
+zstd = true
+min_bytes = &quot;1KiB&quot;
+max_input_bytes = &quot;2MiB&quot;
+max_output_bytes = &quot;4MiB&quot;</code></pre>
+<p>Eligibility checks still apply inside that path: already-compressed media types such as JPEG, PNG, WebP, AVIF, and most archives are served as identity.</p>
 <h2 id="test-plan">Test Plan</h2>
 <ul>
-<li>Negotiates <code>zstd</code>, <code>br</code>, <code>gzip</code>, and identity correctly.</li>
+<li>Negotiates <code>br</code>, <code>zstd</code>, <code>gzip</code>, and identity correctly for compiled codecs.</li>
 <li>Adds <code>Vary: Accept-Encoding</code>.</li>
 <li>Does not compress excluded MIME types or <code>no-transform</code> responses.</li>
-<li>Keeps cache variants isolated by encoding.</li>
-<li>Rejects unsafe cache admission for personalized compressed responses.</li>
-<li>Enforces input size, output size, level, and concurrency limits.</li>
-<li>Cancels compression work when the downstream client disconnects.</li>
+<li>Does not compress cookie, authorization, <code>Set-Cookie</code>, range, or already</li>
+</ul>
+<p>encoded responses.</p>
+<ul>
+<li>Enforces input size and level limits.</li>
 <li>Proves compression code is absent from default and <code>privacy-mode</code> builds.</li>
 </ul>
         </article>

@@ -53,7 +53,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -136,7 +136,7 @@
         </div>
 
         <h1 class="text-4xl font-black text-white mb-4">Feature Matrix</h1>
-        <p class="text-gray-400 text-lg mb-10">All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.3.7.</p>
+        <p class="text-gray-400 text-lg mb-10">All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.4.0.</p>
 
         <div class="prose">
           <h2>Individual Features</h2>
@@ -167,6 +167,26 @@
                 <td class="px-4 py-3 font-mono text-cyan-400 text-xs">cache</td>
                 <td class="px-4 py-3 text-center"><svg class="w-4 h-4 text-emerald-400 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg></td>
                 <td class="px-4 py-3 text-gray-400">Cache module compiled in. Runtime cache remains disabled until configured.</td>
+              </tr>
+              <tr class="hover:bg-gray-900/30">
+                <td class="px-4 py-3 font-mono text-gray-400 text-xs">compression</td>
+                <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
+                <td class="px-4 py-3 text-gray-400">Shared response compression framework. Requires at least one codec feature.</td>
+              </tr>
+              <tr class="hover:bg-gray-900/30">
+                <td class="px-4 py-3 font-mono text-gray-400 text-xs">compression-gzip</td>
+                <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
+                <td class="px-4 py-3 text-gray-400">gzip response compression codec with MIME, size, privacy, range, and cache-safety guards.</td>
+              </tr>
+              <tr class="hover:bg-gray-900/30">
+                <td class="px-4 py-3 font-mono text-gray-400 text-xs">compression-zstd</td>
+                <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
+                <td class="px-4 py-3 text-gray-400">Zstandard response compression codec, negotiated after Brotli and before gzip when enabled.</td>
+              </tr>
+              <tr class="hover:bg-gray-900/30">
+                <td class="px-4 py-3 font-mono text-gray-400 text-xs">compression-brotli</td>
+                <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
+                <td class="px-4 py-3 text-gray-400">Brotli response compression codec and first-preference encoding when clients advertise it.</td>
               </tr>
               <tr class="hover:bg-gray-900/30">
                 <td class="px-4 py-3 font-mono text-cyan-400 text-xs">ingress</td>
@@ -251,7 +271,7 @@
               <tr class="hover:bg-gray-900/30">
                 <td class="px-4 py-3 font-mono text-gray-400 text-xs">privacy-mode</td>
                 <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
-                <td class="px-4 py-3 text-gray-400">Zero-retention static/proxy profile. Incompatible with cache, metrics, and tracing/export features.</td>
+                <td class="px-4 py-3 text-gray-400">Zero-retention static/proxy profile. Incompatible with cache, compression, metrics, and tracing/export features.</td>
               </tr>
               <tr class="hover:bg-gray-900/30">
                 <td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-openssl</td>
@@ -301,13 +321,13 @@
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-static-site</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, web, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Static sites without cache</td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-reverse-proxy</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Reverse proxy without static hosting or cache</td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-cache-server</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, web, cache, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Static/proxy server with cache enabled</td></tr>
-              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-cache-edge</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, cache, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Cache edge without local static web serving</td></tr>
-              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-proxy-edge</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Focused reverse proxy edge</td></tr>
-              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-load-balancer</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, web, cache, load-balancer, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Prepared load-balancer bundle; can be built manually before the 1.5 line</td></tr>
-              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-load-balancer-edge</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, load-balancer, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Prepared load-balancer edge without cache or static web</td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-cache-edge</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, cache, compression-gzip, compression-zstd, compression-brotli, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Cache edge without local static web serving</td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-proxy-edge</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, compression-gzip, compression-zstd, compression-brotli, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Focused reverse proxy edge</td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-load-balancer</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, web, cache, compression-gzip, compression-zstd, compression-brotli, load-balancer, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Production proxy/load-balancer bundle with compression enabled</td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-load-balancer-edge</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, load-balancer, compression-gzip, compression-zstd, compression-brotli, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Load-balancer edge without cache or static web</td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-observability</td><td class="px-4 py-3 text-gray-500 font-mono">profile-core + metrics, metrics-otlp, otel-tracing, otel-otlp</td><td class="px-4 py-3 text-gray-400">Core with full observability stack</td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-privacy</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, web, tls-rustls, privacy-mode, security</td><td class="px-4 py-3 text-gray-400">Zero-retention static/proxy profile</td></tr>
-              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-web-server</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, web, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Static webserver profile</td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-web-server</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, web, compression-gzip, compression-zstd, compression-brotli, tls-rustls, security</td><td class="px-4 py-3 text-gray-400">Static webserver profile</td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-full</td><td class="px-4 py-3 text-gray-500 font-mono">profile-load-balancer</td><td class="px-4 py-3 text-gray-400">All stable production modules</td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-development</td><td class="px-4 py-3 text-gray-500 font-mono">profile-full + php-fpm, acme-client, metrics, otel-*</td><td class="px-4 py-3 text-gray-400">Broad development build</td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 font-mono text-cyan-400">profile-fips-openssl</td><td class="px-4 py-3 text-gray-500 font-mono">proxy, security, tls-openssl-fips</td><td class="px-4 py-3 text-gray-400">FIPS-capable OpenSSL proof build</td></tr>
@@ -325,19 +345,19 @@
 
         <div class="code-win my-6">
           <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — official release build commands</span></div>
-<pre class="language-bash"><code class="language-bash"># Full release build (matches fluxheim-1.3.7-full-*.tar.gz)
+<pre class="language-bash"><code class="language-bash"># Full release build (matches fluxheim-1.4.0-full-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp
 
-# Cache edge build (matches fluxheim-1.3.7-cache-*.tar.gz)
+# Cache edge build (matches fluxheim-1.4.0-cache-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-cache-edge,acme-client
 
-# Proxy edge build (matches fluxheim-1.3.7-proxy-*.tar.gz)
+# Proxy edge build (matches fluxheim-1.4.0-proxy-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-proxy-edge,acme-client
 
-# PHP-FPM build (matches fluxheim-1.3.7-php-*.tar.gz)
+# PHP-FPM build (matches fluxheim-1.4.0-php-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-web-server,php-fpm,acme-client
 
@@ -370,7 +390,7 @@ scripts/validate-features.sh profile-privacy</code></pre>
 
         <div class="prose">
           <h2>Privacy Build Constraints</h2>
-          <p>The <code>privacy-mode</code> feature is incompatible with <code>cache</code>, <code>metrics</code>, <code>metrics-otlp</code>, <code>otel-tracing</code>, and <code>otel-otlp</code> at compile time. Always use <code>--no-default-features</code> with <code>profile-privacy</code>, since the default build includes <code>cache</code>.</p>
+          <p>The <code>privacy-mode</code> feature is incompatible with <code>cache</code>, <code>compression</code>, <code>compression-gzip</code>, <code>compression-zstd</code>, <code>compression-brotli</code>, <code>metrics</code>, <code>metrics-otlp</code>, <code>otel-tracing</code>, and <code>otel-otlp</code> at compile time. Always use <code>--no-default-features</code> with <code>profile-privacy</code>, since the default build includes <code>cache</code>.</p>
         </div>
 
         <div class="code-win my-6">
@@ -384,15 +404,15 @@ scripts/validate-features.sh proxy,web,tls-rustls,privacy-mode</code></pre>
         </div>
 
         <div class="prose">
-          <h2>Planned Future Feature Families</h2>
-          <p>These are documented architecture tracks, not enabled Cargo features in v1.3.7. The full upstream source documents are available in the <a href="reference.html" class="text-cyan-400 hover:text-cyan-300">Source Reference</a>.</p>
+          <h2>Extended Source References</h2>
+          <p>Some source documents describe implemented 1.4.0 capabilities, while others remain architecture tracks for future releases. The complete upstream source documents are available in the <a href="reference.html" class="text-cyan-400 hover:text-cyan-300">Source Reference</a>.</p>
         </div>
 
         <div class="overflow-x-auto rounded-xl border border-gray-800 my-6">
           <table class="w-full text-sm">
             <thead>
               <tr class="border-b border-gray-800 bg-gray-900/60">
-                <th class="text-left px-4 py-3 font-semibold text-gray-400">Feature family</th>
+                <th class="text-left px-4 py-3 font-semibold text-gray-400">Topic</th>
                 <th class="text-left px-4 py-3 font-semibold text-gray-400">Source document</th>
               </tr>
             </thead>

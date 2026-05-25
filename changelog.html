@@ -48,7 +48,7 @@
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
             GitHub
           </a>
-          <a href="download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
+          <a href="download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -83,15 +83,42 @@
 
         <div class="space-y-10 ml-12">
 
-          <!-- v1.3.7 Latest Stable -->
+          <!-- v1.4.0 Latest Stable -->
           <div class="relative">
             <div class="absolute -left-12 w-8 h-8 bg-cyan-500/20 border-2 border-cyan-500 rounded-full flex items-center justify-center">
               <div class="w-2.5 h-2.5 bg-cyan-400 rounded-full"></div>
             </div>
             <div class="p-5 bg-gray-900/60 border border-cyan-800/40 rounded-xl ring-1 ring-cyan-500/10">
               <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.3.7</span>
+                <span class="font-mono font-bold text-white text-lg">v1.4.0</span>
                 <span class="px-2 py-0.5 text-xs bg-cyan-500/10 text-cyan-400 rounded-full border border-cyan-500/20">Latest Stable</span>
+                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.4.0" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
+              </div>
+              <p class="text-gray-500 text-xs mb-4">Released May 25, 2026</p>
+              <ul class="space-y-2 text-sm text-gray-300">
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Production proxy parity release with trusted-proxy-aware ACLs, local rate limits, concurrency limits, bounded queues, and edge policy metrics</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>gzip, Zstandard, and Brotli response compression with vhost/route overrides, MIME and size guards, output caps, and cache-safe <code class="text-cyan-400 text-xs">Vary</code> handling</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Load-balancer resilience: weighted round-robin, least-connections, hash selection, backup/drain pools, slow start, retry budgets, passive ejection, and active HTTP health checks</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>TLS and protocol parity: downstream client certificate auth, upstream mTLS/trust roots, PROXY protocol v1/v2 receive and send, upstream HTTP version controls, and gRPC pass-through</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Proxy rewrite and observability updates for <code class="text-cyan-400 text-xs">Location</code>, <code class="text-cyan-400 text-xs">Refresh</code>, <code class="text-cyan-400 text-xs">Set-Cookie</code>, route identity, selected upstreams, client IPs, cache phase, and compression</li>
+              </ul>
+              <div class="flex gap-2 mt-4">
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.0/fluxheim-1.4.0-full-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-lg transition-colors">full</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.0/fluxheim-1.4.0-cache-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">cache</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.0/fluxheim-1.4.0-proxy-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">proxy</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.0/fluxheim-1.4.0-php-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">php</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- v1.3.7 -->
+          <div class="relative">
+            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
+              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+            </div>
+            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
+              <div class="flex flex-wrap items-center gap-3 mb-1">
+                <span class="font-mono font-bold text-white text-lg">v1.3.7</span>
                 <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.3.7" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
               </div>
               <p class="text-gray-500 text-xs mb-4">Released May 23, 2026</p>
@@ -102,12 +129,6 @@
                 <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Expanded WordPress PHP-FPM smoke coverage across external, managed-static, managed-dynamic, managed-ondemand, and managed-respawn modes</li>
                 <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Recommended Wolfi PHP image now installs <code class="text-cyan-400 text-xs">php-8.5-fpm</code> and uses managed php-fpm container config by default</li>
               </ul>
-              <div class="flex gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.7/fluxheim-1.3.7-full-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-lg transition-colors">full</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.7/fluxheim-1.3.7-cache-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">cache</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.7/fluxheim-1.3.7-proxy-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">proxy</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.7/fluxheim-1.3.7-php-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">php</a>
-              </div>
             </div>
           </div>
 
@@ -376,7 +397,7 @@
         </div>
         <div>
           <h3 class="text-white font-semibold mb-1">What's Next</h3>
-          <p class="text-gray-400 text-sm">Later 1.3.x releases for PHP runtime follow-ups. <strong class="text-gray-300">1.4</strong> for advanced proxy parity. <strong class="text-gray-300">1.5</strong> for load-balancer parity. <strong class="text-gray-300">1.6</strong> for Wasm extensibility and VCL-like cache policy hooks.</p>
+          <p class="text-gray-400 text-sm"><strong class="text-gray-300">1.4.0</strong> delivers the first production proxy parity line. <strong class="text-gray-300">1.4.1</strong> is reserved for the remaining proxy operations work: dynamic upstream discovery, watched upstream lists, traffic mirroring, richer logs, rewrite templates, local operational sockets, and typed hook points.</p>
           <a href="https://github.com/valkyoth/fluxheim/blob/main/ROADMAP.md" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 text-sm mt-2 transition-colors">View full roadmap →</a>
         </div>
       </div>

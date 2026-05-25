@@ -1,7 +1,10 @@
 # Pingora Patches
 
-Fluxheim vendors `pingora-core 0.8.0` only to expose one rustls listener hook
-that is required for the default `tls-rustls` build:
+Fluxheim vendors `pingora-core 0.8.0` for a small set of narrow proxy/TLS
+compatibility fixes required by the default `tls-rustls` build and the `1.4`
+production proxy parity line.
+
+## Rustls Listener Certificate Resolver
 
 - `TlsSettings::with_cert_resolver(...)`
 - an internal `cert_resolver` field used by the rustls listener when building
@@ -11,14 +14,49 @@ The patch keeps Pingora's existing single-certificate path unchanged. It only
 allows Fluxheim to pass a rustls `ResolvesServerCert` implementation so
 per-vhost certificates can be selected by SNI in the default build.
 
+## Rustls Upstream Verification Policy
+
+Fluxheim also patches the rustls upstream connector so per-peer
+`verify_cert = false` and `verify_hostname = false` policies apply even when no
+other setting forced Pingora to clone the rustls client config. In Pingora 0.8,
+the dangerous verifier path was only installed when a cloned config already
+existed for ALPN or upstream mTLS. Fluxheim exposes explicit upstream TLS
+verification controls, so the connector must clone the config and install the
+custom verifier whenever verification is disabled or SNI is absent.
+
 This is a temporary compatibility patch, not a long-term fork. Keep it small,
-easy to audit, and limited to the rustls certificate resolver gap.
+easy to audit, and limited to the rustls certificate resolver and upstream
+verification-policy gaps.
+
+## Listener PROXY Protocol Receive
+
+Fluxheim also patches Pingora listeners with an opt-in PROXY protocol receive
+hook that runs after the TCP accept and before downstream TLS or HTTP parsing.
+The patch adds:
+
+- `ProxyProtocolConfig::v1(...)`, `ProxyProtocolConfig::v2(...)`, and
+  `ProxyProtocolTrustedSource`;
+- `Service::set_proxy_protocol_v1(...)`, `Service::set_proxy_protocol_v2(...)`
+  and matching `Listeners` helpers;
+- bounded v1 line parsing with the HAProxy 108-byte limit and bounded v2
+  payload parsing;
+- mandatory direct-peer trust checks before parsing;
+- socket-digest peer-address replacement only after a trusted, valid v1/v2
+  header.
+
+This is needed because Fluxheim must restore client identity before TLS and HTTP
+handling when it sits behind a trusted load balancer that speaks PROXY protocol.
+The v2 parser currently supports TCP4/TCP6 plus LOCAL/UNSPEC frames and skips
+bounded TLV payloads; TLV interpretation is intentionally not included.
 
 ## Removal Criteria
 
 Remove `vendor/pingora-core` and the `[patch.crates-io]` entry in
 `Cargo.toml` when an upstream Pingora release exposes equivalent rustls server
-certificate resolver support.
+certificate resolver support and applies per-peer rustls upstream verification
+policy without requiring ALPN or mTLS to clone the client config first, and
+exposes an equivalent pre-TLS listener PROXY protocol receive hook with trusted
+peer enforcement.
 
 Before removing the patch, verify:
 
@@ -26,11 +64,19 @@ Before removing the patch, verify:
 - `scripts/smoke_1_0_core.sh`
 - the smoke assertion that `app.test` receives the `app.test` certificate via
   SNI
+- a rustls upstream with `upstream_verify_cert = false` can connect to a
+  self-signed or otherwise untrusted test origin without requiring unrelated
+  ALPN or mTLS settings
+- a rustls upstream with `upstream_ca_path` validates against that per-peer CA
+  bundle rather than the process default root store
+- listeners configured with `server.proxy_protocol = "v1"` or `"v2"` reject
+  untrusted direct peers and restore the PROXY source address before TLS/HTTP
+  handling
 
 ## Upstream Candidate
 
-This patch is small enough to propose upstream. The cleaner upstream shape would
-be:
+These patches are small enough to propose upstream. The cleaner upstream shape
+would be:
 
 - re-export the needed rustls server certificate resolver types from
   `pingora-rustls`, or add the direct rustls dependency in `pingora-core`;
@@ -39,6 +85,13 @@ be:
 - preserve the existing `TlsSettings::intermediate(cert, key)` behavior for
   single-certificate listeners;
 - keep ALPN handling through the existing `enable_h2` and `set_alpn` methods.
+- in the rustls connector, compute per-peer verification mode independently and
+  clone the client config when a custom verifier is needed.
+- in the rustls connector, honor `PeerOptions.ca` when constructing the
+  per-peer root store for both normal verification and custom verifier modes.
+- expose a pre-TLS listener hook for PROXY protocol v1/v2 receive, or native
+  listener support that can enforce trusted direct peers before overriding the
+  socket digest client address, with bounded v2 TLV handling.
 
 Fluxheim should keep the vendored patch narrow and avoid unrelated edits to
 vendored Pingora source.

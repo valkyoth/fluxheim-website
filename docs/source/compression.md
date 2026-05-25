@@ -1,24 +1,28 @@
 # Compression
 
-Status: future optional module.
+Status: initial optional `1.4` module.
 
-Planned Cargo features:
+Cargo features:
 
-- `compression`: shared config, negotiation, eligibility checks, and response
-  body filter integration.
+- `compression`: shared config and response filter integration.
+- `compression-brotli`: Brotli response encoding through `brotli`.
+- `compression-gzip`: gzip response encoding through `flate2`.
 - `compression-zstd`: Zstandard response encoding.
-- `compression-brotli`: Brotli response encoding.
-- `compression-gzip`: gzip compatibility fallback.
 
-Compression should be a CPU-efficiency feature, not just a smaller-response
-feature. The default build should stay free of compression code until the body
-filter, cache-variant, and resource-limit behavior is proven.
+Compression remains opt-in. Default builds do not include compression code, and
+`privacy-mode` builds reject compression at compile time because response-body
+transforms can create side-channel and retention risks.
+
+The `1.4.0` production profile aliases used by official full, cache-edge,
+proxy-edge, load-balancer-edge, and PHP/web artifacts compile all three codecs
+so operators can enable compression by vhost or route without rebuilding. A
+compiled codec is inert until `compression.enabled = true` is set in config.
 
 ## Goals
 
-- Prefer modern encodings first: Zstandard for dynamic or streaming responses
-  and Brotli for static web assets where it wins.
-- Keep gzip as a compatibility fallback for older clients.
+- Keep gzip as a conservative compatibility baseline.
+- Keep Zstandard and Brotli behind explicit Cargo features because they add
+  extra codec dependencies and operational behavior.
 - Avoid compressing already-compressed or low-value content.
 - Keep request workers responsive by moving expensive compression work out of
   the main request path.
@@ -29,14 +33,16 @@ filter, cache-variant, and resource-limit behavior is proven.
 
 ## Negotiation
 
-Fluxheim should negotiate response encoding from `Accept-Encoding` and route
-policy:
+Fluxheim negotiates response compression from `Accept-Encoding` when
+`compression.enabled = true` and the binary is built with at least one codec
+feature. Gzip is available through `compression-gzip`, Zstandard through
+`compression-zstd`, and Brotli through `compression-brotli`. `q=0` is respected
+for each coding. When multiple accepted codings are enabled, Fluxheim prefers
+`br`, then `zstd`, then `gzip`.
 
-1. choose `zstd` when the client supports it and the policy allows it;
-2. choose `br` for eligible static assets when the client supports it;
-3. choose `gzip` only as a fallback;
-4. serve identity when content is already compressed, too small, too large,
-   streaming in an unsupported way, or policy disables compression.
+Identity is served when no enabled coding is accepted by the client, the
+response is already encoded, the response is too small or too large, the
+content length is unknown, or policy disables compression.
 
 Every compressed response must set or update:
 
@@ -70,21 +76,26 @@ Initial positive MIME types should be conservative:
 
 ## Execution Model
 
-Compression can be CPU-heavy. Fluxheim should use a bounded worker pool or
-blocking task pool for non-trivial compression so Pingora request workers do
-not stall behind large JSON or static asset encoding jobs.
+The first codec implementation is intentionally bounded:
 
-The module must enforce:
+- only responses with a known `Content-Length` are compressed;
+- input must fit between `compression.min_bytes` and
+  `compression.max_input_bytes`;
+- encoded output must stay within `compression.max_output_bytes`;
+- `compression.max_input_bytes` is capped at 64 MiB by config validation;
+- `compression.max_output_bytes` is capped at 128 MiB by config validation;
+- gzip levels are restricted to `0..=9`;
+- zstd levels are restricted to `1..=19`;
+- Brotli quality is restricted to `0..=11`;
+- Fluxheim removes `Content-Length` after enabling compression because the encoded
+  length is streamed out through the body filter.
 
-- global and per-vhost compression concurrency;
-- maximum input bytes;
-- maximum buffered bytes before switching to streaming or identity;
-- per-encoding level bounds;
-- timeout or cancellation behavior when clients disconnect.
+A later implementation may add bounded compression worker pools, per-vhost
+concurrency, and precompressed static asset variants.
 
 ## Cache Integration
 
-Compression variants must be cache-isolated by:
+Future shared-cache compression variants must be cache-isolated by:
 
 - vhost;
 - route;
@@ -93,9 +104,9 @@ Compression variants must be cache-isolated by:
 - selected encoding;
 - compression policy version.
 
-`Vary: Accept-Encoding` must be present for all negotiated variants. Shared
-cache admission must still reject unsafe personalized responses such as
-responses with `Set-Cookie`.
+`Vary: Accept-Encoding` is added to every compressed response. Shared cache
+admission must still reject unsafe personalized responses such as responses
+with `Set-Cookie`.
 
 Precompressed static assets may be supported later through files such as
 `index.html.br`, `app.js.zst`, or `style.css.gz`, but config validation and
@@ -116,45 +127,89 @@ input share the same compressed response. Safe defaults:
 
 - do not compress admin, metrics, auth, or internal control responses;
 - do not compress responses with cookies or authorization-dependent content
-  unless explicitly enabled per route;
+  unless explicitly enabled for a selected vhost;
 - do not log compressed bytes or response bodies;
 - reject the module with `privacy-mode` until a no-retention, no-side-channel
   design is written and tested.
 
-## Configuration Sketch
+## Configuration
 
 ```toml
 [compression]
 enabled = true
-encodings = ["zstd", "br", "gzip"]
 min_bytes = "1KiB"
-max_input_bytes = "16MiB"
-concurrency = 8
+max_input_bytes = "1MiB"
+max_output_bytes = "2MiB"
+gzip = true
+gzip_level = 4
+zstd = false
+zstd_level = 3
+brotli = false
+brotli_quality = 4
+```
 
-[compression.zstd]
-level = 3
+The global block is the default for every vhost. A vhost can override it with
+`[vhosts.compression]`, and a route can override the vhost with
+`[vhosts.routes.compression]`. This lets one site enable compression while
+another site keeps identity responses, or lets one path prefix opt in while the
+rest of the vhost stays uncompressed.
 
-[compression.brotli]
-level = 5
-static_only = true
+```toml
+[compression]
+enabled = false
 
-[compression.gzip]
-level = 4
+[[vhosts]]
+name = "static-site"
+hosts = ["static.example.com"]
+
+[vhosts.compression]
+enabled = true
+gzip = true
+zstd = true
+brotli = true
+min_bytes = "1KiB"
+max_input_bytes = "2MiB"
+max_output_bytes = "4MiB"
+```
+
+Path-scoped compression can be modeled as a route override:
+
+```toml
+[compression]
+enabled = false
+
+[[vhosts]]
+name = "wordpress"
+hosts = ["www.example.com"]
+
+[vhosts.compression]
+enabled = false
 
 [[vhosts.routes]]
-name = "assets"
-match = { prefix = "/assets/" }
-action = "web"
-compression = { enabled = true, encodings = ["br", "gzip"] }
+name = "uploads"
+path_prefix = "/wp-content/uploads/"
+
+[vhosts.routes.proxy]
+upstream = "127.0.0.1:8080"
+
+[vhosts.routes.compression]
+enabled = true
+gzip = true
+zstd = true
+min_bytes = "1KiB"
+max_input_bytes = "2MiB"
+max_output_bytes = "4MiB"
 ```
+
+Eligibility checks still apply inside that path: already-compressed media types
+such as JPEG, PNG, WebP, AVIF, and most archives are served as identity.
 
 ## Test Plan
 
-- Negotiates `zstd`, `br`, `gzip`, and identity correctly.
+- Negotiates `br`, `zstd`, `gzip`, and identity correctly for compiled codecs.
 - Adds `Vary: Accept-Encoding`.
 - Does not compress excluded MIME types or `no-transform` responses.
-- Keeps cache variants isolated by encoding.
-- Rejects unsafe cache admission for personalized compressed responses.
-- Enforces input size, output size, level, and concurrency limits.
-- Cancels compression work when the downstream client disconnects.
+- Does not compress cookie, authorization, `Set-Cookie`, range, or already
+  encoded responses.
+- Enforces input size and level limits.
 - Proves compression code is absent from default and `privacy-mode` builds.

@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.3.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -102,6 +102,10 @@
 <tr><td><code>otel-otlp</code></td><td>No</td><td>Optional OTLP/HTTP JSON trace export to a local collector or Jaeger endpoint.</td></tr>
 <tr><td><code>acme</code></td><td>No</td><td>ACME config, renewal planning, managed certificate/account paths, local HTTP-01 and rustls TLS-ALPN-01 challenge serving, and the renewal executor contract.</td></tr>
 <tr><td><code>acme-client</code></td><td>No</td><td>Live ACME account/order HTTP client and background renewal service.</td></tr>
+<tr><td><code>compression</code></td><td>No</td><td>Shared response compression config and body-filter integration.</td></tr>
+<tr><td><code>compression-brotli</code></td><td>No</td><td>Brotli response compression for eligible known-length responses.</td></tr>
+<tr><td><code>compression-gzip</code></td><td>No</td><td>gzip response compression for eligible known-length responses.</td></tr>
+<tr><td><code>compression-zstd</code></td><td>No</td><td>Zstandard response compression for eligible known-length responses.</td></tr>
 <tr><td><code>privacy-mode</code></td><td>No</td><td>Zero-retention static/proxy build profile.</td></tr>
 <tr><td><code>tls</code></td><td>No</td><td>Internal marker for TLS-aware code; select a concrete backend for serving.</td></tr>
 </tbody></table></div>
@@ -136,15 +140,15 @@
 <tr><td><code>profile-static-site</code></td><td><code>proxy</code>, <code>web</code>, <code>tls-rustls</code>, <code>security</code></td><td>Static sites without Fluxheim cache.</td></tr>
 <tr><td><code>profile-reverse-proxy</code></td><td><code>proxy</code>, <code>tls-rustls</code>, <code>security</code></td><td>Reverse proxy without static hosting/cache.</td></tr>
 <tr><td><code>profile-cache-server</code></td><td><code>proxy</code>, <code>web</code>, <code>cache</code>, <code>tls-rustls</code>, <code>security</code></td><td>Static/proxy server with cache enabled.</td></tr>
-<tr><td><code>profile-load-balancer</code></td><td><code>proxy</code>, <code>web</code>, <code>cache</code>, <code>load-balancer</code>, <code>tls-rustls</code>, <code>security</code></td><td>Edge server with Pingora load balancing.</td></tr>
+<tr><td><code>profile-load-balancer</code></td><td><code>proxy</code>, <code>web</code>, <code>cache</code>, <code>compression-gzip</code>, <code>compression-zstd</code>, <code>compression-brotli</code>, <code>load-balancer</code>, <code>tls-rustls</code>, <code>security</code></td><td>Edge server with Pingora load balancing and all 1.4 compression codecs compiled in.</td></tr>
 <tr><td><code>profile-observability</code></td><td><code>profile-core</code>, <code>metrics</code>, <code>metrics-otlp</code>, <code>otel-tracing</code>, <code>otel-otlp</code></td><td>Core server with Prometheus metrics, optional local OTLP metrics export, trace context propagation, and optional local OTLP trace export.</td></tr>
 <tr><td><code>profile-privacy</code></td><td><code>proxy</code>, <code>web</code>, <code>tls-rustls</code>, <code>privacy-mode</code>, <code>security</code></td><td>Zero-retention static/proxy profile.</td></tr>
-<tr><td><code>profile-full</code></td><td><code>profile-load-balancer</code></td><td>All stable production modules.</td></tr>
+<tr><td><code>profile-full</code></td><td><code>profile-load-balancer</code></td><td>All stable production modules, including the 1.4 compression codecs.</td></tr>
 <tr><td><code>profile-development</code></td><td><code>profile-full</code>, <code>php-fpm</code>, <code>acme-client</code>, <code>metrics</code>, <code>metrics-otlp</code>, <code>otel-tracing</code>, <code>otel-otlp</code></td><td>Broad development build with all compatible production modules.</td></tr>
-<tr><td><code>profile-web-server</code></td><td><code>proxy</code>, <code>web</code>, <code>tls-rustls</code>, <code>security</code></td><td>Static webserver profile while serving still uses the shared proxy runtime.</td></tr>
-<tr><td><code>profile-cache-edge</code></td><td><code>proxy</code>, <code>cache</code>, <code>tls-rustls</code>, <code>security</code></td><td>Cache edge without local static web serving.</td></tr>
-<tr><td><code>profile-proxy-edge</code></td><td><code>proxy</code>, <code>tls-rustls</code>, <code>security</code></td><td>Focused reverse proxy edge.</td></tr>
-<tr><td><code>profile-load-balancer-edge</code></td><td><code>proxy</code>, <code>load-balancer</code>, <code>tls-rustls</code>, <code>security</code></td><td>Load-balancer edge without cache or static web serving.</td></tr>
+<tr><td><code>profile-web-server</code></td><td><code>proxy</code>, <code>web</code>, <code>compression-gzip</code>, <code>compression-zstd</code>, <code>compression-brotli</code>, <code>tls-rustls</code>, <code>security</code></td><td>Static webserver profile while serving still uses the shared proxy runtime.</td></tr>
+<tr><td><code>profile-cache-edge</code></td><td><code>proxy</code>, <code>cache</code>, <code>compression-gzip</code>, <code>compression-zstd</code>, <code>compression-brotli</code>, <code>tls-rustls</code>, <code>security</code></td><td>Cache edge without local static web serving.</td></tr>
+<tr><td><code>profile-proxy-edge</code></td><td><code>proxy</code>, <code>compression-gzip</code>, <code>compression-zstd</code>, <code>compression-brotli</code>, <code>tls-rustls</code>, <code>security</code></td><td>Focused reverse proxy edge.</td></tr>
+<tr><td><code>profile-load-balancer-edge</code></td><td><code>proxy</code>, <code>load-balancer</code>, <code>compression-gzip</code>, <code>compression-zstd</code>, <code>compression-brotli</code>, <code>tls-rustls</code>, <code>security</code></td><td>Load-balancer edge without cache or static web serving.</td></tr>
 <tr><td><code>profile-fips-openssl</code></td><td><code>proxy</code>, <code>security</code>, <code>tls-openssl-fips</code></td><td>FIPS-capable OpenSSL proxy build that links to the operator-selected OpenSSL provider.</td></tr>
 <tr><td><code>profile-iso19790-openssl</code></td><td><code>profile-fips-openssl</code>, <code>tls-openssl-iso19790</code></td><td>ISO/IEC 19790 terminology alias for the same OpenSSL validated-provider proof path.</td></tr>
 <tr><td><code>profile-fips-rustls</code></td><td><code>proxy</code>, <code>security</code>, <code>tls-rustls-fips</code></td><td>FIPS-capable rustls/AWS-LC candidate build.</td></tr>
@@ -211,7 +215,6 @@ cargo build --no-default-features \
 <div class="source-table"><table>
 <thead><tr><th>Future feature family</th><th>Document</th></tr></thead>
 <tbody>
-<tr><td>Compression</td><td><a href="compression.html" class="text-cyan-400 hover:text-cyan-300">Compression</a></td></tr>
 <tr><td>Image filter</td><td><a href="image-filter.html" class="text-cyan-400 hover:text-cyan-300">Image Filter</a></td></tr>
 <tr><td>Programmable media edge</td><td><a href="programmable-media-edge.html" class="text-cyan-400 hover:text-cyan-300">Programmable Media Edge</a></td></tr>
 <tr><td>OpenTelemetry OTLP export</td><td><a href="opentelemetry-tracing.html" class="text-cyan-400 hover:text-cyan-300">OpenTelemetry Tracing</a></td></tr>
