@@ -55,7 +55,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.0</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.3</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -106,7 +106,7 @@
         </div>
 
         <h1 class="text-4xl font-black text-white mb-4">Advanced Features</h1>
-        <p class="text-gray-400 text-lg mb-10">PHP-FPM, WASM extensibility, WAF, admin API, zero-retention privacy mode, and planned future modules.</p>
+        <p class="text-gray-400 text-lg mb-10">PHP-FPM, proxy operations, admin API, zero-retention privacy mode, WAF, WASM extensibility, and planned future modules.</p>
 
         <div class="prose">
 
@@ -149,7 +149,7 @@ socket = "/run/php/php8.2-fpm.sock"</code></pre>
           </div>
 
           <h3>Managed PHP-FPM</h3>
-          <p>Included in current v1.4.0 builds and introduced in v1.3.7. Managed mode keeps the same FastCGI/php-fpm request path, but Fluxheim starts and supervises a private php-fpm master process for the vhost. External php-fpm remains the default; use managed mode when you want Fluxheim to generate the pool config and own the private socket lifecycle.</p>
+          <p>Included in current v1.4.3 builds and introduced in v1.3.7. Managed mode keeps the same FastCGI/php-fpm request path, but Fluxheim starts and supervises a private php-fpm master process for the vhost. External php-fpm remains the default; use managed mode when you want Fluxheim to generate the pool config and own the private socket lifecycle.</p>
 
           <div class="not-prose">
             <div class="code-win my-5">
@@ -245,6 +245,53 @@ fluxheim-config-tester --config /etc/fluxheim/fluxheim.toml && \
   exec fluxheim --config /etc/fluxheim/fluxheim.toml</code></pre>
             </div>
           </div>
+
+          <h2>Proxy Operations</h2>
+          <p>Fluxheim v1.4.x adds migration-focused proxy operations on top of the 1.4.0 proxy parity baseline: regex routes, method routing, WebSocket upgrades, auth subrequests, safe traffic mirroring, dynamic upstream discovery, and a read-only local ops socket.</p>
+
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml — proxy operations</span></div>
+<pre class="language-toml"><code class="language-toml">[server]
+regex_enabled = true
+
+[admin.ops_socket]
+enabled = true
+path = "/run/fluxheim/ops.sock"
+
+[[vhosts]]
+name = "app"
+hosts = ["app.example.com"]
+
+[vhosts.proxy]
+upstreams = ["app.internal:8080"]
+upstream_dns_refresh_secs = 30
+# Or use upstreams_file instead of upstreams for file-refreshed pools.
+# upstreams_file = "/etc/fluxheim/upstreams/app.txt"
+websocket = true
+
+[vhosts.proxy.auth_request]
+enabled = true
+url = "http://127.0.0.1:9000/auth"
+forward_headers = ["Authorization", "Cookie"]
+allow_response_headers = ["X-User-Id"]
+
+[vhosts.proxy.mirror]
+enabled = true
+base_url = "http://mirror.internal:8080/shadow"
+sample_per_mille = 25
+forward_headers = ["User-Agent", "Accept"]
+
+[[vhosts.routes]]
+name = "versioned-api"
+path_regex = "^/api/(?P&lt;version&gt;v[0-9]+)/(?P&lt;tail&gt;.*)$"
+methods = ["GET", "HEAD"]
+action = "proxy"
+rewrite_template = "/{route.regex.version}/{route.regex.tail}"</code></pre>
+            </div>
+          </div>
+
+          <p>Regex support is disabled until <code>server.regex_enabled = true</code> is set. Traffic mirroring is compiled through the <code>traffic-mirror</code> feature and mirrors safe bodyless methods only; it never changes the primary response.</p>
 
           <h2>Zero-Retention Privacy Mode</h2>
           <p>The <code>privacy-mode</code> feature compiles Fluxheim without any caching or metrics functionality, enforcing zero log retention at the build level. This is suitable for privacy-sensitive deployments where no request data should be stored or exported.</p>
@@ -371,7 +418,7 @@ upstream_pool = "app-pool"</code></pre>
             Systemd & Containers
           </a>
           <a href="../download.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
-            Download v1.4.0
+            Download v1.4.3
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           </a>
         </div>

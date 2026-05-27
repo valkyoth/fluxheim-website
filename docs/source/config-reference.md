@@ -65,6 +65,7 @@ tls_listen = []
 default_vhost = "example.test"
 trusted_proxies = ["127.0.0.1"]
 proxy_protocol = "off"
+regex_enabled = false
 
 [server.limits]
 max_request_header_bytes = "64KiB"
@@ -160,6 +161,11 @@ snapshot_store = "/var/lib/fluxheim/snapshots"
 [admin.transport]
 mode = "local_only"
 
+[admin.ops_socket]
+enabled = false
+path = "/run/fluxheim/fluxheim-ops.sock"
+mode = "0600"
+
 [admin.health]
 unauthenticated = false
 response = "status"
@@ -201,6 +207,17 @@ the operator explicitly declare that a trusted local sidecar, reverse proxy, or
 load balancer terminates TLS/mTLS before traffic reaches the plain admin
 listener. Direct first-class admin TLS/mTLS remains planned; do not expose the
 admin listener over cleartext networks.
+
+`[admin.ops_socket]` enables a separate Unix-domain HTTP socket for local,
+read-only operational checks. It exposes only `GET /_fluxheim/status`,
+`GET /_fluxheim/cache/status`, `GET /_fluxheim/snapshots`, and the configured
+admin health path; mutating admin endpoints such as reload, rollback, and cache
+purge are not routed on this socket. The socket requires `admin.enabled = true`,
+is Unix-only, and validates its path with the same parent traversal, symlink, and
+unsafe-writable-parent checks used for process sockets. `mode` must grant owner
+read/write access, may grant group read/write access, and must not grant world
+access; use `0600` for service-owner-only status or `0660` for a dedicated
+operator group.
 
 `admin.client_certificate` is an extra hardening gate for that trusted
 terminator pattern. The admin listener still receives plain HTTP from the
@@ -402,10 +419,14 @@ when the selected TLS backend does not expose a given certificate attribute.
 Access log events also include the resolved route name and selected upstream
 address when a request reaches a proxy action; fallback, local static, or
 unrouted requests emit empty `route` or `upstream` fields as applicable.
+Load-balanced requests also include `upstream_alias` when configured through
+`proxy.upstream_aliases`, plus `upstream_retries` for the number of retry
+attempts Fluxheim made after the first selected upstream.
 
 `logging.access.include_route = false` emits an empty `route` field.
-`logging.access.include_upstream = false` emits an empty `upstream` field, which
-is useful when internal backend addresses should not appear in logs.
+`logging.access.include_upstream = false` emits empty `upstream` and
+`upstream_alias` fields, which is useful when internal backend addresses or
+operator-defined backend labels should not appear in logs.
 
 ## Headers
 
@@ -592,6 +613,27 @@ upstream_client_cert_path = "/etc/fluxheim/upstreams/client-chain.pem"
 upstream_client_key_path = "/etc/fluxheim/upstreams/client-key.pem"
 upstream_proxy_protocol = "off"
 upstream_http_version = "http1"
+websocket = false
+
+[proxy.auth_request]
+enabled = false
+# url = "http://127.0.0.1:4180/auth"
+forward_headers = ["authorization", "cookie"]
+allow_response_headers = ["x-auth-request-user", "x-auth-request-email"]
+connect_timeout_secs = 2
+read_timeout_secs = 5
+max_response_bytes = "64KiB"
+
+[proxy.mirror]
+enabled = false
+# base_url = "http://127.0.0.1:9000/shadow"
+sample_per_mille = 1000
+methods = ["GET", "HEAD", "OPTIONS"]
+forward_headers = ["user-agent"]
+timeout_secs = 2
+max_response_bytes = "16KiB"
+max_in_flight = 64
+
 # upstream_h2_max_streams = 64
 # upstream_h2_ping_interval_secs = 30
 connect_timeout_secs = 5
@@ -656,6 +698,24 @@ Every `upstreams` entry must be an authority such as
 `127.0.0.1:3000` or `origin.example.test:443`.
 Proxy upstream lists are capped at 64 entries and reject duplicates
 case-insensitively. Proxy error-page lists are also capped at 64 entries.
+For load-balancer builds, `upstreams_file = "/run/fluxheim/backends/app.txt"`
+can be used instead of `upstream` or `upstreams`. The file is read at startup
+and refreshed every `upstreams_file_refresh_secs` seconds, with a default of
+5 seconds and a bounded range of 1 through 300 seconds. The first file format is
+deliberately small: one `host:port` or `ip:port` authority per line, blank lines
+and full-line `#` comments ignored, 2 through 64 unique entries required.
+Fluxheim reads the file with the same symlink and parent-permission hardening
+used for other operator-controlled files. In this release, file-refreshed pools
+cannot be combined with `upstream_weights`, `upstream_aliases`,
+`backup_upstreams`, or `drain_upstreams`; use static `upstreams` for those
+policies.
+For DNS-based service names, load-balancer builds can set
+`upstream_dns_refresh_secs = 5` together with `upstreams = ["app.service:8080"]`.
+Fluxheim resolves those authorities at startup and then refreshes them on the
+configured 1 through 300 second interval. This first DNS-refresh slice is
+mutually exclusive with `upstream`, `upstreams_file`, `upstream_weights`,
+`upstream_aliases`, `backup_upstreams`, and `drain_upstreams`; use the static
+pool form when those richer backend policies are required.
 When `upstream_tls = true`, Fluxheim sends TLS to the origin. `upstream_sni`
 overrides the SNI name; if it is omitted, Fluxheim derives SNI from the primary
 upstream host. `upstream_verify_cert` and `upstream_verify_hostname` default to
@@ -771,20 +831,27 @@ redispatch attempts for this vhost or route over a moving window. Fluxheim does
 not retry after response streaming has started; status-code retries remain a
 later buffering-aware feature.
 
-`upstreams` is the preferred proxy target form for both one and many origins.
+`upstreams` is the preferred static proxy target form for both one and many origins.
 The older single `upstream = "host:port"` field remains supported for simple
 configs, but do not set both fields in the same proxy block. Fluxheim rejects
-that as ambiguous. A single `upstreams = ["host:port"]` entry behaves like a
+that as ambiguous. `upstreams_file` is also mutually exclusive with both static
+forms. A single `upstreams = ["host:port"]` entry behaves like a
 normal single proxy target in all builds and is resolved when requests are
 proxied, so a missing backend does not prevent the gateway from starting. Two
 or more entries activate the Pingora load-balancer path in builds compiled with
 `load-balancer`; those entries may be resolved by load-balancer setup and health
-checking. The same `proxy.load_balance` policy applies inside
+checking. File-refreshed and DNS-refreshed pools also use the load-balancer path
+and keep serving the previous healthy set when a later refresh is invalid. The same
+`proxy.load_balance` policy applies inside
 `[[vhosts.routes.proxy]]` route proxy blocks; route-level pools get their own
 selection, passive-health, retry, and health-check state.
 `connect_timeout_secs`, `read_timeout_secs`, and `send_timeout_secs` are
 optional. They map to the upstream connection timeout, upstream response/read
 timeout, and upstream request-body/write timeout.
+`websocket = true` enables HTTP/1.1 upgrade forwarding for websocket-style or
+other token-based upgrade requests on that proxy block. Fluxheim validates this
+with `upstream_http_version = "http1"` because HTTP/2 origins do not use the
+same hop-by-hop upgrade mechanism.
 `downstream_write_timeout_secs` and
 `downstream_min_send_rate_bytes_per_sec` protect the client-facing side of
 proxied responses. The write timeout caps stalled downstream writes; the minimum
@@ -792,15 +859,49 @@ send rate asks Pingora to derive a timeout from each response chunk size and is
 mainly useful against slow HTTP/1 clients. These fields are optional and can be
 set globally, per vhost, or on a route-level proxy block.
 
-For websocket-style upgrades, Fluxheim keeps the downstream `Connection:
-Upgrade` and `Upgrade` headers unless your header policy removes or replaces
-them. Route-level proxy blocks can use longer read/send timeouts for these
-long-lived paths without changing the whole vhost.
+When `websocket = true` and the downstream request contains a valid
+`Connection: Upgrade` token plus a valid `Upgrade` token, Fluxheim forwards the
+request upstream with `Connection: upgrade` and the downstream upgrade token.
+Upgrade requests bypass proxy cache policy and should normally use route-level
+read/send timeouts sized for long-lived connections. Leave `websocket = false`
+on normal HTTP routes so hop-by-hop upgrade headers are not forwarded
+accidentally.
+
+`[proxy.auth_request]` is Fluxheim's NGINX-style external authorization hook for
+proxy actions. When enabled, Fluxheim sends a bounded `GET` subrequest to `url`
+before forwarding the real request. Only headers listed in `forward_headers`
+are copied to the auth endpoint. Any 2xx auth response allows the request and
+headers listed in `allow_response_headers` are copied into the upstream request;
+4xx/5xx auth responses stop the request and return the auth status with a
+bounded text body. Other auth statuses are treated as a gateway-side auth
+failure. The hook can be configured globally, per vhost proxy, or per route
+proxy block. In FIPS/ISO-required mode, auth subrequests are limited to numeric
+local `http://127.0.0.1/...` or `http://[::1]/...` sidecars until outbound TLS
+client evidence is routed through the selected validated provider. With metrics
+enabled, auth subrequest decisions are counted by
+`fluxheim_edge_policy_events_total` with bounded `auth_request` policy labels
+and `allow`, `deny`, or `error` outcomes.
 
 `[[proxy.error_pages]]` entries are internal static fallback pages for proxy
 failures. The `path` is an internal request path resolved below the entry's
 `web.root`; it is not exposed as a public route unless you also configure a
 route for that root.
+
+`[proxy.mirror]` is an opt-in traffic shadowing hook available in binaries
+built with the `traffic-mirror` feature. The first implementation mirrors only
+safe, bodyless requests (`GET`, `HEAD`, `OPTIONS`, or `TRACE`) to `base_url`
+and appends the original path and query. Mirror requests are fire-and-forget:
+timeouts, response statuses, and failures never affect the primary response.
+Only headers listed in `forward_headers` are copied; credentials and cookies are
+not mirrored unless explicitly allow-listed. `sample_per_mille` deterministically
+selects 1 through 1000 requests per 1000 for a stable method/host/path key.
+`max_response_bytes` bounds how much of the mirror response Fluxheim drains
+before discarding it. `max_in_flight` caps outstanding mirror worker tasks per
+vhost/route mirror key; requests above the cap skip mirroring and continue on
+the primary path. Mirroring is rejected in `privacy-mode`; in FIPS/ISO required
+mode it is limited to numeric local `http://127.0.0.1/...` or
+`http://[::1]/...` sidecars until outbound TLS client evidence is routed
+through the selected validated provider.
 
 ## Compression
 
@@ -1897,14 +1998,30 @@ permits and are released automatically when the request finishes.
 With metrics enabled, concurrency-limit rejections are counted by
 `fluxheim_edge_policy_events_total` with bounded labels.
 
-Vhosts can also contain ordered route tables. Exact matches win first, then the
-longest prefix match, then one optional fallback route. A route must define one
-action: `redirect`, `proxy`, `web`, or `php`.
+Vhosts can also contain ordered route tables. Routes may optionally set
+`methods = ["GET", "HEAD"]`; when present, the route only matches those
+uppercase HTTP methods. Exact matches win first, then the longest prefix match,
+then the first configured regex route, then one optional fallback route. Regex
+routes require explicit global opt-in with
+`server.regex_enabled = true`; configs that use `path_regex` without that flag
+are rejected. Regex patterns use Rust's bounded `regex` engine and are checked
+at config load time. Regex routes expose bounded request-header template
+variables for migration patterns: `{route.regex.0}` is the full match,
+`{route.regex.1}` through `{route.regex.15}` are numbered captures, and
+`{route.regex.name}` reads a named capture such as `(?P<name>...)`. Capture
+values are capped before template rendering and are not used as metric labels.
+A route must define exactly one matcher: `path_exact`, `path_prefix`,
+`path_regex`, or `fallback = true`, and one action: `redirect`, `proxy`, `web`,
+or `php`. Regex routes may also set `rewrite_template` to build a new upstream
+path from bounded regex captures. `rewrite_template` is path-only, preserves the
+original query string, rejects unsafe rendered paths, and cannot be combined
+with `strip_prefix` or `rewrite_prefix`.
 
 ```toml
 [[vhosts.routes]]
 name = "chat"
 path_prefix = "/chat/"
+methods = ["GET", "HEAD"]
 strip_prefix = "/chat/"
 rewrite_prefix = "/backend/chat/"
 max_request_body_bytes = "64MiB"
@@ -1918,6 +2035,17 @@ send_timeout_secs = 600
 [vhosts.routes.grpc]
 enabled = false
 require_content_type = true
+
+[[vhosts.routes]]
+name = "versioned-api"
+path_regex = "^/api/v(?P<version>[0-9]+)/(?P<rest>.*)$"
+rewrite_template = "/internal/v{route.regex.version}/{route.regex.rest}"
+
+[vhosts.routes.headers.request.add]
+x-api-version = "{route.regex.version}"
+
+[vhosts.routes.proxy]
+upstreams = ["127.0.0.1:6013"]
 
 [vhosts.routes.cache]
 enabled = true

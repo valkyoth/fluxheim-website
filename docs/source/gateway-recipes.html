@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.0</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.3</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -169,7 +169,7 @@ x_forwarded_proto = true
 
 [headers.request.add]
 host = &quot;{host}&quot;</code></pre>
-<p>Use dynamic header templates only when a backend needs an exact value that is not covered by a typed field. The supported variables are intentionally small: <code>{host}</code>, <code>{remote_addr}</code>, <code>{scheme}</code>, <code>{uri}</code>, <code>{path}</code>, <code>{query}</code>, <code>{request_id}</code>, and <code>{http.&lt;header-name&gt;}</code>. Unknown variables fail config validation, and rendered values still pass HTTP header validation before they are sent upstream.</p>
+<p>Use dynamic header templates only when a backend needs an exact value that is not covered by a typed field. The supported variables are intentionally small: <code>{host}</code>, <code>{remote_addr}</code>, <code>{scheme}</code>, <code>{uri}</code>, <code>{path}</code>, <code>{query}</code>, <code>{request_id}</code>, TLS client-certificate variables, <code>{http.&lt;header-name&gt;}</code>, and bounded regex route captures such as <code>{route.regex.1}</code> or <code>{route.regex.version}</code> when the matched route uses <code>path_regex</code>. Unknown variables fail config validation, and rendered values still pass HTTP header validation before they are sent upstream.</p>
 <h3 id="browser-login-probe-for-wordpress">Browser Login Probe For WordPress</h3>
 <p>Some proxy bugs only show up in a real browser. One important example is HTTP/2 clients sending multiple <code>Cookie</code> header fields; an HTTP/2-to-HTTP/1.x gateway must forward those to classic backends as one semicolon-delimited <code>Cookie</code> header, not as a comma-delimited list.</p>
 <p>Use the browser probe when a WordPress login works with <code>curl</code> but loops in Chrome or another browser:</p>
@@ -225,9 +225,9 @@ cache_control = &quot;private, no-store&quot;</code></pre>
 <p>The configured error page is internal to the proxy fallback. It is not exposed as a public route unless another <code>web</code> route serves that same path.</p>
 <h2 id="current-1-0-boundaries">Current 1.0 Boundaries</h2>
 <ul>
-<li>Active DNS refresh and resolver TTL controls are not stable yet. Use stable</li>
+<li>DNS refresh is available for load-balancer builds through</li>
 </ul>
-<p>container/service names or IPs, and rely on your container runtime or host resolver behavior for now.</p>
+<p><code>upstream_dns_refresh_secs</code>, and local sidecar/orchestrator discovery can use <code>upstreams_file</code> with one <code>host:port</code> backend per line. Rich dynamic backend metadata such as weights, aliases, backups, and drains still requires static <code>upstreams</code> in this release.</p>
 <ul>
 <li>Per-route proxy, static, redirect, upload limit, timeout, header policy,</li>
 </ul>

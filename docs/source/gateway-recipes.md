@@ -138,9 +138,11 @@ host = "{host}"
 Use dynamic header templates only when a backend needs an exact value that is
 not covered by a typed field. The supported variables are intentionally small:
 `{host}`, `{remote_addr}`, `{scheme}`, `{uri}`, `{path}`, `{query}`,
-`{request_id}`, and `{http.<header-name>}`. Unknown variables fail config
-validation, and rendered values still pass HTTP header validation before they
-are sent upstream.
+`{request_id}`, TLS client-certificate variables, `{http.<header-name>}`, and
+bounded regex route captures such as `{route.regex.1}` or
+`{route.regex.version}` when the matched route uses `path_regex`. Unknown
+variables fail config validation, and rendered values still pass HTTP header
+validation before they are sent upstream.
 
 ### Browser Login Probe For WordPress
 
@@ -247,9 +249,11 @@ as a public route unless another `web` route serves that same path.
 
 ## Current 1.0 Boundaries
 
-- Active DNS refresh and resolver TTL controls are not stable yet. Use stable
-  container/service names or IPs, and rely on your container runtime or host
-  resolver behavior for now.
+- DNS refresh is available for load-balancer builds through
+  `upstream_dns_refresh_secs`, and local sidecar/orchestrator discovery can use
+  `upstreams_file` with one `host:port` backend per line. Rich dynamic backend
+  metadata such as weights, aliases, backups, and drains still requires static
+  `upstreams` in this release.
 - Per-route proxy, static, redirect, upload limit, timeout, header policy,
   prefix stripping, and internal error-page fallback are the supported gateway
   building blocks.

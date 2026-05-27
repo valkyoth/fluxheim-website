@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.0</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.3</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -1084,13 +1084,14 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <tr><td>PROXY protocol</td><td>NGINX/HAProxy/Envoy listener and upstream support</td><td>Accept v1/v2 only from trusted peers; optionally send v1/v2 upstream</td></tr>
 <tr><td>gRPC</td><td>Envoy first-class gRPC/trailers, NGINX <code>grpc_pass</code></td><td>Preserve HTTP/2 trailers/status/body limits/timeouts; no transcoding in 1.4</td></tr>
 <tr><td>HTTP/3/QUIC</td><td>NGINX/Caddy/Envoy support</td><td>Track behind a protocol milestone; do not block 1.4 unless Pingora server support is stable enough</td></tr>
-<tr><td>Traffic mirroring</td><td>NGINX <code>mirror</code>, Envoy shadowing</td><td>Bounded shadow requests with body on/off, sampling, timeout, redaction, and no effect on primary response</td></tr>
+<tr><td>Traffic mirroring</td><td>NGINX <code>mirror</code>, Envoy shadowing</td><td>First slice: safe bodyless shadow requests with deterministic sampling, timeout budgets, allow-listed headers, and no effect on primary response; body mirroring/redaction later</td></tr>
 <tr><td>Dynamic discovery</td><td>Envoy xDS, Caddy dynamic upstreams, DNS/service integrations</td><td>DNS refresh and file-watched upstream lists first; xDS/Kubernetes/Consul later</td></tr>
 <tr><td>Regex routing and rewrites</td><td>NGINX <code>location ~</code>, named captures, <code>rewrite</code>; HAProxy regex ACLs</td><td>Rust <code>regex</code>-based route matchers, capture variables, and bounded rewrite/header templates</td></tr>
 <tr><td>External auth subrequest</td><td>NGINX <code>auth_request</code>, OAuth2 proxy patterns, Envoy external authz</td><td>Route/vhost auth subrequest policy with bounded header forwarding, timeout, response handling, and metrics</td></tr>
 <tr><td>Response and URI rewrites</td><td>NGINX <code>proxy_redirect</code>, Apache <code>ProxyPassReverse</code>, NGINX <code>proxy_cookie_domain</code>/<code>proxy_cookie_path</code>, NGINX <code>rewrite</code>/HAProxy path replace</td><td>Bounded <code>Location</code>, <code>Refresh</code>, <code>Set-Cookie</code> domain/path rewrites, route <code>strip_prefix</code>/<code>rewrite_prefix</code>, then regex/template rewrite policy</td></tr>
-<tr><td>Geo policy</td><td>NGINX GeoIP2 module, HAProxy maps/ACLs</td><td>Optional <code>geoip</code> feature using MaxMind DB for country/ASN variables, ACLs, and route selection</td></tr>
+<tr><td>Geo policy</td><td>NGINX GeoIP2 module, HAProxy maps/ACLs</td><td>Optional <code>geoip</code> feature using provider-agnostic MMDB readers for MaxMind GeoIP2/GeoLite2 and European CIRCL Geo Open datasets, with country/ASN variables, ACLs, and route selection</td></tr>
 <tr><td>TCP stream proxy</td><td>NGINX stream, HAProxy TCP mode</td><td>Separate stream feature with byte-copy proxying, TLS passthrough/SNI sniffing later, TCP metrics, and no HTTP semantics</td></tr>
+<tr><td>Apple Silicon macOS development</td><td>NGINX/Homebrew developer workflows</td><td>Developer-build and smoke-test support for <code>aarch64-apple-darwin</code>; not a production/FIPS support claim while Pingora macOS remains experimental</td></tr>
 <tr><td>Extension hooks</td><td>NGINX/HAProxy Lua, Envoy Wasm</td><td>Typed policy inputs and hook points in 1.4; actual shared Wasm runtime remains 1.6</td></tr>
 </tbody></table></div>
 <p>Release shape:</p>
@@ -1151,31 +1152,37 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 </ul>
 <p>operational visibility. Do not add GeoIP policy, advanced ACL expression evaluation, stick-table tracking, runtime backend mutation, response body substitution, TCP stream proxying, UDP proxying, HTTP/3, gRPC transcoding, or arbitrary Wasm/Lua execution in <code>1.4.1</code>;</p>
 <ul>
-<li>regex path routing using Rust&#x27;s <code>regex</code> crate. Matching order should be</li>
+<li>regex path routing using Rust&#x27;s <code>regex</code> crate. The first slice is bounded</li>
 </ul>
-<p>exact routes first, then prefix routes, then configured regex routes in documented order. Regex size limits and config-time compilation failures are required; untrusted catastrophic-backtracking behavior is avoided by the Rust regex engine design. Regex routing must be disabled by default behind an explicit global config opt-in such as <code>server.regex_enabled = true</code>; config validation must reject route regexes, capture-aware rewrites, and regex-backed templates unless that global opt-in is set. This keeps accidental high-cardinality or overly broad regex policy out of normal prefix/exact-route deployments;</p>
+<p>route matching: exact routes first, then prefix routes, then configured regex routes in documented order. Regex size limits and config-time compilation failures are required; untrusted catastrophic-backtracking behavior is avoided by the Rust regex engine design. Regex routing must be disabled by default behind an explicit global config opt-in such as <code>server.regex_enabled = true</code>; config validation must reject route regexes, capture-aware rewrites, and regex-backed templates unless that global opt-in is set. This keeps accidental high-cardinality or overly broad regex policy out of normal prefix/exact-route deployments;</p>
 <ul>
 <li>named and numbered regex captures exposed as bounded typed variables for</li>
 </ul>
-<p><code>rewrite_prefix</code> successors, request-header templates, structured logs, and future typed hooks. Capture variables must not become metric labels by default;</p>
+<p>request-header templates and path-only <code>rewrite_template</code> routes in the first slice. Structured logs and future typed hooks remain follow-up work. Capture variables must not become metric labels by default;</p>
 <ul>
 <li>method-based route matching through <code>methods = [&quot;GET&quot;, &quot;HEAD&quot;]</code>, with</li>
 </ul>
-<p>config-time normalization and validation, so read/write routing can be expressed without Lua or duplicated vhosts;</p>
+<p>config-time validation, so read/write routing can be expressed without Lua or duplicated vhosts. The first slice treats method lists as route match conditions rather than deny policies: a method mismatch keeps searching later routes or fallback;</p>
 <ul>
-<li>WebSocket and generic HTTP/1.1 upgrade parity: explicit</li>
+<li>WebSocket and generic HTTP/1.1 upgrade parity: first slice is explicit</li>
 </ul>
-<p><code>proxy.websocket = true</code> / upgrade policy, tested <code>101 Switching Protocols</code> handling, hop-by-hop header behavior, timeout semantics, and forced compression/cache bypass for upgraded connections;</p>
+<p><code>proxy.websocket = true</code> upgrade policy on HTTP/1 upstream routes, strict hop-by-hop upgrade header forwarding, and forced cache bypass for upgraded connections. Remaining coverage should focus on end-to-end <code>101 Switching Protocols</code> fixtures and long-lived timeout behavior;</p>
 <ul>
-<li><code>auth_request</code>-style external authorization for vhosts and routes. The</li>
+<li><code>auth_request</code>-style external authorization for proxy actions. The first</li>
 </ul>
-<p>first implementation should make one bounded HTTP subrequest before forwarding, send only configured request headers, enforce connect/read timeouts, treat 2xx as allow and 4xx/5xx as deny/error according to policy, optionally copy allow-listed auth response headers into the upstream request, and count decisions with low-cardinality metrics;</p>
+<p>slice makes one bounded <code>GET</code> subrequest before forwarding, sends only configured request headers, enforces connect/read/body limits, treats 2xx as allow, returns bounded 4xx/5xx auth denials, copies allow-listed auth response headers into the upstream request, and constrains FIPS/ISO-required deployments to numeric local <code>http://</code> auth sidecars until outbound TLS client evidence is provider-aligned. Low-cardinality decision metrics are recorded through edge-policy events; richer deny/error policy remains later work;</p>
 <ul>
-<li>DNS-refreshing upstreams for container/service-name targets;</li>
-<li>file-watched upstream lists for service discovery without full config reload;</li>
-<li>traffic mirroring/shadowing with sampling, body controls, redaction,</li>
+<li>DNS-refreshing upstreams for container/service-name targets. First slice is</li>
 </ul>
-<p>timeout budgets, and metrics;</p>
+<p><code>upstream_dns_refresh_secs</code> for load-balancer builds, resolved by Pingora service discovery and deliberately kept separate from weights, aliases, backups, and drains until backend metadata has a stable dynamic format;</p>
+<ul>
+<li>file-watched upstream lists for service discovery without full config</li>
+</ul>
+<p>reload. First slice is <code>upstreams_file</code> for load-balancer builds: one <code>host:port</code> or <code>ip:port</code> authority per line, safe file handling, bounded refresh intervals, and no weights/aliases/backup/drain line metadata yet;</p>
+<ul>
+<li>traffic mirroring/shadowing: first slice is an optional <code>traffic-mirror</code></li>
+</ul>
+<p>feature for safe bodyless methods only, deterministic per-mille sampling, allow-listed request headers, timeout budgets, bounded response draining, FIPS/ISO local-sidecar enforcement, and low-cardinality mirror outcomes via edge-policy metrics. Body mirroring, redaction/transformation policies, and header/identity-claim sampling remain later work;</p>
 <ul>
 <li>custom proxy error pages at vhost/route scope, loaded from safe filesystem</li>
 </ul>
@@ -1183,32 +1190,131 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <ul>
 <li>richer typed proxy variables and structured JSON access logs. Structured</li>
 </ul>
-<p>access logs already include trusted-proxy-aware client IP, effective cache phase, resolved vhost, route identity, and selected upstream address; OTLP spans also use the resolved route identity; access logs and OTLP spans also record Fluxheim-applied response compression encoding, and Prometheus metrics count applied compression by bounded encoding;</p>
+<p>access logs already include trusted-proxy-aware client IP, effective cache phase, resolved vhost, route identity, and selected upstream address; OTLP spans also use the resolved route identity; access logs also include selected upstream aliases and retry counts for load-balanced requests, and OTLP spans record Fluxheim-applied response compression encoding while Prometheus metrics count applied compression by bounded encoding;</p>
 <ul>
 <li>route-scoped regex/template rewrite policy. <code>Location</code>, <code>Refresh</code>, and</li>
 </ul>
-<p><code>Set-Cookie</code> response rewrites are already implemented through the inherited response-header policy path, and route <code>rewrite_prefix</code> handles simple upstream path-prefix mapping;</p>
+<p><code>Set-Cookie</code> response rewrites are already implemented through the inherited response-header policy path, route <code>rewrite_prefix</code> handles simple upstream path-prefix mapping, and regex routes can use bounded path-only <code>rewrite_template</code> capture expansion. Do not add nginx-style sequential rewrite loops or <code>if</code> blocks in <code>1.4.1</code>;</p>
 <ul>
-<li>local Unix operational socket for read-only pool, queue, rate-limit,</li>
+<li>local Unix operational socket: first slice is <code>[admin.ops_socket]</code>, a</li>
 </ul>
-<p>circuit, and mirror status;</p>
+<p>read-only Unix-domain HTTP endpoint for status, cache status, snapshots, and health checks with owner/group-only socket permissions. Pool, queue, rate-limit, circuit, and mirror-specific detail can be added without exposing mutating commands;</p>
 <ul>
 <li>typed hook points for future Wasm/Lua-like policy without executing plugins</li>
 </ul>
 <p>in 1.4.</p>
 <ul>
-<li><code>1.4.2</code> - advanced policy and HAProxy-style operations:</li>
-<li>stop line: ship advanced HTTP policy and backend operations only. Do not</li>
+<li><code>1.4.2</code> - proxy module split and maintenance architecture:</li>
+<li>stop line: no new operator-facing proxy feature surface unless required to</li>
 </ul>
-<p>add TCP stream listeners, TLS passthrough SNI routing, UDP proxying, HTTP/3, gRPC transcoding, xDS/Kubernetes/Consul control planes, global distributed rate-limit services, arbitrary Wasm/Lua execution, built-in GeoIP database downloading, remote GeoIP lookup fallbacks, or impossible travel/anomaly engines in <code>1.4.2</code>;</p>
+<p>preserve behavior during extraction. Keep config compatibility, keep public metrics/logs stable, and pass the existing <code>1.4.1</code> smoke and security matrix before moving on;</p>
+<ul>
+<li>split the large HTTP proxy runtime into focused domains before adding more</li>
+</ul>
+<p>proxy surface. Completed first-pass extractions: access logging, compression, auth subrequests, traffic mirroring, edge policy, route policy, outbound PROXY protocol framing, and <code>php_fpm</code> slices for managed-process lifecycle, request-body spooling, FastCGI endpoint/pool transport, timeout/retry classification, and CGI response parsing. The first <code>proxy_cache</code> slices cover request-side cache identity, bypass, revalidation, response admission, <code>Vary</code> helpers, bounded range-cache request/key/admission policy, and fixed-slice range planning. Freshness, status-header, stale-serving, and response-header mutation policy also live in <code>proxy_cache</code>. Cache admin/API request and result DTOs live in <code>cache_api</code> so admin response shapes are no longer stranded in <code>proxy.rs</code>. Remaining domains: high-level PHP request/session orchestration, stateful proxy cache runtime/storage, slice object assembly, and the remaining proxy core orchestration;</p>
+<ul>
+<li>keep <code>FluxProxy</code> and the Pingora <code>ProxyHttp</code> lifecycle as the orchestration</li>
+</ul>
+<p>layer while extracting domain logic behind small, testable APIs;</p>
+<ul>
+<li>move tests with their domains where practical, and keep the existing</li>
+</ul>
+<p>behavior tests as regression coverage for the extraction;</p>
+<ul>
+<li>preserve feature-gated builds so default/no-default/profile builds continue</li>
+</ul>
+<p>proving that optional domains compile in and out cleanly;</p>
+<ul>
+<li>source-boundary rule going forward: new product domains should start in</li>
+</ul>
+<p>their own module once they have independent validation, tests, metrics, external dependencies, or security policy. <code>proxy.rs</code> should remain the Pingora lifecycle and request/response orchestration layer; <code>config.rs</code> may keep the serde-facing config surface, but substantial feature-specific validation and helper logic should move into focused config/domain modules;</p>
+<ul>
+<li>non-proxy split candidates to track after the active proxy extraction:</li>
+</ul>
+<p><code>config.rs</code> can be separated by admin, TLS/compliance, proxy/routing, cache, PHP, and ACME validation domains; <code>cache.rs</code> can separate storage registries, disk/storage-bin backends, encryption/OpenBao transit, purge indexing, and cache-key policy; <code>admin.rs</code> can separate auth/throttle, JSON/status responses, local ops socket, self-healing, and cache purge endpoints; <code>cli.rs</code> can separate cache inspection/warmup commands from top-level command dispatch. These are maintenance refactors, not release blockers unless touched by a feature;</p>
+<ul>
+<li><code>1.4.3</code> - config module split and maintenance architecture:</li>
+<li>stop line: no new operator-facing config features, no config migration, and</li>
+</ul>
+<p>no behavior changes unless required to preserve existing validation during extraction. Keep <code>crate::config::*</code> public paths stable for callers;</p>
+<ul>
+<li>split the largest remaining source file into focused domains before adding</li>
+</ul>
+<p>GeoIP or other policy features. Start with config source loading and safe TOML file discovery, then move domain validation in conservative slices;</p>
+<ul>
+<li>target slices: <code>config_loader</code> for path-safe config source discovery and</li>
+</ul>
+<p>bounded TOML reads; <code>config_admin</code>; <code>config_tls</code>; <code>config_proxy</code>; <code>config_cache</code>; <code>config_php</code>; <code>config_acme</code>; and shared <code>config_validation</code> helpers where cross-domain validators are genuinely shared;</p>
+<ul>
+<li>keep <code>src/config.rs</code> as the serde-facing facade and re-export layer at</li>
+</ul>
+<p>first. Do not force downstream modules to chase new paths during the split;</p>
+<ul>
+<li>move tests with their domain only when the moved code no longer needs large</li>
+</ul>
+<p>private fixtures from <code>config.rs</code>. Otherwise keep behavior tests in place until the domain boundary is stable;</p>
+<ul>
+<li>preserve feature-gated builds so optional domains compile in and out</li>
+</ul>
+<p>exactly as they did in 1.4.2;</p>
+<ul>
+<li>document every intentionally deferred split candidate at release time so</li>
+</ul>
+<p>the config split does not become an unbounded refactor.</p>
+<ul>
+<li><code>1.4.4</code> - Apple Silicon macOS developer support:</li>
+<li>stop line: Level 1 support only. Make Fluxheim build and run for local</li>
+</ul>
+<p>development on <code>aarch64-apple-darwin</code> with documented dev configs and one smoke gate. Do not claim macOS production support, FIPS evidence, launchd packaging, Homebrew distribution, notarized binaries, or parity with the Linux release gates in <code>1.4.4</code>;</p>
+<ul>
+<li>add a macOS CI or documented manual gate for the development profile:</li>
+</ul>
+<p><code>cargo check --locked --no-default-features --features web --lib</code>, <code>profile-static-site</code>, <code>profile-reverse-proxy</code>, <code>profile-full</code>, and <code>profile-development</code> for <code>fluxheim</code> and <code>fluxheim-acme</code>;</p>
+<ul>
+<li>add macOS developer examples that keep runtime state under project-local</li>
+</ul>
+<p>or <code>/tmp</code> paths instead of Linux service paths: run sockets, pid files, admin snapshots, ACME storage, disk cache, access/file logs, and PHP-FPM socket directories must all be writable by an unprivileged Mac user;</p>
+<ul>
+<li>add one runtime smoke test on an Apple Silicon runner or local M-series</li>
+</ul>
+<p>machine for static serving, reverse proxying, disk cache with a Mac-safe path, structured logs, and managed PHP-FPM when Homebrew PHP is available;</p>
+<ul>
+<li>audit native dependency behavior on macOS, especially <code>ring</code>,</li>
+</ul>
+<p><code>aws-lc-sys</code>, <code>zstd-sys</code>, <code>libz-ng-sys</code>, OpenSSL/BoringSSL/S2N optional TLS backends, and PHP-FPM process management. Prefer feature/profile fixes that avoid compiling unused native dependencies for developer builds;</p>
+<ul>
+<li>document required local prerequisites such as Xcode Command Line Tools,</li>
+</ul>
+<p>Rust target/toolchain, CMake when selected features need it, and optional Homebrew PHP-FPM for managed PHP development tests;</p>
+<ul>
+<li>keep Linux as the production support baseline. macOS support is for</li>
+</ul>
+<p>contributor development and local site testing until Pingora&#x27;s macOS support is no longer experimental and Fluxheim has regular macOS smoke coverage.</p>
+<ul>
+<li><code>1.4.5</code> - bounded Geo-Context and advanced HTTP policy foundation:</li>
+<li>stop line: ship local GeoIP/Geo-Context and bounded HTTP policy only. Do</li>
+</ul>
+<p>not add TCP stream listeners, TLS passthrough SNI routing, UDP proxying, HTTP/3, gRPC transcoding, xDS/Kubernetes/Consul control planes, global distributed rate-limit services, arbitrary Wasm/Lua execution, built-in GeoIP database downloading, remote GeoIP lookup fallbacks, or impossible travel/anomaly engines in <code>1.4.5</code>;</p>
 <ul>
 <li>optional <code>geoip</code> Cargo feature as a bounded Geo-Context foundation, not a</li>
 </ul>
-<p>broad programmable geo engine. Use <code>maxminddb</code> for local MaxMind GeoIP2/ASN databases, load database files with the same safe path rules used for other operator-supplied files, and reload by atomically swapping an <code>Arc</code> on config reload;</p>
+<p>broad programmable geo engine. Implement a provider-agnostic MMDB layer: the hot-path should ask a typed <code>GeoProvider</code>/<code>GeoDatabase</code> abstraction for <code>lookup(ip)</code> and receive Fluxheim&#x27;s normalized <code>GeoContext</code>, not provider structs. Initial supported local providers are MaxMind GeoIP2/GeoLite2 country/ASN databases and European CIRCL Geo Open datasets when supplied in MMDB-compatible form. Use the same <code>maxminddb</code> reader path for both, but validate database metadata/record shape at config load so an incompatible MMDB fails closed with a clear error;</p>
+<ul>
+<li>GeoIP config should support an ordered local database list such as</li>
+</ul>
+<p><code>[[geoip.databases]] provider = &quot;maxmind&quot;</code> and <code>provider = &quot;circl-geo-open&quot;</code> with <code>path = &quot;...&quot;</code>, plus an explicit <code>fallback_enabled</code> switch. Fallback means &quot;try the next local MMDB when the primary has no usable country/ASN result&quot;, not remote lookup or silent best-effort compliance bypass;</p>
+<ul>
+<li>load database files with the same safe path rules used for other</li>
+</ul>
+<p>operator-supplied files, and reload by atomically swapping an <code>Arc</code> on config reload. Do not make database downloading/updating part of the proxy process in <code>1.4.5</code>; document a systemd timer/sidecar pattern that downloads MaxMind/CIRCL files, verifies checksums or signatures where the provider publishes them, writes atomically, and then triggers Fluxheim reload;</p>
+<ul>
+<li>implement GeoIP as its own <code>geoip</code>/<code>geo_context</code> module from the start,</li>
+</ul>
+<p>with only thin hooks in config, proxy policy, access logs, metrics, and tracing. Do not add GeoIP lookup or policy logic directly to <code>proxy.rs</code> or grow <code>config.rs</code> with large database-management helpers;</p>
 <ul>
 <li>expose GeoIP as typed request context, not spoofable inbound headers.</li>
 </ul>
-<p>Initial fields are country ISO code and ASN; city/latitude/longitude should stay out of the first stable surface unless an operator explicitly enables them because they are more privacy-sensitive;</p>
+<p>Initial normalized fields are country ISO code, ASN, and provider/source identifier for diagnostics. City/latitude/longitude should stay out of the first stable surface unless an operator explicitly enables them because they are more privacy-sensitive;</p>
 <ul>
 <li>use the typed geo context in route/access policy, request-header templates,</li>
 </ul>
@@ -1218,42 +1324,18 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 </ul>
 <p>policy-only country/ASN evaluation with no logs, trace attributes, headers, or persisted request context. Decide before implementation and test both compile-time and config-time behavior;</p>
 <ul>
-<li>defer GeoIP auto-update sidecars, ETag/Last-Modified URL polling, L1 lookup</li>
+<li>defer built-in GeoIP auto-downloaders, ETag/Last-Modified URL polling, L1</li>
 </ul>
-<p>caches, remote sidecar lookup fallbacks, adaptive rate-limit weighting, programmable rhai/Wasm geo logic, and impossible-travel detection to <code>1.5</code> or <code>1.6</code> after the typed context and policy model are stable;</p>
+<p>lookup caches, remote sidecar lookup fallbacks, adaptive rate-limit weighting, programmable rhai/Wasm geo logic, and impossible-travel detection to <code>1.5</code> or <code>1.6</code> after the typed context and policy model are stable;</p>
 <ul>
-<li>implementation order: define the typed geo context and privacy behavior</li>
+<li>advanced ACL composition, stick-table-style local tracking, runtime backend</li>
 </ul>
-<p>before adding policy consumers; wire it into ACL/routing decisions before any load-balancer weighting; keep enterprise load-balancer operations in <code>1.5</code> unless they are required to make the <code>1.4.2</code> ACL surface correct;</p>
+<p>management, NGINX <code>map</code>-style variables, and bounded response body substitution remain in this policy line only if the config split is already complete and the stop line remains realistic. Otherwise move them to <code>1.5</code>.</p>
 <ul>
-<li>advanced ACL composition with a small typed boolean expression AST:</li>
-</ul>
-<p><code>and</code>, <code>or</code>, <code>not</code>, plus leaf conditions for source IP, client certificate fingerprint, method, path prefix, path regex, host, safe header values, and optional geo fields. Keep existing flat allow/deny lists for compatibility;</p>
-<ul>
-<li>stick-table-style local tracking for HTTP requests: configurable keys</li>
-</ul>
-<p>such as IP, header, cookie, or query parameter; counters for request rate, connection count, bytes, selected status/error rate, and last-seen time; TTL-bounded eviction; and conditions that integrate with the advanced ACL evaluator;</p>
-<ul>
-<li>runtime backend management through the authenticated admin API and/or local</li>
-</ul>
-<p>operational socket: drain, disable, enable, and weight changes first; adding brand-new backends at runtime only after atomic pool replacement is proven;</p>
-<ul>
-<li>drain semantics tied to existing load-balanced connection permits, so a</li>
-</ul>
-<p>drained backend stops receiving new selections while in-flight requests are allowed to complete;</p>
-<ul>
-<li>NGINX <code>map</code>-style variable mapping after regex routing exists: exact and</li>
-</ul>
-<p>regex match rules, bounded output variables such as <code>{map.lang}</code>, and no arbitrary scripting;</p>
-<ul>
-<li>response body substitution as an explicit bounded feature, not a default:</li>
-</ul>
-<p>text content types only, input/output size caps, ETag stripping, correct interaction order with compression, and identity pass-through for bodies above the configured limit.</p>
-<ul>
-<li><code>1.4.3</code> - TCP stream proxy foundation:</li>
+<li><code>1.4.6</code> - TCP stream proxy foundation:</li>
 <li>stop line: ship L4 TCP stream proxy basics only. Do not add UDP proxying,</li>
 </ul>
-<p>DNS-specific UDP load balancing, generic L7 policy on stream routes, HTTP cache/compression/auth/PHP behavior on stream routes, xDS/Kubernetes service discovery, or Wasm/Lua stream filters in <code>1.4.3</code>;</p>
+<p>DNS-specific UDP load balancing, generic L7 policy on stream routes, HTTP cache/compression/auth/PHP behavior on stream routes, xDS/Kubernetes service discovery, or Wasm/Lua stream filters in <code>1.4.6</code>;</p>
 <ul>
 <li>compile-time feature separate from HTTP proxy if needed;</li>
 <li>port/listener-based stream routing to one or more upstreams, reusing the</li>
@@ -1279,6 +1361,15 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <li>no HTTP headers, cache, auth subrequest, compression, or PHP behavior on</li>
 </ul>
 <p>stream routes.</p>
+<ul>
+<li>Future macOS production support:</li>
+<li>track as a later release line after <code>1.4.x</code>, not as spillover from the</li>
+</ul>
+<p>developer-support milestone. Production macOS requires regular macOS CI, runtime smoke coverage, packaging policy, launchd service files, signed or notarized binary decisions, Homebrew formula maintenance, and a security review of APFS, macOS ACLs, symlink behavior, Unix sockets, process supervision, and certificate/key storage;</p>
+<ul>
+<li>do not include FIPS/ISO-19790 claims in macOS production support unless a</li>
+</ul>
+<p>separate provider-specific evidence package exists for macOS. The current compliance evidence remains Linux/operator-environment focused.</p>
 <p>Version discipline for the rest of <code>1.4.x</code>:</p>
 <ul>
 <li>A version is releasable when every item above its stop line is either</li>
@@ -1445,7 +1536,7 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 </ul>
 <p>stable.</p>
 <ul>
-<li>TCP stream proxy foundation is tracked as <code>1.4.3</code>, not as part of the HTTP</li>
+<li>TCP stream proxy foundation is tracked as <code>1.4.6</code>, not as part of the HTTP</li>
 </ul>
 <p>proxy runtime. It should reuse listener/TLS/load-balancer building blocks where possible but remain a separate stream feature with no HTTP semantics.</p>
 <ul>
@@ -1467,18 +1558,15 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <li>JSON output and existing access-log privacy controls;</li>
 <li>no raw query/cookie/authorization values unless explicitly enabled.</li>
 <li>Local operational socket:</li>
-<li>Unix-domain socket for fast local status and counters, similar in spirit to</li>
+<li>first slice implemented as <code>[admin.ops_socket]</code>, a Unix-domain HTTP socket</li>
 </ul>
-<p>HAProxy&#x27;s stats socket;</p>
+<p>for fast local status, cache status, snapshots, and health checks;</p>
 <ul>
-<li>root/service-owner permissions, strict path validation, no network bind by</li>
+<li>root/service-owner or dedicated-group permissions, strict path validation,</li>
 </ul>
-<p>default;</p>
+<p>no network bind by default;</p>
 <ul>
-<li>read-only status first, with any mutating commands deferred or separately</li>
-</ul>
-<p>authorized.</p>
-<ul>
+<li>mutating commands remain deferred or separately authorized.</li>
 <li>Regex-based request/response header and URI rewrite rules using Rust&#x27;s</li>
 </ul>
 <p>memory-safe regex engine:</p>
@@ -1523,7 +1611,7 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <ul>
 <li>Arbitrary Lua/Wasm script execution. <code>1.4</code> should define typed hook points and</li>
 </ul>
-<p>bounded policy surfaces; the shared Wasm runtime remains a separate <code>1.6</code> line.</p>
+<p>bounded policy surfaces; the shared Wasm runtime remains a separate <code>1.6</code> line. NGINX rewrite-module-style <code>if</code> conditions should be evaluated there as sandboxed policy hooks rather than copied into TOML as a second ad-hoc language.</p>
 <ul>
 <li>HTTP/2 server push should be skipped permanently unless the browser ecosystem</li>
 </ul>
@@ -1999,6 +2087,10 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <li>Request header hook.</li>
 <li>Response header hook.</li>
 <li>Access-control hook returning allow, deny, or continue.</li>
+<li>Conditional request-policy hooks that can cover nginx rewrite-module-style</li>
+</ul>
+<p><code>if</code> use cases only inside the sandbox, with no URI rewrite loops by default and with explicit limits on returned decisions and mutations.</p>
+<ul>
 <li>Cache-policy hooks inspired by VCL, but designed as a constrained Rust/Wasm</li>
 </ul>
 <p>ABI rather than an embedded language:</p>
@@ -2896,15 +2988,31 @@ git push origin v1.0.0</code></pre>
 <ul>
 <li><code>v1.4.1</code>: discovery, mirroring, structured logs, richer rewrite policy,</li>
 </ul>
-<p>regex and method routing, WebSocket/upgrade verification, auth subrequests, local operational sockets, and typed operator hook points.</p>
+<p>regex and method routing, explicit WebSocket/HTTP upgrade proxying, bounded auth subrequests, safe bodyless traffic mirroring, and a read-only Unix ops socket. Broader typed hook points remain deferred.</p>
 <ul>
-<li><code>v1.4.2</code>: optional bounded Geo-Context foundation, advanced ACL composition,</li>
+<li><code>v1.4.2</code>: proxy module split and maintenance architecture release. Stop line:</li>
 </ul>
-<p>local stick-table-style tracking, runtime backend management, map-style variables, and bounded response body substitution. GeoIP scope stops at local MMDB country/ASN context, privacy controls, route/access decisions, and bounded observability; dynamic database downloaders, remote lookup sidecars, programmable geo logic, and anomaly engines are later work.</p>
+<p>no new operator-facing proxy feature surface unless required to preserve behavior during extraction. Split the current large proxy runtime into focused domains such as <code>php_fpm</code>, <code>compression</code>, route matching/rewrite policy, traffic mirroring, auth subrequests, proxy cache glue, PROXY protocol framing, access logging, and proxy security helpers. PHP-FPM process supervision, spooling, FastCGI transport, retry/timeout classification, and response parsing live in <code>php_fpm</code>; the remaining PHP code in <code>proxy.rs</code> should stay limited to Pingora request/session orchestration until the proxy core itself is split. The first <code>proxy_cache</code> slices own request-side cache policy, response admission, <code>Vary</code> helpers, bounded range-cache request/key/admission policy, fixed-slice range planning, freshness, status-header, stale-serving, and response-header mutation policy. Cache admin/API request and result DTOs live in <code>cache_api</code>; later cache slices can move stateful runtime/storage and slice object helpers without changing config. Preserve config compatibility and pass the existing 1.4.1 smoke/security matrix before moving on.</p>
 <ul>
-<li><code>v1.4.3</code>: TCP stream proxy foundation with separate stream semantics,</li>
+<li><code>v1.4.3</code>: config module split and maintenance architecture. Stop line: no new</li>
+</ul>
+<p>operator-facing config features, no config migration, and no behavior changes beyond preserving validation while extracting config loading and domain validation into focused modules behind stable <code>crate::config::*</code> paths.</p>
+<ul>
+<li><code>v1.4.4</code>: Apple Silicon macOS developer support. Scope stops at local</li>
+</ul>
+<p><code>aarch64-apple-darwin</code> build/check/smoke coverage for development profiles, Mac-safe dev configs for runtime paths/cache/logs/PHP-FPM, dependency/profile cleanup for unused native crates, and setup docs; it is not a production, FIPS, Homebrew, notarized-binary, or launchd packaging milestone.</p>
+<ul>
+<li><code>v1.4.5</code>: optional bounded Geo-Context foundation and advanced HTTP policy.</li>
+</ul>
+<p>GeoIP scope stops at local provider-agnostic MMDB country/ASN context for MaxMind GeoIP2/GeoLite2 and CIRCL Geo Open datasets, privacy controls, route/access decisions, ordered local fallback, and bounded observability; built-in dynamic database downloaders, remote lookup sidecars, programmable geo logic, and anomaly engines are later work.</p>
+<ul>
+<li><code>v1.4.6</code>: TCP stream proxy foundation with separate stream semantics,</li>
 </ul>
 <p>listener/upstream trust boundaries, metrics, and optional TLS passthrough SNI routing only after a bounded ClientHello parser is proven.</p>
+<ul>
+<li>Later macOS production line: only after Level 1 developer support is stable.</li>
+</ul>
+<p>Requires regular macOS CI, runtime smoke coverage, launchd/Homebrew or other packaging decisions, signed/notarized binary policy, and a macOS-specific filesystem/security review. Keep Linux as the production baseline until that line is explicitly scheduled.</p>
 <ul>
 <li><code>v1.5.1</code>: fixes for enterprise load-balancer operations.</li>
 <li><code>v1.6.1</code>: fixes for the shared Wasm extensibility runtime.</li>

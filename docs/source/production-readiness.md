@@ -226,8 +226,31 @@ HTTP health checks, bounded proxy metrics, upstream connection and socket
 tuning, listener/client-certificate policy, PROXY protocol v1/v2 receive/send,
 upstream TLS trust and mTLS controls, HTTP/2 origin controls, and gRPC
 pass-through policy. Dynamic discovery, traffic mirroring, richer rewrite
-templates, local operational sockets, and typed hook points remain `1.4.1`
-work.
+templates, local operational sockets, explicit WebSocket upgrades, bounded auth
+subrequests, regex/method routing, and safe path-only regex rewrite templates
+are the `1.4.1` follow-up line.
+
+`1.4.2` is intentionally reserved for proxy runtime module extraction before
+the next large proxy feature. The stop line is structural: preserve behavior
+while splitting the current monolithic proxy runtime. Access logging,
+compression, auth subrequests, traffic mirroring, edge policy, route policy,
+outbound PROXY protocol framing, PHP-FPM process supervision, request-body
+spooling, FastCGI transport, timeout/retry classification, and CGI response
+parsing are extracted domains. The remaining PHP code in `proxy.rs` is the
+Pingora request/session integration layer. The first `proxy_cache` slices hold
+request-side cache identity, bypass, revalidation, response admission, `Vary`
+helpers, and bounded range-cache request/key/admission policy plus fixed-slice
+range planning, freshness, status-header, stale-serving, and response-header
+mutation policy. Cache admin/API request and result DTOs live in `cache_api`;
+cache runtime/storage, slice object assembly, and the remaining proxy core
+orchestration stay in scope for this maintenance line.
+
+Going forward, large optional features should not be added directly to the
+proxy/runtime files. A feature with its own config, validation rules, metrics,
+external dependencies, or security boundary should start as a focused module
+with small integration hooks. GeoIP/Geo-Context is the reference pattern for
+future work: an optional domain module first, then thin config, policy, logging,
+metrics, and tracing integration.
 
 ## Operator Checks
 
