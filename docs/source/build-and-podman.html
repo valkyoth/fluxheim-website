@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.3</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.4</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -74,7 +74,7 @@
 
         <article class="source-doc">
 <h1 id="build-and-rootless-podman">Build And Rootless Podman</h1>
-<p>Fluxheim pins Rust 1.95.0 in <code>rust-toolchain.toml</code> and <code>Cargo.toml</code>. The local toolchain and the container builder should stay on the same stable release.</p>
+<p>Fluxheim pins Rust 1.96.0 in <code>rust-toolchain.toml</code> and <code>Cargo.toml</code>. The local toolchain and the container builder should stay on the same stable release.</p>
 <h2 id="local-builds">Local Builds</h2>
 <p>Native builds are the best option when the binary should be optimized for the current CPU:</p>
 <pre class="language-bash"><code class="language-bash">cargo build --release
@@ -116,10 +116,10 @@ cargo build --release --no-default-features \
 <p>For package scripts or custom CI that accept user-provided feature strings, run the feature preflight before invoking Cargo:</p>
 <pre class="language-bash"><code class="language-bash">scripts/validate-features.sh proxy,web,tls-rustls</code></pre>
 <h2 id="system-build-dependencies">System Build Dependencies</h2>
-<p>Fluxheim builds with Rust 1.95.0. The default feature set uses Pingora, Rustls, cache support, and static file serving. Native builds need a normal C/C++ toolchain plus a few build helpers for transitive native code.</p>
+<p>Fluxheim builds with Rust 1.96.0. The default feature set uses Pingora, Rustls, cache support, and static file serving. Native builds need a normal C/C++ toolchain plus a few build helpers for transitive native code.</p>
 <p>Required for the default build:</p>
 <ul>
-<li>Rust 1.95.0, usually through <code>rustup</code> or the distro Rust packages when they</li>
+<li>Rust 1.96.0, usually through <code>rustup</code> or the distro Rust packages when they</li>
 </ul>
 <p>are new enough;</p>
 <ul>
@@ -167,7 +167,7 @@ sudo dnf install gcc gcc-c++ make cmake perl pkgconf-pkg-config ca-certificates<
 <tr><td><code>debian</code></td><td><code>containers/Containerfile.debian</code></td><td><code>debian:trixie-slim</code></td><td>Conservative glibc runtime for broad compatibility.</td></tr>
 </tbody></table></div>
 <p>The root <code>Containerfile</code> remains the Debian default for simple local builds. New packaging and publishing work should use the explicit variant files under <code>containers/</code>.</p>
-<p>The Alpine, Wolfi, and SUSE Micro variants build with the official Rust <code>1.95.0-alpine3.23</code> image to keep a musl-linked release binary portable across small runtime bases. The Debian variant builds with the official Rust <code>1.95.0-bookworm</code> image and runs on <code>debian:trixie-slim</code>.</p>
+<p>The Alpine, Wolfi, and SUSE Micro variants build with the official Rust <code>1.96.0-alpine3.23</code> image to keep a musl-linked release binary portable across small runtime bases. The Debian variant builds with the official Rust <code>1.96.0-bookworm</code> image and runs on <code>debian:trixie-slim</code>.</p>
 <p>The builder installs <code>cmake</code> because Pingora&#x27;s compression and TLS transitives compile native C code. The runtime runs as UID/GID <code>65532</code> and owns only:</p>
 <ul>
 <li><code>/etc/fluxheim</code></li>

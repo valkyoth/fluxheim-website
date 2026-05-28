@@ -3,7 +3,7 @@ services:
     build:
       context: ..
       dockerfile: container/Dockerfile
-    image: fluxheim-website:1.4.3
+    image: fluxheim-website:1.4.4
     container_name: fluxheim-website
     restart: always
     stop_signal: SIGTERM

@@ -20,7 +20,7 @@
   <meta name="twitter:title" content="Fluxheim">
   <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust.">
   <meta name="twitter:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
-  <meta name="description" content="Download Fluxheim pre-built binaries for Linux. Full, cache, and proxy build profiles available.">
+  <meta name="description" content="Download Fluxheim pre-built binaries for Linux x86_64, Linux ARM64, macOS developer testing, and container images.">
   <link rel="stylesheet" href="assets/css/prism-dark.min.css">
   <link rel="stylesheet" href="assets/css/theme.css?v=20260519">
   <script src="assets/js/theme.js?v=20260519"></script>
@@ -52,7 +52,7 @@
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
             GitHub
           </a>
-          <a href="download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.3</a>
+          <a href="download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.4</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -80,10 +80,10 @@
       <div class="mb-12">
         <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/25 rounded-full mb-5">
           <span class="w-2 h-2 bg-emerald-400 rounded-full"></span>
-          <span class="text-emerald-400 text-xs font-semibold">Latest Stable — v1.4.3</span>
+          <span class="text-emerald-400 text-xs font-semibold">Latest Stable — v1.4.4</span>
         </div>
         <h1 class="text-4xl font-black text-white mb-3">Download Fluxheim</h1>
-        <p class="text-gray-400 text-lg">Pre-built Linux binaries for x86_64. Released May 27, 2026.</p>
+        <p class="text-gray-400 text-lg">Pre-built Linux binaries for x86_64 and ARM64, plus macOS developer builds. Released May 27, 2026.</p>
       </div>
 
       <!-- Latest Release Cards -->
@@ -107,11 +107,19 @@
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Prometheus + OpenTelemetry</div>
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>~10.3 MB binary</div>
           </div>
-          <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.3/fluxheim-1.4.3-full-x86_64-linux.tar.gz"
-             class="flex items-center justify-center gap-2 px-4 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-lg transition-colors text-sm">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            fluxheim-1.4.3-full.tar.gz
-          </a>
+          <div class="grid grid-cols-2 rounded-lg overflow-hidden bg-cyan-500 text-gray-950 font-bold text-sm shadow-md">
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-full-x86_64-linux.tar.gz"
+               class="flex items-center justify-center gap-2 px-3 py-2.5 hover:bg-cyan-400 transition-colors"
+               aria-label="Download full build for Linux x86_64">
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span>x86_64</span>
+            </a>
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-full-aarch64-linux.tar.gz"
+               class="flex items-center justify-center px-3 py-2.5 border-l border-gray-950/20 hover:bg-cyan-400 transition-colors"
+               aria-label="Download full build for Linux ARM64">
+              ARM64
+            </a>
+          </div>
         </div>
 
         <!-- PHP -->
@@ -130,11 +138,19 @@
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>TLS + managed ACME renewal</div>
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>~8.9 MB binary</div>
           </div>
-          <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.3/fluxheim-1.4.3-php-x86_64-linux.tar.gz"
-             class="flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors border border-gray-700 text-sm">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            fluxheim-1.4.3-php.tar.gz
-          </a>
+          <div class="grid grid-cols-2 rounded-lg overflow-hidden bg-gray-800 text-white font-semibold text-sm border border-gray-700">
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-php-x86_64-linux.tar.gz"
+               class="flex items-center justify-center gap-2 px-3 py-2.5 hover:bg-gray-700 transition-colors"
+               aria-label="Download PHP build for Linux x86_64">
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span>x86_64</span>
+            </a>
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-php-aarch64-linux.tar.gz"
+               class="flex items-center justify-center px-3 py-2.5 border-l border-gray-700 hover:bg-gray-700 transition-colors"
+               aria-label="Download PHP build for Linux ARM64">
+              ARM64
+            </a>
+          </div>
         </div>
 
         <!-- Cache -->
@@ -153,11 +169,19 @@
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>No static web module compiled</div>
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>~6.8 MB binary</div>
           </div>
-          <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.3/fluxheim-1.4.3-cache-x86_64-linux.tar.gz"
-             class="flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors border border-gray-700 text-sm">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            fluxheim-1.4.3-cache.tar.gz
-          </a>
+          <div class="grid grid-cols-2 rounded-lg overflow-hidden bg-gray-800 text-white font-semibold text-sm border border-gray-700">
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-cache-x86_64-linux.tar.gz"
+               class="flex items-center justify-center gap-2 px-3 py-2.5 hover:bg-gray-700 transition-colors"
+               aria-label="Download cache build for Linux x86_64">
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span>x86_64</span>
+            </a>
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-cache-aarch64-linux.tar.gz"
+               class="flex items-center justify-center px-3 py-2.5 border-l border-gray-700 hover:bg-gray-700 transition-colors"
+               aria-label="Download cache build for Linux ARM64">
+              ARM64
+            </a>
+          </div>
         </div>
 
         <!-- Proxy -->
@@ -176,13 +200,77 @@
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>No cache or web module compiled</div>
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>~5.8 MB binary</div>
           </div>
-          <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.3/fluxheim-1.4.3-proxy-x86_64-linux.tar.gz"
-             class="flex items-center justify-center gap-2 px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-lg transition-colors border border-gray-700 text-sm">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            fluxheim-1.4.3-proxy.tar.gz
-          </a>
+          <div class="grid grid-cols-2 rounded-lg overflow-hidden bg-gray-800 text-white font-semibold text-sm border border-gray-700">
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-proxy-x86_64-linux.tar.gz"
+               class="flex items-center justify-center gap-2 px-3 py-2.5 hover:bg-gray-700 transition-colors"
+               aria-label="Download proxy build for Linux x86_64">
+              <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+              <span>x86_64</span>
+            </a>
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-proxy-aarch64-linux.tar.gz"
+               class="flex items-center justify-center px-3 py-2.5 border-l border-gray-700 hover:bg-gray-700 transition-colors"
+               aria-label="Download proxy build for Linux ARM64">
+              ARM64
+            </a>
+          </div>
         </div>
 
+      </div>
+
+      <!-- Platform Downloads -->
+      <div class="mb-14">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
+          <div>
+            <h2 class="text-2xl font-bold text-white">Platform Downloads</h2>
+            <p class="text-gray-500 text-sm mt-1">Production Linux builds plus Level 1 macOS developer tarballs.</p>
+          </div>
+          <span class="text-xs text-gray-500">macOS is for developer testing only</span>
+        </div>
+
+        <div class="overflow-x-auto rounded-xl border border-gray-800">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-gray-800 bg-gray-900/60">
+                <th class="text-left px-4 py-3 font-semibold text-gray-400">Build</th>
+                <th class="text-left px-4 py-3 font-semibold text-gray-400">Linux x86_64</th>
+                <th class="text-left px-4 py-3 font-semibold text-gray-400">Linux ARM64</th>
+                <th class="text-left px-4 py-3 font-semibold text-gray-400">macOS dev</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-800/60">
+              <tr class="hover:bg-gray-900/40 transition-colors">
+                <td class="px-4 py-3 font-semibold text-white">Full</td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-full-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-full-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-dev-aarch64-macos.tar.gz">Apple Silicon</a> <span class="text-gray-600">/</span> <a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-dev-x86_64-macos.tar.gz">Intel</a></td>
+              </tr>
+              <tr class="hover:bg-gray-900/40 transition-colors">
+                <td class="px-4 py-3 font-semibold text-white">PHP</td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-php-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-php-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3 text-gray-600">-</td>
+              </tr>
+              <tr class="hover:bg-gray-900/40 transition-colors">
+                <td class="px-4 py-3 font-semibold text-white">Cache</td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-cache-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-cache-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3 text-gray-600">-</td>
+              </tr>
+              <tr class="hover:bg-gray-900/40 transition-colors">
+                <td class="px-4 py-3 font-semibold text-white">Proxy</td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-proxy-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-proxy-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3 text-gray-600">-</td>
+              </tr>
+              <tr class="hover:bg-gray-900/40 transition-colors">
+                <td class="px-4 py-3 font-semibold text-white">Config tester</td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-config-tester-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-config-tester-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3 text-gray-600">-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- Installation Instructions -->
@@ -199,12 +287,13 @@
         <div x-show="tab === 'tarball'" class="space-y-4">
           <div class="code-win">
             <div class="px-4 py-2.5 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — tarball installation</span></div>
-<pre class="language-bash"><code class="language-bash"># 1. Download the full build tarball
-curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.4.3/fluxheim-1.4.3-full-x86_64-linux.tar.gz \
-  -o fluxheim-1.4.3.tar.gz
+<pre class="language-bash"><code class="language-bash"># 1. Download the full Linux build tarball
+# Use aarch64-linux instead of x86_64-linux on ARM64 servers.
+curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-full-x86_64-linux.tar.gz \
+  -o fluxheim-1.4.4.tar.gz
 
 # 2. Verify and extract
-tar xzf fluxheim-1.4.3.tar.gz
+tar xzf fluxheim-1.4.4.tar.gz
 
 # 3. Move binary and helper tools to system path
 sudo mv fluxheim /usr/local/bin/
@@ -226,10 +315,17 @@ sudo fluxheim --config /etc/fluxheim/fluxheim.toml</code></pre>
         <div x-show="tab === 'container'" class="space-y-4">
           <div class="code-win">
             <div class="px-4 py-2.5 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — rootless Podman</span></div>
-<pre class="language-bash"><code class="language-bash"># Pull the image (full, cache, or proxy variant)
-podman pull ghcr.io/valkyoth/fluxheim:1.4.3         # full
-podman pull ghcr.io/valkyoth/fluxheim:1.4.3-cache   # cache edge
-podman pull ghcr.io/valkyoth/fluxheim:1.4.3-proxy   # proxy edge
+<pre class="language-bash"><code class="language-bash"># Pull GHCR images (full, cache, proxy, and PHP variants)
+podman pull ghcr.io/valkyoth/fluxheim:v1.4.4         # full
+podman pull ghcr.io/valkyoth/fluxheim:v1.4.4-cache   # cache edge
+podman pull ghcr.io/valkyoth/fluxheim:v1.4.4-proxy   # proxy edge
+podman pull ghcr.io/valkyoth/fluxheim:v1.4.4-php     # managed PHP-FPM
+
+# Same build set is available on Quay
+podman pull quay.io/valkyoth/fluxheim:v1.4.4
+podman pull quay.io/valkyoth/fluxheim:v1.4.4-cache
+podman pull quay.io/valkyoth/fluxheim:v1.4.4-proxy
+podman pull quay.io/valkyoth/fluxheim:v1.4.4-php
 
 # Run rootless — internal ports 8080 and 8443
 podman run -d \
@@ -240,7 +336,7 @@ podman run -d \
   -v /srv/sites:/srv/sites:ro \
   -v /srv/fluxheim/certs:/etc/fluxheim/certs:rw \
   -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro \
-  ghcr.io/valkyoth/fluxheim:1.4.3
+  ghcr.io/valkyoth/fluxheim:v1.4.4
 
 # Check logs
 podman logs -f fluxheim</code></pre>
@@ -316,17 +412,20 @@ enabled = true
             <h3 class="text-white font-semibold mb-3">Supported Platforms</h3>
             <ul class="space-y-2 text-sm text-gray-400">
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Linux x86_64 (kernel 4.14+)</li>
-              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>aarch64 (planned)</li>
-              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>macOS (build from source)</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Linux ARM64 / aarch64</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"/></svg>macOS developer binaries only</li>
             </ul>
           </div>
           <div class="p-5 bg-gray-900/60 border border-gray-800 rounded-xl">
             <h3 class="text-white font-semibold mb-3">Container Images</h3>
+            <p class="text-gray-500 text-sm mb-3">All release image builds are published on GHCR and <a href="https://quay.io/repository/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300">Quay</a>.</p>
             <ul class="space-y-2 text-sm text-gray-400">
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Wolfi (minimal, hardened)</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Full, cache, proxy, and PHP image profiles</li>
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Alpine Linux</li>
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>SUSE Micro</li>
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Debian</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Published on GHCR and Quay</li>
             </ul>
           </div>
         </div>
@@ -354,21 +453,29 @@ enabled = true
               <tr class="hover:bg-gray-900/40 transition-colors">
                 <td class="px-5 py-4">
                   <div class="flex items-center gap-2">
-                    <span class="font-mono font-bold text-white">v1.4.3</span>
+                    <span class="font-mono font-bold text-white">v1.4.4</span>
                     <span class="px-1.5 py-0.5 text-xs bg-cyan-500/10 text-cyan-400 rounded border border-cyan-500/20">Latest</span>
                   </div>
                 </td>
                 <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 27, 2026</td>
-                <td class="px-5 py-4 text-gray-400">Maintenance architecture release splitting the large configuration surface into focused modules, with path-safety and admin throttle hardening</td>
+                <td class="px-5 py-4 text-gray-400">Apple Silicon macOS Level 1 developer support, Linux ARM64 release assets, normalized release packaging, and config-tester archives for both Linux targets</td>
                 <td class="px-5 py-4">
                   <div class="flex flex-wrap gap-2">
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.3/fluxheim-1.4.3-full-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">full</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.3/fluxheim-1.4.3-php-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">php</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.3/fluxheim-1.4.3-cache-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">cache</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.3/fluxheim-1.4.3-proxy-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">proxy</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.3/fluxheim-1.4.3-config-tester-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">config-tester</a>
+                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-full-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">full</a>
+                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-php-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">php</a>
+                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-cache-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">cache</a>
+                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-proxy-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">proxy</a>
+                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-config-tester-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">config-tester</a>
+                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-full-aarch64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">arm64</a>
+                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-dev-aarch64-macos.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">mac dev</a>
                   </div>
                 </td>
+              </tr>
+              <tr class="hover:bg-gray-900/40 transition-colors">
+                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.4.3</span></td>
+                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 27, 2026</td>
+                <td class="px-5 py-4 text-gray-400">Configuration surface split into focused modules, with path-safety and admin throttle hardening</td>
+                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.4.3" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a></td>
               </tr>
               <tr class="hover:bg-gray-900/40 transition-colors">
                 <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.4.2</span></td>
@@ -386,107 +493,37 @@ enabled = true
                 <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.4.0</span></td>
                 <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 25, 2026</td>
                 <td class="px-5 py-4 text-gray-400">Production proxy parity baseline with edge policy controls, compression, upstream resilience, TLS identity, PROXY protocol, and HTTP/2/gRPC pass-through</td>
-                <td class="px-5 py-4">
-                  <div class="flex flex-wrap gap-2">
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.0/fluxheim-1.4.0-full-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">full</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.0/fluxheim-1.4.0-php-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">php</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.0/fluxheim-1.4.0-cache-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">cache</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.0/fluxheim-1.4.0-proxy-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">proxy</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.0/fluxheim-1.4.0-config-tester-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">config-tester</a>
-                  </div>
-                </td>
+                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.4.0" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a></td>
               </tr>
               <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.3.7</span></td>
-                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 23, 2026</td>
-                <td class="px-5 py-4 text-gray-400">Production PHP-FPM completion with managed process supervision, respawn watchdog, and Wolfi PHP image path</td>
-                <td class="px-5 py-4">
-                  <div class="flex flex-wrap gap-2">
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.7/fluxheim-1.3.7-full-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">full</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.7/fluxheim-1.3.7-php-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">php</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.7/fluxheim-1.3.7-cache-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">cache</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.7/fluxheim-1.3.7-proxy-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">proxy</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.7/fluxheim-1.3.7-config-tester-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">config-tester</a>
-                  </div>
-                </td>
-              </tr>
-              <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.3.6</span></td>
-                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 23, 2026</td>
-                <td class="px-5 py-4 text-gray-400">FIPS/ISO internal-crypto closure, compliance evidence template, and fail-closed runtime gates</td>
-                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.3.6" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a></td>
-              </tr>
-              <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.3.5</span></td>
-                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 22, 2026</td>
-                <td class="px-5 py-4 text-gray-400">rustls/AWS-LC FIPS-capable candidate backend and validation profiles</td>
-                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.3.5" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a></td>
-              </tr>
-              <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.3.4</span></td>
-                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 21, 2026</td>
-                <td class="px-5 py-4 text-gray-400">OpenSSL FIPS/ISO-capable TLS validation, crypto diagnostics, and OWASP baseline evidence</td>
-                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.3.4" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a></td>
-              </tr>
-              <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.3.3</span></td>
-                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 20, 2026</td>
-                <td class="px-5 py-4 text-gray-400">PHP-FPM keepalive/retry hardening, app recipes, WordPress preset, bounded config and response handling</td>
-                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.3.3" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a></td>
-              </tr>
-              <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.3.2</span></td>
-                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 18, 2026</td>
-                <td class="px-5 py-4 text-gray-400">fluxheim-acme companion, fluxheim-config-tester, ACME reload socket, PHP profile</td>
-                <td class="px-5 py-4">
-                  <div class="flex flex-wrap gap-2">
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.2/fluxheim-1.3.2-full-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">full</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.2/fluxheim-1.3.2-php-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">php</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.2/fluxheim-1.3.2-cache-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">cache</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.2/fluxheim-1.3.2-proxy-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">proxy</a>
-                    <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.3.2/fluxheim-1.3.2-config-tester-x86_64-linux.tar.gz" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">config-tester</a>
-                  </div>
-                </td>
-              </tr>
-              <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.3.0</span></td>
-                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 14, 2026</td>
-                <td class="px-5 py-4 text-gray-400">Ingress/TLS feature-graph split, focused cache-edge and proxy-edge profiles</td>
-                <td class="px-5 py-4">
-                  <div class="flex flex-wrap gap-2">
-                    <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.3.0" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-                  </div>
-                </td>
-              </tr>
-              <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.2.6</span></td>
-                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 14, 2026</td>
-                <td class="px-5 py-4 text-gray-400">Fixed-slice range-cache composition, multipart byte-range responses</td>
-                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.2.6" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a></td>
-              </tr>
-              <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.2.5</span></td>
+                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.3.0 – v1.3.7</span></td>
                 <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 2026</td>
-                <td class="px-5 py-4 text-gray-400">Bounded range caching for large proxy-cache objects</td>
-                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.2.5" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a></td>
+                <td class="px-5 py-4 text-gray-400">PHP-FPM production line, managed php-fpm supervision, config tester and ACME companion binaries, FIPS/ISO validation tracks, focused cache/proxy profiles, and security hardening</td>
+                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases?q=v1.3&expanded=true" target="_blank" rel="noopener" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">All on GitHub</a></td>
               </tr>
               <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.2.4</span></td>
+                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.2.0 – v1.2.6</span></td>
                 <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 2026</td>
-                <td class="px-5 py-4 text-gray-400">Distributed cache peer fill with safe only-if-cached fetches</td>
-                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.2.4" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a></td>
+                <td class="px-5 py-4 text-gray-400">Cache and observability baseline with route-scoped cache policy, memory/disk/tiered backends, encrypted disk cache, peer fill, range caching, Prometheus, and OpenTelemetry export</td>
+                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases?q=v1.2&expanded=true" target="_blank" rel="noopener" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">All on GitHub</a></td>
               </tr>
               <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.2.3</span></td>
-                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">May 2026</td>
-                <td class="px-5 py-4 text-gray-400">Encrypted disk cache with local keys or OpenBao Transit</td>
-                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.2.3" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a></td>
-              </tr>
-              <tr class="hover:bg-gray-900/40 transition-colors">
-                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.0 – v1.2.2</span></td>
+                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.1.x</span></td>
                 <td class="px-5 py-4 text-gray-400 whitespace-nowrap">2026</td>
-                <td class="px-5 py-4 text-gray-400">Gateway foundation, TLS operations, cache baseline</td>
-                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases" target="_blank" rel="noopener" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">All on GitHub</a></td>
+                <td class="px-5 py-4 text-gray-400">Certificate operations line with TLS policy profiles, multi-certificate rustls SNI, managed ACME issuance and renewal, EAB-capable issuers, file-backed TLS secrets, and renewal units</td>
+                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases?q=v1.1&expanded=true" target="_blank" rel="noopener" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">All on GitHub</a></td>
+              </tr>
+              <tr class="hover:bg-gray-900/40 transition-colors">
+                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v1.0.0</span></td>
+                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">2026</td>
+                <td class="px-5 py-4 text-gray-400">Gateway foundation with vhost routing, route-level static/proxy/redirect actions, static file serving, reverse proxying, rustls TLS, admin control-plane, secure headers, systemd packaging, and rootless containers</td>
+                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.0.0" target="_blank" rel="noopener" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">GitHub</a></td>
+              </tr>
+              <tr class="hover:bg-gray-900/40 transition-colors">
+                <td class="px-5 py-4"><span class="font-mono font-bold text-white">v0.5.0</span></td>
+                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">Pre-release</td>
+                <td class="px-5 py-4 text-gray-400">First public pre-release milestone before the stable 1.x gateway line</td>
+                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v0.5.0" target="_blank" rel="noopener" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">GitHub</a></td>
               </tr>
             </tbody>
           </table>

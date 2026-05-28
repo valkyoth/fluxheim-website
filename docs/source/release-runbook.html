@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.3</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.4</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -80,8 +80,7 @@
 TAG=&quot;v${RELEASE_VERSION}&quot;
 TITLE=&quot;Fluxheim ${RELEASE_VERSION}&quot;
 RELEASE_NOTES=&quot;release-notes/RELEASE_NOTES_${RELEASE_VERSION}.md&quot;
-TARGET=&quot;$(rustc -vV | sed -n &#x27;s/^host: //p&#x27;)&quot;
-DIST_NAME=&quot;fluxheim-${RELEASE_VERSION}-full-${TARGET}&quot;</code></pre>
+TARGET=&quot;$(rustc -vV | sed -n &#x27;s/^host: //p&#x27;)&quot;</code></pre>
 <h2 id="1-preflight">1. Preflight</h2>
 <p>Confirm you are on the release commit and the worktree is clean:</p>
 <pre class="language-bash"><code class="language-bash">git status --short --branch
@@ -121,59 +120,35 @@ git tag -v &quot;${TAG}&quot;
 git push origin &quot;${TAG}&quot;</code></pre>
 <p>Record the <code>Good &quot;git&quot; signature ...</code> line from <code>git tag -v</code>.</p>
 <p>Pushing the tag starts the container image workflow.</p>
-<h2 id="4-build-the-binary-release-asset">4. Build The Binary Release Asset</h2>
-<p>Build the full production release binary:</p>
-<pre class="language-bash"><code class="language-bash">cargo build --release --locked --no-default-features --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp --bin fluxheim --bin fluxheim-acme</code></pre>
-<p>Create the release bundle:</p>
-<pre class="language-bash"><code class="language-bash">mkdir -p &quot;dist/${DIST_NAME}&quot;
-cp target/release/fluxheim &quot;dist/${DIST_NAME}/&quot;
-cp target/release/fluxheim-acme &quot;dist/${DIST_NAME}/&quot;
-cp README.md LICENSE CHANGELOG.md &quot;dist/${DIST_NAME}/&quot;
-cp -r docs examples packaging release-notes &quot;dist/${DIST_NAME}/&quot;
-tar -C dist -czf &quot;dist/${DIST_NAME}.tar.gz&quot; &quot;${DIST_NAME}&quot;
-sha256sum &quot;dist/${DIST_NAME}.tar.gz&quot;</code></pre>
-<p>For the cache-focused binary profile, rebuild with:</p>
-<pre class="language-bash"><code class="language-bash">DIST_NAME=&quot;fluxheim-${RELEASE_VERSION}-cache-${TARGET}&quot;
-cargo build --release --locked --no-default-features --features profile-cache-edge,acme-client --bin fluxheim --bin fluxheim-acme
-rm -rf &quot;dist/${DIST_NAME}&quot;
-mkdir -p &quot;dist/${DIST_NAME}&quot;
-cp target/release/fluxheim &quot;dist/${DIST_NAME}/&quot;
-cp target/release/fluxheim-acme &quot;dist/${DIST_NAME}/&quot;
-cp README.md LICENSE CHANGELOG.md &quot;dist/${DIST_NAME}/&quot;
-cp -r docs examples packaging release-notes &quot;dist/${DIST_NAME}/&quot;
-tar -C dist -czf &quot;dist/${DIST_NAME}.tar.gz&quot; &quot;${DIST_NAME}&quot;
-sha256sum &quot;dist/${DIST_NAME}.tar.gz&quot;</code></pre>
-<p>For the proxy-focused binary profile, rebuild with:</p>
-<pre class="language-bash"><code class="language-bash">DIST_NAME=&quot;fluxheim-${RELEASE_VERSION}-proxy-${TARGET}&quot;
-cargo build --release --locked --no-default-features --features profile-proxy-edge,acme-client --bin fluxheim --bin fluxheim-acme
-rm -rf &quot;dist/${DIST_NAME}&quot;
-mkdir -p &quot;dist/${DIST_NAME}&quot;
-cp target/release/fluxheim &quot;dist/${DIST_NAME}/&quot;
-cp target/release/fluxheim-acme &quot;dist/${DIST_NAME}/&quot;
-cp README.md LICENSE CHANGELOG.md &quot;dist/${DIST_NAME}/&quot;
-cp -r docs examples packaging release-notes &quot;dist/${DIST_NAME}/&quot;
-tar -C dist -czf &quot;dist/${DIST_NAME}.tar.gz&quot; &quot;${DIST_NAME}&quot;
-sha256sum &quot;dist/${DIST_NAME}.tar.gz&quot;</code></pre>
-<p>For the PHP-FPM web binary profile, rebuild with:</p>
-<pre class="language-bash"><code class="language-bash">DIST_NAME=&quot;fluxheim-${RELEASE_VERSION}-php-${TARGET}&quot;
-cargo build --release --locked --no-default-features --features profile-web-server,php-fpm,acme-client --bin fluxheim --bin fluxheim-acme
-rm -rf &quot;dist/${DIST_NAME}&quot;
-mkdir -p &quot;dist/${DIST_NAME}&quot;
-cp target/release/fluxheim &quot;dist/${DIST_NAME}/&quot;
-cp target/release/fluxheim-acme &quot;dist/${DIST_NAME}/&quot;
-cp README.md LICENSE CHANGELOG.md &quot;dist/${DIST_NAME}/&quot;
-cp -r docs examples packaging release-notes &quot;dist/${DIST_NAME}/&quot;
-tar -C dist -czf &quot;dist/${DIST_NAME}.tar.gz&quot; &quot;${DIST_NAME}&quot;
-sha256sum &quot;dist/${DIST_NAME}.tar.gz&quot;</code></pre>
-<p>Build one unified config-tester release asset. The tester is compiled with the broad development feature set and validates the intended runtime shape with <code>--profile full</code>, <code>--profile cache</code>, <code>--profile proxy</code>, or <code>--profile web-php</code>.</p>
-<pre class="language-bash"><code class="language-bash">TESTER_DIST_NAME=&quot;fluxheim-${RELEASE_VERSION}-config-tester-${TARGET}&quot;
-cargo build --release --locked --no-default-features --features profile-development --bin fluxheim-config-tester
-rm -rf &quot;dist/${TESTER_DIST_NAME}&quot;
-mkdir -p &quot;dist/${TESTER_DIST_NAME}&quot;
-cp target/release/fluxheim-config-tester &quot;dist/${TESTER_DIST_NAME}/&quot;
-cp README.md LICENSE CHANGELOG.md &quot;dist/${TESTER_DIST_NAME}/&quot;
-tar -C dist -czf &quot;dist/${TESTER_DIST_NAME}.tar.gz&quot; &quot;${TESTER_DIST_NAME}&quot;
-sha256sum &quot;dist/${TESTER_DIST_NAME}.tar.gz&quot;</code></pre>
+<h2 id="4-build-the-binary-release-assets">4. Build The Binary Release Assets</h2>
+<p>Build Linux runtime and config-tester release assets with the helper script. It names artifacts by normalized platform label instead of raw Rust target triple:</p>
+<div class="source-table"><table>
+<thead><tr><th>Rust target</th><th>Artifact label</th></tr></thead>
+<tbody>
+<tr><td><code>x86_64-unknown-linux-gnu</code></td><td><code>x86_64-linux</code></td></tr>
+<tr><td><code>aarch64-unknown-linux-gnu</code></td><td><code>aarch64-linux</code></td></tr>
+<tr><td><code>x86_64-apple-darwin</code></td><td><code>x86_64-macos</code></td></tr>
+<tr><td><code>aarch64-apple-darwin</code></td><td><code>aarch64-macos</code></td></tr>
+</tbody></table></div>
+<p>Build the current Linux host target:</p>
+<pre class="language-bash"><code class="language-bash">scripts/build_release_assets.sh &quot;${RELEASE_VERSION}&quot; --kind linux</code></pre>
+<p>Build Linux ARM64 on an ARM64 Linux builder or configured cross-builder:</p>
+<pre class="language-bash"><code class="language-bash">rustup target add aarch64-unknown-linux-gnu
+scripts/build_release_assets.sh &quot;${RELEASE_VERSION}&quot; --kind linux --target aarch64-unknown-linux-gnu</code></pre>
+<p>This produces, for each Linux target, the full/cache/proxy/php runtime archives and the config-tester archive:</p>
+<pre class="language-text"><code class="language-text">fluxheim-${RELEASE_VERSION}-full-x86_64-linux.tar.gz
+fluxheim-${RELEASE_VERSION}-cache-x86_64-linux.tar.gz
+fluxheim-${RELEASE_VERSION}-proxy-x86_64-linux.tar.gz
+fluxheim-${RELEASE_VERSION}-php-x86_64-linux.tar.gz
+fluxheim-${RELEASE_VERSION}-config-tester-x86_64-linux.tar.gz
+fluxheim-${RELEASE_VERSION}-full-aarch64-linux.tar.gz
+fluxheim-${RELEASE_VERSION}-cache-aarch64-linux.tar.gz
+fluxheim-${RELEASE_VERSION}-proxy-aarch64-linux.tar.gz
+fluxheim-${RELEASE_VERSION}-php-aarch64-linux.tar.gz
+fluxheim-${RELEASE_VERSION}-config-tester-aarch64-linux.tar.gz</code></pre>
+<p>For Level 1 macOS developer artifacts, build on the matching Mac host. These artifacts are developer conveniences, not production packages:</p>
+<pre class="language-bash"><code class="language-bash">scripts/build_release_assets.sh &quot;${RELEASE_VERSION}&quot; --kind macos-dev</code></pre>
+<p>Apple Silicon Macs produce <code>fluxheim-${RELEASE_VERSION}-dev-aarch64-macos.tar.gz</code>. Intel Macs produce <code>fluxheim-${RELEASE_VERSION}-dev-x86_64-macos.tar.gz</code>.</p>
 <p>Record all runtime and config-tester binary checksums.</p>
 <p>Generate SBOMs for the tagged source tree:</p>
 <pre class="language-bash"><code class="language-bash">scripts/generate-sbom.sh
@@ -218,11 +193,15 @@ scripts/validate-fips-rustls.sh release</code></pre>
 <li>Paste the contents of <code>$RELEASE_NOTES</code>.</li>
 <li>Upload every runtime profile archive built in step 4:</li>
 </ol>
-<p><code>dist/fluxheim-${RELEASE_VERSION}-{full,cache,proxy,php}-${TARGET}.tar.gz</code>.</p>
+<p><code>dist/fluxheim-${RELEASE_VERSION}-{full,cache,proxy,php}-{x86_64,aarch64}-linux.tar.gz</code>.</p>
 <ol>
 <li>Upload the unified config-tester archive built in step 4:</li>
 </ol>
-<p><code>dist/fluxheim-${RELEASE_VERSION}-config-tester-${TARGET}.tar.gz</code>.</p>
+<p><code>dist/fluxheim-${RELEASE_VERSION}-config-tester-{x86_64,aarch64}-linux.tar.gz</code>.</p>
+<ol>
+<li>If the release includes Level 1 macOS developer artifacts, upload</li>
+</ol>
+<p><code>dist/fluxheim-${RELEASE_VERSION}-dev-{aarch64,x86_64}-macos.tar.gz</code> for the Mac targets that were actually built.</p>
 <ol>
 <li>Upload <code>target/release-evidence/fluxheim.spdx.json</code>.</li>
 <li>Upload <code>target/release-evidence/fluxheim.cyclonedx.json</code>.</li>
