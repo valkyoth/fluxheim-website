@@ -1969,6 +1969,49 @@ policy, so route ACLs can further restrict traffic but cannot bypass a
 vhost-level denial. With metrics enabled, ACL denials are counted by
 `fluxheim_edge_policy_events_total` with bounded labels.
 
+When Fluxheim is built with the optional `geoip` feature, `[geoip]` enables
+local MMDB Geo-Context lookup for access policy:
+
+```toml
+[geoip]
+enabled = true
+fallback_enabled = true
+
+[[geoip.databases]]
+provider = "maxmind"
+path = "/var/lib/fluxheim/geo/GeoLite2-Country.mmdb"
+
+[[geoip.databases]]
+provider = "circl-geo-open"
+path = "/var/lib/fluxheim/geo/circl-country.mmdb"
+```
+
+`provider = "maxmind"` covers MaxMind GeoIP2/GeoLite2 MMDB files.
+`provider = "circl-geo-open"` covers European CIRCL Geo Open datasets when
+supplied in MMDB-compatible form. Databases are ordered local fallbacks when
+`fallback_enabled = true`; Fluxheim fills missing country or ASN fields from
+later databases when possible.
+Fluxheim does not download GeoIP databases in-process. Each MMDB file is capped
+at 512 MiB at read time and each loaded GeoIP runtime is capped at 1 GiB total.
+GeoIP update jobs should write and verify a replacement file, then atomically
+rename it into place before reloading Fluxheim.
+
+Vhost and route access policies can then use:
+
+```toml
+[vhosts.access]
+allow_countries = ["SE", "NO", "DK", "FI"]
+deny_countries = ["RU"]
+allow_asns = [12552]
+deny_asns = [64512]
+```
+
+Country values must be uppercase ISO alpha-2 codes. ASN values are numeric and
+must be greater than zero. Geo allow lists fail closed when no Geo-Context is
+available; Geo deny lists deny only on a resolved match. See
+[`docs/geoip.md`](geoip.md) for the feature boundary and operational update
+pattern.
+
 `[vhosts.rate_limit]` and `[vhosts.routes.rate_limit]` enable local token-bucket
 request limiting. The first implementation keys by the same trusted-proxy-aware
 client IP used for ACLs. `requests_per_second` sets the refill rate, `burst`

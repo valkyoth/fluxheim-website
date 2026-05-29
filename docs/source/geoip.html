@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
-  <title>Image Filter — Fluxheim Source Docs</title>
+  <title>GeoIP / Geo-Context — Fluxheim Source Docs</title>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Fluxheim">
   <meta property="og:title" content="Fluxheim">
@@ -69,164 +69,66 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          <span class="text-gray-400">Image Filter</span>
+          <span class="text-gray-400">GeoIP / Geo-Context</span>
         </div>
 
         <article class="source-doc">
-<h1 id="image-filter">Image Filter</h1>
-<p>Status: future optional module.</p>
-<p>Planned Cargo feature: <code>image-filter</code>.</p>
-<p>This module adds safe, bounded image validation and transformation at the edge. It is intended for small static sites, media-heavy origins, and cache-backed deployments that want predictable image variants without adding a separate image service.</p>
-<h2 id="design-goals">Design Goals</h2>
+<h1 id="geoip-geo-context">GeoIP / Geo-Context</h1>
+<p>Fluxheim <code>1.4.5</code> adds a bounded optional <code>geoip</code> feature. It is a local Geo-Context foundation for access policy, not a dynamic downloader or programmable geo engine.</p>
+<h2 id="build-feature">Build Feature</h2>
+<pre class="language-bash"><code class="language-bash">cargo build --release --locked --no-default-features \
+  --features profile-full \
+  --bin fluxheim</code></pre>
+<p><code>profile-full</code> includes <code>geoip</code>. Focused builds can enable it directly:</p>
+<pre class="language-bash"><code class="language-bash">cargo build --release --locked --no-default-features \
+  --features proxy,geoip,tls-rustls,security \
+  --bin fluxheim</code></pre>
+<p><code>privacy-mode</code> and <code>geoip</code> are mutually exclusive. Privacy builds reject GeoIP lookup and Geo-Context metadata entirely.</p>
+<h2 id="local-databases">Local Databases</h2>
+<p>Fluxheim reads local MMDB files through a provider-agnostic layer. The initial providers are labels for compatible MMDB datasets:</p>
 <ul>
-<li>Keep image transformation code out of the default binary.</li>
-<li>Enable per-vhost and per-route policies.</li>
-<li>Support static files and proxied origin responses.</li>
-<li>Transform only explicitly allowed image content types.</li>
-<li>Bound input bytes, decoded pixels, output bytes, CPU time, and concurrency.</li>
-<li>Integrate with cache keys so transformed variants are isolated and purgeable.</li>
-<li>Prefer memory-safe Rust codecs where practical.</li>
+<li><code>maxmind</code>: MaxMind GeoIP2 or GeoLite2 MMDB files.</li>
+<li><code>circl-geo-open</code>: European CIRCL Geo Open MMDB-compatible datasets.</li>
 </ul>
-<h2 id="planned-transformations">Planned Transformations</h2>
-<p>Initial stable candidates:</p>
-<ul>
-<li>validate image type;</li>
-<li>report image metadata as JSON: width, height, format, animation flag;</li>
-<li>resize while preserving aspect ratio;</li>
-<li>crop to a target box;</li>
-<li>rotate by <code>90</code>, <code>180</code>, or <code>270</code> degrees;</li>
-<li>strip metadata by default;</li>
-<li>set JPEG/WebP/AVIF quality;</li>
-<li>choose output format based on explicit config and <code>Accept</code> negotiation.</li>
-</ul>
-<p>Future candidates:</p>
-<ul>
-<li>sharpen;</li>
-<li>blur;</li>
-<li>grayscale;</li>
-<li>background fill for transparent input;</li>
-<li>animated image policy: reject, preserve first frame, or preserve animation</li>
-</ul>
-<p>only when a reviewed codec supports it safely.</p>
-<h2 id="format-policy">Format Policy</h2>
-<p>Input formats should be explicit:</p>
-<ul>
-<li>JPEG;</li>
-<li>PNG;</li>
-<li>GIF, with animation policy disabled by default;</li>
-<li>WebP;</li>
-<li>AVIF after codec review.</li>
-</ul>
-<p>Output formats should be explicit:</p>
-<ul>
-<li>JPEG;</li>
-<li>PNG;</li>
-<li>WebP;</li>
-<li>AVIF after codec review.</li>
-</ul>
-<p>Default modern behavior should prefer WebP when the client advertises support and the vhost policy allows it. AVIF should remain beta until encoding speed, resource use, and codec maintenance are proven acceptable.</p>
-<h2 id="resource-limits">Resource Limits</h2>
-<p>Image processing is dangerous without hard limits because small compressed files can decode into very large pixel buffers.</p>
-<p>Required limits:</p>
-<ul>
-<li><code>max_input_bytes</code>;</li>
-<li><code>max_decoded_pixels</code>;</li>
-<li><code>max_output_bytes</code>;</li>
-<li><code>max_width</code>;</li>
-<li><code>max_height</code>;</li>
-<li><code>max_operations_per_request</code>;</li>
-<li>per-vhost concurrent transform limit;</li>
-<li>global concurrent transform limit;</li>
-<li>transform timeout.</li>
-</ul>
-<p>All limits must be enforced before decoding where possible and immediately after header parsing when dimensions are known. If dimensions are not known without a full decode, the request should use the stricter input-byte and timeout limits.</p>
-<h2 id="cache-interaction">Cache Interaction</h2>
-<p>Transformed images must use separate cache keys from original images.</p>
-<p>Variant key inputs:</p>
-<ul>
-<li>vhost;</li>
-<li>source cache key or source path;</li>
-<li>source ETag/Last-Modified when available;</li>
-<li>transform policy name and version;</li>
-<li>requested dimensions;</li>
-<li>crop mode;</li>
-<li>rotation;</li>
-<li>output format;</li>
-<li>quality;</li>
-<li>normalized <code>Accept</code> bucket.</li>
-</ul>
-<p>The module should support:</p>
-<ul>
-<li>cache transformed variants when <code>cache</code> is enabled;</li>
-<li>purge original and variants together when an index exists;</li>
-<li>refuse disk cache in <code>privacy-mode</code>;</li>
-<li>never cache transformed output when request or response policy says</li>
-</ul>
-<p><code>Cache-Control: no-store</code>.</p>
-<h2 id="security-requirements">Security Requirements</h2>
-<ul>
-<li>The module is disabled by default at compile time and runtime.</li>
-<li>Transform policy must be explicit per vhost or route.</li>
-<li>Only configured content types and extensions are eligible.</li>
-<li>Do not transform untrusted arbitrary binary responses.</li>
-<li>Do not process images from admin, metrics, ACME, CGI, PHP, or legacy</li>
-</ul>
-<p>listeners.</p>
-<ul>
-<li>Reject oversized metadata, malformed files, decoder errors, and unsupported</li>
-</ul>
-<p>formats with <code>415 Unsupported Media Type</code> or a configured safe error.</p>
-<ul>
-<li>Strip EXIF/GPS/comment metadata by default.</li>
-<li>Do not log raw image bytes or full source URLs with sensitive queries.</li>
-<li>Codec dependencies require license and advisory review before enabling the</li>
-</ul>
-<p>module in release builds.</p>
-<ul>
-<li>FFI-backed codecs must be behind separate feature flags and never included</li>
-</ul>
-<p>in default builds.</p>
-<h2 id="configuration-sketch">Configuration Sketch</h2>
-<pre class="language-toml"><code class="language-toml">[image_filter.profiles.thumbnail]
-input_formats = [&quot;jpeg&quot;, &quot;png&quot;, &quot;webp&quot;]
-output_formats = [&quot;webp&quot;, &quot;jpeg&quot;]
-prefer_webp = true
-strip_metadata = true
-max_input_bytes = &quot;8MiB&quot;
-max_decoded_pixels = 12000000
-max_output_bytes = &quot;4MiB&quot;
-timeout = &quot;500ms&quot;
-quality_jpeg = 82
-quality_webp = 78
-
-[[image_filter.profiles.thumbnail.transforms]]
-kind = &quot;resize&quot;
-width = 480
-height = 480
-mode = &quot;fit&quot;
-
-[[vhosts]]
-name = &quot;example&quot;
-hosts = [&quot;example.com&quot;]
-
-[vhosts.image_filter]
+<p>Fluxheim does not download or update databases in-process. Use an external systemd timer, package job, or sidecar to fetch and verify database files, then reload Fluxheim. Database files are opened as regular files and symlink leaf paths are rejected.</p>
+<p>Each MMDB file is capped at 512 MiB at both metadata and read time. A single loaded GeoIP runtime is capped at 1 GiB of MMDB data, so keep the ordered fallback set small. During hot reload, the old and new runtimes can briefly coexist while in-flight requests finish, so size host/container memory for that temporary overlap.</p>
+<pre class="language-toml"><code class="language-toml">[geoip]
 enabled = true
-profile = &quot;thumbnail&quot;
-paths = [&quot;/images/*&quot;]</code></pre>
-<h2 id="test-plan">Test Plan</h2>
+fallback_enabled = true
+
+[[geoip.databases]]
+provider = &quot;maxmind&quot;
+path = &quot;/var/lib/fluxheim/geo/GeoLite2-Country.mmdb&quot;
+
+[[geoip.databases]]
+provider = &quot;circl-geo-open&quot;
+path = &quot;/var/lib/fluxheim/geo/circl-country.mmdb&quot;</code></pre>
+<p>Databases are evaluated in order. When <code>fallback_enabled = true</code>, Fluxheim fills missing country or ASN fields from later databases when possible. When it is false, Fluxheim consults only the first configured database.</p>
+<p>When country or ASN access rules are configured, Fluxheim checks the loaded MMDB database type strings and emits a security warning if no loaded database appears to provide the required record family. This is a diagnostic guard, not a substitute for testing policy behavior with known source IPs.</p>
+<h2 id="access-policy">Access Policy</h2>
+<p>Geo rules live on the existing vhost and route access policy. Country codes are ISO alpha-2 uppercase values. ASN values are numeric and must be greater than zero.</p>
+<pre class="language-toml"><code class="language-toml">[[vhosts]]
+name = &quot;app&quot;
+hosts = [&quot;app.example.test&quot;]
+
+[vhosts.access]
+deny_countries = [&quot;RU&quot;, &quot;KP&quot;]
+allow_asns = [12552, 32934]
+
+[[vhosts.routes]]
+name = &quot;admin&quot;
+path_prefix = &quot;/admin/&quot;
+
+[vhosts.routes.access]
+allow_countries = [&quot;SE&quot;, &quot;NO&quot;, &quot;DK&quot;, &quot;FI&quot;]</code></pre>
+<p>Vhost policy runs before route policy. Geo allow lists fail closed when no Geo-Context is available for the client IP. Geo deny lists only deny when the resolved country or ASN matches.</p>
+<h2 id="observability">Observability</h2>
+<p>When <code>geoip</code> is compiled and a lookup succeeds, structured access logs include:</p>
 <ul>
-<li>Reject unsupported formats.</li>
-<li>Reject oversized input before decode.</li>
-<li>Reject decode bombs through pixel limits.</li>
-<li>Validate resize, crop, and rotate output dimensions.</li>
-<li>Validate WebP negotiation and fallback behavior.</li>
-<li>Ensure transformed variants use distinct cache keys.</li>
-<li>Ensure metadata stripping removes EXIF/GPS data.</li>
-<li>Ensure malformed images return safe errors.</li>
-<li>Ensure transform timeouts and concurrency limits work.</li>
-<li>Ensure default builds do not include image-filter code.</li>
-<li>Ensure <code>privacy-mode</code> rejects incompatible transform/cache combinations.</li>
+<li><code>geo_country</code></li>
+<li><code>geo_asn</code></li>
 </ul>
+<p>GeoIP metrics and trace attributes remain bounded follow-up work; do not add high-cardinality labels from city, latitude/longitude, or raw database fields.</p>
         </article>
       </div>
     </main>

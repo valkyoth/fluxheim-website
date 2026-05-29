@@ -1385,9 +1385,8 @@ Release shape:
     `lookup(ip)` and receive Fluxheim's normalized `GeoContext`, not provider
     structs. Initial supported local providers are MaxMind GeoIP2/GeoLite2
     country/ASN databases and European CIRCL Geo Open datasets when supplied in
-    MMDB-compatible form. Use the same `maxminddb` reader path for both, but
-    validate database metadata/record shape at config load so an incompatible
-    MMDB fails closed with a clear error;
+    MMDB-compatible form. Use the same `maxminddb` reader path for both, and
+    fail closed with a clear runtime error if an incompatible MMDB is supplied;
   - GeoIP config should support an ordered local database list such as
     `[[geoip.databases]] provider = "maxmind"` and
     `provider = "circl-geo-open"` with `path = "..."`, plus an explicit
@@ -1401,17 +1400,18 @@ Release shape:
     MaxMind/CIRCL files, verifies checksums or signatures where the provider
     publishes them, writes atomically, and then triggers Fluxheim reload;
   - implement GeoIP as its own `geoip`/`geo_context` module from the start,
-    with only thin hooks in config, proxy policy, access logs, metrics, and
-    tracing. Do not add GeoIP lookup or policy logic directly to `proxy.rs` or
-    grow `config.rs` with large database-management helpers;
+    with only thin hooks in config, proxy policy, and access logs first.
+    Metrics and tracing are follow-up work only if they stay bounded. Do not
+    add GeoIP lookup or policy logic directly to `proxy.rs` or grow
+    `config.rs` with large database-management helpers;
   - expose GeoIP as typed request context, not spoofable inbound headers.
-    Initial normalized fields are country ISO code, ASN, and provider/source
-    identifier for diagnostics. City/latitude/longitude should stay out of the
-    first stable surface unless an operator explicitly enables them because
-    they are more privacy-sensitive;
-  - use the typed geo context in route/access policy, request-header templates,
-    structured access logs, and OTLP span attributes. Metric labels must be
-    bounded to low-cardinality values such as country and policy decision;
+    Initial normalized fields are country ISO code and ASN. Provider/source
+    diagnostics, city, latitude, and longitude stay out of the first stable
+    surface unless an operator explicitly enables them later because they are
+    more privacy-sensitive;
+  - use the typed geo context in vhost/route access policy and structured
+    access logs first. Request-header templates, OTLP span attributes, and
+    metric labels are follow-up work only if they remain bounded and useful;
     never emit city, IP, or raw organization strings as default metric labels;
   - privacy-mode behavior: either reject GeoIP entirely or restrict it to
     policy-only country/ASN evaluation with no logs, trace attributes, headers,
@@ -2165,6 +2165,60 @@ Exit criteria:
   verification. Cache-key influence is allowed only through the constrained
   cache hook ABI with typed inputs, configured output limits, and explicit
   operator opt-in per vhost or route.
+
+### Future - Rust Application SDK
+
+Goal: add a small project-owned Rust companion crate for applications running
+behind Fluxheim. The working crate name is `fluxheim-sdk` so it is clearly an
+application integration SDK, not the proxy binary itself.
+
+Stable first scope:
+
+- health and readiness response schemas that Fluxheim can consume without each
+  app inventing a different JSON shape;
+- graceful drain state helpers so applications can mark themselves draining
+  before shutdown and let Fluxheim stop sending new traffic;
+- Tower/Axum middleware and extractors for trusted Fluxheim request context:
+  request ID, trace context, real client IP after Fluxheim's trusted-proxy
+  policy, TLS client-certificate identity when Fluxheim verified it, and
+  bounded Geo-Context where configured;
+- `tracing` helpers that bind Fluxheim request IDs to application spans;
+- cache-control response helpers matching Fluxheim's cache policy model;
+- authenticated admin/cache purge client utilities for internal app-triggered
+  invalidation.
+
+Out of first scope:
+
+- upstream self-registration into Fluxheim backend pools;
+- application-driven dynamic weight changes;
+- UDP heartbeats;
+- persistent h2/gRPC control streams;
+- general route or TLS policy mutation from application code.
+
+Those larger control-plane features must wait until the `1.5` runtime backend
+management model has stable authentication, authorization, replay protection,
+audit events, rate limits, persistence semantics, and documented failure modes.
+The SDK should not become a hidden distributed control plane before Fluxheim's
+own control plane is ready.
+
+Crate naming and crates.io hygiene:
+
+- keep the canonical `fluxheim` package name project-owned if the main proxy is
+  ever published as a crate;
+- publish application helpers as `fluxheim-sdk`;
+- avoid empty placeholder crates. If names are claimed, they should be real
+  project-owned packages with README text explaining the difference between the
+  binary package and the SDK.
+
+Repository/layout rule:
+
+- place SDK code in a separate workspace directory such as
+  `crates/fluxheim-sdk/`, with its own `Cargo.toml`, README, tests, examples,
+  and public API boundary;
+- do not mix SDK code into the proxy binary's `src/` modules;
+- the initial workspace can live in the Fluxheim repository for shared CI, but
+  the directory and dependency boundary should let the SDK move to its own
+  GitHub project later without extracting proxy internals.
 
 ### 1.7 - Reserved
 

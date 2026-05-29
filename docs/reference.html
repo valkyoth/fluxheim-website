@@ -48,7 +48,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.4</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.5</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -96,8 +96,8 @@
         <p class="text-gray-400 text-lg mb-10">The complete upstream Markdown documentation from Fluxheim main is vendored here so the website exposes the full operator, architecture, and roadmap reference set.</p>
 
         <div class="grid sm:grid-cols-3 gap-4 mb-10">
-          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-white">41</div><div class="text-gray-500 text-xs">source docs</div></div>
-          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-cyan-400">1.4.4</div><div class="text-gray-500 text-xs">current release line</div></div>
+          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-white">42</div><div class="text-gray-500 text-xs">source docs</div></div>
+          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-cyan-400">1.4.5</div><div class="text-gray-500 text-xs">current release line</div></div>
           <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-emerald-400">main</div><div class="text-gray-500 text-xs">synced source branch</div></div>
         </div>
 
@@ -128,7 +128,7 @@
           <h2>Configuration, Gateway, And Runtime</h2>
         </div>
         <div class="grid gap-3 mb-8">
-          <a class="doc-link" href="source/config-reference.html"><span><strong class="text-white">Config Reference</strong><span class="block text-sm text-gray-500">Server, admin, metrics, tracing, logging, headers, proxy, web, cache, TLS, ACME, vhosts, PHP, privacy, and preflight.</span></span><code class="text-cyan-400 text-xs">config-reference.html</code></a>
+          <a class="doc-link" href="source/config-reference.html"><span><strong class="text-white">Config Reference</strong><span class="block text-sm text-gray-500">Server, admin, metrics, tracing, logging, headers, proxy, web, cache, TLS, ACME, vhosts, PHP, GeoIP, privacy, and preflight.</span></span><code class="text-cyan-400 text-xs">config-reference.html</code></a>
           <a class="doc-link" href="source/vhost-config.html"><span><strong class="text-white">Vhost Config Guide</strong><span class="block text-sm text-gray-500">Recommended layout, common mistakes, and route placement inside a vhost.</span></span><code class="text-cyan-400 text-xs">vhost-config.html</code></a>
           <a class="doc-link" href="source/gateway-recipes.html"><span><strong class="text-white">Gateway Recipes</strong><span class="block text-sm text-gray-500">Shared server baseline, redirects, app proxy, websocket routes, aliases, and custom upstream error pages.</span></span><code class="text-cyan-400 text-xs">gateway-recipes.html</code></a>
           <a class="doc-link" href="source/config-snapshots.html"><span><strong class="text-white">Config Snapshots And Rollback</strong><span class="block text-sm text-gray-500">Snapshot store layout, commands, admin API shape, and self-healing guard concepts.</span></span><code class="text-cyan-400 text-xs">config-snapshots.html</code></a>
@@ -136,11 +136,12 @@
         </div>
 
         <div class="prose">
-          <h2>Cache, Observability, And PHP</h2>
+          <h2>Cache, Observability, GeoIP, And PHP</h2>
         </div>
         <div class="grid gap-3 mb-8">
           <a class="doc-link" href="source/cache-backends.html"><span><strong class="text-white">Cache Backends</strong><span class="block text-sm text-gray-500">Current cache implementation, memory cache evaluation, and backend adapter requirements.</span></span><code class="text-cyan-400 text-xs">cache-backends.html</code></a>
           <a class="doc-link" href="source/cache-encryption.html"><span><strong class="text-white">Cache Encryption</strong><span class="block text-sm text-gray-500">Encrypted cache object scope, local-key provider, OpenBao Transit provider, verification, rotation, and operations.</span></span><code class="text-cyan-400 text-xs">cache-encryption.html</code></a>
+          <a class="doc-link" href="source/geoip.html"><span><strong class="text-white">GeoIP / Geo-Context</strong><span class="block text-sm text-gray-500">Local MMDB country/ASN context, MaxMind and CIRCL provider labels, route policy hooks, logging fields, privacy boundaries, and database update operations.</span></span><code class="text-cyan-400 text-xs">geoip.html</code></a>
           <a class="doc-link" href="source/metrics-architecture.html"><span><strong class="text-white">Metrics Architecture</strong><span class="block text-sm text-gray-500">Feature flags, cardinality rules, hot path design, metrics catalog, export, and config shape.</span></span><code class="text-cyan-400 text-xs">metrics-architecture.html</code></a>
           <a class="doc-link" href="source/logging-architecture.html"><span><strong class="text-white">Logging Architecture</strong><span class="block text-sm text-gray-500">Log classes, event fields, pipeline, overflow policy, sinks, circuit breaker, and security requirements.</span></span><code class="text-cyan-400 text-xs">logging-architecture.html</code></a>
           <a class="doc-link" href="source/opentelemetry-tracing.html"><span><strong class="text-white">OpenTelemetry Tracing</strong><span class="block text-sm text-gray-500">Trace context propagation, internal spans, OTLP trace export, sampling, and security requirements.</span></span><code class="text-cyan-400 text-xs">opentelemetry-tracing.html</code></a>

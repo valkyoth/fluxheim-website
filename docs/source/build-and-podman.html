@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.4</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.5</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -575,8 +575,8 @@ upstream_tls = false</code></pre>
 <h2 id="native-systemd">Native systemd</h2>
 <p>For manually compiled binaries or RPM-style native installs, Fluxheim ships a systemd unit, sysusers file, tmpfiles file, and optional environment file under <code>packaging/systemd</code> and <code>packaging/rpm</code>. See <a href="systemd.html" class="text-cyan-400 hover:text-cyan-300">systemd Deployment</a> for the install steps and default paths. Native packages use <a href="https://github.com/valkyoth/fluxheim/blob/main/packaging/default/fluxheim.toml" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">packaging/default/fluxheim.toml</a>, which listens on port <code>80</code> by default; the bundled systemd unit grants only <code>CAP_NET_BIND_SERVICE</code> so the service can bind <code>80/443</code> while still running as the unprivileged <code>fluxheim</code> user.</p>
 <p>For local binary RPM smoke builds, use the containerized helper:</p>
-<pre class="language-bash"><code class="language-bash">scripts/build_fluxheim_rpm.py 1.4.2 --target opensuse-tumbleweed
-scripts/build_fluxheim_rpm.py 1.4.2 native --target fedora-44</code></pre>
+<pre class="language-bash"><code class="language-bash">scripts/build_fluxheim_rpm.py 1.4.5 --target opensuse-tumbleweed
+scripts/build_fluxheim_rpm.py 1.4.5 native --target fedora-44</code></pre>
 <p>Untagged <code>latest</code> builds use the package name <code>fluxheim-unstable</code> and a date version so they are clearly separated from stable release packages:</p>
 <pre class="language-bash"><code class="language-bash">scripts/build_fluxheim_rpm.py latest native --target opensuse-tumbleweed
 scripts/build_fluxheim_rpm.py latest native --target opensuse-tumbleweed --rpm-release 2</code></pre>

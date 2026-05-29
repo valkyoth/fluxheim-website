@@ -62,7 +62,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.4</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.5</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -264,6 +264,37 @@ max_size_bytes = "256MiB"</code></pre>
             </table>
           </div>
 
+          <h2>[geoip]</h2>
+          <p>When Fluxheim is built with the optional <code>geoip</code> feature, it can load local MMDB databases and expose bounded country/ASN context to route policy and structured logs. GeoIP is local-only: Fluxheim does not download, poll, or refresh databases itself.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml</span></div>
+<pre class="language-toml"><code class="language-toml">[geoip]
+enabled = true
+fallback_enabled = true
+
+[[geoip.databases]]
+provider = "maxmind"
+path = "/var/lib/fluxheim/geoip/GeoLite2-Country.mmdb"
+
+[[geoip.databases]]
+provider = "circl"
+path = "/var/lib/fluxheim/geoip/circl-country.mmdb"</code></pre>
+            </div>
+          </div>
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="key-table">
+              <thead><tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td class="key">enabled</td><td class="type">bool</td><td class="default">false</td><td class="desc">Enable local Geo-Context lookup when the binary includes <code class="section-ref">geoip</code>.</td></tr>
+                <tr><td class="key">fallback_enabled</td><td class="type">bool</td><td class="default">false</td><td class="desc">Try later local MMDB files when the primary file has no usable country or ASN result.</td></tr>
+                <tr><td class="key">[[geoip.databases]].provider</td><td class="type">string</td><td class="default">—</td><td class="desc"><code class="section-ref">maxmind</code> or <code class="section-ref">circl</code>.</td></tr>
+                <tr><td class="key">[[geoip.databases]].path</td><td class="type">string</td><td class="default">—</td><td class="desc">Absolute path to a local MMDB file. Files are bounded at load time.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Route policy can use <code>geo_allow_countries</code>, <code>geo_deny_countries</code>, <code>geo_allow_asns</code>, and <code>geo_deny_asns</code>. Allow lists fail closed when no Geo-Context is available; deny lists only deny on a known match. <code>privacy-mode</code> and <code>geoip</code> cannot be compiled together.</p>
+
           <h2>[[vhosts]]</h2>
           <p>Each vhost is a <code>[[vhosts]]</code> table in TOML (array of tables). They are matched by the <code>Host</code> header.</p>
           <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
@@ -318,6 +349,10 @@ max_size_bytes = "256MiB"</code></pre>
                 <tr><td class="key">[vhosts.routes.web]</td><td class="type">table</td><td class="desc">Route-scoped static web action.</td></tr>
                 <tr><td class="key">[vhosts.routes.redirect]</td><td class="type">table</td><td class="desc">Redirect action with <code class="section-ref">to</code> and optional <code class="section-ref">status</code> 301, 302, 307, or 308.</td></tr>
                 <tr><td class="key">[vhosts.routes.php]</td><td class="type">table</td><td class="desc">Route-scoped PHP action when built with a PHP runtime feature.</td></tr>
+                <tr><td class="key">geo_allow_countries</td><td class="type">string[]</td><td class="desc">Optional ISO country allow list when built with <code class="section-ref">geoip</code>. Missing Geo-Context fails closed.</td></tr>
+                <tr><td class="key">geo_deny_countries</td><td class="type">string[]</td><td class="desc">Optional ISO country deny list. Denies only when the lookup has a known match.</td></tr>
+                <tr><td class="key">geo_allow_asns</td><td class="type">integer[]</td><td class="desc">Optional ASN allow list. Missing Geo-Context fails closed.</td></tr>
+                <tr><td class="key">geo_deny_asns</td><td class="type">integer[]</td><td class="desc">Optional ASN deny list. Denies only when the lookup has a known match.</td></tr>
               </tbody>
             </table>
           </div>

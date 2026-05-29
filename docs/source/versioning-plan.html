@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.4</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.5</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -1302,7 +1302,7 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <ul>
 <li>optional <code>geoip</code> Cargo feature as a bounded Geo-Context foundation, not a</li>
 </ul>
-<p>broad programmable geo engine. Implement a provider-agnostic MMDB layer: the hot-path should ask a typed <code>GeoProvider</code>/<code>GeoDatabase</code> abstraction for <code>lookup(ip)</code> and receive Fluxheim&#x27;s normalized <code>GeoContext</code>, not provider structs. Initial supported local providers are MaxMind GeoIP2/GeoLite2 country/ASN databases and European CIRCL Geo Open datasets when supplied in MMDB-compatible form. Use the same <code>maxminddb</code> reader path for both, but validate database metadata/record shape at config load so an incompatible MMDB fails closed with a clear error;</p>
+<p>broad programmable geo engine. Implement a provider-agnostic MMDB layer: the hot-path should ask a typed <code>GeoProvider</code>/<code>GeoDatabase</code> abstraction for <code>lookup(ip)</code> and receive Fluxheim&#x27;s normalized <code>GeoContext</code>, not provider structs. Initial supported local providers are MaxMind GeoIP2/GeoLite2 country/ASN databases and European CIRCL Geo Open datasets when supplied in MMDB-compatible form. Use the same <code>maxminddb</code> reader path for both, and fail closed with a clear runtime error if an incompatible MMDB is supplied;</p>
 <ul>
 <li>GeoIP config should support an ordered local database list such as</li>
 </ul>
@@ -1314,15 +1314,15 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <ul>
 <li>implement GeoIP as its own <code>geoip</code>/<code>geo_context</code> module from the start,</li>
 </ul>
-<p>with only thin hooks in config, proxy policy, access logs, metrics, and tracing. Do not add GeoIP lookup or policy logic directly to <code>proxy.rs</code> or grow <code>config.rs</code> with large database-management helpers;</p>
+<p>with only thin hooks in config, proxy policy, and access logs first. Metrics and tracing are follow-up work only if they stay bounded. Do not add GeoIP lookup or policy logic directly to <code>proxy.rs</code> or grow <code>config.rs</code> with large database-management helpers;</p>
 <ul>
 <li>expose GeoIP as typed request context, not spoofable inbound headers.</li>
 </ul>
-<p>Initial normalized fields are country ISO code, ASN, and provider/source identifier for diagnostics. City/latitude/longitude should stay out of the first stable surface unless an operator explicitly enables them because they are more privacy-sensitive;</p>
+<p>Initial normalized fields are country ISO code and ASN. Provider/source diagnostics, city, latitude, and longitude stay out of the first stable surface unless an operator explicitly enables them later because they are more privacy-sensitive;</p>
 <ul>
-<li>use the typed geo context in route/access policy, request-header templates,</li>
+<li>use the typed geo context in vhost/route access policy and structured</li>
 </ul>
-<p>structured access logs, and OTLP span attributes. Metric labels must be bounded to low-cardinality values such as country and policy decision; never emit city, IP, or raw organization strings as default metric labels;</p>
+<p>access logs first. Request-header templates, OTLP span attributes, and metric labels are follow-up work only if they remain bounded and useful; never emit city, IP, or raw organization strings as default metric labels;</p>
 <ul>
 <li>privacy-mode behavior: either reject GeoIP entirely or restrict it to</li>
 </ul>
@@ -2146,6 +2146,56 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <li>Plugins cannot directly control routing destinations or upstream TLS</li>
 </ul>
 <p>verification. Cache-key influence is allowed only through the constrained cache hook ABI with typed inputs, configured output limits, and explicit operator opt-in per vhost or route.</p>
+<h3 id="future-rust-application-sdk">Future - Rust Application SDK</h3>
+<p>Goal: add a small project-owned Rust companion crate for applications running behind Fluxheim. The working crate name is <code>fluxheim-sdk</code> so it is clearly an application integration SDK, not the proxy binary itself.</p>
+<p>Stable first scope:</p>
+<ul>
+<li>health and readiness response schemas that Fluxheim can consume without each</li>
+</ul>
+<p>app inventing a different JSON shape;</p>
+<ul>
+<li>graceful drain state helpers so applications can mark themselves draining</li>
+</ul>
+<p>before shutdown and let Fluxheim stop sending new traffic;</p>
+<ul>
+<li>Tower/Axum middleware and extractors for trusted Fluxheim request context:</li>
+</ul>
+<p>request ID, trace context, real client IP after Fluxheim&#x27;s trusted-proxy policy, TLS client-certificate identity when Fluxheim verified it, and bounded Geo-Context where configured;</p>
+<ul>
+<li><code>tracing</code> helpers that bind Fluxheim request IDs to application spans;</li>
+<li>cache-control response helpers matching Fluxheim&#x27;s cache policy model;</li>
+<li>authenticated admin/cache purge client utilities for internal app-triggered</li>
+</ul>
+<p>invalidation.</p>
+<p>Out of first scope:</p>
+<ul>
+<li>upstream self-registration into Fluxheim backend pools;</li>
+<li>application-driven dynamic weight changes;</li>
+<li>UDP heartbeats;</li>
+<li>persistent h2/gRPC control streams;</li>
+<li>general route or TLS policy mutation from application code.</li>
+</ul>
+<p>Those larger control-plane features must wait until the <code>1.5</code> runtime backend management model has stable authentication, authorization, replay protection, audit events, rate limits, persistence semantics, and documented failure modes. The SDK should not become a hidden distributed control plane before Fluxheim&#x27;s own control plane is ready.</p>
+<p>Crate naming and crates.io hygiene:</p>
+<ul>
+<li>keep the canonical <code>fluxheim</code> package name project-owned if the main proxy is</li>
+</ul>
+<p>ever published as a crate;</p>
+<ul>
+<li>publish application helpers as <code>fluxheim-sdk</code>;</li>
+<li>avoid empty placeholder crates. If names are claimed, they should be real</li>
+</ul>
+<p>project-owned packages with README text explaining the difference between the binary package and the SDK.</p>
+<p>Repository/layout rule:</p>
+<ul>
+<li>place SDK code in a separate workspace directory such as</li>
+</ul>
+<p><code>crates/fluxheim-sdk/</code>, with its own <code>Cargo.toml</code>, README, tests, examples, and public API boundary;</p>
+<ul>
+<li>do not mix SDK code into the proxy binary&#x27;s <code>src/</code> modules;</li>
+<li>the initial workspace can live in the Fluxheim repository for shared CI, but</li>
+</ul>
+<p>the directory and dependency boundary should let the SDK move to its own GitHub project later without extracting proxy internals.</p>
 <h3 id="1-7-reserved">1.7 - Reserved</h3>
 <p>Compression was pulled forward into the <code>1.4</code> production proxy parity line because it is a normal reverse-proxy expectation rather than a separate feature family. Keep <code>1.7</code> reserved until a later major planning pass identifies a coherent post-Wasm release theme.</p>
 <ul>
