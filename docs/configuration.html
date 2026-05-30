@@ -62,7 +62,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.5</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.6</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -294,6 +294,44 @@ path = "/var/lib/fluxheim/geoip/circl-country.mmdb"</code></pre>
             </table>
           </div>
           <p>Route policy can use <code>geo_allow_countries</code>, <code>geo_deny_countries</code>, <code>geo_allow_asns</code>, and <code>geo_deny_asns</code>. Allow lists fail closed when no Geo-Context is available; deny lists only deny on a known match. <code>privacy-mode</code> and <code>geoip</code> cannot be compiled together.</p>
+
+          <h2>[stream]</h2>
+          <p>When Fluxheim is built with the optional <code>stream-proxy</code> feature, <code>[stream]</code> exposes raw L4 TCP services that stay separate from HTTP routing, headers, cache, compression, auth subrequests, PHP, and static web serving.</p>
+          <div class="not-prose">
+            <div class="code-win my-5">
+              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml</span></div>
+<pre class="language-toml"><code class="language-toml">[stream]
+enabled = true
+
+[[stream.routes]]
+name = "postgres"
+listen = ["127.0.0.1:15432"]
+upstreams = ["10.0.0.11:5432", "10.0.0.12:5432"]
+connect_timeout_secs = 5
+max_connection_secs = 300
+max_connection_bytes = 1073741824
+max_connections = 1024
+downstream_proxy_protocol = "off"
+trusted_proxies = []
+upstream_proxy_protocol = "off"</code></pre>
+            </div>
+          </div>
+          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
+            <table class="key-table">
+              <thead><tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td class="key">enabled</td><td class="type">bool</td><td class="default">false</td><td class="desc">Enable dedicated TCP stream listeners when the binary includes <code class="section-ref">stream-proxy</code>.</td></tr>
+                <tr><td class="key">[[stream.routes]].listen</td><td class="type">string[]</td><td class="default">—</td><td class="desc">One or more <code class="section-ref">ip:port</code> TCP listeners. Each listener may belong to only one stream route.</td></tr>
+                <tr><td class="key">[[stream.routes]].upstreams</td><td class="type">string[]</td><td class="default">—</td><td class="desc">One or more <code class="section-ref">host:port</code> upstreams. Multiple upstreams use round-robin selection.</td></tr>
+                <tr><td class="key">max_connection_secs</td><td class="type">integer</td><td class="default">300</td><td class="desc">Wall-clock lifetime cap for one accepted stream connection.</td></tr>
+                <tr><td class="key">max_connection_bytes</td><td class="type">integer</td><td class="default">—</td><td class="desc">Optional copied-byte cap per direction for a single stream connection.</td></tr>
+                <tr><td class="key">max_connections</td><td class="type">integer</td><td class="default">0</td><td class="desc">Per-route concurrent connection cap. Zero means unlimited.</td></tr>
+                <tr><td class="key">downstream_proxy_protocol</td><td class="type">string</td><td class="default">"off"</td><td class="desc"><code class="section-ref">off</code>, <code class="section-ref">v1</code>, or <code class="section-ref">v2</code> receive for this stream route only. Requires route-local trusted proxies.</td></tr>
+                <tr><td class="key">upstream_proxy_protocol</td><td class="type">string</td><td class="default">"off"</td><td class="desc"><code class="section-ref">off</code>, <code class="section-ref">v1</code>, or <code class="section-ref">v2</code> send to upstream before forwarding stream bytes.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>With <code>metrics</code> compiled and enabled, stream proxying exports bounded connection outcome and per-direction byte counters. Stream routes do not support UDP, TLS passthrough SNI routing, upstream TLS/mTLS, HTTP policy, or Wasm/Lua filters in 1.4.6.</p>
 
           <h2>[[vhosts]]</h2>
           <p>Each vhost is a <code>[[vhosts]]</code> table in TOML (array of tables). They are matched by the <code>Host</code> header.</p>

@@ -98,7 +98,8 @@ strict = false
 
 Notes:
 
-- `listen` must not be empty.
+- `listen` and `tls_listen` cannot both be empty unless `[stream].enabled =
+  true` supplies dedicated TCP stream listeners.
 - TLS listeners are explicit through `tls_listen`; Fluxheim does not infer TLS
   from port numbers.
 - `listen` and `tls_listen` are each capped at 64 entries.
@@ -118,10 +119,10 @@ Notes:
   `real_ip_recursive on`. The list is capped at 512 entries.
 - `proxy_protocol` defaults to `off`. Set it to `v1` or `v2` only on listeners reached
   exclusively through trusted load balancers or edge proxies that send HAProxy
-  PROXY protocol before TLS/HTTP bytes. Fluxheim requires
+  PROXY protocol before TLS/HTTP/stream bytes. Fluxheim requires
   `server.trusted_proxies` when this is enabled, rejects direct peers outside
   that trust list before parsing the header, and restores the PROXY source
-  address before TLS and HTTP handling. The v2 parser supports TCP4/TCP6 and
+  address before TLS, HTTP, and stream handling. The v2 parser supports TCP4/TCP6 and
   LOCAL/UNSPEC frames, skips bounded TLV payloads, and rejects unsupported
   address families or oversized v2 payloads.
 - `[server.process]` maps safe process settings into Pingora's `ServerConf`.
@@ -143,6 +144,54 @@ Notes:
   be used only when clients must be redirected to a non-default HTTPS port.
   Redirects require a syntactically safe `Host` header, otherwise Fluxheim
   returns `400` instead of constructing a risky `Location`.
+
+## TCP Stream Proxy
+
+`[stream]` is disabled by default and requires a build with the
+`stream-proxy` feature. Stream routes are raw L4 TCP services. They do not run
+HTTP routing, headers, cache, compression, auth subrequests, PHP, or web
+serving logic.
+
+```toml
+[stream]
+enabled = true
+
+[[stream.routes]]
+name = "postgres"
+listen = ["127.0.0.1:15432"]
+upstreams = ["10.0.0.11:5432", "10.0.0.12:5432"]
+connect_timeout_secs = 5
+max_connection_secs = 300
+max_connection_bytes = 1073741824
+max_connections = 1024
+downstream_proxy_protocol = "off" # "off", "v1", or "v2"
+trusted_proxies = []
+upstream_proxy_protocol = "off" # "off", "v1", or "v2"
+```
+
+- `listen` entries are `ip:port` TCP listeners. Each listener may appear on
+  only one stream route.
+- Configure either `upstream = "host:port"` or `upstreams = ["host:port", ...]`.
+  Multiple upstreams use round-robin selection in the initial `1.4.6`
+  foundation.
+- `connect_timeout_secs` bounds DNS/connect setup and defaults to `5`.
+- `max_connection_secs` bounds total accepted stream lifetime and defaults to
+  `300`. It is a wall-clock lifetime cap, not a per-read idle timer.
+- `max_connection_bytes` is optional and caps copied bytes per direction for a
+  single stream connection.
+- `max_connections = 0` means unlimited for that stream route. Non-zero values
+  cap concurrent accepted connections before connecting upstream.
+- `downstream_proxy_protocol` enables PROXY protocol receive for this stream
+  route only. It defaults to `off` and requires route-local `trusted_proxies`.
+  The HTTP `server.proxy_protocol` setting does not apply to stream listeners.
+- `upstream_proxy_protocol` writes a HAProxy PROXY protocol header to the
+  selected upstream before forwarding stream bytes. Use it only when the
+  upstream explicitly expects PROXY protocol.
+
+When `metrics` is compiled and enabled,
+`fluxheim_stream_connections_total{route,outcome}` records bounded connection
+outcomes and `fluxheim_stream_bytes_total{route,direction}` records copied
+bytes in each direction.
 
 ## Admin
 

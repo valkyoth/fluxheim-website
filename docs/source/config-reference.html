@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.5</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.6</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -124,7 +124,10 @@ status = 308
 strict = false</code></pre>
 <p>Notes:</p>
 <ul>
-<li><code>listen</code> must not be empty.</li>
+<li><code>listen</code> and <code>tls_listen</code> cannot both be empty unless `[stream].enabled =</li>
+</ul>
+<p>true` supplies dedicated TCP stream listeners.</p>
+<ul>
 <li>TLS listeners are explicit through <code>tls_listen</code>; Fluxheim does not infer TLS</li>
 </ul>
 <p>from port numbers.</p>
@@ -145,7 +148,7 @@ strict = false</code></pre>
 <ul>
 <li><code>proxy_protocol</code> defaults to <code>off</code>. Set it to <code>v1</code> or <code>v2</code> only on listeners reached</li>
 </ul>
-<p>exclusively through trusted load balancers or edge proxies that send HAProxy PROXY protocol before TLS/HTTP bytes. Fluxheim requires <code>server.trusted_proxies</code> when this is enabled, rejects direct peers outside that trust list before parsing the header, and restores the PROXY source address before TLS and HTTP handling. The v2 parser supports TCP4/TCP6 and LOCAL/UNSPEC frames, skips bounded TLV payloads, and rejects unsupported address families or oversized v2 payloads.</p>
+<p>exclusively through trusted load balancers or edge proxies that send HAProxy PROXY protocol before TLS/HTTP/stream bytes. Fluxheim requires <code>server.trusted_proxies</code> when this is enabled, rejects direct peers outside that trust list before parsing the header, and restores the PROXY source address before TLS, HTTP, and stream handling. The v2 parser supports TCP4/TCP6 and LOCAL/UNSPEC frames, skips bounded TLV payloads, and rejects unsupported address families or oversized v2 payloads.</p>
 <ul>
 <li><code>[server.process]</code> maps safe process settings into Pingora&#x27;s <code>ServerConf</code>.</li>
 </ul>
@@ -162,6 +165,52 @@ strict = false</code></pre>
 <li><code>[server.https_redirect]</code> is disabled by default. When enabled, cleartext</li>
 </ul>
 <p>requests receive a direct HTTPS redirect before static serving or proxying. It requires at least one <code>tls_listen</code> address. <code>status</code> may be <code>301</code>, <code>302</code>, <code>307</code>, or <code>308</code>; <code>308</code> is the default. <code>target_port</code> is optional and should be used only when clients must be redirected to a non-default HTTPS port. Redirects require a syntactically safe <code>Host</code> header, otherwise Fluxheim returns <code>400</code> instead of constructing a risky <code>Location</code>.</p>
+<h2 id="tcp-stream-proxy">TCP Stream Proxy</h2>
+<p><code>[stream]</code> is disabled by default and requires a build with the <code>stream-proxy</code> feature. Stream routes are raw L4 TCP services. They do not run HTTP routing, headers, cache, compression, auth subrequests, PHP, or web serving logic.</p>
+<pre class="language-toml"><code class="language-toml">[stream]
+enabled = true
+
+[[stream.routes]]
+name = &quot;postgres&quot;
+listen = [&quot;127.0.0.1:15432&quot;]
+upstreams = [&quot;10.0.0.11:5432&quot;, &quot;10.0.0.12:5432&quot;]
+connect_timeout_secs = 5
+max_connection_secs = 300
+max_connection_bytes = 1073741824
+max_connections = 1024
+downstream_proxy_protocol = &quot;off&quot; # &quot;off&quot;, &quot;v1&quot;, or &quot;v2&quot;
+trusted_proxies = []
+upstream_proxy_protocol = &quot;off&quot; # &quot;off&quot;, &quot;v1&quot;, or &quot;v2&quot;</code></pre>
+<ul>
+<li><code>listen</code> entries are <code>ip:port</code> TCP listeners. Each listener may appear on</li>
+</ul>
+<p>only one stream route.</p>
+<ul>
+<li>Configure either <code>upstream = &quot;host:port&quot;</code> or <code>upstreams = [&quot;host:port&quot;, ...]</code>.</li>
+</ul>
+<p>Multiple upstreams use round-robin selection in the initial <code>1.4.6</code> foundation.</p>
+<ul>
+<li><code>connect_timeout_secs</code> bounds DNS/connect setup and defaults to <code>5</code>.</li>
+<li><code>max_connection_secs</code> bounds total accepted stream lifetime and defaults to</li>
+</ul>
+<p><code>300</code>. It is a wall-clock lifetime cap, not a per-read idle timer.</p>
+<ul>
+<li><code>max_connection_bytes</code> is optional and caps copied bytes per direction for a</li>
+</ul>
+<p>single stream connection.</p>
+<ul>
+<li><code>max_connections = 0</code> means unlimited for that stream route. Non-zero values</li>
+</ul>
+<p>cap concurrent accepted connections before connecting upstream.</p>
+<ul>
+<li><code>downstream_proxy_protocol</code> enables PROXY protocol receive for this stream</li>
+</ul>
+<p>route only. It defaults to <code>off</code> and requires route-local <code>trusted_proxies</code>. The HTTP <code>server.proxy_protocol</code> setting does not apply to stream listeners.</p>
+<ul>
+<li><code>upstream_proxy_protocol</code> writes a HAProxy PROXY protocol header to the</li>
+</ul>
+<p>selected upstream before forwarding stream bytes. Use it only when the upstream explicitly expects PROXY protocol.</p>
+<p>When <code>metrics</code> is compiled and enabled, <code>fluxheim_stream_connections_total{route,outcome}</code> records bounded connection outcomes and <code>fluxheim_stream_bytes_total{route,direction}</code> records copied bytes in each direction.</p>
 <h2 id="admin">Admin</h2>
 <p><code>[admin]</code> is disabled by default. When enabled, it must be authenticated and loopback-only unless the operator explicitly relaxes that.</p>
 <pre class="language-toml"><code class="language-toml">[admin]

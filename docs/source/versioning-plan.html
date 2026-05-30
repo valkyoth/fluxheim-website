@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.5</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.6</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -1344,19 +1344,19 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <li>compile-time feature separate from HTTP proxy if needed;</li>
 <li>port/listener-based stream routing to one or more upstreams, reusing the</li>
 </ul>
-<p>load-balancer selection and health primitives where they are transport neutral;</p>
+<p>load-balancer selection and health primitives only where they are transport neutral and do not pull HTTP policy into stream routes;</p>
 <ul>
-<li>bidirectional Tokio byte copy with half-close handling, idle/connect</li>
+<li>bidirectional Tokio byte copy with half-close handling, connect timeout,</li>
 </ul>
-<p>timeout controls, per-direction byte counters, max connection limits, and graceful drain behavior;</p>
+<p>max connection lifetime, per-direction byte caps/accounting, max connection limits, and graceful drain behavior;</p>
 <ul>
-<li>upstream PROXY protocol send where configured, and listener-side PROXY</li>
+<li>upstream PROXY protocol send where configured, and route-local</li>
 </ul>
-<p>protocol receive only behind trusted peer rules;</p>
+<p>listener-side PROXY protocol receive only behind trusted peer rules;</p>
 <ul>
-<li>optional upstream TLS and upstream mTLS using the same safe certificate/key</li>
+<li>upstream TLS and upstream mTLS are allowed only if they reuse the same safe</li>
 </ul>
-<p>loading model as HTTP upstream TLS;</p>
+<p>certificate/key loading model as HTTP upstream TLS without expanding the stop line; otherwise keep them for a later stream hardening release;</p>
 <ul>
 <li>TLS passthrough SNI routing only as a later subfeature after a bounded</li>
 </ul>
@@ -1365,6 +1365,27 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <li>no HTTP headers, cache, auth subrequest, compression, or PHP behavior on</li>
 </ul>
 <p>stream routes.</p>
+<ul>
+<li><code>1.4.7</code> - TCP stream hardening:</li>
+<li>stop line: harden the <code>1.4.6</code> TCP stream proxy foundation only. Do not add</li>
+</ul>
+<p>UDP proxying, TLS passthrough SNI routing, xDS/Kubernetes/Consul discovery, or Wasm/Lua stream filters in <code>1.4.7</code>;</p>
+<ul>
+<li>implement true per-read stream idle timeout on top of the manual copy loop,</li>
+</ul>
+<p>while keeping <code>max_connection_secs</code> as a separate lifetime cap;</p>
+<ul>
+<li>add stream upstream TLS and upstream mTLS where it can reuse the existing</li>
+</ul>
+<p>safe certificate/key loading and upstream TLS evidence model. If this expands into a new trust-store or provider model, defer it to <code>1.5</code>;</p>
+<ul>
+<li>move only transport-neutral load-balancer policy to stream routes:</li>
+</ul>
+<p>connection limits, upstream weights/backup/drain state, and health state are candidates; HTTP request/response policy, cache, compression, auth subrequests, PHP, header mutation, and body policy stay out of stream routes;</p>
+<ul>
+<li>expand stream smoke/security tests for half-close behavior, byte caps,</li>
+</ul>
+<p>idle timeout, upstream TLS/mTLS, PROXY receive/send combinations, and metrics labels.</p>
 <ul>
 <li>Future macOS production support:</li>
 <li>track as a later release line after <code>1.4.x</code>, not as spillover from the</li>
@@ -1546,7 +1567,7 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <ul>
 <li>UDP proxying is deliberately deferred. Pingora does not provide UDP support,</li>
 </ul>
-<p>and raw UDP forwarding needs a session/NAT table, affinity model, and protocol-specific health semantics. Do not build it until a concrete DNS, syslog, DTLS, gaming, or IoT requirement justifies the extra surface.</p>
+<p>and raw UDP forwarding needs a session/NAT table, affinity model, and protocol-specific health semantics. Do not build it until a concrete DNS, syslog, DTLS, gaming, or IoT requirement justifies the extra surface. When scheduled, make it a separate future version with a concrete target: generic UDP session forwarding, DNS UDP load balancing, syslog UDP forwarding, QUIC passthrough, or game-server UDP proxying. Each target needs explicit session TTLs, affinity, packet/byte/drop metrics, amplification controls, and protocol-appropriate health checks.</p>
 <ul>
 <li>Richer proxy variables for logging, headers, and future Wasm inputs:</li>
 <li>upstream connect time, first-byte time, response time, selected target,</li>
@@ -1615,7 +1636,7 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <ul>
 <li>Arbitrary Lua/Wasm script execution. <code>1.4</code> should define typed hook points and</li>
 </ul>
-<p>bounded policy surfaces; the shared Wasm runtime remains a separate <code>1.6</code> line. NGINX rewrite-module-style <code>if</code> conditions should be evaluated there as sandboxed policy hooks rather than copied into TOML as a second ad-hoc language.</p>
+<p>bounded policy surfaces; the shared Wasm runtime remains a separate <code>1.6</code> line. NGINX rewrite-module-style <code>if</code> conditions should be evaluated there as sandboxed policy hooks rather than copied into TOML as a second ad-hoc language. TCP stream Wasm/Lua-style filters also belong to the shared Wasm line, not <code>1.4.7</code>: they require a sandbox ABI, fuel/time/memory limits, stream mutation limits, and a clear security model for long-lived L4 connections.</p>
 <ul>
 <li>HTTP/2 server push should be skipped permanently unless the browser ecosystem</li>
 </ul>
@@ -1681,9 +1702,17 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <li>HTTP/1.1 and HTTP/2 request-aware pools;</li>
 <li>gRPC-aware HTTP/2 pools where trailers/status handling is preserved;</li>
 <li>TCP stream pools built on the <code>1.4</code> stream-proxy foundation;</li>
+<li>TLS passthrough SNI routing only after a bounded ClientHello parser,</li>
+</ul>
+<p>preread buffer cap, malformed-handshake behavior, and unmodified byte replay are proven;</p>
+<ul>
 <li>UDP session pools only after a concrete post-<code>1.4</code> requirement proves raw</li>
 </ul>
 <p>UDP forwarding can be bounded and observable;</p>
+<ul>
+<li>xDS/Kubernetes/Consul discovery only after local DNS/file discovery and</li>
+</ul>
+<p>runtime backend mutation are stable. Treat this as a control-plane feature, not a quick stream-proxy add-on;</p>
 <ul>
 <li>HTTP/3/QUIC remains a later protocol milestone unless the QUIC ingress</li>
 </ul>
@@ -2090,6 +2119,10 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;]</code></pre>
 <li>Wasmtime-based sandbox evaluation after license/advisory review.</li>
 <li>Request header hook.</li>
 <li>Response header hook.</li>
+<li>TCP stream hook points after the stream foundation and load-balancer</li>
+</ul>
+<p>semantics are stable. Stream filters must be opt-in, bounded by bytes/time, safe for long-lived connections, and unable to become an unbounded arbitrary bytecode path on raw TCP traffic.</p>
+<ul>
 <li>Access-control hook returning allow, deny, or continue.</li>
 <li>Conditional request-policy hooks that can cover nginx rewrite-module-style</li>
 </ul>
@@ -3062,7 +3095,15 @@ git push origin v1.0.0</code></pre>
 <ul>
 <li><code>v1.4.6</code>: TCP stream proxy foundation with separate stream semantics,</li>
 </ul>
-<p>listener/upstream trust boundaries, metrics, and optional TLS passthrough SNI routing only after a bounded ClientHello parser is proven.</p>
+<p>listener/upstream trust boundaries, and bounded copy controls.</p>
+<ul>
+<li><code>v1.4.7</code>: TCP stream hardening with true per-read idle timeout, stream</li>
+</ul>
+<p>upstream TLS/mTLS where it reuses the existing safe TLS material model, and transport-neutral stream load-balancer policy only.</p>
+<ul>
+<li><code>v1.5.0</code>: load-balancer/control-plane line. Include TLS passthrough SNI</li>
+</ul>
+<p>routing only after a bounded ClientHello parser, preread buffer limit, and byte replay model are proven. Dynamic xDS/Kubernetes/Consul discovery belongs here or a later control-plane line after local DNS/file discovery and runtime backend mutation are stable.</p>
 <ul>
 <li>Later macOS production line: only after Level 1 developer support is stable.</li>
 </ul>
