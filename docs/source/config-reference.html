@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.6</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -174,13 +174,26 @@ enabled = true
 name = &quot;postgres&quot;
 listen = [&quot;127.0.0.1:15432&quot;]
 upstreams = [&quot;10.0.0.11:5432&quot;, &quot;10.0.0.12:5432&quot;]
+# upstream_weights = [1, 2]
+# upstream_aliases = [&quot;pg-a&quot;, &quot;pg-b&quot;]
+# backup_upstreams = []
+# drain_upstreams = []
 connect_timeout_secs = 5
-max_connection_secs = 300
+idle_timeout_secs = 300
+# max_connection_secs = 3600
 max_connection_bytes = 1073741824
 max_connections = 1024
 downstream_proxy_protocol = &quot;off&quot; # &quot;off&quot;, &quot;v1&quot;, or &quot;v2&quot;
 trusted_proxies = []
-upstream_proxy_protocol = &quot;off&quot; # &quot;off&quot;, &quot;v1&quot;, or &quot;v2&quot;</code></pre>
+upstream_proxy_protocol = &quot;off&quot; # &quot;off&quot;, &quot;v1&quot;, or &quot;v2&quot;
+upstream_tls = false
+# upstream_sni = &quot;db.internal.example&quot;
+# upstream_verify_cert = true
+# upstream_verify_hostname = true
+# upstream_alternative_cn = &quot;db-alt.internal.example&quot;
+# upstream_ca_path = &quot;/etc/fluxheim/upstreams/db-ca.pem&quot;
+# upstream_client_cert_path = &quot;/etc/fluxheim/upstreams/client-chain.pem&quot;
+# upstream_client_key_path = &quot;/etc/fluxheim/upstreams/client-key.pem&quot;</code></pre>
 <ul>
 <li><code>listen</code> entries are <code>ip:port</code> TCP listeners. Each listener may appear on</li>
 </ul>
@@ -188,12 +201,24 @@ upstream_proxy_protocol = &quot;off&quot; # &quot;off&quot;, &quot;v1&quot;, or 
 <ul>
 <li>Configure either <code>upstream = &quot;host:port&quot;</code> or <code>upstreams = [&quot;host:port&quot;, ...]</code>.</li>
 </ul>
-<p>Multiple upstreams use round-robin selection in the initial <code>1.4.6</code> foundation.</p>
+<p>Multiple upstreams use stream-local round-robin selection by default.</p>
+<ul>
+<li><code>upstream_weights</code> optionally enables weighted stream selection and must have</li>
+</ul>
+<p>one positive value for each <code>upstreams</code> entry. <code>upstream_aliases</code> optionally assigns safe low-cardinality names for stream logs and future metrics.</p>
+<ul>
+<li><code>backup_upstreams</code> and <code>drain_upstreams</code> are optional subsets of</li>
+</ul>
+<p><code>upstreams</code>. Drained stream upstreams do not receive new connections. Backup stream upstreams are not selected while a primary is available, but are tried as connect-fallback candidates before the downstream stream starts copying.</p>
 <ul>
 <li><code>connect_timeout_secs</code> bounds DNS/connect setup and defaults to <code>5</code>.</li>
-<li><code>max_connection_secs</code> bounds total accepted stream lifetime and defaults to</li>
+<li><code>idle_timeout_secs</code> is a true stream idle timer and defaults to <code>300</code>. The</li>
 </ul>
-<p><code>300</code>. It is a wall-clock lifetime cap, not a per-read idle timer.</p>
+<p>timer resets whenever either direction transfers bytes.</p>
+<ul>
+<li><code>max_connection_secs</code> is optional and bounds total accepted stream lifetime</li>
+</ul>
+<p>when set. Leave it unset for no wall-clock lifetime cap.</p>
 <ul>
 <li><code>max_connection_bytes</code> is optional and caps copied bytes per direction for a</li>
 </ul>
@@ -209,7 +234,15 @@ upstream_proxy_protocol = &quot;off&quot; # &quot;off&quot;, &quot;v1&quot;, or 
 <ul>
 <li><code>upstream_proxy_protocol</code> writes a HAProxy PROXY protocol header to the</li>
 </ul>
-<p>selected upstream before forwarding stream bytes. Use it only when the upstream explicitly expects PROXY protocol.</p>
+<p>selected upstream before forwarding stream bytes. Use it only when the upstream explicitly expects PROXY protocol. It cannot be combined with <code>upstream_tls</code> in <code>1.4.7</code>; stream TLS handshakes need a dedicated pre-TLS PROXY connector before that combination can be enabled safely.</p>
+<ul>
+<li><code>upstream_tls = true</code> sends TLS to the selected stream upstream.</li>
+</ul>
+<p><code>upstream_sni</code> is optional; when unset Fluxheim derives SNI from the selected upstream host. <code>upstream_verify_cert</code> and <code>upstream_verify_hostname</code> default to <code>true</code>; disabling certificate verification also requires hostname verification to be disabled so the policy cannot imply a hostname check that is not happening.</p>
+<ul>
+<li><code>upstream_alternative_cn</code> allows one additional non-wildcard hostname for</li>
+</ul>
+<p>upstream certificate matching. <code>upstream_ca_path</code> loads a route-local PEM CA bundle. <code>upstream_client_cert_path</code> and <code>upstream_client_key_path</code> configure upstream mTLS client material and must be set together. Custom trust roots and upstream client certificates are supported for rustls, OpenSSL, and BoringSSL builds; s2n remains fail-closed for these files until Fluxheim can load them without backend panics.</p>
 <p>When <code>metrics</code> is compiled and enabled, <code>fluxheim_stream_connections_total{route,outcome}</code> records bounded connection outcomes and <code>fluxheim_stream_bytes_total{route,direction}</code> records copied bytes in each direction.</p>
 <h2 id="admin">Admin</h2>
 <p><code>[admin]</code> is disabled by default. When enabled, it must be authenticated and loopback-only unless the operator explicitly relaxes that.</p>

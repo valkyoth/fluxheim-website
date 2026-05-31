@@ -62,7 +62,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.6</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -307,13 +307,26 @@ enabled = true
 name = "postgres"
 listen = ["127.0.0.1:15432"]
 upstreams = ["10.0.0.11:5432", "10.0.0.12:5432"]
+# upstream_weights = [1, 2]
+# upstream_aliases = ["pg-a", "pg-b"]
+# backup_upstreams = []
+# drain_upstreams = []
 connect_timeout_secs = 5
-max_connection_secs = 300
+idle_timeout_secs = 300
+# max_connection_secs = 3600
 max_connection_bytes = 1073741824
 max_connections = 1024
-downstream_proxy_protocol = "off"
+downstream_proxy_protocol = "off" # "off", "v1", or "v2"
 trusted_proxies = []
-upstream_proxy_protocol = "off"</code></pre>
+upstream_proxy_protocol = "off" # "off", "v1", or "v2"
+upstream_tls = false
+# upstream_sni = "db.internal.example"
+# upstream_verify_cert = true
+# upstream_verify_hostname = true
+# upstream_alternative_cn = "db-alt.internal.example"
+# upstream_ca_path = "/etc/fluxheim/upstreams/db-ca.pem"
+# upstream_client_cert_path = "/etc/fluxheim/upstreams/client-chain.pem"
+# upstream_client_key_path = "/etc/fluxheim/upstreams/client-key.pem"</code></pre>
             </div>
           </div>
           <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
@@ -322,16 +335,29 @@ upstream_proxy_protocol = "off"</code></pre>
               <tbody>
                 <tr><td class="key">enabled</td><td class="type">bool</td><td class="default">false</td><td class="desc">Enable dedicated TCP stream listeners when the binary includes <code class="section-ref">stream-proxy</code>.</td></tr>
                 <tr><td class="key">[[stream.routes]].listen</td><td class="type">string[]</td><td class="default">—</td><td class="desc">One or more <code class="section-ref">ip:port</code> TCP listeners. Each listener may belong to only one stream route.</td></tr>
-                <tr><td class="key">[[stream.routes]].upstreams</td><td class="type">string[]</td><td class="default">—</td><td class="desc">One or more <code class="section-ref">host:port</code> upstreams. Multiple upstreams use round-robin selection.</td></tr>
-                <tr><td class="key">max_connection_secs</td><td class="type">integer</td><td class="default">300</td><td class="desc">Wall-clock lifetime cap for one accepted stream connection.</td></tr>
+                <tr><td class="key">[[stream.routes]].upstreams</td><td class="type">string[]</td><td class="default">—</td><td class="desc">One or more <code class="section-ref">host:port</code> upstreams. Multiple upstreams use weighted selection when weights are configured.</td></tr>
+                <tr><td class="key">upstream_weights</td><td class="type">integer[]</td><td class="default">—</td><td class="desc">Optional per-upstream weights for stream-local TCP selection.</td></tr>
+                <tr><td class="key">upstream_aliases</td><td class="type">string[]</td><td class="default">—</td><td class="desc">Optional safe labels for stream upstreams in logs and metrics.</td></tr>
+                <tr><td class="key">backup_upstreams</td><td class="type">string[]</td><td class="default">[]</td><td class="desc">Backup upstreams attempted when primary stream upstream connection attempts fail.</td></tr>
+                <tr><td class="key">drain_upstreams</td><td class="type">string[]</td><td class="default">[]</td><td class="desc">Upstreams excluded from new stream selections while existing connections drain.</td></tr>
+                <tr><td class="key">idle_timeout_secs</td><td class="type">integer</td><td class="default">300</td><td class="desc">True idle timeout that resets when either direction transfers bytes.</td></tr>
+                <tr><td class="key">max_connection_secs</td><td class="type">integer</td><td class="default">—</td><td class="desc">Optional wall-clock lifetime cap for one accepted stream connection.</td></tr>
                 <tr><td class="key">max_connection_bytes</td><td class="type">integer</td><td class="default">—</td><td class="desc">Optional copied-byte cap per direction for a single stream connection.</td></tr>
                 <tr><td class="key">max_connections</td><td class="type">integer</td><td class="default">0</td><td class="desc">Per-route concurrent connection cap. Zero means unlimited.</td></tr>
                 <tr><td class="key">downstream_proxy_protocol</td><td class="type">string</td><td class="default">"off"</td><td class="desc"><code class="section-ref">off</code>, <code class="section-ref">v1</code>, or <code class="section-ref">v2</code> receive for this stream route only. Requires route-local trusted proxies.</td></tr>
                 <tr><td class="key">upstream_proxy_protocol</td><td class="type">string</td><td class="default">"off"</td><td class="desc"><code class="section-ref">off</code>, <code class="section-ref">v1</code>, or <code class="section-ref">v2</code> send to upstream before forwarding stream bytes.</td></tr>
+                <tr><td class="key">upstream_tls</td><td class="type">bool</td><td class="default">false</td><td class="desc">Enable TLS for stream upstream connections. Cannot be combined with upstream PROXY protocol in 1.4.7.</td></tr>
+                <tr><td class="key">upstream_sni</td><td class="type">string</td><td class="default">—</td><td class="desc">Optional RFC 6066-safe SNI name for stream upstream TLS.</td></tr>
+                <tr><td class="key">upstream_verify_cert</td><td class="type">bool</td><td class="default">true</td><td class="desc">Verify the upstream certificate chain when stream upstream TLS is enabled.</td></tr>
+                <tr><td class="key">upstream_verify_hostname</td><td class="type">bool</td><td class="default">true</td><td class="desc">Verify upstream TLS hostname identity using SNI or the upstream host.</td></tr>
+                <tr><td class="key">upstream_alternative_cn</td><td class="type">string</td><td class="default">—</td><td class="desc">One alternative certificate name accepted for stream upstream TLS.</td></tr>
+                <tr><td class="key">upstream_ca_path</td><td class="type">path</td><td class="default">—</td><td class="desc">Route-local CA bundle for stream upstream TLS verification.</td></tr>
+                <tr><td class="key">upstream_client_cert_path</td><td class="type">path</td><td class="default">—</td><td class="desc">Client certificate chain for stream upstream mTLS.</td></tr>
+                <tr><td class="key">upstream_client_key_path</td><td class="type">path</td><td class="default">—</td><td class="desc">Client private key for stream upstream mTLS. Temporary key bytes are zeroized after parsing.</td></tr>
               </tbody>
             </table>
           </div>
-          <p>With <code>metrics</code> compiled and enabled, stream proxying exports bounded connection outcome and per-direction byte counters. Stream routes do not support UDP, TLS passthrough SNI routing, upstream TLS/mTLS, HTTP policy, or Wasm/Lua filters in 1.4.6.</p>
+          <p>With <code>metrics</code> compiled and enabled, stream proxying exports bounded connection outcome and per-direction byte counters. Stream routes do not support UDP, TLS passthrough SNI routing, HTTP policy, HTTP header/body mutation, or Wasm/Lua filters in 1.4.7. Stream <code>upstream_tls</code> and <code>upstream_proxy_protocol</code> cannot be combined in this release.</p>
 
           <h2>[[vhosts]]</h2>
           <p>Each vhost is a <code>[[vhosts]]</code> table in TOML (array of tables). They are matched by the <code>Host</code> header.</p>

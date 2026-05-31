@@ -18,7 +18,7 @@
 
 A fully static, multi-page project website — no build step, no Node.js, no framework. All JavaScript and CSS assets are vendored locally so the site works offline and can be served by any static file server, including Fluxheim itself.
 
-The site is self-hosting: the included `container/Dockerfile` builds Fluxheim v1.4.6 from source and serves this website from inside a hardened Wolfi container.
+The site is self-hosting: the included `container/Dockerfile` builds Fluxheim v1.4.7 from source and serves this website from inside a hardened Wolfi container.
 
 ## Pages
 
@@ -65,7 +65,7 @@ python3 -m http.server 8000
 
 `container/Dockerfile` uses a three-stage build. It builds Fluxheim from the tagged upstream release and packages the website files from the local build context, so local container tests exercise the same files you are about to push:
 
-1. **Builder** — `rust:1.96-slim-bookworm`: clones and compiles Fluxheim v1.4.6 with `profile-static-site`
+1. **Builder** — `rust:1.96-slim-bookworm`: clones and compiles Fluxheim v1.4.7 with `profile-static-site`
 2. **Site** — `alpine:3`: packages the local HTML, docs, assets, and config
 3. **Runtime** — `cgr.dev/chainguard/wolfi-base`: hardened Wolfi image, non-root user, binary + site files baked in
 
@@ -81,14 +81,14 @@ The site will be available at **http://localhost:8080**.
 
 ```bash
 # Build — context is repo root, Dockerfile is in container/
-podman build -f container/Dockerfile -t fluxheim-website:1.4.6 .
+podman build -f container/Dockerfile -t fluxheim-website:1.4.7 .
 
 # Run rootless on port 8080
 podman run -d \
   --name fluxheim-website \
   --restart unless-stopped \
   -p 8080:8080 \
-  fluxheim-website:1.4.6
+  fluxheim-website:1.4.7
 ```
 
 ### Override the config without rebuilding
@@ -98,7 +98,7 @@ podman run -d \
   --name fluxheim-website \
   -p 8080:8080 \
   -v ./conf/fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro,z \
-  fluxheim-website:1.4.6
+  fluxheim-website:1.4.7
 ```
 
 ## Project Structure

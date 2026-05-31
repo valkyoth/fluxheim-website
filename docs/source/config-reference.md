@@ -160,23 +160,44 @@ enabled = true
 name = "postgres"
 listen = ["127.0.0.1:15432"]
 upstreams = ["10.0.0.11:5432", "10.0.0.12:5432"]
+# upstream_weights = [1, 2]
+# upstream_aliases = ["pg-a", "pg-b"]
+# backup_upstreams = []
+# drain_upstreams = []
 connect_timeout_secs = 5
-max_connection_secs = 300
+idle_timeout_secs = 300
+# max_connection_secs = 3600
 max_connection_bytes = 1073741824
 max_connections = 1024
 downstream_proxy_protocol = "off" # "off", "v1", or "v2"
 trusted_proxies = []
 upstream_proxy_protocol = "off" # "off", "v1", or "v2"
+upstream_tls = false
+# upstream_sni = "db.internal.example"
+# upstream_verify_cert = true
+# upstream_verify_hostname = true
+# upstream_alternative_cn = "db-alt.internal.example"
+# upstream_ca_path = "/etc/fluxheim/upstreams/db-ca.pem"
+# upstream_client_cert_path = "/etc/fluxheim/upstreams/client-chain.pem"
+# upstream_client_key_path = "/etc/fluxheim/upstreams/client-key.pem"
 ```
 
 - `listen` entries are `ip:port` TCP listeners. Each listener may appear on
   only one stream route.
 - Configure either `upstream = "host:port"` or `upstreams = ["host:port", ...]`.
-  Multiple upstreams use round-robin selection in the initial `1.4.6`
-  foundation.
+  Multiple upstreams use stream-local round-robin selection by default.
+- `upstream_weights` optionally enables weighted stream selection and must have
+  one positive value for each `upstreams` entry. `upstream_aliases` optionally
+  assigns safe low-cardinality names for stream logs and future metrics.
+- `backup_upstreams` and `drain_upstreams` are optional subsets of
+  `upstreams`. Drained stream upstreams do not receive new connections. Backup
+  stream upstreams are not selected while a primary is available, but are tried
+  as connect-fallback candidates before the downstream stream starts copying.
 - `connect_timeout_secs` bounds DNS/connect setup and defaults to `5`.
-- `max_connection_secs` bounds total accepted stream lifetime and defaults to
-  `300`. It is a wall-clock lifetime cap, not a per-read idle timer.
+- `idle_timeout_secs` is a true stream idle timer and defaults to `300`. The
+  timer resets whenever either direction transfers bytes.
+- `max_connection_secs` is optional and bounds total accepted stream lifetime
+  when set. Leave it unset for no wall-clock lifetime cap.
 - `max_connection_bytes` is optional and caps copied bytes per direction for a
   single stream connection.
 - `max_connections = 0` means unlimited for that stream route. Non-zero values
@@ -186,7 +207,22 @@ upstream_proxy_protocol = "off" # "off", "v1", or "v2"
   The HTTP `server.proxy_protocol` setting does not apply to stream listeners.
 - `upstream_proxy_protocol` writes a HAProxy PROXY protocol header to the
   selected upstream before forwarding stream bytes. Use it only when the
-  upstream explicitly expects PROXY protocol.
+  upstream explicitly expects PROXY protocol. It cannot be combined with
+  `upstream_tls` in `1.4.7`; stream TLS handshakes need a dedicated
+  pre-TLS PROXY connector before that combination can be enabled safely.
+- `upstream_tls = true` sends TLS to the selected stream upstream.
+  `upstream_sni` is optional; when unset Fluxheim derives SNI from the selected
+  upstream host. `upstream_verify_cert` and `upstream_verify_hostname` default
+  to `true`; disabling certificate verification also requires hostname
+  verification to be disabled so the policy cannot imply a hostname check that
+  is not happening.
+- `upstream_alternative_cn` allows one additional non-wildcard hostname for
+  upstream certificate matching. `upstream_ca_path` loads a route-local PEM CA
+  bundle. `upstream_client_cert_path` and `upstream_client_key_path` configure
+  upstream mTLS client material and must be set together. Custom trust roots
+  and upstream client certificates are supported for rustls, OpenSSL, and
+  BoringSSL builds; s2n remains fail-closed for these files until Fluxheim can
+  load them without backend panics.
 
 When `metrics` is compiled and enabled,
 `fluxheim_stream_connections_total{route,outcome}` records bounded connection
