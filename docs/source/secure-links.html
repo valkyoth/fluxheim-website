@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -77,28 +77,18 @@
 <p>Status: future optional module.</p>
 <p>Planned Cargo features:</p>
 <ul>
-<li><code>secure-links</code>: shared config, URL token parsing, expiry checks, and route</li>
-</ul>
-<p>enforcement.</p>
-<ul>
+<li><code>secure-links</code>: shared config, URL token parsing, expiry checks, and route enforcement.</li>
 <li><code>secure-links-hmac</code>: symmetric HMAC signing.</li>
 <li><code>secure-links-ed25519</code>: asymmetric public-key verification.</li>
-<li><code>secure-links-replay</code>: optional replay and usage accounting when a state</li>
+<li><code>secure-links-replay</code>: optional replay and usage accounting when a state backend is available.</li>
 </ul>
-<p>backend is available.</p>
 <p>Secure links are signed URLs for downloads, static assets, media segments, or temporary shared routes. They should be independent from external authorization: auth modules answer &quot;who is this requester?&quot;, while secure links answer &quot;is this specific URL grant valid for this request?&quot;.</p>
 <h2 id="goals">Goals</h2>
 <ul>
 <li>Replace weak legacy signing patterns with modern, reviewable cryptography.</li>
 <li>Support stateless verification for high-volume static and media paths.</li>
-<li>Support asymmetric verification so Fluxheim can verify links without holding</li>
-</ul>
-<p>the private signing key.</p>
-<ul>
-<li>Treat URL tokens as claims with expiry, audience, path, method, and optional</li>
-</ul>
-<p>entitlement constraints.</p>
-<ul>
+<li>Support asymmetric verification so Fluxheim can verify links without holding the private signing key.</li>
+<li>Treat URL tokens as claims with expiry, audience, path, method, and optional entitlement constraints.</li>
 <li>Add optional replay controls only when a suitable state backend exists.</li>
 <li>Avoid logging raw tokens, signatures, or entitlement claims.</li>
 </ul>
@@ -106,9 +96,8 @@
 <p>Stable cryptographic options should start with:</p>
 <ul>
 <li>HMAC-SHA-256 or HMAC-SHA-384 for symmetric deployments;</li>
-<li>Ed25519 for asymmetric deployments where application servers sign and</li>
+<li>Ed25519 for asymmetric deployments where application servers sign and Fluxheim verifies with public keys.</li>
 </ul>
-<p>Fluxheim verifies with public keys.</p>
 <p>Future token formats may include compact JWT or PASETO-like claims, but the module should not accept arbitrary algorithms. Config must define an algorithm allow-list, key IDs, expiry requirements, maximum token size, and key rotation behavior.</p>
 <p>Do not use weak digest-only constructions. A signature must cover at least:</p>
 <ul>
@@ -175,21 +164,11 @@ secure_link = { enabled = true, profile = &quot;downloads&quot; }</code></pre>
 <h2 id="privacy-and-security">Privacy And Security</h2>
 <ul>
 <li>Never log raw secure-link tokens, signatures, or decoded claims by default.</li>
-<li>Strip secure-link query parameters from access-log paths unless the operator</li>
+<li>Strip secure-link query parameters from access-log paths unless the operator explicitly disables redaction.</li>
+<li>Reject unsigned or expired links before static serving, proxying, cache lookup, or media transformation.</li>
+<li>Cache keys must not include raw tokens. Cache admission for protected content must be explicitly designed so one user&#x27;s token does not create a personalized shared cache object.</li>
+<li><code>privacy-mode</code> should reject replay/accounting features and may reject the whole module until token redaction and no-retention behavior are tested.</li>
 </ul>
-<p>explicitly disables redaction.</p>
-<ul>
-<li>Reject unsigned or expired links before static serving, proxying, cache</li>
-</ul>
-<p>lookup, or media transformation.</p>
-<ul>
-<li>Cache keys must not include raw tokens. Cache admission for protected content</li>
-</ul>
-<p>must be explicitly designed so one user&#x27;s token does not create a personalized shared cache object.</p>
-<ul>
-<li><code>privacy-mode</code> should reject replay/accounting features and may reject the</li>
-</ul>
-<p>whole module until token redaction and no-retention behavior are tested.</p>
 <h2 id="test-plan">Test Plan</h2>
 <ul>
 <li>Valid signed URL allows access.</li>
@@ -201,9 +180,8 @@ secure_link = { enabled = true, profile = &quot;downloads&quot; }</code></pre>
 <li>Tokens are redacted from logs and error output.</li>
 <li>Cache and media routes cannot leak personalized protected content.</li>
 <li>Replay controls, when enabled, enforce max-use and state consistency rules.</li>
-<li>Default and privacy builds prove secure-link code is absent unless explicitly</li>
+<li>Default and privacy builds prove secure-link code is absent unless explicitly enabled.</li>
 </ul>
-<p>enabled.</p>
         </article>
       </div>
     </main>

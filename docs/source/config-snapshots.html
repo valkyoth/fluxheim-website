@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -77,9 +77,8 @@
 <p>Fluxheim uses two layers for reload safety:</p>
 <ul>
 <li>Runtime snapshots: immutable in-memory state behind <code>ArcSwap</code>.</li>
-<li>Durable snapshots: validated TOML configs stored on disk with a current</li>
+<li>Durable snapshots: validated TOML configs stored on disk with a current pointer.</li>
 </ul>
-<p>pointer.</p>
 <p>The runtime snapshot model means old requests can keep using the config they started with while new requests use the new config after an atomic pointer swap. The durable snapshot store gives operators an auditable rollback target and the admin API a current pointer to apply.</p>
 <h2 id="store-layout">Store Layout</h2>
 <p>Use an operator-chosen state directory, for example <code>/var/lib/fluxheim/snapshots</code>:</p>
@@ -172,6 +171,7 @@ max_error_rate_per_mille = 100</code></pre>
 <li><code>runtime_snapshot</code></li>
 <li><code>known_good_snapshot</code></li>
 <li><code>pending_validation</code></li>
+<li><code>load_balancer</code> when compiled with the load-balancer feature, including read-only vhost/route pool and backend runtime state</li>
 </ul>
 <p>Confirm the candidate after local health checks succeed:</p>
 <pre class="language-bash"><code class="language-bash">curl -sS -X POST \
@@ -198,14 +198,8 @@ curl -sS -X POST \
 <li>Mark the pre-reload snapshot as known-good.</li>
 <li>Validate and apply a snapshot-safe reload through <code>POST /_fluxheim/reload</code>.</li>
 <li>Watch a configurable health window with the background watchdog.</li>
-<li>Treat clear failures as broken, for example local health-check failure,</li>
-</ol>
-<p>startup-owned service failure, rising 5xx rate, or repeated upstream selection failure.</p>
-<ol>
-<li>Automatically swap back to the previous known-good runtime snapshot when the</li>
-</ol>
-<p>new snapshot is unhealthy.</p>
-<ol>
+<li>Treat clear failures as broken, for example local health-check failure, startup-owned service failure, rising 5xx rate, or repeated upstream selection failure.</li>
+<li>Automatically swap back to the previous known-good runtime snapshot when the new snapshot is unhealthy.</li>
 <li>Leave process-upgrade-only changes to the supervisor/Pingora upgrade path.</li>
 </ol>
 <p>The first implementation should be conservative. It should prefer keeping the old known-good config over guessing that a risky new config is healthy.</p>

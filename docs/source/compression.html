@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -87,22 +87,12 @@
 <h2 id="goals">Goals</h2>
 <ul>
 <li>Keep gzip as a conservative compatibility baseline.</li>
-<li>Keep Zstandard and Brotli behind explicit Cargo features because they add</li>
-</ul>
-<p>extra codec dependencies and operational behavior.</p>
-<ul>
+<li>Keep Zstandard and Brotli behind explicit Cargo features because they add extra codec dependencies and operational behavior.</li>
 <li>Avoid compressing already-compressed or low-value content.</li>
-<li>Keep request workers responsive by moving expensive compression work out of</li>
+<li>Keep request workers responsive by moving expensive compression work out of the main request path.</li>
+<li>Integrate with cache keys, <code>Vary: Accept-Encoding</code>, validators, and range behavior safely.</li>
+<li>Make all resource costs explicit: CPU budget, output size, input size, compression level, and concurrency.</li>
 </ul>
-<p>the main request path.</p>
-<ul>
-<li>Integrate with cache keys, <code>Vary: Accept-Encoding</code>, validators, and range</li>
-</ul>
-<p>behavior safely.</p>
-<ul>
-<li>Make all resource costs explicit: CPU budget, output size, input size,</li>
-</ul>
-<p>compression level, and concurrency.</p>
 <h2 id="negotiation">Negotiation</h2>
 <p>Fluxheim negotiates response compression from <code>Accept-Encoding</code> when <code>compression.enabled = true</code> and the binary is built with at least one codec feature. Gzip is available through <code>compression-gzip</code>, Zstandard through <code>compression-zstd</code>, and Brotli through <code>compression-brotli</code>. <code>q=0</code> is respected for each coding. When multiple accepted codings are enabled, Fluxheim prefers <code>br</code>, then <code>zstd</code>, then <code>gzip</code>.</p>
 <p>Identity is served when no enabled coding is accepted by the client, the response is already encoded, the response is too small or too large, the content length is unknown, or policy disables compression.</p>
@@ -116,15 +106,9 @@
 <h2 id="eligibility">Eligibility</h2>
 <p>Do not compress by default:</p>
 <ul>
-<li>JPEG, PNG, GIF, WebP, AVIF, MP4, WebM, MP3, OGG, WOFF2, ZIP, gzip, Brotli,</li>
-</ul>
-<p>Zstandard, or other already-compressed formats;</p>
-<ul>
+<li>JPEG, PNG, GIF, WebP, AVIF, MP4, WebM, MP3, OGG, WOFF2, ZIP, gzip, Brotli, Zstandard, or other already-compressed formats;</li>
 <li>responses with <code>Cache-Control: no-transform</code>;</li>
-<li>responses carrying sensitive per-user content unless the operator explicitly</li>
-</ul>
-<p>allows it and cache admission remains disabled;</p>
-<ul>
+<li>responses carrying sensitive per-user content unless the operator explicitly allows it and cache admission remains disabled;</li>
 <li>partial/range responses unless a future range-aware design exists;</li>
 <li>responses above configured input/output limits.</li>
 </ul>
@@ -143,19 +127,15 @@
 <p>The first codec implementation is intentionally bounded:</p>
 <ul>
 <li>only responses with a known <code>Content-Length</code> are compressed;</li>
-<li>input must fit between <code>compression.min_bytes</code> and</li>
-</ul>
-<p><code>compression.max_input_bytes</code>;</p>
-<ul>
+<li>input must fit between <code>compression.min_bytes</code> and <code>compression.max_input_bytes</code>;</li>
 <li>encoded output must stay within <code>compression.max_output_bytes</code>;</li>
 <li><code>compression.max_input_bytes</code> is capped at 64 MiB by config validation;</li>
 <li><code>compression.max_output_bytes</code> is capped at 128 MiB by config validation;</li>
 <li>gzip levels are restricted to <code>0..=9</code>;</li>
 <li>zstd levels are restricted to <code>1..=19</code>;</li>
 <li>Brotli quality is restricted to <code>0..=11</code>;</li>
-<li>Fluxheim removes <code>Content-Length</code> after enabling compression because the encoded</li>
+<li>Fluxheim removes <code>Content-Length</code> after enabling compression because the encoded length is streamed out through the body filter.</li>
 </ul>
-<p>length is streamed out through the body filter.</p>
 <p>A later implementation may add bounded compression worker pools, per-vhost concurrency, and precompressed static asset variants.</p>
 <h2 id="cache-integration">Cache Integration</h2>
 <p>Future shared-cache compression variants must be cache-isolated by:</p>
@@ -175,14 +155,10 @@
 <p>Compression can create side-channel risk when secrets and attacker-controlled input share the same compressed response. Safe defaults:</p>
 <ul>
 <li>do not compress admin, metrics, auth, or internal control responses;</li>
-<li>do not compress responses with cookies or authorization-dependent content</li>
-</ul>
-<p>unless explicitly enabled for a selected vhost;</p>
-<ul>
+<li>do not compress responses with cookies or authorization-dependent content unless explicitly enabled for a selected vhost;</li>
 <li>do not log compressed bytes or response bodies;</li>
-<li>reject the module with <code>privacy-mode</code> until a no-retention, no-side-channel</li>
+<li>reject the module with <code>privacy-mode</code> until a no-retention, no-side-channel design is written and tested.</li>
 </ul>
-<p>design is written and tested.</p>
 <h2 id="configuration">Configuration</h2>
 <pre class="language-toml"><code class="language-toml">[compression]
 enabled = true
@@ -242,10 +218,7 @@ max_output_bytes = &quot;4MiB&quot;</code></pre>
 <li>Negotiates <code>br</code>, <code>zstd</code>, <code>gzip</code>, and identity correctly for compiled codecs.</li>
 <li>Adds <code>Vary: Accept-Encoding</code>.</li>
 <li>Does not compress excluded MIME types or <code>no-transform</code> responses.</li>
-<li>Does not compress cookie, authorization, <code>Set-Cookie</code>, range, or already</li>
-</ul>
-<p>encoded responses.</p>
-<ul>
+<li>Does not compress cookie, authorization, <code>Set-Cookie</code>, range, or already encoded responses.</li>
 <li>Enforces input size and level limits.</li>
 <li>Proves compression code is absent from default and <code>privacy-mode</code> builds.</li>
 </ul>

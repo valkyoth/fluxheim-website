@@ -406,6 +406,7 @@ cargo build --release --no-default-features --features proxy,tls-rustls,acme
 cargo build --release --no-default-features --features profile-full
 cargo build --release --no-default-features --features profile-cache-edge
 cargo build --release --no-default-features --features profile-proxy-edge
+cargo build --release --no-default-features --features profile-load-balancer-edge
 cargo build --release --no-default-features --features profile-observability
 scripts/validate-fips-openssl.sh check
 scripts/validate-fips-rustls.sh check
@@ -488,11 +489,11 @@ runtime process does not run as root.
 
 Fluxheim publishes variant images from the explicit Containerfiles under
 `containers/`: `wolfi`, `alpine`, `suse-micro`, and `debian`. Each OS variant
-is published for the full/default, cache, and proxy image profiles. The
-load-balancer image profile is prepared for the `1.5` line and can be included
-early through manual workflow dispatch. GitHub Container Registry publishing
-uses the repository `GITHUB_TOKEN`; Docker Hub publishing requires
-`DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repository secrets.
+is published for the full/default, cache, proxy, PHP, and, starting with the
+`1.5` line, load-balancer image profiles. Pre-`1.5` tags can include the
+load-balancer profile only through manual workflow dispatch. GitHub Container
+Registry publishing uses the repository `GITHUB_TOKEN`; Docker Hub publishing
+requires `DOCKERHUB_USERNAME` and `DOCKERHUB_TOKEN` repository secrets.
 
 The published default images should keep `FLUXHEIM_RUNTIME_UID=65532` and
 `FLUXHEIM_RUNTIME_GID=65532`. Root-runtime images are supported through build

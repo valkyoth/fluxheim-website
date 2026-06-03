@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -83,9 +83,8 @@
 <ul>
 <li>private keys: <code>0600</code></li>
 <li>ACME storage directory: <code>0700</code></li>
-<li>public certificate chains: normal read permissions are acceptable, for example</li>
+<li>public certificate chains: normal read permissions are acceptable, for example <code>0644</code></li>
 </ul>
-<p><code>0644</code></p>
 <p>The checker reports missing certificate/key files, non-file certificate/key paths, non-directory ACME storage paths, symlinked certificate/key/EAB/storage paths including symlinked parent directories, group/world-readable private keys, and group/world-accessible ACME storage directories. Config parsing stays separate from filesystem checks so configuration can still be validated before files are provisioned.</p>
 <pre class="language-bash"><code class="language-bash">fluxheim --config path/to/fluxheim.toml --check-tls-storage</code></pre>
 <h2 id="secret-handling">Secret Handling</h2>
@@ -315,13 +314,9 @@ podman exec fluxheim_gateway \
 <h2 id="runtime-crate-candidates">Runtime Crate Candidates</h2>
 <p>Latest checked ACME runtime candidates:</p>
 <ul>
-<li><code>instant-acme 0.8.5</code>: Apache-2.0, async pure-Rust ACME client with EAB</li>
+<li><code>instant-acme 0.8.5</code>: Apache-2.0, async pure-Rust ACME client with EAB support. This is the current first candidate because it does not own the TLS listener model.</li>
+<li><code>rustls-acme 0.15.1</code>: Apache-2.0 OR MIT, useful reference for rustls-focused certificate management, but less aligned with Fluxheim&#x27;s multiple Pingora TLS backend targets.</li>
 </ul>
-<p>support. This is the current first candidate because it does not own the TLS listener model.</p>
-<ul>
-<li><code>rustls-acme 0.15.1</code>: Apache-2.0 OR MIT, useful reference for rustls-focused</li>
-</ul>
-<p>certificate management, but less aligned with Fluxheim&#x27;s multiple Pingora TLS backend targets.</p>
 <h2 id="fips-iso-required-deployments">FIPS/ISO-Required Deployments</h2>
 <p>Managed Fluxheim ACME is intentionally outside the strict FIPS/ISO-required runtime boundary in <code>1.3.6</code>. A config with <code>[tls.fips] required = true</code> or <code>[tls.iso19790] required = true</code> rejects <code>[tls.acme] enabled = true</code> because ACME account key generation, JWS account signing, External Account Binding HMAC, outbound ACME HTTPS transport, and TLS-ALPN challenge certificate generation are not fully routed through the selected validated provider.</p>
 <p>For regulated deployments, use local static certificate files in <code>[vhosts.tls.certificate]</code> and renew them with an external process that has its own evidence package. If that external process is ACME-based, keep the ACME client version, host FIPS/ISO mode, key-generation policy, CA/audit evidence, and renewal logs with the deployment evidence. Conservative public-Web PKI profiles should request RSA 2048 or RSA 3072 certificate keys unless the assessor explicitly accepts the selected ECDSA certificate profile and chain.</p>
@@ -338,10 +333,7 @@ podman exec fluxheim_gateway \
 <p>Renewed certificates must be installed atomically:</p>
 <ol>
 <li>Write certificate and key to temporary files in the ACME storage directory.</li>
-<li>Validate that the certificate parses, matches the private key, and covers the</li>
-</ol>
-<p>configured domains.</p>
-<ol>
+<li>Validate that the certificate parses, matches the private key, and covers the configured domains.</li>
 <li>Flush files and directory metadata where the platform supports it.</li>
 <li>Rename temporary files into place.</li>
 <li>Keep the previous certificate available until the new one is active.</li>

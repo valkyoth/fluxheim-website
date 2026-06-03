@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -78,9 +78,8 @@
 <h2 id="rustls-listener-certificate-resolver">Rustls Listener Certificate Resolver</h2>
 <ul>
 <li><code>TlsSettings::with_cert_resolver(...)</code></li>
-<li>an internal <code>cert_resolver</code> field used by the rustls listener when building</li>
+<li>an internal <code>cert_resolver</code> field used by the rustls listener when building <code>rustls::ServerConfig</code></li>
 </ul>
-<p><code>rustls::ServerConfig</code></p>
 <p>The patch keeps Pingora&#x27;s existing single-certificate path unchanged. It only allows Fluxheim to pass a rustls <code>ResolvesServerCert</code> implementation so per-vhost certificates can be selected by SNI in the default build.</p>
 <h2 id="rustls-upstream-verification-policy">Rustls Upstream Verification Policy</h2>
 <p>Fluxheim also patches the rustls upstream connector so per-peer <code>verify_cert = false</code> and <code>verify_hostname = false</code> policies apply even when no other setting forced Pingora to clone the rustls client config. In Pingora 0.8, the dangerous verifier path was only installed when a cloned config already existed for ALPN or upstream mTLS. Fluxheim exposes explicit upstream TLS verification controls, so the connector must clone the config and install the custom verifier whenever verification is disabled or SNI is absent.</p>
@@ -88,22 +87,12 @@
 <h2 id="listener-proxy-protocol-receive">Listener PROXY Protocol Receive</h2>
 <p>Fluxheim also patches Pingora listeners with an opt-in PROXY protocol receive hook that runs after the TCP accept and before downstream TLS or HTTP parsing. The patch adds:</p>
 <ul>
-<li><code>ProxyProtocolConfig::v1(...)</code>, <code>ProxyProtocolConfig::v2(...)</code>, and</li>
-</ul>
-<p><code>ProxyProtocolTrustedSource</code>;</p>
-<ul>
-<li><code>Service::set_proxy_protocol_v1(...)</code>, <code>Service::set_proxy_protocol_v2(...)</code></li>
-</ul>
-<p>and matching <code>Listeners</code> helpers;</p>
-<ul>
-<li>bounded v1 line parsing with the HAProxy 108-byte limit and bounded v2</li>
-</ul>
-<p>payload parsing;</p>
-<ul>
+<li><code>ProxyProtocolConfig::v1(...)</code>, <code>ProxyProtocolConfig::v2(...)</code>, and <code>ProxyProtocolTrustedSource</code>;</li>
+<li><code>Service::set_proxy_protocol_v1(...)</code>, <code>Service::set_proxy_protocol_v2(...)</code> and matching <code>Listeners</code> helpers;</li>
+<li>bounded v1 line parsing with the HAProxy 108-byte limit and bounded v2 payload parsing;</li>
 <li>mandatory direct-peer trust checks before parsing;</li>
-<li>socket-digest peer-address replacement only after a trusted, valid v1/v2</li>
+<li>socket-digest peer-address replacement only after a trusted, valid v1/v2 header.</li>
 </ul>
-<p>header.</p>
 <p>This is needed because Fluxheim must restore client identity before TLS and HTTP handling when it sits behind a trusted load balancer that speaks PROXY protocol. The v2 parser currently supports TCP4/TCP6 plus LOCAL/UNSPEC frames and skips bounded TLV payloads; TLV interpretation is intentionally not included.</p>
 <h2 id="removal-criteria">Removal Criteria</h2>
 <p>Remove <code>vendor/pingora-core</code> and the <code>[patch.crates-io]</code> entry in <code>Cargo.toml</code> when an upstream Pingora release exposes equivalent rustls server certificate resolver support and applies per-peer rustls upstream verification policy without requiring ALPN or mTLS to clone the client config first, and exposes an equivalent pre-TLS listener PROXY protocol receive hook with trusted peer enforcement.</p>
@@ -111,83 +100,43 @@
 <ul>
 <li><code>cargo check --no-default-features --features proxy,tls-rustls</code></li>
 <li><code>scripts/smoke_1_0_core.sh</code></li>
-<li>the smoke assertion that <code>app.test</code> receives the <code>app.test</code> certificate via</li>
+<li>the smoke assertion that <code>app.test</code> receives the <code>app.test</code> certificate via SNI</li>
+<li>a rustls upstream with <code>upstream_verify_cert = false</code> can connect to a self-signed or otherwise untrusted test origin without requiring unrelated ALPN or mTLS settings</li>
+<li>a rustls upstream with <code>upstream_ca_path</code> validates against that per-peer CA bundle rather than the process default root store</li>
+<li>listeners configured with <code>server.proxy_protocol = &quot;v1&quot;</code> or <code>&quot;v2&quot;</code> reject untrusted direct peers and restore the PROXY source address before TLS/HTTP handling</li>
 </ul>
-<p>SNI</p>
-<ul>
-<li>a rustls upstream with <code>upstream_verify_cert = false</code> can connect to a</li>
-</ul>
-<p>self-signed or otherwise untrusted test origin without requiring unrelated ALPN or mTLS settings</p>
-<ul>
-<li>a rustls upstream with <code>upstream_ca_path</code> validates against that per-peer CA</li>
-</ul>
-<p>bundle rather than the process default root store</p>
-<ul>
-<li>listeners configured with <code>server.proxy_protocol = &quot;v1&quot;</code> or <code>&quot;v2&quot;</code> reject</li>
-</ul>
-<p>untrusted direct peers and restore the PROXY source address before TLS/HTTP handling</p>
 <h2 id="upstream-candidate">Upstream Candidate</h2>
 <p>These patches are small enough to propose upstream. The cleaner upstream shape would be:</p>
 <ul>
-<li>re-export the needed rustls server certificate resolver types from</li>
-</ul>
-<p><code>pingora-rustls</code>, or add the direct rustls dependency in <code>pingora-core</code>;</p>
-<ul>
-<li>add <code>TlsSettings::with_cert_resolver(Arc&lt;dyn ResolvesServerCert&gt;)</code> for the</li>
-</ul>
-<p>rustls listener;</p>
-<ul>
-<li>preserve the existing <code>TlsSettings::intermediate(cert, key)</code> behavior for</li>
-</ul>
-<p>single-certificate listeners;</p>
-<ul>
+<li>re-export the needed rustls server certificate resolver types from <code>pingora-rustls</code>, or add the direct rustls dependency in <code>pingora-core</code>;</li>
+<li>add <code>TlsSettings::with_cert_resolver(Arc&lt;dyn ResolvesServerCert&gt;)</code> for the rustls listener;</li>
+<li>preserve the existing <code>TlsSettings::intermediate(cert, key)</code> behavior for single-certificate listeners;</li>
 <li>keep ALPN handling through the existing <code>enable_h2</code> and <code>set_alpn</code> methods.</li>
-<li>in the rustls connector, compute per-peer verification mode independently and</li>
+<li>in the rustls connector, compute per-peer verification mode independently and clone the client config when a custom verifier is needed.</li>
+<li>in the rustls connector, honor <code>PeerOptions.ca</code> when constructing the per-peer root store for both normal verification and custom verifier modes.</li>
+<li>expose a pre-TLS listener hook for PROXY protocol v1/v2 receive, or native listener support that can enforce trusted direct peers before overriding the socket digest client address, with bounded v2 TLV handling.</li>
 </ul>
-<p>clone the client config when a custom verifier is needed.</p>
-<ul>
-<li>in the rustls connector, honor <code>PeerOptions.ca</code> when constructing the</li>
-</ul>
-<p>per-peer root store for both normal verification and custom verifier modes.</p>
-<ul>
-<li>expose a pre-TLS listener hook for PROXY protocol v1/v2 receive, or native</li>
-</ul>
-<p>listener support that can enforce trusted direct peers before overriding the socket digest client address, with bounded v2 TLV handling.</p>
 <p>Fluxheim should keep the vendored patch narrow and avoid unrelated edits to vendored Pingora source.</p>
 <h2 id="pingora-openssl-patch">Pingora OpenSSL Patch</h2>
 <p>Fluxheim also vendors <code>pingora-openssl 0.8.0</code> for one dependency-policy change: the crates.io package forces <code>openssl = { features = [&quot;vendored&quot;] }</code>. Fluxheim&#x27;s <code>tls-openssl-fips</code> path must be able to link against the operator-installed OpenSSL 3 FIPS provider, so the local patch removes only the <code>vendored</code> feature from <code>pingora-openssl</code>&#x27;s OpenSSL dependency.</p>
 <p>This patch does not change Pingora&#x27;s OpenSSL API or runtime behavior. It only lets normal Cargo/OpenSSL discovery use the system OpenSSL selected by the operator. Remove <code>vendor/pingora-openssl</code> and its <code>[patch.crates-io]</code> entry when upstream makes OpenSSL vendoring optional or no longer enables it by default.</p>
 <h2 id="proposed-pr-steps">Proposed PR Steps</h2>
 <ol>
-<li>Fork the upstream Pingora repository and create a focused branch, for</li>
-</ol>
-<p>example <code>rustls-listener-cert-resolver</code>.</p>
-<ol>
+<li>Fork the upstream Pingora repository and create a focused branch, for example <code>rustls-listener-cert-resolver</code>.</li>
 <li>Apply only the rustls listener API change:</li>
 </ol>
 <ul>
 <li>add a resolver field to the rustls listener <code>TlsSettings</code>;</li>
 <li>add <code>TlsSettings::with_cert_resolver(...)</code>;</li>
-<li>make <code>build()</code> use the resolver when present and keep the existing</li>
+<li>make <code>build()</code> use the resolver when present and keep the existing <code>intermediate(cert, key)</code> single-certificate path unchanged.</li>
 </ul>
-<p><code>intermediate(cert, key)</code> single-certificate path unchanged.</p>
 <ol>
-<li>Prefer the smallest public API surface the upstream maintainers will accept.</li>
-</ol>
-<p>If <code>pingora-rustls</code> can re-export the needed rustls resolver types, that is cleaner than adding a broad direct dependency.</p>
-<ol>
-<li>Add or update an upstream test/example if the repository has a listener TLS</li>
-</ol>
-<p>test harness that can verify the resolver path without opening a real public socket.</p>
-<ol>
+<li>Prefer the smallest public API surface the upstream maintainers will accept. If <code>pingora-rustls</code> can re-export the needed rustls resolver types, that is cleaner than adding a broad direct dependency.</li>
+<li>Add or update an upstream test/example if the repository has a listener TLS test harness that can verify the resolver path without opening a real public socket.</li>
 <li>Run the upstream formatting and test commands documented by Pingora.</li>
-<li>Open the PR with a narrow description: rustls listeners need a server</li>
+<li>Open the PR with a narrow description: rustls listeners need a server certificate resolver hook so applications can select certificates by SNI while keeping the existing single-certificate API.</li>
+<li>Link Fluxheim&#x27;s local patch as a real downstream use case, but do not include Fluxheim-specific config, docs, or behavior in the upstream PR.</li>
 </ol>
-<p>certificate resolver hook so applications can select certificates by SNI while keeping the existing single-certificate API.</p>
-<ol>
-<li>Link Fluxheim&#x27;s local patch as a real downstream use case, but do not include</li>
-</ol>
-<p>Fluxheim-specific config, docs, or behavior in the upstream PR.</p>
         </article>
       </div>
     </main>

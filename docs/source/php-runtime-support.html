@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -78,13 +78,9 @@
 <h2 id="current-recommendation">Current Recommendation</h2>
 <p>Use this implementation model:</p>
 <ol>
-<li><code>php-fpm</code>: stable backwards-compatible path for PHP applications. This is</li>
+<li><code>php-fpm</code>: stable backwards-compatible path for PHP applications. This is implemented in <code>1.3.1</code>.</li>
+<li>Managed <code>php-fpm</code>: zero-admin deployment mode inside the existing <code>php-fpm</code> feature. Fluxheim generates a minimal private php-fpm pool, spawns and supervises php-fpm, and connects to its private socket while still using the same FastCGI request path as external php-fpm.</li>
 </ol>
-<p>implemented in <code>1.3.1</code>.</p>
-<ol>
-<li>Managed <code>php-fpm</code>: zero-admin deployment mode inside the existing <code>php-fpm</code></li>
-</ol>
-<p>feature. Fluxheim generates a minimal private php-fpm pool, spawns and supervises php-fpm, and connects to its private socket while still using the same FastCGI request path as external php-fpm.</p>
 <p>As of the current review, <code>fastcgi-client 0.11.1</code> is available for the php-fpm path under Apache-2.0. Pure-Rust PHP/phprs support is no longer planned for the 1.3 line because managed php-fpm covers the useful zero-admin deployment goal without adopting an immature interpreter. <code>ripht-php-sapi 0.1.0-rc.7</code> remains an embedding reference only. Turbine is not a Fluxheim runtime target; it is better treated as an external PHP application server that Fluxheim can reverse-proxy to if an operator chooses it.</p>
 <h2 id="compile-time-features">Compile-Time Features</h2>
 <p>Implemented feature flags:</p>
@@ -94,25 +90,12 @@ php-fpm = [&quot;php&quot;, &quot;dep:fastcgi-client&quot;, &quot;dep:tokio&quot
 <p>The default feature set must not include <code>php</code>.</p>
 <p>Release order:</p>
 <ul>
-<li><code>1.3.0</code>: shared ingress/TLS feature-graph split and focused image/profile</li>
+<li><code>1.3.0</code>: shared ingress/TLS feature-graph split and focused image/profile cleanup.</li>
+<li><code>1.3.1</code>: <code>php-fpm</code> FastCGI bridge, WordPress-style front-controller support, strict script resolution, bounded request/response buffering, split-cookie normalization, and browser-validated WordPress login/admin flows.</li>
+<li><code>1.3.3</code>: focused php-fpm hardening and compatibility fixes found during production tests.</li>
+<li><code>1.3.7</code>: managed php-fpm mode as a config option under the existing <code>php-fpm</code> feature, not as a separate Cargo runtime. The goal is a single-binary operator experience while retaining normal php-fpm request isolation and compatibility.</li>
+<li>Pure-Rust PHP/phprs is intentionally out of scope for the 1.3 line. Revisit only if an upstream interpreter has mature compatibility, maintenance, and security evidence.</li>
 </ul>
-<p>cleanup.</p>
-<ul>
-<li><code>1.3.1</code>: <code>php-fpm</code> FastCGI bridge, WordPress-style front-controller support,</li>
-</ul>
-<p>strict script resolution, bounded request/response buffering, split-cookie normalization, and browser-validated WordPress login/admin flows.</p>
-<ul>
-<li><code>1.3.3</code>: focused php-fpm hardening and compatibility fixes found during</li>
-</ul>
-<p>production tests.</p>
-<ul>
-<li><code>1.3.7</code>: managed php-fpm mode as a config option under the existing</li>
-</ul>
-<p><code>php-fpm</code> feature, not as a separate Cargo runtime. The goal is a single-binary operator experience while retaining normal php-fpm request isolation and compatibility.</p>
-<ul>
-<li>Pure-Rust PHP/phprs is intentionally out of scope for the 1.3 line. Revisit</li>
-</ul>
-<p>only if an upstream interpreter has mature compatibility, maintenance, and security evidence.</p>
 <h2 id="config-shape">Config Shape</h2>
 <p>Minimal vhost TOML:</p>
 <pre class="language-toml"><code class="language-toml">[[vhosts]]
@@ -180,13 +163,9 @@ group = &quot;fluxheim&quot;</code></pre>
 <p>Managed pools support the php-fpm process manager modes operators usually tune in <code>www.conf</code>:</p>
 <ul>
 <li><code>process_manager = &quot;static&quot;</code> starts exactly <code>workers</code> children.</li>
-<li><code>process_manager = &quot;dynamic&quot;</code> uses <code>workers</code> as <code>pm.max_children</code> and</li>
+<li><code>process_manager = &quot;dynamic&quot;</code> uses <code>workers</code> as <code>pm.max_children</code> and requires <code>min_spare_servers</code> and <code>max_spare_servers</code>; <code>start_servers</code> and <code>max_spawn_rate</code> are optional.</li>
+<li><code>process_manager = &quot;ondemand&quot;</code> uses <code>workers</code> as <code>pm.max_children</code> and can set <code>process_idle_timeout_secs</code>.</li>
 </ul>
-<p>requires <code>min_spare_servers</code> and <code>max_spare_servers</code>; <code>start_servers</code> and <code>max_spawn_rate</code> are optional.</p>
-<ul>
-<li><code>process_manager = &quot;ondemand&quot;</code> uses <code>workers</code> as <code>pm.max_children</code> and can</li>
-</ul>
-<p>set <code>process_idle_timeout_secs</code>.</p>
 <p>Fluxheim also writes bounded php-fpm directives for <code>listen_backlog</code>, <code>listen_owner</code>, <code>listen_group</code>, <code>listen_mode</code>, <code>request_terminate_timeout_secs</code>, <code>request_terminate_timeout_track_finished</code>, <code>request_slowlog_timeout_secs</code>, <code>request_slowlog_trace_depth</code>, <code>clear_env</code>, <code>catch_workers_output</code>, <code>decorate_workers_output</code>, <code>session_save_path</code>, and <code>upload_tmp_dir</code>. <code>session_save_path</code> and <code>upload_tmp_dir</code> are created with owner-only permissions when missing; if the managed pool drops to another <code>user</code>/<code>group</code>, make those directories writable by that PHP worker identity before starting Fluxheim.</p>
 <p>The PHP handler runs before static fallback. Existing non-PHP files under the PHP root are declined so the normal static server can serve assets. Missing paths use the configured front controller, normally <code>/index.php</code>. Explicit <code>.php</code> requests are executed through php-fpm. Static serving must never return PHP source when PHP execution fails.</p>
 <p>Fluxheim normalizes multiple inbound <code>Cookie</code> header lines into one CGI <code>HTTP_COOKIE</code> value before calling php-fpm. This matters for WordPress and other PHP applications behind HTTP/2 or intermediaries that split cookies across multiple header fields.</p>
@@ -198,88 +177,33 @@ group = &quot;fluxheim&quot;</code></pre>
 <p>The PHP layer must implement these checks before any runtime is production eligible:</p>
 <ul>
 <li>Canonicalize the vhost PHP root and target script path.</li>
-<li>Reject traversal, symlink escapes, empty script names, and non-file script</li>
-</ul>
-<p>targets.</p>
-<ul>
+<li>Reject traversal, symlink escapes, empty script names, and non-file script targets.</li>
 <li>Never build <code>SCRIPT_FILENAME</code> through string concatenation alone.</li>
 <li>Deny dotfiles and hidden path segments by default.</li>
 <li>Deny configured PHP execution path prefixes before contacting php-fpm.</li>
 <li>Never pass arbitrary process environment to PHP.</li>
 <li>Use a small allow-list for CGI/FastCGI params.</li>
-<li>Set <code>SCRIPT_NAME</code>, <code>SCRIPT_FILENAME</code>, <code>DOCUMENT_ROOT</code>, <code>REQUEST_METHOD</code>,</li>
-</ul>
-<p><code>QUERY_STRING</code>, <code>REQUEST_URI</code>, <code>SERVER_NAME</code>, <code>SERVER_PORT</code>, and <code>SERVER_PROTOCOL</code> explicitly.</p>
-<ul>
-<li>Translate safe inbound HTTP headers to CGI <code>HTTP_*</code> params, including</li>
-</ul>
-<p><code>HTTP_HOST</code>, while dropping <code>Proxy</code> to avoid HTTPoxy exposure.</p>
-<ul>
-<li>Set TLS-related CGI context (<code>HTTPS</code> and <code>REQUEST_SCHEME</code>) from the</li>
-</ul>
-<p>downstream connection state.</p>
-<ul>
-<li>Set <code>REDIRECT_STATUS=200</code> for php-fpm compatibility with common PHP</li>
-</ul>
-<p>hardening defaults.</p>
-<ul>
-<li>Treat <code>PATH_INFO</code> as disabled by default; enable <code>path_info = &quot;split&quot;</code> only</li>
-</ul>
-<p>when the application expects safe trailing segments after <code>script.php</code>.</p>
-<ul>
-<li>Allow administrator-controlled custom FastCGI params only after validating</li>
-</ul>
-<p>names and values, and never let them override Fluxheim-managed CGI params such as <code>SCRIPT_FILENAME</code>, <code>CONTENT_LENGTH</code>, <code>HTTPS</code>, or <code>HTTP_PROXY</code>.</p>
-<ul>
-<li>Enforce global and PHP-specific request body limits for both declared and</li>
-</ul>
-<p>streaming bodies.</p>
-<ul>
-<li>Support explicit <code>pass_request_headers</code> and <code>pass_request_body</code> switches.</li>
-</ul>
-<p>Body pass-through disabled still drains and limits the downstream body before sending empty FastCGI stdin.</p>
-<ul>
+<li>Set <code>SCRIPT_NAME</code>, <code>SCRIPT_FILENAME</code>, <code>DOCUMENT_ROOT</code>, <code>REQUEST_METHOD</code>, <code>QUERY_STRING</code>, <code>REQUEST_URI</code>, <code>SERVER_NAME</code>, <code>SERVER_PORT</code>, and <code>SERVER_PROTOCOL</code> explicitly.</li>
+<li>Translate safe inbound HTTP headers to CGI <code>HTTP_*</code> params, including <code>HTTP_HOST</code>, while dropping <code>Proxy</code> to avoid HTTPoxy exposure.</li>
+<li>Set TLS-related CGI context (<code>HTTPS</code> and <code>REQUEST_SCHEME</code>) from the downstream connection state.</li>
+<li>Set <code>REDIRECT_STATUS=200</code> for php-fpm compatibility with common PHP hardening defaults.</li>
+<li>Treat <code>PATH_INFO</code> as disabled by default; enable <code>path_info = &quot;split&quot;</code> only when the application expects safe trailing segments after <code>script.php</code>.</li>
+<li>Allow administrator-controlled custom FastCGI params only after validating names and values, and never let them override Fluxheim-managed CGI params such as <code>SCRIPT_FILENAME</code>, <code>CONTENT_LENGTH</code>, <code>HTTPS</code>, or <code>HTTP_PROXY</code>.</li>
+<li>Enforce global and PHP-specific request body limits for both declared and streaming bodies.</li>
+<li>Support explicit <code>pass_request_headers</code> and <code>pass_request_body</code> switches. Body pass-through disabled still drains and limits the downstream body before sending empty FastCGI stdin.</li>
 <li>Apply runtime request timeouts and connection timeouts.</li>
-<li>Log php-fpm STDERR only when <code>stderr_log</code> is enabled, sanitize controls, and</li>
-</ul>
-<p>cap each log message with <code>stderr_max_bytes</code>.</p>
-<ul>
-<li>Remove selected php-fpm response headers with <code>hide_response_headers</code> before</li>
-</ul>
-<p>the response reaches clients.</p>
-<ul>
-<li>Optionally ignore PHP-generated <code>Cache-Control</code>, <code>Expires</code>, and <code>Pragma</code></li>
-</ul>
-<p>headers with <code>ignore_origin_cache_headers</code> before response policy is applied.</p>
-<ul>
-<li>Cap response header bytes returned by PHP.</li>
-</ul>
-<p>Implemented as <code>php.max_response_header_bytes</code>, defaulting to <code>64KiB</code>.</p>
-<ul>
-<li>Parse PHP-generated headers strictly; reject malformed status lines and</li>
-</ul>
-<p>header injection.</p>
-<ul>
-<li>Strip hop-by-hop php-fpm response headers, including <code>Connection</code>-named</li>
-</ul>
-<p>headers and <code>Transfer-Encoding</code>, before Fluxheim frames the client response.</p>
-<ul>
-<li>Optionally intercept selected PHP 4xx/5xx responses with</li>
-</ul>
-<p><code>intercept_error_statuses</code> and replace them with Fluxheim-generated error responses.</p>
-<ul>
-<li>Serve configured static PHP error pages with <code>[[vhosts.php.error_pages]]</code> or</li>
-</ul>
-<p><code>[[vhosts.routes.php.error_pages]]</code>; an error-page entry also intercepts that status and falls back to Fluxheim&#x27;s generated error if the static page cannot be served.</p>
-<ul>
+<li>Log php-fpm STDERR only when <code>stderr_log</code> is enabled, sanitize controls, and cap each log message with <code>stderr_max_bytes</code>.</li>
+<li>Remove selected php-fpm response headers with <code>hide_response_headers</code> before the response reaches clients.</li>
+<li>Optionally ignore PHP-generated <code>Cache-Control</code>, <code>Expires</code>, and <code>Pragma</code> headers with <code>ignore_origin_cache_headers</code> before response policy is applied.</li>
+<li>Cap response header bytes returned by PHP. Implemented as <code>php.max_response_header_bytes</code>, defaulting to <code>64KiB</code>.</li>
+<li>Parse PHP-generated headers strictly; reject malformed status lines and header injection.</li>
+<li>Strip hop-by-hop php-fpm response headers, including <code>Connection</code>-named headers and <code>Transfer-Encoding</code>, before Fluxheim frames the client response.</li>
+<li>Optionally intercept selected PHP 4xx/5xx responses with <code>intercept_error_statuses</code> and replace them with Fluxheim-generated error responses.</li>
+<li>Serve configured static PHP error pages with <code>[[vhosts.php.error_pages]]</code> or <code>[[vhosts.routes.php.error_pages]]</code>; an error-page entry also intercepts that status and falls back to Fluxheim&#x27;s generated error if the static page cannot be served.</li>
 <li>Log PHP STDERR only through size-limited sanitized logs.</li>
-<li>Keep php-fpm sockets private and validate Unix socket path permissions where</li>
+<li>Keep php-fpm sockets private and validate Unix socket path permissions where possible.</li>
+<li>Prefer php-fpm process isolation for production until embedded runtimes prove safe concurrency and reload behavior.</li>
 </ul>
-<p>possible.</p>
-<ul>
-<li>Prefer php-fpm process isolation for production until embedded runtimes prove</li>
-</ul>
-<p>safe concurrency and reload behavior.</p>
 <h2 id="runtime-plans">Runtime Plans</h2>
 <h3 id="php-fpm"><code>php-fpm</code></h3>
 <p>This is the compatibility-first path. Fluxheim acts as a FastCGI client:</p>
@@ -298,105 +222,32 @@ group = &quot;fluxheim&quot;</code></pre>
 <p>When a managed php-fpm pool drops workers to a different <code>user</code>/<code>group</code>, configure <code>listen_owner</code> and <code>listen_group</code> when the php-fpm master should chown the private socket for Fluxheim, and use <code>listen_mode = &quot;0660&quot;</code> only when a shared service group is intentional. The default remains <code>listen_mode = &quot;0600&quot;</code> for single-user/rootless deployments.</p>
 <p><code>1.3.3</code> php-fpm hardening status:</p>
 <ul>
-<li>Connection pooling to php-fpm with idle pruning. Implemented as opt-in</li>
+<li>Connection pooling to php-fpm with idle pruning. Implemented as opt-in <code>php.fpm.keepalive</code>.</li>
+<li>Safe FastCGI keep-connection reuse where the client/runtime supports it. Implemented for the <code>fastcgi-client</code> keep-alive path.</li>
+<li>True streaming request and response bodies. Request-body disk replay is in place for large PHP bodies; direct downstream-to-FastCGI and FastCGI-to-client streaming remain future work.</li>
+<li>Chunked upload disk-spooling before php-fpm dispatch. Implemented with <code>php.request_body_spool_threshold_bytes</code> and <code>php.request_body_spool_dir</code> so large uploads keep exact FastCGI <code>CONTENT_LENGTH</code> without retaining the whole request body in memory. Both settings must be configured together, and the threshold must be lower than <code>php.max_request_body_bytes</code> when both are set on the same PHP action. Existing spool directories must not be group/world writable, and runtime spool creation rechecks permissions before writing upload bodies.</li>
+<li>Custom FastCGI params in config. Implemented as <code>[vhosts.php.params]</code> and <code>[vhosts.routes.php.params]</code> with protected core CGI params.</li>
+<li>Path mapping for separate Fluxheim/php-fpm container filesystem roots. Implemented as <code>php.fpm_root</code> for FastCGI <code>DOCUMENT_ROOT</code>, <code>SCRIPT_FILENAME</code>, and <code>PATH_TRANSLATED</code> mapping. Existing local <code>php.fpm_root</code> paths are rejected when they include symlink components; missing absolute values are allowed for split-container paths that exist only inside the php-fpm environment.</li>
+<li>PHP root override for split container filesystem layouts. Implemented with <code>php.fpm_root</code> for the path sent to php-fpm and <code>php.resolve_root_symlink</code> for opt-in final <code>php.root</code> symlink resolution in current-release deploy layouts.</li>
+<li>Typed <code>try_files</code>/front-controller presets for WordPress, Laravel/Symfony, and strict <code>=404</code> PHP locations. Implemented as <code>php.try_files = &quot;front-controller&quot;</code>, <code>&quot;wordpress&quot;</code>, or <code>&quot;strict&quot;</code>.</li>
+<li>WordPress PHP-side migration preset. Implemented as <code>php.preset = &quot;wordpress&quot;</code> to combine WordPress front-controller behavior with deny prefixes for common upload/file execution paths.</li>
+<li>Configurable safe <code>PATH_INFO</code> splitting. Implemented as <code>php.path_info = &quot;disabled&quot;</code> or <code>&quot;split&quot;</code>; the legacy <code>&quot;strict&quot;</code> spelling remains accepted as an alias for <code>&quot;split&quot;</code>.</li>
+<li>Canonical directory slash redirects for directory index PHP apps. Implemented as a <code>308</code> redirect before executing directory <code>index.php</code> scripts.</li>
+<li>Explicit request header/body pass-through switches for advanced migrations. Implemented as <code>php.pass_request_headers</code> and <code>php.pass_request_body</code>, both defaulting to <code>true</code>.</li>
+<li><code>X-Accel-Redirect</code> / <code>X-Sendfile</code> support. Implemented for PHP-assisted static offload under <code>php.root</code>; <code>X-Sendfile</code> paths are mapped from <code>php.fpm_root</code> for split containers, and configured PHP script extensions are refused as offload targets.</li>
+<li><code>X-Accel-Expires</code> response control handling. Implemented for PHP responses: Fluxheim strips the internal header, maps valid TTLs to <code>Cache-Control</code> and <code>Expires</code>, treats zero or past expiries as <code>no-store</code>, and uses <code>private</code> directives for responses that set cookies.</li>
+<li><code>fastcgi_intercept_errors</code>-style integration with Fluxheim error pages. Initial generic interception implemented as <code>php.intercept_error_statuses</code>.</li>
+<li>Response header hide/pass/ignore controls for PHP backends. Initial hide controls implemented as <code>php.hide_response_headers</code>; <code>php.ignore_origin_cache_headers</code> removes PHP-generated <code>Cache-Control</code>, <code>Expires</code>, and <code>Pragma</code>; hop-by-hop PHP response headers are stripped by default.</li>
+<li>STDERR capture/truncation/severity controls and fatal-error matching. Initial controls implemented as <code>php.stderr_log</code>, <code>php.stderr_log_level</code>, <code>php.stderr_max_bytes</code>, and <code>php.stderr_failure_patterns</code> for marking matching STDERR output as an invalid php-fpm response eligible for opt-in safe-method retry/failover.</li>
+<li>Initial php-fpm TCP upstream list and failover. Implemented as <code>php.fpm.tcp_upstreams</code> with round-robin endpoint selection and safe-method failover on connection failures and connect timeouts. Upstream lists are capped at 64 entries and reject duplicate authorities.</li>
+<li>Retry policy for connection failures and connect timeouts on configured safe methods. Implemented as <code>php.fpm.max_retries</code> and <code>php.fpm.retry_methods</code>, with <code>php.fpm.retry_timeout_secs</code> as an optional per-request retry window; php-fpm connect timeouts are bounded by <code>php.request_timeout_secs</code>, and request timeouts are not retried to avoid duplicating PHP side effects. With <code>tcp_upstreams</code>, Fluxheim tries enough endpoints to cover the configured list for safe methods even when <code>max_retries = 0</code>. Broader status/invalid-header retry policy is available as opt-in <code>php.fpm.retry_invalid_response</code> and <code>php.fpm.retry_statuses</code>.</li>
+<li>PHP-specific Prometheus metrics for bounded request totals, durations, STDERR, retries, and keepalive pool state. Multi-upstream keepalive pools use stable indexed pool labels for Prometheus gauges. Implemented as <code>fluxheim_php_requests_total</code>, <code>fluxheim_php_request_duration_seconds</code>, <code>fluxheim_php_stderr_events_total</code>, <code>fluxheim_php_fpm_retries_total</code>, <code>fluxheim_php_fpm_pool_idle_connections</code>, and <code>fluxheim_php_fpm_pool_events_total</code>; OpenTelemetry metrics export follows the existing metrics exporter path when enabled. OTLP request spans include low-cardinality <code>fluxheim.php.runtime</code> and <code>fluxheim.php.outcome</code> attributes for PHP-handled requests when <code>otel-otlp</code> is enabled.</li>
+<li>FastCGI cache-specific convenience config. Initial convenience preset implemented as <code>cache.preset = &quot;wordpress&quot;</code>, expanding common admin/login/legacy endpoint, cookie-prefix, query, and authorization bypasses. The underlying cache predicate lists are bounded to prevent unbounded per-request matching.</li>
+<li>FastCGI cache compatibility presets: cache keys, status TTLs, bypass/no-cache predicates, cache lock, stale-on-error/timeout, background refresh, and purge. The WordPress cache preset now also supports the common NGINX rule that any non-empty query string bypasses shared cache lookup and storage.</li>
+<li>WordPress cache-plugin migration presets for logged-in/commenter cookie bypass, admin/login exclusions, and denial of PHP execution under uploads/files directories. The first cache safety preset is <code>cache.preset = &quot;wordpress&quot;</code>. Initial execution denial implemented as <code>php.deny_path_prefixes</code>; this is defense in depth above local filesystem permissions and stops Fluxheim from sending matching PHP scripts to php-fpm.</li>
+<li>Super Cache/W3TC-style static-file fallbacks remain future work. They need a typed static-file probing design so Fluxheim can avoid broad rewrite-string interpolation while still matching common WordPress plugin cache layouts.</li>
+<li>FastCGI multiplexing, authorizer, and filter-role review. Documented as unsupported for <code>1.3.x</code>; Fluxheim supports the normal one-request-at-a-time <code>FCGI_RESPONDER</code> PHP-FPM web-serving subset.</li>
 </ul>
-<p><code>php.fpm.keepalive</code>.</p>
-<ul>
-<li>Safe FastCGI keep-connection reuse where the client/runtime supports it.</li>
-</ul>
-<p>Implemented for the <code>fastcgi-client</code> keep-alive path.</p>
-<ul>
-<li>True streaming request and response bodies. Request-body disk replay is in</li>
-</ul>
-<p>place for large PHP bodies; direct downstream-to-FastCGI and FastCGI-to-client streaming remain future work.</p>
-<ul>
-<li>Chunked upload disk-spooling before php-fpm dispatch. Implemented with</li>
-</ul>
-<p><code>php.request_body_spool_threshold_bytes</code> and <code>php.request_body_spool_dir</code> so large uploads keep exact FastCGI <code>CONTENT_LENGTH</code> without retaining the whole request body in memory. Both settings must be configured together, and the threshold must be lower than <code>php.max_request_body_bytes</code> when both are set on the same PHP action. Existing spool directories must not be group/world writable, and runtime spool creation rechecks permissions before writing upload bodies.</p>
-<ul>
-<li>Custom FastCGI params in config. Implemented as <code>[vhosts.php.params]</code> and</li>
-</ul>
-<p><code>[vhosts.routes.php.params]</code> with protected core CGI params.</p>
-<ul>
-<li>Path mapping for separate Fluxheim/php-fpm container filesystem roots.</li>
-</ul>
-<p>Implemented as <code>php.fpm_root</code> for FastCGI <code>DOCUMENT_ROOT</code>, <code>SCRIPT_FILENAME</code>, and <code>PATH_TRANSLATED</code> mapping. Existing local <code>php.fpm_root</code> paths are rejected when they include symlink components; missing absolute values are allowed for split-container paths that exist only inside the php-fpm environment.</p>
-<ul>
-<li>PHP root override for split container filesystem layouts. Implemented with</li>
-</ul>
-<p><code>php.fpm_root</code> for the path sent to php-fpm and <code>php.resolve_root_symlink</code> for opt-in final <code>php.root</code> symlink resolution in current-release deploy layouts.</p>
-<ul>
-<li>Typed <code>try_files</code>/front-controller presets for WordPress, Laravel/Symfony,</li>
-</ul>
-<p>and strict <code>=404</code> PHP locations. Implemented as <code>php.try_files = &quot;front-controller&quot;</code>, <code>&quot;wordpress&quot;</code>, or <code>&quot;strict&quot;</code>.</p>
-<ul>
-<li>WordPress PHP-side migration preset. Implemented as `php.preset =</li>
-</ul>
-<p>&quot;wordpress&quot;` to combine WordPress front-controller behavior with deny prefixes for common upload/file execution paths.</p>
-<ul>
-<li>Configurable safe <code>PATH_INFO</code> splitting.</li>
-</ul>
-<p>Implemented as <code>php.path_info = &quot;disabled&quot;</code> or <code>&quot;split&quot;</code>; the legacy <code>&quot;strict&quot;</code> spelling remains accepted as an alias for <code>&quot;split&quot;</code>.</p>
-<ul>
-<li>Canonical directory slash redirects for directory index PHP apps.</li>
-</ul>
-<p>Implemented as a <code>308</code> redirect before executing directory <code>index.php</code> scripts.</p>
-<ul>
-<li>Explicit request header/body pass-through switches for advanced migrations.</li>
-</ul>
-<p>Implemented as <code>php.pass_request_headers</code> and <code>php.pass_request_body</code>, both defaulting to <code>true</code>.</p>
-<ul>
-<li><code>X-Accel-Redirect</code> / <code>X-Sendfile</code> support. Implemented for PHP-assisted</li>
-</ul>
-<p>static offload under <code>php.root</code>; <code>X-Sendfile</code> paths are mapped from <code>php.fpm_root</code> for split containers, and configured PHP script extensions are refused as offload targets.</p>
-<ul>
-<li><code>X-Accel-Expires</code> response control handling. Implemented for PHP responses:</li>
-</ul>
-<p>Fluxheim strips the internal header, maps valid TTLs to <code>Cache-Control</code> and <code>Expires</code>, treats zero or past expiries as <code>no-store</code>, and uses <code>private</code> directives for responses that set cookies.</p>
-<ul>
-<li><code>fastcgi_intercept_errors</code>-style integration with Fluxheim error pages.</li>
-</ul>
-<p>Initial generic interception implemented as <code>php.intercept_error_statuses</code>.</p>
-<ul>
-<li>Response header hide/pass/ignore controls for PHP backends.</li>
-</ul>
-<p>Initial hide controls implemented as <code>php.hide_response_headers</code>; <code>php.ignore_origin_cache_headers</code> removes PHP-generated <code>Cache-Control</code>, <code>Expires</code>, and <code>Pragma</code>; hop-by-hop PHP response headers are stripped by default.</p>
-<ul>
-<li>STDERR capture/truncation/severity controls and fatal-error matching.</li>
-</ul>
-<p>Initial controls implemented as <code>php.stderr_log</code>, <code>php.stderr_log_level</code>, <code>php.stderr_max_bytes</code>, and <code>php.stderr_failure_patterns</code> for marking matching STDERR output as an invalid php-fpm response eligible for opt-in safe-method retry/failover.</p>
-<ul>
-<li>Initial php-fpm TCP upstream list and failover. Implemented as</li>
-</ul>
-<p><code>php.fpm.tcp_upstreams</code> with round-robin endpoint selection and safe-method failover on connection failures and connect timeouts. Upstream lists are capped at 64 entries and reject duplicate authorities.</p>
-<ul>
-<li>Retry policy for connection failures and connect timeouts on configured safe</li>
-</ul>
-<p>methods. Implemented as <code>php.fpm.max_retries</code> and <code>php.fpm.retry_methods</code>, with <code>php.fpm.retry_timeout_secs</code> as an optional per-request retry window; php-fpm connect timeouts are bounded by <code>php.request_timeout_secs</code>, and request timeouts are not retried to avoid duplicating PHP side effects. With <code>tcp_upstreams</code>, Fluxheim tries enough endpoints to cover the configured list for safe methods even when <code>max_retries = 0</code>. Broader status/invalid-header retry policy is available as opt-in <code>php.fpm.retry_invalid_response</code> and <code>php.fpm.retry_statuses</code>.</p>
-<ul>
-<li>PHP-specific Prometheus metrics for bounded request totals, durations, STDERR,</li>
-</ul>
-<p>retries, and keepalive pool state. Multi-upstream keepalive pools use stable indexed pool labels for Prometheus gauges. Implemented as <code>fluxheim_php_requests_total</code>, <code>fluxheim_php_request_duration_seconds</code>, <code>fluxheim_php_stderr_events_total</code>, <code>fluxheim_php_fpm_retries_total</code>, <code>fluxheim_php_fpm_pool_idle_connections</code>, and <code>fluxheim_php_fpm_pool_events_total</code>; OpenTelemetry metrics export follows the existing metrics exporter path when enabled. OTLP request spans include low-cardinality <code>fluxheim.php.runtime</code> and <code>fluxheim.php.outcome</code> attributes for PHP-handled requests when <code>otel-otlp</code> is enabled.</p>
-<ul>
-<li>FastCGI cache-specific convenience config.</li>
-</ul>
-<p>Initial convenience preset implemented as <code>cache.preset = &quot;wordpress&quot;</code>, expanding common admin/login/legacy endpoint, cookie-prefix, query, and authorization bypasses. The underlying cache predicate lists are bounded to prevent unbounded per-request matching.</p>
-<ul>
-<li>FastCGI cache compatibility presets: cache keys, status TTLs, bypass/no-cache</li>
-</ul>
-<p>predicates, cache lock, stale-on-error/timeout, background refresh, and purge. The WordPress cache preset now also supports the common NGINX rule that any non-empty query string bypasses shared cache lookup and storage.</p>
-<ul>
-<li>WordPress cache-plugin migration presets for logged-in/commenter cookie</li>
-</ul>
-<p>bypass, admin/login exclusions, and denial of PHP execution under uploads/files directories. The first cache safety preset is <code>cache.preset = &quot;wordpress&quot;</code>. Initial execution denial implemented as <code>php.deny_path_prefixes</code>; this is defense in depth above local filesystem permissions and stops Fluxheim from sending matching PHP scripts to php-fpm.</p>
-<ul>
-<li>Super Cache/W3TC-style static-file fallbacks remain future work. They need a</li>
-</ul>
-<p>typed static-file probing design so Fluxheim can avoid broad rewrite-string interpolation while still matching common WordPress plugin cache layouts.</p>
-<ul>
-<li>FastCGI multiplexing, authorizer, and filter-role review. Documented as</li>
-</ul>
-<p>unsupported for <code>1.3.x</code>; Fluxheim supports the normal one-request-at-a-time <code>FCGI_RESPONDER</code> PHP-FPM web-serving subset.</p>
 <h3 id="turbine-style-php-app-servers">Turbine-Style PHP App Servers</h3>
 <p>Turbine-style PHP runtimes are outside Fluxheim&#x27;s embedded PHP runtime plan. They are app servers with their own listener, worker, TLS, lifecycle, and metrics model. Operators can run one behind Fluxheim like any other HTTP upstream:</p>
 <pre class="language-toml"><code class="language-toml">[[vhosts]]

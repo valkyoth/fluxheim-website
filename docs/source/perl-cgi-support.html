@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -134,39 +134,26 @@ write_paths = [&quot;/tmp/fluxheim-cgi/legacy.example.test&quot;]</code></pre>
 <li>Match an enabled vhost CGI route.</li>
 <li>Resolve the requested script under the configured CGI root.</li>
 <li>Canonicalize the root and script path.</li>
-<li>Reject traversal, symlink escapes, hidden files, non-files, and scripts with</li>
-</ol>
-<p>unsafe permissions.</p>
-<ol>
+<li>Reject traversal, symlink escapes, hidden files, non-files, and scripts with unsafe permissions.</li>
 <li>Build a strict CGI environment from the request.</li>
-<li>Spawn the Perl interpreter with clean environment, configured uid/gid,</li>
-</ol>
-<p>resource limits, timeout, and optional Landlock restrictions.</p>
-<ol>
+<li>Spawn the Perl interpreter with clean environment, configured uid/gid, resource limits, timeout, and optional Landlock restrictions.</li>
 <li>Pipe the bounded request body to stdin.</li>
 <li>Parse stdout as CGI headers plus body.</li>
 <li>Capture stderr separately, cap it, sanitize it, and log it.</li>
-<li>Kill the process group on timeout, client cancellation, or output limit</li>
+<li>Kill the process group on timeout, client cancellation, or output limit violation.</li>
 </ol>
-<p>violation.</p>
 <h2 id="security-requirements">Security Requirements</h2>
 <p>Before CGI is production eligible:</p>
 <ul>
 <li>CGI must be disabled unless both compile feature and vhost config enable it.</li>
-<li><code>SCRIPT_FILENAME</code> must come from canonical path resolution, not string</li>
-</ul>
-<p>concatenation.</p>
-<ul>
+<li><code>SCRIPT_FILENAME</code> must come from canonical path resolution, not string concatenation.</li>
 <li><code>PATH_INFO</code> is disabled by default.</li>
 <li>Dotfiles and hidden path segments are denied by default.</li>
 <li>Symlink escapes outside the CGI root are denied.</li>
 <li>Group/world-writable scripts are denied.</li>
 <li>The interpreter path must be absolute and validated at startup.</li>
 <li>The child environment starts empty by default.</li>
-<li>Only strict RFC 3875 CGI variables are passed:</li>
-</ul>
-<p><code>REQUEST_METHOD</code>, <code>QUERY_STRING</code>, <code>CONTENT_TYPE</code>, <code>CONTENT_LENGTH</code>, <code>SCRIPT_NAME</code>, <code>SCRIPT_FILENAME</code>, <code>DOCUMENT_ROOT</code>, <code>REQUEST_URI</code>, <code>SERVER_NAME</code>, <code>SERVER_PORT</code>, <code>SERVER_PROTOCOL</code>, <code>REMOTE_ADDR</code>, and explicitly configured allow-list variables.</p>
-<ul>
+<li>Only strict RFC 3875 CGI variables are passed: <code>REQUEST_METHOD</code>, <code>QUERY_STRING</code>, <code>CONTENT_TYPE</code>, <code>CONTENT_LENGTH</code>, <code>SCRIPT_NAME</code>, <code>SCRIPT_FILENAME</code>, <code>DOCUMENT_ROOT</code>, <code>REQUEST_URI</code>, <code>SERVER_NAME</code>, <code>SERVER_PORT</code>, <code>SERVER_PROTOCOL</code>, <code>REMOTE_ADDR</code>, and explicitly configured allow-list variables.</li>
 <li>Incoming request body limits are enforced for declared and streaming bodies.</li>
 <li>CGI response headers have a hard byte limit.</li>
 <li>Malformed CGI headers, NUL bytes, and header injection are rejected.</li>
@@ -176,23 +163,16 @@ write_paths = [&quot;/tmp/fluxheim-cgi/legacy.example.test&quot;]</code></pre>
 <li>stderr is sanitized before logging to avoid leaking secrets.</li>
 <li>Child processes are spawned in their own process group where supported.</li>
 <li>Timeouts kill the process group, not only the direct child.</li>
-<li>Resource limits should cover CPU, address space, file size, open files, and</li>
+<li>Resource limits should cover CPU, address space, file size, open files, and child processes.</li>
+<li>Landlock, when enabled and available, should restrict file reads/writes to configured paths after all required files are opened.</li>
 </ul>
-<p>child processes.</p>
-<ul>
-<li>Landlock, when enabled and available, should restrict file reads/writes to</li>
-</ul>
-<p>configured paths after all required files are opened.</p>
 <h2 id="deployment-model">Deployment Model</h2>
 <p>The preferred deployment boundary is rootless Podman plus low-privilege Unix users inside the container. Fluxheim should not require privileged host access for CGI. <code>chroot</code> can be documented as an advanced future option, but it should not be the primary security boundary because it needs privileges and careful filesystem construction.</p>
 <h2 id="testing-plan">Testing Plan</h2>
 <p>Required tests before implementation is considered usable:</p>
 <ul>
 <li>Compile checks with and without <code>perl-cgi</code>.</li>
-<li>Config validation for unsafe interpreter paths, missing roots, bad limits, and</li>
-</ul>
-<p>remote/insecure writable paths.</p>
-<ul>
+<li>Config validation for unsafe interpreter paths, missing roots, bad limits, and remote/insecure writable paths.</li>
 <li>Path traversal and symlink escape tests.</li>
 <li>Denied source fallback tests.</li>
 <li>Environment allow-list tests.</li>

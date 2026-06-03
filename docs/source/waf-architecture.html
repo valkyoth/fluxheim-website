@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -76,6 +76,7 @@
 <h1 id="waf-architecture">WAF Architecture</h1>
 <p>Fluxheim WAF support is future optional security functionality. It must not be compiled into default builds. The normal secure default remains a small edge proxy/static server focused on strict protocol handling, TLS, cache, logging, and metrics.</p>
 <p>The WAF goal is to provide a per-vhost request inspection layer that can block, score, or audit suspicious traffic without turning request workers into a slow or unbounded parsing path.</p>
+<p>Long-term scope should cover the web-application security jobs operators expect from F5 BIG-IP ASM/Advanced WAF-class deployments, but through Fluxheim&#x27;s optional modules and release gates. That includes signature/anomaly scoring, OWASP CRS-compatible rule paths where practical, positive-security policy over time, bot/reputation inputs, per-vhost dry-run/blocking modes, audit evidence, and integration points for load-balancer routing decisions. It is not part of the <code>1.5</code> load-balancer release.</p>
 <h2 id="goals">Goals</h2>
 <ul>
 <li>Keep WAF support compile-time optional and disabled by default.</li>
@@ -90,10 +91,7 @@
 <li>No default OWASP CRS enforcement in normal Fluxheim builds.</li>
 <li>No unbounded body buffering.</li>
 <li>No raw request-body storage in logs.</li>
-<li>No automatic trust in community rule packs without license and security</li>
-</ul>
-<p>review.</p>
-<ul>
+<li>No automatic trust in community rule packs without license and security review.</li>
 <li>No C/FFI engine in the default binary.</li>
 </ul>
 <h2 id="feature-flags">Feature Flags</h2>
@@ -105,21 +103,11 @@ waf-proxy-wasm = [&quot;waf&quot;]</code></pre>
 <p>Reviewed crate/source candidates as of 2026-05-05:</p>
 <ul>
 <li><code>aho-corasick 1.1.4</code>, Unlicense/MIT: native multi-pattern matching.</li>
-<li><code>hyperscan 0.3.2</code>, MIT/Apache-2.0: optional high-performance regex scanning</li>
+<li><code>hyperscan 0.3.2</code>, MIT/Apache-2.0: optional high-performance regex scanning through FFI bindings. This needs platform/package checks and must stay out of defaults.</li>
+<li><code>proxy-wasm 0.2.4</code>, Apache-2.0: Rust SDK for writing Proxy-Wasm extensions, not a complete Pingora host runtime by itself.</li>
+<li>Coraza is a Go WAF engine with OWASP CRS compatibility. The practical Fluxheim path is a future <code>waf-proxy-wasm</code> engine if a reviewed WASM host integration is built.</li>
+<li>OWASP Core Rule Set is Apache-2.0 and should be treated as an external rule dependency with explicit version pinning.</li>
 </ul>
-<p>through FFI bindings. This needs platform/package checks and must stay out of defaults.</p>
-<ul>
-<li><code>proxy-wasm 0.2.4</code>, Apache-2.0: Rust SDK for writing Proxy-Wasm extensions,</li>
-</ul>
-<p>not a complete Pingora host runtime by itself.</p>
-<ul>
-<li>Coraza is a Go WAF engine with OWASP CRS compatibility. The practical</li>
-</ul>
-<p>Fluxheim path is a future <code>waf-proxy-wasm</code> engine if a reviewed WASM host integration is built.</p>
-<ul>
-<li>OWASP Core Rule Set is Apache-2.0 and should be treated as an external rule</li>
-</ul>
-<p>dependency with explicit version pinning.</p>
 <h2 id="recommended-engine-path">Recommended Engine Path</h2>
 <h3 id="stage-1-native-mvp">Stage 1: Native MVP</h3>
 <p>Start with <code>waf-native</code> because it is auditable and fits Rust/Pingora without embedding a second runtime.</p>
@@ -168,16 +156,12 @@ waf-proxy-wasm = [&quot;waf&quot;]</code></pre>
 </ul>
 <p>Body phase:</p>
 <ul>
-<li>inspect only configured content types, initially:</li>
-</ul>
-<p><code>application/x-www-form-urlencoded</code>, <code>application/json</code>, and optionally selected text media types;</p>
-<ul>
+<li>inspect only configured content types, initially: <code>application/x-www-form-urlencoded</code>, <code>application/json</code>, and optionally selected text media types;</li>
 <li>scan only up to <code>max_scan_bytes</code>;</li>
 <li>do not inspect binary uploads by default;</li>
 <li>do not buffer bodies beyond the configured cap;</li>
-<li>pass streaming bodies through once the scan budget is exhausted according to</li>
+<li>pass streaming bodies through once the scan budget is exhausted according to the per-vhost overflow policy.</li>
 </ul>
-<p>the per-vhost overflow policy.</p>
 <h2 id="decision-model">Decision Model</h2>
 <p>Actions:</p>
 <ul>
@@ -194,13 +178,9 @@ waf-proxy-wasm = [&quot;waf&quot;]</code></pre>
 </ul>
 <p>Fail modes:</p>
 <ul>
-<li><code>fail_closed</code>: deny requests when the enabled WAF cannot evaluate. This is</li>
+<li><code>fail_closed</code>: deny requests when the enabled WAF cannot evaluate. This is safest for protected applications.</li>
+<li><code>fail_open</code>: continue when WAF evaluation fails. This is availability-first and should trigger config validation warnings.</li>
 </ul>
-<p>safest for protected applications.</p>
-<ul>
-<li><code>fail_open</code>: continue when WAF evaluation fails. This is availability-first</li>
-</ul>
-<p>and should trigger config validation warnings.</p>
 <h2 id="rule-format">Rule Format</h2>
 <p>Fluxheim should start with a small typed TOML/YAML model, not full SecLang.</p>
 <p>Example target:</p>
@@ -275,9 +255,8 @@ oversize_body = &quot;skip&quot;</code></pre>
 <li><code>mode</code></li>
 <li><code>phase</code></li>
 <li><code>action</code></li>
-<li><code>rule_id</code> only if the rule ID comes from validated config and the total rule</li>
+<li><code>rule_id</code> only if the rule ID comes from validated config and the total rule count is bounded</li>
 </ul>
-<p>count is bounded</p>
 <p>Unknown or invalid hosts must map to fixed buckets such as <code>unknown</code> or <code>invalid_host</code>.</p>
 <h2 id="security-guardrails">Security Guardrails</h2>
 <ul>
@@ -289,15 +268,11 @@ oversize_body = &quot;skip&quot;</code></pre>
 <li>Treat WAF config/rules as part of the snapshot validation flow.</li>
 <li>Never let a WAF failure panic a Pingora worker.</li>
 <li>Keep <code>waf-hyperscan</code> and <code>waf-proxy-wasm</code> out of the default feature set.</li>
-<li>Pin external CRS versions and verify checksums if rule bundles are downloaded</li>
+<li>Pin external CRS versions and verify checksums if rule bundles are downloaded by tooling.</li>
 </ul>
-<p>by tooling.</p>
 <h2 id="implementation-stages">Implementation Stages</h2>
 <ol>
-<li>Add feature guards and config schema with validation, but no request</li>
-</ol>
-<p>enforcement.</p>
-<ol>
+<li>Add feature guards and config schema with validation, but no request enforcement.</li>
 <li>Add native header-phase rules with dry-run audit logging.</li>
 <li>Add anomaly scoring and block mode.</li>
 <li>Add bounded body-phase scanning for selected content types.</li>

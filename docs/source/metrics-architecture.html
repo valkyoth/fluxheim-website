@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -94,9 +94,8 @@ metrics-advanced = [&quot;metrics&quot;]</code></pre>
 <li><code>metrics 0.24.5</code>, MIT: facade option.</li>
 <li><code>hdrhistogram 7.5.4</code>, MIT/Apache-2.0: latency histogram option.</li>
 <li><code>opentelemetry-otlp 0.31.1</code>, Apache-2.0: optional OTLP exporter.</li>
-<li><code>dashmap</code>: latest observed release is <code>7.0.0-rc2</code>; avoid RC releases for MVP</li>
+<li><code>dashmap</code>: latest observed release is <code>7.0.0-rc2</code>; avoid RC releases for MVP core. Re-evaluate a stable release if a concurrent map is needed.</li>
 </ul>
-<p>core. Re-evaluate a stable release if a concurrent map is needed.</p>
 <h2 id="cardinality-rules">Cardinality Rules</h2>
 <p>Metrics must never create labels directly from arbitrary remote input.</p>
 <p>Allowed labels:</p>
@@ -174,22 +173,17 @@ metrics-advanced = [&quot;metrics&quot;]</code></pre>
 <p>The configuration gauges are aggregate, label-free, and populated from validated configuration when the metrics listener starts. The local observability smoke verifies the route/vhost cache policy gauges, the request-collapsing policy count, and the maximum configured lock wait timeout. <code>fluxheim_acme_events_total</code> uses only bounded lifecycle labels: <code>event</code> is <code>pending</code>, <code>renewed</code>, <code>failed</code>, <code>reload_success</code>, <code>reload_failed</code>, <code>reload_unavailable</code>, <code>tick_error</code>, or <code>other</code>. It intentionally avoids domain names, certificate paths, challenge URLs, and issuer secrets. <code>fluxheim_php_requests_total</code> and <code>fluxheim_php_request_duration_seconds</code> use configured vhost names plus bounded method, outcome, and status-class labels. <code>outcome</code> is <code>declined</code>, <code>redirect</code>, <code>forbidden</code>, <code>not_found</code>, <code>fpm_error</code>, <code>connect_timeout</code>, <code>request_timeout</code>, <code>connection_error</code>, <code>configuration_error</code>, <code>invalid_response</code>, <code>intercepted</code>, <code>offload</code>, <code>offload_error</code>, <code>response</code>, or <code>other</code>; these metrics avoid raw paths, queries, script filenames, usernames, cookies, and FastCGI params. <code>fluxheim_stream_connections_total</code> and <code>fluxheim_stream_bytes_total</code> use configured stream route names only. Stream connection <code>outcome</code> is bounded to <code>completed</code>, <code>rejected</code>, <code>connect_error</code>, <code>timeout</code>, <code>shutdown</code>, or <code>error</code>. Stream byte <code>direction</code> is bounded to <code>downstream_to_upstream</code>, <code>upstream_to_downstream</code>, or <code>other</code>. <code>fluxheim_php_stderr_events_total</code> uses configured vhost names plus bounded <code>state</code> labels of <code>emitted</code>, <code>truncated</code>, or <code>other</code>; it counts STDERR presence without exposing PHP error text. <code>fluxheim_php_fpm_retries_total</code> uses configured vhost names plus bounded <code>reason</code> labels of <code>connect_timeout</code>, <code>connection_error</code>, or <code>other</code>; it counts retry attempts without exposing upstream addresses, socket paths, raw request paths, cookies, or FastCGI params. <code>fluxheim_php_fpm_pool_idle_connections</code> and <code>fluxheim_php_fpm_pool_events_total</code> use configured vhost and pool labels. The <code>pool</code> label is <code>default</code> for a vhost-level PHP runtime or the configured route name for a route-level PHP runtime. Pool <code>event</code> labels are bounded to <code>connect</code>, <code>reuse</code>, <code>return</code>, <code>drop_stale</code>, <code>discard_full</code>, or <code>other</code>. <code>fluxheim_cache_activity_total</code> uses only bounded labels: <code>tier</code> is <code>memory</code>, <code>disk</code>, <code>policy</code>, or <code>other</code>, and <code>event</code> is <code>hit</code>, <code>miss</code>, <code>store</code>, <code>store_refusal</code>, <code>eviction</code>, <code>purge</code>, <code>pass</code>, <code>bypass</code>, <code>stale</code>, <code>revalidate</code>, <code>peer_fill_hit</code>, <code>peer_fill_miss</code>, <code>peer_fill_error</code>, <code>peer_fill_fallback</code>, <code>peer_fill_fail_closed</code>, or <code>other</code>. These metrics intentionally avoid raw hosts, paths, queries, cache keys, peer URLs, and purge identities. <code>fluxheim_cache_activity_scope_total</code> uses the same bounded <code>tier</code> and <code>event</code> labels plus configured-name labels: <code>scope</code> is <code>vhost</code> or <code>route</code>, <code>vhost</code> is the configured vhost name, and <code>route</code> is empty for vhost cache or the configured route name for route cache. It intentionally avoids raw <code>Host</code>, path, query, cache key, and purge identity labels. Cache operation duration histograms use the same configured-name labels plus bounded <code>phase</code> and <code>operation</code> labels. <code>operation</code> is <code>lookup</code> or <code>lock_wait</code>, so dashboards can separate storage lookup cost from request-collapsing wait time without high-cardinality request labels. Cache purger duration histograms use the bounded purger <code>outcome</code> label only, so operators can see when cleanup ticks are getting slow without exposing cache paths, queries, cache keys, and purge identities. Future OpenTelemetry attributes should mirror the same low-cardinality concepts used by admin JSON and Prometheus.</p>
 <p>Latency plan:</p>
 <ol>
-<li>Start with fixed histogram buckets implemented as atomics. This is easiest</li>
+<li>Start with fixed histogram buckets implemented as atomics. This is easiest to bound and export.</li>
+<li>Evaluate <code>hdrhistogram</code> later with sharded/thread-local recorders and background aggregation. Avoid a single locked histogram on the request path.</li>
 </ol>
-<p>to bound and export.</p>
-<ol>
-<li>Evaluate <code>hdrhistogram</code> later with sharded/thread-local recorders and</li>
-</ol>
-<p>background aggregation. Avoid a single locked histogram on the request path.</p>
 <h2 id="metrics-to-track">Metrics To Track</h2>
 <p>Per vhost:</p>
 <ul>
 <li>request totals by status class</li>
 <li>latency histogram</li>
 <li>inbound/outbound bytes when available</li>
-<li>route module totals: static, proxy, cache, admin, future PHP/CGI, future</li>
+<li>route module totals: static, proxy, cache, admin, future PHP/CGI, future legacy static</li>
 </ul>
-<p>legacy static</p>
 <p>Cache:</p>
 <ul>
 <li>hits</li>
@@ -202,13 +196,11 @@ metrics-advanced = [&quot;metrics&quot;]</code></pre>
 </ul>
 <p>Load balancer:</p>
 <ul>
-<li><code>fluxheim_load_balancer_events_total</code> counts selected upstreams, retries,</li>
+<li><code>fluxheim_load_balancer_pools</code> reports configured load-balancer pool counts by bounded <code>scope</code> (<code>vhost</code> or <code>route</code>) and bounded selection algorithm. It does not label configured vhost names, route names, or upstream addresses.</li>
+<li><code>fluxheim_load_balancer_events_total</code> counts selected upstreams, retries, all-nodes-down/unavailable pools, queue wait/full/timeout outcomes, success/failure outcomes, and passive-health ejections with bounded configured vhost/route labels. The <code>upstream</code> label is empty unless the operator configures a safe low-cardinality <code>proxy.upstream_aliases</code> entry.</li>
+<li><code>fluxheim_load_balancer_queue_wait_seconds</code> observes bounded queue wait and timeout duration by configured vhost/route and bounded queue outcome. It does not label raw upstream addresses.</li>
+<li>richer upstream health state transition metrics remain planned; they should not label raw upstream addresses unless an explicit low-cardinality alias is configured.</li>
 </ul>
-<p>all-nodes-down/unavailable pools, success/failure outcomes, and passive-health ejections with bounded configured vhost/route labels. The <code>upstream</code> label is empty unless the operator configures a safe low-cardinality <code>proxy.upstream_aliases</code> entry.</p>
-<ul>
-<li>richer upstream health state transition metrics remain planned; they should</li>
-</ul>
-<p>not label raw upstream addresses unless an explicit low-cardinality alias is configured.</p>
 <p>Admin/security:</p>
 <ul>
 <li>admin auth failures</li>
@@ -230,19 +222,12 @@ metrics-advanced = [&quot;metrics&quot;]</code></pre>
 <ul>
 <li>Prometheus/OpenMetrics text through the local metrics listener.</li>
 <li>Loopback by default.</li>
-<li>Local smoke coverage starts Fluxheim with <code>profile-observability</code>, sends a</li>
+<li>Local smoke coverage starts Fluxheim with <code>profile-observability</code>, sends a proxied request, verifies <code>traceparent</code> propagation, checks the local metrics listener for Fluxheim series, and optionally queries a Prometheus HTTP API. Use <code>scripts/smoke_observability_local.sh</code>; set <code>FLUXHEIM_PROMETHEUS_REQUIRE_FLUXHEIM=1</code> when a local Prometheus scrape job is expected to contain Fluxheim metrics, and <code>FLUXHEIM_PROMETHEUS_REQUIRE_OTLP=1</code> when Prometheus must have its OTLP metrics receiver enabled.</li>
 </ul>
-<p>proxied request, verifies <code>traceparent</code> propagation, checks the local metrics listener for Fluxheim series, and optionally queries a Prometheus HTTP API. Use <code>scripts/smoke_observability_local.sh</code>; set <code>FLUXHEIM_PROMETHEUS_REQUIRE_FLUXHEIM=1</code> when a local Prometheus scrape job is expected to contain Fluxheim metrics, and <code>FLUXHEIM_PROMETHEUS_REQUIRE_OTLP=1</code> when Prometheus must have its OTLP metrics receiver enabled.</p>
 <p>Optional push:</p>
 <ul>
-<li>initial implementation spawns a background exporter thread when</li>
-</ul>
-<p><code>[metrics.otlp]</code> is enabled.</p>
-<ul>
-<li>future Pingora service integration can add richer lifecycle and health</li>
-</ul>
-<p>reporting.</p>
-<ul>
+<li>initial implementation spawns a background exporter thread when <code>[metrics.otlp]</code> is enabled.</li>
+<li>future Pingora service integration can add richer lifecycle and health reporting.</li>
 <li>push failure must never block request workers.</li>
 <li>failed push keeps metrics locally available.</li>
 <li>do not buffer infinite historical metrics in memory.</li>
@@ -252,23 +237,13 @@ metrics-advanced = [&quot;metrics&quot;]</code></pre>
 <li>behind <code>metrics-otlp</code>.</li>
 <li>default off.</li>
 <li>use explicit endpoint, interval, service name, and timeout config.</li>
-<li>can target a Prometheus HTTP OTLP metrics receiver at</li>
+<li>can target a Prometheus HTTP OTLP metrics receiver at <code>/api/v1/otlp/v1/metrics</code> when Prometheus is started with <code>--web.enable-otlp-receiver</code>.</li>
+<li>covers metrics only; traces still need an OpenTelemetry Collector or tracing backend.</li>
+<li>implemented now for counters, gauges, and histograms gathered from the existing Prometheus registry. Summaries remain a future exporter extension.</li>
 </ul>
-<p><code>/api/v1/otlp/v1/metrics</code> when Prometheus is started with <code>--web.enable-otlp-receiver</code>.</p>
-<ul>
-<li>covers metrics only; traces still need an OpenTelemetry Collector or tracing</li>
-</ul>
-<p>backend.</p>
-<ul>
-<li>implemented now for counters, gauges, and histograms gathered from the</li>
-</ul>
-<p>existing Prometheus registry. Summaries remain a future exporter extension.</p>
 <p>Exporter health metrics:</p>
 <ul>
-<li>implemented now for OTLP metrics exporter attempts:</li>
-</ul>
-<p><code>fluxheim_metrics_otlp_exports_total{outcome}</code> with bounded <code>success</code>, <code>failure</code>, or <code>other</code> outcomes.</p>
-<ul>
+<li>implemented now for OTLP metrics exporter attempts: <code>fluxheim_metrics_otlp_exports_total{outcome}</code> with bounded <code>success</code>, <code>failure</code>, or <code>other</code> outcomes.</li>
 <li>last successful push timestamp</li>
 <li>consecutive failures</li>
 <li>dropped export batches</li>
@@ -303,29 +278,19 @@ overflow_bucket = &quot;overflow&quot;
 <p>The OTLP metrics exporter accepts <code>http://</code> and <code>https://</code> endpoints. Use loopback HTTP for same-host collectors and HTTPS for remote collectors. <code>metrics.otlp.tls_ca_cert_path</code> can point at a PEM CA bundle for private PKI collectors; otherwise the HTTPS client uses the bundled WebPKI roots. Plaintext HTTP to a non-loopback collector logs a startup warning.</p>
 <h2 id="implementation-stages">Implementation Stages</h2>
 <ol>
-<li>Harden current labels: ensure request outcome labels are derived from</li>
-</ol>
-<p>configured vhost names or fixed buckets only. Implemented for <code>fluxheim_proxy_requests_total</code>: it uses configured vhost names, fixed request method buckets, fixed outcome classes, and fixed status classes instead of raw status codes.</p>
-<ol>
+<li>Harden current labels: ensure request outcome labels are derived from configured vhost names or fixed buckets only. Implemented for <code>fluxheim_proxy_requests_total</code>: it uses configured vhost names, fixed request method buckets, fixed outcome classes, and fixed status classes instead of raw status codes.</li>
 <li>Add vhost-indexed atomic counters.</li>
 <li>Add fixed atomic latency histograms.</li>
 <li>Add cache/load-balancer/admin/security counters.</li>
-<li>Add optional OTLP exporter. Implemented initially for counters/gauges over</li>
-</ol>
-<p>local OTLP/HTTP JSON.</p>
-<ol>
+<li>Add optional OTLP exporter. Implemented initially for counters/gauges over local OTLP/HTTP JSON.</li>
 <li>Add exporter health metrics.</li>
-<li>Add production-grade push/exporter lifecycle, retry, circuit breaker, and</li>
+<li>Add production-grade push/exporter lifecycle, retry, circuit breaker, and histogram support.</li>
 </ol>
-<p>histogram support.</p>
 <h2 id="tests">Tests</h2>
 <p>Required tests:</p>
 <ul>
 <li>Unknown Host maps to fixed <code>unknown</code> bucket.</li>
-<li>Missing Host and future HTTP/0.9 traffic map to <code>legacy_unidentified</code> or a</li>
-</ul>
-<p>configured listener bucket.</p>
-<ul>
+<li>Missing Host and future HTTP/0.9 traffic map to <code>legacy_unidentified</code> or a configured listener bucket.</li>
 <li>Thousands of fake Host headers do not create new metric labels.</li>
 <li>Latency buckets export expected counts.</li>
 <li>Metrics update path does not require a global mutex.</li>

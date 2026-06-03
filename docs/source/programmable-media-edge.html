@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -88,22 +88,12 @@
 <h2 id="design-goals">Design Goals</h2>
 <ul>
 <li>Keep all video-aware code out of default builds.</li>
-<li>Start with HLS/DASH manifest parsing and rewriting, not bitstream</li>
-</ul>
-<p>manipulation.</p>
-<ul>
+<li>Start with HLS/DASH manifest parsing and rewriting, not bitstream manipulation.</li>
 <li>Preserve normal static/proxy behavior when no media policy is configured.</li>
-<li>Treat media requests as structured state, not plain text or arbitrary binary</li>
+<li>Treat media requests as structured state, not plain text or arbitrary binary blobs.</li>
+<li>Bound manifest size, segment size, parser complexity, outbound subrequests, cache footprint, and per-vhost media concurrency.</li>
+<li>Integrate with <code>auth-request</code>, identity-aware routing, cache, metrics, and privacy profiles only through explicit policy.</li>
 </ul>
-<p>blobs.</p>
-<ul>
-<li>Bound manifest size, segment size, parser complexity, outbound subrequests,</li>
-</ul>
-<p>cache footprint, and per-vhost media concurrency.</p>
-<ul>
-<li>Integrate with <code>auth-request</code>, identity-aware routing, cache, metrics, and</li>
-</ul>
-<p>privacy profiles only through explicit policy.</p>
 <h2 id="stage-1-manifest-engine">Stage 1: Manifest Engine</h2>
 <p>The first realistic milestone is a manifest-aware engine.</p>
 <p>Planned behavior:</p>
@@ -111,25 +101,18 @@
 <li>parse HLS playlists (<code>.m3u8</code>);</li>
 <li>parse DASH manifests (<code>.mpd</code>) after XML parser review;</li>
 <li>normalize and validate segment URLs;</li>
-<li>reject traversal, absolute URL escapes, unexpected schemes, and manifest</li>
-</ul>
-<p>recursion loops;</p>
-<ul>
+<li>reject traversal, absolute URL escapes, unexpected schemes, and manifest recursion loops;</li>
 <li>rewrite segment URLs for signed routes, cache routes, or media policy routes;</li>
 <li>inject or remove safe timed metadata only when explicitly configured;</li>
-<li>expose manifest metrics such as variant count, segment count, target</li>
+<li>expose manifest metrics such as variant count, segment count, target duration, and parse errors.</li>
 </ul>
-<p>duration, and parse errors.</p>
 <p>This is the best first step because it avoids decoding video while still unlocking media-specific routing and cache behavior.</p>
 <h2 id="stage-2-segment-aware-cache-and-routing">Stage 2: Segment-Aware Cache And Routing</h2>
 <p>Video segments should not be treated exactly like arbitrary files.</p>
 <p>Planned behavior:</p>
 <ul>
 <li>identify HLS TS, fMP4, and DASH segment requests;</li>
-<li>isolate cache keys by vhost, route, asset ID, representation, byte range,</li>
-</ul>
-<p>media sequence, encryption key ID, and policy version;</p>
-<ul>
+<li>isolate cache keys by vhost, route, asset ID, representation, byte range, media sequence, encryption key ID, and policy version;</li>
 <li>support bounded range requests for segments;</li>
 <li>respect <code>Cache-Control</code>, segment immutability policy, and live-window TTLs;</li>
 <li>support stale segment serving only when explicitly safe;</li>
@@ -137,24 +120,15 @@
 </ul>
 <p>Security baseline:</p>
 <ul>
-<li>never cache personalized encrypted segments unless the policy explicitly</li>
-</ul>
-<p>marks the variant safe;</p>
-<ul>
-<li>never mix users, tenants, regions, or entitlement policies in one segment</li>
-</ul>
-<p>cache key;</p>
-<ul>
+<li>never cache personalized encrypted segments unless the policy explicitly marks the variant safe;</li>
+<li>never mix users, tenants, regions, or entitlement policies in one segment cache key;</li>
 <li>never cache media keys or authorization tokens.</li>
 </ul>
 <h2 id="stage-3-dynamic-manifest-stitching">Stage 3: Dynamic Manifest Stitching</h2>
 <p>Dynamic stitching should operate at the manifest level before any bitstream work is attempted.</p>
 <p>Planned behavior:</p>
 <ul>
-<li>replace configured ad markers with media segment URLs selected by a trusted</li>
-</ul>
-<p>decision service;</p>
-<ul>
+<li>replace configured ad markers with media segment URLs selected by a trusted decision service;</li>
 <li>support per-vhost ad policy;</li>
 <li>integrate with <code>auth-request</code> or <code>identity-*</code> claims for audience segments;</li>
 <li>keep ad decision timeouts isolated from the primary request;</li>
@@ -183,9 +157,8 @@
 <li>codec/container compatibility matrix;</li>
 <li>proof that watermarking cannot corrupt streams;</li>
 <li>legal/privacy review for user-identifying marks;</li>
-<li>ability to disable IP-based identifiers and use account/session identifiers</li>
+<li>ability to disable IP-based identifiers and use account/session identifiers only when a lawful policy permits it.</li>
 </ul>
-<p>only when a lawful policy permits it.</p>
 <h2 id="stage-5-transmuxing-and-packaging">Stage 5: Transmuxing And Packaging</h2>
 <p>Edge transmuxing is a research track, not an early production feature.</p>
 <p>Potential scope:</p>
@@ -209,19 +182,12 @@
 <li>Per-vhost/per-route media policy required.</li>
 <li>Reject oversized manifests and segments.</li>
 <li>Reject nested or recursive manifests beyond small limits.</li>
-<li>Reject unexpected protocols, absolute URL escapes, and host escapes unless</li>
-</ul>
-<p>allow-listed.</p>
-<ul>
+<li>Reject unexpected protocols, absolute URL escapes, and host escapes unless allow-listed.</li>
 <li>Do not mirror or stitch admin, metrics, ACME, PHP, CGI, or legacy routes.</li>
-<li>Do not log raw manifests, tokens, cookies, media keys, entitlement claims, or</li>
-</ul>
-<p>full personalized URLs.</p>
-<ul>
+<li>Do not log raw manifests, tokens, cookies, media keys, entitlement claims, or full personalized URLs.</li>
 <li>Do not enable in <code>privacy-mode</code> by default.</li>
-<li>Treat DRM keys and license flows as out of scope unless a separate threat</li>
+<li>Treat DRM keys and license flows as out of scope unless a separate threat model is written.</li>
 </ul>
-<p>model is written.</p>
 <h2 id="configuration-sketch">Configuration Sketch</h2>
 <pre class="language-toml"><code class="language-toml">[media_edge.profiles.live_hls]
 formats = [&quot;hls&quot;]
@@ -255,10 +221,7 @@ paths = [&quot;/live/*&quot;, &quot;/vod/*&quot;]</code></pre>
 <li>Parse valid HLS manifests.</li>
 <li>Reject malformed, oversized, recursive, and escaping manifests.</li>
 <li>Validate segment URL normalization.</li>
-<li>Validate cache-key isolation for live, VOD, range, tenant, and policy</li>
-</ul>
-<p>variants.</p>
-<ul>
+<li>Validate cache-key isolation for live, VOD, range, tenant, and policy variants.</li>
 <li>Validate ad-stitch fallback behavior and timeouts.</li>
 <li>Validate redaction of tokens and personalized URLs.</li>
 <li>Validate metrics cardinality safety.</li>

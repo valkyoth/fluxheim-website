@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -125,10 +125,7 @@
 </ul>
 <p>Threats considered:</p>
 <ul>
-<li>Remote routing bypass, request smuggling, header injection, cache poisoning,</li>
-</ul>
-<p>path traversal, and request/response resource exhaustion.</p>
-<ul>
+<li>Remote routing bypass, request smuggling, header injection, cache poisoning, path traversal, and request/response resource exhaustion.</li>
 <li>Local symlink, permission, ownership, and runtime-state attacks.</li>
 <li>Misconfiguration that silently disables security controls.</li>
 <li>Compromised upstream, PHP-FPM, OpenBao, ACME, OTLP, or crypto-RPC services.</li>
@@ -137,43 +134,26 @@
 <p>Operational assumptions:</p>
 <ul>
 <li>Fluxheim runs as a dedicated service user.</li>
-<li>Runtime directories are owned by the service user and are not writable by</li>
+<li>Runtime directories are owned by the service user and are not writable by untrusted users.</li>
+<li>Admin endpoints and control sockets are local or otherwise restricted to trusted operators.</li>
+<li>External cryptographic modules are installed and operated according to their own Security Policies when a regulated deployment claims them.</li>
+<li>Operators preserve release evidence, SBOMs, checksums, signatures, scanner output, and provider evidence.</li>
 </ul>
-<p>untrusted users.</p>
-<ul>
-<li>Admin endpoints and control sockets are local or otherwise restricted to</li>
-</ul>
-<p>trusted operators.</p>
-<ul>
-<li>External cryptographic modules are installed and operated according to their</li>
-</ul>
-<p>own Security Policies when a regulated deployment claims them.</p>
-<ul>
-<li>Operators preserve release evidence, SBOMs, checksums, signatures, scanner</li>
-</ul>
-<p>output, and provider evidence.</p>
 <h3 id="security-objectives">Security Objectives</h3>
 <p>Fluxheim objectives:</p>
 <ul>
 <li>Enforce configured TLS, routing, cache, PHP-FPM, and static-file policies.</li>
-<li>Reject unsafe filesystem paths, symlinked runtime paths, unsafe permissions,</li>
-</ul>
-<p>and insecure config combinations.</p>
-<ul>
+<li>Reject unsafe filesystem paths, symlinked runtime paths, unsafe permissions, and insecure config combinations.</li>
 <li>Fail closed when FIPS/ISO-required mode selects unsupported crypto paths.</li>
 <li>Emit diagnostics and structured evidence for security-relevant decisions.</li>
 </ul>
 <p>Operational-environment objectives:</p>
 <ul>
-<li>Provide a trustworthy OS, filesystem, service manager, container runtime, and</li>
-</ul>
-<p>network boundary.</p>
-<ul>
+<li>Provide a trustworthy OS, filesystem, service manager, container runtime, and network boundary.</li>
 <li>Protect secrets and credential mounts.</li>
 <li>Provide validated crypto module evidence when FIPS/ISO claims are made.</li>
-<li>Provide external-service evidence for OpenBao, PHP-FPM, ACME, OTLP, and</li>
+<li>Provide external-service evidence for OpenBao, PHP-FPM, ACME, OTLP, and upstream systems when they are part of the deployment security argument.</li>
 </ul>
-<p>upstream systems when they are part of the deployment security argument.</p>
 <h3 id="security-relevant-interfaces">Security-Relevant Interfaces</h3>
 <div class="source-table"><table>
 <thead><tr><th>Interface</th><th>Direction</th><th>Security role</th><th>Evidence</th></tr></thead>
@@ -209,10 +189,7 @@
 <ul>
 <li>Exact Cargo build command.</li>
 <li><code>fluxheim crypto</code> or <code>fluxheim-config-tester --crypto</code> output.</li>
-<li><code>scripts/validate-fips-openssl.sh release</code> or</li>
-</ul>
-<p><code>scripts/validate-fips-rustls.sh release</code> output when applicable.</p>
-<ul>
+<li><code>scripts/validate-fips-openssl.sh release</code> or <code>scripts/validate-fips-rustls.sh release</code> output when applicable.</li>
 <li>Module Security Policy and platform/provider installation evidence.</li>
 <li>Explanation for every external crypto boundary, such as OpenBao Transit.</li>
 </ul>

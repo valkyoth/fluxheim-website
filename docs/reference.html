@@ -26,7 +26,6 @@
   <script src="../assets/js/tailwind.js"></script>
   <style>
     body { background-color: var(--fh-bg); }
-    ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
     .prose h2 { font-size: 1.35rem; font-weight: 700; color: white; margin: 2.25rem 0 1rem; padding-top: 1.75rem; border-top: 1px solid #1f2937; }
     .prose h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
     .prose p { color: #9ca3af; line-height: 1.75; margin-bottom: 1rem; }
@@ -48,7 +47,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -68,7 +67,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="source/load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li>
             <li><a href="reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
@@ -96,8 +95,8 @@
         <p class="text-gray-400 text-lg mb-10">The complete upstream Markdown documentation from Fluxheim main is vendored here so the website exposes the full operator, architecture, and roadmap reference set.</p>
 
         <div class="grid sm:grid-cols-3 gap-4 mb-10">
-          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-white">42</div><div class="text-gray-500 text-xs">source docs</div></div>
-          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-cyan-400">1.4.7</div><div class="text-gray-500 text-xs">current release line</div></div>
+          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-white">43</div><div class="text-gray-500 text-xs">source docs</div></div>
+          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-cyan-400">1.5.0</div><div class="text-gray-500 text-xs">current release line</div></div>
           <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-emerald-400">main</div><div class="text-gray-500 text-xs">synced source branch</div></div>
         </div>
 
@@ -129,6 +128,7 @@
         </div>
         <div class="grid gap-3 mb-8">
           <a class="doc-link" href="source/config-reference.html"><span><strong class="text-white">Config Reference</strong><span class="block text-sm text-gray-500">Server, stream proxy, admin, metrics, tracing, logging, headers, proxy, web, cache, TLS, ACME, vhosts, PHP, GeoIP, privacy, and preflight.</span></span><code class="text-cyan-400 text-xs">config-reference.html</code></a>
+          <a class="doc-link" href="source/load-balancer-migration.html"><span><strong class="text-white">Load Balancer Migration</strong><span class="block text-sm text-gray-500">HAProxy, nginx, Envoy, and F5-style pool migration notes, runtime member controls, persistence, health, queueing, and 1.5.0 boundaries.</span></span><code class="text-cyan-400 text-xs">load-balancer-migration.html</code></a>
           <a class="doc-link" href="source/vhost-config.html"><span><strong class="text-white">Vhost Config Guide</strong><span class="block text-sm text-gray-500">Recommended layout, common mistakes, and route placement inside a vhost.</span></span><code class="text-cyan-400 text-xs">vhost-config.html</code></a>
           <a class="doc-link" href="source/gateway-recipes.html"><span><strong class="text-white">Gateway Recipes</strong><span class="block text-sm text-gray-500">Shared server baseline, redirects, app proxy, websocket routes, aliases, and custom upstream error pages.</span></span><code class="text-cyan-400 text-xs">gateway-recipes.html</code></a>
           <a class="doc-link" href="source/config-snapshots.html"><span><strong class="text-white">Config Snapshots And Rollback</strong><span class="block text-sm text-gray-500">Snapshot store layout, commands, admin API shape, and self-healing guard concepts.</span></span><code class="text-cyan-400 text-xs">config-snapshots.html</code></a>

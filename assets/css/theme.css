@@ -316,10 +316,6 @@ html.light img {
   color: #0f172a;
 }
 
-html.light ::-webkit-scrollbar-thumb {
-  background: #cbd5e1 !important;
-}
-
 .source-doc {
   color: #cbd5e1;
   font-size: 0.96rem;

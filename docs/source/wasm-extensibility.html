@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -87,21 +87,16 @@
 <li><code>wasmtime-wasi 44.0.1</code></li>
 <li><code>proxy-wasm 0.2.4</code></li>
 </ul>
-<p>WASM extensibility gives Fluxheim a sandboxed way to run operator-provided logic without compiling that logic into the Fluxheim binary. It should be treated as a major extension boundary, not as a small scripting feature. The same runtime should cover nginx-Lua-style request/response hooks and VCL-like cache policy hooks, instead of creating separate partial extension systems.</p>
+<p>WASM extensibility gives Fluxheim a sandboxed way to run operator-provided logic without compiling that logic into the Fluxheim binary. It should be treated as a major extension boundary, not as a small scripting feature. The same runtime should cover the operational jobs commonly solved with F5 iRules, nginx Lua/OpenResty, HAProxy Lua/SPOE, and VCL-like cache policy hooks, instead of creating separate partial extension systems. This is capability parity, not syntax compatibility: Fluxheim should expose typed, versioned host calls and bounded decisions rather than embedding Tcl, Lua, or an unrestricted scripting language.</p>
 <h2 id="design-goals">Design Goals</h2>
 <ul>
 <li>Keep WASM runtime code out of default builds.</li>
 <li>Use a reviewed standard ABI where practical.</li>
-<li>Start with request/response header hooks, access-control hooks, and bounded</li>
-</ul>
-<p>cache-policy hooks.</p>
-<ul>
+<li>Start with request/response header hooks, access-control hooks, and bounded cache-policy hooks.</li>
+<li>Cover the safe subset of iRules/Lua-style jobs over time: conditional routing, pool selection, persistence-key choice, synthetic deny/error responses, header mutation, logging/redaction, mirror/shadow selection, and cache policy.</li>
 <li>Make all host calls explicit, small, and auditable.</li>
 <li>Keep plugin execution bounded by memory, fuel, wall-time, and output limits.</li>
-<li>Prevent plugins from seeing secrets, bodies, filesystem, network, or admin</li>
-</ul>
-<p>APIs unless explicitly granted by policy.</p>
-<ul>
+<li>Prevent plugins from seeing secrets, bodies, filesystem, network, or admin APIs unless explicitly granted by policy.</li>
 <li>Make plugin failures isolated from the process and from unrelated requests.</li>
 </ul>
 <h2 id="stage-1-header-access-control-and-cache-policy-hooks">Stage 1: Header, Access-Control, And Cache Policy Hooks</h2>
@@ -112,14 +107,8 @@
 <li>response headers before sending to the client;</li>
 <li>access-control decision: allow, deny with status, or continue;</li>
 <li>cache lookup/admission decision: bypass, pass, continue, or deny;</li>
-<li>bounded cache-key component decision with typed inputs and low-cardinality</li>
-</ul>
-<p>output limits;</p>
-<ul>
-<li>cache store-admission decision for TTL override, tag assignment, and safe</li>
-</ul>
-<p>response-header mutation;</p>
-<ul>
+<li>bounded cache-key component decision with typed inputs and low-cardinality output limits;</li>
+<li>cache store-admission decision for TTL override, tag assignment, and safe response-header mutation;</li>
 <li>synthetic response with small bounded body for deny/error cases.</li>
 </ul>
 <p>Non-goals for the first stage:</p>
@@ -150,9 +139,8 @@
 <li>custom auth decision transforms;</li>
 <li>custom log redaction;</li>
 <li>specialized request classification;</li>
-<li>feature-specific plugins that do not need direct filesystem or network</li>
+<li>feature-specific plugins that do not need direct filesystem or network access.</li>
 </ul>
-<p>access.</p>
 <p>WASI capabilities must be disabled by default and granted explicitly:</p>
 <ul>
 <li>no filesystem by default;</li>
@@ -182,18 +170,9 @@
 <li>Plugin files must be regular files below approved directories.</li>
 <li>Plugin paths must reject symlinks and symlinked parents.</li>
 <li>Plugin modules must be hashed and recorded in admin status.</li>
-<li>Host calls must never expose admin tokens, ACME/EAB secrets, private keys,</li>
-</ul>
-<p>authorization headers, cookies, raw request bodies, or filesystem paths unless explicitly allowed and redacted.</p>
-<ul>
-<li>Plugins must not control routing destinations or upstream TLS verification</li>
-</ul>
-<p>directly. Cache-key influence is allowed only through constrained typed hook outputs that Fluxheim validates, bounds, and records.</p>
-<ul>
-<li>Plugin panics, traps, timeout, or fuel exhaustion must produce configured</li>
-</ul>
-<p>fail behavior and must not crash Fluxheim.</p>
-<ul>
+<li>Host calls must never expose admin tokens, ACME/EAB secrets, private keys, authorization headers, cookies, raw request bodies, or filesystem paths unless explicitly allowed and redacted.</li>
+<li>Plugins must not control routing destinations or upstream TLS verification directly. Cache-key influence is allowed only through constrained typed hook outputs that Fluxheim validates, bounds, and records.</li>
+<li>Plugin panics, traps, timeout, or fuel exhaustion must produce configured fail behavior and must not crash Fluxheim.</li>
 <li><code>privacy-mode</code> should reject WASM features by default.</li>
 <li>WASM engine dependencies require license, advisory, and supply-chain review.</li>
 </ul>
@@ -221,10 +200,7 @@ paths = [&quot;/*&quot;]</code></pre>
 <li>Verify request header mutation within limits.</li>
 <li>Verify response header mutation within limits.</li>
 <li>Verify deny decisions and synthetic responses.</li>
-<li>Verify plugins cannot access bodies, filesystem, network, env, or admin APIs</li>
-</ul>
-<p>without capability grants.</p>
-<ul>
+<li>Verify plugins cannot access bodies, filesystem, network, env, or admin APIs without capability grants.</li>
 <li>Verify fuel exhaustion, timeout, trap, and panic behavior.</li>
 <li>Verify fail-open and fail-closed policy behavior.</li>
 <li>Verify sensitive field redaction.</li>

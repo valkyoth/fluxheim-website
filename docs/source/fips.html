@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -86,10 +86,7 @@
 <li><a href="https://www.nist.gov/publications/fips-140-3-adopts-isoiec-standards" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">FIPS 140-3 Adopts ISO/IEC Standards</a></li>
 <li><a href="https://csrc.nist.gov/Projects/fips-140-3-transition-effort/fips-140-3-docs" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">FIPS 140-3 CMVP documents and Implementation Guidance</a></li>
 <li><a href="https://csrc.nist.gov/pubs/sp/800/52/r2/final" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">NIST SP 800-52 Rev. 2, Guidelines for TLS Implementations</a></li>
-<li>The selected module&#x27;s CMVP entry and Security Policy, such as</li>
-</ul>
-<p><a href="https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/5146" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">AWS-LC Cryptographic Module certificate 5146</a></p>
-<ul>
+<li>The selected module&#x27;s CMVP entry and Security Policy, such as <a href="https://csrc.nist.gov/projects/cryptographic-module-validation-program/certificate/5146" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">AWS-LC Cryptographic Module certificate 5146</a></li>
 <li><a href="https://docs.openssl.org/master/man7/OSSL_PROVIDER-FIPS/" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">OpenSSL FIPS provider documentation</a></li>
 <li><a href="https://docs.openssl.org/master/man1/openssl-fipsinstall/" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">OpenSSL fipsinstall documentation</a></li>
 <li><a href="https://docs.rs/rustls/latest/rustls/manual/_06_fips/index.html" class="text-cyan-400 hover:text-cyan-300" target="_blank" rel="noopener">rustls FIPS guidance</a></li>
@@ -103,52 +100,23 @@
 <p>Fluxheim can be responsible for:</p>
 <ul>
 <li>Selecting a TLS backend compiled for a FIPS-capable module path.</li>
-<li>Restricting TLS protocol versions, cipher suites, groups, signatures, and</li>
+<li>Restricting TLS protocol versions, cipher suites, groups, signatures, and certificate/key policy to NIST-approved settings.</li>
+<li>Triggering or verifying the selected backend&#x27;s approved/FIPS mode where the backend exposes that check.</li>
+<li>Rejecting configs that request non-approved cryptography while FIPS-required mode is enabled.</li>
+<li>Showing evidence in diagnostics: selected TLS backend, selected provider, FIPS-required setting, runtime provider status, and relevant module/version data where available.</li>
+<li>Keeping Fluxheim-owned security-sensitive cryptography off non-validated fallback crates in FIPS-required builds.</li>
+<li>Exposing application-level status indicators such as the configured <code>tls.compliance_mode</code>, backend, provider checks, and fail-closed validation result.</li>
 </ul>
-<p>certificate/key policy to NIST-approved settings.</p>
-<ul>
-<li>Triggering or verifying the selected backend&#x27;s approved/FIPS mode where the</li>
-</ul>
-<p>backend exposes that check.</p>
-<ul>
-<li>Rejecting configs that request non-approved cryptography while</li>
-</ul>
-<p>FIPS-required mode is enabled.</p>
-<ul>
-<li>Showing evidence in diagnostics: selected TLS backend, selected provider,</li>
-</ul>
-<p>FIPS-required setting, runtime provider status, and relevant module/version data where available.</p>
-<ul>
-<li>Keeping Fluxheim-owned security-sensitive cryptography off non-validated</li>
-</ul>
-<p>fallback crates in FIPS-required builds.</p>
-<ul>
-<li>Exposing application-level status indicators such as the configured</li>
-</ul>
-<p><code>tls.compliance_mode</code>, backend, provider checks, and fail-closed validation result.</p>
 <p>Operators remain responsible for:</p>
 <ul>
-<li>Choosing a CMVP-validated module with an active certificate appropriate for</li>
-</ul>
-<p>their environment.</p>
-<ul>
+<li>Choosing a CMVP-validated module with an active certificate appropriate for their environment.</li>
 <li>Installing exactly the module build covered by the selected Security Policy.</li>
-<li>Running required installation steps such as OpenSSL <code>fipsinstall</code>, when that</li>
-</ul>
-<p>module requires it.</p>
-<ul>
-<li>Preserving the module integrity data, configuration files, and environment</li>
-</ul>
-<p>variables expected by the Security Policy.</p>
-<ul>
-<li>Ensuring the OS, container image, package source, CPU/platform, and runtime</li>
-</ul>
-<p>environment match the module validation boundary.</p>
-<ul>
+<li>Running required installation steps such as OpenSSL <code>fipsinstall</code>, when that module requires it.</li>
+<li>Preserving the module integrity data, configuration files, and environment variables expected by the Security Policy.</li>
+<li>Ensuring the OS, container image, package source, CPU/platform, and runtime environment match the module validation boundary.</li>
 <li>Maintaining operational evidence for auditors.</li>
-<li>Mapping Fluxheim&#x27;s application evidence to the selected cryptographic</li>
+<li>Mapping Fluxheim&#x27;s application evidence to the selected cryptographic module&#x27;s Security Policy, including the module boundary, approved services, non-approved services, roles, self-tests, operational environment, and SSP handling described by that Security Policy.</li>
 </ul>
-<p>module&#x27;s Security Policy, including the module boundary, approved services, non-approved services, roles, self-tests, operational environment, and SSP handling described by that Security Policy.</p>
 <p>Fluxheim&#x27;s status and diagnostic output are application indicators. They are not a replacement for the validated module&#x27;s own service indicators, self-test status, or laboratory evidence.</p>
 <p>Fluxheim release notes must therefore use wording such as:</p>
 <ul>
@@ -160,9 +128,8 @@
 <ul>
 <li>&quot;Fluxheim is FIPS certified&quot;</li>
 <li>&quot;Fluxheim is FIPS compliant by enabling a Cargo feature&quot;</li>
-<li>&quot;Rustls/OpenSSL is FIPS compliant&quot; without naming the exact validated</li>
+<li>&quot;Rustls/OpenSSL is FIPS compliant&quot; without naming the exact validated module and required operating procedure</li>
 </ul>
-<p>module and required operating procedure</p>
 <h2 id="tls-policy-requirements">TLS Policy Requirements</h2>
 <p>FIPS-required TLS profiles should follow NIST SP 800-52 Rev. 2 unless a newer applicable NIST document supersedes it.</p>
 <p>Baseline server policy:</p>
@@ -178,21 +145,11 @@
 <li>Force <code>tls.min_protocol = &quot;tls1.2&quot;</code> or stricter.</li>
 <li>Reject TLS 1.0 and TLS 1.1 in FIPS-required mode.</li>
 <li>Reject <code>curve_preferences</code> that include non-NIST groups such as <code>X25519</code>.</li>
-<li>Reject post-quantum/hybrid groups such as <code>X25519MLKEM768</code> until the chosen</li>
+<li>Reject post-quantum/hybrid groups such as <code>X25519MLKEM768</code> until the chosen validated module and NIST guidance clearly cover them for the deployment.</li>
+<li>Reject TLS 1.3 <code>TLS_CHACHA20_POLY1305_SHA256</code> in FIPS-required mode unless the selected module Security Policy and NIST guidance explicitly support it for that use.</li>
+<li>Prefer AES-GCM/SHA-2 TLS 1.3 suites and NIST elliptic curves such as P-256, P-384, and P-521 where the backend supports them.</li>
+<li>Reject configured TLS cipher-suite names that Fluxheim cannot map to a backend-approved implementation.</li>
 </ul>
-<p>validated module and NIST guidance clearly cover them for the deployment.</p>
-<ul>
-<li>Reject TLS 1.3 <code>TLS_CHACHA20_POLY1305_SHA256</code> in FIPS-required mode unless</li>
-</ul>
-<p>the selected module Security Policy and NIST guidance explicitly support it for that use.</p>
-<ul>
-<li>Prefer AES-GCM/SHA-2 TLS 1.3 suites and NIST elliptic curves such as P-256,</li>
-</ul>
-<p>P-384, and P-521 where the backend supports them.</p>
-<ul>
-<li>Reject configured TLS cipher-suite names that Fluxheim cannot map to a</li>
-</ul>
-<p>backend-approved implementation.</p>
 <p>Example future FIPS-required TLS profile:</p>
 <pre class="language-toml"><code class="language-toml">[tls]
 enabled = true
@@ -242,47 +199,24 @@ cargo build --release --locked --no-default-features \
 <p>The recommended strict-boundary pattern is to use local/static certificate files generated and renewed by an approved external process. For conservative public-Web PKI evidence, configure that external process to use RSA 2048 or RSA 3072 certificate keys unless your assessor explicitly accepts an ECDSA profile and chain. Managed ACME can still be compiled into a FIPS-capable TLS binary by adding <code>acme-client</code> and building <code>fluxheim-acme</code>, but that adds a separate cryptographic workflow that requires its own evidence. Fluxheim must not imply that ACME account key generation, ACME JWS account signing, External Account Binding HMAC, ACME CA HTTPS communication, challenge certificate generation, CA HSM custody, or certificate issuance policy are covered by the OpenSSL TLS provider proof merely because the listener is in FIPS-required mode.</p>
 <p>Current Fluxheim enforcement:</p>
 <ul>
-<li>Adds a direct <code>openssl</code> crate dependency only for OpenSSL FIPS diagnostics</li>
-</ul>
-<p>and provider/property checks.</p>
-<ul>
-<li>Uses Fluxheim&#x27;s local <code>pingora-openssl</code> patch to avoid forced</li>
-</ul>
-<p><code>openssl/vendored</code>, so builds can link against the operator-selected OpenSSL installation.</p>
-<ul>
+<li>Adds a direct <code>openssl</code> crate dependency only for OpenSSL FIPS diagnostics and provider/property checks.</li>
+<li>Uses Fluxheim&#x27;s local <code>pingora-openssl</code> patch to avoid forced <code>openssl/vendored</code>, so builds can link against the operator-selected OpenSSL installation.</li>
 <li>Requires OpenSSL 3.x behavior for the FIPS property query path.</li>
 <li>Loads the <code>fips</code> provider and keeps it loaded for the process lifetime.</li>
 <li>Attempts to load the <code>base</code> provider for normal encoder/decoder support.</li>
-<li>Fetches <code>AES-256-GCM</code> with <code>fips=yes</code> to prove the property query can resolve</li>
+<li>Fetches <code>AES-256-GCM</code> with <code>fips=yes</code> to prove the property query can resolve an approved cipher.</li>
+<li>Enables OpenSSL default FIPS properties for the process-default library context through a small local support crate.</li>
+<li>Verifies <code>EVP_default_properties_is_fips_enabled</code>, proves <code>AES-256-GCM</code> can be fetched through the default property path, and proves <code>CHACHA20-POLY1305</code> is rejected through that path.</li>
+<li>Exposes diagnostic output showing OpenSSL version, provider availability, and default FIPS property status.</li>
+<li>Rejects FIPS-required startup if the backend is not OpenSSL or if the provider/property check fails.</li>
 </ul>
-<p>an approved cipher.</p>
-<ul>
-<li>Enables OpenSSL default FIPS properties for the process-default library</li>
-</ul>
-<p>context through a small local support crate.</p>
-<ul>
-<li>Verifies <code>EVP_default_properties_is_fips_enabled</code>, proves <code>AES-256-GCM</code> can</li>
-</ul>
-<p>be fetched through the default property path, and proves <code>CHACHA20-POLY1305</code> is rejected through that path.</p>
-<ul>
-<li>Exposes diagnostic output showing OpenSSL version, provider availability, and</li>
-</ul>
-<p>default FIPS property status.</p>
-<ul>
-<li>Rejects FIPS-required startup if the backend is not OpenSSL or if the</li>
-</ul>
-<p>provider/property check fails.</p>
 <p>Operator responsibilities:</p>
 <ul>
 <li>Install an OpenSSL build and FIPS provider covered by a CMVP certificate.</li>
 <li>Follow that exact module Security Policy.</li>
-<li>Generate and verify the module config with <code>openssl fipsinstall</code> when the</li>
+<li>Generate and verify the module config with <code>openssl fipsinstall</code> when the selected module requires it.</li>
+<li>Provide the OpenSSL config/module paths using the mechanism required by the module and operating system, commonly <code>OPENSSL_CONF</code>, <code>OPENSSL_MODULES</code>, or distribution-specific FIPS mode tooling.</li>
 </ul>
-<p>selected module requires it.</p>
-<ul>
-<li>Provide the OpenSSL config/module paths using the mechanism required by the</li>
-</ul>
-<p>module and operating system, commonly <code>OPENSSL_CONF</code>, <code>OPENSSL_MODULES</code>, or distribution-specific FIPS mode tooling.</p>
 <p>Important caveat:</p>
 <p>Linking to OpenSSL is not enough. A Fluxheim binary built with <code>tls-openssl-fips</code> refuses to run in FIPS-required mode if the validated provider and OpenSSL default FIPS property path cannot be proven active.</p>
 <p>Fluxheim <code>1.3.4</code> diagnostics load the <code>fips</code> provider and resolve <code>AES-256-GCM</code> through an explicit <code>fips=yes</code> property query without enabling OpenSSL global FIPS default properties. FIPS-required runtime startup then enables OpenSSL default FIPS properties for the process-default library context, verifies <code>EVP_default_properties_is_fips_enabled</code>, checks that <code>AES-256-GCM</code> can be fetched through the default property path, and checks that <code>CHACHA20-POLY1305</code> is rejected through that same default path. The raw OpenSSL default-property calls are contained in a small local support crate so the main Fluxheim crate can keep <code>#![forbid(unsafe_code)]</code>.</p>
@@ -323,15 +257,9 @@ scripts/validate-fips-rustls.sh check</code></pre>
 <li>ACME account/order/challenge signing and ACME TLS-ALPN certificate handling.</li>
 <li>ACME EAB HMAC handling.</li>
 <li>Admin bearer-token comparison and any token/MAC generation.</li>
-<li>Request IDs and temporary object names where unpredictability is</li>
-</ul>
-<p>security-sensitive.</p>
-<ul>
+<li>Request IDs and temporary object names where unpredictability is security-sensitive.</li>
 <li>Local disk-cache encryption.</li>
-<li>OpenBao Transit cache encryption, including whether the external OpenBao</li>
-</ul>
-<p>deployment uses a validated module.</p>
-<ul>
+<li>OpenBao Transit cache encryption, including whether the external OpenBao deployment uses a validated module.</li>
 <li>OTLP HTTPS client TLS and any future outbound HTTPS clients.</li>
 <li>Future CSRF/session/JWT/plugin signing features.</li>
 <li>Test/dev certificate generation.</li>
@@ -345,87 +273,33 @@ scripts/validate-fips-rustls.sh check</code></pre>
 </ul>
 <p>For ISO/IEC 19790-facing evidence, the same inventory should also identify:</p>
 <ul>
-<li>The Fluxheim feature and configuration option that enables or disables the</li>
+<li>The Fluxheim feature and configuration option that enables or disables the service.</li>
+<li>Whether the service is security-relevant or non-security-relevant to the approved operation.</li>
+<li>Which SSPs, if any, are generated, imported, stored, output, or zeroized by Fluxheim itself.</li>
+<li>Whether the approved-mode indicator comes from Fluxheim, the validated crypto module, or an external service.</li>
+<li>The exact error state and operator action when a provider check, self-test, or configuration guard fails.</li>
 </ul>
-<p>service.</p>
-<ul>
-<li>Whether the service is security-relevant or non-security-relevant to the</li>
-</ul>
-<p>approved operation.</p>
-<ul>
-<li>Which SSPs, if any, are generated, imported, stored, output, or zeroized by</li>
-</ul>
-<p>Fluxheim itself.</p>
-<ul>
-<li>Whether the approved-mode indicator comes from Fluxheim, the validated crypto</li>
-</ul>
-<p>module, or an external service.</p>
-<ul>
-<li>The exact error state and operator action when a provider check, self-test,</li>
-</ul>
-<p>or configuration guard fails.</p>
 <p><code>1.3.6</code> adds the first fail-closed internal-crypto closure layer. When <code>[tls.fips] required = true</code> or <code>[tls.iso19790] required = true</code> is active, config validation now applies these classifications:</p>
 <ul>
-<li>TLS listener cryptography is routed through the selected FIPS/ISO-capable</li>
+<li>TLS listener cryptography is routed through the selected FIPS/ISO-capable backend and remains subject to backend proof checks.</li>
+<li>Managed ACME (<code>[tls.acme] enabled = true</code>) is rejected. ACME account key generation, JWS account signing, External Account Binding HMAC, outbound ACME HTTPS transport, and TLS-ALPN challenge certificate generation are not fully routed through the selected validated provider, so a strict evidence boundary should use externally issued static certificates or an external renewal process. If that external process uses ACME, keep its client, key algorithm, CA evidence, and host FIPS/ISO mode in the operator evidence package.</li>
+<li>ACME HTTP-01 challenge proxying is not itself a cryptographic operation; it can remain part of a deployment when managed ACME is disabled and certificate issuance is handled outside Fluxheim.</li>
+<li>The admin API (<code>[admin] enabled = true</code>) is accepted only when the build has a validated-provider HMAC route. <code>tls-openssl-fips</code> uses OpenSSL FIPS HMAC-SHA-256 and <code>tls-rustls-fips</code> uses AWS-LC FIPS HMAC-SHA-256. Non-FIPS builds still reject admin in FIPS/ISO-required mode because they use the normal ring HMAC path. The OpenSSL admin HMAC path performs provider activation and fetch checks once, then uses the already-loaded provider for per-request HMAC operations.</li>
+<li>Local disk-cache encryption is rejected because it currently uses ring AES-GCM.</li>
+<li>Disk cache without encryption is allowed, but Fluxheim logs a compliance warning because cached response bodies are written at rest without a Fluxheim-managed encryption boundary. Deployments with data-at-rest encryption requirements should set <code>require_disk_cache_encryption = true</code>, disable disk cache, or use an externally evidenced encryption boundary.</li>
+<li>OpenBao Transit disk-cache encryption is accepted as an externally delegated cryptographic service boundary only through local numeric loopback HTTP (<code>http://127.0.0.1</code> or <code>http://[::1]</code>). Operators must provide OpenBao module, platform, policy, and deployment evidence; Fluxheim does not validate that external boundary for them. Remote OpenBao and HTTPS OpenBao transport are rejected until Fluxheim&#x27;s outbound HTTP/TLS client can be routed through the selected validated backend or separately evidenced.</li>
+<li>OTLP metrics/traces export is accepted only for numeric <code>http://</code> loopback collectors such as <code>http://127.0.0.1:4318/v1/traces</code> or <code>http://[::1]:4318/v1/metrics</code>. <code>localhost</code>, remote OTLP endpoints, and HTTPS OTLP endpoints are rejected until Fluxheim&#x27;s outbound HTTP/TLS client can be routed through the selected validated backend or separately evidenced.</li>
+<li>Request IDs and trace correlation IDs are treated as non-secret diagnostic identifiers. They are not used as authentication tokens, authorization decisions, key material, or SSPs.</li>
+<li>Temporary object names are used for collision resistance and race hardening, not for authentication or cryptographic secrecy. The OS RNG remains part of the deployment environment evidence.</li>
+<li>Test and development certificate generation is not production evidence and must not be used to claim a regulated deployment boundary.</li>
 </ul>
-<p>backend and remains subject to backend proof checks.</p>
-<ul>
-<li>Managed ACME (<code>[tls.acme] enabled = true</code>) is rejected. ACME account key</li>
-</ul>
-<p>generation, JWS account signing, External Account Binding HMAC, outbound ACME HTTPS transport, and TLS-ALPN challenge certificate generation are not fully routed through the selected validated provider, so a strict evidence boundary should use externally issued static certificates or an external renewal process. If that external process uses ACME, keep its client, key algorithm, CA evidence, and host FIPS/ISO mode in the operator evidence package.</p>
-<ul>
-<li>ACME HTTP-01 challenge proxying is not itself a cryptographic operation; it</li>
-</ul>
-<p>can remain part of a deployment when managed ACME is disabled and certificate issuance is handled outside Fluxheim.</p>
-<ul>
-<li>The admin API (<code>[admin] enabled = true</code>) is accepted only when the build has</li>
-</ul>
-<p>a validated-provider HMAC route. <code>tls-openssl-fips</code> uses OpenSSL FIPS HMAC-SHA-256 and <code>tls-rustls-fips</code> uses AWS-LC FIPS HMAC-SHA-256. Non-FIPS builds still reject admin in FIPS/ISO-required mode because they use the normal ring HMAC path. The OpenSSL admin HMAC path performs provider activation and fetch checks once, then uses the already-loaded provider for per-request HMAC operations.</p>
-<ul>
-<li>Local disk-cache encryption is rejected because it currently uses ring</li>
-</ul>
-<p>AES-GCM.</p>
-<ul>
-<li>Disk cache without encryption is allowed, but Fluxheim logs a compliance</li>
-</ul>
-<p>warning because cached response bodies are written at rest without a Fluxheim-managed encryption boundary. Deployments with data-at-rest encryption requirements should set <code>require_disk_cache_encryption = true</code>, disable disk cache, or use an externally evidenced encryption boundary.</p>
-<ul>
-<li>OpenBao Transit disk-cache encryption is accepted as an externally delegated</li>
-</ul>
-<p>cryptographic service boundary only through local numeric loopback HTTP (<code>http://127.0.0.1</code> or <code>http://[::1]</code>). Operators must provide OpenBao module, platform, policy, and deployment evidence; Fluxheim does not validate that external boundary for them. Remote OpenBao and HTTPS OpenBao transport are rejected until Fluxheim&#x27;s outbound HTTP/TLS client can be routed through the selected validated backend or separately evidenced.</p>
-<ul>
-<li>OTLP metrics/traces export is accepted only for numeric <code>http://</code> loopback</li>
-</ul>
-<p>collectors such as <code>http://127.0.0.1:4318/v1/traces</code> or <code>http://[::1]:4318/v1/metrics</code>. <code>localhost</code>, remote OTLP endpoints, and HTTPS OTLP endpoints are rejected until Fluxheim&#x27;s outbound HTTP/TLS client can be routed through the selected validated backend or separately evidenced.</p>
-<ul>
-<li>Request IDs and trace correlation IDs are treated as non-secret diagnostic</li>
-</ul>
-<p>identifiers. They are not used as authentication tokens, authorization decisions, key material, or SSPs.</p>
-<ul>
-<li>Temporary object names are used for collision resistance and race hardening,</li>
-</ul>
-<p>not for authentication or cryptographic secrecy. The OS RNG remains part of the deployment environment evidence.</p>
-<ul>
-<li>Test and development certificate generation is not production evidence and</li>
-</ul>
-<p>must not be used to claim a regulated deployment boundary.</p>
 <p>Known remaining blockers after <code>1.3.6</code>:</p>
 <ul>
-<li>Admin authentication needs a provider-routed MAC or a different</li>
+<li>Admin authentication needs a provider-routed MAC or a different externally-evidenced authentication boundary.</li>
+<li>Managed ACME needs provider-routed account key generation, JWS account signing, External Account Binding HMAC, outbound ACME HTTPS transport, and challenge certificate handling, or it must remain outside strict FIPS/ISO-required deployments.</li>
+<li>Local cache encryption needs an OpenSSL/AWS-LC-backed implementation before it can be enabled inside FIPS/ISO-required mode.</li>
+<li>Remote OTLP over TLS needs outbound provider-aligned TLS support and documentation before it can be enabled inside FIPS/ISO-required mode.</li>
 </ul>
-<p>externally-evidenced authentication boundary.</p>
-<ul>
-<li>Managed ACME needs provider-routed account key generation, JWS account</li>
-</ul>
-<p>signing, External Account Binding HMAC, outbound ACME HTTPS transport, and challenge certificate handling, or it must remain outside strict FIPS/ISO-required deployments.</p>
-<ul>
-<li>Local cache encryption needs an OpenSSL/AWS-LC-backed implementation before</li>
-</ul>
-<p>it can be enabled inside FIPS/ISO-required mode.</p>
-<ul>
-<li>Remote OTLP over TLS needs outbound provider-aligned TLS support and</li>
-</ul>
-<p>documentation before it can be enabled inside FIPS/ISO-required mode.</p>
 <h2 id="release-roadmap-after-1-3-4">Release Roadmap After 1.3.4</h2>
 <h3 id="1-3-4-openssl-fips-capable-tls">1.3.4 - OpenSSL FIPS-Capable TLS</h3>
 <p>Goal: complete the OpenSSL FIPS-capable TLS path without claiming that Fluxheim itself is a validated cryptographic module.</p>
@@ -433,63 +307,28 @@ scripts/validate-fips-rustls.sh check</code></pre>
 <ul>
 <li>This standalone FIPS documentation.</li>
 <li>FIPS terminology guardrails in README, roadmap, and release notes.</li>
-<li>A tracked crypto inventory covering TLS, ACME, admin, cache encryption,</li>
+<li>A tracked crypto inventory covering TLS, ACME, admin, cache encryption, random IDs, and outbound telemetry.</li>
+<li>A FIPS TLS policy validator design: protocols, cipher suites, curves, signature algorithms, and backend support.</li>
+<li>A diagnostics design for <code>fluxheim --version --crypto</code> or an equivalent config-tester/runtime command.</li>
+<li>Initial <code>fluxheim crypto</code> and <code>fluxheim-config-tester --crypto</code> output that reports compiled TLS backends and OpenSSL FIPS provider availability.</li>
+<li><code>tls-openssl-fips</code> feature plus <code>tls-openssl-iso19790</code> terminology alias for OpenSSL 3 provider diagnostics, fail-closed <code>tls.fips.required</code> / <code>tls.iso19790.required</code> startup validation, default FIPS property enablement, and observable default-property verification.</li>
+<li><code>profile-fips-openssl</code> and <code>profile-iso19790-openssl</code> as narrow proxy/security/OpenSSL feature aliases for release and local validation.</li>
+<li>Evidence-focused config-tester fixtures for provider failure, non-FIPS TLS settings, and backend mismatch.</li>
+<li>Release evidence template listing OpenSSL version, provider config, module certificate, and Security Policy.</li>
+<li>Documentation for systemd, RPM, and container operation using an operator-installed validated OpenSSL provider.</li>
 </ul>
-<p>random IDs, and outbound telemetry.</p>
-<ul>
-<li>A FIPS TLS policy validator design: protocols, cipher suites, curves,</li>
-</ul>
-<p>signature algorithms, and backend support.</p>
-<ul>
-<li>A diagnostics design for <code>fluxheim --version --crypto</code> or an equivalent</li>
-</ul>
-<p>config-tester/runtime command.</p>
-<ul>
-<li>Initial <code>fluxheim crypto</code> and <code>fluxheim-config-tester --crypto</code> output that</li>
-</ul>
-<p>reports compiled TLS backends and OpenSSL FIPS provider availability.</p>
-<ul>
-<li><code>tls-openssl-fips</code> feature plus <code>tls-openssl-iso19790</code> terminology alias for</li>
-</ul>
-<p>OpenSSL 3 provider diagnostics, fail-closed <code>tls.fips.required</code> / <code>tls.iso19790.required</code> startup validation, default FIPS property enablement, and observable default-property verification.</p>
-<ul>
-<li><code>profile-fips-openssl</code> and <code>profile-iso19790-openssl</code> as narrow</li>
-</ul>
-<p>proxy/security/OpenSSL feature aliases for release and local validation.</p>
-<ul>
-<li>Evidence-focused config-tester fixtures for provider failure, non-FIPS TLS</li>
-</ul>
-<p>settings, and backend mismatch.</p>
-<ul>
-<li>Release evidence template listing OpenSSL version, provider config, module</li>
-</ul>
-<p>certificate, and Security Policy.</p>
-<ul>
-<li>Documentation for systemd, RPM, and container operation using an</li>
-</ul>
-<p>operator-installed validated OpenSSL provider.</p>
 <p>Exit criteria:</p>
 <ul>
 <li>Documentation does not overclaim.</li>
-<li>OpenSSL FIPS-required startup fails if provider loading, explicit <code>fips=yes</code></li>
-</ul>
-<p>fetch, default FIPS property enablement, or default-property verification fails.</p>
-<ul>
-<li>Operators can see which non-OpenSSL pieces remain blockers before they</li>
-</ul>
-<p>attempt a regulated deployment.</p>
-<ul>
+<li>OpenSSL FIPS-required startup fails if provider loading, explicit <code>fips=yes</code> fetch, default FIPS property enablement, or default-property verification fails.</li>
+<li>Operators can see which non-OpenSSL pieces remain blockers before they attempt a regulated deployment.</li>
 <li>The next implementation PR has a separate rustls/AWS-LC path.</li>
 </ul>
 <p>Likely limitations:</p>
 <ul>
-<li>Managed ACME may be disabled in FIPS-required mode until ACME signing is</li>
+<li>Managed ACME may be disabled in FIPS-required mode until ACME signing is routed through validated crypto or separately justified.</li>
+<li>Local cache encryption may be disabled in FIPS-required mode until migrated away from ring.</li>
 </ul>
-<p>routed through validated crypto or separately justified.</p>
-<ul>
-<li>Local cache encryption may be disabled in FIPS-required mode until migrated</li>
-</ul>
-<p>away from ring.</p>
 <h3 id="1-3-5-rustls-aws-lc-fips-candidate">1.3.5 - rustls/AWS-LC FIPS Candidate</h3>
 <p>Goal: provider-aware rustls implementation using AWS-LC FIPS through rustls.</p>
 <p>Deliverables:</p>
@@ -498,59 +337,34 @@ scripts/validate-fips-rustls.sh check</code></pre>
 <li><code>tls-rustls-fips</code> feature using rustls&#x27; FIPS/AWS-LC provider path.</li>
 <li>Runtime FIPS status checks on rustls provider and server configs.</li>
 <li><code>profile-fips-rustls</code> and <code>profile-iso19790-rustls</code> aliases.</li>
-<li><code>examples/fips-rustls.toml</code>, <code>examples/iso19790-rustls.toml</code>, and</li>
-</ul>
-<p><code>scripts/validate-fips-rustls.sh</code>.</p>
-<ul>
+<li><code>examples/fips-rustls.toml</code>, <code>examples/iso19790-rustls.toml</code>, and <code>scripts/validate-fips-rustls.sh</code>.</li>
 <li>Build documentation for AWS-LC FIPS dependencies, including Go.</li>
-<li>CI build coverage where feasible, or a documented manual evidence workflow</li>
+<li>CI build coverage where feasible, or a documented manual evidence workflow if CI cannot reasonably host the validated environment.</li>
+<li>Release-mode evidence guard for unsupported/newer compiler families, with an explicit override only for investigation builds.</li>
 </ul>
-<p>if CI cannot reasonably host the validated environment.</p>
-<ul>
-<li>Release-mode evidence guard for unsupported/newer compiler families, with an</li>
-</ul>
-<p>explicit override only for investigation builds.</p>
 <p>Likely limitations:</p>
 <ul>
-<li>Exact module Security Policy and platform matching must be operator-provided</li>
+<li>Exact module Security Policy and platform matching must be operator-provided unless Fluxheim publishes a dedicated validated-container recipe.</li>
 </ul>
-<p>unless Fluxheim publishes a dedicated validated-container recipe.</p>
 <h3 id="1-3-6-internal-crypto-closure-and-evidence-package">1.3.6 - Internal Crypto Closure And Evidence Package</h3>
 <p>Goal: remove or gate non-validated crypto paths from FIPS-required builds.</p>
 <p>Deliverables:</p>
 <ul>
-<li>Managed ACME is rejected in FIPS/ISO-required mode, with documentation</li>
+<li>Managed ACME is rejected in FIPS/ISO-required mode, with documentation pointing operators to externally issued static certificates or external renewal workflows.</li>
+<li>Local cache encryption is rejected in FIPS/ISO-required mode; OpenBao Transit cache encryption is allowed only through local numeric loopback HTTP as an externally evidenced service boundary.</li>
+<li>OTLP export is limited to numeric local <code>http://</code> loopback collectors in FIPS/ISO-required mode until outbound TLS can be routed through the selected validated backend.</li>
+<li>Request IDs and temporary object names are classified as non-secret operational identifiers rather than SSPs.</li>
+<li>Test coverage proves FIPS/ISO-required mode accepts provider-backed admin auth, fails closed for managed ACME and local cache encryption, and accepts OpenBao Transit cache encryption as an external evidence boundary.</li>
 </ul>
-<p>pointing operators to externally issued static certificates or external renewal workflows.</p>
-<ul>
-<li>Local cache encryption is rejected in FIPS/ISO-required mode; OpenBao Transit</li>
-</ul>
-<p>cache encryption is allowed only through local numeric loopback HTTP as an externally evidenced service boundary.</p>
-<ul>
-<li>OTLP export is limited to numeric local <code>http://</code> loopback collectors in</li>
-</ul>
-<p>FIPS/ISO-required mode until outbound TLS can be routed through the selected validated backend.</p>
-<ul>
-<li>Request IDs and temporary object names are classified as non-secret</li>
-</ul>
-<p>operational identifiers rather than SSPs.</p>
-<ul>
-<li>Test coverage proves FIPS/ISO-required mode accepts provider-backed admin</li>
-</ul>
-<p>auth, fails closed for managed ACME and local cache encryption, and accepts OpenBao Transit cache encryption as an external evidence boundary.</p>
 <p>Evidence package deliverables:</p>
 <ul>
 <li>Release evidence bundle template.</li>
 <li>SBOM notes identifying the selected crypto module path.</li>
 <li>Runtime diagnostics capture template.</li>
 <li>Example systemd and container deployment checklists.</li>
-<li>Clear &quot;not validated by Fluxheim&quot; language unless a future sponsor funds a</li>
+<li>Clear &quot;not validated by Fluxheim&quot; language unless a future sponsor funds a full CMVP validation for a Fluxheim-controlled module boundary.</li>
+<li>ISO/IEC 19790 / 24759 evidence crosswalk for operators, covering module boundary, module type, operational environment, roles, approved and non-approved services, status indicators, SSP management, self-tests, lifecycle evidence, and mitigation-of-other-attacks claims.</li>
 </ul>
-<p>full CMVP validation for a Fluxheim-controlled module boundary.</p>
-<ul>
-<li>ISO/IEC 19790 / 24759 evidence crosswalk for operators, covering module</li>
-</ul>
-<p>boundary, module type, operational environment, roles, approved and non-approved services, status indicators, SSP management, self-tests, lifecycle evidence, and mitigation-of-other-attacks claims.</p>
 <p>The evidence template lives in <a href="compliance-evidence-template.html" class="text-cyan-400 hover:text-cyan-300">Compliance Evidence Package Template</a>. It includes the Common Criteria-aligned candidate TOE boundary, Security Target-style draft fields, security-relevant interfaces, operational-environment assumptions, validation-script identifiers, and vulnerability-analysis records. This remains an actionable evidence track, not a Common Criteria certification, Protection Profile, Security Target, or EAL claim.</p>
 <h2 id="operator-checklist">Operator Checklist</h2>
 <p>Before claiming a Fluxheim deployment uses FIPS-validated cryptography:</p>
@@ -561,18 +375,11 @@ scripts/validate-fips-rustls.sh check</code></pre>
 <li>Configure Fluxheim with a FIPS-capable backend that can prove approved mode.</li>
 <li>Enable Fluxheim&#x27;s FIPS-required guard.</li>
 <li>Run <code>fluxheim-config-tester</code> and the runtime crypto diagnostic command.</li>
-<li>Use a Unix target. Fluxheim&#x27;s storage trust checks rely on Unix ownership,</li>
-</ol>
-<p>mode bits, <code>O_NOFOLLOW</code>-style path handling, and Unix-domain control sockets; non-Unix ACL and descriptor-rights checks are not implemented.</p>
-<ol>
+<li>Use a Unix target. Fluxheim&#x27;s storage trust checks rely on Unix ownership, mode bits, <code>O_NOFOLLOW</code>-style path handling, and Unix-domain control sockets; non-Unix ACL and descriptor-rights checks are not implemented.</li>
 <li>Verify TLS protocol/cipher/group behavior with an external scanner.</li>
-<li>Confirm ACME, cache encryption, telemetry, and other crypto features are</li>
+<li>Confirm ACME, cache encryption, telemetry, and other crypto features are either FIPS-routed, externally evidenced, or disabled.</li>
+<li>Archive the Fluxheim version, build command, Cargo.lock, SBOM, module certificate, Security Policy, provider config, and runtime diagnostic output.</li>
 </ol>
-<p>either FIPS-routed, externally evidenced, or disabled.</p>
-<ol>
-<li>Archive the Fluxheim version, build command, Cargo.lock, SBOM, module</li>
-</ol>
-<p>certificate, Security Policy, provider config, and runtime diagnostic output.</p>
 <h2 id="evidence-capture-template">Evidence Capture Template</h2>
 <p>For each FIPS-capable deployment or release candidate, capture:</p>
 <pre class="language-text"><code class="language-text">Fluxheim version:
@@ -629,13 +436,9 @@ Mitigation-of-other-attacks claims:</code></pre>
 <li>&quot;ISO/IEC 19790 compliant&quot; without a named deployment boundary.</li>
 <li>&quot;FIPS certified Fluxheim.&quot;</li>
 <li>&quot;Compile this feature and you are compliant.&quot;</li>
-<li>Any statement that treats a Cargo feature as a substitute for CMVP validation</li>
+<li>Any statement that treats a Cargo feature as a substitute for CMVP validation and the module Security Policy.</li>
+<li>Any statement that treats Fluxheim&#x27;s status endpoint as the validated module&#x27;s laboratory service indicator.</li>
 </ul>
-<p>and the module Security Policy.</p>
-<ul>
-<li>Any statement that treats Fluxheim&#x27;s status endpoint as the validated</li>
-</ul>
-<p>module&#x27;s laboratory service indicator.</p>
         </article>
       </div>
     </main>

@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -87,32 +87,18 @@
 </ul>
 <h2 id="non-goals">Non-Goals</h2>
 <ul>
-<li>Replacing kernel WireGuard for every deployment. Kernel WireGuard should</li>
-</ul>
-<p>remain an option when host networking is available and preferred.</p>
-<ul>
+<li>Replacing kernel WireGuard for every deployment. Kernel WireGuard should remain an option when host networking is available and preferred.</li>
 <li>Building a general service mesh in the first version.</li>
 <li>Trusting backend-reported telemetry without authentication and sanity checks.</li>
-<li>Adding this to the default binary until the dependency, license, and runtime</li>
+<li>Adding this to the default binary until the dependency, license, and runtime risks are reviewed with <code>cargo deny</code> and <code>cargo audit</code>.</li>
 </ul>
-<p>risks are reviewed with <code>cargo deny</code> and <code>cargo audit</code>.</p>
 <h2 id="current-crate-findings">Current Crate Findings</h2>
 <ul>
-<li><code>pingora 0.8.0</code> exposes <code>ProxyHttp</code>, <code>LoadBalancer</code>, background services,</li>
+<li><code>pingora 0.8.0</code> exposes <code>ProxyHttp</code>, <code>LoadBalancer</code>, background services, health checks, and backend selection primitives.</li>
+<li><code>boringtun 0.7.0</code> is Cloudflare&#x27;s userspace WireGuard implementation. Its library surface is low-level, so Fluxheim would need a networking/tunnel integration layer around it.</li>
+<li><code>tokio-wireguard 0.1.3</code> provides an in-process WireGuard interface with Tokio-like TCP and UDP sockets. It is built on <code>boringtun</code> and <code>smoltcp</code>, and may be the faster prototype path.</li>
+<li><code>arc-swap 1.9.1</code> is a good fit for read-heavy, write-rare shared routing snapshots because proxy workers can read without taking a lock.</li>
 </ul>
-<p>health checks, and backend selection primitives.</p>
-<ul>
-<li><code>boringtun 0.7.0</code> is Cloudflare&#x27;s userspace WireGuard implementation. Its</li>
-</ul>
-<p>library surface is low-level, so Fluxheim would need a networking/tunnel integration layer around it.</p>
-<ul>
-<li><code>tokio-wireguard 0.1.3</code> provides an in-process WireGuard interface with</li>
-</ul>
-<p>Tokio-like TCP and UDP sockets. It is built on <code>boringtun</code> and <code>smoltcp</code>, and may be the faster prototype path.</p>
-<ul>
-<li><code>arc-swap 1.9.1</code> is a good fit for read-heavy, write-rare shared routing</li>
-</ul>
-<p>snapshots because proxy workers can read without taking a lock.</p>
 <p>Before implementation, re-check crate versions, maintenance, advisories, and license compatibility. The first implementation should be behind a feature such as <code>smart-lb</code> or <code>wireguard-transport</code>.</p>
 <h2 id="high-level-architecture">High-Level Architecture</h2>
 <pre class="language-text"><code class="language-text">[ Internet ]
@@ -197,9 +183,8 @@ pub struct SmartLbState {
 <li>Filter out unhealthy backends.</li>
 <li>Filter out draining backends unless no other backend is available.</li>
 <li>Select the backend with the lowest score.</li>
-<li>Fall back to static Pingora round-robin only if smart state is empty and the</li>
+<li>Fall back to static Pingora round-robin only if smart state is empty and the config explicitly allows fallback.</li>
 </ol>
-<p>config explicitly allows fallback.</p>
 <h2 id="scoring">Scoring</h2>
 <p>Use a transparent weighted score so operators can understand decisions.</p>
 <p>Initial formula:</p>
@@ -214,10 +199,7 @@ pub struct SmartLbState {
 <p>Suggested penalties:</p>
 <ul>
 <li><code>drain_penalty = 1_000_000</code></li>
-<li><code>stale_penalty = 500_000</code> when telemetry is older than the configured stale</li>
-</ul>
-<p>threshold</p>
-<ul>
+<li><code>stale_penalty = 500_000</code> when telemetry is older than the configured stale threshold</li>
 <li>hard unhealthy when telemetry is older than the configured dead threshold</li>
 </ul>
 <h2 id="wireguard-transport-options">WireGuard Transport Options</h2>
@@ -285,9 +267,8 @@ pub struct SmartLbState {
 <ul>
 <li>One failed poll marks the backend suspect.</li>
 <li>Consecutive failures mark it unhealthy.</li>
-<li>A stale backend is removed from routing before normal client traffic can</li>
+<li>A stale backend is removed from routing before normal client traffic can accumulate TCP timeouts.</li>
 </ul>
-<p>accumulate TCP timeouts.</p>
 <h2 id="control-plane">Control Plane</h2>
 <p>Expose a restricted admin surface on a separate listener or protected path.</p>
 <p>Suggested endpoints:</p>
@@ -340,14 +321,8 @@ allowed_ips = [&quot;10.70.0.12/32&quot;]</code></pre>
 <li>Store WireGuard private keys with <code>0600</code> permissions or use a secret manager.</li>
 <li>Pin each peer by public key.</li>
 <li>Reject telemetry from unknown node IDs.</li>
-<li>Sign or mTLS-protect telemetry if it is not exclusively reachable over the</li>
-</ul>
-<p>tunnel.</p>
-<ul>
-<li>Treat telemetry as advisory; do not allow a compromised backend to make all</li>
-</ul>
-<p>peers look unhealthy.</p>
-<ul>
+<li>Sign or mTLS-protect telemetry if it is not exclusively reachable over the tunnel.</li>
+<li>Treat telemetry as advisory; do not allow a compromised backend to make all peers look unhealthy.</li>
 <li>Add hysteresis to avoid rapid backend flapping.</li>
 <li>Add circuit breakers for repeated upstream failures.</li>
 <li>Test downgrade behavior when the tunnel or observer is unavailable.</li>
@@ -390,27 +365,17 @@ allowed_ips = [&quot;10.70.0.12/32&quot;]</code></pre>
 <ul>
 <li>Add admin auth.</li>
 <li>Add integration tests with multiple backend containers.</li>
-<li>Add chaos tests for dropped tunnel, stale telemetry, and partial node</li>
-</ul>
-<p>failure.</p>
-<ul>
+<li>Add chaos tests for dropped tunnel, stale telemetry, and partial node failure.</li>
 <li>Run <code>cargo deny</code>, <code>cargo audit</code>, and load tests before enabling by default.</li>
 </ul>
 <h2 id="open-questions">Open Questions</h2>
 <ul>
-<li>Should Fluxheim own the WireGuard tunnel, or should production recommend</li>
-</ul>
-<p>kernel WireGuard and keep userspace WireGuard as rootless/dev mode?</p>
-<ul>
-<li>Can Pingora&#x27;s connector APIs cleanly dial through <code>tokio-wireguard</code> socket</li>
-</ul>
-<p>types, or do we need a custom connector layer?</p>
-<ul>
+<li>Should Fluxheim own the WireGuard tunnel, or should production recommend kernel WireGuard and keep userspace WireGuard as rootless/dev mode?</li>
+<li>Can Pingora&#x27;s connector APIs cleanly dial through <code>tokio-wireguard</code> socket types, or do we need a custom connector layer?</li>
 <li>Should telemetry be pull-based, push-based, or both?</li>
 <li>What is the minimum safe admin authentication model for local deployments?</li>
-<li>Should the smart selector integrate with Pingora <code>LoadBalancer</code> or remain a</li>
+<li>Should the smart selector integrate with Pingora <code>LoadBalancer</code> or remain a separate selector with its own state model?</li>
 </ul>
-<p>separate selector with its own state model?</p>
         </article>
       </div>
     </main>

@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -79,105 +79,52 @@
 <h2 id="current-controls">Current Controls</h2>
 <ul>
 <li><code>Cargo.lock</code> is committed and release builds use <code>--locked</code>.</li>
-<li><code>deny.toml</code> denies unknown registries, unknown git sources, yanked crates,</li>
+<li><code>deny.toml</code> denies unknown registries, unknown git sources, yanked crates, and unknown licenses by default.</li>
+<li><code>.cargo/audit.toml</code> keeps RustSec advisory exceptions explicit and versioned.</li>
+<li>GitHub CI runs formatting, clippy, tests, CodeQL, <code>cargo deny</code>, <code>cargo audit</code>, OWASP baseline checks, feature builds, and smoke tests.</li>
+<li>Stable releases generate SPDX and CycloneDX SBOMs from the tagged source tree.</li>
+<li>Stable releases record source archive checksums, binary checksums, SBOM checksums, signed tag verification, container digests, and reproducible-build evidence.</li>
 </ul>
-<p>and unknown licenses by default.</p>
-<ul>
-<li><code>.cargo/audit.toml</code> keeps RustSec advisory exceptions explicit and</li>
-</ul>
-<p>versioned.</p>
-<ul>
-<li>GitHub CI runs formatting, clippy, tests, CodeQL, <code>cargo deny</code>, `cargo</li>
-</ul>
-<p>audit`, OWASP baseline checks, feature builds, and smoke tests.</p>
-<ul>
-<li>Stable releases generate SPDX and CycloneDX SBOMs from the tagged source</li>
-</ul>
-<p>tree.</p>
-<ul>
-<li>Stable releases record source archive checksums, binary checksums, SBOM</li>
-</ul>
-<p>checksums, signed tag verification, container digests, and reproducible-build evidence.</p>
 <h2 id="build-scripts-and-procedural-macros">Build Scripts And Procedural Macros</h2>
 <p>Cargo build scripts and procedural macros execute code on the build host. Treat them like native build tools, not like passive source files.</p>
 <p>Fluxheim does not rely on a global &quot;disable every dependency build script&quot; switch. Cargo supports overriding some build scripts for <code>links</code> packages and a package can opt out of its own build script, but stable Cargo does not provide a single project-wide control that safely disables every transitive build script and procedural macro while preserving normal builds.</p>
 <p>Required review for dependency changes:</p>
 <ul>
-<li>Review every new <code>build.rs</code>, procedural macro crate, <code>*-sys</code> crate, vendored C</li>
+<li>Review every new <code>build.rs</code>, procedural macro crate, <code>*-sys</code> crate, vendored C or assembly source, and native tool invocation.</li>
+<li>Check for environment variable reads, network access, file writes outside <code>OUT_DIR</code>, generated code, compiler/linker wrapper use, and bundled binaries.</li>
+<li>Prefer system-provided cryptographic modules for regulated profiles, such as OpenSSL FIPS provider deployments, over vendored native crypto unless the vendor module and build path are explicitly documented.</li>
+<li>Do not build untrusted forks, unreviewed dependency branches, or experimental dependency updates in an environment that has release keys, production tokens, registry credentials, SSH agents, or cloud credentials.</li>
+<li>Treat <code>.cargo/config.toml</code>, Cargo aliases, wrapper scripts, CI workflow changes, and release scripts as executable supply-chain changes.</li>
 </ul>
-<p>or assembly source, and native tool invocation.</p>
-<ul>
-<li>Check for environment variable reads, network access, file writes outside</li>
-</ul>
-<p><code>OUT_DIR</code>, generated code, compiler/linker wrapper use, and bundled binaries.</p>
-<ul>
-<li>Prefer system-provided cryptographic modules for regulated profiles, such as</li>
-</ul>
-<p>OpenSSL FIPS provider deployments, over vendored native crypto unless the vendor module and build path are explicitly documented.</p>
-<ul>
-<li>Do not build untrusted forks, unreviewed dependency branches, or experimental</li>
-</ul>
-<p>dependency updates in an environment that has release keys, production tokens, registry credentials, SSH agents, or cloud credentials.</p>
-<ul>
-<li>Treat <code>.cargo/config.toml</code>, Cargo aliases, wrapper scripts, CI workflow</li>
-</ul>
-<p>changes, and release scripts as executable supply-chain changes.</p>
 <h2 id="dependency-update-workflow">Dependency Update Workflow</h2>
 <p>Use <code>cargo update</code> only as a deliberate dependency maintenance step.</p>
 <p>For each update:</p>
 <ol>
 <li>Review the <code>Cargo.lock</code> diff before running the full test suite.</li>
-<li>Identify new crates, new major versions, new publishers, new build scripts,</li>
-</ol>
-<p>new proc macros, and new native dependencies.</p>
-<ol>
+<li>Identify new crates, new major versions, new publishers, new build scripts, new proc macros, and new native dependencies.</li>
 <li>Run <code>cargo deny check</code>, <code>cargo deny check licenses</code>, and <code>cargo audit</code>.</li>
 <li>Run the relevant feature builds and tests for the changed dependency area.</li>
-<li>Update <code>SECURITY.md</code>, release notes, <code>deny.toml</code>, or <code>.cargo/audit.toml</code></li>
+<li>Update <code>SECURITY.md</code>, release notes, <code>deny.toml</code>, or <code>.cargo/audit.toml</code> when an advisory exception or license exception changes.</li>
 </ol>
-<p>when an advisory exception or license exception changes.</p>
 <p>Do not hide dependency churn inside unrelated feature commits.</p>
 <h2 id="build-isolation">Build Isolation</h2>
 <p>Local development and CI should keep build environments low-trust by default:</p>
 <ul>
-<li>Use rootless containers or a restricted sandbox for dependency experiments,</li>
+<li>Use rootless containers or a restricted sandbox for dependency experiments, untrusted forks, and native build investigation.</li>
+<li>Keep production secrets out of the shell used for <code>cargo build</code>, <code>cargo test</code>, and dependency tooling.</li>
+<li>Do not give pull-request workflows from external forks registry push credentials, release signing keys, or production service tokens.</li>
+<li>Keep image publishing and GitHub release publishing on maintainer-triggered workflows.</li>
 </ul>
-<p>untrusted forks, and native build investigation.</p>
-<ul>
-<li>Keep production secrets out of the shell used for <code>cargo build</code>, <code>cargo test</code>,</li>
-</ul>
-<p>and dependency tooling.</p>
-<ul>
-<li>Do not give pull-request workflows from external forks registry push</li>
-</ul>
-<p>credentials, release signing keys, or production service tokens.</p>
-<ul>
-<li>Keep image publishing and GitHub release publishing on maintainer-triggered</li>
-</ul>
-<p>workflows.</p>
 <h2 id="human-review-roadmap">Human Review Roadmap</h2>
 <p>Fluxheim should add <code>cargo-vet</code> after the 1.4.0 proxy-parity release stabilizes.</p>
 <p>Planned adoption path:</p>
 <ol>
-<li>Initialize a <code>supply-chain/</code> directory and commit the generated</li>
+<li>Initialize a <code>supply-chain/</code> directory and commit the generated <code>config.toml</code>, <code>audits.toml</code>, and <code>imports.lock</code>.</li>
+<li>Import only trusted third-party audit sources that are relevant to the Fluxheim dependency graph.</li>
+<li>Start with explicit exemptions for the existing graph so the first integration is reviewable.</li>
+<li>Require human audit entries for new direct dependencies, new proc macros, new build scripts, and new native dependencies.</li>
+<li>Add <code>cargo vet</code> to CI after the initial policy is stable and false positives are understood.</li>
 </ol>
-<p><code>config.toml</code>, <code>audits.toml</code>, and <code>imports.lock</code>.</p>
-<ol>
-<li>Import only trusted third-party audit sources that are relevant to the</li>
-</ol>
-<p>Fluxheim dependency graph.</p>
-<ol>
-<li>Start with explicit exemptions for the existing graph so the first</li>
-</ol>
-<p>integration is reviewable.</p>
-<ol>
-<li>Require human audit entries for new direct dependencies, new proc macros,</li>
-</ol>
-<p>new build scripts, and new native dependencies.</p>
-<ol>
-<li>Add <code>cargo vet</code> to CI after the initial policy is stable and false positives</li>
-</ol>
-<p>are understood.</p>
 <p><code>cargo-vet</code> is not a replacement for <code>cargo-audit</code> or <code>cargo-deny</code>; it adds human review evidence for code that has no known advisory.</p>
 <h2 id="embedded-binary-metadata-roadmap">Embedded Binary Metadata Roadmap</h2>
 <p>Fluxheim already publishes external SBOM files. A future release should evaluate <code>cargo-auditable</code> or native Rust SBOM embedding for release binaries so scanners can recover dependency metadata directly from deployed artifacts.</p>
@@ -190,18 +137,11 @@
 </ul>
 <h2 id="accepted-limitations">Accepted Limitations</h2>
 <ul>
-<li>Dependency-level <code>unsafe</code> code in networking, TLS, OS, and runtime crates is</li>
-</ul>
-<p>not automatically a vulnerability. It is a review trigger.</p>
-<ul>
-<li>A clean <code>cargo audit</code> result only means there is no known RustSec advisory for</li>
-</ul>
-<p>the resolved graph. It does not prove a crate is non-malicious.</p>
-<ul>
+<li>Dependency-level <code>unsafe</code> code in networking, TLS, OS, and runtime crates is not automatically a vulnerability. It is a review trigger.</li>
+<li>A clean <code>cargo audit</code> result only means there is no known RustSec advisory for the resolved graph. It does not prove a crate is non-malicious.</li>
 <li>SBOM files improve traceability, but they do not prevent a malicious build.</li>
-<li>FIPS or ISO/IEC 19790 TLS mode constrains cryptographic providers and TLS</li>
+<li>FIPS or ISO/IEC 19790 TLS mode constrains cryptographic providers and TLS configuration. It does not validate unrelated dependency behavior.</li>
 </ul>
-<p>configuration. It does not validate unrelated dependency behavior.</p>
         </article>
       </div>
     </main>

@@ -198,11 +198,18 @@ Cache:
 
 Load balancer:
 
+- `fluxheim_load_balancer_pools` reports configured load-balancer pool counts
+  by bounded `scope` (`vhost` or `route`) and bounded selection algorithm. It
+  does not label configured vhost names, route names, or upstream addresses.
 - `fluxheim_load_balancer_events_total` counts selected upstreams, retries,
-  all-nodes-down/unavailable pools, success/failure outcomes, and
-  passive-health ejections with bounded configured vhost/route labels. The
+  all-nodes-down/unavailable pools, queue wait/full/timeout outcomes,
+  success/failure outcomes, and passive-health ejections with bounded
+  configured vhost/route labels. The
   `upstream` label is empty unless the operator configures a safe
   low-cardinality `proxy.upstream_aliases` entry.
+- `fluxheim_load_balancer_queue_wait_seconds` observes bounded queue wait and
+  timeout duration by configured vhost/route and bounded queue outcome. It
+  does not label raw upstream addresses.
 - richer upstream health state transition metrics remain planned; they should
   not label raw upstream addresses unless an explicit low-cardinality alias is
   configured.

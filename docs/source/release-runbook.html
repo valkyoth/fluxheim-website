@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -135,15 +135,17 @@ git push origin &quot;${TAG}&quot;</code></pre>
 <p>Build Linux ARM64 on an ARM64 Linux builder or configured cross-builder:</p>
 <pre class="language-bash"><code class="language-bash">rustup target add aarch64-unknown-linux-gnu
 scripts/build_release_assets.sh &quot;${RELEASE_VERSION}&quot; --kind linux --target aarch64-unknown-linux-gnu</code></pre>
-<p>This produces, for each Linux target, the full/cache/proxy/php runtime archives and the config-tester archive:</p>
+<p>This produces, for each Linux target, the full/cache/proxy/load-balancer/php runtime archives and the config-tester archive:</p>
 <pre class="language-text"><code class="language-text">fluxheim-${RELEASE_VERSION}-full-x86_64-linux.tar.gz
 fluxheim-${RELEASE_VERSION}-cache-x86_64-linux.tar.gz
 fluxheim-${RELEASE_VERSION}-proxy-x86_64-linux.tar.gz
+fluxheim-${RELEASE_VERSION}-load-balancer-x86_64-linux.tar.gz
 fluxheim-${RELEASE_VERSION}-php-x86_64-linux.tar.gz
 fluxheim-${RELEASE_VERSION}-config-tester-x86_64-linux.tar.gz
 fluxheim-${RELEASE_VERSION}-full-aarch64-linux.tar.gz
 fluxheim-${RELEASE_VERSION}-cache-aarch64-linux.tar.gz
 fluxheim-${RELEASE_VERSION}-proxy-aarch64-linux.tar.gz
+fluxheim-${RELEASE_VERSION}-load-balancer-aarch64-linux.tar.gz
 fluxheim-${RELEASE_VERSION}-php-aarch64-linux.tar.gz
 fluxheim-${RELEASE_VERSION}-config-tester-aarch64-linux.tar.gz</code></pre>
 <p>For Level 1 macOS developer artifacts, build on the matching Mac host. These artifacts are developer conveniences, not production packages:</p>
@@ -168,16 +170,12 @@ scripts/validate-fips-rustls.sh release</code></pre>
 <p>For releases that changed security-enforcing behavior, complete the relevant sections of <a href="compliance-evidence-template.html" class="text-cyan-400 hover:text-cyan-300">Compliance Evidence Package Template</a> and record any relevant notes from <a href="common-criteria-roadmap.html" class="text-cyan-400 hover:text-cyan-300">Common Criteria Readiness Roadmap</a>:</p>
 <ul>
 <li>TOE boundary assumptions affected by the release.</li>
-<li>Security Target-style draft notes: security problem, objectives, and</li>
-</ul>
-<p>security-relevant interfaces affected by the release.</p>
-<ul>
+<li>Security Target-style draft notes: security problem, objectives, and security-relevant interfaces affected by the release.</li>
 <li>Security-relevant interfaces changed by the release.</li>
 <li>Validation scripts or pentest regressions that provide evidence.</li>
 <li>External dependencies and operational-environment assumptions.</li>
-<li>Vulnerability-analysis records for pentest, CodeQL, audit, or internal</li>
+<li>Vulnerability-analysis records for pentest, CodeQL, audit, or internal findings, including the fixed/accepted/false-positive/deferred decision and remediation commit.</li>
 </ul>
-<p>findings, including the fixed/accepted/false-positive/deferred decision and remediation commit.</p>
 <p>This is evidence organization only. Do not describe the release as Common Criteria certified, Protection Profile compliant, or EAL compliant.</p>
 <h3 id="owasp-baseline-evidence">OWASP Baseline Evidence</h3>
 <p>For releases that changed request parsing, TLS, authentication-adjacent controls, PHP-FPM handling, config validation, or observability, capture the mapped in-repo OWASP Top 10 2025 baseline:</p>
@@ -191,18 +189,9 @@ scripts/validate-fips-rustls.sh release</code></pre>
 <li>Select the tag from <code>$TAG</code>.</li>
 <li>Use <code>$TITLE</code> as the release title.</li>
 <li>Paste the contents of <code>$RELEASE_NOTES</code>.</li>
-<li>Upload every runtime profile archive built in step 4:</li>
-</ol>
-<p><code>dist/fluxheim-${RELEASE_VERSION}-{full,cache,proxy,php}-{x86_64,aarch64}-linux.tar.gz</code>.</p>
-<ol>
-<li>Upload the unified config-tester archive built in step 4:</li>
-</ol>
-<p><code>dist/fluxheim-${RELEASE_VERSION}-config-tester-{x86_64,aarch64}-linux.tar.gz</code>.</p>
-<ol>
-<li>If the release includes Level 1 macOS developer artifacts, upload</li>
-</ol>
-<p><code>dist/fluxheim-${RELEASE_VERSION}-dev-{aarch64,x86_64}-macos.tar.gz</code> for the Mac targets that were actually built.</p>
-<ol>
+<li>Upload every runtime profile archive built in step 4: <code>dist/fluxheim-${RELEASE_VERSION}-{full,cache,proxy,load-balancer,php}-{x86_64,aarch64}-linux.tar.gz</code>.</li>
+<li>Upload the unified config-tester archive built in step 4: <code>dist/fluxheim-${RELEASE_VERSION}-config-tester-{x86_64,aarch64}-linux.tar.gz</code>.</li>
+<li>If the release includes Level 1 macOS developer artifacts, upload <code>dist/fluxheim-${RELEASE_VERSION}-dev-{aarch64,x86_64}-macos.tar.gz</code> for the Mac targets that were actually built.</li>
 <li>Upload <code>target/release-evidence/fluxheim.spdx.json</code>.</li>
 <li>Upload <code>target/release-evidence/fluxheim.cyclonedx.json</code>.</li>
 <li>Publish the release.</li>

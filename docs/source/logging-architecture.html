@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -79,15 +79,11 @@
 <ul>
 <li>Use <code>tracing</code> as the core instrumentation API.</li>
 <li>Emit production logs as JSON through serde-backed formatting.</li>
-<li>Keep stdout available as the default sink for systemd, Podman, and local</li>
-</ul>
-<p>debugging.</p>
-<ul>
+<li>Keep stdout available as the default sink for systemd, Podman, and local debugging.</li>
 <li>Avoid disk or network writes on request worker hot paths.</li>
 <li>Add remote logging only behind explicit config and optional compile features.</li>
-<li>Make overflow behavior explicit instead of pretending logs are always both</li>
+<li>Make overflow behavior explicit instead of pretending logs are always both non-blocking and lossless.</li>
 </ul>
-<p>non-blocking and lossless.</p>
 <p>Latest reviewed crates:</p>
 <ul>
 <li><code>tracing 0.1.44</code>, MIT.</li>
@@ -100,13 +96,9 @@
 <ul>
 <li><code>access</code>: one event per completed request.</li>
 <li><code>error</code>: internal failures and unexpected runtime errors.</li>
-<li><code>security</code>: rejected requests, request-smuggling attempts, admin auth</li>
+<li><code>security</code>: rejected requests, request-smuggling attempts, admin auth failures, path traversal, denied PHP/CGI execution, and TLS/cert permission failures.</li>
+<li><code>audit</code>: admin operations such as snapshot, rollback, reload, purge, cache activity reset, certificate renewal, and future account/key changes.</li>
 </ul>
-<p>failures, path traversal, denied PHP/CGI execution, and TLS/cert permission failures.</p>
-<ul>
-<li><code>audit</code>: admin operations such as snapshot, rollback, reload, purge, cache</li>
-</ul>
-<p>activity reset, certificate renewal, and future account/key changes.</p>
 <p>Security and audit logs should not be silently disabled per vhost. They may be rerouted or filtered by level, but Fluxheim should make disabling them an explicit high-risk operator choice.</p>
 <h2 id="event-fields">Event Fields</h2>
 <p>Access events should include:</p>
@@ -144,9 +136,8 @@
 <ul>
 <li><code>drop_new</code>: fastest; increments dropped-log metrics.</li>
 <li><code>block</code>: preserves logs but can slow request handling.</li>
-<li><code>spool</code>: writes to a bounded durable disk queue; best durability but more</li>
+<li><code>spool</code>: writes to a bounded durable disk queue; best durability but more operational complexity.</li>
 </ul>
-<p>operational complexity.</p>
 <p>Without <code>spool</code>, Fluxheim must not claim zero data loss. With <code>block</code>, Fluxheim must not claim zero request latency impact.</p>
 <h2 id="sinks">Sinks</h2>
 <p>Initial sinks:</p>
@@ -167,21 +158,14 @@
 <p>On send failure, the dispatcher should immediately fallback for that event, trip the remote sink, and increment metrics. Reconnect attempts should use bounded exponential backoff.</p>
 <h2 id="security-requirements">Security Requirements</h2>
 <ul>
-<li>Redact <code>Authorization</code>, <code>Cookie</code>, <code>Set-Cookie</code>, admin bearer tokens, ACME EAB</li>
-</ul>
-<p>values, API keys, and configured sensitive headers/fields.</p>
-<ul>
+<li>Redact <code>Authorization</code>, <code>Cookie</code>, <code>Set-Cookie</code>, admin bearer tokens, ACME EAB values, API keys, and configured sensitive headers/fields.</li>
 <li>Never log request bodies by default.</li>
 <li>Length-cap paths, headers, error messages, and upstream error text.</li>
 <li>Use serde/JSON formatting, not hand-built JSON strings.</li>
-<li>Mark fallback source, for example <code>log_sink=&quot;stdout-fallback&quot;</code> or</li>
-</ul>
-<p><code>log_sink=&quot;spool-fallback&quot;</code>.</p>
-<ul>
+<li>Mark fallback source, for example <code>log_sink=&quot;stdout-fallback&quot;</code> or <code>log_sink=&quot;spool-fallback&quot;</code>.</li>
 <li>Make audit/security logs available to stdout even when remote logging fails.</li>
-<li>Protect local log files and spool directories with owner-only permissions</li>
+<li>Protect local log files and spool directories with owner-only permissions where supported.</li>
 </ul>
-<p>where supported.</p>
 <h2 id="config-shape">Config Shape</h2>
 <p>Initial target:</p>
 <pre class="language-toml"><code class="language-toml">[logging]
@@ -224,18 +208,14 @@ max_size_bytes = &quot;1GiB&quot;</code></pre>
 <p><code>logging.level</code> and <code>logging.format</code> are applied at startup through <code>env_logger</code>; <code>RUST_LOG</code> can still override the level for local debugging. Changing either setting after startup currently requires a process upgrade because the logger is initialized once. JSON format emits structured internal runtime records, while access events remain direct JSON access records.</p>
 <h2 id="implementation-stages">Implementation Stages</h2>
 <ol>
-<li>Add typed access-log config, request IDs, and baseline JSON access events</li>
-</ol>
-<p>through <code>log</code>.</p>
-<ol>
+<li>Add typed access-log config, request IDs, and baseline JSON access events through <code>log</code>.</li>
 <li>Add <code>tracing</code>, JSON stdout formatting, and bridge existing <code>log</code> records.</li>
 <li>Add access/security/audit event schema and request ids.</li>
 <li>Add bounded dispatcher queue with <code>drop_new</code> and <code>block</code> policies.</li>
 <li>Add file sink and protected local spool directory.</li>
 <li>Add remote TCP/TLS sink with circuit breaker and fallback.</li>
-<li>Expose log health through Prometheus/admin status:</li>
+<li>Expose log health through Prometheus/admin status: dropped logs, spooled logs, remote failures, current circuit state, and reconnect attempts.</li>
 </ol>
-<p>dropped logs, spooled logs, remote failures, current circuit state, and reconnect attempts.</p>
 <h2 id="tests">Tests</h2>
 <p>Required tests:</p>
 <ul>

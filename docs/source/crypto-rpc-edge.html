@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -118,13 +118,9 @@ profile-ethereum-rpc = [&quot;proxy&quot;, &quot;cache&quot;, &quot;eth&quot;, &
 <p>Possible later dependencies, after license/advisory review:</p>
 <ul>
 <li><code>alloy-rpc-types</code> or narrow Alloy crates for Ethereum JSON-RPC types;</li>
-<li><code>alloy-provider</code> only if Fluxheim needs client-side calls beyond simple</li>
+<li><code>alloy-provider</code> only if Fluxheim needs client-side calls beyond simple health probes;</li>
+<li>a small local JSON-RPC classifier if the supported cacheable method set stays narrow enough to audit.</li>
 </ul>
-<p>health probes;</p>
-<ul>
-<li>a small local JSON-RPC classifier if the supported cacheable method set</li>
-</ul>
-<p>stays narrow enough to audit.</p>
 <p>Avoid exposing third-party Ethereum types in public Fluxheim config. Config should stay plain TOML with strings, numbers, durations, and byte sizes.</p>
 <p><code>eth-verify</code> must be a separate compile-time feature because proof verification adds consensus, trie, precompile, and ZK-related dependencies that should not be pulled into a normal RPC cache/proxy build.</p>
 <h2 id="basic-config-model">Basic Config Model</h2>
@@ -150,26 +146,16 @@ websocket_enabled = false</code></pre>
 <p>Stable first scope:</p>
 <ul>
 <li>Accept <code>POST</code> requests with bounded JSON bodies only.</li>
-<li>Require <code>Content-Type</code> compatible with JSON unless an explicit compatibility</li>
-</ul>
-<p>flag is enabled.</p>
-<ul>
+<li>Require <code>Content-Type</code> compatible with JSON unless an explicit compatibility flag is enabled.</li>
 <li>Parse JSON-RPC 2.0 single calls and batched calls.</li>
 <li>Reject or pass through malformed JSON according to policy:</li>
 <li>strict mode rejects malformed JSON before upstream;</li>
 <li>compatibility mode passes malformed requests to upstream without caching.</li>
 <li>Build cache keys from chain id, method, normalized params, and finality state.</li>
-<li>Never cache responses with JSON-RPC <code>error</code> unless an explicit method policy</li>
+<li>Never cache responses with JSON-RPC <code>error</code> unless an explicit method policy says the error is immutable and safe.</li>
+<li>Normalize upstream response handling so Fluxheim can remove hop-by-hop headers and apply existing response policy.</li>
+<li>Support multi-provider upstream pools so applications are not coupled to one centralized RPC provider.</li>
 </ul>
-<p>says the error is immutable and safe.</p>
-<ul>
-<li>Normalize upstream response handling so Fluxheim can remove hop-by-hop</li>
-</ul>
-<p>headers and apply existing response policy.</p>
-<ul>
-<li>Support multi-provider upstream pools so applications are not coupled to one</li>
-</ul>
-<p>centralized RPC provider.</p>
 <p>Batch behavior should be conservative. A batch is cacheable only when every call in the batch is individually cacheable under the current policy. Mixed cacheable/non-cacheable batches should pass through without storing, or be split only after a later design proves response ordering and error behavior.</p>
 <h2 id="cacheable-method-policy">Cacheable Method Policy</h2>
 <p>Ethereum JSON-RPC is POST-heavy, so normal HTTP cache semantics are not enough. The <code>eth</code> module should cache only methods whose result can be tied to an immutable identifier, a finalized/safe tag, or an old-enough block number.</p>
@@ -182,31 +168,15 @@ websocket_enabled = false</code></pre>
 <li>optionally <code>safe</code>, with a shorter TTL than finalized;</li>
 <li><code>eth_getBlockTransactionCountByHash</code></li>
 <li><code>eth_getBlockTransactionCountByNumber</code> under the same block-number policy;</li>
-<li><code>eth_getTransactionByHash</code>, with conservative TTL and optional negative-cache</li>
+<li><code>eth_getTransactionByHash</code>, with conservative TTL and optional negative-cache controls;</li>
+<li><code>eth_getTransactionReceipt</code>, with conservative TTL until finalized and long TTL after the containing block is known finalized;</li>
+<li><code>eth_getLogs</code> only when the block range is bounded and entirely finalized or older than the configured finality depth.</li>
 </ul>
-<p>controls;</p>
-<ul>
-<li><code>eth_getTransactionReceipt</code>, with conservative TTL until finalized and long</li>
-</ul>
-<p>TTL after the containing block is known finalized;</p>
-<ul>
-<li><code>eth_getLogs</code> only when the block range is bounded and entirely finalized or</li>
-</ul>
-<p>older than the configured finality depth.</p>
 <p>Do not cache in the first stable implementation:</p>
 <ul>
-<li><code>eth_sendRawTransaction</code>, <code>eth_sendTransaction</code>, signing methods, account</li>
-</ul>
-<p>methods, txpool/debug/admin methods;</p>
-<ul>
-<li><code>eth_call</code>, <code>eth_estimateGas</code>, <code>eth_feeHistory</code>, <code>eth_gasPrice</code>, and</li>
-</ul>
-<p>priority-fee methods, unless a later method policy includes explicit block tags and TTL rules;</p>
-<ul>
-<li>requests using <code>latest</code> or <code>pending</code>, except where a method has an explicit</li>
-</ul>
-<p>short-lived local policy;</p>
-<ul>
+<li><code>eth_sendRawTransaction</code>, <code>eth_sendTransaction</code>, signing methods, account methods, txpool/debug/admin methods;</li>
+<li><code>eth_call</code>, <code>eth_estimateGas</code>, <code>eth_feeHistory</code>, <code>eth_gasPrice</code>, and priority-fee methods, unless a later method policy includes explicit block tags and TTL rules;</li>
+<li>requests using <code>latest</code> or <code>pending</code>, except where a method has an explicit short-lived local policy;</li>
 <li>WebSocket subscription messages.</li>
 </ul>
 <p>The execution API distinguishes <code>finalized</code>, <code>safe</code>, <code>latest</code>, and <code>pending</code>. The <code>eth</code> cache policy should use those tags directly instead of guessing that all block-number queries are immutable.</p>
@@ -226,15 +196,9 @@ websocket_enabled = false</code></pre>
 <p>Initial selection should integrate with the <code>1.5</code> load-balancer line when available, but the <code>eth</code> module can still start with a small local health model:</p>
 <ul>
 <li>reject unhealthy upstreams when <code>eth_syncing</code> reports active syncing;</li>
-<li>reject or de-prioritize upstreams whose <code>eth_blockNumber</code> lags the vhost</li>
-</ul>
-<p>median or best upstream by more than <code>health_max_block_lag</code>;</p>
-<ul>
+<li>reject or de-prioritize upstreams whose <code>eth_blockNumber</code> lags the vhost median or best upstream by more than <code>health_max_block_lag</code>;</li>
 <li>verify <code>eth_chainId</code> matches config before serving traffic;</li>
-<li>retry idempotent read-only calls on transport errors, timeout, HTTP 5xx, or</li>
-</ul>
-<p>JSON-RPC error classes selected by policy;</p>
-<ul>
+<li>retry idempotent read-only calls on transport errors, timeout, HTTP 5xx, or JSON-RPC error classes selected by policy;</li>
 <li>never retry transaction-submission methods by default.</li>
 </ul>
 <p>Selection policies:</p>
@@ -246,35 +210,21 @@ websocket_enabled = false</code></pre>
 </ul>
 <p>Decentralization goals:</p>
 <ul>
-<li>let operators mix local execution clients, community RPC nodes, and hosted</li>
-</ul>
-<p>providers in one policy;</p>
-<ul>
+<li>let operators mix local execution clients, community RPC nodes, and hosted providers in one policy;</li>
 <li>verify upstream <code>chain_id</code>, sync state, and block lag before serving traffic;</li>
-<li>detect repeated provider-side denial, lag, or method-specific failure and</li>
+<li>detect repeated provider-side denial, lag, or method-specific failure and route read traffic to healthier alternatives;</li>
+<li>support optional quorum/compare mode for selected immutable reads, where Fluxheim asks multiple upstreams and only caches/returns data when responses agree;</li>
+<li>keep hosted-provider fallback explicit so Fluxheim does not silently centralize traffic that was meant to stay local.</li>
 </ul>
-<p>route read traffic to healthier alternatives;</p>
-<ul>
-<li>support optional quorum/compare mode for selected immutable reads, where</li>
-</ul>
-<p>Fluxheim asks multiple upstreams and only caches/returns data when responses agree;</p>
-<ul>
-<li>keep hosted-provider fallback explicit so Fluxheim does not silently</li>
-</ul>
-<p>centralize traffic that was meant to stay local.</p>
 <h2 id="websocket-scope">WebSocket Scope</h2>
 <p>WebSocket support should be beta after HTTP JSON-RPC caching is stable.</p>
 <p>Rules:</p>
 <ul>
 <li><code>eth_subscribe</code> sessions are never cacheable.</li>
 <li>A WebSocket connection must stay pinned to one upstream.</li>
-<li>If the upstream disconnects, Fluxheim should close the downstream connection</li>
+<li>If the upstream disconnects, Fluxheim should close the downstream connection rather than silently resubscribe unless an explicit resubscribe policy exists.</li>
+<li>Health and load-balancer state can influence new WebSocket connection placement, not in-flight subscription routing.</li>
 </ul>
-<p>rather than silently resubscribe unless an explicit resubscribe policy exists.</p>
-<ul>
-<li>Health and load-balancer state can influence new WebSocket connection</li>
-</ul>
-<p>placement, not in-flight subscription routing.</p>
 <h2 id="security-controls">Security Controls</h2>
 <p>The module must include:</p>
 <ul>
@@ -283,82 +233,45 @@ websocket_enabled = false</code></pre>
 <li>max method name length;</li>
 <li>max params depth/size where practical;</li>
 <li>method allow/deny lists;</li>
-<li>per-method rate limits where <code>security</code> or a future rate-limit module is</li>
-</ul>
-<p>enabled;</p>
-<ul>
+<li>per-method rate limits where <code>security</code> or a future rate-limit module is enabled;</li>
 <li>request and response timeout controls;</li>
 <li>response size limit;</li>
 <li>cache-key length and cardinality bounds;</li>
 <li>optional stripping of sensitive request headers before upstream;</li>
-<li>no logging of full request params by default, because params may include</li>
+<li>no logging of full request params by default, because params may include addresses, calldata, signatures, or business-sensitive contract state.</li>
 </ul>
-<p>addresses, calldata, signatures, or business-sensitive contract state.</p>
 <p>Do not expose upstream execution clients directly to arbitrary debug/admin namespaces through a broad allow-list. The default policy should allow only standard public read methods and explicitly selected write methods.</p>
 <h2 id="privacy-and-anonymity-research">Privacy And Anonymity Research</h2>
 <p>Crypto RPC privacy is a separate problem from caching and load balancing. A normal reverse proxy can hide the user&#x27;s IP address from the upstream provider, but the gateway itself can still see the requester, method, params, timing, and response unless the design deliberately removes or blinds that information.</p>
 <p>Initial privacy-preserving controls should be practical and honest:</p>
 <ul>
-<li>never log full params, responses, calldata, signatures, addresses, or</li>
-</ul>
-<p>transaction hashes by default;</p>
-<ul>
+<li>never log full params, responses, calldata, signatures, addresses, or transaction hashes by default;</li>
 <li>strip client-identifying headers before upstream unless explicitly allowed;</li>
-<li>support cache-only answers for finalized/immutable data, where Fluxheim can</li>
+<li>support cache-only answers for finalized/immutable data, where Fluxheim can answer without contacting an upstream for that request;</li>
+<li>provide a privacy mode that rejects non-cacheable or identifying methods rather than forwarding them;</li>
+<li>keep metrics cardinality-safe and avoid labels for addresses, hashes, contracts, ENS names, or raw method params;</li>
+<li>document retention behavior for access logs, traces, cache metadata, and upstream health probes.</li>
 </ul>
-<p>answer without contacting an upstream for that request;</p>
-<ul>
-<li>provide a privacy mode that rejects non-cacheable or identifying methods</li>
-</ul>
-<p>rather than forwarding them;</p>
-<ul>
-<li>keep metrics cardinality-safe and avoid labels for addresses, hashes,</li>
-</ul>
-<p>contracts, ENS names, or raw method params;</p>
-<ul>
-<li>document retention behavior for access logs, traces, cache metadata, and</li>
-</ul>
-<p>upstream health probes.</p>
 <p>&quot;Verifiably anonymized&quot; RPC should remain research/beta until Fluxheim can state and test a real threat model. Candidate future designs:</p>
 <ul>
-<li>blind or relay-based read queries where the public gateway cannot link the</li>
-</ul>
-<p>external client identity to the upstream query;</p>
-<ul>
+<li>blind or relay-based read queries where the public gateway cannot link the external client identity to the upstream query;</li>
 <li>split trust between a privacy relay and a cache/proxy node;</li>
-<li>anonymous credential or token-bucket rate limiting that does not identify the</li>
-</ul>
-<p>caller to the RPC gateway;</p>
-<ul>
+<li>anonymous credential or token-bucket rate limiting that does not identify the caller to the RPC gateway;</li>
 <li>differential privacy or aggregation for high-level metrics;</li>
-<li>privacy-preserving audit proofs showing that request bodies and identifying</li>
+<li>privacy-preserving audit proofs showing that request bodies and identifying headers were not logged.</li>
 </ul>
-<p>headers were not logged.</p>
 <p>Fluxheim must not claim that a deployment is fully anonymous merely because it uses multiple upstreams or strips logs. The hard claim is: can the gateway operator, upstream provider, and observers link user, query, timing, and response? Until the answer is defensible, the feature should be documented as privacy-reducing or privacy-preserving, not verifiably anonymous.</p>
 <h2 id="verification-co-processing">Verification Co-Processing</h2>
 <p><code>eth-verify</code> is a later Ethereum-specific verification track. It should not be part of the first stable <code>eth</code> cache/proxy release.</p>
 <p>Goal: allow Fluxheim to verify selected blockchain-derived data at the edge before returning or caching it. Instead of trusting one RPC provider&#x27;s response, Fluxheim can fetch proofs, verify them against a trusted block header or light-client state, and then return data with stronger integrity guarantees.</p>
 <p>Candidate verification modes:</p>
 <ul>
-<li>Ethereum account/storage proof verification through <code>eth_getProof</code> using</li>
+<li>Ethereum account/storage proof verification through <code>eth_getProof</code> using Merkle-Patricia trie proofs against a known state root.</li>
+<li>Receipt or transaction inclusion checks against block bodies/receipts roots where proof material is available and bounded.</li>
+<li>Header verification through an embedded or sidecar light client such as a Helios-style model.</li>
+<li>ZK proof verification for application-specific state claims where a mature verifier and proof format exist.</li>
+<li>Quorum plus proof mode, where Fluxheim compares multiple upstream responses and verifies proof material before cache admission.</li>
 </ul>
-<p>Merkle-Patricia trie proofs against a known state root.</p>
-<ul>
-<li>Receipt or transaction inclusion checks against block bodies/receipts roots</li>
-</ul>
-<p>where proof material is available and bounded.</p>
-<ul>
-<li>Header verification through an embedded or sidecar light client such as a</li>
-</ul>
-<p>Helios-style model.</p>
-<ul>
-<li>ZK proof verification for application-specific state claims where a mature</li>
-</ul>
-<p>verifier and proof format exist.</p>
-<ul>
-<li>Quorum plus proof mode, where Fluxheim compares multiple upstream responses</li>
-</ul>
-<p>and verifies proof material before cache admission.</p>
 <p>Candidate config shape:</p>
 <pre class="language-toml"><code class="language-toml">[vhosts.eth.verify]
 enabled = true
@@ -372,60 +285,32 @@ fail_closed = true</code></pre>
 <ul>
 <li>Verification must be explicit per method or route.</li>
 <li>Verification failure must default to fail-closed for protected methods.</li>
-<li>Proof size, proof depth, execution time, and cache memory impact must be</li>
+<li>Proof size, proof depth, execution time, and cache memory impact must be bounded.</li>
+<li>Verified cache entries must record the verified block hash/number, state root, proof type, and verification policy version.</li>
+<li>Stale light-client checkpoints must make protected verification unavailable rather than silently falling back to provider trust.</li>
+<li>Metrics must report verification result classes without labeling addresses, storage slots, transaction hashes, or raw proof identifiers.</li>
 </ul>
-<p>bounded.</p>
-<ul>
-<li>Verified cache entries must record the verified block hash/number, state root,</li>
-</ul>
-<p>proof type, and verification policy version.</p>
-<ul>
-<li>Stale light-client checkpoints must make protected verification unavailable</li>
-</ul>
-<p>rather than silently falling back to provider trust.</p>
-<ul>
-<li>Metrics must report verification result classes without labeling addresses,</li>
-</ul>
-<p>storage slots, transaction hashes, or raw proof identifiers.</p>
 <p>Dependency guidance:</p>
 <ul>
 <li>Do not implement cryptographic proof systems from scratch.</li>
-<li>Prefer mature, reviewed Ethereum/light-client libraries once their license,</li>
+<li>Prefer mature, reviewed Ethereum/light-client libraries once their license, advisory, maintenance, and <code>unsafe</code> profile are acceptable.</li>
+<li>Keep proof engines behind Fluxheim-owned interfaces so <code>eth</code> can remain a lightweight RPC cache/proxy when <code>eth-verify</code> is not compiled.</li>
 </ul>
-<p>advisory, maintenance, and <code>unsafe</code> profile are acceptable.</p>
-<ul>
-<li>Keep proof engines behind Fluxheim-owned interfaces so <code>eth</code> can remain a</li>
-</ul>
-<p>lightweight RPC cache/proxy when <code>eth-verify</code> is not compiled.</p>
 <p>Open questions:</p>
 <ul>
-<li>Whether verification should run in-process, in a worker pool, or in a</li>
+<li>Whether verification should run in-process, in a worker pool, or in a separate sidecar to isolate expensive proof work.</li>
+<li>How to represent verified responses to downstream clients without inventing a misleading trust signal.</li>
+<li>How to combine proof verification with privacy-preserving RPC modes, since proof requests can themselves reveal the queried account/storage key.</li>
+<li>Whether ZK proof verification belongs in <code>eth-verify</code> or a later generic <code>proof-verify</code> module that can be shared by non-Ethereum chains.</li>
 </ul>
-<p>separate sidecar to isolate expensive proof work.</p>
-<ul>
-<li>How to represent verified responses to downstream clients without inventing a</li>
-</ul>
-<p>misleading trust signal.</p>
-<ul>
-<li>How to combine proof verification with privacy-preserving RPC modes, since</li>
-</ul>
-<p>proof requests can themselves reveal the queried account/storage key.</p>
-<ul>
-<li>Whether ZK proof verification belongs in <code>eth-verify</code> or a later generic</li>
-</ul>
-<p><code>proof-verify</code> module that can be shared by non-Ethereum chains.</p>
 <p>Exit criteria before stable <code>eth-verify</code>:</p>
 <ul>
 <li>Light-client/header trust model is documented and tested.</li>
 <li>Malformed, oversized, deeply nested, and inconsistent proofs fail safely.</li>
 <li>Verification timeout/cancellation is covered by tests.</li>
-<li>Verified cache admission rejects mismatched state roots, wrong block headers,</li>
+<li>Verified cache admission rejects mismatched state roots, wrong block headers, stale checkpoints, and unverified provider responses.</li>
+<li>Default and <code>eth</code>-only builds prove verification code and dependencies are absent.</li>
 </ul>
-<p>stale checkpoints, and unverified provider responses.</p>
-<ul>
-<li>Default and <code>eth</code>-only builds prove verification code and dependencies are</li>
-</ul>
-<p>absent.</p>
 <h2 id="metrics-and-observability">Metrics And Observability</h2>
 <p>Metrics should be cardinality-safe:</p>
 <ul>
@@ -444,10 +329,7 @@ fail_closed = true</code></pre>
 <li>Documentation-only design and config schema stub.</li>
 <li>HTTP JSON-RPC classifier with no caching, only pass-through and metrics.</li>
 <li>Chain health probes and upstream failover for read-only calls.</li>
-<li>Cache key generation and memory/disk cache integration for whitelisted</li>
-</ol>
-<p>finalized/immutable methods.</p>
-<ol>
+<li>Cache key generation and memory/disk cache integration for whitelisted finalized/immutable methods.</li>
 <li>Conservative <code>eth_getLogs</code> support with bounded finalized ranges.</li>
 <li>WebSocket pass-through and sticky upstream selection as beta.</li>
 <li>Hosted-provider fallback and quota-aware routing.</li>
@@ -456,10 +338,7 @@ fail_closed = true</code></pre>
 <ul>
 <li>default builds prove <code>eth</code> is absent;</li>
 <li><code>--features eth</code> and <code>profile-ethereum-rpc</code> builds pass;</li>
-<li>malformed JSON, oversized batches, unknown methods, and oversized responses</li>
-</ul>
-<p>are covered by tests;</p>
-<ul>
+<li>malformed JSON, oversized batches, unknown methods, and oversized responses are covered by tests;</li>
 <li>cache tests prove <code>latest</code> and <code>pending</code> are not stored by default;</li>
 <li>finalized/old block responses are cached with stable cache keys;</li>
 <li>transaction submission methods are never retried or cached by default;</li>
@@ -474,27 +353,17 @@ fail_closed = true</code></pre>
 <li>resolve ENS names through the registry/resolver path;</li>
 <li>read <code>contenthash()</code> records;</li>
 <li>decode IPFS, Arweave, or other supported contenthash values;</li>
-<li>proxy to a configured local gateway or redirect to a configured public</li>
-</ul>
-<p>gateway;</p>
-<ul>
+<li>proxy to a configured local gateway or redirect to a configured public gateway;</li>
 <li>cache resolver/contenthash answers with TTL and block/finality awareness.</li>
 </ul>
 <p>Open design constraints:</p>
 <ul>
 <li>Browsers do not normally resolve raw <code>.eth</code> names through DNS.</li>
 <li>Public ACME certificates are not issued for raw <code>.eth</code> names.</li>
-<li>Fluxheim can only route a <code>.eth</code> host when traffic reaches Fluxheim with that</li>
+<li>Fluxheim can only route a <code>.eth</code> host when traffic reaches Fluxheim with that Host header, or when an operator uses a gateway domain pattern such as <code>{name}.eth.example.test</code>.</li>
+<li>ENS resolution adds more dependencies, ABI handling, name normalization, and phishing/confusable-name risks than the basic RPC proxy.</li>
+<li>Gatewaying IPFS/Arweave introduces content-type, range, cache, abuse, and origin-authenticity questions.</li>
 </ul>
-<p>Host header, or when an operator uses a gateway domain pattern such as <code>{name}.eth.example.test</code>.</p>
-<ul>
-<li>ENS resolution adds more dependencies, ABI handling, name normalization, and</li>
-</ul>
-<p>phishing/confusable-name risks than the basic RPC proxy.</p>
-<ul>
-<li>Gatewaying IPFS/Arweave introduces content-type, range, cache, abuse, and</li>
-</ul>
-<p>origin-authenticity questions.</p>
 <p>For that reason, <code>eth-ens</code> should be reviewed after the <code>eth</code> module is stable. It should not block the first Ethereum RPC proxy/cache release.</p>
 <h2 id="future-btc-review">Future <code>btc</code> Review</h2>
 <p>Bitcoin Core also exposes JSON-RPC, so a Fluxheim edge module could proxy, cache, and health-check selected Bitcoin RPC methods. This should be separate from <code>eth</code> because Bitcoin&#x27;s safety model is based on confirmations and chain depth, not Ethereum&#x27;s <code>finalized</code>/<code>safe</code> tags.</p>
@@ -503,10 +372,7 @@ fail_closed = true</code></pre>
 <li><code>getblockhash</code>;</li>
 <li><code>getblock</code>;</li>
 <li><code>getblockheader</code>;</li>
-<li><code>getrawtransaction</code> when the operator understands <code>txindex</code> and historical</li>
-</ul>
-<p>availability;</p>
-<ul>
+<li><code>getrawtransaction</code> when the operator understands <code>txindex</code> and historical availability;</li>
 <li>selected mempool-independent chain metadata.</li>
 </ul>
 <p>Default deny/pass-through candidates:</p>
@@ -514,17 +380,15 @@ fail_closed = true</code></pre>
 <li>wallet methods;</li>
 <li>mining/template methods;</li>
 <li>node/admin/network-control methods;</li>
-<li>raw transaction submission unless explicitly enabled and never retried by</li>
+<li>raw transaction submission unless explicitly enabled and never retried by default.</li>
 </ul>
-<p>default.</p>
 <p>Open design points:</p>
 <ul>
 <li>confirmation-depth policy for cache admission;</li>
 <li>handling pruned nodes and missing historical data;</li>
 <li>optional ZMQ integration for invalidation or tip tracking;</li>
-<li>authentication to local Bitcoin Core RPC without leaking credentials in logs</li>
+<li>authentication to local Bitcoin Core RPC without leaking credentials in logs or metrics.</li>
 </ul>
-<p>or metrics.</p>
 <h2 id="future-ada-review">Future <code>ada</code> Review</h2>
 <p>Cardano support is feasible, but it is not a small variation of Ethereum RPC. Cardano infrastructure commonly exposes Ogmios, cardano-db-sync, GraphQL, Blockfrost/Koios-compatible APIs, or custom provider APIs. Ogmios is the most natural low-level candidate because it exposes a WebSocket JSON interface to Cardano node mini-protocols.</p>
 <p>Potential cacheable areas:</p>
@@ -561,30 +425,16 @@ fail_closed = true</code></pre>
 <li>validated-ledger health probes;</li>
 <li>sticky WebSocket subscription placement;</li>
 <li>full-history vs non-full-history node behavior;</li>
-<li>preventing account/ledger identifiers from becoming high-cardinality metrics</li>
+<li>preventing account/ledger identifiers from becoming high-cardinality metrics labels.</li>
 </ul>
-<p>labels.</p>
 <h2 id="references">References</h2>
 <ul>
-<li>Ethereum JSON-RPC API overview:</li>
+<li>Ethereum JSON-RPC API overview: &lt;https://ethereum.org/developers/docs/apis/json-rpc/&gt;</li>
+<li>Ethereum execution API block tags and <code>eth_getBlockByNumber</code>: &lt;https://ethereum.github.io/execution-apis/api/methods/eth_getBlockByNumber/&gt;</li>
+<li>ENS resolver interfaces and <code>contenthash</code>: &lt;https://docs.ens.domains/resolvers/interfaces/&gt;</li>
+<li>ENS decentralized website hosting: &lt;https://docs.ens.domains/dweb/intro/&gt;</li>
+<li>ENS public resolver and EIP-1577 contenthash support: &lt;https://docs.ens.domains/resolvers/public/&gt;</li>
 </ul>
-<p>&lt;https://ethereum.org/developers/docs/apis/json-rpc/&gt;</p>
-<ul>
-<li>Ethereum execution API block tags and <code>eth_getBlockByNumber</code>:</li>
-</ul>
-<p>&lt;https://ethereum.github.io/execution-apis/api/methods/eth_getBlockByNumber/&gt;</p>
-<ul>
-<li>ENS resolver interfaces and <code>contenthash</code>:</li>
-</ul>
-<p>&lt;https://docs.ens.domains/resolvers/interfaces/&gt;</p>
-<ul>
-<li>ENS decentralized website hosting:</li>
-</ul>
-<p>&lt;https://docs.ens.domains/dweb/intro/&gt;</p>
-<ul>
-<li>ENS public resolver and EIP-1577 contenthash support:</li>
-</ul>
-<p>&lt;https://docs.ens.domains/resolvers/public/&gt;</p>
         </article>
       </div>
     </main>

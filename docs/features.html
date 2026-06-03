@@ -28,7 +28,6 @@
     body { background-color: var(--fh-bg); }
     .code-win { background: #0d1117; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; }
     .code-win pre[class*="language-"] { margin: 0; padding: 1.2rem; background: transparent; font-size: 0.8rem; line-height: 1.7; }
-    ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
     .prose h2 { font-size: 1.5rem; font-weight: 700; color: white; margin: 2.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid #1f2937; }
     .prose h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
     .prose p { color: #9ca3af; line-height: 1.75; margin-bottom: 1rem; }
@@ -53,7 +52,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -88,6 +87,7 @@
           <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3>
           <ul class="space-y-0.5">
             <li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Feature Matrix</a></li>
+            <li><a href="source/load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Load Balancer Migration</a></li>
             <li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">TLS & ACME</a></li>
             <li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Cache System</a></li>
             <li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Observability</a></li>
@@ -136,7 +136,7 @@
         </div>
 
         <h1 class="text-4xl font-black text-white mb-4">Feature Matrix</h1>
-        <p class="text-gray-400 text-lg mb-10">All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.4.7.</p>
+        <p class="text-gray-400 text-lg mb-10">All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.5.0.</p>
 
         <div class="prose">
           <h2>Individual Features</h2>
@@ -226,7 +226,7 @@
               <tr class="hover:bg-gray-900/30">
                 <td class="px-4 py-3 font-mono text-gray-400 text-xs">load-balancer</td>
                 <td class="px-4 py-3 text-center"><span class="text-gray-700">—</span></td>
-                <td class="px-4 py-3 text-gray-400">Pingora load-balancing module and health checks.</td>
+                <td class="px-4 py-3 text-gray-400">Pingora load-balancing module with advanced selection, health, persistence, runtime member controls, and focused 1.5 image profile support.</td>
               </tr>
               <tr class="hover:bg-gray-900/30">
                 <td class="px-4 py-3 font-mono text-gray-400 text-xs">traffic-mirror</td>
@@ -360,19 +360,23 @@
 
         <div class="code-win my-6">
           <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — official release build commands</span></div>
-<pre class="language-bash"><code class="language-bash"># Full release build (matches fluxheim-1.4.7-full-*.tar.gz)
+<pre class="language-bash"><code class="language-bash"># Full release build (matches fluxheim-1.5.0-full-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp
 
-# Cache edge build (matches fluxheim-1.4.7-cache-*.tar.gz)
+# Cache edge build (matches fluxheim-1.5.0-cache-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-cache-edge,acme-client
 
-# Proxy edge build (matches fluxheim-1.4.7-proxy-*.tar.gz)
+# Proxy edge build (matches fluxheim-1.5.0-proxy-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-proxy-edge,acme-client
 
-# PHP-FPM build (matches fluxheim-1.4.7-php-*.tar.gz)
+# Load-balancer edge build (matches fluxheim-1.5.0-load-balancer-*.tar.gz)
+cargo build --release --no-default-features \
+  --features profile-load-balancer-edge,acme-client
+
+# PHP-FPM build (matches fluxheim-1.5.0-php-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-web-server,php-fpm,acme-client
 
@@ -420,7 +424,7 @@ scripts/validate-features.sh proxy,web,tls-rustls,privacy-mode</code></pre>
 
         <div class="prose">
           <h2>Extended Source References</h2>
-          <p>Some source documents describe implemented 1.4.7 capabilities, while others remain architecture tracks for future releases. The complete upstream source documents are available in the <a href="reference.html" class="text-cyan-400 hover:text-cyan-300">Source Reference</a>.</p>
+          <p>Some source documents describe implemented 1.5.0 capabilities, while others remain architecture tracks for future releases. The complete upstream source documents are available in the <a href="reference.html" class="text-cyan-400 hover:text-cyan-300">Source Reference</a>.</p>
         </div>
 
         <div class="overflow-x-auto rounded-xl border border-gray-800 my-6">
@@ -434,6 +438,7 @@ scripts/validate-features.sh proxy,web,tls-rustls,privacy-mode</code></pre>
             <tbody class="divide-y divide-gray-800/50">
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">Compression</td><td class="px-4 py-3"><a href="source/compression.html" class="text-cyan-400 hover:text-cyan-300">compression.html</a></td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">GeoIP / Geo-Context</td><td class="px-4 py-3"><a href="source/geoip.html" class="text-cyan-400 hover:text-cyan-300">geoip.html</a></td></tr>
+              <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">Load balancer migration</td><td class="px-4 py-3"><a href="source/load-balancer-migration.html" class="text-cyan-400 hover:text-cyan-300">load-balancer-migration.html</a></td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">TCP stream proxy</td><td class="px-4 py-3"><a href="source/config-reference.html#tcp-stream-proxy" class="text-cyan-400 hover:text-cyan-300">config-reference.html</a></td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">Image filter</td><td class="px-4 py-3"><a href="source/image-filter.html" class="text-cyan-400 hover:text-cyan-300">image-filter.html</a></td></tr>
               <tr class="hover:bg-gray-900/30"><td class="px-4 py-3 text-gray-300">Programmable media edge</td><td class="px-4 py-3"><a href="source/programmable-media-edge.html" class="text-cyan-400 hover:text-cyan-300">programmable-media-edge.html</a></td></tr>

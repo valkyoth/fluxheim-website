@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -161,13 +161,14 @@
 cargo build --no-default-features --features profile-development
 cargo build --no-default-features --features profile-cache-edge,acme-client
 cargo build --no-default-features --features profile-proxy-edge,acme-client
+cargo build --no-default-features --features profile-load-balancer-edge,acme-client
 cargo build --no-default-features --features profile-web-server,php-fpm,acme-client
 cargo build --no-default-features --features profile-privacy
 cargo build --no-default-features --features profile-fips-openssl
 cargo build --no-default-features --features profile-iso19790-openssl
 cargo build --no-default-features --features profile-fips-rustls
 cargo build --no-default-features --features profile-iso19790-rustls</code></pre>
-<p>The raw profile aliases do not force <code>acme-client</code>; that is intentional for offline or static-certificate custom builds. Official RPMs, images, and release tarballs add <code>acme-client</code> to the full, cache, and proxy profiles by default.</p>
+<p>The raw profile aliases do not force <code>acme-client</code>; that is intentional for offline or static-certificate custom builds. Official RPMs, images, and release tarballs add <code>acme-client</code> to the full, cache, proxy, load-balancer, and PHP profiles by default.</p>
 <h2 id="fips-capable-tls-features">FIPS-Capable TLS Features</h2>
 <p><code>tls-openssl-fips</code> is an opt-in OpenSSL 3 FIPS-provider proof path. It expands to <code>tls-openssl</code> and adds OpenSSL provider diagnostics plus default FIPS property enforcement for configurations that set <code>[tls.fips] required = true</code> or <code>[tls.iso19790] required = true</code>. <code>tls-openssl-iso19790</code> and <code>profile-iso19790-openssl</code> are terminology aliases for European/international operator evidence; they use the same validated-provider enforcement path. The build still depends on the operator installing and configuring a validated OpenSSL FIPS/ISO provider according to that module&#x27;s Security Policy.</p>
 <p><code>tls-rustls-fips</code> is the rustls/AWS-LC FIPS-capable candidate path. It enables rustls&#x27; <code>fips</code> feature, uses <code>rustls::crypto::default_fips_provider()</code>, and checks rustls provider/server-config FIPS indicators when FIPS or ISO-required mode is active. Building this path pulls in <code>aws-lc-fips-sys</code> and requires CMake, Go, and a C compiler. <code>tls-rustls-iso19790</code> and <code>profile-iso19790-rustls</code> are terminology aliases for European/international operator evidence; they use the same rustls/AWS-LC FIPS candidate logic.</p>
@@ -189,17 +190,10 @@ cargo build --no-default-features \
 <p>Use <code>fluxheim crypto</code> or <code>fluxheim-config-tester --crypto</code> to see whether the binary can load or report the selected FIPS-capable provider in the current environment. The <code>fips-openssl</code> and <code>iso19790-openssl</code> config-tester profiles validate that a fixture uses <code>backend = &quot;openssl&quot;</code> and either <code>[tls.fips] required = true</code> or <code>[tls.iso19790] required = true</code>; see <code>examples/fips-openssl.toml</code> and <code>examples/iso19790-openssl.toml</code>. The <code>fips-rustls</code> and <code>iso19790-rustls</code> profiles validate the same guard with <code>backend = &quot;rustls&quot;</code>; see <code>examples/fips-rustls.toml</code>, <code>examples/iso19790-rustls.toml</code>, and <code>scripts/validate-fips-rustls.sh</code>. See <a href="fips.html" class="text-cyan-400 hover:text-cyan-300">FIPS-Capable Deployments</a> before using this for regulated systems.</p>
 <p>Focused image profile status:</p>
 <ul>
-<li>TLS and ACME are shared ingress capabilities, not implicit static webserver</li>
+<li>TLS and ACME are shared ingress capabilities, not implicit static webserver capabilities.</li>
+<li>The <code>cache</code> and <code>proxy</code> focused profiles compile without local static web serving.</li>
+<li>Compatibility aliases may keep the older broad behavior, but published focused images are <code>full</code>, <code>cache</code>, <code>proxy</code>, <code>php</code>, and, starting with the <code>1.5</code> line, <code>load-balancer</code>.</li>
 </ul>
-<p>capabilities.</p>
-<ul>
-<li>The <code>cache</code> and <code>proxy</code> focused profiles compile without local static web</li>
-</ul>
-<p>serving.</p>
-<ul>
-<li>Compatibility aliases may keep the older broad behavior, but published</li>
-</ul>
-<p>focused images are <code>full</code>, <code>cache</code>, and <code>proxy</code>. The <code>load-balancer</code> profile is prepared for the <code>1.5</code> line and can be included manually before then.</p>
 <h2 id="incompatible-combinations">Incompatible Combinations</h2>
 <div class="source-table"><table>
 <thead><tr><th>Combination</th><th>Reason</th></tr></thead>

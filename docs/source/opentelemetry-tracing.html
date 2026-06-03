@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -93,18 +93,11 @@
 <li>Keep OpenTelemetry code out of default builds.</li>
 <li>Use W3C Trace Context propagation.</li>
 <li>Correlate access logs, security events, and traces through a trace ID.</li>
-<li>Pair new operational observability with Prometheus metrics where practical:</li>
-</ul>
-<p>metrics provide aggregate service health, while OpenTelemetry explains the request path behind those aggregate signals.</p>
-<ul>
+<li>Pair new operational observability with Prometheus metrics where practical: metrics provide aggregate service health, while OpenTelemetry explains the request path behind those aggregate signals.</li>
 <li>Keep tracing overhead bounded through sampling and background export.</li>
-<li>Avoid storing secrets, cookies, authorization headers, raw request bodies, or</li>
+<li>Avoid storing secrets, cookies, authorization headers, raw request bodies, or high-cardinality labels in spans.</li>
+<li>Make tracing incompatible with <code>privacy-mode</code> unless a future privacy-preserve propagation-only mode is explicitly designed.</li>
 </ul>
-<p>high-cardinality labels in spans.</p>
-<ul>
-<li>Make tracing incompatible with <code>privacy-mode</code> unless a future privacy-preserve</li>
-</ul>
-<p>propagation-only mode is explicitly designed.</p>
 <h2 id="stage-1-trace-context-propagation">Stage 1: Trace Context Propagation</h2>
 <p>The first useful milestone is propagation without exporting spans. This stage is implemented when Fluxheim is built with <code>otel-tracing</code> and <code>[tracing]</code> is enabled at runtime.</p>
 <p>Behavior:</p>
@@ -123,24 +116,15 @@
 <ul>
 <li><code>fluxheim.request</code>: root request span;</li>
 <li><code>fluxheim.vhost_route</code>: host/SNI routing and policy selection;</li>
-<li><code>fluxheim.request_filter</code>: request limits, header policy, and security</li>
-</ul>
-<p>checks;</p>
-<ul>
+<li><code>fluxheim.request_filter</code>: request limits, header policy, and security checks;</li>
 <li><code>fluxheim.auth_request</code>: future external authorization probe;</li>
 <li><code>fluxheim.cache_lookup</code>: memory/disk cache lookup and hit/miss decision;</li>
 <li><code>fluxheim.cache_store</code>: cache admission and write;</li>
-<li><code>fluxheim.cache_purge</code>: admin-triggered cache invalidation by scope, prefix,</li>
-</ul>
-<p>wildcard, tag, or soft-purge operation;</p>
-<ul>
+<li><code>fluxheim.cache_purge</code>: admin-triggered cache invalidation by scope, prefix, wildcard, tag, or soft-purge operation;</li>
 <li><code>fluxheim.upstream_select</code>: load-balancer selection;</li>
 <li><code>fluxheim.upstream_connect</code>: TCP/TLS connect and handshake;</li>
 <li><code>fluxheim.upstream_response</code>: upstream first-byte and response metadata;</li>
-<li><code>fluxheim.body_filter</code>: compression, image transforms, WAF body scanning, or</li>
-</ul>
-<p>other future body work;</p>
-<ul>
+<li><code>fluxheim.body_filter</code>: compression, image transforms, WAF body scanning, or other future body work;</li>
 <li><code>fluxheim.static_file</code>: static resolution and body read path.</li>
 </ul>
 <p>Span attributes must use bounded, low-cardinality values:</p>
@@ -150,6 +134,7 @@
 <li>status class;</li>
 <li>cache tier and hit/miss;</li>
 <li>upstream pool name, not arbitrary upstream URL;</li>
+<li>load-balancer upstream alias and retry count, never raw upstream URLs;</li>
 <li>configured policy names;</li>
 <li>error class, not raw error strings when they may contain paths or secrets.</li>
 </ul>
@@ -168,32 +153,16 @@
 <ul>
 <li>background worker;</li>
 <li>bounded queue with drop-on-full behavior;</li>
-<li>OTLP/HTTP JSON export to <code>http://</code> or <code>https://</code> endpoints such as local</li>
+<li>OTLP/HTTP JSON export to <code>http://</code> or <code>https://</code> endpoints such as local Jaeger <code>http://127.0.0.1:4318/v1/traces</code>;</li>
+<li>optional <code>tracing.otlp.tls_ca_cert_path</code> PEM CA bundle for private-PKI HTTPS collectors;</li>
+<li>request-level server spans with trace ID, regenerated span ID, optional parent span ID, method, vhost, resolved route name, status, error flag, body byte counts, cache phase/timing, compression encoding, and PHP-FPM outcome when those modules are compiled in.</li>
 </ul>
-<p>Jaeger <code>http://127.0.0.1:4318/v1/traces</code>;</p>
-<ul>
-<li>optional <code>tracing.otlp.tls_ca_cert_path</code> PEM CA bundle for private-PKI HTTPS</li>
-</ul>
-<p>collectors;</p>
-<ul>
-<li>request-level server spans with trace ID, regenerated span ID, optional parent</li>
-</ul>
-<p>span ID, method, vhost, resolved route name, status, error flag, body byte counts, cache phase/timing, compression encoding, and PHP-FPM outcome when those modules are compiled in.</p>
 <p>Requirements:</p>
 <ul>
-<li>expose exporter health through metrics/admin status when those modules are</li>
-</ul>
-<p>enabled;</p>
-<ul>
-<li>support explicit overflow behavior: <code>drop_new</code>, <code>drop_oldest</code>, or</li>
-</ul>
-<p><code>block_startup_only</code>;</p>
-<ul>
+<li>expose exporter health through metrics/admin status when those modules are enabled;</li>
+<li>support explicit overflow behavior: <code>drop_new</code>, <code>drop_oldest</code>, or <code>block_startup_only</code>;</li>
 <li>never block request workers on collector availability;</li>
-<li>use HTTPS for remote collectors unless the network is already isolated and</li>
-</ul>
-<p>authenticated;</p>
-<ul>
+<li>use HTTPS for remote collectors unless the network is already isolated and authenticated;</li>
 <li>redact all configured sensitive fields before export.</li>
 </ul>
 <p>The exporter supports HTTP and HTTPS. Keep loopback HTTP for local collectors; use HTTPS for collector endpoints that cross a host or container trust boundary. When no private CA bundle is configured, the HTTPS client uses the bundled WebPKI roots. Plaintext HTTP to a non-loopback collector logs a startup warning.</p>
@@ -245,14 +214,10 @@ slow_request_threshold = &quot;500ms&quot;</code></pre>
 <li>Do not trust inbound sampled flags from untrusted peers by default.</li>
 <li>Do not expose trace IDs as authorization or session identifiers.</li>
 <li>Do not store trace context in cache keys.</li>
-<li>Do not propagate trace context to auth, metadata, ad, or AI decision services</li>
-</ul>
-<p>unless that service is explicitly configured to receive it.</p>
-<ul>
+<li>Do not propagate trace context to auth, metadata, ad, or AI decision services unless that service is explicitly configured to receive it.</li>
 <li>Redact trace attributes before logging/export.</li>
-<li>Reject with config validation when combined with <code>privacy-mode</code>, unless the</li>
+<li>Reject with config validation when combined with <code>privacy-mode</code>, unless the future mode is strictly propagation-only and documented separately.</li>
 </ul>
-<p>future mode is strictly propagation-only and documented separately.</p>
 <h2 id="test-plan">Test Plan</h2>
 <ul>
 <li>Extract valid <code>traceparent</code>.</li>
@@ -260,10 +225,7 @@ slow_request_threshold = &quot;500ms&quot;</code></pre>
 <li>Generate trace context when absent.</li>
 <li>Inject trace context into upstream requests.</li>
 <li>Correlate trace ID in access logs when logging is enabled.</li>
-<li>Run <code>scripts/smoke_observability_local.sh</code> to prove stage 1 propagation</li>
-</ul>
-<p>through a live proxy path and verify Prometheus metrics are exposed from the same <code>profile-observability</code> build.</p>
-<ul>
+<li>Run <code>scripts/smoke_observability_local.sh</code> to prove stage 1 propagation through a live proxy path and verify Prometheus metrics are exposed from the same <code>profile-observability</code> build.</li>
 <li>Ensure malformed trace headers are never reflected.</li>
 <li>Ensure untrusted sampled flags do not force sampling.</li>
 <li>Verify sampling decisions for success, slow, and <code>5xx</code> requests.</li>

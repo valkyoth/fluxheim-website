@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -77,18 +77,12 @@
 <p>Use this checklist before publishing a Fluxheim release, changing dependency versions, changing TLS/cache/proxy behavior, or building an image for other people to run.</p>
 <h2 id="version-and-toolchain">Version And Toolchain</h2>
 <ul>
-<li>Confirm the Rust version in <code>rust-toolchain.toml</code>, <code>Cargo.toml</code>, <code>README.md</code>,</li>
-</ul>
-<p>and the <code>Containerfile</code> all agree.</p>
-<ul>
+<li>Confirm the Rust version in <code>rust-toolchain.toml</code>, <code>Cargo.toml</code>, <code>README.md</code>, and the <code>Containerfile</code> all agree.</li>
 <li>Run the release metadata preflight:</li>
 </ul>
 <pre class="language-bash"><code class="language-bash">scripts/validate-release-metadata.sh</code></pre>
 <ul>
-<li>Check that the pinned Rust version is still the current stable release before</li>
-</ul>
-<p>release work starts.</p>
-<ul>
+<li>Check that the pinned Rust version is still the current stable release before release work starts.</li>
 <li>Re-check the latest <code>cargo-deny</code> and <code>cargo-audit</code> versions:</li>
 </ul>
 <pre class="language-bash"><code class="language-bash">cargo info cargo-deny
@@ -102,22 +96,10 @@ cargo install --locked cargo-sbom --version 0.10.0</code></pre>
 <ul>
 <li>Run <code>cargo update</code> only as a deliberate dependency maintenance step.</li>
 <li>Review every new dependency for maintenance status and SPDX license metadata.</li>
-<li>Review every new build script, procedural macro, <code>*-sys</code> crate, vendored</li>
-</ul>
-<p>native source, native tool invocation, Cargo alias, and CI workflow edit as build-host code execution.</p>
-<ul>
-<li>Keep <code>deny.toml</code> strict: unknown registries, git sources, and unknown licenses</li>
-</ul>
-<p>stay denied.</p>
-<ul>
-<li>Keep <code>.cargo/audit.toml</code> exceptions narrow, versioned, and documented with a</li>
-</ul>
-<p>removal condition.</p>
-<ul>
-<li>For unmaintained transitive dependencies inherited from Pingora or TLS</li>
-</ul>
-<p>backends, prefer upstream fixes over local forks. Track the package, advisory ID, upstream source, Fluxheim reachability, and removal condition in <code>SECURITY.md</code> and release notes. Do not promote an ignored advisory from warning to accepted risk without a written reason.</p>
-<ul>
+<li>Review every new build script, procedural macro, <code>*-sys</code> crate, vendored native source, native tool invocation, Cargo alias, and CI workflow edit as build-host code execution.</li>
+<li>Keep <code>deny.toml</code> strict: unknown registries, git sources, and unknown licenses stay denied.</li>
+<li>Keep <code>.cargo/audit.toml</code> exceptions narrow, versioned, and documented with a removal condition.</li>
+<li>For unmaintained transitive dependencies inherited from Pingora or TLS backends, prefer upstream fixes over local forks. Track the package, advisory ID, upstream source, Fluxheim reachability, and removal condition in <code>SECURITY.md</code> and release notes. Do not promote an ignored advisory from warning to accepted risk without a written reason.</li>
 <li>Run the release wrapper:</li>
 </ul>
 <pre class="language-bash"><code class="language-bash">scripts/release_checks.sh</code></pre>
@@ -131,22 +113,10 @@ cargo install --locked cargo-sbom --version 0.10.0</code></pre>
 <p>Confirm the Rust CI workflow still runs the core feature matrix in both check and release modes, plus the <code>scripts/smoke_1_0_core.sh</code> localhost smoke.</p>
 <h2 id="tls-and-certificate-storage">TLS And Certificate Storage</h2>
 <ul>
-<li>Static certificate chains and private keys are supported. Bought certificates</li>
-</ul>
-<p>remain a first-class deployment mode.</p>
-<ul>
-<li>In the default rustls build, validate the default downstream certificate and</li>
-</ul>
-<p>at least one vhost-specific SNI certificate per TLS listener.</p>
-<ul>
-<li>The core smoke generates temporary static certificates and proves static,</li>
-</ul>
-<p>proxied, and SNI-selected vhosts over a TLS listener.</p>
-<ul>
-<li>ACME config and renewal queue planning are implemented, but account/order and</li>
-</ul>
-<p>challenge runtime work is not release-ready yet. Do not document automated ACME issuance as operational until that runtime is implemented and tested.</p>
-<ul>
+<li>Static certificate chains and private keys are supported. Bought certificates remain a first-class deployment mode.</li>
+<li>In the default rustls build, validate the default downstream certificate and at least one vhost-specific SNI certificate per TLS listener.</li>
+<li>The core smoke generates temporary static certificates and proves static, proxied, and SNI-selected vhosts over a TLS listener.</li>
+<li>ACME config and renewal queue planning are implemented, but account/order and challenge runtime work is not release-ready yet. Do not document automated ACME issuance as operational until that runtime is implemented and tested.</li>
 <li>Validate production-like TLS storage before startup:</li>
 </ul>
 <pre class="language-bash"><code class="language-bash">fluxheim --config path/to/fluxheim.toml --check-tls-storage</code></pre>
@@ -204,45 +174,22 @@ cargo test
 scripts/validate-1-0-core.sh release
 scripts/smoke_1_0_core.sh</code></pre>
 <ul>
-<li>Direct unsafe policy. Fluxheim&#x27;s crate roots use <code>#![forbid(unsafe_code)]</code>;</li>
+<li>Direct unsafe policy. Fluxheim&#x27;s crate roots use <code>#![forbid(unsafe_code)]</code>; this is enforced by the normal compile, clippy, and feature-matrix gates. Do not add direct <code>unsafe</code> blocks or raw FFI to Fluxheim source. Prefer safe wrapper crates for platform APIs and safe task/waker primitives in tests.</li>
+<li>Panic policy. Release artifacts build with <code>panic = &quot;abort&quot;</code>, and crate roots deny production <code>unwrap()</code>, <code>expect()</code>, and <code>panic!()</code> through clippy. Keep operational errors on <code>Result</code> or explicit fallback responses. Test-only assertions may continue using panicking helpers.</li>
+<li>Native dependency policy. FIPS-capable profiles can intentionally pull native cryptographic modules such as OpenSSL providers or <code>aws-lc-fips-sys</code>. Record the provider/module certificate, compiler, platform, and Security Policy in release evidence, and run sanitizer builds where supported by that native dependency and target platform.</li>
+<li>Secret handling policy. Admin bearer tokens are read into zeroizing buffers, hashed, and compared through a vetted constant-time equality primitive. Keep new long-lived credentials in <code>zeroize</code>/<code>ZeroizeOnDrop</code> types, and use <code>subtle</code> for any equality check involving authentication tokens, signing secrets, or derived verifiers. Disk cache encryption keys and OpenBao tokens are long-lived credentials and must follow this policy. Do not classify normal cache object bodies as secrets unless a future module explicitly stores private user data.</li>
+<li>Third-party unsafe inventory. Before a stable release, run <code>cargo-geiger</code> as an informational dependency review and record unexpected changes in the release notes. Do not treat every dependency-level unsafe finding as an automatic blocker: the networking, TLS, OS, and runtime stack may contain audited unsafe internals. Treat new unsafe in direct dependencies as a review trigger alongside <code>cargo deny</code> and <code>cargo audit</code>.</li>
+<li>Supply-chain evidence. Stable release gates must generate SPDX and CycloneDX SBOMs with <code>cargo-sbom</code>, record their checksums, and run a local reproducible-build check that compiles the release binary twice from separate target directories and compares the resulting executable hash. This does not prove cross-machine bit-for-bit reproducibility; it proves the published builder can reproduce its own release artifact from the tagged source and pinned lockfile. Cross-distro/container reproducibility remains a future hardening goal.</li>
+<li>Human dependency review. Track the <code>cargo-vet</code> adoption path in <a href="supply-chain-security.html" class="text-cyan-400 hover:text-cyan-300">Rust Supply-Chain Security</a>. Do not make <code>cargo-vet</code> a blocking release gate until the initial exemption set and trusted audit imports have been reviewed.</li>
 </ul>
-<p>this is enforced by the normal compile, clippy, and feature-matrix gates. Do not add direct <code>unsafe</code> blocks or raw FFI to Fluxheim source. Prefer safe wrapper crates for platform APIs and safe task/waker primitives in tests.</p>
 <ul>
-<li>Panic policy. Release artifacts build with <code>panic = &quot;abort&quot;</code>, and crate roots</li>
+<li>Request framing and smuggling regression tests. The unit suite must keep coverage for ambiguous <code>Content-Length</code> and <code>Transfer-Encoding</code>, invalid <code>Content-Length</code>, oversized headers, oversized body streams, unsafe <code>Host</code> values, and redirect target construction. Later stable modules must add their own malicious-input regression tests before release.</li>
 </ul>
-<p>deny production <code>unwrap()</code>, <code>expect()</code>, and <code>panic!()</code> through clippy. Keep operational errors on <code>Result</code> or explicit fallback responses. Test-only assertions may continue using panicking helpers.</p>
-<ul>
-<li>Native dependency policy. FIPS-capable profiles can intentionally pull native</li>
-</ul>
-<p>cryptographic modules such as OpenSSL providers or <code>aws-lc-fips-sys</code>. Record the provider/module certificate, compiler, platform, and Security Policy in release evidence, and run sanitizer builds where supported by that native dependency and target platform.</p>
-<ul>
-<li>Secret handling policy. Admin bearer tokens are read into zeroizing buffers,</li>
-</ul>
-<p>hashed, and compared through a vetted constant-time equality primitive. Keep new long-lived credentials in <code>zeroize</code>/<code>ZeroizeOnDrop</code> types, and use <code>subtle</code> for any equality check involving authentication tokens, signing secrets, or derived verifiers. Disk cache encryption keys and OpenBao tokens are long-lived credentials and must follow this policy. Do not classify normal cache object bodies as secrets unless a future module explicitly stores private user data.</p>
-<ul>
-<li>Third-party unsafe inventory. Before a stable release, run <code>cargo-geiger</code> as</li>
-</ul>
-<p>an informational dependency review and record unexpected changes in the release notes. Do not treat every dependency-level unsafe finding as an automatic blocker: the networking, TLS, OS, and runtime stack may contain audited unsafe internals. Treat new unsafe in direct dependencies as a review trigger alongside <code>cargo deny</code> and <code>cargo audit</code>.</p>
-<ul>
-<li>Supply-chain evidence. Stable release gates must generate SPDX and CycloneDX</li>
-</ul>
-<p>SBOMs with <code>cargo-sbom</code>, record their checksums, and run a local reproducible-build check that compiles the release binary twice from separate target directories and compares the resulting executable hash. This does not prove cross-machine bit-for-bit reproducibility; it proves the published builder can reproduce its own release artifact from the tagged source and pinned lockfile. Cross-distro/container reproducibility remains a future hardening goal.</p>
-<ul>
-<li>Human dependency review. Track the <code>cargo-vet</code> adoption path in</li>
-</ul>
-<p><a href="supply-chain-security.html" class="text-cyan-400 hover:text-cyan-300">Rust Supply-Chain Security</a>. Do not make <code>cargo-vet</code> a blocking release gate until the initial exemption set and trusted audit imports have been reviewed.</p>
-<ul>
-<li>Request framing and smuggling regression tests. The unit suite must keep</li>
-</ul>
-<p>coverage for ambiguous <code>Content-Length</code> and <code>Transfer-Encoding</code>, invalid <code>Content-Length</code>, oversized headers, oversized body streams, unsafe <code>Host</code> values, and redirect target construction. Later stable modules must add their own malicious-input regression tests before release.</p>
 <p>Run the raw-socket framing smoke before tagging a stable proxy release:</p>
 <pre class="language-bash"><code class="language-bash">scripts/smoke_request_framing.sh</code></pre>
 <p>This smoke bypasses browser/client normalization and verifies malformed request framing is rejected on the wire.</p>
 <ul>
-<li>Header scrubbing checks. The 1.0 smoke must continue proving that the default</li>
-</ul>
-<p>response policy does not expose version banners and strips common upstream implementation headers from proxied responses. Later stable modules must prove equivalent secret/banner scrubbing for their own outputs.</p>
-<ul>
+<li>Header scrubbing checks. The 1.0 smoke must continue proving that the default response policy does not expose version banners and strips common upstream implementation headers from proxied responses. Later stable modules must prove equivalent secret/banner scrubbing for their own outputs.</li>
 <li>Local load test with a release binary and a representative 1.0 config:</li>
 </ul>
 <pre class="language-bash"><code class="language-bash">cargo build --release
@@ -253,13 +200,9 @@ hey -z 30s -c 64 -host static.test http://127.0.0.1:18080/</code></pre>
 <p>The default duration is intentionally modest. Tune it for release validation:</p>
 <pre class="language-bash"><code class="language-bash">FLUXHEIM_LOAD_DURATION=60s FLUXHEIM_LOAD_CONCURRENCY=128 scripts/load_smoke_1_0.sh</code></pre>
 <ul>
-<li>TLS policy check. The current Fluxheim TLS listener configuration uses the</li>
+<li>TLS policy check. The current Fluxheim TLS listener configuration uses the selected Pingora TLS backend defaults and does not expose user-configurable cipher-suite or protocol-version settings yet. Release scans are therefore the enforcement gate: a stable release must not ship if the selected default TLS backend negotiates deprecated protocol versions or weak cipher suites.</li>
+<li>Local TLS smoke. The localhost smoke already proves a static certificate over a TLS listener. For a deeper local scan, use a temporary copy of the latest stable <code>testssl.sh</code> release against the release binary. Re-check the latest stable tag before each release; as of 2026-05-06, GitHub lists <code>v3.2.3</code> as the latest stable release:</li>
 </ul>
-<p>selected Pingora TLS backend defaults and does not expose user-configurable cipher-suite or protocol-version settings yet. Release scans are therefore the enforcement gate: a stable release must not ship if the selected default TLS backend negotiates deprecated protocol versions or weak cipher suites.</p>
-<ul>
-<li>Local TLS smoke. The localhost smoke already proves a static certificate over</li>
-</ul>
-<p>a TLS listener. For a deeper local scan, use a temporary copy of the latest stable <code>testssl.sh</code> release against the release binary. Re-check the latest stable tag before each release; as of 2026-05-06, GitHub lists <code>v3.2.3</code> as the latest stable release:</p>
 <pre class="language-bash"><code class="language-bash">curl -sSfL -o /tmp/testssl.sh https://raw.githubusercontent.com/testssl/testssl.sh/v3.2.3/testssl.sh
 chmod +x /tmp/testssl.sh
 /tmp/testssl.sh --fast --parallel https://127.0.0.1:18443/</code></pre>
@@ -268,38 +211,18 @@ chmod +x /tmp/testssl.sh
 <p>Do not vendor this script into the repository. Re-download it for release validation and record the commit/version it reports.</p>
 <p>Checks that should be run by the maintainer from a deployment-like environment:</p>
 <ul>
-<li>Run an authenticated or allowlisted OWASP ZAP/Burp active scan against a</li>
+<li>Run an authenticated or allowlisted OWASP ZAP/Burp active scan against a staging deployment that has no real secrets, users, or customer content.</li>
+<li>Run <code>testssl.sh</code> or a public TLS scanner against the real public hostname after DNS, certificates, and firewall rules are final.</li>
+<li>Run a larger <code>hey</code>, <code>wrk</code>, <code>k6</code>, or Gatling load test from a separate host. Local loopback hides network and socket pressure.</li>
+<li>Run a slow-client test from a separate host to confirm header/body timeouts and connection limits are effective. If using a tool such as <code>slowhttptest</code>, point it only at infrastructure you own.</li>
+<li>Confirm upstream handoff uses one of the supported safe deployment patterns: private network, loopback/service network, TLS upstream verification, or mTLS where the backend supports it.</li>
+<li>Confirm trusted-proxy settings are not enabled for public traffic unless the actual ingress proxy IP ranges are pinned and reviewed.</li>
 </ul>
-<p>staging deployment that has no real secrets, users, or customer content.</p>
-<ul>
-<li>Run <code>testssl.sh</code> or a public TLS scanner against the real public hostname</li>
-</ul>
-<p>after DNS, certificates, and firewall rules are final.</p>
-<ul>
-<li>Run a larger <code>hey</code>, <code>wrk</code>, <code>k6</code>, or Gatling load test from a separate host.</li>
-</ul>
-<p>Local loopback hides network and socket pressure.</p>
-<ul>
-<li>Run a slow-client test from a separate host to confirm header/body timeouts</li>
-</ul>
-<p>and connection limits are effective. If using a tool such as <code>slowhttptest</code>, point it only at infrastructure you own.</p>
-<ul>
-<li>Confirm upstream handoff uses one of the supported safe deployment patterns:</li>
-</ul>
-<p>private network, loopback/service network, TLS upstream verification, or mTLS where the backend supports it.</p>
-<ul>
-<li>Confirm trusted-proxy settings are not enabled for public traffic unless the</li>
-</ul>
-<p>actual ingress proxy IP ranges are pinned and reviewed.</p>
 <p>Fuzzing gate:</p>
 <ul>
-<li>Before tagging a stable release, add or run fuzz targets for custom parser and</li>
+<li>Before tagging a stable release, add or run fuzz targets for custom parser and policy code rather than Pingora internals. For <code>1.0.x</code>, cover Host normalization, redirect URL construction, header mutation policy, static path resolution, cache key generation, and cache-header parsing. Later stable modules must add fuzz targets for their own parsers and security policy boundaries.</li>
+<li>Fuzzing is release-blocking if it finds a panic, path escape, open redirect, request-boundary ambiguity, or unbounded memory growth.</li>
 </ul>
-<p>policy code rather than Pingora internals. For <code>1.0.x</code>, cover Host normalization, redirect URL construction, header mutation policy, static path resolution, cache key generation, and cache-header parsing. Later stable modules must add fuzz targets for their own parsers and security policy boundaries.</p>
-<ul>
-<li>Fuzzing is release-blocking if it finds a panic, path escape, open redirect,</li>
-</ul>
-<p>request-boundary ambiguity, or unbounded memory growth.</p>
 <p>Initial fuzz targets live under <code>fuzz/</code> and can be run with <code>cargo-fuzz</code>:</p>
 <pre class="language-bash"><code class="language-bash">cargo install --locked cargo-fuzz
 scripts/validate-fuzz-targets.sh
@@ -308,26 +231,15 @@ cargo fuzz run cache_headers -- -max_total_time=60</code></pre>
 <p>Increase the runtime substantially before a stable tag. Keep generated corpora and artifacts out of git unless a minimized regression case should be promoted into a normal unit test.</p>
 <p>Property-testing gate:</p>
 <ul>
-<li><code>cargo test</code> includes property-based checks for Host normalization, dynamic</li>
+<li><code>cargo test</code> includes property-based checks for Host normalization, dynamic request-header templates, and ACME retry backoff. These tests are intended to protect invariants that are easy to miss with hand-picked examples.</li>
+<li>Add a property test when a parser, normalizer, path resolver, or security policy accepts attacker-controlled input and the expected behavior can be stated as an invariant.</li>
+<li>Property-test failures are release-blocking if they show a panic, invalid header generation, path escape, open redirect, arithmetic overflow, or acceptance of a malformed security-sensitive value.</li>
 </ul>
-<p>request-header templates, and ACME retry backoff. These tests are intended to protect invariants that are easy to miss with hand-picked examples.</p>
-<ul>
-<li>Add a property test when a parser, normalizer, path resolver, or security</li>
-</ul>
-<p>policy accepts attacker-controlled input and the expected behavior can be stated as an invariant.</p>
-<ul>
-<li>Property-test failures are release-blocking if they show a panic, invalid</li>
-</ul>
-<p>header generation, path escape, open redirect, arithmetic overflow, or acceptance of a malformed security-sensitive value.</p>
 <p>Formal-verification note:</p>
 <ul>
-<li>Kani or another Rust verifier is not part of the mandatory <code>1.0</code> release gate.</li>
+<li>Kani or another Rust verifier is not part of the mandatory <code>1.0</code> release gate. Before enabling it in CI, add a small harness for one bounded parser and prove that the toolchain is reproducible on the supported release builders.</li>
+<li>Candidate future harnesses are header-template parsing, Host normalization, ACME date/backoff arithmetic, and static path containment checks.</li>
 </ul>
-<p>Before enabling it in CI, add a small harness for one bounded parser and prove that the toolchain is reproducible on the supported release builders.</p>
-<ul>
-<li>Candidate future harnesses are header-template parsing, Host normalization,</li>
-</ul>
-<p>ACME date/backoff arithmetic, and static path containment checks.</p>
 <h2 id="incubator-feature-matrix">Incubator Feature Matrix</h2>
 <p>Run this matrix for normal development and for pre-release validation when post-1.0 modules changed. Passing these commands does not make the modules part of the <code>1.0</code> stable scope.</p>
 <pre class="language-bash"><code class="language-bash">cargo build --release --no-default-features --features proxy,load-balancer
@@ -336,6 +248,7 @@ cargo build --release --no-default-features --features proxy,tls-rustls,acme
 cargo build --release --no-default-features --features profile-full
 cargo build --release --no-default-features --features profile-cache-edge
 cargo build --release --no-default-features --features profile-proxy-edge
+cargo build --release --no-default-features --features profile-load-balancer-edge
 cargo build --release --no-default-features --features profile-observability
 scripts/validate-fips-openssl.sh check
 scripts/validate-fips-rustls.sh check
@@ -363,7 +276,7 @@ FLUXHEIM_REQUIRE_BORINGSSL=1 scripts/validate-tls-backends.sh release</code></pr
 <p>If Codex or another sandboxed tool cannot reach the rootless socket, export the socket explicitly:</p>
 <pre class="language-bash"><code class="language-bash">CONTAINER_HOST=&quot;unix://$XDG_RUNTIME_DIR/podman/podman.sock&quot; scripts/podman_smoke.sh</code></pre>
 <p>The smoke builds the image, validates the packaged config, and checks that the runtime process does not run as root.</p>
-<p>Fluxheim publishes variant images from the explicit Containerfiles under <code>containers/</code>: <code>wolfi</code>, <code>alpine</code>, <code>suse-micro</code>, and <code>debian</code>. Each OS variant is published for the full/default, cache, and proxy image profiles. The load-balancer image profile is prepared for the <code>1.5</code> line and can be included early through manual workflow dispatch. GitHub Container Registry publishing uses the repository <code>GITHUB_TOKEN</code>; Docker Hub publishing requires <code>DOCKERHUB_USERNAME</code> and <code>DOCKERHUB_TOKEN</code> repository secrets.</p>
+<p>Fluxheim publishes variant images from the explicit Containerfiles under <code>containers/</code>: <code>wolfi</code>, <code>alpine</code>, <code>suse-micro</code>, and <code>debian</code>. Each OS variant is published for the full/default, cache, proxy, PHP, and, starting with the <code>1.5</code> line, load-balancer image profiles. Pre-<code>1.5</code> tags can include the load-balancer profile only through manual workflow dispatch. GitHub Container Registry publishing uses the repository <code>GITHUB_TOKEN</code>; Docker Hub publishing requires <code>DOCKERHUB_USERNAME</code> and <code>DOCKERHUB_TOKEN</code> repository secrets.</p>
 <p>The published default images should keep <code>FLUXHEIM_RUNTIME_UID=65532</code> and <code>FLUXHEIM_RUNTIME_GID=65532</code>. Root-runtime images are supported through build args, but should be tagged deliberately and not replace the non-root defaults.</p>
 <h2 id="final-release-gate">Final Release Gate</h2>
 <ul>
@@ -371,22 +284,17 @@ FLUXHEIM_REQUIRE_BORINGSSL=1 scripts/validate-tls-backends.sh release</code></pr
 <li>Update <code>CHANGELOG.md</code> before tagging.</li>
 <li>Prepare release notes from <code>docs/release-notes-template.md</code>.</li>
 <li>Confirm the repository still carries the <code>EUPL-1.2</code> license.</li>
-<li>Confirm reviewed advisory exceptions still match current <code>cargo audit</code></li>
-</ul>
-<p>output.</p>
-<ul>
+<li>Confirm reviewed advisory exceptions still match current <code>cargo audit</code> output.</li>
 <li>Capture a local release-gate report for the tag:</li>
 </ul>
 <pre class="language-bash"><code class="language-bash">scripts/capture_release_gate_report.sh release</code></pre>
 <ul>
-<li>For release candidates, capture the deep gate with scanner, load, framing,</li>
+<li>For release candidates, capture the deep gate with scanner, load, framing, fuzz-target, and TLS-backend checks enabled:</li>
 </ul>
-<p>fuzz-target, and TLS-backend checks enabled:</p>
 <pre class="language-bash"><code class="language-bash">FLUXHEIM_CAPTURE_DEEP=1 scripts/capture_release_gate_report.sh release</code></pre>
 <ul>
-<li>Attach or summarize the stable release security and stability gate results in</li>
+<li>Attach or summarize the stable release security and stability gate results in the release notes.</li>
 </ul>
-<p>the release notes.</p>
         </article>
       </div>
     </main>

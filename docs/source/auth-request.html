@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.4.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -53,7 +53,7 @@
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
@@ -81,33 +81,22 @@
 <ul>
 <li>Keep the default binary free of external-authorization code.</li>
 <li>Make authorization per-vhost and per-route.</li>
-<li>Support global authorization zones that protect all routes by default unless</li>
-</ul>
-<p>a route is explicitly excluded.</p>
-<ul>
+<li>Support global authorization zones that protect all routes by default unless a route is explicitly excluded.</li>
 <li>Keep request workers protected with strict timeouts and response-size limits.</li>
 <li>Never trust headers supplied by the client as authorization facts.</li>
 <li>Make every fail-open/fail-closed choice explicit in config.</li>
-<li>Prefer local JWT/OIDC verification when a request can be decided without a</li>
+<li>Prefer local JWT/OIDC verification when a request can be decided without a network call.</li>
+<li>Support low-latency authorization hooks over HTTPS, Unix domain sockets, and later gRPC.</li>
+<li>Support static web, reverse proxy, and load-balancer routes without turning Fluxheim into an application runtime.</li>
 </ul>
-<p>network call.</p>
-<ul>
-<li>Support low-latency authorization hooks over HTTPS, Unix domain sockets, and</li>
-</ul>
-<p>later gRPC.</p>
-<ul>
-<li>Support static web, reverse proxy, and load-balancer routes without turning</li>
-</ul>
-<p>Fluxheim into an application runtime.</p>
 <h2 id="decision-contract">Decision Contract</h2>
 <p>Fluxheim sends a small authorization request to a configured internal endpoint. The authorization endpoint decides whether the original request may continue.</p>
 <p>Transport options should be explicit:</p>
 <ul>
 <li><code>https</code>: simplest integration with existing policy services.</li>
 <li><code>unix</code>: local sidecar/service integration without exposing a TCP port.</li>
-<li><code>grpc</code>: future persistent typed authorization API for high-throughput</li>
+<li><code>grpc</code>: future persistent typed authorization API for high-throughput deployments.</li>
 </ul>
-<p>deployments.</p>
 <p>Decision handling:</p>
 <ul>
 <li><code>2xx</code>: allow the original request.</li>
@@ -118,9 +107,8 @@
 <p>Error handling is configurable:</p>
 <ul>
 <li><code>fail_closed</code>: return <code>503</code> or configured error status.</li>
-<li><code>fail_open</code>: allow the request and emit a security event, only allowed when</li>
+<li><code>fail_open</code>: allow the request and emit a security event, only allowed when explicitly configured.</li>
 </ul>
-<p>explicitly configured.</p>
 <p><code>fail_closed</code> should be the default.</p>
 <h2 id="request-shape">Request Shape</h2>
 <p>Fluxheim should not forward the full original request by default. The safe baseline is a header-only authorization probe:</p>
@@ -131,10 +119,7 @@
 <li>normalized path;</li>
 <li>query presence or query value depending on policy;</li>
 <li>configured request headers;</li>
-<li>verified client IP only when not in <code>privacy-mode</code> and only after trusted</li>
-</ul>
-<p>proxy processing;</p>
-<ul>
+<li>verified client IP only when not in <code>privacy-mode</code> and only after trusted proxy processing;</li>
 <li>TLS/SNI metadata where useful;</li>
 <li>vhost name and route name.</li>
 </ul>
@@ -152,16 +137,12 @@
 <ul>
 <li><code>Authorization</code> unless explicitly forwarded;</li>
 <li>cookies unless explicitly forwarded;</li>
-<li>any <code>X-User-*</code>, <code>X-Auth-*</code>, <code>X-Forwarded-*</code>, or configured identity headers</li>
+<li>any <code>X-User-*</code>, <code>X-Auth-*</code>, <code>X-Forwarded-*</code>, or configured identity headers that could be spoofed by the client.</li>
 </ul>
-<p>that could be spoofed by the client.</p>
 <p>Headers copied from the auth response to the original upstream request must also be allow-listed. Recommended defaults:</p>
 <ul>
 <li>no copied headers;</li>
-<li>optional namespaced verified headers such as <code>X-Fluxheim-User</code>,</li>
-</ul>
-<p><code>X-Fluxheim-Groups</code>, and <code>X-Fluxheim-Auth-Decision</code>;</p>
-<ul>
+<li>optional namespaced verified headers such as <code>X-Fluxheim-User</code>, <code>X-Fluxheim-Groups</code>, and <code>X-Fluxheim-Auth-Decision</code>;</li>
 <li>no raw token propagation unless explicitly configured.</li>
 </ul>
 <p>For <code>401</code>, challenge headers such as <code>WWW-Authenticate</code> may be passed to the client only from an allow-list.</p>
@@ -171,10 +152,7 @@
 <ul>
 <li>strip inbound identity headers before verification;</li>
 <li>map only verified claims from the auth response or local JWT verifier;</li>
-<li>prefer namespaced headers such as <code>X-Fluxheim-User</code>,</li>
-</ul>
-<p><code>X-Fluxheim-Groups</code>, and <code>X-Fluxheim-Tier</code>;</p>
-<ul>
+<li>prefer namespaced headers such as <code>X-Fluxheim-User</code>, <code>X-Fluxheim-Groups</code>, and <code>X-Fluxheim-Tier</code>;</li>
 <li>never forward raw tokens unless the operator explicitly allow-lists them.</li>
 </ul>
 <p>Example:</p>
@@ -205,14 +183,8 @@ except = [&quot;/public/*&quot;, &quot;/favicon.ico&quot;, &quot;/_health&quot;]
 <p>Denial behavior should be explicit and client-aware:</p>
 <ul>
 <li>browser requests may redirect to a configured login URL;</li>
-<li>redirects may include a safe return destination generated from the normalized</li>
-</ul>
-<p>original URL;</p>
-<ul>
-<li>API/AJAX requests can receive a JSON <code>401</code>/<code>403</code> response instead of a</li>
-</ul>
-<p>redirect;</p>
-<ul>
+<li>redirects may include a safe return destination generated from the normalized original URL;</li>
+<li>API/AJAX requests can receive a JSON <code>401</code>/<code>403</code> response instead of a redirect;</li>
 <li>redirect destinations must be validated to avoid open redirects.</li>
 </ul>
 <h2 id="caching">Caching</h2>
@@ -235,33 +207,17 @@ except = [&quot;/public/*&quot;, &quot;/favicon.ico&quot;, &quot;/_health&quot;]
 <p>Never cache decisions that include raw credentials, request bodies, or unbounded query strings.</p>
 <h2 id="security-requirements">Security Requirements</h2>
 <ul>
-<li>Auth backend URL must be explicit per vhost or inherited from a typed global</li>
-</ul>
-<p>profile.</p>
-<ul>
+<li>Auth backend URL must be explicit per vhost or inherited from a typed global profile.</li>
 <li>Auth backend TLS verification must be enabled by default.</li>
 <li>mTLS to the auth backend should be supported.</li>
 <li>Auth backend response headers and bodies must have strict size limits.</li>
 <li>Auth requests must have connect, read, and total timeouts.</li>
-<li>Redirect responses from the auth backend are errors unless explicitly</li>
+<li>Redirect responses from the auth backend are errors unless explicitly allowed for a narrow use case.</li>
+<li>Auth loops must be impossible: auth endpoints cannot themselves require the same auth policy.</li>
+<li>Admin, metrics, ACME challenge, and internal control paths must be excluded unless explicitly allowed.</li>
+<li>Logs must record decision class, policy name, status, latency, and error class after redaction. They must not log raw tokens, cookies, or auth response bodies.</li>
+<li><code>privacy-mode</code> should be incompatible with <code>auth-request</code> by default because external authorization intentionally sends request metadata to another service.</li>
 </ul>
-<p>allowed for a narrow use case.</p>
-<ul>
-<li>Auth loops must be impossible: auth endpoints cannot themselves require the</li>
-</ul>
-<p>same auth policy.</p>
-<ul>
-<li>Admin, metrics, ACME challenge, and internal control paths must be excluded</li>
-</ul>
-<p>unless explicitly allowed.</p>
-<ul>
-<li>Logs must record decision class, policy name, status, latency, and error</li>
-</ul>
-<p>class after redaction. They must not log raw tokens, cookies, or auth response bodies.</p>
-<ul>
-<li><code>privacy-mode</code> should be incompatible with <code>auth-request</code> by default because</li>
-</ul>
-<p>external authorization intentionally sends request metadata to another service.</p>
 <h2 id="configuration-sketch">Configuration Sketch</h2>
 <pre class="language-toml"><code class="language-toml">[auth_request.profiles.internal]
 endpoint = &quot;unix:///run/auth/check.sock&quot;
@@ -302,30 +258,14 @@ except = [&quot;/public/*&quot;, &quot;/favicon.ico&quot;]</code></pre>
 <li>Enforce auth backend timeout and response-size limits.</li>
 <li>Reject recursive auth configuration.</li>
 <li>Verify <code>fail_closed</code> and explicit <code>fail_open</code> behavior.</li>
-<li>Verify positive/negative cache TTL boundaries when decision caching is</li>
-</ul>
-<p>enabled.</p>
-<ul>
-<li>Verify global auth zones protect routes by default and honor explicit</li>
-</ul>
-<p>exclusions.</p>
-<ul>
-<li>Verify UDS auth endpoints and later gRPC hooks enforce the same timeout and</li>
-</ul>
-<p>size limits as HTTPS endpoints.</p>
-<ul>
-<li>Verify local JWT issuer, audience, expiry, algorithm, and key rotation</li>
-</ul>
-<p>behavior.</p>
-<ul>
+<li>Verify positive/negative cache TTL boundaries when decision caching is enabled.</li>
+<li>Verify global auth zones protect routes by default and honor explicit exclusions.</li>
+<li>Verify UDS auth endpoints and later gRPC hooks enforce the same timeout and size limits as HTTPS endpoints.</li>
+<li>Verify local JWT issuer, audience, expiry, algorithm, and key rotation behavior.</li>
 <li>Verify claim mapping only injects values from verified identity context.</li>
-<li>Verify browser redirects preserve a safe return destination and API/AJAX</li>
+<li>Verify browser redirects preserve a safe return destination and API/AJAX requests can receive non-redirect denials.</li>
+<li>Verify <code>auth-request</code> is absent from default builds and rejected with <code>privacy-mode</code>.</li>
 </ul>
-<p>requests can receive non-redirect denials.</p>
-<ul>
-<li>Verify <code>auth-request</code> is absent from default builds and rejected with</li>
-</ul>
-<p><code>privacy-mode</code>.</p>
         </article>
       </div>
     </main>

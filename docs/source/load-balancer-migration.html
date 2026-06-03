@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Load Balancer Migration Notes — Fluxheim Source Docs</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fluxheim">
+  <meta property="og:title" content="Fluxheim">
+  <meta property="og:description" content="Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.">
+  <meta property="og:url" content="https://fluxheim.eu/">
+  <meta property="og:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <meta property="og:image:secure_url" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Fluxheim logo">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fluxheim">
+  <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust.">
+  <meta name="twitter:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Load Balancer Migration Notes</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="load-balancer-migration-notes">Load Balancer Migration Notes</h1>
+<p>Fluxheim <code>1.5.0</code> focuses on HTTP/TCP edge load-balancer operations that map cleanly from HAProxy, nginx, Envoy, and F5 LTM-style pools. The validated starting fixture is <code>examples/load-balancer-enterprise.toml</code>.</p>
+<p>This is a migration guide for pool behavior, not a claim that Fluxheim clones every product module. UDP, GSLB/DNS steering, WAF policy, VPN/firewall appliance behavior, and iRules/Lua/Wasm scripting are tracked as separate roadmap lines.</p>
+<h2 id="nginx-upstream">nginx Upstream</h2>
+<p>Typical nginx upstreams:</p>
+<pre class="language-nginx"><code class="language-nginx">upstream app {
+    least_conn;
+    server 10.0.0.10:8080 weight=4;
+    server 10.0.0.11:8080 weight=4;
+    server 10.0.1.10:8080 backup;
+}</code></pre>
+<p>Fluxheim equivalent:</p>
+<pre class="language-toml"><code class="language-toml">[proxy]
+upstreams = [&quot;10.0.0.10:8080&quot;, &quot;10.0.0.11:8080&quot;, &quot;10.0.1.10:8080&quot;]
+upstream_weights = [4, 4, 1]
+backup_upstreams = [&quot;10.0.1.10:8080&quot;]
+
+[proxy.load_balance]
+selection = &quot;least-connections&quot;</code></pre>
+<p>Use <code>upstream_priority_groups</code> when nginx configs express preferred regions or manual failover tiers rather than simple backup-only behavior.</p>
+<h2 id="haproxy-backend">HAProxy Backend</h2>
+<p>Typical HAProxy backend:</p>
+<pre class="language-haproxy"><code class="language-haproxy">backend app
+  balance leastconn
+  server app-a 10.0.0.10:8080 weight 4 check maxconn 500
+  server app-b 10.0.0.11:8080 weight 4 check maxconn 500
+  server app-dr 10.0.1.10:8080 backup check</code></pre>
+<p>Fluxheim equivalent:</p>
+<pre class="language-toml"><code class="language-toml">[proxy]
+upstreams = [&quot;10.0.0.10:8080&quot;, &quot;10.0.0.11:8080&quot;, &quot;10.0.1.10:8080&quot;]
+upstream_aliases = [&quot;app-a&quot;, &quot;app-b&quot;, &quot;app-dr&quot;]
+upstream_weights = [4, 4, 1]
+upstream_max_in_flight = [500, 500, 100]
+backup_upstreams = [&quot;10.0.1.10:8080&quot;]
+
+[proxy.load_balance]
+selection = &quot;least-connections&quot;
+all_down_status = 503
+
+[proxy.load_balance.health_check]
+enabled = true
+protocol = &quot;tcp&quot;
+interval_secs = 2
+consecutive_success = 2
+consecutive_failure = 3</code></pre>
+<p>HAProxy stick-table patterns map only to Fluxheim&#x27;s bounded local persistence tables in <code>1.5.0</code>. Multi-counter stick-table expressions remain future advanced ACL/stick-table work.</p>
+<h2 id="f5-ltm-pool">F5 LTM Pool</h2>
+<p>F5 pools often combine monitors, priority-group activation, node/member administrative state, persistence, and manual drain/resume workflows.</p>
+<p>Fluxheim maps those pieces as follows:</p>
+<div class="source-table"><table>
+<thead><tr><th>F5 / BIG-IP concept</th><th>Fluxheim <code>1.5.0</code> mapping</th></tr></thead>
+<tbody>
+<tr><td>Pool members</td><td><code>proxy.upstreams</code></td></tr>
+<tr><td>Member names</td><td><code>proxy.upstream_aliases</code></td></tr>
+<tr><td>Member metadata / labels</td><td><code>proxy.upstream_tags</code></td></tr>
+<tr><td>Ratio / weight</td><td><code>proxy.upstream_weights</code></td></tr>
+<tr><td>Maglev hash persistence</td><td><code>proxy.load_balance.selection = &quot;maglev&quot;</code> for static pools</td></tr>
+<tr><td>Bounded-load consistent hash</td><td><code>proxy.load_balance.selection = &quot;bounded-load-consistent-uri-hash&quot;</code> plus optional <code>bounded_load_factor_per_mille</code></td></tr>
+<tr><td>Priority group activation</td><td><code>proxy.upstream_priority_groups</code> plus <code>upstream_priority_group_min_active</code></td></tr>
+<tr><td>Member connection limit</td><td><code>proxy.upstream_max_in_flight</code></td></tr>
+<tr><td>Monitors</td><td><code>proxy.load_balance.health_check</code></td></tr>
+<tr><td>Passive outlier ejection</td><td><code>proxy.load_balance.passive_health</code></td></tr>
+<tr><td>Slow ramp after recovery</td><td><code>proxy.load_balance.slow_start</code></td></tr>
+<tr><td>Source-address persistence</td><td><code>proxy.load_balance.persistence</code> with <code>mode = &quot;source-ip&quot;</code></td></tr>
+<tr><td>Manual drain/disable/force-down/resume</td><td><code>POST /_fluxheim/load-balancer/member-state</code></td></tr>
+<tr><td>Saturation queue</td><td><code>proxy.load_balance.queue</code></td></tr>
+<tr><td>Pool all-down response</td><td><code>proxy.load_balance.all_down_status</code></td></tr>
+</tbody></table></div>
+<p>Example priority and locality policy:</p>
+<pre class="language-toml"><code class="language-toml">[proxy]
+upstreams = [&quot;10.0.0.10:8080&quot;, &quot;10.0.0.11:8080&quot;, &quot;10.0.1.10:8080&quot;]
+upstream_aliases = [&quot;app-a&quot;, &quot;app-b&quot;, &quot;app-dr&quot;]
+upstream_tags = [[&quot;blue&quot;, &quot;primary&quot;], [&quot;blue&quot;, &quot;primary&quot;], [&quot;dr&quot;]]
+upstream_priority_groups = [100, 100, 10]
+upstream_priority_group_min_active = 1
+upstream_localities = [&quot;site-a&quot;, &quot;site-a&quot;, &quot;site-b&quot;]
+preferred_upstream_localities = [&quot;site-a&quot;]</code></pre>
+<p>Priority groups express preferred/fallback tiers. Locality preference expresses same-zone or same-site preference with automatic fallback when no preferred locality is selectable.</p>
+<h2 id="runtime-operations">Runtime Operations</h2>
+<p>Configured members can be moved in and out of selection without a config reload:</p>
+<pre class="language-bash"><code class="language-bash">curl -X POST \
+  -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
+  &quot;http://127.0.0.1:8081/_fluxheim/load-balancer/member-state?vhost=app&amp;member=app-a&amp;state=drain&quot;</code></pre>
+<p>Supported states are <code>normal</code>, <code>drain</code>, <code>disable</code>, <code>forced_down</code>, and <code>manual_resume</code>. Runtime mutations are intentionally in-memory in <code>1.5.0</code>; they survive neither process restart nor runtime rebuild.</p>
+<p>The load-balancer-only status view is available without parsing the full admin status body:</p>
+<pre class="language-bash"><code class="language-bash">curl -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
+  &quot;http://127.0.0.1:8081/_fluxheim/load-balancer/status&quot;</code></pre>
+<p>Persistence tables can be cleared without a reload:</p>
+<pre class="language-bash"><code class="language-bash">curl -X POST \
+  -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
+  &quot;http://127.0.0.1:8081/_fluxheim/load-balancer/persistence/clear?vhost=app&quot;</code></pre>
+<h2 id="known-migration-boundaries">Known Migration Boundaries</h2>
+<p>The following are intentional <code>1.5.0</code> boundaries. They are not defects in the shipped load-balancer behavior; they are architectural gaps tracked for later <code>1.5.x</code> or future module lines.</p>
+<ul>
+<li>Dynamic weight changes and add/remove-member operations are future control plane work.</li>
+<li>Load-balancer-managed cookie insertion is future persistence work. In <code>1.5.0</code>, cookie persistence uses an application or upstream-issued request cookie that the operator explicitly names; Fluxheim does not yet create a signed/opaque affinity cookie with <code>Set-Cookie</code>.</li>
+<li>HA persistence/cookie mirroring is future cluster-state work. Persistence tables, passive health, retry budgets, queue counters, and runtime overrides are local to one Fluxheim process in <code>1.5.0</code>; active-active deployments must either accept independent local state or place another HA layer in front.</li>
+<li>Maglev hashing is available for static <code>proxy.upstreams</code> pools. File-refreshed and DNS-refreshed pools reject Maglev in <code>1.5.0</code> until dynamic table rebuild behavior is specified and observable.</li>
+<li>Bounded-load consistent hashing is local to one Fluxheim process. It avoids selecting an over-bound hash target when another eligible ring candidate is available, but it does not coordinate load across multiple Fluxheim nodes.</li>
+<li>Runtime state is local and in-memory in <code>1.5.0</code>.</li>
+<li>UDP, GSLB/DNS steering, WAF, VPN/firewall appliance behavior, and scripted iRules/Lua/Wasm behavior are intentionally separate roadmap lines.</li>
+<li><code>proxy.load_balance.queue</code> is opt-in. Defaults keep fail-fast behavior when no backend is selectable.</li>
+</ul>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>

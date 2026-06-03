@@ -135,6 +135,7 @@ cargo build --no-default-features --features profile-full,acme-client,metrics,me
 cargo build --no-default-features --features profile-development
 cargo build --no-default-features --features profile-cache-edge,acme-client
 cargo build --no-default-features --features profile-proxy-edge,acme-client
+cargo build --no-default-features --features profile-load-balancer-edge,acme-client
 cargo build --no-default-features --features profile-web-server,php-fpm,acme-client
 cargo build --no-default-features --features profile-privacy
 cargo build --no-default-features --features profile-fips-openssl
@@ -145,7 +146,8 @@ cargo build --no-default-features --features profile-iso19790-rustls
 
 The raw profile aliases do not force `acme-client`; that is intentional for
 offline or static-certificate custom builds. Official RPMs, images, and release
-tarballs add `acme-client` to the full, cache, and proxy profiles by default.
+tarballs add `acme-client` to the full, cache, proxy, load-balancer, and PHP
+profiles by default.
 
 ## FIPS-Capable TLS Features
 
@@ -230,8 +232,8 @@ Focused image profile status:
 - The `cache` and `proxy` focused profiles compile without local static web
   serving.
 - Compatibility aliases may keep the older broad behavior, but published
-  focused images are `full`, `cache`, and `proxy`. The `load-balancer` profile
-  is prepared for the `1.5` line and can be included manually before then.
+  focused images are `full`, `cache`, `proxy`, `php`, and, starting with the
+  `1.5` line, `load-balancer`.
 
 ## Incompatible Combinations
 

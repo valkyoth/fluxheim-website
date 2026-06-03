@@ -126,7 +126,7 @@ See [Feature Matrix](features.md) for the complete feature/profile list.
 
 Fluxheim's production RPM intentionally compiles
 `profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp` for the
-`1.4.x` line. That keeps the normal packaged binary broad while the container
+`1.5.x` line. That keeps the normal packaged binary broad while the container
 and tarball release assets also provide focused cache/proxy builds. Custom
 source builds can still omit `acme-client`, load-balancer, cache, web, or
 observability features when they are not needed.
@@ -268,8 +268,9 @@ also installs `php-8.5-fpm` and uses
 so `mode = "managed"` works out of the box for content mounted under
 `/srv/fluxheim`. The non-Wolfi PHP image variants keep the external php-fpm
 container config unless their runtime packages are customized. The
-`load-balancer` image is TLS-capable and omits cache and static web serving,
-but is only published automatically for the `1.5` load-balancer line. The
+`load-balancer` image is TLS-capable and omits cache and static web serving.
+Starting with the `1.5` load-balancer line, it is part of the normal focused
+release image set. The
 focused images still reuse the shared proxy runtime internally until lower-level
 serving internals are split further. Override `FLUXHEIM_FEATURES` only when you
 intentionally want a custom image.
@@ -353,7 +354,7 @@ podman build \
   -f containers/Containerfile.wolfi .
 ```
 
-Build the future load-balancer profile locally:
+Build the load-balancer profile locally:
 
 ```bash
 podman build \
@@ -464,15 +465,15 @@ Optional Quay repository secrets and variables:
 
 The workflow publishes OS-variant tags for the full/default image profile:
 
-- `v1.4.0-wolfi`, `v1.4.0-alpine`, `v1.4.0-suse-micro`, `v1.4.0-debian`
+- `v1.5.0-wolfi`, `v1.5.0-alpine`, `v1.5.0-suse-micro`, `v1.5.0-debian`
 - `sha-<short-sha>-wolfi`, `sha-<short-sha>-alpine`, etc.
 - `latest-wolfi`, `latest-alpine`, etc. when run from the default branch
 
 For the recommended Wolfi runtime, the full/default profile also gets short
 aliases:
 
-- `v1.4.0`
-- `v1.4.0-base`
+- `v1.5.0`
+- `v1.5.0-base`
 - `latest`
 - `latest-base`
 
@@ -481,24 +482,26 @@ automation. They point at the full/default image profile.
 
 The cache and proxy image profiles publish tags with a profile segment:
 
-- `v1.4.0-cache-wolfi`, `v1.4.0-cache-alpine`,
-  `v1.4.0-cache-suse-micro`, `v1.4.0-cache-debian`
-- `v1.4.0-proxy-wolfi`, `v1.4.0-proxy-alpine`,
-  `v1.4.0-proxy-suse-micro`, `v1.4.0-proxy-debian`
-- `v1.4.0-php-wolfi`, `v1.4.0-php-alpine`,
-  `v1.4.0-php-suse-micro`, `v1.4.0-php-debian`
+- `v1.5.0-cache-wolfi`, `v1.5.0-cache-alpine`,
+  `v1.5.0-cache-suse-micro`, `v1.5.0-cache-debian`
+- `v1.5.0-proxy-wolfi`, `v1.5.0-proxy-alpine`,
+  `v1.5.0-proxy-suse-micro`, `v1.5.0-proxy-debian`
+- `v1.5.0-load-balancer-wolfi`, `v1.5.0-load-balancer-alpine`,
+  `v1.5.0-load-balancer-suse-micro`, `v1.5.0-load-balancer-debian`
+- `v1.5.0-php-wolfi`, `v1.5.0-php-alpine`,
+  `v1.5.0-php-suse-micro`, `v1.5.0-php-debian`
 - `sha-<short-sha>-cache-wolfi`, `sha-<short-sha>-proxy-wolfi`,
-  `sha-<short-sha>-php-wolfi`, etc.
-- `latest-cache-wolfi`, `latest-proxy-wolfi`, `latest-php-wolfi`, etc. when
-  run from the default branch
-- Wolfi short aliases: `v1.4.0-cache`, `v1.4.0-proxy`, `v1.4.0-php`,
-  `latest-cache`, `latest-proxy`, and `latest-php`
+  `sha-<short-sha>-load-balancer-wolfi`, `sha-<short-sha>-php-wolfi`, etc.
+- `latest-cache-wolfi`, `latest-proxy-wolfi`,
+  `latest-load-balancer-wolfi`, `latest-php-wolfi`, etc. when run from the
+  default branch
+- Wolfi short aliases: `v1.5.0-cache`, `v1.5.0-proxy`,
+  `v1.5.0-load-balancer`, `v1.5.0-php`, `latest-cache`, `latest-proxy`,
+  `latest-load-balancer`, and `latest-php`
 
-The load-balancer image profile is prepared for the `1.5` line. It is skipped
-on normal pre-`1.5` tag pushes, but can be included in manual workflow runs by
-setting `include_load_balancer=true`. Its tags follow the same shape, for
-example `v1.5.0-load-balancer-wolfi` and the Wolfi alias
-`v1.5.0-load-balancer`.
+Starting with `v1.5.0`, the load-balancer image profile is part of normal tag
+publishing. For older tags or development branches, it can still be included in
+manual workflow runs by setting `include_load_balancer=true`.
 
 The workflow defaults to `linux/amd64`. Use manual dispatch to test additional
 platforms, for example `linux/amd64,linux/arm64`, once every selected runtime

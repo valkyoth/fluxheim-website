@@ -304,6 +304,86 @@ read/write access, may grant group read/write access, and must not grant world
 access; use `0600` for service-owner-only status or `0660` for a dedicated
 operator group.
 
+When compiled with `load-balancer`, `GET /_fluxheim/status` includes a
+`load_balancer` object for configured vhost and route pools. The status is
+read-only and reports backend readiness, aliases, weights, backup/drain/disabled
+state, ready and policy-available backend counts, primary/backup availability
+counts, drain/disabled/forced-down/ejected/saturated summary counts, runtime
+override counts, circuit-open counts, selection policy, max-iteration and
+all-down settings, health-check frequency and parallel mode, retry policy,
+passive-health thresholds, slow-start duration, persistence policy and table
+size, queue policy and current waiting count, priority group, locality, tags, max
+in-flight cap, current in-flight count, passive failure count, passive ejection,
+passive ejection remaining seconds, circuit state, slow-start allowance,
+persistence entries currently pinned to each backend, and least-time latency
+state where available. In
+`1.5.0`, `circuit_state = "open"` is the runtime status view for a backend
+currently ejected by passive health; `"closed"` means the backend is not
+passively ejected. Per-backend rows include `runtime_state_override` when an
+authenticated runtime member operation is active and
+`runtime_state_changed_at_unix_secs` when that override currently has a recorded
+manual transition time. In `privacy-mode`, backend addresses are omitted from
+this status object.
+
+When compiled with `load-balancer`, authenticated admins can update the
+in-memory state of an existing configured pool member without reloading:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN" \
+  "http://127.0.0.1:8081/_fluxheim/load-balancer/member-state?vhost=app&member=app-a&state=drain"
+```
+
+Use `vhost` for the vhost name, optional `route` for a route-local pool,
+`member` for the configured upstream address or `upstream_aliases` value, and
+`state` as `normal`, `drain`, `disable`, `forced_down`, or `manual_resume`.
+`forced_down` removes the member from selection like `disable` but remains
+distinct in admin status so operators can separate forced health actions from
+maintenance disables. `manual_resume` clears any runtime override, clears the
+member's passive-health failure/ejection state, and restarts slow-start ramp
+when slow-start is configured. `normal` clears only runtime overrides; static
+`drain_upstreams` and `disabled_upstreams` remain enforced until the config
+changes. Runtime member state is intentionally in-memory in
+`1.5.0`, is reset by process restart or runtime rebuild, and is returned with
+`"persistent": false` in the mutation response. The response also includes
+`scope = "vhost"` or `"route"` so operators can audit which pool was changed.
+Successful and rejected member-state operations are logged under the
+`fluxheim::load_balancer` target and, when metrics are compiled, counted by
+`fluxheim_load_balancer_events_total` with bounded events `member_state`,
+`member_state_invalid`, and `member_state_not_found`.
+
+Authenticated admins can fetch only load-balancer runtime state without parsing
+the full `/_fluxheim/status` payload:
+
+```bash
+curl -H "Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN" \
+  "http://127.0.0.1:8081/_fluxheim/load-balancer/status"
+```
+
+The response is `{"status":"ok","load_balancer":...}` and uses the same
+runtime pool schema embedded in `/_fluxheim/status`: vhost pools, route pools,
+backend health, runtime member-state overrides, queue depth, persistence table
+size, circuit/passive-health state, slow-start state, locality, tags, aliases,
+and in-flight counts. When `admin.ops_socket.enabled = true`, the same read-only
+endpoint is available over the local Unix ops socket without bearer-token
+authentication.
+
+Authenticated admins can clear the local persistence table for one configured
+vhost or route pool without reloading:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN" \
+  "http://127.0.0.1:8081/_fluxheim/load-balancer/persistence/clear?vhost=app"
+```
+
+Use the optional `route` query parameter or `X-Fluxheim-Lb-Route` header to
+target a route-local pool. The response includes `cleared_entries`,
+`scope = "vhost"` or `"route"`, and `"persistent": false`. The operation is
+local to the current runtime; it does not alter config or durable snapshots.
+When metrics are compiled, successful clears are counted as
+`persistence_clear` in `fluxheim_load_balancer_events_total`.
+
 `admin.client_certificate` is an extra hardening gate for that trusted
 terminator pattern. The admin listener still receives plain HTTP from the
 trusted local sidecar, but Fluxheim can require a validated downstream client
@@ -435,6 +515,10 @@ phase plus cache lookup and request-collapsing wait durations. They do not
 include cache keys, paths beyond the normal HTTP span name, query strings,
 cookies, or request header values. `otel-tracing` and `otel-otlp` are
 incompatible with `privacy-mode`.
+Load-balanced spans may include `fluxheim.load_balancer.upstream` from the
+configured `proxy.upstream_aliases` value and
+`fluxheim.load_balancer.retries`; raw upstream URLs are not exported as trace
+attributes.
 
 ## Logging
 
@@ -685,9 +769,16 @@ rules and can append additional rules.
 [proxy]
 upstreams = ["127.0.0.1:3000", "127.0.0.1:3001"]
 upstream_weights = [1, 2]
+upstream_priority_groups = [100, 50]
+upstream_priority_group_min_active = 1
+upstream_localities = ["site-a", "site-b"]
+preferred_upstream_localities = ["site-a"]
+upstream_max_in_flight = [256, 512]
 upstream_aliases = ["app-a", "app-b"]
+upstream_tags = [["blue", "primary"], ["green"]]
 backup_upstreams = ["127.0.0.1:3001"]
 drain_upstreams = []
+disabled_upstreams = []
 upstream_tls = false
 upstream_sni = "origin.example.test"
 upstream_verify_cert = true
@@ -739,6 +830,7 @@ downstream_min_send_rate_bytes_per_sec = 8192
 [proxy.load_balance]
 selection = "round-robin"
 max_iterations = 256
+all_down_status = 502
 
 [proxy.load_balance.health_check]
 enabled = true
@@ -747,10 +839,16 @@ interval_secs = 1
 consecutive_success = 1
 consecutive_failure = 1
 parallel = false
+method = "GET"
 path = "/"
 host = "origin.example.test"
 expected_statuses = []
+expected_status_ranges = []
+expected_headers = []
+expected_body_contains = []
 reuse_connection = false
+connect_timeout_secs = 1
+read_timeout_secs = 1
 
 [proxy.load_balance.slow_start]
 enabled = false
@@ -761,14 +859,28 @@ enabled = false
 consecutive_failure = 3
 ejection_secs = 30
 failure_statuses = []
+failure_status_ranges = []
 max_latency_ms = 0
 
 [proxy.load_balance.retry]
 enabled = false
 max_retries = 1
 methods = ["GET", "HEAD", "OPTIONS"]
+statuses = []
+status_ranges = []
 budget_per_window = 0
 budget_window_secs = 1
+
+[proxy.load_balance.queue]
+max_waiting = 0
+timeout_ms = 0
+retry_interval_ms = 10
+
+[proxy.load_balance.persistence]
+enabled = false
+mode = "source-ip"
+ttl_secs = 300
+table_max_entries = 65536
 
 [[proxy.error_pages]]
 status = 502
@@ -791,16 +903,21 @@ deliberately small: one `host:port` or `ip:port` authority per line, blank lines
 and full-line `#` comments ignored, 2 through 64 unique entries required.
 Fluxheim reads the file with the same symlink and parent-permission hardening
 used for other operator-controlled files. In this release, file-refreshed pools
-cannot be combined with `upstream_weights`, `upstream_aliases`,
-`backup_upstreams`, or `drain_upstreams`; use static `upstreams` for those
+cannot be combined with `upstream_weights`, `upstream_priority_groups`,
+`upstream_localities`, `preferred_upstream_localities`,
+`upstream_max_in_flight`, `upstream_aliases`, `upstream_tags`, `backup_upstreams`,
+`drain_upstreams`, or `disabled_upstreams`; use static `upstreams` for those
 policies.
 For DNS-based service names, load-balancer builds can set
 `upstream_dns_refresh_secs = 5` together with `upstreams = ["app.service:8080"]`.
 Fluxheim resolves those authorities at startup and then refreshes them on the
 configured 1 through 300 second interval. This first DNS-refresh slice is
 mutually exclusive with `upstream`, `upstreams_file`, `upstream_weights`,
-`upstream_aliases`, `backup_upstreams`, and `drain_upstreams`; use the static
-pool form when those richer backend policies are required.
+`upstream_priority_groups`, `upstream_localities`,
+`preferred_upstream_localities`, `upstream_max_in_flight`, `upstream_aliases`,
+`upstream_tags`, `backup_upstreams`, `drain_upstreams`, and
+`disabled_upstreams`; use the
+static pool form when those richer backend policies are required.
 When `upstream_tls = true`, Fluxheim sends TLS to the origin. `upstream_sni`
 overrides the SNI name; if it is omitted, Fluxheim derives SNI from the primary
 upstream host. `upstream_verify_cert` and `upstream_verify_hostname` default to
@@ -855,50 +972,140 @@ where the platform and kernel allow it.
 for each `upstreams` entry. It enables weighted selection in `load-balancer`
 builds. Each weight must be at most 1000 and the total configured weight must
 fit in Pingora's weighted selector.
+`upstream_priority_groups` is optional and, when set, must contain one priority
+value for each `upstreams` entry. Higher values are preferred first, then lower
+values are activated when higher priority groups have fewer than
+`upstream_priority_group_min_active` selectable members. The activation
+threshold defaults to `1`, matching strict preferred/fallback behavior. Each
+priority group must be at most 1000. This is the static F5-style
+preferred/fallback group foundation for the `1.5` load-balancer line.
+`upstream_localities` is optional and, when set, must contain one safe
+low-cardinality locality or failure-domain label for each `upstreams` entry.
+`preferred_upstream_localities` is optional and must refer only to labels from
+`upstream_localities`. When preferred localities are configured, selection tries
+matching backends first and then falls back to all localities if no preferred
+backend is selectable. This keeps same-site traffic preferred without turning a
+site outage into a route outage. Locality labels are normalized
+case-insensitively, capped at 64 bytes, and exposed in load-balancer runtime
+status.
+`upstream_max_in_flight` is optional and, when set, must contain one positive
+concurrency cap for each `upstreams` entry. A capped backend is skipped when it
+already has that many in-flight requests, regardless of the selected
+load-balancing algorithm. Each cap must be at most 1000000.
 `upstream_aliases` is optional and, when set, must contain one safe
 low-cardinality alias for each `upstreams` entry. Aliases may contain ASCII
 letters, digits, dots, dashes, and underscores, are capped at 64 bytes, and
 must be unique case-insensitively. Fluxheim uses them only for operator-facing
 metrics and status surfaces; they are not sent upstream and do not affect
 selection.
-`backup_upstreams` and `drain_upstreams` are optional subsets of `upstreams`.
-Backups stay out of normal rotation and are selected only when no non-backup
-backend is currently selectable. Drained upstreams remain configured for
-health and operator visibility but receive no new selections. Backup and drain
-sets must not overlap, and at least one upstream must remain a normal primary.
+`upstream_tags` is optional and, when set, must contain one tag list for each
+`upstreams` entry. Tags use the same safe low-cardinality label syntax as
+aliases, are capped at 16 tags per backend, must be unique per backend
+case-insensitively, and are exposed only in load-balancer runtime status for
+operator grouping and migration metadata. They are not sent upstream and do not
+affect selection.
+`backup_upstreams`, `drain_upstreams`, and `disabled_upstreams` are optional
+subsets of `upstreams`. Backups stay out of normal rotation and are selected
+only when no non-backup backend is currently selectable. Drained upstreams
+remain configured for health and operator visibility but receive no new
+selections. Disabled upstreams are the explicit administrative off state for a
+configured member, are reported separately in load-balancer status, and show as
+not ready in that status. Backup, drain, and disabled sets must not overlap,
+and at least one upstream must remain a normal primary.
 `proxy.load_balance.selection` defaults to `round-robin`. It also accepts
-`least-connections`, `power-of-two`, `source-hash`, `uri-hash`, `header-hash`,
-`cookie-hash`, `consistent-source-hash`, `consistent-uri-hash`,
-`consistent-header-hash`, and `consistent-cookie-hash`. Header-hash modes require
+`least-connections`, `weighted-least-connections`,
+`ratio-least-connections`, `least-sessions`, `least-time`, `power-of-two`,
+`source-hash`, `uri-hash`, `header-hash`, `cookie-hash`, `consistent-source-hash`,
+`consistent-uri-hash`, `consistent-header-hash`, and
+`consistent-cookie-hash`, bounded-load consistent modes
+`bounded-load-consistent-source-hash`,
+`bounded-load-consistent-uri-hash`,
+`bounded-load-consistent-header-hash`, and
+`bounded-load-consistent-cookie-hash`, plus static-pool Maglev modes
+`maglev` / `maglev-source-hash`, `maglev-uri-hash`,
+`maglev-header-hash`, and `maglev-cookie-hash`. Header-hash modes require
 `proxy.load_balance.hash_header = "x-session"` or another valid HTTP header
 name. Cookie-hash modes require `proxy.load_balance.hash_cookie = "session"` or
 another valid cookie name. Hash modes use weighted FNV selection; consistent
 modes use Pingora's weighted Ketama ring for lower remapping when upstream
-membership changes. `least-connections` uses Fluxheim-held in-flight request
-permits and Pingora's current backend health state. `power-of-two` samples two
-healthy backends through Pingora's random weighted selector and chooses the
-lower in-flight count.
-With metrics enabled, load-balanced selections, unavailable pools, retries, and
-success/failure/ejection outcomes are counted by
+membership changes. Bounded-load consistent modes use the same ring and skip a
+hash target whose weighted in-flight pressure is above the configured soft
+bound when another eligible candidate is available inside `max_iterations`;
+they fall back to normal consistent selection if no bounded candidate is found.
+`bounded_load_factor_per_mille` defaults to `1250`, meaning roughly 125% of
+current weighted average load, and is valid only with bounded-load consistent
+selectors. Maglev modes use a fixed 65,537-slot bounded lookup table for static
+`proxy.upstreams` pools only; file-refreshed and DNS-refreshed pools reject
+Maglev until dynamic table rebuild semantics are promoted later.
+`max_iterations` bounds how many ready candidates Pingora or Fluxheim may
+inspect while applying health, drain, slow-start, backup, priority, and
+in-flight policies. `all_down_status` defaults to `502` and may be set to
+another HTTP 5xx status, commonly `503`, for requests where a configured
+load-balanced pool has no selectable backend. `least-connections`,
+`weighted-least-connections`, and
+`ratio-least-connections` all use the same Fluxheim-held in-flight request
+permits, `upstream_weights`, and Pingora's current backend health state, so a
+backend with weight `4` can carry roughly four times the in-flight request
+share of a backend with weight `1`. `least-sessions` requires
+`proxy.load_balance.persistence.enabled = true` and selects by the lowest
+bounded persistence-entry share per backend, weighted by `upstream_weights`.
+`least-time` uses the same request permits plus an EWMA of observed upstream
+latency from completed requests, weighted by `upstream_weights`; unsampled
+healthy backends are allowed to receive traffic so new or recovered pool
+members can establish a latency baseline. `power-of-two`
+also accepts `power-of-two-choices`, `two-choice`, `weighted-two-choice`, and
+`weighted-random-two-choice`; all names sample two healthy backends through
+Pingora's random weighted selector and choose the lower weighted in-flight
+pressure using `upstream_weights`.
+With metrics enabled, load-balanced selections, unavailable pools, retries,
+queue wait/full/timeout outcomes, and success/failure/ejection outcomes are counted by
 `fluxheim_load_balancer_events_total` with bounded configured vhost/route
 labels. The metric does not label raw upstream addresses; it uses
 `upstream_aliases` when present and otherwise leaves the upstream label empty.
+`fluxheim_load_balancer_pools` reports configured pool counts by bounded scope
+(`vhost` or `route`) and bounded selection algorithm so dashboards can see which
+load-balancing modes are active without labeling raw upstreams or route names.
+Queued requests that actually wait also record
+`fluxheim_load_balancer_queue_wait_seconds` by configured vhost/route and
+bounded outcome (`waited` or `timeout`).
+When persistence is enabled, the same counter records bounded
+`persistence_hit`, `persistence_miss`, and `persistence_fallback` events.
+`examples/load-balancer-enterprise.toml` is the validated 1.5 migration
+fixture for a richer HAProxy/F5-style pool: weighted members, aliases, priority
+groups, backup/drain policy, active and passive health, slow start,
+source-IP persistence, retry budgets, metrics, and explicit all-down behavior.
 `proxy.load_balance.health_check.protocol` defaults to `tcp`, which verifies
 TCP reachability and, when `upstream_tls = true`, a TLS handshake. Set
-`protocol = "http"` to send a `GET` request to `path`; by default only `200`
-passes, or `expected_statuses = [200, 204]` can define an explicit allow-list.
+`protocol = "http"` to send `method` to `path`; `method` defaults to `GET` and
+must be an uppercase HTTP token. By default only `200` passes, or
+`expected_statuses = [200, 204]` can define an explicit allow-list.
+`expected_status_ranges = [{ start = 200, end = 399 }]` accepts inclusive
+HTTP status ranges and can be combined with exact statuses.
+`expected_headers` can require exact response header values:
+`expected_headers = [{ name = "x-fluxheim-health", value = "ready" }]`.
+`expected_body_contains = ["ready"]` requires each configured byte substring
+to appear in the HTTP health response body. Fluxheim reads at most 64 KiB of a
+health-check body for this validation.
 `host` overrides the health-check `Host` header and TLS SNI fallback,
 `reuse_connection = true` allows Pingora to reuse check connections, and
 `port_override` sends checks to a different port on the same backend address.
-Omit `port_override` to check the backend's normal port.
+Omit `port_override` to check the backend's normal port. `connect_timeout_secs`
+and `read_timeout_secs` are optional active-check overrides; when omitted,
+checks inherit the proxy upstream timeout where applicable and otherwise use
+Pingora's health-check defaults.
 `proxy.load_balance.passive_health.enabled = true` adds opt-in passive outlier
 detection. Fluxheim records selected upstream outcomes, treats 5xx responses as
 failures by default, and temporarily ejects a backend after
 `consecutive_failure` failures for `ejection_secs`. `failure_statuses` may
-narrow the failure set to specific 5xx status codes. `max_latency_ms = 0`
-disables latency ejection; a positive value treats responses at or above that
-latency as passive failures. Active health checks and passive ejection are
-combined; if no backend is currently selectable,
+narrow the failure set to specific 5xx status codes, and
+`failure_status_ranges` accepts inclusive 5xx ranges such as
+`[{ start = 520, end = 529 }]`. `max_latency_ms = 0` disables latency ejection;
+a positive value treats responses at or above that latency as passive failures.
+Passive ejection is also exposed in load-balancer runtime status as
+`circuit_state = "open"` with a pool-level `circuit_open_backend_count` so
+temporary outlier removal is explainable through the admin plane.
+Active health checks and passive ejection are combined; if no backend is
+currently selectable,
 Fluxheim returns a proxy error instead of falling back to a configured primary
 upstream.
 `proxy.load_balance.slow_start.enabled = true` warms newly seen and passively
@@ -910,11 +1117,45 @@ slow-start is a traffic-shaping guard rather than an availability blocker.
 connection failures that happen before the request is sent upstream. It is
 limited by `max_retries`, by Pingora's process-wide retry cap, and by
 `methods`, which accepts only safe method tokens such as `GET`, `HEAD`,
-`OPTIONS`, and `TRACE`. `budget_per_window = 0` disables the shared retry
-budget; set it to a positive value with `budget_window_secs` to cap total
-redispatch attempts for this vhost or route over a moving window. Fluxheim does
-not retry after response streaming has started; status-code retries remain a
-later buffering-aware feature.
+`OPTIONS`, and `TRACE`. `statuses = [500, 502, 503]` can additionally
+redispatch selected HTTP 5xx responses before response streaming starts, and
+`status_ranges = [{ start = 520, end = 529 }]` accepts inclusive 5xx ranges.
+Empty `statuses` and `status_ranges` keep response-status retries disabled.
+`budget_per_window = 0` disables the shared retry budget; set it to a positive value with
+`budget_window_secs` to cap total redispatch attempts for this vhost or route
+over a moving window. Fluxheim does not retry after response streaming has
+started.
+`proxy.load_balance.queue` is disabled by default. Set both `max_waiting` and
+`timeout_ms` to let a bounded number of requests wait briefly when no backend is
+selectable, for example because every member is at its per-upstream
+`upstream_max_in_flight` cap. `max_waiting = 0` and `timeout_ms = 0` preserve
+the default immediate `all_down_status` behavior. When enabled, `max_waiting`
+is capped at 100000, `timeout_ms` at 60000, and `retry_interval_ms` must be 1
+through 1000. Waiting requests occupy only the load-balancer queue counter; no
+upstream permit is held until a backend becomes selectable.
+`proxy.load_balance.persistence.enabled = true` enables a bounded local
+persistence table. `mode = "source-ip"` maps a client IP to the selected
+backend for `ttl_secs`; `mode = "header"` maps the configured request `header`
+value, for example an operator-trusted session header; `mode = "cookie"` maps
+the configured request `cookie` value from the client request. Cookie mode does
+not insert or sign a new persistence cookie in `1.5.0`; it uses an application
+or upstream-issued cookie that the operator explicitly names. Stored backends
+are reused while they remain ready, not drained/disabled/forced-down, not
+passively ejected, and below their in-flight cap. If the stored backend is no
+longer selectable, Fluxheim falls back to the normal load-balancing algorithm
+and refreshes the table with the new backend. `table_max_entries` bounds memory
+use; expired entries are pruned and the oldest expiry is evicted when the table
+is full. Persistence is local to one Fluxheim process in `1.5.0` and is reset
+by process restart, runtime rebuild, or the authenticated persistence-clear
+admin operation. It is rejected in `privacy-mode` builds because persistence
+retains client-derived identifiers.
+
+`1.5.0` does not insert or sign managed load-balancer affinity cookies, persist
+load-balancer persistence/runtime override state across restarts, change
+upstream weights or add/remove pool members at runtime, or synchronize
+load-balancer state across active-active Fluxheim nodes. Those are explicit
+future control-plane and HA tracks, not implied behavior of the local
+persistence table.
 
 `upstreams` is the preferred static proxy target form for both one and many origins.
 The older single `upstream = "host:port"` field remains supported for simple
