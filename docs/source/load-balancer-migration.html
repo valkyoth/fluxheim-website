@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.1</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -74,7 +74,7 @@
 
         <article class="source-doc">
 <h1 id="load-balancer-migration-notes">Load Balancer Migration Notes</h1>
-<p>Fluxheim <code>1.5.0</code> focuses on HTTP/TCP edge load-balancer operations that map cleanly from HAProxy, nginx, Envoy, and F5 LTM-style pools. The validated starting fixture is <code>examples/load-balancer-enterprise.toml</code>.</p>
+<p>Fluxheim <code>1.5.x</code> focuses on HTTP/TCP edge load-balancer operations that map cleanly from HAProxy, nginx, Envoy, and F5 LTM-style pools. The validated starting fixture is <code>examples/load-balancer-enterprise.toml</code>.</p>
 <p>This is a migration guide for pool behavior, not a claim that Fluxheim clones every product module. UDP, GSLB/DNS steering, WAF policy, VPN/firewall appliance behavior, and iRules/Lua/Wasm scripting are tracked as separate roadmap lines.</p>
 <h2 id="nginx-upstream">nginx Upstream</h2>
 <p>Typical nginx upstreams:</p>
@@ -118,12 +118,12 @@ protocol = &quot;tcp&quot;
 interval_secs = 2
 consecutive_success = 2
 consecutive_failure = 3</code></pre>
-<p>HAProxy stick-table patterns map only to Fluxheim&#x27;s bounded local persistence tables in <code>1.5.0</code>. Multi-counter stick-table expressions remain future advanced ACL/stick-table work.</p>
+<p>HAProxy stick-table patterns map only to Fluxheim&#x27;s bounded local persistence tables in the current <code>1.5.x</code> line. Multi-counter stick-table expressions remain future advanced ACL/stick-table work.</p>
 <h2 id="f5-ltm-pool">F5 LTM Pool</h2>
 <p>F5 pools often combine monitors, priority-group activation, node/member administrative state, persistence, and manual drain/resume workflows.</p>
 <p>Fluxheim maps those pieces as follows:</p>
 <div class="source-table"><table>
-<thead><tr><th>F5 / BIG-IP concept</th><th>Fluxheim <code>1.5.0</code> mapping</th></tr></thead>
+<thead><tr><th>F5 / BIG-IP concept</th><th>Fluxheim <code>1.5.x</code> mapping</th></tr></thead>
 <tbody>
 <tr><td>Pool members</td><td><code>proxy.upstreams</code></td></tr>
 <tr><td>Member names</td><td><code>proxy.upstream_aliases</code></td></tr>
@@ -156,7 +156,7 @@ preferred_upstream_localities = [&quot;site-a&quot;]</code></pre>
 <pre class="language-bash"><code class="language-bash">curl -X POST \
   -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
   &quot;http://127.0.0.1:8081/_fluxheim/load-balancer/member-state?vhost=app&amp;member=app-a&amp;state=drain&quot;</code></pre>
-<p>Supported states are <code>normal</code>, <code>drain</code>, <code>disable</code>, <code>forced_down</code>, and <code>manual_resume</code>. Runtime mutations are intentionally in-memory in <code>1.5.0</code>; they survive neither process restart nor runtime rebuild.</p>
+<p>Supported states are <code>normal</code>, <code>drain</code>, <code>disable</code>, <code>forced_down</code>, and <code>manual_resume</code>. Runtime mutations are intentionally in-memory in the current <code>1.5.x</code> line; they survive neither process restart nor runtime rebuild.</p>
 <p>The load-balancer-only status view is available without parsing the full admin status body:</p>
 <pre class="language-bash"><code class="language-bash">curl -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
   &quot;http://127.0.0.1:8081/_fluxheim/load-balancer/status&quot;</code></pre>
@@ -165,14 +165,15 @@ preferred_upstream_localities = [&quot;site-a&quot;]</code></pre>
   -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
   &quot;http://127.0.0.1:8081/_fluxheim/load-balancer/persistence/clear?vhost=app&quot;</code></pre>
 <h2 id="known-migration-boundaries">Known Migration Boundaries</h2>
-<p>The following are intentional <code>1.5.0</code> boundaries. They are not defects in the shipped load-balancer behavior; they are architectural gaps tracked for later <code>1.5.x</code> or future module lines.</p>
+<p>The following are intentional current <code>1.5.x</code> boundaries. They are not defects in the shipped load-balancer behavior; they are architectural gaps tracked for later <code>1.5.x</code> or future module lines.</p>
 <ul>
 <li>Dynamic weight changes and add/remove-member operations are future control plane work.</li>
-<li>Load-balancer-managed cookie insertion is future persistence work. In <code>1.5.0</code>, cookie persistence uses an application or upstream-issued request cookie that the operator explicitly names; Fluxheim does not yet create a signed/opaque affinity cookie with <code>Set-Cookie</code>.</li>
-<li>HA persistence/cookie mirroring is future cluster-state work. Persistence tables, passive health, retry budgets, queue counters, and runtime overrides are local to one Fluxheim process in <code>1.5.0</code>; active-active deployments must either accept independent local state or place another HA layer in front.</li>
-<li>Maglev hashing is available for static <code>proxy.upstreams</code> pools. File-refreshed and DNS-refreshed pools reject Maglev in <code>1.5.0</code> until dynamic table rebuild behavior is specified and observable.</li>
+<li>Load-balancer-managed cookie insertion is future persistence work. In the current <code>1.5.x</code> line, cookie persistence uses an application or upstream-issued request cookie that the operator explicitly names; Fluxheim does not yet create a signed/opaque affinity cookie with <code>Set-Cookie</code>.</li>
+<li>HA persistence/cookie mirroring is future cluster-state work. Persistence tables, passive health, retry budgets, queue counters, and runtime overrides are local to one Fluxheim process in the current <code>1.5.x</code> line; active-active deployments must either accept independent local state or place another HA layer in front.</li>
+<li>In dynamic DNS/file discovery pools, stale runtime <code>drain</code> overrides may be reclaimed when a member leaves the live discovery set. Runtime <code>disable</code> and <code>forced_down</code> overrides are preserved across discovery churn until explicit admin resume/normal action.</li>
+<li>Maglev hashing is available for static <code>proxy.upstreams</code> pools. File-refreshed and DNS-refreshed pools reject Maglev in the current <code>1.5.x</code> line until dynamic table rebuild behavior is specified and observable.</li>
 <li>Bounded-load consistent hashing is local to one Fluxheim process. It avoids selecting an over-bound hash target when another eligible ring candidate is available, but it does not coordinate load across multiple Fluxheim nodes.</li>
-<li>Runtime state is local and in-memory in <code>1.5.0</code>.</li>
+<li>Runtime state is local and in-memory in the current <code>1.5.x</code> line.</li>
 <li>UDP, GSLB/DNS steering, WAF, VPN/firewall appliance behavior, and scripted iRules/Lua/Wasm behavior are intentionally separate roadmap lines.</li>
 <li><code>proxy.load_balance.queue</code> is opt-in. Defaults keep fail-fast behavior when no backend is selectable.</li>
 </ul>

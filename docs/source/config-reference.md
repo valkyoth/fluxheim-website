@@ -316,10 +316,10 @@ size, queue policy and current waiting count, priority group, locality, tags, ma
 in-flight cap, current in-flight count, passive failure count, passive ejection,
 passive ejection remaining seconds, circuit state, slow-start allowance,
 persistence entries currently pinned to each backend, and least-time latency
-state where available. In
-`1.5.0`, `circuit_state = "open"` is the runtime status view for a backend
-currently ejected by passive health; `"closed"` means the backend is not
-passively ejected. Per-backend rows include `runtime_state_override` when an
+state where available. In the current `1.5.x` line, `circuit_state = "open"`
+is the runtime status view for a backend currently ejected by passive health;
+`"closed"` means the backend is not passively ejected. Per-backend rows include
+`runtime_state_override` when an
 authenticated runtime member operation is active and
 `runtime_state_changed_at_unix_secs` when that override currently has a recorded
 manual transition time. In `privacy-mode`, backend addresses are omitted from
@@ -343,10 +343,14 @@ maintenance disables. `manual_resume` clears any runtime override, clears the
 member's passive-health failure/ejection state, and restarts slow-start ramp
 when slow-start is configured. `normal` clears only runtime overrides; static
 `drain_upstreams` and `disabled_upstreams` remain enforced until the config
-changes. Runtime member state is intentionally in-memory in
-`1.5.0`, is reset by process restart or runtime rebuild, and is returned with
+changes. Runtime member state is intentionally in-memory in the current `1.5.x`
+line, is reset by process restart or runtime rebuild, and is returned with
 `"persistent": false` in the mutation response. The response also includes
 `scope = "vhost"` or `"route"` so operators can audit which pool was changed.
+For dynamic DNS/file-discovery pools, Fluxheim may reclaim stale runtime
+`drain` overrides after a member disappears from the live discovery set.
+Runtime `disable` and `forced_down` overrides are retained across discovery
+churn and are cleared only by explicit `normal` or `manual_resume` admin action.
 Successful and rejected member-state operations are logged under the
 `fluxheim::load_balancer` target and, when metrics are compiled, counted by
 `fluxheim_load_balancer_events_total` with bounded events `member_state`,
@@ -382,7 +386,9 @@ target a route-local pool. The response includes `cleared_entries`,
 `scope = "vhost"` or `"route"`, and `"persistent": false`. The operation is
 local to the current runtime; it does not alter config or durable snapshots.
 When metrics are compiled, successful clears are counted as
-`persistence_clear` in `fluxheim_load_balancer_events_total`.
+`persistence_clear` in `fluxheim_load_balancer_events_total`; rejected clear
+requests are counted separately as `persistence_clear_invalid` or
+`persistence_clear_not_found`.
 
 `admin.client_certificate` is an extra hardening gate for that trusted
 terminator pattern. The admin listener still receives plain HTTP from the
@@ -1138,24 +1144,24 @@ persistence table. `mode = "source-ip"` maps a client IP to the selected
 backend for `ttl_secs`; `mode = "header"` maps the configured request `header`
 value, for example an operator-trusted session header; `mode = "cookie"` maps
 the configured request `cookie` value from the client request. Cookie mode does
-not insert or sign a new persistence cookie in `1.5.0`; it uses an application
-or upstream-issued cookie that the operator explicitly names. Stored backends
-are reused while they remain ready, not drained/disabled/forced-down, not
-passively ejected, and below their in-flight cap. If the stored backend is no
-longer selectable, Fluxheim falls back to the normal load-balancing algorithm
-and refreshes the table with the new backend. `table_max_entries` bounds memory
-use; expired entries are pruned and the oldest expiry is evicted when the table
-is full. Persistence is local to one Fluxheim process in `1.5.0` and is reset
-by process restart, runtime rebuild, or the authenticated persistence-clear
-admin operation. It is rejected in `privacy-mode` builds because persistence
-retains client-derived identifiers.
+not insert or sign a new persistence cookie in the current `1.5.x` load-balancer
+line; it uses an application or upstream-issued cookie that the operator
+explicitly names. Stored backends are reused while they remain ready, not
+drained/disabled/forced-down, not passively ejected, and below their in-flight
+cap. If the stored backend is no longer selectable, Fluxheim falls back to the
+normal load-balancing algorithm and refreshes the table with the new backend.
+`table_max_entries` bounds memory use; expired entries are pruned and the oldest
+expiry is evicted when the table is full. Persistence is local to one Fluxheim
+process in the current `1.5.x` line and is reset by process restart, runtime
+rebuild, or the authenticated persistence-clear admin operation. It is rejected
+in `privacy-mode` builds because persistence retains client-derived identifiers.
 
-`1.5.0` does not insert or sign managed load-balancer affinity cookies, persist
-load-balancer persistence/runtime override state across restarts, change
-upstream weights or add/remove pool members at runtime, or synchronize
-load-balancer state across active-active Fluxheim nodes. Those are explicit
-future control-plane and HA tracks, not implied behavior of the local
-persistence table.
+The current `1.5.x` load-balancer line does not insert or sign managed
+load-balancer affinity cookies, persist load-balancer persistence/runtime
+override state across restarts, change upstream weights or add/remove pool
+members at runtime, or synchronize load-balancer state across active-active
+Fluxheim nodes. Those are explicit future control-plane and HA tracks, not
+implied behavior of the local persistence table.
 
 `upstreams` is the preferred static proxy target form for both one and many origins.
 The older single `upstream = "host:port"` field remains supported for simple

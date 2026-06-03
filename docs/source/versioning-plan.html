@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.0</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.1</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -1693,7 +1693,7 @@ git push origin v1.0.0</code></pre>
 <li><code>v1.4.7</code>: TCP stream hardening with true per-read idle timeout, stream upstream TLS/mTLS where it reuses the existing safe TLS material model, and transport-neutral stream load-balancer policy only.</li>
 <li><code>v1.5.0</code>: load-balancer/control-plane line. Promote the focused load-balancer image profile and stop at F5 LTM / HAProxy / Envoy-class HTTP/TCP load-balancer operations: runtime member-state controls, priority groups, persistence, slow-start, adaptive health, circuit breaking, queue/overflow policy, locality/failure-domain policy, richer selection algorithms, load-balancer-only admin status, audit visibility, and migration fixtures. True runtime add/remove/weight changes remain later <code>1.5.x</code> control-plane work. Include TLS passthrough SNI routing only after a bounded ClientHello parser, preread buffer limit, and byte replay model are proven. Dynamic xDS/Kubernetes/Consul discovery belongs here or a later control-plane line after local DNS/file discovery and runtime backend mutation are stable.</li>
 <li>Later macOS production line: only after Level 1 developer support is stable. Requires regular macOS CI, runtime smoke coverage, launchd/Homebrew or other packaging decisions, signed/notarized binary policy, and a macOS-specific filesystem/security review. Keep Linux as the production baseline until that line is explicitly scheduled.</li>
-<li><code>v1.5.1</code>: fixes for enterprise load-balancer operations.</li>
+<li><code>v1.5.1</code>: enterprise load-balancer stabilization. Stop at correctness fixes, release-profile polish, docs/migration cleanup, bounded operational hardening, and test coverage for behavior already shipped in <code>1.5.0</code>. Do not add runtime add/remove-member, runtime weight mutation, managed affinity cookies, cross-instance state sync, UDP/GSLB, WAF, VPN/firewall appliance behavior, or Wasm/iRules/Lua scripting in this release.</li>
 <li><code>v1.6.1</code>: fixes for the shared Wasm extensibility runtime.</li>
 </ul>
 <h2 id="changelog-shape">Changelog Shape</h2>
