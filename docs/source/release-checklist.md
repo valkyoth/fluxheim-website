@@ -229,10 +229,11 @@ scripts/smoke_1_0_core.sh
   this is enforced by the normal compile, clippy, and feature-matrix gates.
   Do not add direct `unsafe` blocks or raw FFI to Fluxheim source. Prefer safe
   wrapper crates for platform APIs and safe task/waker primitives in tests.
-- Panic policy. Release artifacts build with `panic = "abort"`, and crate roots
-  deny production `unwrap()`, `expect()`, and `panic!()` through clippy. Keep
-  operational errors on `Result` or explicit fallback responses. Test-only
-  assertions may continue using panicking helpers.
+- Panic and overflow policy. Release artifacts build with `panic = "abort"` and
+  `overflow-checks = true`, and crate roots deny production `unwrap()`,
+  `expect()`, and `panic!()` through clippy. Keep operational errors on
+  `Result` or explicit fallback responses. Test-only assertions may continue
+  using panicking helpers.
 - Native dependency policy. FIPS-capable profiles can intentionally pull native
   cryptographic modules such as OpenSSL providers or `aws-lc-fips-sys`. Record
   the provider/module certificate, compiler, platform, and Security Policy in
@@ -414,17 +415,12 @@ scripts/smoke_peer_fill_cache.sh
 scripts/smoke_observability_local.sh
 ```
 
-TLS backend validation is split into its own helper because BoringSSL requires
-`libclang` for bindgen on the build host:
+TLS backend validation is split into its own helper so release builders can
+check the supported rustls and OpenSSL backend families explicitly:
 
 ```bash
 scripts/validate-tls-backends.sh release
-FLUXHEIM_REQUIRE_BORINGSSL=1 scripts/validate-tls-backends.sh release
 ```
-
-Use the second command on release builders that are expected to support
-`tls-boringssl`; otherwise the helper validates Rustls, OpenSSL, and s2n and
-prints an explicit skip when `libclang` is unavailable.
 
 The rustls/AWS-LC FIPS validation helper requires the `aws-lc-fips-sys` build
 toolchain, including CMake, Go, and a C compiler. Skip it on release builders

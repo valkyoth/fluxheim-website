@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
-  <title>Release Notes Template — Fluxheim Source Docs</title>
+  <title>Load Balancer HA Design Notes — Fluxheim Source Docs</title>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Fluxheim">
   <meta property="og:title" content="Fluxheim">
@@ -69,96 +69,43 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          <span class="text-gray-400">Release Notes Template</span>
+          <span class="text-gray-400">Load Balancer HA Design Notes</span>
         </div>
 
         <article class="source-doc">
-<h1 id="fluxheim-release-notes-template">Fluxheim Release Notes Template</h1>
-<p>Use this template for stable tags. Keep it factual and include the local release-gate report path or copied summary.</p>
-<h2 id="version">Version</h2>
+<h1 id="load-balancer-ha-design-notes">Load Balancer HA Design Notes</h1>
+<p>Fluxheim <code>1.5.3</code> ships managed affinity cookies for one process. This document records the active-active HA design boundary for later <code>1.5.x</code> work so operators can separate shipped behavior from planned cluster behavior.</p>
+<h2 id="current-1-5-3-behavior">Current 1.5.3 Behavior</h2>
 <ul>
-<li>Version:</li>
-<li>Release date:</li>
-<li>Git tag:</li>
-<li>Git commit:</li>
-<li>License: EUPL-1.2</li>
+<li><code>mode = &quot;managed-cookie&quot;</code> emits a signed, opaque cookie on eligible 2xx/3xx backend responses.</li>
+<li>Cookie values map to the local bounded persistence table.</li>
+<li>Signing keys are generated locally, rotate daily, and verify the current or previous generation.</li>
+<li>Persistence tables and signing keys are not shared between Fluxheim nodes.</li>
+<li>Process restart invalidates unmanaged local state and starts a new signing key lineage.</li>
 </ul>
-<h2 id="scope">Scope</h2>
+<h2 id="future-active-active-shape">Future Active-Active Shape</h2>
+<p>The planned HA track should replicate only bounded, operationally useful state:</p>
 <ul>
-<li>Stable modules:</li>
-<li>Experimental modules:</li>
-<li>Default Cargo features:</li>
-<li>Container variants:</li>
+<li>managed-cookie key-to-backend affinity table entries;</li>
+<li>application-cookie or header persistence decisions when explicitly opted in;</li>
+<li>administrative member overrides such as <code>disable</code>, <code>forced_down</code>, and <code>drain</code>;</li>
+<li>optionally passive-health/circuit state after split-brain and freshness rules are proven.</li>
 </ul>
-<h2 id="highlights">Highlights</h2>
+<p>Retry budgets, queue counters, high-cardinality telemetry, and low-value per-request counters should stay node-local unless a later design proves that replication is bounded and useful.</p>
+<h2 id="peer-protocol-requirements">Peer Protocol Requirements</h2>
+<p>Any cookie-mirroring implementation must include:</p>
 <ul>
-<li>TODO</li>
+<li>mutually authenticated peers;</li>
+<li>bounded message size and bounded table sizes;</li>
+<li>per-entry TTL and table eviction;</li>
+<li>replay protection through monotonic sequence numbers or signed timestamps;</li>
+<li>explicit fail-open/fail-closed behavior when peers are unavailable;</li>
+<li>audit events for peer joins, state import/export, and rejected updates;</li>
+<li>metrics for replication lag, dropped updates, rejected updates, and peer health;</li>
+<li>key rotation that supports overlap across the cluster, not only one process.</li>
 </ul>
-<h2 id="security-and-stability-gate">Security And Stability Gate</h2>
-<ul>
-<li>Gate command:</li>
-<li>Gate report directory:</li>
-<li>Result:</li>
-<li><code>cargo audit</code> result:</li>
-<li><code>cargo deny check</code> result:</li>
-<li>TLS scan result:</li>
-<li>Load smoke result:</li>
-<li>Request-framing smoke result:</li>
-<li>Fuzz target compile result:</li>
-<li>Podman smoke result:</li>
-<li>SBOM generation result:</li>
-<li>Reproducible build result:</li>
-</ul>
-<h2 id="reviewed-advisory-exceptions">Reviewed Advisory Exceptions</h2>
-<p>List every accepted dependency advisory and why it is acceptable for this release. Include whether the dependency is direct or transitive.</p>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="breaking-changes">Breaking Changes</h2>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="upgrade-notes">Upgrade Notes</h2>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="known-limitations">Known Limitations</h2>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="container-images">Container Images</h2>
-<ul>
-<li>GitHub Container Registry:</li>
-<li>Docker Hub:</li>
-<li>Runtime user:</li>
-<li>Default config path:</li>
-<li>Static site path:</li>
-<li>Cache path:</li>
-<li>State path:</li>
-</ul>
-<h2 id="checksums-and-signatures">Checksums And Signatures</h2>
-<ul>
-<li>Source archive checksum:</li>
-<li>Binary checksums:</li>
-<li><code>fluxheim-VERSION-full-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-cache-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-proxy-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-load-balancer-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-php-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-config-tester-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-full-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-cache-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-proxy-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-load-balancer-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-php-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-config-tester-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-dev-aarch64-macos.tar.gz</code> when published</li>
-<li><code>fluxheim-VERSION-dev-x86_64-macos.tar.gz</code> when published</li>
-<li>SBOM checksums:</li>
-<li>Reproducible build hash:</li>
-<li>Container digests:</li>
-<li>Tag signature:</li>
-</ul>
+<h2 id="non-goals-for-1-5-3">Non-Goals For 1.5.3</h2>
+<p><code>1.5.3</code> does not implement shared signing keys, restart-persistent state, cross-node persistence-table synchronization, or active-active cookie mirroring. Those remain future HA/control-plane work after the local managed-cookie path has passed release and pentest coverage.</p>
         </article>
       </div>
     </main>

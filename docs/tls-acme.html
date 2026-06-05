@@ -54,7 +54,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.1</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.5</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -122,11 +122,13 @@
               <tbody class="divide-y divide-gray-800/50">
                 <tr><td class="px-4 py-3 font-mono text-cyan-400 text-xs">tls-rustls</td><td class="px-4 py-3"><span class="px-2 py-0.5 text-xs bg-cyan-500/10 text-cyan-400 rounded border border-cyan-500/20">Default & Recommended</span></td><td class="px-4 py-3 text-gray-400 text-xs">Memory-safe Rust TLS. Multi-cert SNI. Used in all official builds.</td></tr>
                 <tr><td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-openssl</td><td class="px-4 py-3 text-gray-500 text-xs">Optional</td><td class="px-4 py-3 text-gray-400 text-xs">OpenSSL backend. FIPS-capable deployments.</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-boringssl</td><td class="px-4 py-3 text-gray-500 text-xs">Optional</td><td class="px-4 py-3 text-gray-400 text-xs">BoringSSL backend. FIPS-140-3 compliance path.</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-s2n</td><td class="px-4 py-3 text-gray-500 text-xs">Optional</td><td class="px-4 py-3 text-gray-400 text-xs">s2n-tls backend. AWS-backed TLS implementation.</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-rustls-fips</td><td class="px-4 py-3 text-gray-500 text-xs">Optional</td><td class="px-4 py-3 text-gray-400 text-xs">rustls/AWS-LC FIPS-capable candidate build path.</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-gray-400 text-xs">tls-openssl-fips</td><td class="px-4 py-3 text-gray-500 text-xs">Optional</td><td class="px-4 py-3 text-gray-400 text-xs">OpenSSL 3 FIPS provider proof path.</td></tr>
               </tbody>
             </table>
           </div>
+
+          <p>Fluxheim 1.5.4 removed the incomplete BoringSSL and s2n integrations from the supported TLS matrix. Config values <code>backend = "boringssl"</code> and <code>backend = "s2n"</code> are rejected.</p>
 
           <h2>Static / Bought Certificates</h2>
           <p>Configure a certificate and key file path per vhost. rustls supports multi-cert SNI — you can configure multiple vhosts each with their own certificate.</p>

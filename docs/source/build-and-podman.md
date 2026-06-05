@@ -44,8 +44,8 @@ production modules enabled: full proxy/web/cache and load-balancer support,
 PHP-FPM, ACME, Prometheus, OTLP metrics, and OTel tracing.
 
 TLS backends are mutually exclusive. Select exactly one of `tls-rustls`,
-`tls-rustls-fips`, `tls-openssl`, `tls-boringssl`, or `tls-s2n`; `tls-rustls`
-is the default and recommended non-FIPS backend.
+`tls-rustls-fips`, or `tls-openssl`; `tls-rustls` is the default and
+recommended non-FIPS backend.
 
 For FIPS/ISO-capable OpenSSL testing, build with `tls-openssl-fips` or the
 `tls-openssl-iso19790` alias instead of the default rustls backend and
@@ -175,15 +175,6 @@ Optional backend-specific packages:
 
 - `tls-openssl`: install OpenSSL development headers, such as `libssl-dev`,
   `openssl-devel`, or the distro equivalent.
-- `tls-boringssl`: install `clang` and a `libclang` development/runtime package
-  for bindgen. On SUSE/openSUSE systems where `libclang` is installed but the
-  frontend is versioned, for example `clang-22`, the validation helper
-  automatically discovers the versioned compiler, `libclang`, and clang/GCC
-  include paths for bindgen. Set `CLANG_PATH`, `LIBCLANG_PATH`, or
-  `BINDGEN_EXTRA_CLANG_ARGS` manually only if your distro uses non-standard
-  locations.
-- `tls-s2n`: usually works with the default toolchain packages above, but keep
-  `cmake` and `perl` installed.
 
 Container builds install the same requirements in the builder stage. The
 runtime images only need CA certificates plus the Fluxheim binary and config.
@@ -465,15 +456,15 @@ Optional Quay repository secrets and variables:
 
 The workflow publishes OS-variant tags for the full/default image profile:
 
-- `v1.5.1-wolfi`, `v1.5.1-alpine`, `v1.5.1-suse-micro`, `v1.5.1-debian`
+- `v1.5.5-wolfi`, `v1.5.5-alpine`, `v1.5.5-suse-micro`, `v1.5.5-debian`
 - `sha-<short-sha>-wolfi`, `sha-<short-sha>-alpine`, etc.
 - `latest-wolfi`, `latest-alpine`, etc. when run from the default branch
 
 For the recommended Wolfi runtime, the full/default profile also gets short
 aliases:
 
-- `v1.5.1`
-- `v1.5.1-base`
+- `v1.5.5`
+- `v1.5.5-base`
 - `latest`
 - `latest-base`
 
@@ -482,21 +473,21 @@ automation. They point at the full/default image profile.
 
 The focused image profiles publish tags with a profile segment:
 
-- `v1.5.1-cache-wolfi`, `v1.5.1-cache-alpine`,
-  `v1.5.1-cache-suse-micro`, `v1.5.1-cache-debian`
-- `v1.5.1-proxy-wolfi`, `v1.5.1-proxy-alpine`,
-  `v1.5.1-proxy-suse-micro`, `v1.5.1-proxy-debian`
-- `v1.5.1-load-balancer-wolfi`, `v1.5.1-load-balancer-alpine`,
-  `v1.5.1-load-balancer-suse-micro`, `v1.5.1-load-balancer-debian`
-- `v1.5.1-php-wolfi`, `v1.5.1-php-alpine`,
-  `v1.5.1-php-suse-micro`, `v1.5.1-php-debian`
+- `v1.5.5-cache-wolfi`, `v1.5.5-cache-alpine`,
+  `v1.5.5-cache-suse-micro`, `v1.5.5-cache-debian`
+- `v1.5.5-proxy-wolfi`, `v1.5.5-proxy-alpine`,
+  `v1.5.5-proxy-suse-micro`, `v1.5.5-proxy-debian`
+- `v1.5.5-load-balancer-wolfi`, `v1.5.5-load-balancer-alpine`,
+  `v1.5.5-load-balancer-suse-micro`, `v1.5.5-load-balancer-debian`
+- `v1.5.5-php-wolfi`, `v1.5.5-php-alpine`,
+  `v1.5.5-php-suse-micro`, `v1.5.5-php-debian`
 - `sha-<short-sha>-cache-wolfi`, `sha-<short-sha>-proxy-wolfi`,
   `sha-<short-sha>-load-balancer-wolfi`, `sha-<short-sha>-php-wolfi`, etc.
 - `latest-cache-wolfi`, `latest-proxy-wolfi`,
   `latest-load-balancer-wolfi`, `latest-php-wolfi`, etc. when run from the
   default branch
-- Wolfi short aliases: `v1.5.1-cache`, `v1.5.1-proxy`,
-  `v1.5.1-load-balancer`, `v1.5.1-php`, `latest-cache`, `latest-proxy`,
+- Wolfi short aliases: `v1.5.5-cache`, `v1.5.5-proxy`,
+  `v1.5.5-load-balancer`, `v1.5.5-php`, `latest-cache`, `latest-proxy`,
   `latest-load-balancer`, and `latest-php`
 
 Starting with `v1.5.0`, the load-balancer image profile is part of normal tag

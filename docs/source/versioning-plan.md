@@ -188,9 +188,8 @@ Stable scope:
 - Default downstream certificate support in the default rustls build.
 - SNI certificate selection for multiple configured downstream certificates in
   the default rustls build and callback-capable TLS backends.
-- Optional OpenSSL and s2n TLS builds when they pass the release matrix.
-- Optional BoringSSL TLS builds on builders with `libclang` available for
-  bindgen.
+- Optional OpenSSL TLS builds when they pass the release matrix. BoringSSL and
+  s2n were removed from the supported matrix in `1.5.4`.
 - TLS listener cipher/protocol policy follows the selected Pingora TLS backend
   defaults in `1.0`; user-configurable TLS policy is not stable until a later
   release.
@@ -272,9 +271,8 @@ Stable scope:
   TLS 1.3-only profile and `intermediate` as the default compatibility profile.
 - Minimum protocol version config, bounded to safe values.
 - ALPN policy for HTTP/1.1 and future HTTP/2/HTTP/3 work.
-- Downstream curve preferences and cipher-suite allow-lists for rustls,
-  OpenSSL, and BoringSSL where the selected backend exposes enforceable
-  listener controls.
+- Downstream curve preferences and cipher-suite allow-lists for rustls and
+  OpenSSL where the selected backend exposes enforceable listener controls.
 - Structured HSTS response policy.
 - Per-backend validation that rejects cipher or protocol settings unsupported
   by the selected TLS backend.
@@ -590,9 +588,13 @@ builds unless the operator selected them.
 Stable scope:
 
 - Introduce an explicit shared ingress/runtime feature boundary.
-- Make `tls`, `tls-rustls`, `tls-openssl`, `tls-boringssl`, `tls-s2n`, `acme`,
-  and `acme-client` depend on shared ingress/TLS primitives rather than
-  implicitly selecting the generic `proxy` feature.
+- Make `tls`, `tls-rustls`, `tls-rustls-fips`, `tls-openssl`,
+  `tls-openssl-fips`, `acme`, and `acme-client` depend on shared ingress/TLS
+  primitives rather than implicitly selecting the generic `proxy` feature.
+- Remove the incomplete/low-value `tls-boringssl` and `tls-s2n` backends from
+  the future supported matrix. Rustls remains the default go-to backend; OpenSSL
+  remains supported for operators who need OpenSSL integration or OpenSSL FIPS
+  evidence.
 - Keep exactly one TLS backend selectable at a time.
 - Keep ACME certificate loading and renewal usable for every TLS-capable
   focused profile.
@@ -817,13 +819,8 @@ recommended for production.
     `fips=yes` fetch, enables OpenSSL default FIPS properties through a small
     local support crate, verifies those properties, and checks that a non-FIPS
     cipher is rejected through the default fetch path.
-  - `tls-boringssl-fips`: research-only until Fluxheim can prove it is linked
-    to a BoringCrypto validated module stream, can query the module/version, and
-    can document the exact CMVP certificate/security-policy boundary. Normal
-    BoringSSL must not be described as FIPS validated.
-  - `tls-s2n-fips`: research-only until the s2n/Pingora integration can prove
-    s2n was built with FIPS-capable AWS-LC, expose `s2n_get_fips_mode`, and
-    restrict configured s2n security policies to FIPS-approved cryptography.
+  - BoringSSL and s2n are not supported FIPS/ISO paths. The supported TLS
+    matrix is rustls, rustls/AWS-LC FIPS, OpenSSL, and OpenSSL FIPS.
 - Keep `tls.fips.required` as the high-level config guard and require
   backend-specific proof features underneath it. When enabled, non-FIPS TLS
   backends, non-FIPS cipher/curve choices, non-FIPS ACME/account crypto paths,
@@ -1126,7 +1123,7 @@ Reference parity map:
 | mTLS/client auth | NGINX `ssl_verify_client`, HAProxy `verify required`, Envoy TLS validation context | Listener-level required/optional client cert verification, CA bundle validation, identity variables, and route/admin policy use |
 | PROXY protocol | NGINX/HAProxy/Envoy listener and upstream support | Accept v1/v2 only from trusted peers; optionally send v1/v2 upstream |
 | gRPC | Envoy first-class gRPC/trailers, NGINX `grpc_pass` | Preserve HTTP/2 trailers/status/body limits/timeouts; no transcoding in 1.4 |
-| HTTP/3/QUIC | NGINX/Caddy/Envoy support | Track behind a protocol milestone; do not block 1.4 unless Pingora server support is stable enough |
+| HTTP/3/QUIC | NGINX/Caddy/Envoy support | Track as Fluxheim-owned `1.9` protocol milestone using Rust `quinn`/`h3` after server and HTTP runtime ownership are stable |
 | Traffic mirroring | NGINX `mirror`, Envoy shadowing | First slice: safe bodyless shadow requests with deterministic sampling, timeout budgets, allow-listed headers, and no effect on primary response; body mirroring/redaction later |
 | Dynamic discovery | Envoy xDS, Caddy dynamic upstreams, DNS/service integrations | DNS refresh and file-watched upstream lists first; xDS/Kubernetes/Consul later |
 | Regex routing and rewrites | NGINX `location ~`, named captures, `rewrite`; HAProxy regex ACLs | Rust `regex`-based route matchers, capture variables, and bounded rewrite/header templates |
@@ -1171,23 +1168,23 @@ Release shape:
     metrics remain later work.
   - TLS, identity, and protocol parity:
   - listener-level mTLS/client certificate auth with `off`, `optional`, and
-    `required` modes plus safe CA file handling for rustls and
-    OpenSSL/BoringSSL is implemented. Verified downstream TLS/client
+    `required` modes plus safe CA file handling for rustls and OpenSSL is
+    implemented. Verified downstream TLS/client
     certificate identity can now be forwarded through explicit request header
     templates such as `{tls.client_cert_sha256}` and is included in structured
     access logs through bounded `tls_*` fields. Vhost and route access policies
     can require a verified client certificate or allow/deny specific
     certificate SHA-256 fingerprints. The admin control plane can also require
     or allow/deny SHA-256 client-certificate fingerprints supplied by a trusted
-    TLS/mTLS terminator through `[admin.client_certificate]`. Remaining work is
-    s2n parity;
+    TLS/mTLS terminator through `[admin.client_certificate]`. BoringSSL and s2n
+    are not supported Fluxheim TLS backends;
   - upstream TLS controls: SNI override, trust roots, upstream mTLS client cert,
     protocol/cipher policy where supported, and auditable insecure-skip-verify
     behavior. SNI override already existed; certificate verification, hostname
     verification, alternative-CN controls, custom upstream trust roots, and
-    upstream mTLS client certificates are implemented for rustls, OpenSSL, and
-    BoringSSL. Remaining work is s2n parity and per-upstream protocol/cipher
-    policy;
+    upstream mTLS client certificates are implemented for rustls and OpenSSL.
+    BoringSSL and s2n were removed in `1.5.4`; remaining work is per-upstream
+    protocol/cipher policy;
   - PROXY protocol v1/v2 accept/send with explicit trust boundaries. Listener
     v1/v2 receive is implemented through `server.proxy_protocol` with mandatory
     trusted-peer gating, and upstream v1/v2 send is implemented through
@@ -1357,8 +1354,8 @@ Release shape:
     machine for static serving, reverse proxying, disk cache with a Mac-safe
     path, structured logs, and managed PHP-FPM when Homebrew PHP is available;
   - audit native dependency behavior on macOS, especially `ring`,
-    `aws-lc-sys`, `zstd-sys`, `libz-ng-sys`, OpenSSL/BoringSSL/S2N optional
-    TLS backends, and PHP-FPM process management. Prefer feature/profile fixes
+    `aws-lc-sys`, `zstd-sys`, `libz-ng-sys`, optional OpenSSL TLS backends,
+    and PHP-FPM process management. Prefer feature/profile fixes
     that avoid compiling unused native dependencies for developer builds;
   - document required local prerequisites such as Xcode Command Line Tools,
     Rust target/toolchain, CMake when selected features need it, and optional
@@ -1661,9 +1658,10 @@ Out of scope for `1.4`:
   constraints are documented.
 - Full Envoy-style global rate-limit service, xDS control plane, Kubernetes
   controller, Consul integration, gRPC-Web transcoding, gRPC-JSON transcoding,
-  and HTTP/3/QUIC are tracked as later work unless a low-risk subset becomes
-  available through existing dependencies. HTTP/3/QUIC is specifically
-  upstream-blocked until Pingora exposes stable server-side QUIC support.
+  and HTTP/3/QUIC are tracked as later work. HTTP/3/QUIC is now planned as a
+  Fluxheim-owned protocol milestone after server bootstrap and HTTP runtime
+  ownership are stable, using reviewed Rust QUIC/HTTP3 ecosystem crates rather
+  than waiting on a proxy-framework API.
 - Arbitrary Lua/Wasm script execution. `1.4` should define typed hook points and
   bounded policy surfaces; the shared Wasm runtime remains a separate `1.6`
   line. NGINX rewrite-module-style `if` conditions should be evaluated there
@@ -1743,22 +1741,72 @@ Stable scope:
 
 - Compile-time `load-balancer` module remains the place for estate-scale
   features that go beyond one Fluxheim instance's normal proxy routing.
+- The `1.5.x` dependency-reduction line should keep Pingora for the HTTP proxy
+  core while removing it from domains where Fluxheim already owns the datapath:
+  standard HTTP/error type plumbing, the TCP stream proxy, the load-balancer
+  substrate, and mechanical background task registration. Cache should be
+  decoupled through a Fluxheim-owned storage interface rather than replaced.
+- Fluxheim-owned modules should standardize on the Rust `http` crate for
+  request/response/status/header types and a Fluxheim-owned `FluxError` /
+  `FluxResult` taxonomy instead of propagating Pingora HTTP wrappers and
+  `pingora::Error` through internal APIs. Keep narrow adapters at Pingora
+  HTTP proxy boundaries until a later HTTP runtime replacement line exists.
+- The `1.5.5` HTTP/error boundary line deliberately stops before broad
+  runtime rewrites. Any leftover plain `io::Result` / Pingora adapter use in
+  PHP-FPM process lifecycle, PHP request-body spool files, stream data-path
+  copy/connect/shutdown helpers, upstream TLS material loading, and
+  load-balancer factory/background wiring should move with the future native
+  PHP/HTTP-runtime, stream-runtime, TLS/server-runtime, and load-balancer-core
+  milestones below rather than being chipped away as unbounded cleanup.
+- The stream proxy should become Fluxheim-native before the load-balancer
+  substrate work. Its tunnel, PROXY protocol framing, connection limits, byte
+  caps, idle/lifetime limits, and metrics are already Fluxheim-owned; the
+  remaining Pingora pieces are listener entrypoint, stream abstraction, and
+  upstream TLS connector wiring.
 - The `1.5.0` maintenance split keeps health checks, backend state,
   persistence, selection algorithms, backend policy/status, and file/DNS
   discovery in separate `src/load_balancer/*` modules. Future load-balancer
   work should extend those domains or create a new focused module instead of
   growing the parent orchestration file.
+- The `1.5.x` line should replace Pingora's load-balancing substrate with a
+  Fluxheim-native backend set, discovery trait, readiness state, health-check
+  scheduler, and background update loop. Pingora remains the HTTP proxy
+  transport/runtime while the load-balancer image becomes independent from
+  `pingora-load-balancing`.
+- Background tasks should eventually use a Fluxheim-owned Tokio task registry
+  with explicit cancellation rather than Pingora `GenBackgroundService`,
+  `ServiceWithDependents`, and `ShutdownWatch` wrappers. This is mechanical
+  cleanup after native stream and native load-balancer tasks have reduced the
+  Pingora background-service surface.
+- Cache storage should grow a `FluxCacheStorage` interface owned by Fluxheim so
+  memory, disk, encrypted disk, tiered storage, predictors, stale policy,
+  purge/index behavior, and admission tests are no longer coupled to Pingora's
+  `Storage` / `HandleHit` / `HandleMiss` session types. The Pingora HTTP proxy
+  path can keep an adapter while cache internals become independently testable.
+- Server bootstrap, listener ownership, and TLS listener configuration remain
+  a later major dependency-reduction line, not a `1.5` goal. Pingora's worker
+  setup, signal handling, hot-restart file-descriptor passing, service
+  orchestration, `TlsSettings`, SNI resolver hooks, mTLS, ALPN, and OCSP
+  wiring are valuable but also the part where Fluxheim has already needed
+  vendor patches. Replacing them requires a dedicated server-runtime milestone
+  with bare-metal and cloud-native deployment models considered separately.
+- Replacing Pingora `ProxyHttp` and `Session` is the final HTTP core
+  dependency-reduction line and should be treated as a major release-sized
+  project. Fluxheim's routing, access control, header policy, cache,
+  compression, PHP-FPM, GeoIP, mirroring, auth-request, and logging currently
+  hang from Pingora's callback lifecycle. A future `hyper`-style
+  `async fn(Request<Body>) -> Response<Body>` core may make that flow more
+  linear and testable, but it must not be mixed with smaller subsystem
+  refactors.
 - Runtime pool and member state through a local authenticated control plane:
   drain, disable, force-down, enable/normal, manual resume, persistence-table
-  clear, and load-balancer-only runtime status without full process restart.
-  True runtime add/remove, runtime weight change, and runtime metadata updates
-  are later `1.5.x` control-plane work because they need either an atomic
-  backend-set swap or a selector weight overlay across every algorithm.
-- Runtime weight changes are the required `1.5.x` canary-control follow-up:
-  the admin plane should be able to move a configured backend from 5% to 10%,
-  25%, 50%, and 100% without a config reload, with audit events and selector
-  behavior documented for weighted, least-connections, least-time, hash,
-  Maglev, priority-group, locality, persistence, health, and queue policy.
+  clear, configured-member runtime weight overrides, and load-balancer-only
+  runtime status without full process restart. Runtime weight controls are
+  available for round-robin and least-* selectors where the selector can apply
+  a bounded overlay directly. Runtime add/remove-member, runtime metadata
+  updates, and runtime weight mutation for hash/ring/Maglev/power-of-two
+  selectors remain future control-plane work because they need either an atomic
+  backend-set swap or selector-specific table/ring semantics.
 - Persisted pool state for operator actions and reload survival remains later
   `1.5.x` work, with safe snapshot/write semantics and audit events.
 - Cluster-aware state sharing for selected tables where single-node behavior is
@@ -1791,8 +1839,8 @@ Stable scope:
   - xDS/Kubernetes/Consul discovery only after local DNS/file discovery and
     runtime backend mutation are stable. Treat this as a control-plane feature,
     not a quick stream-proxy add-on;
-  - HTTP/3/QUIC remains a later protocol milestone unless the QUIC ingress
-    stack is already stable before `1.5`.
+  - HTTP/3/QUIC remains a later protocol milestone targeted at `1.9`, after
+    Fluxheim-owned server/listener/TLS and HTTP runtime boundaries are stable.
 - Multiple upstreams per pool with safe address validation and per-upstream
   metadata: name, address, weight, backup, disabled/down, drain/maintenance,
   max in-flight requests or connections, max queue, priority group, manual
@@ -1801,9 +1849,11 @@ Stable scope:
   per-upstream TLS/SNI settings.
 - `1.4` selection algorithms remain the single-node default. `1.5` adds
   operational controls around them: priority groups, maintenance mode,
-  runtime member-state changes, pool-level policy templates, and migration
-  tools that translate common HAProxy/nginx pool definitions into Fluxheim
-  config. Runtime-safe weight changes are a later control-plane slice.
+  runtime member-state changes, runtime weight overrides for supported
+  selectors, pool-level policy templates, and migration tools that translate
+  common HAProxy/nginx pool definitions into Fluxheim config. Runtime
+  add/remove-member and selector-specific weight changes for hash/ring/Maglev
+  policies remain later control-plane slices.
   - weighted least-connections / ratio least-connections for heterogeneous
     backends;
   - least-time / EWMA latency-aware selection from observed upstream request
@@ -1840,13 +1890,35 @@ Stable scope:
   - TLS handshake checks with SNI and verification controls;
   - HTTP checks with method, path, expected status range, expected response
     header/body substring, Host header, and upstream TLS/SNI where configured;
-  - HTTP/2 and gRPC health checks where protocol support is stable;
-  - protocol-aware monitors for common load-balanced services such as MySQL,
-    PostgreSQL, Redis, SMTP, LDAP, and custom send/expect checks are a later
+  - HTTP health-check request headers, including support for authenticated
+    health endpoints through explicitly configured low-sensitivity headers.
+    Header names and values must be validated, redacted in logs/status where
+    needed, and excluded from high-cardinality metric labels;
+  - HTTP/2 and gRPC health checks using the standard gRPC Health Checking
+    Protocol, with optional service name, strict message-size limits, no
+    general protobuf parser requirement for the first slice, and response
+    status mapped into normal active-health state;
+  - structured JSON response checks for common health bodies, using bounded
+    `serde_json` parsing and simple exact field-path comparisons before any
+    JSONPath-like language is considered;
+  - weighted degraded health responses where a trusted health endpoint can
+    return a bounded effective-weight signal such as `X-Health-Weight`. This is
+    a health-derived overlay separate from configured weight and runtime
+    operator overrides, must be visible in status/audit, and must automatically
+    clear when the backend returns to normal;
+  - local exec/command checks are a later `1.5.x` monitor slice, not part of
+    the first L7 expansion. They must use absolute allow-listed paths, no
+    shell, no ambient environment injection, strict timeout/output limits,
+    redaction, and compile/config gates because they introduce process
+    execution;
+  - protocol-aware database/service monitors for common load-balanced services
+    such as Redis `PING`, PostgreSQL startup/auth-safe readiness, MySQL
+    handshake/readiness, SMTP, LDAP, and custom send/expect checks are a later
     `1.5.x` monitor slice, with strict timeout/body-size bounds and no
     unbounded script execution;
   - authenticated agent checks may be added later for applications that can
-    report local overload or drain state more accurately than protocol probes;
+    report local overload, reduced capacity, or drain state more accurately
+    than protocol probes;
   - UDP checks only in the later UDP follow-up, with explicit send/expect
     patterns and timeout limits;
   - interval, timeout, consecutive success/failure thresholds, initial state,
@@ -1941,12 +2013,51 @@ Stable scope:
 
 Beta scope:
 
+- Fluxheim-native HTTP/error type boundary replacement for Pingora wrapper
+  types in Fluxheim-owned modules. Use Rust `http` crate request, response,
+  status, method, URI, and header types where practical, and replace
+  `pingora::{Error, ErrorType}` propagation with a `thiserror`-backed
+  Fluxheim error taxonomy carrying explicit context. Keep Pingora adapters at
+  `ProxyHttp`, service, and transport edges.
+- Fluxheim-native load-balancer substrate replacement for the remaining
+  Pingora LB pieces: `Backend`, `Backends`, `LoadBalancer<S>`,
+  `ServiceDiscovery`, static discovery, readiness maps, health-check wiring,
+  and background service lifecycle. Preserve existing config/admin behavior and
+  keep Pingora for the HTTP proxy core.
+- Fluxheim-native stream-proxy runtime replacement for the remaining Pingora
+  stream pieces: `ServerApp`, `protocols::Stream`, and `TransportConnector`.
+  Preserve existing stream config, route selection, PROXY protocol, byte/idle
+  limits, metrics, upstream TLS/mTLS behavior, and smoke coverage while using a
+  direct Tokio listener loop and explicit TLS connector.
+- Fluxheim-native background task registry replacement for Pingora
+  `GenBackgroundService`, `ServiceWithDependents`, `background_service()`, and
+  `ShutdownWatch` usage. Use explicit Tokio tasks plus a cancellation primitive
+  such as `tokio-util`'s `CancellationToken`, preserve graceful shutdown
+  behavior, and keep task metrics/status visible.
+- Fluxheim-owned cache interface decoupling for Pingora cache `Storage`,
+  `HandleHit`, and `HandleMiss` semantics. Preserve existing cache behavior and
+  add an adapter for the Pingora HTTP path rather than rewriting the cache
+  implementation.
+- Post-`1.6` server-runtime ownership planning: decide whether Fluxheim should
+  replace Pingora `Server`, listener/TLS setup, hot-restart fd passing,
+  service registration, signal handling, and TLS resolver hooks with a
+  Fluxheim-owned Tokio server bootstrap. Preserve bare-metal hot restart only
+  if its operational value justifies the complexity; cloud-native deployments
+  may accept a simpler listener model.
+- Post-`1.6` HTTP runtime replacement planning: evaluate replacing Pingora
+  `ProxyHttp` and `Session` with a Fluxheim-owned HTTP core built around
+  standard `http` types and an async request/response pipeline. Treat this as
+  the largest dependency-reduction project, with migration fixtures proving
+  that cache, compression, PHP-FPM, GeoIP, mirroring, auth-request, rate
+  limits, access policy, observability, and failure paths behave the same.
 - Dynamic service discovery beyond static config and normal DNS resolution,
-  using Pingora's service-discovery interface when it can be tested reliably.
-- Runtime add/remove-member, runtime weight-change, and runtime metadata-update
-  operations after the backend-set swap or selector-overlay design is proven
-  across round-robin, weighted, hash, consistent-hash, least-connections,
-  least-time, priority-group, locality, persistence, health, and queue policy.
+  using Fluxheim's native discovery interface after the backend-set model is no
+  longer coupled to Pingora's load-balancing crate.
+- Runtime add/remove-member and runtime metadata-update operations after the
+  backend-set swap design is proven across priority-group, locality,
+  persistence, health, and queue policy. Runtime weight changes for
+  hash/ring/Maglev/power-of-two selectors stay here until their table,
+  sampling, and remap semantics are explicitly designed.
 - Load-balancer-managed cookie insertion and sticky-session cookie mirroring
   for HA pairs or active-active Fluxheim clusters. This must include signed or
   opaque cookie values, rotation, table-size/TTL limits, peer authentication,
@@ -2314,6 +2425,77 @@ Exit criteria:
   cache hook ABI with typed inputs, configured output limits, and explicit
   operator opt-in per vhost or route.
 
+### 1.7 - Server Bootstrap And Listener/TLS Runtime
+
+Goal: replace or isolate Pingora's server bootstrap, listener setup, and TLS
+listener configuration behind Fluxheim-owned APIs after the smaller `1.5`
+dependency-reduction layers and shared `1.6` Wasm ABI are stable.
+
+This is a major dependency-reduction line, not cleanup. Pingora currently owns
+worker setup, service registration, signal handling, graceful shutdown,
+SIGUSR1-style log rotation behavior, hot-restart file-descriptor passing, and
+parts of listener/TLS configuration. Those pieces are valuable, especially for
+traditional bare-metal process models, but they are also the places where
+Fluxheim has already needed vendor patches to get TLS behavior exactly right.
+
+Stable scope:
+
+- Fluxheim-owned server bootstrap API for worker setup, service registration,
+  shutdown, and task orchestration.
+- Listener setup owned by Fluxheim for the supported release profiles.
+- TLS listener configuration owned or isolated behind Fluxheim APIs for
+  rustls/rustls-FIPS and OpenSSL/OpenSSL-FIPS.
+- Upstream TLS material loading and evidence paths audited under the same
+  Fluxheim-owned TLS boundary, including any remaining upstream TLS helper
+  errors that were intentionally left out of `1.5.5`.
+- Preserve per-vhost SNI, mTLS/client-auth policy, ALPN, OCSP stapling where
+  supported, secure defaults, config validation, and release evidence.
+- Preserve bare-metal hot restart only if the implementation can remain
+  bounded and testable; cloud-native deployments may use a simpler listener
+  model.
+
+Out of scope:
+
+- Replacing Pingora `ProxyHttp` or `Session`.
+- Changing cache, compression, PHP-FPM, load-balancer, Wasm, or admin API
+  semantics.
+- Rewriting PHP-FPM process supervision, request-body spool I/O, or FastCGI
+  request execution. Those stay in the HTTP proxy runtime dependency line
+  unless a focused PHP release requires them earlier.
+- HTTP/3/QUIC, UDP/GSLB, WAF, VPN/firewall appliance behavior, or new Wasm ABI
+  scope.
+
+### 1.8 - HTTP Proxy Runtime
+
+Goal: replace Pingora `ProxyHttp` and `Session` with a Fluxheim-owned HTTP
+request/response pipeline after server bootstrap and the smaller
+dependency-reduction layers are stable.
+
+This is the largest Pingora-decoupling project. Today the HTTP proxy callback
+lifecycle carries routing, upstream selection, access policy, header mutation,
+caching, compression, PHP-FPM, ACME, GeoIP, mirroring, auth-request,
+observability, failure handling, and logging through Pingora `Session`. A
+future Fluxheim HTTP core should use standard `http` types and a linear async
+request/response body-stream model where possible, while preserving the
+operator-facing behavior that existing releases have proven.
+
+Stable scope:
+
+- Fluxheim-owned HTTP/1.1 and HTTP/2 request/response pipeline.
+- Preserve routing, upstream selection, load-balancer interaction, access
+  policy, rate/concurrency limits, auth-request, traffic mirroring, header
+  policy, compression, caching, PHP-FPM, ACME, GeoIP, observability, and admin
+  failure semantics.
+- Migration fixtures proving behavior parity against the Pingora-backed path.
+- Narrow compatibility adapters where needed during transition, but no
+  permanent hidden dependency on Pingora `Session`.
+
+Out of scope:
+
+- HTTP/3/QUIC.
+- UDP/GSLB, WAF, VPN/firewall appliance behavior.
+- New Wasm ABI scope beyond preserving the `1.6` host-call contract.
+
 ### Future Edge Firewall And VPN Modes
 
 Goal: evaluate whether Fluxheim should grow separate edge-firewall and TLS/VPN
@@ -2388,12 +2570,13 @@ Repository/layout rule:
   the directory and dependency boundary should let the SDK move to its own
   GitHub project later without extracting proxy internals.
 
-### 1.7 - Reserved
+### Future - Compression Follow-Ups
 
 Compression was pulled forward into the `1.4` production proxy parity line
 because it is a normal reverse-proxy expectation rather than a separate feature
-family. Keep `1.7` reserved until a later major planning pass identifies a
-coherent post-Wasm release theme.
+family. Keep follow-up compression work as a future compatibility track rather
+than consuming the `1.7` slot now used for server bootstrap and listener/TLS
+ownership.
 - Bounded offload for expensive compression work.
 
 Beta scope:
@@ -2411,7 +2594,7 @@ Exit criteria:
 - Downstream disconnects cancel or stop compression work.
 - Default and `privacy-mode` builds prove compression is absent.
 
-### 1.8 - Media Transform Pack
+### Future - Media Transform Pack
 
 Goal: add safe, opt-in image transformation for static and proxied image
 responses.
@@ -2444,7 +2627,53 @@ Exit criteria:
   format, dimensions, quality, and `Accept` bucket.
 - `privacy-mode` rejects incompatible transform/cache combinations.
 
-### 1.9 - Advanced Certificate Automation
+### 1.9 - HTTP/3 And QUIC
+
+Goal: add opt-in HTTP/3 ingress with Fluxheim-owned UDP listener, QUIC, ALPN,
+certificate, routing, policy, and observability integration.
+
+This should be built as a Fluxheim protocol milestone after `1.7` server
+bootstrap/listener/TLS ownership and `1.8` HTTP runtime ownership are stable.
+The intended implementation path is the Rust `quinn` crate for QUIC transport
+and the Rust `h3` stack for HTTP/3 framing, with Fluxheim-owned adapters around
+TLS policy, vhost routing, request limits, access policy, cache/proxy behavior,
+metrics, logs, and graceful shutdown.
+
+Stable first scope:
+
+- Compile-time `http3` or `http3-experimental` feature, absent from default
+  builds until interop and resilience evidence is strong.
+- UDP listener ownership with explicit rootless/container port mapping docs.
+- ALPN and certificate selection consistent with HTTP/1.1 and HTTP/2 vhost
+  behavior.
+- `Alt-Svc` advertisement only when the matching UDP QUIC listener is
+  configured, healthy, and mapped to the advertised port.
+- Conservative config: `enabled`, `listen`, `advertise_alt_svc`,
+  `max_concurrent_streams`, `idle_timeout`, `max_request_body_bytes`, and
+  `enable_0rtt = false`.
+- 0-RTT disabled by default and rejected until route policy can prove replay
+  safety for explicitly idempotent traffic.
+- GET/HEAD first, then request-body streaming, upload limits, proxying, static
+  serving, cache behavior, access/error logs, dynamic headers, and failure
+  semantics matched to the HTTP/1.1 and HTTP/2 paths.
+
+Exit criteria:
+
+- Interop tests with HTTP/3-capable clients and browser `Alt-Svc` discovery.
+- Packet loss/reordering tests, malformed frame tests, anti-amplification
+  behavior checks, connection-id lifecycle tests, stream timeout tests, and
+  mixed HTTP/1.1, HTTP/2, and HTTP/3 request-boundary tests.
+- Metrics and logs identify protocol without creating high-cardinality labels.
+- Security posture matches the existing HTTP paths: strict parsing, no hidden
+  downgrade shortcuts, no legacy fallback on modern listeners, and consistent
+  vhost/cache/admin isolation.
+
+Out of first scope:
+
+- Generic UDP proxying, DNS/GSLB, QUIC pass-through, game-server UDP proxying,
+  WAF, VPN/firewall appliance behavior, and new Wasm ABI scope.
+
+### Future - Advanced Certificate Automation
 
 Goal: extend the `1.1` certificate lifecycle with provider-specific and
 zero-downtime automation that is too broad for the first ACME release.
@@ -2822,7 +3051,7 @@ Exit criteria:
 - Source files are never served as static fallback.
 - Rootless Podman examples exist for every runtime.
 
-### 1.9 - Crypto RPC Edge
+### Future - Crypto RPC Edge
 
 Goal: add a compile-time optional crypto RPC edge family for blockchain-aware
 JSON-RPC/WebSocket proxying, safe POST-body caching, and node-health-aware
@@ -3288,8 +3517,9 @@ the exception while the cache server is being completed as a focused sequence:
   groups, persistence, slow-start, adaptive health, circuit breaking,
   queue/overflow policy, locality/failure-domain policy, richer selection
   algorithms, load-balancer-only admin status, audit visibility, and migration
-  fixtures. True runtime add/remove/weight changes remain later `1.5.x`
-  control-plane work. Include TLS passthrough SNI routing only after a bounded
+  fixtures. Runtime add/remove-member and selector-specific hash/ring weight
+  changes remain later `1.5.x` control-plane work. Include TLS passthrough SNI
+  routing only after a bounded
   ClientHello parser, preread buffer limit, and byte replay model are proven. Dynamic
   xDS/Kubernetes/Consul discovery belongs here or a later control-plane line
   after local DNS/file discovery and runtime backend mutation are stable.
@@ -3304,7 +3534,192 @@ the exception while the cache server is being completed as a focused sequence:
   add runtime add/remove-member, runtime weight mutation, managed affinity
   cookies, cross-instance state sync, UDP/GSLB, WAF, VPN/firewall appliance
   behavior, or Wasm/iRules/Lua scripting in this release.
+- `v1.5.2`: runtime load-balancer weight-control line. Stop at authenticated
+  runtime weight overrides for already configured members, status/metrics/audit
+  visibility, canary traffic-shift migration docs, and focused smoke coverage.
+  Do not add runtime add/remove-member, managed affinity-cookie insertion,
+  restart-persistent or cross-node state, UDP/GSLB, WAF, VPN/firewall appliance
+  behavior, or Wasm/iRules/Lua scripting in this release.
+- `v1.5.3`: managed affinity-cookie and HA persistence line. Stop at
+  signed/opaque load-balancer `Set-Cookie` insertion for eligible HTTP
+  responses, cookie verification on inbound requests, key rotation, configured
+  cookie attributes, backend identity privacy, explicit privacy-mode rejection
+  unless no-retention behavior is proven, and documented interaction with
+  cache, compression, and header policies. Include an active-active
+  cookie-mirroring design and tests, but do not add restart-persistent state,
+  runtime add/remove-member, xDS/Kubernetes/Consul discovery, UDP/GSLB, WAF,
+  VPN/firewall appliance behavior, or Wasm/iRules/Lua scripting in this
+  release.
+- `v1.5.4`: TLS backend simplification line. Stop at removing the incomplete
+  BoringSSL and s2n backend support from the supported matrix, leaving
+  rustls as the default/recommended backend and OpenSSL as the supported
+  alternative for non-FIPS and FIPS/ISO evidence paths. Update features,
+  preflight validation, docs, examples, packaging, release scripts, and tests so
+  supported TLS means rustls/rustls-FIPS or OpenSSL/OpenSSL-FIPS only. Do not
+  add new TLS backends, HTTP/3/QUIC, native load-balancer internals,
+  restart-persistent state, cross-node sync, UDP/GSLB, WAF, VPN/firewall
+  appliance behavior, or Wasm/iRules/Lua scripting in this release.
+- `v1.5.5`: Fluxheim-native HTTP/error type boundary line. Stop at
+  standardizing Fluxheim-owned modules on Rust `http` crate request, response,
+  status, method, URI, and header types where practical, plus a
+  `thiserror`-backed `FluxError` / `FluxResult` hierarchy for internal error
+  propagation. Keep narrow adapters at Pingora `ProxyHttp`, service, and
+  transport boundaries, preserve externally visible status codes, messages,
+  metrics labels, config validation behavior, release profiles, and tests. Do
+  not replace the HTTP proxy runtime, change stream proxy runtime, change
+  cache semantics, change load-balancer selection/state behavior, add
+  HTTP/3/QUIC, UDP/GSLB, WAF, VPN/firewall appliance behavior, or
+  Wasm/iRules/Lua scripting in this release. Defer remaining runtime-heavy
+  error-boundary work explicitly: PHP-FPM process supervision and request-body
+  spool I/O move with later PHP/HTTP-runtime work, stream connect/copy/shutdown
+  helpers move with `v1.5.6`, load-balancer factory/background wiring moves
+  with `v1.5.7`, and upstream TLS material loading moves with the later
+  server/listener/TLS runtime line unless it is required earlier for stream
+  runtime correctness.
+- `v1.5.6`: Fluxheim-native stream-proxy runtime line. Stop at replacing
+  Pingora's stream service entrypoint and stream/TLS connector wrappers with a
+  Fluxheim-owned Tokio listener loop and explicit outbound connector for raw
+  TCP plus upstream TLS/mTLS. Preserve existing stream config, route matching,
+  weighted upstream selection, drain/backup policy, route-local PROXY protocol
+  receive/send, true idle timeouts, lifetime and byte caps, metrics, smoke
+  tests, and release-profile behavior. This is also where remaining stream
+  data-path `io::Result` helpers should be moved behind Fluxheim-owned error
+  types because the stream runtime boundary becomes Fluxheim-owned. Do not add
+  UDP proxying, HTTP/3/QUIC,
+  native load-balancer internals, restart-persistent state, cross-node sync,
+  WAF, VPN/firewall appliance behavior, or Wasm/iRules/Lua scripting in this
+  release.
+- `v1.5.7`: Fluxheim-native load-balancer core line. Stop at replacing
+  `pingora-load-balancing` with Fluxheim-owned backend types, backend-set
+  readiness, discovery trait, static/file/DNS discovery adapters, TCP/HTTP
+  health-check scheduling, background update lifecycle, and existing selector
+  entry points. Preserve current config, admin API, status shape, metrics,
+  smoke tests, privacy-mode behavior, managed-cookie behavior, and all
+  selection results as far as possible. Convert remaining load-balancer
+  construction/factory/background update errors onto Fluxheim-owned error
+  types as part of this substrate replacement, not as scattered cleanup. Keep
+  Pingora's HTTP proxy core and
+  upstream transport in place. Do not add restart-persistent state, cross-node
+  sync, runtime add/remove-member, xDS/Kubernetes/Consul discovery, UDP/GSLB,
+  WAF, VPN/firewall appliance behavior, or Wasm/iRules/Lua scripting in this
+  release.
+- `v1.5.8`: active health-check expansion line. Stop at closing the existing
+  HTTP health-check request-header gap, adding standard gRPC health checks,
+  adding bounded JSON field validation for common health response bodies, and
+  adding health-derived degraded weight signals such as `X-Health-Weight`.
+  Custom request headers must be explicitly configured, validated, redacted
+  where needed, and omitted from high-cardinality labels. gRPC health should
+  implement only the standard Health Checking Protocol with optional service
+  name and strict message-size/time limits. JSON validation should be simple
+  exact field-path matching, not a full JSONPath language. Degraded weights
+  must be bounded, status-visible, separate from configured/runtime operator
+  weights, and cleared automatically when normal health resumes. Do not add
+  local command execution, database protocol probes, restart-persistent state,
+  runtime add/remove-member, xDS/Kubernetes/Consul discovery, UDP/GSLB, WAF,
+  VPN/firewall appliance behavior, or Wasm/iRules/Lua scripting in this
+  release.
+- `v1.5.9`: restart-persistent load-balancer state line. Stop at versioned,
+  size-limited, atomically written, auditable persistence for selected runtime
+  member overrides and bounded persistence tables after the Fluxheim-native
+  backend model is stable. Corrupt or incompatible state must fail closed to
+  "ignore and rebuild" rather than poisoning a pool. Do not add cross-node
+  state sync, runtime add/remove-member, dynamic discovery control planes,
+  UDP/GSLB, or Wasm/iRules/Lua scripting in this release.
+- `v1.5.10`: runtime backend-set mutation line. Stop at authenticated
+  add/remove/update operations for configured pool members through atomic
+  backend-set swaps, including validation, audit events, status/metrics
+  visibility, drain behavior, and clear selector limitations for hash, ring,
+  Maglev, and power-of-two policies. Do not add xDS/Kubernetes/Consul
+  discovery, UDP/GSLB, WAF, VPN/firewall appliance behavior, or Wasm/iRules/Lua
+  scripting in this release.
+- `v1.5.11`: service-discovery and control-plane integration line. Stop at one
+  or more bounded discovery adapters such as Kubernetes, Consul, or xDS after
+  local DNS/file discovery and runtime backend mutation are stable. Discovery
+  must include authentication/trust boundaries, churn limits, safe fallback,
+  status, audit/metrics, and reload behavior. Do not add UDP/GSLB, WAF,
+  VPN/firewall appliance behavior, or Wasm/iRules/Lua scripting in this
+  release.
+- `v1.5.12`: Fluxheim-native background task registry line. Stop at replacing
+  Pingora `GenBackgroundService`, `ServiceWithDependents`,
+  `background_service()`, and `ShutdownWatch` usage for Fluxheim-owned
+  background work such as cache metrics, ACME renewal scheduling, stale purging,
+  load-balancer updates, and future discovery refresh loops. Use explicit Tokio
+  tasks plus a cancellation primitive such as `tokio-util`'s
+  `CancellationToken`, preserve graceful shutdown semantics, task ordering where
+  needed, status/metrics visibility, and release smoke coverage. Do not change
+  HTTP proxy request handling, add UDP/GSLB, WAF, VPN/firewall appliance
+  behavior, or Wasm/iRules/Lua scripting in this release.
+- `v1.5.13`: Fluxheim-owned cache interface line. Stop at defining and using a
+  `FluxCacheStorage`-style interface that captures Fluxheim's existing cache
+  hit/miss/admission/stale/purge semantics without depending on Pingora's
+  session-bound `Storage`, `HandleHit`, and `HandleMiss` types. Keep the
+  existing memory, disk, encrypted disk, tiered, predictor, stale, purge,
+  range/slice, and cache-lock behavior unchanged, and provide a narrow adapter
+  for the current Pingora HTTP proxy path. Do not rewrite the cache format,
+  change cache policy semantics, add cross-node cache replication, add UDP/GSLB,
+  WAF, VPN/firewall appliance behavior, or Wasm/iRules/Lua scripting in this
+  release.
+- `v1.5.14`: local exec and agent health-check line. Stop at opt-in, bounded
+  local command/agent checks for cases that cannot be represented by TCP, TLS,
+  HTTP, gRPC, JSON, or database protocol probes. Require absolute allow-listed
+  command paths, no shell expansion, no inherited unsafe environment, strict
+  timeout/output-size limits, redaction, status/audit visibility, and clear
+  compile/profile compatibility. Do not add arbitrary scripting, Wasm policy,
+  runtime backend mutation, UDP/GSLB, WAF, VPN/firewall appliance behavior, or
+  database protocol probes in this release.
+- `v1.5.15`: database and protocol-aware health-check line. Stop at bounded
+  protocol probes for stream/load-balancer deployments where TCP connect is not
+  enough: Redis `PING`, PostgreSQL startup/readiness, MySQL handshake/readiness,
+  and optionally SMTP/LDAP/custom send-expect checks if each protocol has
+  strict timeout, byte, authentication, privacy, and logging limits. Treat
+  database checks as health probes only, not a database proxy feature or query
+  execution engine. Do not add UDP/GSLB, WAF, VPN/firewall appliance behavior,
+  arbitrary command execution beyond the prior opt-in exec line, or new Wasm
+  ABI scope in this release.
+- `v1.5.16`: UDP and GSLB exploration line. Stop at explicitly scoped beta
+  modules only: DNS UDP load balancing, syslog UDP forwarding, QUIC
+  pass-through, game-server UDP proxying, and/or DNS/GSLB traffic steering if
+  each target has bounded session/affinity semantics, timeouts, health checks,
+  metrics, rootless/container-network behavior, and clear non-goals. Do not
+  turn this into a generic catchall UDP or authoritative-DNS platform, and do
+  not add WAF, VPN/firewall appliance behavior, or Wasm/iRules/Lua scripting in
+  this release.
+- `v1.6.0`: shared Wasm extensibility runtime line. Stop at one sandboxed,
+  typed, resource-limited extension runtime for operator policy normally solved
+  with F5 iRules, nginx Lua/OpenResty, HAProxy Lua/SPOE, and VCL-like cache
+  policy. Do not replace server bootstrap/listeners/TLS, or replace
+  `ProxyHttp`/`Session`, add generic UDP/GSLB platform behavior, or turn Wasm
+  into an unbounded scripting language in this release.
 - `v1.6.1`: fixes for the shared Wasm extensibility runtime.
+- `v1.7.0`: Fluxheim-owned server bootstrap and listener/TLS runtime line.
+  Stop at replacing or isolating Pingora `Server`, worker setup, service
+  registration, signal handling, log-rotation signal behavior, hot-restart
+  file-descriptor passing, listener creation, and TLS listener configuration
+  behind Fluxheim-owned APIs. Preserve secure defaults, per-vhost SNI,
+  mTLS/client-auth policy, ALPN, OCSP stapling where supported, graceful
+  shutdown, release profiles, and bare-metal versus container deployment
+  semantics. Do not replace the HTTP proxy request lifecycle,
+  `ProxyHttp`/`Session`, cache behavior, Wasm ABI, UDP/GSLB, WAF, or
+  VPN/firewall appliance behavior in this release.
+- `v1.8.0`: Fluxheim-owned HTTP proxy runtime line. Stop at replacing Pingora
+  `ProxyHttp` and `Session` with a Fluxheim-owned HTTP request/response
+  pipeline, likely based on standard `http` types and a `hyper`/body-stream
+  model, after the server bootstrap and smaller dependency-reduction layers are
+  stable. Preserve HTTP/1.1 and HTTP/2 behavior, routing, upstream selection,
+  caching, compression, PHP-FPM, ACME, GeoIP, traffic mirroring, auth-request,
+  rate/concurrency limits, header policy, observability, admin-visible failure
+  semantics, and migration fixtures. Do not add HTTP/3/QUIC, UDP/GSLB, WAF,
+  VPN/firewall appliance behavior, or new Wasm ABI scope in this release.
+- `v1.9.0`: Fluxheim-owned HTTP/3 and QUIC line. Stop at an opt-in
+  `http3`/`http3-experimental` feature using Rust `quinn` for QUIC transport
+  and the Rust `h3` stack for HTTP/3 framing behind Fluxheim-owned listener,
+  TLS, routing, access-policy, cache/proxy, metrics, logging, and graceful
+  shutdown boundaries. Preserve HTTP/1.1 and HTTP/2 behavior, advertise
+  `Alt-Svc` only for healthy configured QUIC listeners, keep 0-RTT disabled
+  unless explicit replay-safe route policy exists, and require interop,
+  malformed-input, packet-loss, anti-amplification, timeout, container-network,
+  and mixed-protocol boundary tests. Do not add generic UDP proxying, DNS/GSLB,
+  WAF, VPN/firewall appliance behavior, or new Wasm ABI scope in this release.
 
 ## Changelog Shape
 

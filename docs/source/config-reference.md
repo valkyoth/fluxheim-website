@@ -150,7 +150,10 @@ Notes:
 `[stream]` is disabled by default and requires a build with the
 `stream-proxy` feature. Stream routes are raw L4 TCP services. They do not run
 HTTP routing, headers, cache, compression, auth subrequests, PHP, or web
-serving logic.
+serving logic. The current stream datapath is Fluxheim-owned; the remaining
+Pingora stream entrypoint/connector wrappers are planned to be replaced by a
+Fluxheim-native Tokio listener and connector in the `1.5.x` dependency
+reduction line.
 
 ```toml
 [stream]
@@ -220,9 +223,8 @@ upstream_tls = false
   upstream certificate matching. `upstream_ca_path` loads a route-local PEM CA
   bundle. `upstream_client_cert_path` and `upstream_client_key_path` configure
   upstream mTLS client material and must be set together. Custom trust roots
-  and upstream client certificates are supported for rustls, OpenSSL, and
-  BoringSSL builds; s2n remains fail-closed for these files until Fluxheim can
-  load them without backend panics.
+  and upstream client certificates are supported for rustls and OpenSSL builds.
+  BoringSSL and s2n are not supported Fluxheim TLS backends.
 
 When `metrics` is compiled and enabled,
 `fluxheim_stream_connections_total{route,outcome}` records bounded connection
@@ -347,14 +349,42 @@ changes. Runtime member state is intentionally in-memory in the current `1.5.x`
 line, is reset by process restart or runtime rebuild, and is returned with
 `"persistent": false` in the mutation response. The response also includes
 `scope = "vhost"` or `"route"` so operators can audit which pool was changed.
+In `privacy-mode`, member mutation responses and structured mutation logs omit
+the backend address just like status output. Successful mutation metrics keep
+member attribution in normal builds and use configured aliases only in
+privacy-mode.
 For dynamic DNS/file-discovery pools, Fluxheim may reclaim stale runtime
 `drain` overrides after a member disappears from the live discovery set.
 Runtime `disable` and `forced_down` overrides are retained across discovery
 churn and are cleared only by explicit `normal` or `manual_resume` admin action.
+The retained runtime override table is bounded; if the table is full, new
+runtime state or weight overrides fail with a bounded admin error instead of
+growing memory without limit.
 Successful and rejected member-state operations are logged under the
 `fluxheim::load_balancer` target and, when metrics are compiled, counted by
 `fluxheim_load_balancer_events_total` with bounded events `member_state`,
 `member_state_invalid`, and `member_state_not_found`.
+
+Authenticated admins can adjust the runtime weight of an already configured
+member without reloading when the pool uses `round-robin`, `least-connections`,
+`least-sessions`, or `least-time` selection:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN" \
+  "http://127.0.0.1:8081/_fluxheim/load-balancer/member-weight?vhost=app&member=app-a&weight=25"
+```
+
+Use `weight = "default"`, `reset`, `clear`, or `configured` to remove the
+runtime override and return to the configured `upstream_weights` value. Runtime
+weights are bounded to `1..=1000`, are local/in-memory like runtime member
+state, and are returned in backend status as `effective_weight`,
+`runtime_weight_override`, and `runtime_weight_changed_at_unix_secs`.
+For dynamic DNS/file-discovery pools, runtime weight overrides are retained
+while the same backend is explicitly `disable`d or `forced_down`, and are
+otherwise reclaimed after the backend leaves the live discovery set.
+Successful and rejected weight operations are counted as `member_weight`,
+`member_weight_invalid`, and `member_weight_not_found`.
 
 Authenticated admins can fetch only load-balancer runtime state without parsing
 the full `/_fluxheim/status` payload:
@@ -938,9 +968,9 @@ store for this proxy policy. `upstream_client_cert_path` and
 key for origin mTLS and must be set together. These file paths are resolved
 relative to the containing config file, reject parent-directory traversal,
 reject symlinked existing path components, and reject group/world-writable
-existing parents. Rustls, OpenSSL, and BoringSSL builds support custom upstream
-trust roots and upstream client certificates. s2n builds currently reject these
-fields until Fluxheim has panic-free PEM loading for that backend.
+existing parents. Rustls and OpenSSL builds support custom upstream trust roots
+and upstream client certificates. BoringSSL and s2n are not supported Fluxheim
+TLS backends.
 `upstream_proxy_protocol` defaults to `off`. Set it to `v1` or `v2` to send a
 HAProxy PROXY protocol header to the origin immediately after the upstream TCP/Unix
 connection is established and before any upstream TLS handshake. The source
@@ -1058,7 +1088,12 @@ bounded persistence-entry share per backend, weighted by `upstream_weights`.
 `least-time` uses the same request permits plus an EWMA of observed upstream
 latency from completed requests, weighted by `upstream_weights`; unsampled
 healthy backends are allowed to receive traffic so new or recovered pool
-members can establish a latency baseline. `power-of-two`
+members can establish a latency baseline. Runtime weight overrides through the
+admin API are honored by `round-robin`, `least-connections`, `least-sessions`,
+and `least-time` in the current release. Hash, consistent hash, bounded-load
+consistent hash, Maglev, and power-of-two selections reject runtime weight
+changes until ring/table rebuild and sampling semantics are specified.
+`power-of-two`
 also accepts `power-of-two-choices`, `two-choice`, `weighted-two-choice`, and
 `weighted-random-two-choice`; all names sample two healthy backends through
 Pingora's random weighted selector and choose the lower weighted in-flight
@@ -1143,10 +1178,21 @@ upstream permit is held until a backend becomes selectable.
 persistence table. `mode = "source-ip"` maps a client IP to the selected
 backend for `ttl_secs`; `mode = "header"` maps the configured request `header`
 value, for example an operator-trusted session header; `mode = "cookie"` maps
-the configured request `cookie` value from the client request. Cookie mode does
-not insert or sign a new persistence cookie in the current `1.5.x` load-balancer
-line; it uses an application or upstream-issued cookie that the operator
-explicitly names. Stored backends are reused while they remain ready, not
+the configured request `cookie` value from the client request. `mode =
+"managed-cookie"` creates a Fluxheim-owned signed/opaque affinity cookie with
+`Set-Cookie` on eligible 2xx/3xx backend responses, verifies that cookie on
+later requests, and maps the opaque cookie key to the selected backend in the
+same bounded local table. Managed-cookie values do not expose backend
+addresses, aliases, or weights. Configure the cookie name through `cookie =
+"fluxheim_lb"` and optional attributes through `managed_cookie_domain`,
+`managed_cookie_path` (default `/`), `managed_cookie_secure` (default `true`),
+`managed_cookie_http_only` (default `true`), `managed_cookie_same_site`
+(default `lax`), and `managed_cookie_max_age_secs` (default `ttl_secs`).
+`SameSite=None` requires `managed_cookie_secure = true`. Managed-cookie
+signing keys are generated locally at process start, rotated daily, and verified
+against the current or previous key generation so in-flight cookies survive a
+normal rotation window.
+Stored backends are reused while they remain ready, not
 drained/disabled/forced-down, not passively ejected, and below their in-flight
 cap. If the stored backend is no longer selectable, Fluxheim falls back to the
 normal load-balancing algorithm and refreshes the table with the new backend.
@@ -1156,12 +1202,13 @@ process in the current `1.5.x` line and is reset by process restart, runtime
 rebuild, or the authenticated persistence-clear admin operation. It is rejected
 in `privacy-mode` builds because persistence retains client-derived identifiers.
 
-The current `1.5.x` load-balancer line does not insert or sign managed
-load-balancer affinity cookies, persist load-balancer persistence/runtime
-override state across restarts, change upstream weights or add/remove pool
-members at runtime, or synchronize load-balancer state across active-active
-Fluxheim nodes. Those are explicit future control-plane and HA tracks, not
-implied behavior of the local persistence table.
+The current `1.5.x` load-balancer line does not persist load-balancer
+persistence/runtime override state across restarts, add/remove pool members at
+runtime, apply runtime weights to hash/ring selectors, share managed-cookie
+signing keys across nodes, or synchronize load-balancer state across
+active-active Fluxheim nodes. Managed-cookie HA mirroring is tracked separately
+from the local managed-cookie table shipped in `1.5.3`; see
+[Load Balancer HA Design Notes](load-balancer-ha.md).
 
 `upstreams` is the preferred static proxy target form for both one and many origins.
 The older single `upstream = "host:port"` field remains supported for simple
@@ -1874,11 +1921,12 @@ mode = "off"
 # ca_path = "tls/client-ca.pem"
 ```
 
-TLS backend values: `rustls`, `openssl`, `boringssl`, `s2n`.
+TLS backend values: `rustls`, `openssl`. `boringssl` and `s2n` are rejected
+config values.
 
 Exactly one matching TLS compile-time feature should be selected:
-`tls-rustls`, `tls-openssl`, `tls-boringssl`, or `tls-s2n`. The default build
-uses `tls-rustls`.
+`tls-rustls` or `tls-openssl`, with `tls-rustls-fips` and `tls-openssl-fips`
+for compliance builds. The default build uses `tls-rustls`.
 
 TLS policy values:
 
@@ -1904,12 +1952,10 @@ so the named modern policy cannot be weakened by accident. `alpn` may be
 matching the 1.0 listener behavior.
 
 The rustls and OpenSSL backends enforce the configured minimum protocol, ALPN
-policy, curve preferences, and cipher suite allow-list. BoringSSL enforces
-minimum protocol, ALPN, curve preferences, and TLS 1.2 cipher allow-lists; its
-Rust API does not currently expose TLS 1.3 cipher-suite allow-lists, so explicit
-TLS 1.3 `cipher_suites` are rejected for that backend. The s2n backend
-currently accepts only Fluxheim's default TLS 1.2+ / HTTP/1.1+HTTP/2 listener
-policy because the project does not yet expose the needed s2n listener controls.
+policy, curve preferences, and cipher suite allow-list. BoringSSL and s2n are
+not part of the supported TLS matrix because their Fluxheim integrations did
+not provide the same complete policy, SNI, upstream TLS, and client-auth
+coverage.
 Explicit `curve_preferences` are capped at 16 entries, and explicit
 `cipher_suites` are capped at 32 entries.
 
@@ -1917,8 +1963,8 @@ Supported curve names are `X25519`, `CurveP256`, and `CurveP384`.
 `X25519MLKEM768` is accepted by the config schema for future post-quantum
 hybrid key exchange support, but the default rustls/ring backend rejects it
 until Fluxheim offers a rustls crypto provider with post-quantum groups. OpenSSL
-and BoringSSL pass configured group names to the TLS library; runtime startup
-fails if the installed library does not support a configured group.
+passes configured group names to the TLS library; runtime startup fails if the
+installed library does not support a configured group.
 
 The first global `[[tls.certificates]]` entry is the default downstream
 certificate. Vhosts may provide their own static certificate for SNI selection:
@@ -1954,10 +2000,9 @@ chain trusted by `ca_path`. `mode = "optional"` asks for a client certificate
 and verifies it when present, but still accepts clients without one. The CA
 bundle path uses the same safe-path validation as other TLS files: no
 parent-directory traversal, no symlinked path components, and no group- or
-world-writable existing parent directory. The current implementation wires
-rustls and OpenSSL/BoringSSL listeners. The s2n backend fails closed when client
-auth is enabled until Fluxheim exposes panic-free CA bundle loading for that
-backend. Verified client-certificate identity can be forwarded explicitly with
+world-writable existing parent directory. The supported TLS matrix wires rustls
+and OpenSSL listeners only.
+Verified client-certificate identity can be forwarded explicitly with
 request header templates such as `{tls.client_cert_sha256}`. Route decisions
 based on certificate identity remain future work; do not rely on client-cert
 attributes for routing or authorization unless a later release documents that
