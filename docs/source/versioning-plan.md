@@ -1751,18 +1751,20 @@ Stable scope:
   `FluxResult` taxonomy instead of propagating Pingora HTTP wrappers and
   `pingora::Error` through internal APIs. Keep narrow adapters at Pingora
   HTTP proxy boundaries until a later HTTP runtime replacement line exists.
-- The `1.5.5` HTTP/error boundary line deliberately stops before broad
-  runtime rewrites. Any leftover plain `io::Result` / Pingora adapter use in
-  PHP-FPM process lifecycle, PHP request-body spool files, stream data-path
-  copy/connect/shutdown helpers, upstream TLS material loading, and
-  load-balancer factory/background wiring should move with the future native
-  PHP/HTTP-runtime, stream-runtime, TLS/server-runtime, and load-balancer-core
-  milestones below rather than being chipped away as unbounded cleanup.
-- The stream proxy should become Fluxheim-native before the load-balancer
+- The `1.5.5` HTTP/error boundary line deliberately stopped before broad
+  runtime rewrites. In `1.5.6`, stream connect/copy/shutdown helpers, listener
+  ownership, stream abstraction, downstream PROXY parsing, and stream upstream
+  TLS connector ownership moved into the Fluxheim-native stream-runtime line.
+  Remaining plain `io::Result` / Pingora adapter use in PHP-FPM process
+  lifecycle, PHP request-body spool files, broader HTTP/server upstream TLS
+  material loading, and load-balancer factory/background wiring should move
+  with the future native PHP/HTTP-runtime, TLS/server-runtime, and
+  load-balancer-core milestones below rather than being chipped away as
+  unbounded cleanup.
+- The stream proxy is Fluxheim-native as of `1.5.6` before the load-balancer
   substrate work. Its tunnel, PROXY protocol framing, connection limits, byte
-  caps, idle/lifetime limits, and metrics are already Fluxheim-owned; the
-  remaining Pingora pieces are listener entrypoint, stream abstraction, and
-  upstream TLS connector wiring.
+  caps, idle/lifetime limits, metrics, listener loop, stream abstraction, and
+  upstream TLS connector wiring are now Fluxheim-owned.
 - The `1.5.0` maintenance split keeps health checks, backend state,
   persistence, selection algorithms, backend policy/status, and file/DNS
   discovery in separate `src/load_balancer/*` modules. Future load-balancer
@@ -3572,10 +3574,10 @@ the exception while the cache server is being completed as a focused sequence:
   Wasm/iRules/Lua scripting in this release. Defer remaining runtime-heavy
   error-boundary work explicitly: PHP-FPM process supervision and request-body
   spool I/O move with later PHP/HTTP-runtime work, stream connect/copy/shutdown
-  helpers move with `v1.5.6`, load-balancer factory/background wiring moves
-  with `v1.5.7`, and upstream TLS material loading moves with the later
-  server/listener/TLS runtime line unless it is required earlier for stream
-  runtime correctness.
+  helpers move with `v1.5.6`, stream upstream TLS connector ownership moves
+  with `v1.5.6`, load-balancer factory/background wiring moves with `v1.5.7`,
+  and broader HTTP/server upstream TLS material loading moves with the later
+  server/listener/TLS runtime line.
 - `v1.5.6`: Fluxheim-native stream-proxy runtime line. Stop at replacing
   Pingora's stream service entrypoint and stream/TLS connector wrappers with a
   Fluxheim-owned Tokio listener loop and explicit outbound connector for raw
