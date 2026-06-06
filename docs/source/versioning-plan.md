@@ -1755,26 +1755,28 @@ Stable scope:
   runtime rewrites. In `1.5.6`, stream connect/copy/shutdown helpers, listener
   ownership, stream abstraction, downstream PROXY parsing, and stream upstream
   TLS connector ownership moved into the Fluxheim-native stream-runtime line.
-  Remaining plain `io::Result` / Pingora adapter use in PHP-FPM process
-  lifecycle, PHP request-body spool files, broader HTTP/server upstream TLS
-  material loading, and load-balancer factory/background wiring should move
-  with the future native PHP/HTTP-runtime, TLS/server-runtime, and
-  load-balancer-core milestones below rather than being chipped away as
+  In `1.5.7`, load-balancer backend storage, readiness state, selector entry
+  points, discovery refresh, health-check scheduling, and background shutdown
+  handling moved behind Fluxheim-owned boundaries. Remaining plain
+  `io::Result` / Pingora adapter use in PHP-FPM process lifecycle, PHP
+  request-body spool files, and broader HTTP/server upstream TLS material
+  loading should move with the future native PHP/HTTP-runtime and
+  TLS/server-runtime milestones below rather than being chipped away as
   unbounded cleanup.
-- The stream proxy is Fluxheim-native as of `1.5.6` before the load-balancer
-  substrate work. Its tunnel, PROXY protocol framing, connection limits, byte
-  caps, idle/lifetime limits, metrics, listener loop, stream abstraction, and
-  upstream TLS connector wiring are now Fluxheim-owned.
+- The stream proxy is Fluxheim-native as of `1.5.6`. Its tunnel, PROXY protocol
+  framing, connection limits, byte caps, idle/lifetime limits, metrics,
+  listener loop, stream abstraction, and upstream TLS connector wiring are now
+  Fluxheim-owned.
 - The `1.5.0` maintenance split keeps health checks, backend state,
   persistence, selection algorithms, backend policy/status, and file/DNS
   discovery in separate `src/load_balancer/*` modules. Future load-balancer
   work should extend those domains or create a new focused module instead of
   growing the parent orchestration file.
-- The `1.5.x` line should replace Pingora's load-balancing substrate with a
-  Fluxheim-native backend set, discovery trait, readiness state, health-check
-  scheduler, and background update loop. Pingora remains the HTTP proxy
-  transport/runtime while the load-balancer image becomes independent from
-  `pingora-load-balancing`.
+- The `1.5.7` line replaces Pingora's load-balancing substrate with
+  Fluxheim-owned backend storage, discovery traits, readiness state,
+  health-check scheduling, background update/shutdown handling, and selector
+  entry points. Pingora remains the HTTP proxy transport/runtime while the
+  load-balancer image becomes independent from `pingora-load-balancing`.
 - Background tasks should eventually use a Fluxheim-owned Tokio task registry
   with explicit cancellation rather than Pingora `GenBackgroundService`,
   `ServiceWithDependents`, and `ShutdownWatch` wrappers. This is mechanical
@@ -2021,11 +2023,11 @@ Beta scope:
   `pingora::{Error, ErrorType}` propagation with a `thiserror`-backed
   Fluxheim error taxonomy carrying explicit context. Keep Pingora adapters at
   `ProxyHttp`, service, and transport edges.
-- Fluxheim-native load-balancer substrate replacement for the remaining
-  Pingora LB pieces: `Backend`, `Backends`, `LoadBalancer<S>`,
-  `ServiceDiscovery`, static discovery, readiness maps, health-check wiring,
-  and background service lifecycle. Preserve existing config/admin behavior and
-  keep Pingora for the HTTP proxy core.
+- Fluxheim-native load-balancer substrate replacement shipped in `1.5.7` for
+  backend storage, backend readiness, discovery adapters, selector entry
+  points, health-check wiring, and background update/shutdown lifecycle.
+  Preserve existing config/admin behavior and keep Pingora for the HTTP proxy
+  core.
 - Fluxheim-native stream-proxy runtime replacement for the remaining Pingora
   stream pieces: `ServerApp`, `protocols::Stream`, and `TransportConnector`.
   Preserve existing stream config, route selection, PROXY protocol, byte/idle

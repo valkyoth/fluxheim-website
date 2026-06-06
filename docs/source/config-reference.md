@@ -1015,7 +1015,7 @@ where the platform and kernel allow it.
 `upstream_weights` is optional and, when set, must contain one positive weight
 for each `upstreams` entry. It enables weighted selection in `load-balancer`
 builds. Each weight must be at most 1000 and the total configured weight must
-fit in Pingora's weighted selector.
+fit in Fluxheim's weighted selector.
 `upstream_priority_groups` is optional and, when set, must contain one priority
 value for each `upstreams` entry. Higher values are preferred first, then lower
 values are activated when higher priority groups have fewer than
@@ -1070,25 +1070,28 @@ and at least one upstream must remain a normal primary.
 `maglev-header-hash`, and `maglev-cookie-hash`. Header-hash modes require
 `proxy.load_balance.hash_header = "x-session"` or another valid HTTP header
 name. Cookie-hash modes require `proxy.load_balance.hash_cookie = "session"` or
-another valid cookie name. Hash modes use weighted FNV selection; consistent
-modes use Pingora's weighted Ketama ring for lower remapping when upstream
-membership changes. Bounded-load consistent modes use the same ring and skip a
-hash target whose weighted in-flight pressure is above the configured soft
-bound when another eligible candidate is available inside `max_iterations`;
-they fall back to normal consistent selection if no bounded candidate is found.
+another valid cookie name. Hash modes use weighted FNV selection seeded with a
+per-boot secret. Consistent modes use Fluxheim-owned weighted rendezvous
+hashing, also seeded with a per-boot secret, for low remapping when upstream
+membership changes. Upgrading from the pre-1.5.7 Pingora ring-backed
+consistent selector can remap existing affinity keys once. Bounded-load
+consistent modes use the same rendezvous candidate ordering and skip a hash
+target whose weighted in-flight pressure is above the configured soft bound
+when another eligible candidate is available inside `max_iterations`; they
+fall back to normal consistent selection if no bounded candidate is found.
 `bounded_load_factor_per_mille` defaults to `1250`, meaning roughly 125% of
 current weighted average load, and is valid only with bounded-load consistent
 selectors. Maglev modes use a fixed 65,537-slot bounded lookup table for static
 `proxy.upstreams` pools only; file-refreshed and DNS-refreshed pools reject
 Maglev until dynamic table rebuild semantics are promoted later.
-`max_iterations` bounds how many ready candidates Pingora or Fluxheim may
-inspect while applying health, drain, slow-start, backup, priority, and
+`max_iterations` bounds how many ready candidates Fluxheim may inspect while
+applying health, drain, slow-start, backup, priority, and
 in-flight policies. `all_down_status` defaults to `502` and may be set to
 another HTTP 5xx status, commonly `503`, for requests where a configured
 load-balanced pool has no selectable backend. `least-connections`,
 `weighted-least-connections`, and
 `ratio-least-connections` all use the same Fluxheim-held in-flight request
-permits, `upstream_weights`, and Pingora's current backend health state, so a
+permits, `upstream_weights`, and Fluxheim's backend health state, so a
 backend with weight `4` can carry roughly four times the in-flight request
 share of a backend with weight `1`. `least-sessions` requires
 `proxy.load_balance.persistence.enabled = true` and selects by the lowest
@@ -1104,8 +1107,8 @@ changes until ring/table rebuild and sampling semantics are specified.
 `power-of-two`
 also accepts `power-of-two-choices`, `two-choice`, `weighted-two-choice`, and
 `weighted-random-two-choice`; all names sample two healthy backends through
-Pingora's random weighted selector and choose the lower weighted in-flight
-pressure using `upstream_weights`.
+Fluxheim's weighted random first pick and unique backend fallback scan, then
+choose the lower weighted in-flight pressure using `upstream_weights`.
 With metrics enabled, load-balanced selections, unavailable pools, retries,
 queue wait/full/timeout outcomes, and success/failure/ejection outcomes are counted by
 `fluxheim_load_balancer_events_total` with bounded configured vhost/route
@@ -1225,11 +1228,11 @@ that as ambiguous. `upstreams_file` is also mutually exclusive with both static
 forms. A single `upstreams = ["host:port"]` entry behaves like a
 normal single proxy target in all builds and is resolved when requests are
 proxied, so a missing backend does not prevent the gateway from starting. Two
-or more entries activate the Pingora load-balancer path in builds compiled with
-`load-balancer`; those entries may be resolved by load-balancer setup and health
-checking. File-refreshed and DNS-refreshed pools also use the load-balancer path
-and keep serving the previous healthy set when a later refresh is invalid. The same
-`proxy.load_balance` policy applies inside
+or more entries activate the Fluxheim load-balancer path in builds compiled
+with `load-balancer`; those entries may be resolved by load-balancer setup and
+health checking. File-refreshed and DNS-refreshed pools also use the
+load-balancer path and keep serving the previous healthy set when a later
+refresh is invalid. The same `proxy.load_balance` policy applies inside
 `[[vhosts.routes.proxy]]` route proxy blocks; route-level pools get their own
 selection, passive-health, retry, and health-check state.
 `connect_timeout_secs`, `read_timeout_secs`, and `send_timeout_secs` are

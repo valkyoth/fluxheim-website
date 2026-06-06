@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.6</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -95,7 +95,7 @@
 <div class="source-table"><table>
 <thead><tr><th>Feature</th><th>Default</th><th>Purpose</th></tr></thead>
 <tbody>
-<tr><td><code>load-balancer</code></td><td>No</td><td>Pingora load-balancing support and health-check setup.</td></tr>
+<tr><td><code>load-balancer</code></td><td>No</td><td>Fluxheim-owned load-balancer backend, selector, discovery, readiness, health-check, and admin-control support.</td></tr>
 <tr><td><code>metrics</code></td><td>No</td><td>Prometheus metrics listener.</td></tr>
 <tr><td><code>metrics-otlp</code></td><td>No</td><td>Optional OTLP/HTTP JSON metrics export to a local Prometheus OTLP receiver or collector.</td></tr>
 <tr><td><code>otel-tracing</code></td><td>No</td><td>W3C <code>traceparent</code> propagation and access-log trace ID correlation.</td></tr>
@@ -140,7 +140,7 @@
 <tr><td><code>profile-static-site</code></td><td><code>proxy</code>, <code>web</code>, <code>tls-rustls</code>, <code>security</code></td><td>Static sites without Fluxheim cache.</td></tr>
 <tr><td><code>profile-reverse-proxy</code></td><td><code>proxy</code>, <code>tls-rustls</code>, <code>security</code></td><td>Reverse proxy without static hosting/cache.</td></tr>
 <tr><td><code>profile-cache-server</code></td><td><code>proxy</code>, <code>web</code>, <code>cache</code>, <code>tls-rustls</code>, <code>security</code></td><td>Static/proxy server with cache enabled.</td></tr>
-<tr><td><code>profile-load-balancer</code></td><td><code>proxy</code>, <code>web</code>, <code>cache</code>, <code>compression-gzip</code>, <code>compression-zstd</code>, <code>compression-brotli</code>, <code>load-balancer</code>, <code>tls-rustls</code>, <code>security</code></td><td>Edge server with Pingora load balancing and all 1.4 compression codecs compiled in.</td></tr>
+<tr><td><code>profile-load-balancer</code></td><td><code>proxy</code>, <code>web</code>, <code>cache</code>, <code>compression-gzip</code>, <code>compression-zstd</code>, <code>compression-brotli</code>, <code>load-balancer</code>, <code>tls-rustls</code>, <code>security</code></td><td>Edge server with Fluxheim-native load balancing and all 1.4 compression codecs compiled in.</td></tr>
 <tr><td><code>profile-observability</code></td><td><code>profile-core</code>, <code>metrics</code>, <code>metrics-otlp</code>, <code>otel-tracing</code>, <code>otel-otlp</code></td><td>Core server with Prometheus metrics, optional local OTLP metrics export, trace context propagation, and optional local OTLP trace export.</td></tr>
 <tr><td><code>profile-privacy</code></td><td><code>proxy</code>, <code>web</code>, <code>tls-rustls</code>, <code>privacy-mode</code>, <code>security</code></td><td>Zero-retention static/proxy profile.</td></tr>
 <tr><td><code>profile-full</code></td><td><code>profile-load-balancer</code>, <code>geoip</code>, <code>stream-proxy</code>, <code>traffic-mirror</code></td><td>All stable production modules, including GeoIP, traffic mirroring, and the 1.4 stream foundation.</td></tr>
