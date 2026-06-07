@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.8</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.10</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -140,6 +140,7 @@ consecutive_failure = 3</code></pre>
 <tr><td>Source-address persistence</td><td><code>proxy.load_balance.persistence</code> with <code>mode = &quot;source-ip&quot;</code></td></tr>
 <tr><td>Manual drain/disable/force-down/resume</td><td><code>POST /_fluxheim/load-balancer/member-state</code></td></tr>
 <tr><td>Runtime member weight shift</td><td><code>POST /_fluxheim/load-balancer/member-weight</code> for round-robin and least-* selectors</td></tr>
+<tr><td>Runtime static-pool member add/remove/update</td><td><code>POST /_fluxheim/load-balancer/member-add</code>, <code>member-remove</code>, <code>member-update</code></td></tr>
 <tr><td>Saturation queue</td><td><code>proxy.load_balance.queue</code></td></tr>
 <tr><td>Pool all-down response</td><td><code>proxy.load_balance.all_down_status</code></td></tr>
 </tbody></table></div>
@@ -164,6 +165,11 @@ preferred_upstream_localities = [&quot;site-a&quot;]</code></pre>
   -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
   &quot;http://127.0.0.1:8081/_fluxheim/load-balancer/member-weight?vhost=app&amp;member=app-a&amp;weight=25&quot;</code></pre>
 <p>Use <code>weight=default</code>, <code>reset</code>, <code>clear</code>, or <code>configured</code> to clear the override. Hash, consistent-hash, bounded-load consistent, Maglev, and power-of-two selectors reject runtime weights in the current release because their ring/table or weighted-sampling semantics need a separate design.</p>
+<p>Static upstream pools can add, remove, or update members at runtime:</p>
+<pre class="language-bash"><code class="language-bash">curl -X POST \
+  -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
+  &quot;http://127.0.0.1:8081/_fluxheim/load-balancer/member-add?vhost=app&amp;member=10.0.0.12:8080&amp;weight=2&quot;</code></pre>
+<p>Use <code>member-update</code> with <code>weight</code> to change the configured runtime weight, or with <code>address</code>/<code>new_member</code> to retarget a non-aliased member. Aliased members can be weight-updated but need a config reload for address changes because the alias is part of the static backend identity. Use <code>member-remove</code> after the member has drained to zero in-flight requests. These backend-set mutations are local in-memory changes in the current release. Runtime backend sets are capped at 256 members, and the zero in-flight check is a best-effort mutation-time gate; Fluxheim warns if a narrow race leaves a request completing against a removed or retargeted address. Runtime-added or retargeted members carry address and configured weight only; aliases, tags, backup membership, priority groups, locality metadata, and per-upstream caps remain static-config fields. DNS/file-discovery pools and Maglev selectors reject runtime backend-set mutation.</p>
 <p>The load-balancer-only status view is available without parsing the full admin status body:</p>
 <pre class="language-bash"><code class="language-bash">curl -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
   &quot;http://127.0.0.1:8081/_fluxheim/load-balancer/status&quot;</code></pre>
@@ -178,7 +184,7 @@ preferred_upstream_localities = [&quot;site-a&quot;]</code></pre>
 <li>The load-balancer substrate is Fluxheim-owned as of <code>1.5.7</code>: backend storage, readiness state, selector entry points, discovery refresh, health-check scheduling, and background shutdown handling now sit behind Fluxheim-owned boundaries. Pingora remains the HTTP proxy transport.</li>
 <li>Runtime weight changes are available for round-robin and least-* selectors. Hash/ring selectors need future table-rebuild semantics before runtime weights are accepted there.</li>
 <li>Load-balancer-managed cookie insertion is available through <code>mode = &quot;managed-cookie&quot;</code> in the <code>1.5.3</code> line. It is signed/opaque and local to one Fluxheim process, with daily local signing-key rotation and current or previous generation verification. Restart-persistent managed-cookie state, shared signing keys, and active-active cookie mirroring remain future HA work.</li>
-<li>HA persistence/cookie mirroring is future cluster-state work. Persistence tables, passive health, retry budgets, queue counters, and runtime overrides are local to one Fluxheim process in the current <code>1.5.x</code> line; active-active deployments must either accept independent local state or place another HA layer in front.</li>
+<li>HA persistence/cookie mirroring is future cluster-state work. Persistence tables and runtime member/weight overrides can be restart-persisted locally with <code>proxy.load_balance.runtime_state_file</code>, but passive health, retry budgets, queue counters, and managed-cookie signing keys remain local to one Fluxheim process in the current <code>1.5.x</code> line. Active-active deployments must either accept independent local state or place another HA layer in front until cross-node synchronization lands.</li>
 <li>In dynamic DNS/file discovery pools, stale runtime <code>drain</code> overrides may be reclaimed when a member leaves the live discovery set. Runtime <code>disable</code> and <code>forced_down</code> overrides are preserved across discovery churn until explicit admin resume/normal action.</li>
 <li>Maglev hashing is available for static <code>proxy.upstreams</code> pools. File-refreshed and DNS-refreshed pools reject Maglev in the current <code>1.5.x</code> line until dynamic table rebuild behavior is specified and observable.</li>
 <li>Bounded-load consistent hashing is local to one Fluxheim process. It avoids selecting an over-bound hash target when another eligible ring candidate is available, but it does not coordinate load across multiple Fluxheim nodes.</li>

@@ -353,13 +353,15 @@ maintenance disables. `manual_resume` clears any runtime override, clears the
 member's passive-health failure/ejection state, and restarts slow-start ramp
 when slow-start is configured. `normal` clears only runtime overrides; static
 `drain_upstreams` and `disabled_upstreams` remain enforced until the config
-changes. Runtime member state is intentionally in-memory in the current `1.5.x`
-line, is reset by process restart or runtime rebuild, and is returned with
-`"persistent": false` in the mutation response. The response also includes
+changes. Runtime member state is in-memory unless
+`proxy.load_balance.runtime_state_file` is configured for that pool. Mutation
+responses include `"persistent": true` when the pool has a local runtime state
+file and `"persistent": false` otherwise. The response also includes
 `scope = "vhost"` or `"route"` so operators can audit which pool was changed.
 In `privacy-mode`, member mutation responses and structured mutation logs omit
-the backend address just like status output. Successful mutation metrics keep
-member attribution in normal builds and use configured aliases only in
+backend addresses just like status output. Member fields use configured aliases
+when present and `redacted` otherwise. Successful and rejected mutation metrics
+keep member attribution in normal builds and use configured aliases only in
 privacy-mode.
 For dynamic DNS/file-discovery pools, Fluxheim may reclaim stale runtime
 `drain` overrides after a member disappears from the live discovery set.
@@ -372,6 +374,53 @@ Successful and rejected member-state operations are logged under the
 `fluxheim::load_balancer` target and, when metrics are compiled, counted by
 `fluxheim_load_balancer_events_total` with bounded events `member_state`,
 `member_state_invalid`, and `member_state_not_found`.
+
+Authenticated admins can also mutate the runtime backend set for static
+upstream pools:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN" \
+  "http://127.0.0.1:8081/_fluxheim/load-balancer/member-add?vhost=app&member=127.0.0.1:3002&weight=2"
+
+curl -X POST \
+  -H "Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN" \
+  "http://127.0.0.1:8081/_fluxheim/load-balancer/member-update?vhost=app&member=127.0.0.1:3002&weight=5"
+
+curl -X POST \
+  -H "Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN" \
+  "http://127.0.0.1:8081/_fluxheim/load-balancer/member-remove?vhost=app&member=127.0.0.1:3002"
+```
+
+`member-add` takes a socket-address `member` and optional numeric `weight`
+between `1` and `1000` (default `1`). `member-update` takes the existing
+`member`, optional `weight`, and optional replacement address via `address`,
+`new_member`, `X-Fluxheim-Lb-Address`, or `X-Fluxheim-Lb-New-Member`.
+Address retargeting is rejected for aliased members because aliases are part of
+the static config identity; change those through config reload. `member-remove`
+removes an existing configured address or alias. The backend set and health map
+are published as one atomic runtime snapshot, so status and selection do not
+observe a half-updated pool. Remove and address-update operations reject members
+with active in-flight connections; drain the member first, wait for it to reach
+zero in-flight requests, then remove or retarget it. The in-flight check is a
+best-effort ordering gate at mutation time; a very narrow race can still allow
+one already-selected request to complete against the old member after removal
+or retarget, and Fluxheim emits a load-balancer warning if that is observed.
+Runtime backend sets are capped at 256 members in this release; remove a member
+before adding another when the cap is reached.
+
+Runtime backend-set mutation is available only for static upstream pools in
+this release. It is rejected for DNS/file-discovery pools because discovery
+refresh would overwrite local admin changes. It is also rejected for Maglev
+selectors because Maglev requires a rebuilt lookup table; use a non-Maglev
+selector for runtime backend-set changes. Runtime-added or retargeted members
+carry only address and configured weight; aliases, tags, backup membership,
+priority groups, locality metadata, and per-upstream caps still come from the
+static config and require reload. Backend-set additions, removals, and
+configured-weight updates are in-memory control-plane actions and are reported
+with `"persistent": false`; `proxy.load_balance.runtime_state_file` currently
+persists runtime member-state overrides, runtime weight overrides, and local
+persistence tables, not the mutated backend set itself.
 
 Authenticated admins can adjust the runtime weight of an already configured
 member without reloading when the pool uses `round-robin`, `least-connections`,
@@ -421,8 +470,10 @@ curl -X POST \
 
 Use the optional `route` query parameter or `X-Fluxheim-Lb-Route` header to
 target a route-local pool. The response includes `cleared_entries`,
-`scope = "vhost"` or `"route"`, and `"persistent": false`. The operation is
-local to the current runtime; it does not alter config or durable snapshots.
+`scope = "vhost"` or `"route"`, and a `persistent` boolean. The operation is
+local to the current runtime unless `proxy.load_balance.runtime_state_file` is
+configured for that pool, in which case the cleared table is written back to
+the local runtime state file; it does not alter config or durable snapshots.
 When metrics are compiled, successful clears are counted as
 `persistence_clear` in `fluxheim_load_balancer_events_total`; rejected clear
 requests are counted separately as `persistence_clear_invalid` or
@@ -875,6 +926,9 @@ downstream_min_send_rate_bytes_per_sec = 8192
 selection = "round-robin"
 max_iterations = 256
 all_down_status = 502
+# Optional local restart-persistent runtime state file for load-balancer member
+# overrides and local persistence tables.
+# runtime_state_file = "/var/lib/fluxheim/load-balancer/default.json"
 
 [proxy.load_balance.health_check]
 enabled = true
@@ -1254,13 +1308,29 @@ drained/disabled/forced-down, not passively ejected, and below their in-flight
 cap. If the stored backend is no longer selectable, Fluxheim falls back to the
 normal load-balancing algorithm and refreshes the table with the new backend.
 `table_max_entries` bounds memory use; expired entries are pruned and the oldest
-expiry is evicted when the table is full. Persistence is local to one Fluxheim
-process in the current `1.5.x` line and is reset by process restart, runtime
-rebuild, or the authenticated persistence-clear admin operation. It is rejected
-in `privacy-mode` builds because persistence retains client-derived identifiers.
+expiry is evicted when the table is full. Without
+`proxy.load_balance.runtime_state_file`, persistence is local to one Fluxheim
+process and is reset by process restart, runtime rebuild, or the authenticated
+persistence-clear admin operation. It is rejected in `privacy-mode` builds
+because persistence retains client-derived identifiers.
 
-The current `1.5.x` load-balancer line does not persist load-balancer
-persistence/runtime override state across restarts, add/remove pool members at
+`proxy.load_balance.runtime_state_file` enables local restart persistence for
+runtime member-state overrides, runtime weight overrides, and bounded local
+persistence-table entries. The state file is JSON, versioned, size-limited,
+written atomically with a private file mode, and read with symlink checks.
+Corrupt, oversized, incompatible, or stale state is ignored and rebuilt instead
+of poisoning the pool. The file is local to one Fluxheim process and does not
+share managed-cookie signing keys across nodes.
+
+When persistence is enabled, the state file includes local affinity table keys.
+`source-ip` mode writes client IP bytes, `header` mode writes the configured
+header value, and `cookie` mode writes the configured cookie value.
+`managed-cookie` mode writes opaque affinity keys generated by Fluxheim. Use
+`managed-cookie` for session affinity when possible, or place the state file on
+an encrypted, access-restricted volume when raw header or cookie identifiers are
+used.
+
+The current `1.5.x` load-balancer line does not add/remove pool members at
 runtime, apply runtime weights to hash/ring selectors, share managed-cookie
 signing keys across nodes, or synchronize load-balancer state across
 active-active Fluxheim nodes. Managed-cookie HA mirroring is tracked separately

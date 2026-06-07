@@ -101,6 +101,7 @@ Fluxheim maps those pieces as follows:
 | Source-address persistence | `proxy.load_balance.persistence` with `mode = "source-ip"` |
 | Manual drain/disable/force-down/resume | `POST /_fluxheim/load-balancer/member-state` |
 | Runtime member weight shift | `POST /_fluxheim/load-balancer/member-weight` for round-robin and least-* selectors |
+| Runtime static-pool member add/remove/update | `POST /_fluxheim/load-balancer/member-add`, `member-remove`, `member-update` |
 | Saturation queue | `proxy.load_balance.queue` |
 | Pool all-down response | `proxy.load_balance.all_down_status` |
 
@@ -150,6 +151,28 @@ Hash, consistent-hash, bounded-load consistent, Maglev, and power-of-two
 selectors reject runtime weights in the current release because their
 ring/table or weighted-sampling semantics need a separate design.
 
+Static upstream pools can add, remove, or update members at runtime:
+
+```bash
+curl -X POST \
+  -H "Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN" \
+  "http://127.0.0.1:8081/_fluxheim/load-balancer/member-add?vhost=app&member=10.0.0.12:8080&weight=2"
+```
+
+Use `member-update` with `weight` to change the configured runtime weight, or
+with `address`/`new_member` to retarget a non-aliased member. Aliased members
+can be weight-updated but need a config reload for address changes because the
+alias is part of the static backend identity. Use `member-remove` after the
+member has drained to zero in-flight requests. These backend-set mutations are
+local in-memory changes in the current release. Runtime backend sets are capped
+at 256 members, and the zero in-flight check is a best-effort mutation-time
+gate; Fluxheim warns if a narrow race leaves a request completing against a
+removed or retargeted address. Runtime-added or retargeted members carry
+address and configured weight only; aliases, tags, backup membership, priority
+groups, locality metadata, and per-upstream caps remain static-config fields.
+DNS/file-discovery pools and Maglev selectors reject runtime backend-set
+mutation.
+
 The load-balancer-only status view is available without parsing the full admin
 status body:
 
@@ -186,10 +209,12 @@ later `1.5.x` or future module lines.
   previous generation verification. Restart-persistent managed-cookie state,
   shared signing keys, and active-active cookie mirroring remain future HA work.
 - HA persistence/cookie mirroring is future cluster-state work. Persistence
-  tables, passive health, retry budgets, queue counters, and runtime overrides
-  are local to one Fluxheim process in the current `1.5.x` line; active-active
-  deployments must either accept independent local state or place another HA
-  layer in front.
+  tables and runtime member/weight overrides can be restart-persisted locally
+  with `proxy.load_balance.runtime_state_file`, but passive health, retry
+  budgets, queue counters, and managed-cookie signing keys remain local to one
+  Fluxheim process in the current `1.5.x` line. Active-active deployments must
+  either accept independent local state or place another HA layer in front until
+  cross-node synchronization lands.
 - In dynamic DNS/file discovery pools, stale runtime `drain` overrides may be
   reclaimed when a member leaves the live discovery set. Runtime `disable` and
   `forced_down` overrides are preserved across discovery churn until explicit
