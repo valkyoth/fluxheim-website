@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.8</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -124,6 +124,8 @@
 <p>Because <code>cache</code> is part of the normal default build, privacy builds must use <code>--no-default-features</code> or the <code>profile-privacy</code> alias:</p>
 <pre class="language-bash"><code class="language-bash">cargo build --no-default-features --features profile-privacy</code></pre>
 <p>Use <code>examples/privacy.toml</code> as the baseline runtime config for this profile. It disables Fluxheim access logging, request ID generation, metrics, cache, and client-IP forwarding headers.</p>
+<h2 id="future-privacy-cache">Future Privacy Cache</h2>
+<p>Normal <code>cache</code> remains incompatible with <code>privacy-mode</code> because shared HTTP cache can persist response bodies, paths, query strings, <code>Vary</code> dimensions, cookies, and upstream privacy mistakes. A future <code>privacy-cache</code> design is planned as a separate, restricted public-asset cache rather than normal cache in privacy builds. The intended boundary is: no client-IP cache keys, no <code>Cookie</code>/<code>Authorization</code> admission, no per-user variants, no <code>private</code>/<code>no-store</code>/<code>Set-Cookie</code> storage, strict query-string defaults, and memory or encrypted short-TTL disk storage as the preferred shape.</p>
 <p>Implemented incompatible features:</p>
 <ul>
 <li><code>metrics</code></li>
