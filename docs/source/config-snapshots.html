@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.10</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.11</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -165,6 +165,7 @@ max_error_rate_per_mille = 100</code></pre>
   -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
   http://127.0.0.1:9090/_fluxheim/reload</code></pre>
 <p>The reload endpoint returns <code>409 Conflict</code> when the current snapshot requires a process upgrade, such as listener, TLS backend/mode, admin service, or metrics service, or startup-owned load-balancer service changes. Existing requests keep their old runtime snapshot; new requests use the freshly swapped proxy snapshot.</p>
+<p>Load-balancer service changes include adding or removing vhost/route pools and changing static pool members, file/DNS/HTTP discovery sources, discovery refresh intervals, or HTTP discovery bearer-token files. These refresh loops are registered at process startup, so use the normal supervisor/process-upgrade path for those changes.</p>
 <h2 id="self-healing-guard">Self-Healing Guard</h2>
 <p>When <code>admin.self_healing.enabled = true</code>, a successful live reload enters a pending validation state. <code>GET /_fluxheim/status</code> reports:</p>
 <ul>

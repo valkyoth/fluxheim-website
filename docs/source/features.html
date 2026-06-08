@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.10</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.11</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -78,15 +78,15 @@
 <pre class="language-toml"><code class="language-toml">default = [&quot;proxy&quot;, &quot;web&quot;, &quot;cache&quot;, &quot;tls-rustls&quot;, &quot;security&quot;]</code></pre>
 <p>Use <code>scripts/validate-features.sh</code> before packaging custom feature strings:</p>
 <pre class="language-bash"><code class="language-bash">scripts/validate-features.sh proxy,web,tls-rustls</code></pre>
-<p>The validator expands profile aliases and rejects unsupported combinations before Cargo starts compiling Pingora.</p>
+<p>The validator expands profile aliases and rejects unsupported combinations before Cargo starts compiling the selected modules.</p>
 <h2 id="stable-core-features">Stable Core Features</h2>
 <div class="source-table"><table>
 <thead><tr><th>Feature</th><th>Default</th><th>Purpose</th></tr></thead>
 <tbody>
-<tr><td><code>proxy</code></td><td>Yes</td><td>Pingora proxy runtime and upstream forwarding.</td></tr>
+<tr><td><code>proxy</code></td><td>Yes</td><td>HTTP proxy runtime and upstream forwarding.</td></tr>
 <tr><td><code>web</code></td><td>Yes</td><td>Static file resolver and static response planning.</td></tr>
 <tr><td><code>cache</code></td><td>Yes</td><td>Image cache module. Runtime caching still requires config.</td></tr>
-<tr><td><code>ingress</code></td><td>Yes, through <code>proxy</code>/TLS profiles</td><td>Shared Pingora/Tokio ingress primitives used by proxy, TLS, and ACME-capable focused builds.</td></tr>
+<tr><td><code>ingress</code></td><td>Yes, through <code>proxy</code>/TLS profiles</td><td>Shared ingress primitives used by proxy, TLS, and ACME-capable focused builds.</td></tr>
 <tr><td><code>tls-rustls</code></td><td>Yes</td><td>rustls TLS backend.</td></tr>
 <tr><td><code>tls-rustls-fips</code></td><td>No</td><td>rustls/AWS-LC FIPS-capable TLS backend candidate.</td></tr>
 <tr><td><code>security</code></td><td>Yes</td><td>Compile-time security profile marker plus release hardening checks. Runtime enforcement lives in the concrete config, TLS, filesystem, admin, and request-handling modules.</td></tr>
@@ -95,7 +95,7 @@
 <div class="source-table"><table>
 <thead><tr><th>Feature</th><th>Default</th><th>Purpose</th></tr></thead>
 <tbody>
-<tr><td><code>load-balancer</code></td><td>No</td><td>Fluxheim-owned load-balancer backend, selector, discovery, readiness, health-check, and admin-control support.</td></tr>
+<tr><td><code>load-balancer</code></td><td>No</td><td>Fluxheim load-balancing module, backend-set management, discovery, health checks, and runtime pool policy.</td></tr>
 <tr><td><code>metrics</code></td><td>No</td><td>Prometheus metrics listener.</td></tr>
 <tr><td><code>metrics-otlp</code></td><td>No</td><td>Optional OTLP/HTTP JSON metrics export to a local Prometheus OTLP receiver or collector.</td></tr>
 <tr><td><code>otel-tracing</code></td><td>No</td><td>W3C <code>traceparent</code> propagation and access-log trace ID correlation.</td></tr>
@@ -174,7 +174,7 @@ cargo build --no-default-features --features profile-iso19790-rustls</code></pre
 cargo build --no-default-features --features profile-iso19790-openssl
 cargo build --no-default-features --features profile-fips-rustls
 cargo build --no-default-features --features profile-iso19790-rustls</code></pre>
-<p>Those profile aliases are deliberately narrow proof builds. FIPS/ISO-capable TLS is not limited to those aliases: custom builds can combine <code>tls-openssl-fips</code> or <code>tls-rustls-fips</code> with cache, static web serving, reverse proxying, or PHP-FPM. Do not add a FIPS-capable TLS backend to an existing profile alias that already enables <code>tls-rustls</code>, because Cargo features are additive and Fluxheim supports only one Pingora TLS backend per binary. Select the raw modules instead:</p>
+<p>Those profile aliases are deliberately narrow proof builds. FIPS/ISO-capable TLS is not limited to those aliases: custom builds can combine <code>tls-openssl-fips</code> or <code>tls-rustls-fips</code> with cache, static web serving, reverse proxying, or PHP-FPM. Do not add a FIPS-capable TLS backend to an existing profile alias that already enables <code>tls-rustls</code>, because Cargo features are additive and Fluxheim supports only one TLS backend per binary. Select the raw modules instead:</p>
 <pre class="language-bash"><code class="language-bash"># FIPS/ISO-capable cache edge
 cargo build --no-default-features \
   --features proxy,cache,security,tls-openssl-fips
@@ -196,7 +196,7 @@ cargo build --no-default-features \
 <div class="source-table"><table>
 <thead><tr><th>Combination</th><th>Reason</th></tr></thead>
 <tbody>
-<tr><td>Multiple <code>tls-*</code> backends</td><td>Pingora exposes one TLS backend at a time.</td></tr>
+<tr><td>Multiple <code>tls-*</code> backends</td><td>Fluxheim supports one selected TLS backend per binary.</td></tr>
 <tr><td><code>privacy-mode</code> + <code>cache</code></td><td>Zero-retention builds must not compile request/response cache code.</td></tr>
 <tr><td><code>privacy-mode</code> + <code>metrics</code></td><td>Zero-retention builds must not compile request metrics.</td></tr>
 <tr><td><code>privacy-mode</code> + <code>metrics-otlp</code></td><td>Zero-retention builds must not compile metrics export.</td></tr>

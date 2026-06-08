@@ -3,6 +3,8 @@
 Fluxheim `1.5.x` focuses on HTTP/TCP edge load-balancer operations that map
 cleanly from HAProxy, nginx, Envoy, and F5 LTM-style pools. The validated
 starting fixture is `examples/load-balancer-enterprise.toml`.
+For pull-based control-plane upstream lists, use
+`examples/load-balancer-http-discovery.toml`.
 
 This is a migration guide for pool behavior, not a claim that Fluxheim clones
 every product module. UDP, GSLB/DNS steering, WAF policy, VPN/firewall
@@ -195,11 +197,12 @@ The following are intentional current `1.5.x` boundaries. They are not defects
 in the shipped load-balancer behavior; they are architectural gaps tracked for
 later `1.5.x` or future module lines.
 
-- Runtime add/remove-member operations are future control-plane work.
-- The load-balancer substrate is Fluxheim-owned as of `1.5.7`: backend
-  storage, readiness state, selector entry points, discovery refresh,
-  health-check scheduling, and background shutdown handling now sit behind
-  Fluxheim-owned boundaries. Pingora remains the HTTP proxy transport.
+- Runtime add/remove/update-member operations are available for static upstream
+  pools only. DNS/file/HTTP-discovery pools reject them because discovery
+  refresh owns the live member set.
+- The load-balancer core is Fluxheim-owned, including backend-set snapshots,
+  runtime mutation, health/discovery loops, and selection policy. Pingora still
+  remains the HTTP proxy transport boundary in the current `1.5.x` line.
 - Runtime weight changes are available for round-robin and least-* selectors.
   Hash/ring selectors need future table-rebuild semantics before runtime
   weights are accepted there.
@@ -215,17 +218,22 @@ later `1.5.x` or future module lines.
   Fluxheim process in the current `1.5.x` line. Active-active deployments must
   either accept independent local state or place another HA layer in front until
   cross-node synchronization lands.
-- In dynamic DNS/file discovery pools, stale runtime `drain` overrides may be
-  reclaimed when a member leaves the live discovery set. Runtime `disable` and
-  `forced_down` overrides are preserved across discovery churn until explicit
-  admin resume/normal action.
+- In dynamic DNS/file/HTTP-discovery pools, stale runtime `drain` overrides may
+  be reclaimed when a member leaves the live discovery set. Runtime `disable`
+  and `forced_down` overrides are preserved across discovery churn until
+  explicit admin resume/normal action.
 - Maglev hashing is available for static `proxy.upstreams` pools. File-refreshed
-  and DNS-refreshed pools reject Maglev in the current `1.5.x` line until
-  dynamic table rebuild behavior is specified and observable.
+  DNS-refreshed, and HTTP-discovered pools reject Maglev in the current `1.5.x`
+  line until dynamic table rebuild behavior is specified and observable.
 - Bounded-load consistent hashing is local to one Fluxheim process. It avoids
   selecting an over-bound hash target when another eligible ring candidate is
   available, but it does not coordinate load across multiple Fluxheim nodes.
-- Runtime state is local and in-memory in the current `1.5.x` line.
+- Runtime state is local to one Fluxheim process. Runtime member-state
+  overrides, runtime weight overrides, and persistence tables can be
+  restart-persisted with `proxy.load_balance.runtime_state_file`, but mutated
+  backend sets, passive health, retry budgets, queue counters, and
+  managed-cookie signing keys are not cluster-synced in the current `1.5.x`
+  line.
 - UDP, GSLB/DNS steering, WAF, VPN/firewall appliance behavior, and scripted
   iRules/Lua/Wasm behavior are intentionally separate roadmap lines.
 - `proxy.load_balance.queue` is opt-in. Defaults keep fail-fast behavior when

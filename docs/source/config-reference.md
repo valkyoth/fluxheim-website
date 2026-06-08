@@ -320,20 +320,28 @@ read-only and reports backend readiness, aliases, weights, backup/drain/disabled
 state, ready and policy-available backend counts, primary/backup availability
 counts, drain/disabled/forced-down/ejected/saturated summary counts, runtime
 override counts, circuit-open counts, selection policy, max-iteration and
-all-down settings, health-check frequency and parallel mode, retry policy,
-passive-health thresholds, slow-start duration, persistence policy and table
-size, queue policy and current waiting count, priority group, locality, tags, max
-in-flight cap, current in-flight count, passive failure count, passive ejection,
-passive ejection remaining seconds, circuit state, slow-start allowance,
-persistence entries currently pinned to each backend, and least-time latency
-state where available. In the current `1.5.x` line, `circuit_state = "open"`
-is the runtime status view for a backend currently ejected by passive health;
-`"closed"` means the backend is not passively ejected. Per-backend rows include
+all-down settings, discovery mode (`static`, `file`, `http`, or `dns`),
+discovery refresh status, update frequency, success/failure counters, last
+success/failure timestamps, bounded last discovery error, health-check
+frequency and parallel mode, retry policy, passive-health
+thresholds, slow-start duration, persistence policy and table size, queue policy
+and current waiting count, priority group, locality, tags, max in-flight cap,
+current in-flight count, passive failure count, passive ejection, passive
+ejection remaining seconds, circuit state, slow-start allowance, persistence
+entries currently pinned to each backend, and least-time latency state where
+available. In the current `1.5.x` line, `circuit_state = "open"` is the runtime
+status view for a backend currently ejected by passive health; `"closed"` means
+the backend is not passively ejected. Per-backend rows include
 `runtime_state_override` when an
 authenticated runtime member operation is active and
 `runtime_state_changed_at_unix_secs` when that override currently has a recorded
 manual transition time. In `privacy-mode`, backend addresses are omitted from
 this status object.
+
+Background discovery refresh loops also emit
+`fluxheim_load_balancer_events_total` with `event = "discovery_success"` or
+`event = "discovery_failure"` and the same vhost/route pool labels used by
+selection, retry, queue, and runtime mutation events.
 
 When compiled with `load-balancer`, authenticated admins can update the
 in-memory state of an existing configured pool member without reloading:
@@ -363,7 +371,7 @@ backend addresses just like status output. Member fields use configured aliases
 when present and `redacted` otherwise. Successful and rejected mutation metrics
 keep member attribution in normal builds and use configured aliases only in
 privacy-mode.
-For dynamic DNS/file-discovery pools, Fluxheim may reclaim stale runtime
+For dynamic DNS/file/HTTP-discovery pools, Fluxheim may reclaim stale runtime
 `drain` overrides after a member disappears from the live discovery set.
 Runtime `disable` and `forced_down` overrides are retained across discovery
 churn and are cleared only by explicit `normal` or `manual_resume` admin action.
@@ -410,10 +418,10 @@ Runtime backend sets are capped at 256 members in this release; remove a member
 before adding another when the cap is reached.
 
 Runtime backend-set mutation is available only for static upstream pools in
-this release. It is rejected for DNS/file-discovery pools because discovery
-refresh would overwrite local admin changes. It is also rejected for Maglev
-selectors because Maglev requires a rebuilt lookup table; use a non-Maglev
-selector for runtime backend-set changes. Runtime-added or retargeted members
+this release. It is rejected for DNS/file/HTTP-discovery pools because
+discovery refresh would overwrite local admin changes. It is also rejected for
+Maglev selectors because Maglev requires a rebuilt lookup table; use a
+non-Maglev selector for runtime backend-set changes. Runtime-added or retargeted members
 carry only address and configured weight; aliases, tags, backup membership,
 priority groups, locality metadata, and per-upstream caps still come from the
 static config and require reload. Backend-set additions, removals, and
@@ -437,7 +445,7 @@ runtime override and return to the configured `upstream_weights` value. Runtime
 weights are bounded to `1..=1000`, are local/in-memory like runtime member
 state, and are returned in backend status as `effective_weight`,
 `runtime_weight_override`, and `runtime_weight_changed_at_unix_secs`.
-For dynamic DNS/file-discovery pools, runtime weight overrides are retained
+For dynamic DNS/file/HTTP-discovery pools, runtime weight overrides are retained
 while the same backend is explicitly `disable`d or `forced_down`, and are
 otherwise reclaimed after the backend leaves the live discovery set.
 Successful and rejected weight operations are counted as `member_weight`,
@@ -1016,6 +1024,35 @@ mutually exclusive with `upstream`, `upstreams_file`, `upstream_weights`,
 `upstream_tags`, `backup_upstreams`, `drain_upstreams`, and
 `disabled_upstreams`; use the
 static pool form when those richer backend policies are required.
+For pull-based control-plane discovery, load-balancer builds can set
+`upstreams_http_url = "https://control-plane.example.test/v1/upstreams"` instead
+of `upstream`, `upstreams`, or `upstreams_file`. Fluxheim fetches the endpoint at
+startup and refreshes it every `upstreams_http_refresh_secs` seconds, with a
+default of 5 seconds and a bounded range of 1 through 300 seconds. The response
+body is bounded to 64 KiB and must be JSON in either of these forms:
+`["10.0.0.10:8080","10.0.0.11:8080"]` or
+`{"upstreams":["10.0.0.10:8080","10.0.0.11:8080"]}`. The parsed upstream list
+must contain 2 through 64 unique `host:port` or `ip:port` authorities. The
+optional `upstreams_http_bearer_token_file` adds a `Bearer` token to the request;
+the token file is validated with the same safe-path and parent-permission checks
+used for other operator-controlled secret files, must not be empty, and must not
+contain whitespace after trimming surrounding whitespace. Fluxheim sends
+`Accept: application/json` and `Cache-Control: no-store`, and rejects non-JSON
+`Content-Type` values when the discovery endpoint includes that header; missing
+`Content-Type` is accepted so small internal sidecars can stay simple.
+Discovery endpoints must use HTTPS unless they are numeric loopback
+`http://127.0.0.1` or `http://[::1]` control-plane sidecars. HTTP discovery is
+intentionally pull-only in this
+release: it does not watch Kubernetes, Consul, or xDS streams directly, and it
+cannot be combined with per-member static policy lists such as weights,
+localities, aliases, tags, backup, drain, disabled, or max-in-flight.
+`examples/load-balancer-http-discovery.toml` contains a complete minimal
+control-plane-backed load-balancer pool, including health checks, passive
+health, retries, and queue policy.
+Changing a load-balanced pool's discovery source, discovery refresh interval,
+HTTP bearer-token file, or route/vhost pool membership is classified as a
+process-upgrade change rather than a live snapshot reload because the refresh
+loop is registered with the process service set at startup.
 When `upstream_tls = true`, Fluxheim sends TLS to the origin. `upstream_sni`
 overrides the SNI name; if it is omitted, Fluxheim derives SNI from the primary
 upstream host. `upstream_verify_cert` and `upstream_verify_hostname` default to
@@ -1057,7 +1094,7 @@ content types, and leaves gRPC-Web/JSON transcoding out of scope.
 `upstream_total_connection_timeout_secs` wraps full upstream establishment,
 including protocol/TLS setup where the selected connector exposes it.
 `upstream_idle_timeout_secs` controls how long reusable idle upstream
-connections remain in Pingora's keepalive pool before they are closed.
+connections remain in the keepalive pool before they are closed.
 `upstream_tcp_keepalive_idle_secs`, `upstream_tcp_keepalive_interval_secs`, and
 `upstream_tcp_keepalive_count` configure TCP keepalive probes on upstream
 connections and must be set together. `upstream_tcp_user_timeout_ms` maps to
@@ -1138,8 +1175,8 @@ current weighted average load, and is valid only with bounded-load consistent
 selectors. Maglev modes use a fixed 65,537-slot bounded lookup table for static
 `proxy.upstreams` pools only; file-refreshed and DNS-refreshed pools reject
 Maglev until dynamic table rebuild semantics are promoted later.
-`max_iterations` bounds how many ready candidates Fluxheim may inspect while
-applying health, drain, slow-start, backup, priority, and
+`max_iterations` bounds how many ready candidates Fluxheim may
+inspect while applying health, drain, slow-start, backup, priority, and
 in-flight policies. `all_down_status` defaults to `502` and may be set to
 another HTTP 5xx status, commonly `503`, for requests where a configured
 load-balanced pool has no selectable backend. `least-connections`,
@@ -1330,11 +1367,13 @@ header value, and `cookie` mode writes the configured cookie value.
 an encrypted, access-restricted volume when raw header or cookie identifiers are
 used.
 
-The current `1.5.x` load-balancer line does not add/remove pool members at
-runtime, apply runtime weights to hash/ring selectors, share managed-cookie
-signing keys across nodes, or synchronize load-balancer state across
-active-active Fluxheim nodes. Managed-cookie HA mirroring is tracked separately
-from the local managed-cookie table shipped in `1.5.3`; see
+The current `1.5.x` load-balancer line supports runtime add/remove/update for
+static upstream pools, but DNS/file/HTTP-discovery pools still reject runtime
+backend-set mutation because discovery owns the live member set. It does not
+apply runtime weights to hash/ring selectors, share managed-cookie signing keys
+across nodes, or synchronize load-balancer state across active-active Fluxheim
+nodes. Managed-cookie HA mirroring is tracked separately from the local
+managed-cookie table shipped in `1.5.3`; see
 [Load Balancer HA Design Notes](load-balancer-ha.md).
 
 `upstreams` is the preferred static proxy target form for both one and many origins.
@@ -1344,11 +1383,11 @@ that as ambiguous. `upstreams_file` is also mutually exclusive with both static
 forms. A single `upstreams = ["host:port"]` entry behaves like a
 normal single proxy target in all builds and is resolved when requests are
 proxied, so a missing backend does not prevent the gateway from starting. Two
-or more entries activate the Fluxheim load-balancer path in builds compiled
-with `load-balancer`; those entries may be resolved by load-balancer setup and
-health checking. File-refreshed and DNS-refreshed pools also use the
-load-balancer path and keep serving the previous healthy set when a later
-refresh is invalid. The same `proxy.load_balance` policy applies inside
+or more entries activate the Fluxheim load-balancer path in builds compiled with
+`load-balancer`; those entries may be resolved by load-balancer setup and health
+checking. File-refreshed and DNS-refreshed pools also use the load-balancer path
+and keep serving the previous healthy set when a later refresh is invalid. The same
+`proxy.load_balance` policy applies inside
 `[[vhosts.routes.proxy]]` route proxy blocks; route-level pools get their own
 selection, passive-health, retry, and health-check state.
 `connect_timeout_secs`, `read_timeout_secs`, and `send_timeout_secs` are
@@ -1360,10 +1399,18 @@ with `upstream_http_version = "http1"` because HTTP/2 origins do not use the
 same hop-by-hop upgrade mechanism.
 `downstream_write_timeout_secs` and
 `downstream_min_send_rate_bytes_per_sec` protect the client-facing side of
-proxied responses. The write timeout caps stalled downstream writes; the minimum
-send rate asks Pingora to derive a timeout from each response chunk size and is
-mainly useful against slow HTTP/1 clients. These fields are optional and can be
-set globally, per vhost, or on a route-level proxy block.
+proxied responses. The write timeout caps stalled downstream writes and defaults
+to 30 seconds so HTTP/2 clients cannot hold response bodies indefinitely with a
+zero receive window. The minimum send rate asks Pingora to derive a timeout from
+each response chunk size and is mainly useful against slow HTTP/1 clients. These
+fields are optional and can be set globally, per vhost, or on a route-level
+proxy block.
+
+Fluxheim also installs hardened downstream HTTP/2 handshake defaults whenever
+HTTP/2 is enabled: decoded request header lists are capped at 64 KiB per stream
+and remotely initiated concurrent streams are capped at 32 per connection. These
+service-level caps are applied before vhost routing because HTTP/2 negotiation
+happens before a `Host`/`:authority` value can be trusted.
 
 When `websocket = true` and the downstream request contains a valid
 `Connection: Upgrade` token plus a valid `Upgrade` token, Fluxheim forwards the

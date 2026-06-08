@@ -89,7 +89,7 @@
           </a>
           <a href="download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.5.10
+            Download v1.5.11
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -110,7 +110,7 @@
         <a href="download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.5.10</a>
+        <a href="download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.5.11</a>
       </div>
     </div>
   </nav>
@@ -128,7 +128,7 @@
         <div>
           <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/25 rounded-full mb-6">
             <span class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
-            <span class="text-cyan-400 text-xs font-semibold tracking-wide">v1.5.10 — Latest Stable Release</span>
+            <span class="text-cyan-400 text-xs font-semibold tracking-wide">v1.5.11 — Latest Stable Release</span>
           </div>
 
           <h1 class="text-5xl xl:text-6xl font-black tracking-tight leading-[1.05] mb-6">
@@ -147,7 +147,7 @@
             <a href="download.html"
                class="inline-flex items-center gap-2 px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-xl transition-colors shadow-lg shadow-cyan-500/20">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-              Download v1.5.10
+              Download v1.5.11
             </a>
             <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener"
                class="inline-flex items-center gap-2 px-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-semibold rounded-xl transition-colors border border-gray-700">
@@ -363,7 +363,7 @@ index_files = ["index.html"]</code></pre>
               <span class="text-xs font-mono text-gray-500">bash</span>
             </div>
 <pre class="language-bash" style="margin:0;padding:1.25rem;background:transparent;font-size:0.82rem;line-height:1.7"><code class="language-bash"># Download and extract the full build
-curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.5.10/fluxheim-1.5.10-full-x86_64-linux.tar.gz \
+curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.5.11/fluxheim-1.5.11-full-x86_64-linux.tar.gz \
   | tar xz
 
 # Move binary to system path
@@ -382,8 +382,8 @@ sudo systemctl enable --now fluxheim</code></pre>
               <span class="text-xs font-mono text-gray-500">bash</span>
             </div>
 <pre class="language-bash" style="margin:0;padding:1.25rem;background:transparent;font-size:0.82rem;line-height:1.7"><code class="language-bash"># Pull from GHCR or Quay
-podman pull ghcr.io/valkyoth/fluxheim:v1.5.10
-podman pull quay.io/valkyoth/fluxheim:v1.5.10
+podman pull ghcr.io/valkyoth/fluxheim:v1.5.11
+podman pull quay.io/valkyoth/fluxheim:v1.5.11
 
 # Run rootless with your config mounted
 podman run -d \
@@ -391,7 +391,7 @@ podman run -d \
   -p 8080:8080 -p 8443:8443 \
   -v /srv/sites:/srv/sites:ro \
   -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro \
-  ghcr.io/valkyoth/fluxheim:v1.5.10
+  ghcr.io/valkyoth/fluxheim:v1.5.11
 
 # Available image variants: full, load-balancer, cache, proxy, php</code></pre>
           </div>

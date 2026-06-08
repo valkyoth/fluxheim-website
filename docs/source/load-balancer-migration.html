@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.10</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.11</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -74,7 +74,7 @@
 
         <article class="source-doc">
 <h1 id="load-balancer-migration-notes">Load Balancer Migration Notes</h1>
-<p>Fluxheim <code>1.5.x</code> focuses on HTTP/TCP edge load-balancer operations that map cleanly from HAProxy, nginx, Envoy, and F5 LTM-style pools. The validated starting fixture is <code>examples/load-balancer-enterprise.toml</code>.</p>
+<p>Fluxheim <code>1.5.x</code> focuses on HTTP/TCP edge load-balancer operations that map cleanly from HAProxy, nginx, Envoy, and F5 LTM-style pools. The validated starting fixture is <code>examples/load-balancer-enterprise.toml</code>. For pull-based control-plane upstream lists, use <code>examples/load-balancer-http-discovery.toml</code>.</p>
 <p>This is a migration guide for pool behavior, not a claim that Fluxheim clones every product module. UDP, GSLB/DNS steering, WAF policy, VPN/firewall appliance behavior, and iRules/Lua/Wasm scripting are tracked as separate roadmap lines.</p>
 <p>For active-active managed-cookie and persistence-state boundaries, see <a href="load-balancer-ha.html" class="text-cyan-400 hover:text-cyan-300">Load Balancer HA Design Notes</a>.</p>
 <h2 id="nginx-upstream">nginx Upstream</h2>
@@ -180,15 +180,15 @@ preferred_upstream_localities = [&quot;site-a&quot;]</code></pre>
 <h2 id="known-migration-boundaries">Known Migration Boundaries</h2>
 <p>The following are intentional current <code>1.5.x</code> boundaries. They are not defects in the shipped load-balancer behavior; they are architectural gaps tracked for later <code>1.5.x</code> or future module lines.</p>
 <ul>
-<li>Runtime add/remove-member operations are future control-plane work.</li>
-<li>The load-balancer substrate is Fluxheim-owned as of <code>1.5.7</code>: backend storage, readiness state, selector entry points, discovery refresh, health-check scheduling, and background shutdown handling now sit behind Fluxheim-owned boundaries. Pingora remains the HTTP proxy transport.</li>
+<li>Runtime add/remove/update-member operations are available for static upstream pools only. DNS/file/HTTP-discovery pools reject them because discovery refresh owns the live member set.</li>
+<li>The load-balancer core is Fluxheim-owned, including backend-set snapshots, runtime mutation, health/discovery loops, and selection policy. Pingora still remains the HTTP proxy transport boundary in the current <code>1.5.x</code> line.</li>
 <li>Runtime weight changes are available for round-robin and least-* selectors. Hash/ring selectors need future table-rebuild semantics before runtime weights are accepted there.</li>
 <li>Load-balancer-managed cookie insertion is available through <code>mode = &quot;managed-cookie&quot;</code> in the <code>1.5.3</code> line. It is signed/opaque and local to one Fluxheim process, with daily local signing-key rotation and current or previous generation verification. Restart-persistent managed-cookie state, shared signing keys, and active-active cookie mirroring remain future HA work.</li>
 <li>HA persistence/cookie mirroring is future cluster-state work. Persistence tables and runtime member/weight overrides can be restart-persisted locally with <code>proxy.load_balance.runtime_state_file</code>, but passive health, retry budgets, queue counters, and managed-cookie signing keys remain local to one Fluxheim process in the current <code>1.5.x</code> line. Active-active deployments must either accept independent local state or place another HA layer in front until cross-node synchronization lands.</li>
-<li>In dynamic DNS/file discovery pools, stale runtime <code>drain</code> overrides may be reclaimed when a member leaves the live discovery set. Runtime <code>disable</code> and <code>forced_down</code> overrides are preserved across discovery churn until explicit admin resume/normal action.</li>
-<li>Maglev hashing is available for static <code>proxy.upstreams</code> pools. File-refreshed and DNS-refreshed pools reject Maglev in the current <code>1.5.x</code> line until dynamic table rebuild behavior is specified and observable.</li>
+<li>In dynamic DNS/file/HTTP-discovery pools, stale runtime <code>drain</code> overrides may be reclaimed when a member leaves the live discovery set. Runtime <code>disable</code> and <code>forced_down</code> overrides are preserved across discovery churn until explicit admin resume/normal action.</li>
+<li>Maglev hashing is available for static <code>proxy.upstreams</code> pools. File-refreshed DNS-refreshed, and HTTP-discovered pools reject Maglev in the current <code>1.5.x</code> line until dynamic table rebuild behavior is specified and observable.</li>
 <li>Bounded-load consistent hashing is local to one Fluxheim process. It avoids selecting an over-bound hash target when another eligible ring candidate is available, but it does not coordinate load across multiple Fluxheim nodes.</li>
-<li>Runtime state is local and in-memory in the current <code>1.5.x</code> line.</li>
+<li>Runtime state is local to one Fluxheim process. Runtime member-state overrides, runtime weight overrides, and persistence tables can be restart-persisted with <code>proxy.load_balance.runtime_state_file</code>, but mutated backend sets, passive health, retry budgets, queue counters, and managed-cookie signing keys are not cluster-synced in the current <code>1.5.x</code> line.</li>
 <li>UDP, GSLB/DNS steering, WAF, VPN/firewall appliance behavior, and scripted iRules/Lua/Wasm behavior are intentionally separate roadmap lines.</li>
 <li><code>proxy.load_balance.queue</code> is opt-in. Defaults keep fail-fast behavior when no backend is selectable.</li>
 </ul>
