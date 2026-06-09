@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.12</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.14</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -74,7 +74,7 @@
 
         <article class="source-doc">
 <h1 id="load-balancer-migration-notes">Load Balancer Migration Notes</h1>
-<p>Fluxheim <code>1.5.x</code> focuses on HTTP/TCP edge load-balancer operations that map cleanly from HAProxy, nginx, Envoy, and F5 LTM-style pools. The validated starting fixture is <code>examples/load-balancer-enterprise.toml</code>. For pull-based control-plane upstream lists, use <code>examples/load-balancer-http-discovery.toml</code>.</p>
+<p>Fluxheim <code>1.5.x</code> focuses on HTTP/TCP edge load-balancer operations that map cleanly from HAProxy, nginx, Envoy, and F5 LTM-style pools. The validated starting fixture is <code>examples/load-balancer-enterprise.toml</code>. For pull-based control-plane upstream lists, use <code>examples/load-balancer-http-discovery.toml</code>. For local command-based monitors, use <code>examples/load-balancer-exec-health.toml</code>. Exec monitor command paths and arguments are normal configuration data, so do not put credentials in argv; let the local helper read protected local secrets it owns. Runtime status and health-check backend summaries expose only the protocol, not the exec command path or arguments.</p>
 <p>This is a migration guide for pool behavior, not a claim that Fluxheim clones every product module. UDP, GSLB/DNS steering, WAF policy, VPN/firewall appliance behavior, and iRules/Lua/Wasm scripting are tracked as separate roadmap lines.</p>
 <p>For active-active managed-cookie and persistence-state boundaries, see <a href="load-balancer-ha.html" class="text-cyan-400 hover:text-cyan-300">Load Balancer HA Design Notes</a>.</p>
 <h2 id="nginx-upstream">nginx Upstream</h2>

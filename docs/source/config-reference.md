@@ -323,7 +323,7 @@ override counts, circuit-open counts, selection policy, max-iteration and
 all-down settings, discovery mode (`static`, `file`, `http`, or `dns`),
 discovery refresh status, update frequency, success/failure counters, last
 success/failure timestamps, bounded last discovery error, health-check
-frequency and parallel mode, retry policy, passive-health
+protocol, frequency and parallel mode, retry policy, passive-health
 thresholds, slow-start duration, persistence policy and table size, queue policy
 and current waiting count, priority group, locality, tags, max in-flight cap,
 current in-flight count, passive failure count, passive ejection, passive
@@ -1217,6 +1217,9 @@ When persistence is enabled, the same counter records bounded
 fixture for a richer HAProxy/F5-style pool: weighted members, aliases, priority
 groups, backup/drain policy, active and passive health, slow start,
 source-IP persistence, retry budgets, metrics, and explicit all-down behavior.
+`examples/load-balancer-exec-health.toml` shows the local exec health-check
+shape for operators that need a bounded command monitor instead of a network
+probe.
 `proxy.load_balance.health_check.protocol` defaults to `tcp`, which verifies
 TCP reachability and, when `upstream_tls = true`, a TLS handshake. Set
 `protocol = "http"` to send `method` to `path`; `method` defaults to `GET` and
@@ -1247,6 +1250,42 @@ application/grpc`, and a `SERVING` response message. `grpc_service =
 checks may use `host`, `request_headers`, timeout fields, connection reuse, and
 `port_override`; HTTP status/header/body matchers are rejected because the
 standard gRPC health response has its own fixed semantics.
+Set `protocol = "exec"` to run an opt-in local command health check for
+backends that cannot be represented by TCP/TLS, HTTP, gRPC, or JSON response
+checks:
+
+```toml
+[proxy.load_balance.health_check]
+protocol = "exec"
+exec_command = "/usr/local/libexec/fluxheim-health"
+exec_args = ["--probe"]
+exec_allowed_commands = ["/usr/local/libexec/fluxheim-health"]
+exec_timeout_secs = 2
+```
+
+Exec health checks require an absolute command path without `.` or `..` path
+components, and that exact path must appear in `exec_allowed_commands`.
+Fluxheim does not invoke a shell, does not inherit the process environment,
+and connects stdin/stdout/stderr to null devices. The command receives only
+bounded backend context through
+`FLUXHEIM_HEALTH_BACKEND_ADDR`, `FLUXHEIM_HEALTH_BACKEND_HOST`, and
+`FLUXHEIM_HEALTH_BACKEND_PORT`; host and port are empty for non-inet backend
+addresses. `exec_args` are literal argv entries, not shell fragments.
+`exec_timeout_secs` follows the normal health-check timeout bounds. Exec
+checks are serial per pool in this release; `parallel = true` is rejected for
+exec checks to avoid spawning many local processes at once. HTTP/gRPC
+request-header and response-matcher fields, `host`, `port_override`,
+`connect_timeout_secs`, and `read_timeout_secs` are rejected on exec checks so
+this remains a local monitor, not a scripting engine.
+Runtime load-balancer status exposes only the health-check protocol name
+(`tcp`, `http`, `grpc`, or `exec`) for operator visibility; it does not expose
+exec command paths or arguments. Exec backend summaries likewise identify the
+check as `via exec` without including the configured command path.
+Do not place secrets in `exec_command`, `exec_args`, or
+`exec_allowed_commands`: they are normal configuration fields and may appear in
+local config files, snapshots, backups, or operator review output. Use a local
+root/service-owned helper that reads its own protected credential file if the
+probe needs credentials.
 `expected_body_json` performs bounded exact scalar matching against JSON health
 responses without JSONPath, array indexing, expressions, or regexes:
 
@@ -1383,11 +1422,11 @@ that as ambiguous. `upstreams_file` is also mutually exclusive with both static
 forms. A single `upstreams = ["host:port"]` entry behaves like a
 normal single proxy target in all builds and is resolved when requests are
 proxied, so a missing backend does not prevent the gateway from starting. Two
-or more entries activate the Fluxheim load-balancer path in builds compiled with
-`load-balancer`; those entries may be resolved by load-balancer setup and health
-checking. File-refreshed and DNS-refreshed pools also use the load-balancer path
-and keep serving the previous healthy set when a later refresh is invalid. The same
-`proxy.load_balance` policy applies inside
+or more entries activate the Fluxheim load-balancer path in builds compiled
+with `load-balancer`; those entries may be resolved by load-balancer setup and
+health checking. File-refreshed and DNS-refreshed pools also use the
+load-balancer path and keep serving the previous healthy set when a later
+refresh is invalid. The same `proxy.load_balance` policy applies inside
 `[[vhosts.routes.proxy]]` route proxy blocks; route-level pools get their own
 selection, passive-health, retry, and health-check state.
 `connect_timeout_secs`, `read_timeout_secs`, and `send_timeout_secs` are
