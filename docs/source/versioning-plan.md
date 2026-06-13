@@ -4028,6 +4028,13 @@ the exception while the cache server is being completed as a focused sequence:
   controls where meaningful, upstream health/readiness behavior for UDP pools,
   rootless/container-network deployment guidance, packet-size and truncation
   tests, and clear logging that cannot be turned into packet-rate log spam.
+  First pass added per-source session caps, per-source response-rate caps,
+  UDP Prometheus counters/gauges, admin UDP status, explicit non-loopback
+  listener warnings for DNS-style routes, passive upstream failure ejection,
+  rootless/container-network exposure guidance, and smoke-test coverage for
+  exact-cap responses, oversized downstream drops, and the new knobs.
+  Remaining promotion work should focus on longer-running operational soak
+  tests before removing the beta label.
   `syslog-forward` may graduate independently if its one-way semantics are
   reviewed first. Keep QUIC pass-through, game-server UDP proxying, generic
   UDP catchall behavior, authoritative DNS, and GSLB control-plane behavior as

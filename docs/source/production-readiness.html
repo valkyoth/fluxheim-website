@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.20</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.21</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -191,9 +191,11 @@ FLUXHEIM_GATE_FIPS_OPENSSL=1 \
 FLUXHEIM_GATE_FIPS_RUSTLS=1 \
 FLUXHEIM_GATE_TLS_SCAN=1 \
 FLUXHEIM_GATE_LOAD=1 \
+FLUXHEIM_GATE_UDP=1 \
 FLUXHEIM_GATE_FRAMING=1 \
 FLUXHEIM_GATE_FUZZ_CHECK=1 \
 scripts/stable_release_gate.sh check</code></pre>
+<p>For longer UDP beta soak while iterating on <code>udp-proxy</code>, combine the UDP gate with <code>FLUXHEIM_UDP_SMOKE_ITERATIONS=&lt;count&gt;</code>. The default UDP smoke stays short enough for local release evidence.</p>
 <p>Use <code>check</code> mode for local development on rolling distributions. For release mode rustls/AWS-LC FIPS evidence, prefer the supported builder workflow in <a href="fips.html" class="text-cyan-400 hover:text-cyan-300">FIPS-Capable Deployments</a>; otherwise set <code>FLUXHEIM_GATE_FIPS_RUSTLS=0</code> locally and attach the rustls evidence from that builder.</p>
 <p>Run the Podman smoke when container paths or image definitions change:</p>
 <pre class="language-bash"><code class="language-bash">FLUXHEIM_GATE_PODMAN=1 scripts/stable_release_gate.sh check</code></pre>
