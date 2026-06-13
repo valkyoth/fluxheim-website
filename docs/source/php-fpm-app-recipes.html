@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.14</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.19</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -104,7 +104,7 @@
 <li><code>php.pass_request_headers</code> safely translates inbound HTTP headers to <code>HTTP_*</code>, including <code>HTTP_HOST</code> and <code>HTTP_AUTHORIZATION</code>, while dropping <code>Proxy</code> for HTTPoxy mitigation.</li>
 <li><code>php.pass_request_body</code> controls whether the bounded HTTP body is forwarded to FastCGI STDIN.</li>
 <li><code>php.server_port</code> can pin CGI <code>SERVER_PORT</code> when a deployment needs an application-visible port different from the listener port.</li>
-<li><code>[vhosts.php.params]</code> and <code>[vhosts.routes.php.params]</code> add validated custom FastCGI params without allowing overrides of Fluxheim-owned CGI fields. Treat <code>PHP_VALUE</code> and <code>PHP_ADMIN_VALUE</code> as privileged php-fpm controls: Fluxheim logs high-risk warnings for sensitive PHP directives, but the operator remains responsible for not weakening production PHP policy.</li>
+<li><code>[vhosts.php.params]</code> and <code>[vhosts.routes.php.params]</code> add validated custom FastCGI params without allowing overrides of Fluxheim-owned CGI fields. Fluxheim also rejects <code>PHP_VALUE</code> and <code>PHP_ADMIN_VALUE</code> because those php-fpm control parameters can rewrite PHP <code>ini</code> policy for every request.</li>
 </ul>
 <p>Path mapping and application routing:</p>
 <ul>
@@ -160,6 +160,7 @@ stderr_log = true
 
 [vhosts.php.fpm]
 tcp = &quot;127.0.0.1:9000&quot;
+allow_private_tcp_upstreams = true
 connect_timeout_secs = 5
 read_timeout_secs = 30
 write_timeout_secs = 30
@@ -206,6 +207,7 @@ stderr_log = true
 
 [vhosts.php.fpm]
 tcp = &quot;127.0.0.1:9000&quot;
+allow_private_tcp_upstreams = true
 
 [vhosts.web]
 root = &quot;/srv/sites/wordpress-ms.example.test/public&quot;
@@ -242,6 +244,7 @@ stderr_log = true
 
 [vhosts.php.fpm]
 tcp = &quot;127.0.0.1:9000&quot;
+allow_private_tcp_upstreams = true
 
 [vhosts.web]
 root = &quot;/srv/sites/example.test/public&quot;
@@ -275,6 +278,7 @@ APP_ENV = &quot;production&quot;
 
 [vhosts.php.fpm]
 tcp = &quot;127.0.0.1:9000&quot;
+allow_private_tcp_upstreams = true
 connect_timeout_secs = 5
 read_timeout_secs = 30
 write_timeout_secs = 30
@@ -339,6 +343,7 @@ path_info = &quot;disabled&quot;
 
 [vhosts.routes.php.fpm]
 tcp = &quot;127.0.0.1:9000&quot;
+allow_private_tcp_upstreams = true
 
 [[vhosts.routes]]
 name = &quot;wiki-entry-points&quot;
@@ -355,7 +360,8 @@ path_info = &quot;split&quot;
 deny_path_prefixes = [&quot;/mw-config/&quot;]
 
 [vhosts.routes.php.fpm]
-tcp = &quot;127.0.0.1:9000&quot;</code></pre>
+tcp = &quot;127.0.0.1:9000&quot;
+allow_private_tcp_upstreams = true</code></pre>
 <p>MediaWiki still needs matching <code>LocalSettings.php</code> values such as <code>$wgScriptPath</code>, <code>$wgArticlePath</code>, and <code>$wgUsePathInfo</code>.</p>
 <h2 id="phpbb">phpBB</h2>
 <p>phpBB needs both direct PHP entry scripts and a fallback front controller (<code>app.php</code> in the NGINX Unit reference). Fluxheim supports that at the PHP-FPM level by setting <code>php.index = &quot;app.php&quot;</code> and using front-controller routing.</p>
@@ -383,7 +389,8 @@ deny_path_prefixes = [
 stderr_log = true
 
 [vhosts.php.fpm]
-tcp = &quot;127.0.0.1:9000&quot;</code></pre>
+tcp = &quot;127.0.0.1:9000&quot;
+allow_private_tcp_upstreams = true</code></pre>
 <p>Do not add a broad <code>[vhosts.web] root = &quot;/srv/phpbb&quot;</code> unless you have audited the static paths that become public.</p>
 <h2 id="xenforo">XenForo</h2>
 <p>XenForo friendly URLs need a front-controller fallback to <code>index.php</code>, strict execution for real PHP scripts, and private directory protection for paths such as <code>internal_data</code>, <code>src</code>, <code>install/data</code>, and legacy <code>library</code>.</p>
@@ -409,6 +416,7 @@ deny_path_prefixes = [
 
 [vhosts.php.fpm]
 tcp = &quot;127.0.0.1:9000&quot;
+allow_private_tcp_upstreams = true
 
 [[vhosts.routes]]
 name = &quot;xenforo-styles&quot;
@@ -444,7 +452,8 @@ deny_path_prefixes = [
 ]
 
 [vhosts.php.fpm]
-tcp = &quot;127.0.0.1:9000&quot;</code></pre>
+tcp = &quot;127.0.0.1:9000&quot;
+allow_private_tcp_upstreams = true</code></pre>
 <p>Serve only audited static directories until Fluxheim has first-class static deny/allow path controls.</p>
 <h2 id="discourse">Discourse</h2>
 <p>Discourse is not a PHP-FPM application. The official install path is a Docker application stack with its own Rails/Unicorn/PostgreSQL/Redis deployment model. In Fluxheim, treat Discourse as a reverse-proxy upstream, not as <code>[vhosts.php]</code>.</p>
@@ -454,7 +463,7 @@ hosts = [&quot;discourse.example.test&quot;]
 max_request_body_bytes = &quot;64MiB&quot;
 
 [vhosts.proxy]
-upstreams = [&quot;discourse_app:80&quot;]
+upstreams = [&quot;discourse-app:80&quot;]
 upstream_tls = false
 connect_timeout_secs = 5
 read_timeout_secs = 90

@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.14</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.19</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -133,6 +133,7 @@ index_files = [&quot;index.html&quot;]
 
 [vhosts.php.fpm]
 tcp = &quot;127.0.0.1:9000&quot;
+allow_private_tcp_upstreams = true
 # socket = &quot;/run/php/php-fpm.sock&quot;</code></pre>
 <p>Managed php-fpm mode keeps the runtime selection in <code>[vhosts.php.fpm]</code> instead of adding a new compile-time PHP runtime:</p>
 <pre class="language-toml"><code class="language-toml">[vhosts.php.fpm]
@@ -183,6 +184,7 @@ group = &quot;fluxheim&quot;</code></pre>
 <li>Deny configured PHP execution path prefixes before contacting php-fpm.</li>
 <li>Never pass arbitrary process environment to PHP.</li>
 <li>Use a small allow-list for CGI/FastCGI params.</li>
+<li>Reject decoded control characters in path-derived FastCGI params and avoid protocol-relative directory-slash redirects.</li>
 <li>Set <code>SCRIPT_NAME</code>, <code>SCRIPT_FILENAME</code>, <code>DOCUMENT_ROOT</code>, <code>REQUEST_METHOD</code>, <code>QUERY_STRING</code>, <code>REQUEST_URI</code>, <code>SERVER_NAME</code>, <code>SERVER_PORT</code>, and <code>SERVER_PROTOCOL</code> explicitly.</li>
 <li>Translate safe inbound HTTP headers to CGI <code>HTTP_*</code> params, including <code>HTTP_HOST</code>, while dropping <code>Proxy</code> to avoid HTTPoxy exposure.</li>
 <li>Set TLS-related CGI context (<code>HTTPS</code> and <code>REQUEST_SCHEME</code>) from the downstream connection state.</li>
@@ -234,8 +236,9 @@ group = &quot;fluxheim&quot;</code></pre>
 <li>Configurable safe <code>PATH_INFO</code> splitting. Implemented as <code>php.path_info = &quot;disabled&quot;</code> or <code>&quot;split&quot;</code>; the legacy <code>&quot;strict&quot;</code> spelling remains accepted as an alias for <code>&quot;split&quot;</code>.</li>
 <li>Canonical directory slash redirects for directory index PHP apps. Implemented as a <code>308</code> redirect before executing directory <code>index.php</code> scripts.</li>
 <li>Explicit request header/body pass-through switches for advanced migrations. Implemented as <code>php.pass_request_headers</code> and <code>php.pass_request_body</code>, both defaulting to <code>true</code>.</li>
+<li>PHP-specific in-flight request cap. Implemented as <code>php.max_in_flight</code>, defaulting to <code>8</code>, so buffered PHP-FPM responses cannot multiply without a route-local or vhost-local bound.</li>
 <li><code>X-Accel-Redirect</code> / <code>X-Sendfile</code> support. Implemented for PHP-assisted static offload under <code>php.root</code>; <code>X-Sendfile</code> paths are mapped from <code>php.fpm_root</code> for split containers, and configured PHP script extensions are refused as offload targets.</li>
-<li><code>X-Accel-Expires</code> response control handling. Implemented for PHP responses: Fluxheim strips the internal header, maps valid TTLs to <code>Cache-Control</code> and <code>Expires</code>, treats zero or past expiries as <code>no-store</code>, and uses <code>private</code> directives for responses that set cookies.</li>
+<li><code>X-Accel-Expires</code> response control handling. Implemented for PHP responses: Fluxheim strips the internal header, maps valid TTLs to <code>Cache-Control</code> and <code>Expires</code>, treats zero or past expiries as <code>no-store</code>, and uses <code>private</code> directives for responses that set cookies. If the origin response already has restrictive cache policy such as <code>Cache-Control: private</code>, <code>no-store</code>, <code>no-cache</code>, or <code>Pragma: no-cache</code>, Fluxheim preserves that policy and does not promote the response to shared-cache eligibility.</li>
 <li><code>fastcgi_intercept_errors</code>-style integration with Fluxheim error pages. Initial generic interception implemented as <code>php.intercept_error_statuses</code>.</li>
 <li>Response header hide/pass/ignore controls for PHP backends. Initial hide controls implemented as <code>php.hide_response_headers</code>; <code>php.ignore_origin_cache_headers</code> removes PHP-generated <code>Cache-Control</code>, <code>Expires</code>, and <code>Pragma</code>; hop-by-hop PHP response headers are stripped by default.</li>
 <li>STDERR capture/truncation/severity controls and fatal-error matching. Initial controls implemented as <code>php.stderr_log</code>, <code>php.stderr_log_level</code>, <code>php.stderr_max_bytes</code>, and <code>php.stderr_failure_patterns</code> for marking matching STDERR output as an invalid php-fpm response eligible for opt-in safe-method retry/failover.</li>
@@ -255,7 +258,7 @@ name = &quot;turbine-app&quot;
 hosts = [&quot;turbine.example.test&quot;]
 
 [vhosts.proxy]
-upstreams = [&quot;turbine_app:8080&quot;]
+upstreams = [&quot;turbine-app:8080&quot;]
 upstream_tls = false</code></pre>
 <p>Fluxheim should not duplicate that model as an embedded PHP runtime unless a future project exposes a small auditable library API with a clearly safer security boundary than reverse proxying.</p>
 <h3 id="pure-rust-php">Pure-Rust PHP</h3>

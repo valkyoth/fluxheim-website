@@ -96,6 +96,7 @@ index_files = ["index.html"]
 
 [vhosts.php.fpm]
 tcp = "127.0.0.1:9000"
+allow_private_tcp_upstreams = true
 # socket = "/run/php/php-fpm.sock"
 ```
 
@@ -206,6 +207,8 @@ eligible:
 - Deny configured PHP execution path prefixes before contacting php-fpm.
 - Never pass arbitrary process environment to PHP.
 - Use a small allow-list for CGI/FastCGI params.
+- Reject decoded control characters in path-derived FastCGI params and avoid
+  protocol-relative directory-slash redirects.
 - Set `SCRIPT_NAME`, `SCRIPT_FILENAME`, `DOCUMENT_ROOT`, `REQUEST_METHOD`,
   `QUERY_STRING`, `REQUEST_URI`, `SERVER_NAME`, `SERVER_PORT`, and
   `SERVER_PROTOCOL` explicitly.
@@ -347,6 +350,9 @@ for single-user/rootless deployments.
 - Explicit request header/body pass-through switches for advanced migrations.
   Implemented as `php.pass_request_headers` and `php.pass_request_body`, both
   defaulting to `true`.
+- PHP-specific in-flight request cap. Implemented as `php.max_in_flight`,
+  defaulting to `8`, so buffered PHP-FPM responses cannot multiply without a
+  route-local or vhost-local bound.
 - `X-Accel-Redirect` / `X-Sendfile` support. Implemented for PHP-assisted
   static offload under `php.root`; `X-Sendfile` paths are mapped from
   `php.fpm_root` for split containers, and configured PHP script extensions
@@ -354,7 +360,10 @@ for single-user/rootless deployments.
 - `X-Accel-Expires` response control handling. Implemented for PHP responses:
   Fluxheim strips the internal header, maps valid TTLs to `Cache-Control` and
   `Expires`, treats zero or past expiries as `no-store`, and uses `private`
-  directives for responses that set cookies.
+  directives for responses that set cookies. If the origin response already has
+  restrictive cache policy such as `Cache-Control: private`, `no-store`,
+  `no-cache`, or `Pragma: no-cache`, Fluxheim preserves that policy and does not
+  promote the response to shared-cache eligibility.
 - `fastcgi_intercept_errors`-style integration with Fluxheim error pages.
   Initial generic interception implemented as `php.intercept_error_statuses`.
 - Response header hide/pass/ignore controls for PHP backends.
@@ -426,7 +435,7 @@ name = "turbine-app"
 hosts = ["turbine.example.test"]
 
 [vhosts.proxy]
-upstreams = ["turbine_app:8080"]
+upstreams = ["turbine-app:8080"]
 upstream_tls = false
 ```
 

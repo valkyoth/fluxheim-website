@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.14</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.19</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -95,7 +95,8 @@ scripts/generate-sbom.sh
 scripts/reproducible_build_check.sh
 scripts/validate-release-metadata.sh
 scripts/validate-owasp-top10-2025.sh check
-scripts/podman_smoke.sh</code></pre>
+scripts/podman_smoke.sh
+FLUXHEIM_CONTAINER_VARIANTS=&quot;debian alpine&quot; scripts/podman_smoke_variants.sh</code></pre>
 <p>For PHP-FPM releases, also run:</p>
 <pre class="language-bash"><code class="language-bash">scripts/smoke_wordpress_php_fpm.sh both
 scripts/smoke_fluxheim_php_wolfi.sh</code></pre>
@@ -103,7 +104,8 @@ scripts/smoke_fluxheim_php_wolfi.sh</code></pre>
 <pre class="language-bash"><code class="language-bash">scripts/release_evidence.sh &quot;${RELEASE_VERSION}&quot; --skip-fips-rustls</code></pre>
 <p>For stable or release-candidate builds, prefer the stable gate:</p>
 <pre class="language-bash"><code class="language-bash">scripts/stable_release_gate.sh release</code></pre>
-<p>For the <code>1.3</code> line this stable gate includes the proxy cache and local observability smoke suites, plus compile and packaged-config checks for the published full/default, cache, and proxy container image profiles. That keeps cache, Prometheus/OpenTelemetry basics, and focused image feature wiring covered by the same command used for release evidence.</p>
+<p>In <code>release</code> mode this stable gate is intentionally tag-blocking for container images: it runs the root image smoke plus representative Debian and Alpine variant image smokes before a tag should be pushed. Use <code>FLUXHEIM_GATE_IMAGE_VARIANTS=&quot;debian alpine wolfi suse-micro&quot;</code> when the release needs full local variant evidence. Use <code>FLUXHEIM_SKIP_IMAGE_GATE=1</code> only when equivalent image evidence has already been collected on another builder.</p>
+<p>For the <code>1.3</code> and later lines this stable gate includes the proxy cache and local observability smoke suites, plus compile and packaged-config checks for the published image profiles. That keeps cache, Prometheus/OpenTelemetry basics, and focused image feature wiring covered by the same command used for release evidence.</p>
 <p>If <code>cargo audit</code> reports a known upstream advisory that cannot be fixed in this repository yet, record it explicitly in the release notes with the package, advisory ID, impact, and removal condition.</p>
 <h2 id="2-commit-the-release-prep">2. Commit The Release Prep</h2>
 <p>Commit any release-note, README, packaging, or metadata changes:</p>

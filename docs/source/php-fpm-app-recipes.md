@@ -73,9 +73,8 @@ CGI/FastCGI request construction:
   application-visible port different from the listener port.
 - `[vhosts.php.params]` and `[vhosts.routes.php.params]` add validated custom
   FastCGI params without allowing overrides of Fluxheim-owned CGI fields.
-  Treat `PHP_VALUE` and `PHP_ADMIN_VALUE` as privileged php-fpm controls:
-  Fluxheim logs high-risk warnings for sensitive PHP directives, but the
-  operator remains responsible for not weakening production PHP policy.
+  Fluxheim also rejects `PHP_VALUE` and `PHP_ADMIN_VALUE` because those
+  php-fpm control parameters can rewrite PHP `ini` policy for every request.
 
 Path mapping and application routing:
 
@@ -164,6 +163,7 @@ stderr_log = true
 
 [vhosts.php.fpm]
 tcp = "127.0.0.1:9000"
+allow_private_tcp_upstreams = true
 connect_timeout_secs = 5
 read_timeout_secs = 30
 write_timeout_secs = 30
@@ -234,6 +234,7 @@ stderr_log = true
 
 [vhosts.php.fpm]
 tcp = "127.0.0.1:9000"
+allow_private_tcp_upstreams = true
 
 [vhosts.web]
 root = "/srv/sites/wordpress-ms.example.test/public"
@@ -274,6 +275,7 @@ stderr_log = true
 
 [vhosts.php.fpm]
 tcp = "127.0.0.1:9000"
+allow_private_tcp_upstreams = true
 
 [vhosts.web]
 root = "/srv/sites/example.test/public"
@@ -320,6 +322,7 @@ APP_ENV = "production"
 
 [vhosts.php.fpm]
 tcp = "127.0.0.1:9000"
+allow_private_tcp_upstreams = true
 connect_timeout_secs = 5
 read_timeout_secs = 30
 write_timeout_secs = 30
@@ -417,6 +420,7 @@ path_info = "disabled"
 
 [vhosts.routes.php.fpm]
 tcp = "127.0.0.1:9000"
+allow_private_tcp_upstreams = true
 
 [[vhosts.routes]]
 name = "wiki-entry-points"
@@ -434,6 +438,7 @@ deny_path_prefixes = ["/mw-config/"]
 
 [vhosts.routes.php.fpm]
 tcp = "127.0.0.1:9000"
+allow_private_tcp_upstreams = true
 ```
 
 MediaWiki still needs matching `LocalSettings.php` values such as
@@ -477,6 +482,7 @@ stderr_log = true
 
 [vhosts.php.fpm]
 tcp = "127.0.0.1:9000"
+allow_private_tcp_upstreams = true
 ```
 
 Do not add a broad `[vhosts.web] root = "/srv/phpbb"` unless you have audited
@@ -514,6 +520,7 @@ deny_path_prefixes = [
 
 [vhosts.php.fpm]
 tcp = "127.0.0.1:9000"
+allow_private_tcp_upstreams = true
 
 [[vhosts.routes]]
 name = "xenforo-styles"
@@ -566,6 +573,7 @@ deny_path_prefixes = [
 
 [vhosts.php.fpm]
 tcp = "127.0.0.1:9000"
+allow_private_tcp_upstreams = true
 ```
 
 Serve only audited static directories until Fluxheim has first-class static
@@ -584,7 +592,7 @@ hosts = ["discourse.example.test"]
 max_request_body_bytes = "64MiB"
 
 [vhosts.proxy]
-upstreams = ["discourse_app:80"]
+upstreams = ["discourse-app:80"]
 upstream_tls = false
 connect_timeout_secs = 5
 read_timeout_secs = 90

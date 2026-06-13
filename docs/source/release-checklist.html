@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.14</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.19</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -95,6 +95,10 @@ cargo install --locked cargo-sbom --version 0.10.0</code></pre>
 <h2 id="dependency-license-and-advisory-gates">Dependency, License, And Advisory Gates</h2>
 <ul>
 <li>Run <code>cargo update</code> only as a deliberate dependency maintenance step.</li>
+<li>Before tagging, verify compatible dependency updates are exhausted. This gate intentionally ignores <code>pingora*</code> packages while Fluxheim is still exiting the Pingora load-balancer/cache dependency surface:</li>
+</ul>
+<pre class="language-bash"><code class="language-bash">scripts/check_latest_crates.sh</code></pre>
+<ul>
 <li>Review every new dependency for maintenance status and SPDX license metadata.</li>
 <li>Review every new build script, procedural macro, <code>*-sys</code> crate, vendored native source, native tool invocation, Cargo alias, and CI workflow edit as build-host code execution.</li>
 <li>Keep <code>deny.toml</code> strict: unknown registries, git sources, and unknown licenses stay denied.</li>
@@ -139,7 +143,10 @@ cargo install --locked cargo-sbom --version 0.10.0</code></pre>
 <pre class="language-bash"><code class="language-bash">scripts/stable_release_gate.sh check</code></pre>
 <p>The stable gate includes the mapped OWASP Top 10 2025 baseline in quick <code>check</code> mode. Run the deeper representative-test mode when the release touches request handling, admin, PHP, TLS, logging, cache, dependency, or error-handling code:</p>
 <pre class="language-bash"><code class="language-bash">scripts/validate-owasp-top10-2025.sh run</code></pre>
-<p>The stable gate includes the promoted cache and observability smoke tests for the <code>1.2</code> line. Optional gates below still cover slower or environment-specific checks such as TLS backend matrices, load testing, fuzz target compilation, and Podman image smoke tests.</p>
+<p>The stable gate includes the promoted cache and observability smoke tests for the <code>1.2</code> line. In <code>release</code> mode it also requires a local container image smoke before tagging: the root <code>Containerfile</code> plus representative Debian and Alpine variant builds. This catches workspace, packaging, and image build context mistakes before an immutable tag is pushed.</p>
+<p>If a release builder cannot run Podman, do not skip this silently. Run the image gate on another builder and attach the evidence before tagging. The emergency-only bypass is:</p>
+<pre class="language-bash"><code class="language-bash">FLUXHEIM_SKIP_IMAGE_GATE=1 scripts/stable_release_gate.sh release</code></pre>
+<p>Optional gates below still cover slower or environment-specific checks such as TLS backend matrices, load testing, fuzz target compilation, and full Podman variant image smoke tests.</p>
 <p>For release-candidate validation, run the deeper local gate. It enables the TLS backend matrix, OpenSSL FIPS-capable validation, rustls/AWS-LC FIPS-capable validation, local TLS scan, local load smoke, raw request-framing smoke, and fuzz target compile check:</p>
 <pre class="language-bash"><code class="language-bash">scripts/stable_release_deep_gate.sh release</code></pre>
 <p>If the local release builder can run the rest of the deep gate but is not an AWS-LC-supported rustls FIPS builder, disable only that gate and attach rustls evidence from the supported builder separately:</p>
@@ -153,7 +160,7 @@ FLUXHEIM_GATE_TLS_SCAN=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_LOAD=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_FRAMING=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_FUZZ_CHECK=1 scripts/stable_release_gate.sh release
-FLUXHEIM_GATE_PODMAN=1 FLUXHEIM_GATE_PODMAN_VARIANTS=1 scripts/stable_release_gate.sh release</code></pre>
+FLUXHEIM_GATE_IMAGE_VARIANTS=&quot;debian alpine wolfi suse-micro&quot; scripts/stable_release_gate.sh release</code></pre>
 <p>For release builders that are expected to have a working OpenSSL FIPS provider, make absence a hard failure:</p>
 <pre class="language-bash"><code class="language-bash">FLUXHEIM_REQUIRE_FIPS_PROVIDER=1 \
 FLUXHEIM_GATE_FIPS_OPENSSL=1 \

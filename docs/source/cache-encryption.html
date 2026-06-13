@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.14</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.19</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -85,8 +85,8 @@
 <p>Memory cache remains plaintext inside the Fluxheim process. In a tiered memory-plus-disk cache, memory hits stay fast and the persisted disk copy is encrypted at rest.</p>
 <p>The same encryption layer applies to reverse-proxy cache responses and to local/static cache responses when the selected cache policy has <code>local_static = true</code>.</p>
 <h2 id="providers">Providers</h2>
-<p><code>provider = &quot;local&quot;</code> uses AES-256-GCM with a 64-character hex key loaded from one safe file or credential. It is simple and fast, but Fluxheim must be able to read the raw cache key at startup.</p>
-<p><code>provider = &quot;openbao-transit&quot;</code> sends object bytes to OpenBao Transit <code>encrypt</code> and <code>decrypt</code> endpoints and stores only the returned <code>vault:v...</code> ciphertext in the cache backend. Use this when key custody, audit trails, and centralized rotation matter more than the added call latency on disk-cache reads and writes.</p>
+<p><code>provider = &quot;local&quot;</code> uses AES-256-GCM with a 64-character hex key loaded from one safe file or credential. It is simple and fast, but Fluxheim must be able to read the raw cache key at startup. Filesystem disk-cache fills use bounded encrypted chunks with this provider, preserving the streaming memory profile of plain filesystem cache writes.</p>
+<p><code>provider = &quot;openbao-transit&quot;</code> sends object bytes to OpenBao Transit <code>encrypt</code> and <code>decrypt</code> endpoints and stores only the returned <code>vault:v...</code> ciphertext in the cache backend. Use this when key custody, audit trails, and centralized rotation matter more than the added call latency on disk-cache reads and writes. Because the Transit API encrypts one complete plaintext value per request, Fluxheim caps concurrent OpenBao encrypted commit heap usage and can refuse a large cache fill under pressure rather than buffering too many objects at once.</p>
 <p>Both providers bind the configured <code>key_id</code> and the combined cache key as authenticated data. A stored encrypted object cannot be silently moved to a different cache key.</p>
 <h2 id="quick-start-local-key">Quick Start: Local Key</h2>
 <p>This is the simplest encrypted disk cache. It keeps the raw AES-256-GCM key on the host as a root-owned secret and exposes it to Fluxheim through a systemd/container credential.</p>
@@ -182,7 +182,7 @@ key_name = &quot;fluxheim-repo-cache&quot;
 token_credential = &quot;openbao-token&quot;
 
 [vhosts.proxy]
-upstreams = [&quot;repo_backend:8080&quot;]
+upstreams = [&quot;repo-backend:8080&quot;]
 upstream_tls = false</code></pre>
 <p>Create a minimal Transit policy:</p>
 <pre class="language-hcl"><code class="language-hcl">path &quot;transit/encrypt/fluxheim-repo-cache&quot; {
@@ -213,7 +213,7 @@ token_credential = &quot;openbao-token&quot;</code></pre>
 path &quot;transit/decrypt/fluxheim-cache&quot; {
   capabilities = [&quot;update&quot;]
 }</code></pre>
-<p>Fluxheim accepts HTTPS OpenBao URLs, plus loopback HTTP URLs for local testing. Non-loopback plaintext HTTP OpenBao addresses are rejected.</p>
+<p>Fluxheim accepts HTTPS OpenBao URLs, plus loopback HTTP URLs for local testing. Non-loopback plaintext HTTP OpenBao addresses are rejected. Transit encrypt/decrypt calls do not follow HTTP redirects, and Transit JSON responses are read through a bounded buffer before parsing so a compromised or misconfigured OpenBao endpoint cannot stream unbounded response bodies into the cache process.</p>
 <h2 id="verifying-runtime-behavior">Verifying Runtime Behavior</h2>
 <p>Enable a cache status header while validating a new policy:</p>
 <pre class="language-toml"><code class="language-toml">[vhosts.cache]
@@ -245,6 +245,7 @@ scripts/smoke_openbao_cache_encryption.sh</code></pre>
 <h2 id="operational-notes">Operational Notes</h2>
 <ul>
 <li>Keep cache encryption opt-in. It adds CPU work for local-key encryption and network/service dependency for OpenBao Transit.</li>
+<li>Prefer the local provider when large filesystem cache fills must preserve streaming memory behavior; OpenBao Transit is a whole-object external crypto boundary by design.</li>
 <li>Prefer <code>storage-bin</code> for high-churn encrypted caches that would otherwise create many small encrypted object files.</li>
 <li>Use memory plus encrypted disk when hot objects should remain fast but disk persistence must be protected.</li>
 <li>Treat <code>key_id</code> as cache-object authentication metadata. Changing it is a cache namespace cutover.</li>

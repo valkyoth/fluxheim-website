@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.14</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.19</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -141,7 +141,7 @@ max_error_rate_per_mille = 100</code></pre>
 <li><code>POST /_fluxheim/self-heal/fail</code></li>
 <li><code>POST /_fluxheim/self-heal/report</code></li>
 </ul>
-<p>All admin endpoints, including <code>/_fluxheim/health</code>, require <code>Authorization: Bearer &lt;token&gt;</code> by default. For local-only watchdogs, set <code>[admin.health] unauthenticated = true</code> while keeping <code>admin.listen</code> loopback; use <code>response = &quot;minimal&quot;</code> for an empty <code>204</code> probe response.</p>
+<p>All admin endpoints, including <code>/_fluxheim/health</code>, require <code>Authorization: Bearer &lt;token&gt;</code> by default. For local-only watchdogs, set <code>[admin.health] unauthenticated = true</code> while keeping <code>admin.listen</code> loopback; use <code>response = &quot;minimal&quot;</code> for an empty <code>204</code> probe response. When <code>[admin.ops_socket]</code> is enabled, <code>GET /_fluxheim/snapshots</code> still requires the bearer token on the Unix ops socket because snapshot IDs and messages expose deployment change history.</p>
 <p>Create a snapshot over HTTP:</p>
 <pre class="language-bash"><code class="language-bash">curl -sS -X POST \
   -H &quot;Authorization: Bearer $FLUXHEIM_ADMIN_TOKEN&quot; \
@@ -193,13 +193,13 @@ curl -sS -X POST \
   &quot;http://127.0.0.1:9090/_fluxheim/self-heal/report?health=error&quot;</code></pre>
 <p>Successful reports confirm the pending snapshot once <code>admin.self_healing.min_successful_checks</code> is reached. Failed reports roll back when the observed error rate exceeds <code>admin.self_healing.max_error_rate_per_mille</code>.</p>
 <p>Pending validation fails closed. If the validation window expires before a confirm request, the Pingora self-healing watchdog attempts the same known-good rollback without waiting for operator traffic. Admin requests also enforce the deadline as a secondary guard.</p>
-<p>Fluxheim also records conservative proxy-integrated health signals while a snapshot is pending validation. Successful downstream <code>2xx</code> and <code>3xx</code> responses count toward <code>admin.self_healing.min_successful_checks</code>. Downstream <code>5xx</code> responses and fatal Pingora proxy errors count toward the failure rate. Client errors such as <code>4xx</code> are ignored because they often describe request behavior, not whether the new config is broken.</p>
-<p>The proxy-integrated path uses the same state transitions as the admin report endpoint:</p>
+<p>Public proxy traffic does not confirm or roll back pending snapshots. This keeps unauthenticated data-plane clients from influencing admin reload state. Only authenticated admin self-healing actions, local watchdog expiry, and explicit operator-driven health reports can advance pending validation.</p>
+<p>The self-healing path uses these state transitions:</p>
 <ol>
 <li>Mark the pre-reload snapshot as known-good.</li>
 <li>Validate and apply a snapshot-safe reload through <code>POST /_fluxheim/reload</code>.</li>
 <li>Watch a configurable health window with the background watchdog.</li>
-<li>Treat clear failures as broken, for example local health-check failure, startup-owned service failure, rising 5xx rate, or repeated upstream selection failure.</li>
+<li>Treat clear failures as broken, for example local health-check failure, startup-owned service failure, or an authenticated failure report from the local watchdog.</li>
 <li>Automatically swap back to the previous known-good runtime snapshot when the new snapshot is unhealthy.</li>
 <li>Leave process-upgrade-only changes to the supervisor/Pingora upgrade path.</li>
 </ol>

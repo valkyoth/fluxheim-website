@@ -62,7 +62,9 @@ internal cache implementation.
 - `bypass_request_header_values`, `bypass_cookie_names`,
   `bypass_cookie_values`, `bypass_query_params`, and `bypass_query_values`
   provide narrower bypass controls for preview flags, session cookies, and
-  private query modes while keeping unrelated public requests cacheable.
+  private query modes while keeping unrelated public requests cacheable. Query
+  bypass matching checks both raw and percent-decoded query parameter names and
+  values so encoded equivalents cannot bypass a configured no-cache switch.
 - `allow_client_cache_refresh` is disabled by default so unauthenticated
   clients cannot force origin revalidation with `Cache-Control: no-cache`,
   `Cache-Control: max-age=0`, or `Pragma: no-cache`. Enable it only on
@@ -76,7 +78,8 @@ internal cache implementation.
   Pingora cache variance key even when the origin does not emit a matching
   `Vary` header. Sensitive headers such as `Cookie`, `Authorization`, and
   `Proxy-Authorization` are rejected here; use `bypass_request_headers` for
-  request-specific responses.
+  request-specific responses. The configured list is capped at 16 headers,
+  matching the runtime Vary field cap.
 - `cache.key_namespace`, `vhosts.cache.key_namespace`, and
   `vhosts.routes.cache.key_namespace` add an operator-controlled namespace
   component to the primary cache key. Bump this value to isolate new objects
@@ -127,8 +130,11 @@ internal cache implementation.
 - `cache.status_ttls`, `vhosts.cache.status_ttls`, and
   `vhosts.routes.cache.status_ttls` define explicit positive TTLs by response
   status. Matching cache-participating origin responses have their freshness
-  headers normalized to `Cache-Control: public, max-age=<ttl>` before cache
-  admission. Non-200 statuses are only admitted when explicitly listed here.
+  headers normalized to `Cache-Control: max-age=<ttl>` before cache admission.
+  Origin `private`, `no-store`, `no-cache`, `Set-Cookie`, and other
+  shared-cache rejection signals are preserved and still prevent storage unless
+  `ignore_origin_cache_headers` is explicitly enabled. Non-200 statuses are
+  only admitted when explicitly listed here.
 - `cache.stale_if_error_secs`, `vhosts.cache.stale_if_error_secs`, and
   `vhosts.routes.cache.stale_if_error_secs` add an explicit stale-if-error
   window to cache-participating responses. Pingora can then serve an expired
@@ -264,8 +270,9 @@ internal cache implementation.
   gives outbound peer fill a safe no-origin endpoint. On a local proxy-cache
   miss, Fluxheim asks configured peers for that no-origin endpoint before
   falling back to origin according to `fail_open`; peer hits are stored locally
-  and peer requests forward only host plus safe negotiation headers rather than
-  client credentials. The example
+  and peer requests do not forward the client `Host` header. Peer requests use
+  the authority from the configured peer `base_url` plus safe negotiation
+  headers rather than client credentials. The example
   `examples/cache-peer-fill.toml` shows the current config shape for
   cache-cluster planning. `scripts/smoke_peer_fill_cache.sh` runs a local
   multi-node smoke that proves node-to-node `PEER-HIT`, no extra origin fetch,
@@ -276,7 +283,10 @@ internal cache implementation.
   Peer response `Age` is preserved during admission, so a peer-filled object
   stores only its remaining freshness instead of extending the origin TTL.
   Peer-filled responses with `Vary` are stored under the matching variant key,
-  so later local hits preserve negotiated variants.
+  so later local hits preserve negotiated variants. Peer-fill requests carry
+  `X-Fluxheim-Peer-Fill: 1`, and a request carrying that inbound marker cannot
+  launch another outbound peer-fill fetch; cyclic peer topologies therefore
+  fall back or fail closed according to `fail_open` instead of recursing.
   Metrics builds expose aggregate peer-fill policy, peer-count, and concurrency
   gauges for rollout checks.
 - New disk cache objects use the v5 object header, which stores the combined
