@@ -2382,7 +2382,12 @@ adapter. When cleanup naturally exposes a subsystem boundary, split it into a
 focused workspace crate instead of growing the root `fluxheim`
 binary/orchestration crate. Good target crates include `fluxheim-server`,
 `fluxheim-runtime`, `fluxheim-proxy`, `fluxheim-cache`, `fluxheim-web`,
-`fluxheim-php-fpm`, `fluxheim-acme`, and narrow protocol/helper crates.
+`fluxheim-php-fpm`, `fluxheim-snapshot`, `fluxheim-acme`,
+`fluxheim-headers`/`fluxheim-http-policy`, `fluxheim-protocol`, and other
+narrow helper crates. Keep `proxy.rs`, `runtime.rs`, and `admin.rs` as late
+extractions: proxy and runtime move only when the native HTTP/server runtime is
+ready, and admin moves only after domain crates expose stable APIs so the admin
+crate does not become a circular dependency hub.
 
 Pre-planning dependency map:
 
@@ -2406,6 +2411,12 @@ Replacement rules for 1.6:
 - New crates must be owned by a domain boundary first, not added directly to
   `proxy.rs` or `runtime.rs`. The root `fluxheim` crate should mostly wire
   config, feature flags, and binaries together.
+- Use the Pingora-exit line to finish the larger crate boundaries before
+  starting new `1.7+` feature families. `fluxheim-snapshot`,
+  `fluxheim-acme`, `fluxheim-headers`/`fluxheim-http-policy`, and
+  `fluxheim-protocol` should move when their dependency direction is clean.
+  `fluxheim-proxy`, `fluxheim-runtime`, and a possible `fluxheim-admin` should
+  remain later steps because they currently coordinate many other domains.
 - Feature mapping must stay explicit: root features such as `proxy`, `cache`,
   `load-balancer`, `stream-proxy`, `php-fpm`, `tls-rustls`, and `tls-openssl`
   map to matching sub-crate features. Avoid hidden default features that pull
@@ -2433,7 +2444,11 @@ Planned `1.6.x` sequence:
   benchmark method, command lines, environment assumptions, and accepted
   comparison rules in a tracked documentation file such as
   `docs/runtime-baseline.md`. Add the first `fluxheim-runtime` /
-  `fluxheim-server` traits and keep runtime behavior unchanged.
+  `fluxheim-server` traits and keep runtime behavior unchanged. Also record the
+  extraction dependency graph for the remaining large root modules:
+  `snapshot.rs`, `acme.rs`, `headers.rs`, `proxy_protocol.rs`,
+  `trace_context.rs`, `runtime.rs`, `proxy.rs`, and `admin.rs`, so later
+  cutovers are ordered by dependencies rather than file size.
 - `v1.6.1`: load-balancer independence. Remove `pingora-load-balancing` from
   normal builds. Replace remaining
   Pingora background/listen/shutdown service traits in
@@ -2455,15 +2470,30 @@ Planned `1.6.x` sequence:
   wiring with Fluxheim-owned Tokio task supervision, cancellation, readiness,
   and shutdown handling for cache metrics, ACME renewal, stale purging,
   admin/self-healing work, discovery refresh loops, and load-balancer updates.
-- `v1.6.5`: HTTP/error boundary cleanup. Finish standard Rust `http` type usage
-  and Fluxheim-owned error taxonomy at internal boundaries. Keep only narrow
-  compatibility shims where a not-yet-replaced outer runtime still needs them.
-  Add a lint/search gate that blocks new internal `pingora::http` and
+  This is the right point to move durable config snapshot IDs, metadata, store
+  validation, listing, rollback file operations, and known-good state helpers
+  into `fluxheim-snapshot`, with the root admin/runtime modules left as API
+  adapters until their own boundaries are ready.
+- `v1.6.5`: HTTP/error, protocol, and header-policy boundary cleanup. Finish
+  standard Rust `http` type usage and Fluxheim-owned error taxonomy at internal
+  boundaries. Move proxy protocol framing, HTTP type adapters, path-safety
+  helpers not already in `fluxheim-common`, and other small protocol helpers
+  into `fluxheim-protocol` where that does not create a dependency cycle. Start
+  `fluxheim-headers` or `fluxheim-http-policy` for hop-by-hop stripping,
+  trusted forwarded-header normalization, route/header mutation helpers, and
+  related tests, but keep proxy-session-specific application in the root proxy
+  adapter until the native HTTP runtime exists. Keep only narrow compatibility
+  shims where a not-yet-replaced outer runtime still needs them. Add a
+  lint/search gate that blocks new internal `pingora::http` and
   `pingora::Error` usage outside adapters.
 - `v1.6.6`: listener/TLS abstraction. Introduce Fluxheim-owned listener,
   certificate resolver, SNI, ALPN, mTLS/client-auth, OCSP, and upstream-peer
   abstractions backed by rustls and OpenSSL. Keep Pingora listeners active only
-  as the old adapter while parity tests run.
+  as the old adapter while parity tests run. Move ACME order/account/certificate
+  installation, renewal scheduling inputs, filesystem safety helpers, and
+  certificate-install rollback logic behind `fluxheim-acme` APIs once the new
+  TLS/listener abstractions can consume them without depending on the old
+  Pingora runtime.
 - `v1.6.7`: server bootstrap cutover. Replace Pingora server bootstrap, worker
   setup, service registration, signal handling, log-rotation signal behavior,
   hot-restart file-descriptor passing where retained, listener creation, and
@@ -2490,7 +2520,11 @@ Planned `1.6.x` sequence:
 - `v1.6.12`: upstream connector and pooling parity. Replace remaining Pingora
   upstream peer/session/pool behavior with Fluxheim-owned connectors and pools
   for HTTP/1.1, HTTP/2, TLS/mTLS, DNS/file/runtime-discovered backends,
-  retry/failover decisions, and privacy-mode-safe observability.
+  retry/failover decisions, and privacy-mode-safe observability. After proxy,
+  cache, load-balancer, snapshot, ACME, header-policy, and protocol crates have
+  stable APIs, reduce `admin.rs` to endpoint routing and auth glue or move it
+  into `fluxheim-admin` if the dependency graph stays one-way. Do not let admin
+  own domain state; it should call domain APIs and serialize responses.
 - `v1.6.13`: remove remaining Pingora crates, vendored Pingora patches,
   Pingora compatibility shims, and Pingora-specific docs from normal builds.
   Release gates must prove `cargo tree` and container builds do not compile
@@ -3842,9 +3876,150 @@ the exception while the cache server is being completed as a focused sequence:
   behavior: `crates/fluxheim-web` for static file planning/serving,
   `crates/fluxheim-php-fpm` for managed PHP-FPM/FastCGI, and/or the first
   `crates/fluxheim-cache` core boundary if the `1.5.13` cache-interface work is
-  stable enough. Keep Pingora-specific cache/proxy adapters separate from cache
-  core when possible. Do not move the main HTTP proxy orchestrator yet; it
-  should remain last because it still coordinates all subsystems.
+  stable enough. This release may also take the smallest low-dependency leaf
+  crate wins when they are cleanly separable, especially
+  `crates/fluxheim-geoip` for Geo-Context/MMDB lookup helpers and
+  `crates/fluxheim-compression` for response-compression negotiation and encoder
+  lifecycle helpers. Treat those as boundary moves only: config, metrics, proxy
+  behavior, and feature names must stay compatible. Committed steps so far are
+  the `crates/fluxheim-cache` boundary with shared cache-header parsing and
+  pure cache admin request/result/preview DTOs, runtime totals, and
+  activity-reset DTOs moved behind root compatibility re-exports. Cache object
+  metadata, activity stats, tier stats, object lookup, and vhost/route runtime
+  stats now also live in `crates/fluxheim-cache::api`, with root
+  `crate::cache` and `crate::cache_api` compatibility re-exports preserving the
+  admin, CLI, metrics, and proxy surfaces. Cache storage-plan DTOs also moved
+  into `crates/fluxheim-cache::plan`, while the Pingora storage adapters remain
+  in the root cache runtime. Cached object DTOs and `CacheStoreError` now live
+  in `crates/fluxheim-cache::object`, again behind root `crate::cache`
+  compatibility re-exports. Cache request/key DTOs now live in
+  `crates/fluxheim-cache::request`, while root cache-key builders keep their
+  existing behavior and compatibility surface. Cache range/slice request DTOs,
+  single-range parsing, client range parsing, client-range resolution, and
+  required-slice planning plus Content-Range parsing and range-response
+  `Content-Range`/`Content-Length` validation, cache-key component formatting,
+  temporary HEAD cache bypass detection, and multipart slice range policy
+  sizing now also live in
+  `crates/fluxheim-cache::request`, while root `crate::proxy_cache` keeps
+  Pingora request/response-header and cache-key adaptation. Pure remaining-TTL and
+  synthesized Cache-Control freshness helpers now live in
+  `crates/fluxheim-cache::headers`, alongside Vary header parsing and
+  configured request-header variance policy, Vary request hash material
+  framing, and cacheable response Content-Type matching plus cache-bypass
+  cookie/query-string matching, stale-serving allow policy, response
+  Age/Cache-Control freshness parsers, and Cache-Control directive
+  merge/replacement. Cache purge-index state,
+  purge-entry DTOs, storage-local purge result counters, and cache-key path
+  matching helpers now live in `crates/fluxheim-cache::purge_index`, while the
+  root `crate::cache` module keeps compatibility type names and the Pingora
+  storage implementations remain root runtime adapters. Cache Prometheus label
+  classifiers now also live in `crates/fluxheim-cache`, while root
+  `crate::metrics` remains recorder wiring.
+  The `crates/fluxheim-web` boundary now has static
+  directory-listing data/rendering plus static byte-range parsing and static
+  response planning/conditional request evaluation plus safe relative path and
+  directory-listing path helpers plus configured web-root symlink detection
+  plus static cache identity formatting moved behind the existing
+  `crate::web` surface, and the
+  `crates/fluxheim-php-fpm` boundary with timeout
+  classification/error-outcome helpers plus managed restart-backoff and
+  sanitized `PATH` fallback helpers plus managed php-fpm config rendering and
+  config-value validators plus PHP-FPM timeout/retry policy and endpoint
+  selection plus PHP-FPM response-header safety guards plus response split,
+  `Status` parsing, ASCII trimming, header colon splitting, and managed
+  instance-name generation moved behind the existing `crate::php_fpm` surface.
+  The `crates/fluxheim-geoip` boundary now owns `GeoContext` and the optional
+  local MMDB runtime behind root compatibility re-exports. The
+  `crates/fluxheim-compression` boundary now owns response compression encoder
+  lifecycle, output-limit accounting, Accept-Encoding token/qvalue parsing, and
+  response policy string matching for Cache-Control directives and Content-Type
+  eligibility, active Content-Encoding classification, and input-size bounds
+  while the root adapter keeps Pingora-specific header selection, header
+  iteration, config extraction, and response mutation. The
+  `crates/fluxheim-observability` boundary now owns W3C Trace Context parsing,
+  generation, and traceparent normalization behind the existing
+  `crate::trace_context` surface, and the shared OTLP HTTP agent plus
+  symlink-safe custom CA bundle loader and OTLP HTTP endpoint parser behind an
+  `otlp-http` crate feature. It also owns the Prometheus-to-OTLP metrics payload
+  builder behind an `otlp-metrics` crate feature while the root metrics OTLP
+  module remains exporter lifecycle and HTTP post wiring. Access-log helper
+  logic for request-id validation/generation, shared low-cardinality status
+  classes, response byte counting, and Unix nanosecond timestamps now also lives
+  in the observability crate while root access logging keeps Pingora
+  request-header integration and JSON event assembly. Shared JSON string
+  escaping for access logs and runtime JSON logs also lives in the
+  observability crate. Proxy metrics outcome, method, status-class label
+  bucketing, and general Prometheus label
+  classifiers for host-routing, admin-auth, compression, edge-policy,
+  load-balancer event/queue/upstream, stream, ACME, PHP/PHP-FPM, and
+  metrics-OTLP exporter events plus bounded ratio and saturating gauge
+  conversion helpers also now live in the observability crate while root
+  `crate::metrics` remains the Prometheus registry/recorder adapter.
+  `LoadBalanceSelection` metric-label mapping now lives in `fluxheim-config`,
+  and config-derived cache/load-balancer metrics summary aggregation now also
+  lives in `fluxheim-config`, leaving root `crate::metrics` as the
+  compatibility wrapper for selection labels and Prometheus gauge publishing.
+  The OTLP trace exporter and trace-span payload builder also live behind the
+  `crates/fluxheim-observability` `otlp-trace` feature while root
+  `crate::otel_otlp` remains a compatibility re-export.
+  The `crates/fluxheim-protocol` boundary now
+  owns PROXY protocol v1/v2 upstream header framing while the root
+  `crate::proxy_protocol` adapter keeps Pingora L4 connector wiring. It also
+  owns route method matching and prefix-boundary helpers while root
+  `crate::route_policy` keeps config, regex-capture, and Pingora request
+  adaptation. The
+  `crates/fluxheim-snapshot` boundary now owns durable config snapshot storage,
+  metadata validation, rollback pointer handling, and symlink-safe filesystem
+  writes while root `crate::snapshot` remains a compatibility re-export.
+  reload-impact classification in `crates/fluxheim-config`, with root
+  `crate::reload` as a compatibility re-export for admin and CLI reporting.
+  Runtime/member weight parsing now also lives in
+  `crates/fluxheim-load-balancer`, with root admin kept as the HTTP/query
+  endpoint adapter.
+  Cache admin summary math helpers now also live in
+  `crates/fluxheim-cache::api`, with root admin kept as the JSON response
+  adapter.
+  Runtime cache-purger metric saturation now also lives in
+  `crates/fluxheim-observability`, with root runtime kept as the background-task
+  adapter.
+  Downstream PROXY-protocol trusted-source parsing now also lives in
+  `crates/fluxheim-protocol`, with root runtime kept as the Pingora listener
+  adapter.
+  HTTP Upgrade token grammar validation now also lives in
+  `crates/fluxheim-protocol`, with root proxy kept as the Pingora
+  request-header adapter.
+  Fluxheim `Via` header value formatting now also lives in
+  `crates/fluxheim-protocol`, with root proxy kept as the Pingora header
+  mutation adapter.
+  Multipart cache Content-Type sanitization now also lives in
+  `crates/fluxheim-cache::headers`, with root proxy kept as the slice response
+  assembly adapter.
+  Cache slice metadata first-header extraction now also lives in
+  `crates/fluxheim-cache::headers`, with root proxy kept as the slice identity
+  adapter.
+  Hop-by-hop `Connection` option token validation now also uses the shared
+  `crates/fluxheim-protocol` HTTP token grammar helper.
+  Response header rewrite prefix authority-boundary matching now also lives in
+  `crates/fluxheim-protocol`, with root header policy kept as the mutation
+  adapter.
+  Cache CLI header-name validation now also uses the shared
+  `crates/fluxheim-protocol` HTTP token grammar helper.
+  Config HTTP token validation now also uses the shared
+  `crates/fluxheim-protocol` grammar while preserving method-specific
+  uppercase checks.
+  Cache object lookup summary formatting now lives in
+  `crates/fluxheim-cache`, leaving the CLI as the command/output adapter.
+  Cache-warm count summaries and bounded status labels now also live in
+  `crates/fluxheim-cache`, leaving the CLI to print the prepared summaries.
+  Admin cache status JSON now calls the shared `crates/fluxheim-cache`
+  storage-tier helper directly instead of keeping a local wrapper.
+  The shared protocol HTTP token helper now documents that method-specific
+  uppercase policy must be applied by callers, and config validation warns when
+  accepted IPv6 trusted-proxy CIDR ranges are broader than `/32`.
+  Keep
+  Pingora-specific cache/proxy adapters separate from cache core when possible.
+  Do not move the main HTTP proxy orchestrator yet; it should remain last
+  because it still coordinates all subsystems.
 - `v1.5.21`: UDP production-readiness line. Stop at promoting only the scoped
   UDP modes that have reviewed production semantics. Required work before any
   promotion includes per-route UDP metrics/status, explicit public-exposure
@@ -3857,7 +4032,12 @@ the exception while the cache server is being completed as a focused sequence:
   reviewed first. Keep QUIC pass-through, game-server UDP proxying, generic
   UDP catchall behavior, authoritative DNS, and GSLB control-plane behavior as
   separate later scopes unless each has its own bounded session, affinity,
-  observability, and abuse-control design.
+  observability, and abuse-control design. If the UDP work needs cleaner
+  telemetry wiring, this release may start `crates/fluxheim-observability` as a
+  boundary for Prometheus metrics, OTLP metrics, OTLP trace export, and W3C
+  trace-context helpers. Keep it as an event/export adapter crate first; do not
+  change metric names, label cardinality, trace attributes, or OTLP endpoint
+  validation semantics in the same step.
 - `v1.5.22`: cache and load-balancer crate-boundary preparation line. Stop at
   tightening `crates/fluxheim-load-balancer` and the planned
   `crates/fluxheim-cache` boundary so both domains expose Fluxheim-owned
@@ -3870,7 +4050,12 @@ the exception while the cache server is being completed as a focused sequence:
   while retaining any temporary Pingora adapters needed by the current HTTP
   runtime. Do not make this a dependency-removal release; actual
   `pingora-load-balancing` and `pingora-cache` compile removal belongs to
-  `v1.6.1` and `v1.6.2`.
+  `v1.6.1` and `v1.6.2`. This release may also begin a
+  `crates/fluxheim-snapshot` boundary for durable config snapshot IDs,
+  metadata, store validation, listing, and rollback file operations if those
+  pieces can move without pulling in admin, runtime, or proxy orchestration.
+  Keep live reload classification and admin HTTP handlers in the root crate
+  until their dependencies are clearer.
 - `v1.5.23`: cache-aware origin protection service line. Stop at one small
   differentiator that combines cache and load-balancer state without becoming a
   new proxy runtime: route-scoped origin-fill budgets that apply only to cache
@@ -3881,6 +4066,12 @@ the exception while the cache server is being completed as a focused sequence:
   useful for stampede control and brownout handling, and is intentionally
   narrower than a general WAF, scripting system, or global traffic manager. Do
   not add cross-node cache replication or distributed consensus in this stop.
+  Use this final `1.5.x` workspace pass to finish or defer any small leaf-crate
+  boundaries started in `v1.5.20`-`v1.5.22` so the `1.6.x` Pingora-removal line
+  starts from stable crate APIs. Possible deferrals include `fluxheim-acme`,
+  `fluxheim-headers`/HTTP policy helpers, and additional protocol helpers; move
+  them only when the dependency direction remains root -> domain crate and no
+  circular dependency on proxy/admin/runtime is introduced.
 
 Workspace rule after `v1.5.17`: once the workspace split starts, future release
 lines must treat crate boundaries as the default for substantial new
@@ -3909,13 +4100,19 @@ circular dependencies.
   boundaries needed to remove Pingora safely. The whole `1.6.x` series must
   remove Pingora from every normal Fluxheim build by its final stabilization
   release, splitting new runtime domains into focused workspace crates where
-  useful.
+  useful. Track the remaining large root-module exits here too:
+  `fluxheim-snapshot`, `fluxheim-acme`,
+  `fluxheim-headers`/`fluxheim-http-policy`, `fluxheim-protocol`, late
+  `fluxheim-proxy`/`fluxheim-runtime`, and a possible `fluxheim-admin` after
+  domain APIs are stable.
 - `v1.6.x`: Pingora-exit implementation releases. Remove
   `pingora-load-balancing`, `pingora-cache`, stream-service entrypoints,
   background service wiring, Pingora HTTP/error wrappers, Pingora server
   bootstrap/listener/TLS handling, and finally Pingora `ProxyHttp`/`Session`
   in staged minor releases. Preserve current operator-facing behavior and make
-  each release independently testable before deleting the old adapter.
+  each release independently testable before deleting the old adapter. Do not
+  carry unfinished structural crate splits into `1.7` unless they are unrelated
+  to the Pingora-free runtime boundary.
 - `v1.7.0`: shared Wasm extensibility runtime line. Stop at one sandboxed,
   typed, resource-limited extension runtime for operator policy normally solved
   with F5 iRules, nginx Lua/OpenResty, HAProxy Lua/SPOE, and VCL-like cache

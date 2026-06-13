@@ -136,7 +136,7 @@ Notes:
   `real_ip_recursive on`. The list is capped at 512 entries. Entries must be
   concrete IP addresses or bounded CIDR ranges; catch-all and near-global trust
   scopes such as `0.0.0.0/0`, IPv4 prefixes broader than `/8`, `::/0`, IPv6
-  prefixes broader than `/32`, and unspecified addresses are rejected.
+  prefixes broader than `/29`, and unspecified addresses are rejected.
 - `proxy_protocol` defaults to `off`. Set it to `v1` or `v2` only on listeners reached
   exclusively through trusted load balancers or edge proxies that send HAProxy
   PROXY protocol before TLS/HTTP/stream bytes. Fluxheim requires
@@ -1333,7 +1333,7 @@ changes until ring/table rebuild and sampling semantics are specified.
 `power-of-two`
 also accepts `power-of-two-choices`, `two-choice`, `weighted-two-choice`, and
 `weighted-random-two-choice`; all names sample two healthy backends through
-Fluxheim's weighted random first pick and unique backend fallback scan, then
+Fluxheim's weighted random first pick and unique backend fallback scan and
 choose the lower weighted in-flight pressure using `upstream_weights`.
 With metrics enabled, load-balanced selections, unavailable pools, retries,
 queue wait/full/timeout outcomes, and success/failure/ejection outcomes are counted by
@@ -1602,11 +1602,12 @@ used.
 
 The current `1.5.x` load-balancer line supports runtime add/remove/update for
 static upstream pools, but DNS/file/HTTP-discovery pools still reject runtime
-backend-set mutation because discovery owns the live member set. It does not
-apply runtime weights to hash/ring selectors, share managed-cookie signing keys
-across nodes, or synchronize load-balancer state across active-active Fluxheim
-nodes. Managed-cookie HA mirroring is tracked separately from the local
-managed-cookie table shipped in `1.5.3`; see
+backend-set mutation because discovery owns the live member set. Runtime weight
+overrides apply only to mutable non-hash selectors; hash/ring selectors,
+managed-cookie signing-key sharing across nodes, and active-active
+load-balancer state synchronization remain future work. Managed-cookie HA
+mirroring is tracked separately from the local managed-cookie table shipped in
+`1.5.3`; see
 [Load Balancer HA Design Notes](load-balancer-ha.md).
 
 `upstreams` is the preferred static proxy target form for both one and many origins.
