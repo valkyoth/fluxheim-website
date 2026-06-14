@@ -1,4 +1,4 @@
-# Stage 1: Build fluxheim v1.6.0 from source
+# Stage 1: Build fluxheim v1.6.1 from source
 FROM rust:1.96-slim-bookworm AS builder
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /build
 
-RUN git clone --depth=1 --branch v1.6.0 \
+RUN git clone --depth=1 --branch v1.6.1 \
     https://github.com/valkyoth/fluxheim.git .
 
 RUN cargo build --release --locked --no-default-features \

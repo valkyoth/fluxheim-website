@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.0</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.1</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -86,7 +86,7 @@
 <tr><td><code>src/cache.rs</code></td><td>13456</td><td>Legacy Pingora cache storage/runtime adapter plus remaining cache orchestration.</td><td>Continue moving pure cache runtime into <code>fluxheim-cache</code> in <code>1.6.2</code>.</td></tr>
 <tr><td><code>src/admin.rs</code></td><td>8059</td><td>Legacy admin HTTP endpoint router over every domain.</td><td>Reduce after domain APIs stabilize; possible <code>fluxheim-admin</code> after <code>1.6.12</code>.</td></tr>
 <tr><td><code>src/cli.rs</code></td><td>5544</td><td>Legacy command dispatch and release/admin/cache tooling.</td><td>Split command handlers by domain after runtime crates settle.</td></tr>
-<tr><td><code>crates/fluxheim-load-balancer/src/lib.rs</code></td><td>4358</td><td>Load-balancer orchestration root still hosts many domain pieces.</td><td>Split while removing remaining Pingora LB boundaries in <code>1.6.1</code>.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/lib.rs</code></td><td>3961</td><td>Load-balancer orchestration root still hosts many domain pieces; API/runtime DTOs moved to <code>api.rs</code> in <code>1.6.1</code>.</td><td>Continue splitting orchestration, runtime mutation, and Pingora service adapter code during the remaining <code>1.6</code> load-balancer/background cutovers.</td></tr>
 <tr><td><code>src/acme.rs</code></td><td>3909</td><td>ACME account/order/install/renewal and filesystem safety in one root adapter.</td><td>Move to <code>fluxheim-acme</code> around <code>1.6.6</code>.</td></tr>
 <tr><td><code>src/metrics.rs</code></td><td>2761</td><td>Root metrics registry/export adapter over many domains.</td><td>Move remaining pure metrics into <code>fluxheim-observability</code>.</td></tr>
 <tr><td><code>crates/fluxheim-config/src/config.rs</code></td><td>2512</td><td>Config root, validation helpers, and shared parsing glue.</td><td>Split by shared config primitives.</td></tr>
