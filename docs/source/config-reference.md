@@ -2087,6 +2087,30 @@ policy reasons are intentionally skipped so settings such as `min_uses`,
 configured request bypasses, and explicit response-header refusal policies stay
 controlled by Fluxheim's own policy counters.
 
+`[cache.origin_protection]`, `[vhosts.cache.origin_protection]`, and
+route-scoped `origin_protection` configure a cache-aware origin-fill budget for
+Fluxheim-owned cache fill paths. It is disabled by default and requires the
+owning cache policy to be enabled. The first protected path is range slice
+fill: when a requested slice is missing locally and Fluxheim would fetch it
+from origin, the request must acquire a per-vhost or per-route fill permit.
+
+```toml
+[cache.origin_protection]
+enabled = true
+max_concurrent_fills = 32
+```
+
+`max_concurrent_fills` is bounded to 1-1024. When the budget is saturated,
+Fluxheim refuses the protected slice fill with `503` instead of falling through
+to the normal origin path. This is intentionally fail-closed for origin
+protection: operators should enable it only on cache policies where protecting
+origin capacity is preferable to serving an uncached slice during brownout.
+Existing cache locks still coalesce same-key fills; origin protection is a
+route/vhost-level budget across distinct cache keys. Metrics builds expose
+`fluxheim_cache_origin_protection_enabled_policies` and
+`fluxheim_cache_origin_protection_max_concurrent_fills`, and policy activity
+records `origin_protected` when the budget rejects a fill.
+
 `[cache.peer_fill]`, `[vhosts.cache.peer_fill]`, and route-scoped
 `peer_fill` configure the distributed-cache peer-fill contract used by the
 `1.2.4` line. Peer fill is disabled by default and currently requires the
@@ -2136,7 +2160,9 @@ peer-fill requests carry `X-Fluxheim-Peer-Fill: 1`; inbound requests with that
 marker are not allowed to launch another peer-fill fetch, which prevents
 recursive peer-fill loops in cyclic peer topologies.
 `examples/cache-peer-fill.toml` shows the focused validated fixture. Metrics
-builds expose aggregate peer-fill configuration through
+builds expose aggregate origin-protection and peer-fill configuration through
+`fluxheim_cache_origin_protection_enabled_policies`,
+`fluxheim_cache_origin_protection_max_concurrent_fills`,
 `fluxheim_cache_peer_fill_enabled_policies`,
 `fluxheim_cache_peer_fill_peers`, and
 `fluxheim_cache_peer_fill_max_concurrent_requests`.
@@ -2146,8 +2172,11 @@ For offline debugging, `fluxheim cache-key --host example.com --path
 without contacting the upstream. `cache-key` can fail closed with
 `--expect-eligible`, `--expect-ineligible`, `--expect-reason`,
 `--expect-cache-lock-enabled`, `--expect-cache-lock-wait-timeout-secs`,
-`--expect-cache-predictor-enabled`, `--expect-peer-fill-enabled`,
-`--expect-peer-fill-peers`, `--expect-peer-fill-max-concurrent-requests`,
+`--expect-cache-predictor-enabled`,
+`--expect-origin-protection-enabled`,
+`--expect-origin-protection-max-concurrent-fills`,
+`--expect-peer-fill-enabled`, `--expect-peer-fill-peers`,
+`--expect-peer-fill-max-concurrent-requests`,
 `--expect-memory-tier-enabled`, `--expect-disk-tier-enabled`, and
 `--expect-storage-tiers` when a deploy requires a specific cache policy layout.
 Use `--expect-scope vhost|route`, `--expect-vhost NAME`, and
@@ -2168,6 +2197,8 @@ the Host header. `cache-lookup` can fail closed for deploy scripts with
 `--expect-header-name`, `--expect-header "Name: value"`, `--expect-objects`,
 `--expect-cache-lock-enabled`,
 `--expect-cache-lock-wait-timeout-secs`, `--expect-cache-predictor-enabled`,
+`--expect-origin-protection-enabled`,
+`--expect-origin-protection-max-concurrent-fills`,
 `--expect-peer-fill-enabled`, `--expect-peer-fill-peers`,
 `--expect-peer-fill-max-concurrent-requests`, `--expect-memory-tier-enabled`,
 `--expect-disk-tier-enabled`,
