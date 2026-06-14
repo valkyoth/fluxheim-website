@@ -47,7 +47,7 @@
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
             GitHub
           </a>
-          <a href="download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.21</a>
+          <a href="download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.22</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -82,36 +82,58 @@
 
         <div class="space-y-10 ml-12">
 
-          <!-- v1.5.21 Latest Stable -->
+          <!-- v1.5.22 Latest Stable -->
           <div class="relative">
             <div class="absolute -left-12 w-8 h-8 bg-cyan-500/20 border-2 border-cyan-500 rounded-full flex items-center justify-center">
               <div class="w-2.5 h-2.5 bg-cyan-400 rounded-full"></div>
             </div>
             <div class="p-5 bg-gray-900/60 border border-cyan-800/40 rounded-xl ring-1 ring-cyan-500/10">
               <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.21</span>
+                <span class="font-mono font-bold text-white text-lg">v1.5.22</span>
                 <span class="px-2 py-0.5 text-xs bg-cyan-500/10 text-cyan-400 rounded-full border border-cyan-500/20">Latest Stable</span>
+                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.22" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
+              </div>
+              <p class="text-gray-500 text-xs mb-4">Released June 14, 2026</p>
+              <ul class="space-y-2 text-sm text-gray-300">
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Continues the cache and load-balancer crate-boundary preparation line for the later <code class="text-cyan-400 text-xs">1.6.x</code> runtime removal work</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Moves load-balancer persistence key extraction behind a Fluxheim-owned request view trait while keeping the existing request-header adapter</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds managed-cookie persistence tests against the local Fluxheim request view</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Moves cleartext TCP health checks to a Fluxheim-owned Tokio connect probe while preserving TLS TCP handshake behavior</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Moves cache request bypass, client revalidation, range-selection, response-admission, purge, miss-completion, and range/slice key logic into Fluxheim-owned cache interfaces</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Hardens static-web symlink-detection tests with repository-local validated paths</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Fixes UDP beta passive health so local downstream drops do not count as upstream failures and passive-ejection warnings are rate-limited</li>
+              </ul>
+              <div class="flex flex-wrap gap-2 mt-4">
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.22/fluxheim-1.5.22-full-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-lg transition-colors">full</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.22/fluxheim-1.5.22-cache-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">cache</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.22/fluxheim-1.5.22-proxy-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">proxy</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.22/fluxheim-1.5.22-php-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">php</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.22/fluxheim-1.5.22-load-balancer-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">load-balancer</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.22/fluxheim-1.5.22-config-tester-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">config-tester</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.22/fluxheim-1.5.22-full-aarch64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">arm64</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.22/fluxheim-1.5.22-dev-aarch64-macos.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">mac dev</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- v1.5.21 -->
+          <div class="relative">
+            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
+              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
+            </div>
+            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
+              <div class="flex flex-wrap items-center gap-3 mb-1">
+                <span class="font-mono font-bold text-white text-lg">v1.5.21</span>
                 <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.21" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
               </div>
               <p class="text-gray-500 text-xs mb-4">Released June 13, 2026</p>
               <ul class="space-y-2 text-sm text-gray-300">
                 <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Continues the UDP beta production-readiness line behind the <code class="text-cyan-400 text-xs">udp-proxy</code> feature gate</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds per-source UDP pressure controls with <code class="text-cyan-400 text-xs">max_sessions_per_source</code> and <code class="text-cyan-400 text-xs">max_responses_per_source_per_second</code></li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds UDP Prometheus metrics for datagrams, drops, and active route sessions</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds admin UDP status at <code class="text-cyan-400 text-xs">GET /_fluxheim/udp/status</code></li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds UDP passive upstream health controls and skips ejected members while a ready member remains</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Logs a beta security warning when DNS load-balance UDP routes listen on non-loopback addresses</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Extends UDP smoke coverage for exact-cap responses, oversized datagram drops, and optional stable-gate UDP runs</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds per-source UDP pressure controls, UDP Prometheus metrics, and admin UDP status</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds UDP passive upstream health controls and stronger UDP smoke coverage</li>
               </ul>
               <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.21/fluxheim-1.5.21-full-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-lg transition-colors">full</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.21/fluxheim-1.5.21-cache-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">cache</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.21/fluxheim-1.5.21-proxy-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">proxy</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.21/fluxheim-1.5.21-php-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">php</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.21/fluxheim-1.5.21-load-balancer-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">load-balancer</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.21/fluxheim-1.5.21-config-tester-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">config-tester</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.21/fluxheim-1.5.21-full-aarch64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">arm64</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.21/fluxheim-1.5.21-dev-aarch64-macos.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">mac dev</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.21" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
               </div>
             </div>
           </div>
@@ -1063,7 +1085,7 @@
         </div>
         <div>
           <h3 class="text-white font-semibold mb-1">What's Next</h3>
-          <p class="text-gray-400 text-sm"><strong class="text-gray-300">1.5.21</strong> keeps UDP beta compile-gated while adding explicit pressure, observability, admin-status, and passive-health guardrails for safer DNS-style request/response testing. Next planning stays on incremental 1.5.x runtime ownership work while arbitrary scripting, production UDP/GSLB, WAF, and VPN/firewall behavior remain future boundaries.</p>
+          <p class="text-gray-400 text-sm"><strong class="text-gray-300">1.5.22</strong> keeps runtime behavior unchanged while moving more cache and load-balancer policy behind Fluxheim-owned interfaces. Next planning stays on incremental 1.5.x runtime ownership work while arbitrary scripting, production UDP/GSLB, WAF, and VPN/firewall behavior remain future boundaries.</p>
           <a href="https://github.com/valkyoth/fluxheim/blob/main/ROADMAP.md" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 text-sm mt-2 transition-colors">View full roadmap →</a>
         </div>
       </div>
