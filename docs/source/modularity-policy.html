@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.23</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -91,10 +91,10 @@
 <li><code>fluxheim-observability</code></li>
 <li><code>fluxheim-protocol</code></li>
 <li><code>fluxheim-snapshot</code></li>
-<li><code>fluxheim-acme</code></li>
-<li><code>fluxheim-headers</code> or <code>fluxheim-http-policy</code></li>
 <li><code>fluxheim-runtime</code></li>
 <li><code>fluxheim-server</code></li>
+<li><code>fluxheim-acme</code></li>
+<li><code>fluxheim-headers</code> or <code>fluxheim-http-policy</code></li>
 <li><code>fluxheim-proxy</code></li>
 <li>future <code>fluxheim-wasm</code>, <code>fluxheim-http3</code>, and ecosystem crates</li>
 </ul>
@@ -108,7 +108,7 @@
 </ul>
 <p>Existing large files are legacy debt. Do not block 1.6.0 on the current file sizes, but do not let them grow without a documented reason.</p>
 <h2 id="1-6-migration-gate">1.6 Migration Gate</h2>
-<p><code>v1.6.0</code> should add a report-only gate that lists non-generated <code>.rs</code> files over 500 lines and records the exception inventory. The gate should fail only for:</p>
+<p><code>v1.6.0</code> adds <code>scripts/validate-modularity-policy.sh</code> and the baseline exception inventory in <a href="modularity-exceptions.html" class="text-cyan-400 hover:text-cyan-300">Modularity Exceptions</a>. The gate lists non-generated <code>.rs</code> files over 500 lines and verifies that legacy oversized files are tracked. The gate should fail only for:</p>
 <ul>
 <li>new non-generated <code>.rs</code> files over 500 lines;</li>
 <li>files that exceed 500 lines after being split below the threshold;</li>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
-  <title>Release Notes Template — Fluxheim Source Docs</title>
+  <title>Runtime Parity Fixtures — Fluxheim Source Docs</title>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Fluxheim">
   <meta property="og:title" content="Fluxheim">
@@ -69,96 +69,28 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          <span class="text-gray-400">Release Notes Template</span>
+          <span class="text-gray-400">Runtime Parity Fixtures</span>
         </div>
 
         <article class="source-doc">
-<h1 id="fluxheim-release-notes-template">Fluxheim Release Notes Template</h1>
-<p>Use this template for stable tags. Keep it factual and include the local release-gate report path or copied summary.</p>
-<h2 id="version">Version</h2>
+<h1 id="runtime-parity-fixtures">Runtime Parity Fixtures</h1>
+<p>Status: <code>1.6.0</code> Pingora-exit baseline</p>
+<p>The <code>1.6.x</code> line replaces the current Pingora runtime in stages. Before any cutover, Fluxheim keeps an explicit inventory of fixtures and smoke scripts that define current behavior. This is not the whole test suite; it is the minimum release-gated parity surface that must stay visible while old and new runtime paths coexist.</p>
+<p>The machine-readable inventory is:</p>
+<pre class="language-text"><code class="language-text">docs/runtime-parity-fixtures.tsv</code></pre>
+<p>The inventory is validated by:</p>
+<pre class="language-bash"><code class="language-bash">scripts/validate-runtime-fixtures.sh check</code></pre>
+<p>The gate checks that every listed script, config, directory, fixture, or document still exists. Script entries must remain executable. Later <code>1.6.x</code> cutover releases should add more entries before replacing a subsystem, not after discovering a parity gap.</p>
+<h2 id="how-to-use">How To Use</h2>
 <ul>
-<li>Version:</li>
-<li>Release date:</li>
-<li>Git tag:</li>
-<li>Git commit:</li>
-<li>License: EUPL-1.2</li>
+<li>Add a fixture before changing a runtime boundary.</li>
+<li>Keep fixtures focused on observable behavior, not implementation details.</li>
+<li>Prefer local deterministic scripts over external services unless the feature specifically needs a containerized dependency.</li>
+<li>Keep the inventory target column aligned with the <code>1.6.x</code> release where the fixture matters most.</li>
+<li>Do not delete or rename an inventory entry without updating the release notes and explaining what replaces the coverage.</li>
 </ul>
-<h2 id="scope">Scope</h2>
-<ul>
-<li>Stable modules:</li>
-<li>Experimental modules:</li>
-<li>Default Cargo features:</li>
-<li>Container variants:</li>
-</ul>
-<h2 id="highlights">Highlights</h2>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="security-and-stability-gate">Security And Stability Gate</h2>
-<ul>
-<li>Gate command:</li>
-<li>Gate report directory:</li>
-<li>Result:</li>
-<li><code>cargo audit</code> result:</li>
-<li><code>cargo deny check</code> result:</li>
-<li>TLS scan result:</li>
-<li>Load smoke result:</li>
-<li>Request-framing smoke result:</li>
-<li>Fuzz target compile result:</li>
-<li>Podman smoke result:</li>
-<li>SBOM generation result:</li>
-<li>Reproducible build result:</li>
-</ul>
-<h2 id="reviewed-advisory-exceptions">Reviewed Advisory Exceptions</h2>
-<p>List every accepted dependency advisory and why it is acceptable for this release. Include whether the dependency is direct or transitive.</p>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="breaking-changes">Breaking Changes</h2>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="upgrade-notes">Upgrade Notes</h2>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="known-limitations">Known Limitations</h2>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="container-images">Container Images</h2>
-<ul>
-<li>GitHub Container Registry:</li>
-<li>Docker Hub:</li>
-<li>Runtime user:</li>
-<li>Default config path:</li>
-<li>Static site path:</li>
-<li>Cache path:</li>
-<li>State path:</li>
-</ul>
-<h2 id="checksums-and-signatures">Checksums And Signatures</h2>
-<ul>
-<li>Source archive checksum:</li>
-<li>Binary checksums:</li>
-<li><code>fluxheim-VERSION-full-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-cache-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-proxy-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-load-balancer-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-php-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-config-tester-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-full-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-cache-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-proxy-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-load-balancer-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-php-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-config-tester-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-dev-aarch64-macos.tar.gz</code> when published</li>
-<li><code>fluxheim-VERSION-dev-x86_64-macos.tar.gz</code> when published</li>
-<li>SBOM checksums:</li>
-<li>Reproducible build hash:</li>
-<li>Container digests:</li>
-<li>Tag signature:</li>
-</ul>
+<h2 id="relationship-to-runtime-baseline">Relationship To Runtime Baseline</h2>
+<p><a href="runtime-baseline.html" class="text-cyan-400 hover:text-cyan-300">Runtime Baseline</a> records build and dependency evidence. This document records behavior fixtures. Both are required: dependency removal without behavior parity is not a successful Pingora exit.</p>
         </article>
       </div>
     </main>

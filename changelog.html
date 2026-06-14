@@ -47,7 +47,7 @@
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
             GitHub
           </a>
-          <a href="download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.23</a>
+          <a href="download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -82,724 +82,60 @@
 
         <div class="space-y-10 ml-12">
 
-          <!-- v1.5.23 Latest Stable -->
+          <!-- v1.6.0 Latest Stable -->
           <div class="relative">
             <div class="absolute -left-12 w-8 h-8 bg-cyan-500/20 border-2 border-cyan-500 rounded-full flex items-center justify-center">
               <div class="w-2.5 h-2.5 bg-cyan-400 rounded-full"></div>
             </div>
             <div class="p-5 bg-gray-900/60 border border-cyan-800/40 rounded-xl ring-1 ring-cyan-500/10">
               <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.23</span>
+                <span class="font-mono font-bold text-white text-lg">v1.6.0</span>
                 <span class="px-2 py-0.5 text-xs bg-cyan-500/10 text-cyan-400 rounded-full border border-cyan-500/20">Latest Stable</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.23" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.6.0" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
               </div>
               <p class="text-gray-500 text-xs mb-4">Released June 14, 2026</p>
               <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Starts the cache-aware origin-protection line for Fluxheim-owned cache fill paths</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds global, vhost, and route origin-protection policy with <code class="text-cyan-400 text-xs">max_concurrent_fills</code> budgets</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Protects range slice fills first, returning a bounded <code class="text-cyan-400 text-xs">503</code> when the protected fill budget is saturated</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds origin-protection status, rollout metrics, and bounded cache policy activity events</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Extends <code class="text-cyan-400 text-xs">cache-key</code> and <code class="text-cyan-400 text-xs">cache-lookup</code> previews with origin-protection expectations</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Consolidates slice-fill, peer-fill, and origin-fill concurrency permits into one shared limiter</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Starts the <code class="text-cyan-400 text-xs">1.6.x</code> Pingora-exit foundation line while keeping runtime behavior unchanged</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds modularity policy validation and a legacy oversized-file exception inventory</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds runtime baseline capture for dependency trees, profile runtime dependencies, release metadata, binary size, and performance evidence</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds release-gated Pingora dependency exceptions and runtime parity fixtures before HTTP/cache/LB/TLS cutovers begin</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds initial <code class="text-cyan-400 text-xs">fluxheim-runtime</code> and <code class="text-cyan-400 text-xs">fluxheim-server</code> crates for Fluxheim-owned runtime boundaries</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds typed policy epoch, policy proof, runtime fact, decision, reason, and visibility primitives for later request-path adoption</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds extraction dependency graph documentation for staged crate split work</li>
               </ul>
               <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.23/fluxheim-1.5.23-full-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-lg transition-colors">full</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.23/fluxheim-1.5.23-cache-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">cache</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.23/fluxheim-1.5.23-proxy-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">proxy</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.23/fluxheim-1.5.23-php-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">php</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.23/fluxheim-1.5.23-load-balancer-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">load-balancer</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.23/fluxheim-1.5.23-config-tester-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">config-tester</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.23/fluxheim-1.5.23-full-aarch64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">arm64</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.5.23/fluxheim-1.5.23-dev-aarch64-macos.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">mac dev</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.6.0/fluxheim-1.6.0-full-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-lg transition-colors">full</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.6.0/fluxheim-1.6.0-cache-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">cache</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.6.0/fluxheim-1.6.0-proxy-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">proxy</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.6.0/fluxheim-1.6.0-php-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">php</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.6.0/fluxheim-1.6.0-load-balancer-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">load-balancer</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.6.0/fluxheim-1.6.0-config-tester-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">config-tester</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.6.0/fluxheim-1.6.0-full-aarch64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">arm64</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.6.0/fluxheim-1.6.0-dev-aarch64-macos.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">mac dev</a>
               </div>
             </div>
           </div>
 
-          <!-- v1.5.22 -->
+          <!-- v1.5.0 - v1.5.23 -->
           <div class="relative">
             <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
               <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
             </div>
             <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
               <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.22</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.22" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
+                <span class="font-mono font-bold text-white text-lg">v1.5.0 - v1.5.23</span>
+                <a href="https://github.com/valkyoth/fluxheim/releases?q=v1.5&expanded=true" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">All on GitHub -></a>
               </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 14, 2026</p>
+              <p class="text-gray-500 text-xs mb-4">June 2026</p>
               <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Continues cache and load-balancer crate-boundary preparation for later runtime ownership work</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Moves load-balancer persistence key extraction behind a Fluxheim-owned request view trait</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Moves cleartext TCP health checks to a Fluxheim-owned Tokio connect probe while preserving TLS TCP handshake behavior</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Moves cache bypass, revalidation, admission, purge, miss-completion, range, and slice-key logic into cache interfaces</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Hardens static-web symlink tests and UDP beta passive-health accounting</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Introduced the enterprise HTTP/TCP load-balancer line with focused binaries, images, runtime member and weight controls, persistence, health checks, queueing, and migration docs</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Expanded Fluxheim-owned runtime boundaries across HTTP, stream proxying, load balancing, background tasks, cache interfaces, observability, config, and shared crates</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Added managed affinity cookies, service discovery, active and protocol-aware health checks, restart-persistent state, and runtime backend mutation controls</li>
+                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Added UDP beta guardrails, cache origin-protection budgets, ARM/Linux and macOS developer assets, config tester archives, and broad proxy/cache/PHP-FPM security hardening</li>
               </ul>
               <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.22" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
+                <a href="https://github.com/valkyoth/fluxheim/releases?q=v1.5&expanded=true" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">All on GitHub</a>
               </div>
-            </div>
-          </div>
-
-          <!-- v1.5.21 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.21</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.21" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 13, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Continues the UDP beta production-readiness line behind the <code class="text-cyan-400 text-xs">udp-proxy</code> feature gate</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds per-source UDP pressure controls, UDP Prometheus metrics, and admin UDP status</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds UDP passive upstream health controls and stronger UDP smoke coverage</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.21" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.20 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.20</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.20" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 13, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Starts the cache, web, PHP-FPM, GeoIP, compression, observability, protocol, and snapshot crate-boundary preparation line</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Moves cache, static web, PHP-FPM, compression, observability, protocol, snapshot, and reload-impact helpers into shared crates while preserving compatibility re-exports</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Hardens HTTP/1 request framing by rejecting requests with both <code class="text-cyan-400 text-xs">Transfer-Encoding</code> and <code class="text-cyan-400 text-xs">Content-Length</code></li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Restores real provider IPv6 trusted-proxy ranges such as Cloudflare <code class="text-cyan-400 text-xs">2a06:98c0::/29</code></li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.20" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.19 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.19</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.19" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 12, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Extracts the load-balancer runtime into <code class="text-cyan-400 text-xs">crates/fluxheim-load-balancer</code> while preserving the root-module shim</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Hardens proxy path normalization, route-prefix matching, regex captures, redirect rewrites, host handling, and upstream TLS identity checks</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Tightens cache safety around auth ordering, peer fill, Vary handling, private cache-control, encrypted streaming chunks, and static purge identities</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds PHP-FPM path, redirect, request-body spool, in-flight, endpoint, and dangerous FastCGI variable hardening</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Requires bearer authentication for ops-socket snapshots by default</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.19" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.18 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.18</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.18" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 12, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Extracts configuration loading, validation, and shared config types into <code class="text-cyan-400 text-xs">crates/fluxheim-config</code></li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds <code class="text-cyan-400 text-xs">proxy.downstream_total_response_timeout_secs</code> for bounding total downstream response time</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Clarifies counted header behavior for HTTP request and response safety limits</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.18" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.17 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.17</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.17" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 11, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Starts the workspace/shared-crate foundation with <code class="text-cyan-400 text-xs">crates/fluxheim-common</code></li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Moves shared <code class="text-cyan-400 text-xs">FluxError</code>, <code class="text-cyan-400 text-xs">FluxResult</code>, path safety, and test path helpers into common code</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Updates release gates and packaging paths for the new Cargo workspace layout</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.17" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.16 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.16</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.16" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 10, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Introduces beta UDP/GSLB exploration behind the <code class="text-cyan-400 text-xs">udp-proxy</code> feature</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds experimental <code class="text-cyan-400 text-xs">[udp]</code>, <code class="text-cyan-400 text-xs">[[udp.routes]]</code>, DNS load-balance, and syslog-forward config surfaces</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Documents QUIC pass-through and game-proxy as reserved future boundaries rather than production support</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.16" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.15 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.15</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.15" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 10, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds database and protocol-aware health probes for Redis, MySQL/MariaDB, and PostgreSQL</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Ships validated example configs and optional smoke scripts for protocol health checks</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Keeps the signed <code class="text-cyan-400 text-xs">v1.5.15</code> git tag canonical while the GitHub release page uses <code class="text-cyan-400 text-xs">v1.5.15-release</code></li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.15" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.14 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.14</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.14" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 9, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds local exec active health checks for load-balancer pools</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Requires absolute allow-listed command paths, shell-free execution, cleared inherited environment, and bounded backend context variables</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Reports health-check protocol in runtime status without exposing command paths or arguments</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.14" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.13 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.13</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.13" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 9, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Fluxheim-owned cache interface release with <code class="text-cyan-400 text-xs">FluxCacheStorage</code>, <code class="text-cyan-400 text-xs">FluxHandleHit</code>, and <code class="text-cyan-400 text-xs">FluxHandleMiss</code></li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Moves memory, disk, storage-bin, disk-backend, and tiered cache storage implementations behind Fluxheim cache traits</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds a narrow adapter for the current HTTP proxy cache path while preserving existing cache behavior</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Hardens slice-cache multipart responses with random MIME boundaries and sanitized cached <code class="text-cyan-400 text-xs">Content-Type</code> values</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.13" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.12 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.12</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.12" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 8, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Fluxheim-native background task registry release with a shared background adapter</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Moves cache metrics, stale cache purging, ACME renewal, admin watchdog, and load-balancer refresh tasks to Fluxheim-owned shutdown/readiness wrappers</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds regression coverage for shutdown wakeups, closed shutdown channels, readiness idempotence, and load-balancer background readiness</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.12" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.11 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.11</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.11" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 8, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Service-discovery and control-plane integration release with bounded HTTP upstream discovery</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds <code class="text-cyan-400 text-xs">proxy.upstreams_http_url</code>, optional bearer-token auth, 64 KiB response limits, and discovery refresh status/events</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Hardens downstream HTTP/2 defaults and updates Prometheus/protobuf dependencies</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds <code class="text-cyan-400 text-xs">examples/load-balancer-http-discovery.toml</code> and refreshes load-balancer migration boundaries</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.11" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.10 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.10</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.10" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 7, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Runtime backend-set mutation release for configured static load-balancer pool members</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds authenticated <code class="text-cyan-400 text-xs">member-add</code>, <code class="text-cyan-400 text-xs">member-remove</code>, and <code class="text-cyan-400 text-xs">member-update</code> admin endpoints</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Publishes backend-set and readiness changes as one atomic runtime snapshot</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Requires drain-safe removal/retargeting and redacts raw backend addresses in privacy-mode mutation output</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.10" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.9 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.9</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.9" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 7, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Restart-persistent load-balancer state line with versioned local state snapshots</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Adds optional <code class="text-cyan-400 text-xs">proxy.load_balance.runtime_state_file</code> for runtime member-state, runtime weight, and local persistence-table recovery</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Validates snapshot version, entry limits, duplicate keys, runtime overrides, persistence key sizes, TTLs, and live backend membership before restore</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Hardens atomic state writes, failed-write cleanup, and blocking persistence-table save behavior</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.9" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.8 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.8</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.8" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 7, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Active health-check expansion with custom request headers, standard gRPC health checks, JSON scalar body checks, and health-derived degraded weights</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Configured HTTP/gRPC health-check request headers with strict count, size, duplicate-name, reserved-name, and hop-by-hop header validation</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span><code class="text-cyan-400 text-xs">expected_body_json</code> exact scalar checks and <code class="text-cyan-400 text-xs">X-Health-Weight</code> health-derived effective weight reduction</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Consistent backend/health snapshot views for load-balancer selection and runtime status</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.8" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.7 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.7</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.7" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 6, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Fluxheim-native load-balancer core line with owned backend, discovery, readiness, selector, health-check, and background-service boundaries</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Static, file-refreshed, and DNS-refreshed upstream discovery routed through Fluxheim-owned backend and discovery adapters</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Fluxheim-owned weighted FNV, weighted random, Maglev identity, and rendezvous consistent-hash selection with per-boot routing secrets</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Load-balancer backend storage, readiness state, discovery refresh, health-check scheduling, and background shutdown handling moved into Fluxheim-owned runtime code</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.7" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.6 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.6</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.6" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 6, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Fluxheim-native stream-proxy runtime line while preserving existing stream route configuration and behavior</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Stream connect, copy, shutdown, upstream resolution, PROXY protocol writes, byte-limit, lifetime, and idle-timeout helpers moved onto <code class="text-cyan-400 text-xs">FluxError</code> / <code class="text-cyan-400 text-xs">FluxResult</code></li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Fluxheim-owned Tokio listener loop, generic async stream data path, and downstream PROXY protocol v1/v2 parsing</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Stream upstream TLS/mTLS moved onto Fluxheim-owned rustls/OpenSSL connectors with SNI, custom trust roots, and verification policy</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.6" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.5 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.5</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.5" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 5, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Fluxheim-native HTTP/error type boundary line with explicit internal HTTP aliases and request/response adapter wrappers</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span><code class="text-cyan-400 text-xs">thiserror</code>-backed <code class="text-cyan-400 text-xs">FluxError</code> / <code class="text-cyan-400 text-xs">FluxResult</code> internal error surface</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Selected access-log, auth-request, compression, PHP-FPM, route-policy, traffic-mirror, proxy-cache, load-balancer, stream, and static-file helpers moved through Fluxheim-owned boundaries</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Preserved current proxy runtime, cache semantics, stream proxy, and load-balancer selection/state behavior</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.5" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.4 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.4</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.4" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 4, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>TLS backend simplification release: rustls remains default and OpenSSL remains the supported native backend</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Removed incomplete <code class="text-cyan-400 text-xs">tls-boringssl</code> and <code class="text-cyan-400 text-xs">tls-s2n</code> build backends from the supported matrix</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Config values <code class="text-cyan-400 text-xs">backend = "boringssl"</code> and <code class="text-cyan-400 text-xs">backend = "s2n"</code> are rejected</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Documentation, feature tables, release checks, FIPS notes, and compliance templates updated for the rustls/OpenSSL-only matrix</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.4" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.3 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.3</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.3" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 4, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Managed affinity-cookie load-balancer release with <code class="text-cyan-400 text-xs">mode = "managed-cookie"</code></li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Signed opaque persistence cookies on eligible 2xx/3xx responses with daily local key rotation</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Configurable cookie domain, path, secure, HTTP-only, same-site, and max-age attributes</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Added load-balancer HA design notes for future active-active cookie mirroring and persistence-state work</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.3" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.2 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.2</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.2" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 4, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Runtime load-balancer weight-control release with authenticated <code class="text-cyan-400 text-xs">/_fluxheim/load-balancer/member-weight</code></li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Runtime weights for round-robin, least-connections, least-sessions, and least-time pools</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Status reports configured, effective, and runtime weight override fields</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Bounded audit/metrics events for member-weight operations and privacy-mode-safe mutation responses</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.2" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.1 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.1</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.1" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 3, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Enterprise load-balancer stabilization for metrics clarity, dynamic-pool cleanup, and persistence-table correctness</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Dedicated bounded persistence-clear metric events and focused load-balancer container config polish</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.1" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.5.0 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.5.0</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.0" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released June 3, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Enterprise HTTP/TCP load-balancer control-plane release with focused load-balancer binaries and images</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Runtime member controls for drain, disable, force-down, normal, and manual-resume state</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Load-balancer-only admin status endpoint, persistence-clear endpoint, advanced selection, persistence, health, queueing, and migration docs</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.5.0" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.4.7 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.4.7</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.4.7" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released May 31, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>True per-read stream <code class="text-cyan-400 text-xs">idle_timeout_secs</code> resets when either direction transfers bytes</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Stream upstream TLS controls for SNI, certificate/hostname verification, route-local CA bundles, and upstream mTLS material</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Stream-local weighted selection, safe upstream aliases, drained upstream exclusion, and backup upstream connect fallback</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Local stream smoke and unit coverage for raw TCP forwarding, drained/backup fallback, PROXY framing, and lifetime caps</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.4.7" target="_blank" rel="noopener" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">GitHub</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.4.6 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.4.6</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.4.6" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released May 30, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>New optional <code class="text-cyan-400 text-xs">stream-proxy</code> feature for raw L4 TCP stream services</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>New <code class="text-cyan-400 text-xs">[stream]</code> config domain with <code class="text-cyan-400 text-xs">[[stream.routes]]</code> listener-based TCP routes</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Round-robin upstream selection, connect timeout, wall-clock connection lifetime cap, optional byte caps, and per-route connection limits</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Stream connection debug logs and optional Prometheus counters for bounded outcomes and per-direction copied bytes</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Route-local downstream PROXY protocol receive and upstream PROXY protocol v1/v2 send</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.6/fluxheim-1.4.6-full-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-lg transition-colors">full</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.6/fluxheim-1.4.6-cache-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">cache</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.6/fluxheim-1.4.6-proxy-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">proxy</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.6/fluxheim-1.4.6-php-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">php</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.6/fluxheim-1.4.6-full-aarch64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">arm64</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.6/fluxheim-1.4.6-dev-aarch64-macos.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">mac dev</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.4.5 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.4.5</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.4.5" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released May 29, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>New optional <code class="text-cyan-400 text-xs">geoip</code> feature for bounded local MMDB Geo-Context lookup</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Provider labels for MaxMind GeoIP2/GeoLite2 and CIRCL Geo Open datasets</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Ordered local database fallback with a 512 MiB per-file limit and 1 GiB runtime cap</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Country and ASN route policy fields plus structured access-log fields <code class="text-cyan-400 text-xs">geo_country</code> and <code class="text-cyan-400 text-xs">geo_asn</code></li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Local-only GeoIP operations; no in-process database downloader or remote lookup fallback, and <code class="text-cyan-400 text-xs">privacy-mode</code> remains mutually exclusive</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.5/fluxheim-1.4.5-full-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-lg transition-colors">full</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.5/fluxheim-1.4.5-cache-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">cache</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.5/fluxheim-1.4.5-proxy-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">proxy</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.5/fluxheim-1.4.5-php-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">php</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.5/fluxheim-1.4.5-full-aarch64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">arm64</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.5/fluxheim-1.4.5-dev-aarch64-macos.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">mac dev</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.4.4 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.4.4</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.4.4" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released May 27, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Apple Silicon macOS Level 1 developer support with documented prerequisites, build commands, smoke testing, and release asset naming</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Linux ARM64 release assets using the normalized <code class="text-cyan-400 text-xs">aarch64-linux</code> label beside the existing <code class="text-cyan-400 text-xs">x86_64-linux</code> artifacts</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>macOS developer tarballs use the <code class="text-cyan-400 text-xs">dev-aarch64-macos</code> naming line; they are not production/FIPS/ISO support claims</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Release asset helper now builds runtime and config-tester archives with stable platform labels</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>New macOS developer example config and smoke script for local site testing</li>
-              </ul>
-              <div class="flex flex-wrap gap-2 mt-4">
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-full-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-cyan-500 hover:bg-cyan-400 text-gray-950 font-bold rounded-lg transition-colors">full</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-cache-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">cache</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-proxy-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">proxy</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-php-x86_64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">php</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-full-aarch64-linux.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">arm64</a>
-                <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.4.4/fluxheim-1.4.4-dev-aarch64-macos.tar.gz" class="px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors">mac dev</a>
-              </div>
-            </div>
-          </div>
-
-          <!-- v1.4.3 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.4.3</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.4.3" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released May 27, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Configuration surface split into focused modules while preserving existing <code class="text-cyan-400 text-xs">crate::config::*</code> paths</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Config tests moved into focused test modules to make the runtime config orchestration easier to review</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Additional hardening for path forwarding, copied auth-request headers, admin throttling, and cache purge path validation</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- v1.4.2 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.4.2</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.4.2" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released May 27, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Maintenance architecture release that splits the large proxy runtime into focused modules without requiring config migration</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Focused proxy domains now cover access logs, auth requests, compression, edge policy, route policy, traffic mirror, PROXY protocol, upstream TLS, PHP-FPM, proxy cache, and cache API DTOs</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Shared path-safety validation and salted traffic-mirror sampling harden existing proxy behavior</li>
-              </ul>
-            </div>
-          </div>
-
-          <!-- v1.4.1 -->
-          <div class="relative">
-            <div class="absolute -left-12 w-8 h-8 bg-gray-800 border-2 border-gray-600 rounded-full flex items-center justify-center">
-              <div class="w-2 h-2 bg-gray-500 rounded-full"></div>
-            </div>
-            <div class="p-5 bg-gray-900/50 border border-gray-800 rounded-xl">
-              <div class="flex flex-wrap items-center gap-3 mb-1">
-                <span class="font-mono font-bold text-white text-lg">v1.4.1</span>
-                <a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.4.1" target="_blank" rel="noopener" class="text-xs text-gray-500 hover:text-gray-300 transition-colors ml-auto">View on GitHub →</a>
-              </div>
-              <p class="text-gray-500 text-xs mb-4">Released May 26, 2026</p>
-              <ul class="space-y-2 text-sm text-gray-300">
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Regex routes, bounded regex captures, regex rewrite templates, and method-based routing for migration-heavy proxy configs</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>Explicit WebSocket upgrade proxying, external auth subrequests, and optional safe traffic mirroring behind the <code class="text-cyan-400 text-xs">traffic-mirror</code> feature</li>
-                <li class="flex gap-2"><span class="text-emerald-400 mt-0.5">+</span>DNS-refreshed and file-refreshed upstream pools, read-only ops socket, and richer load-balanced access-log fields</li>
-              </ul>
             </div>
           </div>
 
@@ -1108,7 +444,7 @@
         </div>
         <div>
           <h3 class="text-white font-semibold mb-1">What's Next</h3>
-          <p class="text-gray-400 text-sm"><strong class="text-gray-300">1.5.23</strong> starts cache-aware origin protection with bounded protected origin-fill budgets for Fluxheim-owned cache fill paths. Next planning stays on incremental 1.5.x runtime ownership work while arbitrary scripting, production UDP/GSLB, WAF, and VPN/firewall behavior remain future boundaries.</p>
+          <p class="text-gray-400 text-sm"><strong class="text-gray-300">1.6.0</strong> starts the Pingora-exit foundation line with baseline capture, modularity gates, dependency exception policy, parity fixtures, and Fluxheim-owned runtime/server boundary crates. Next planning stays on incremental 1.6.x runtime ownership work while arbitrary scripting, production UDP/GSLB, WAF, and VPN/firewall behavior remain future boundaries.</p>
           <a href="https://github.com/valkyoth/fluxheim/blob/main/ROADMAP.md" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-cyan-400 hover:text-cyan-300 text-sm mt-2 transition-colors">View full roadmap →</a>
         </div>
       </div>

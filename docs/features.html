@@ -52,7 +52,7 @@
           <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
           <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.5.23</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.0</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -136,7 +136,7 @@
         </div>
 
         <h1 class="text-4xl font-black text-white mb-4">Feature Matrix</h1>
-        <p class="text-gray-400 text-lg mb-10">All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.5.23.</p>
+        <p class="text-gray-400 text-lg mb-10">All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.6.0.</p>
 
         <div class="prose">
           <h2>Individual Features</h2>
@@ -354,23 +354,23 @@
 
         <div class="code-win my-6">
           <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — official release build commands</span></div>
-<pre class="language-bash"><code class="language-bash"># Full release build (matches fluxheim-1.5.23-full-*.tar.gz)
+<pre class="language-bash"><code class="language-bash"># Full release build (matches fluxheim-1.6.0-full-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp
 
-# Cache edge build (matches fluxheim-1.5.23-cache-*.tar.gz)
+# Cache edge build (matches fluxheim-1.6.0-cache-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-cache-edge,acme-client
 
-# Proxy edge build (matches fluxheim-1.5.23-proxy-*.tar.gz)
+# Proxy edge build (matches fluxheim-1.6.0-proxy-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-proxy-edge,acme-client
 
-# Load-balancer edge build (matches fluxheim-1.5.23-load-balancer-*.tar.gz)
+# Load-balancer edge build (matches fluxheim-1.6.0-load-balancer-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-load-balancer-edge,acme-client
 
-# PHP-FPM build (matches fluxheim-1.5.23-php-*.tar.gz)
+# PHP-FPM build (matches fluxheim-1.6.0-php-*.tar.gz)
 cargo build --release --no-default-features \
   --features profile-web-server,php-fpm,acme-client
 
@@ -418,7 +418,7 @@ scripts/validate-features.sh proxy,web,tls-rustls,privacy-mode</code></pre>
 
         <div class="prose">
           <h2>Extended Source References</h2>
-          <p>Some source documents describe implemented 1.5.23 capabilities, while others remain architecture tracks for future releases. The complete upstream source documents are available in the <a href="reference.html" class="text-cyan-400 hover:text-cyan-300">Source Reference</a>.</p>
+          <p>Some source documents describe implemented 1.6.0 capabilities, while others remain architecture tracks for future releases. The complete upstream source documents are available in the <a href="reference.html" class="text-cyan-400 hover:text-cyan-300">Source Reference</a>.</p>
         </div>
 
         <div class="overflow-x-auto rounded-xl border border-gray-800 my-6">

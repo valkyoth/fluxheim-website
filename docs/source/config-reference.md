@@ -1260,7 +1260,7 @@ content types, and leaves gRPC-Web/JSON transcoding out of scope.
 `upstream_total_connection_timeout_secs` wraps full upstream establishment,
 including protocol/TLS setup where the selected connector exposes it.
 `upstream_idle_timeout_secs` controls how long reusable idle upstream
-connections remain in the keepalive pool before they are closed.
+connections remain in Pingora's keepalive pool before they are closed.
 `upstream_tcp_keepalive_idle_secs`, `upstream_tcp_keepalive_interval_secs`, and
 `upstream_tcp_keepalive_count` configure TCP keepalive probes on upstream
 connections and must be set together. `upstream_tcp_user_timeout_ms` maps to
@@ -1348,7 +1348,7 @@ another HTTP 5xx status, commonly `503`, for requests where a configured
 load-balanced pool has no selectable backend. `least-connections`,
 `weighted-least-connections`, and
 `ratio-least-connections` all use the same Fluxheim-held in-flight request
-permits, `upstream_weights`, and Fluxheim's backend health state, so a
+permits, `upstream_weights`, and Pingora's current backend health state, so a
 backend with weight `4` can carry roughly four times the in-flight request
 share of a backend with weight `1`. `least-sessions` requires
 `proxy.load_balance.persistence.enabled = true` and selects by the lowest
@@ -1364,8 +1364,8 @@ changes until ring/table rebuild and sampling semantics are specified.
 `power-of-two`
 also accepts `power-of-two-choices`, `two-choice`, `weighted-two-choice`, and
 `weighted-random-two-choice`; all names sample two healthy backends through
-Fluxheim's weighted random first pick and unique backend fallback scan and
-choose the lower weighted in-flight pressure using `upstream_weights`.
+Pingora's random weighted selector and choose the lower weighted in-flight
+pressure using `upstream_weights`.
 With metrics enabled, load-balanced selections, unavailable pools, retries,
 queue wait/full/timeout outcomes, and success/failure/ejection outcomes are counted by
 `fluxheim_load_balancer_events_total` with bounded configured vhost/route
@@ -1631,15 +1631,13 @@ header value, and `cookie` mode writes the configured cookie value.
 an encrypted, access-restricted volume when raw header or cookie identifiers are
 used.
 
-The current `1.5.x` load-balancer line supports runtime add/remove/update for
-static upstream pools, but DNS/file/HTTP-discovery pools still reject runtime
-backend-set mutation because discovery owns the live member set. Runtime weight
-overrides apply only to mutable non-hash selectors; hash/ring selectors,
-managed-cookie signing-key sharing across nodes, and active-active
-load-balancer state synchronization remain future work. Managed-cookie HA
-mirroring is tracked separately from the local managed-cookie table shipped in
-`1.5.3`; see
-[Load Balancer HA Design Notes](load-balancer-ha.md).
+Fluxheim-owned runtime mutation can add, remove, and update members for static
+pools. DNS and file-discovery pools remain discovery-owned; edit the discovery
+source or static config plus reload/restart for those membership changes. Hash
+and ring selectors still do not apply runtime weights, and managed-cookie
+signing keys are not shared across active-active Fluxheim nodes. Managed-cookie
+HA mirroring is tracked separately from the local managed-cookie table shipped
+in `1.5.3`; see [Load Balancer HA Design Notes](load-balancer-ha.md).
 
 `upstreams` is the preferred static proxy target form for both one and many origins.
 The older single `upstream = "host:port"` field remains supported for simple

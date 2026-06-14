@@ -26,10 +26,10 @@ Target crates include:
 - `fluxheim-observability`
 - `fluxheim-protocol`
 - `fluxheim-snapshot`
-- `fluxheim-acme`
-- `fluxheim-headers` or `fluxheim-http-policy`
 - `fluxheim-runtime`
 - `fluxheim-server`
+- `fluxheim-acme`
+- `fluxheim-headers` or `fluxheim-http-policy`
 - `fluxheim-proxy`
 - future `fluxheim-wasm`, `fluxheim-http3`, and ecosystem crates
 
@@ -49,8 +49,10 @@ sizes, but do not let them grow without a documented reason.
 
 ## 1.6 Migration Gate
 
-`v1.6.0` should add a report-only gate that lists non-generated `.rs` files over
-500 lines and records the exception inventory. The gate should fail only for:
+`v1.6.0` adds `scripts/validate-modularity-policy.sh` and the baseline
+exception inventory in [Modularity Exceptions](modularity-exceptions.md). The
+gate lists non-generated `.rs` files over 500 lines and verifies that legacy
+oversized files are tracked. The gate should fail only for:
 
 - new non-generated `.rs` files over 500 lines;
 - files that exceed 500 lines after being split below the threshold;

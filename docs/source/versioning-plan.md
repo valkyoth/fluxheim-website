@@ -2458,7 +2458,9 @@ Planned `1.6.x` sequence:
   HTTP fixtures, cache fixtures, TLS fixtures, and release gates. Add
   dependency-graph checks that can fail the release once a target Pingora crate
   is expected to be gone. Add repeatable runtime baseline tooling before any
-  replacement runtime ships: capture current binary size, startup time, memory,
+  replacement runtime ships: first capture locked dependency trees, per-profile
+  Pingora dependency presence, release metadata, and default release-binary
+  size; then extend the same evidence format to startup time, memory,
   file-descriptor use, idle connection cost, loopback HTTP/1.1 latency,
   keep-alive throughput, cache HIT/MISS latency, load-balancer selection cost,
   TLS handshake cost for rustls and OpenSSL where available, and representative
@@ -2468,7 +2470,8 @@ Planned `1.6.x` sequence:
   comparison rules in a tracked documentation file such as
   `docs/runtime-baseline.md`. Add the first `fluxheim-runtime` /
   `fluxheim-server` traits and keep runtime behavior unchanged. Also record the
-  extraction dependency graph for the remaining large root modules:
+  extraction dependency graph in `docs/extraction-dependency-graph.md` for the
+  remaining large root modules:
   `snapshot.rs`, `acme.rs`, `headers.rs`, `proxy_protocol.rs`,
   `trace_context.rs`, `runtime.rs`, `proxy.rs`, and `admin.rs`, so later
   cutovers are ordered by dependencies rather than file size.

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
-  <title>Release Notes Template — Fluxheim Source Docs</title>
+  <title>Extraction Dependency Graph — Fluxheim Source Docs</title>
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Fluxheim">
   <meta property="og:title" content="Fluxheim">
@@ -69,95 +69,51 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
           <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          <span class="text-gray-400">Release Notes Template</span>
+          <span class="text-gray-400">Extraction Dependency Graph</span>
         </div>
 
         <article class="source-doc">
-<h1 id="fluxheim-release-notes-template">Fluxheim Release Notes Template</h1>
-<p>Use this template for stable tags. Keep it factual and include the local release-gate report path or copied summary.</p>
-<h2 id="version">Version</h2>
+<h1 id="extraction-dependency-graph">Extraction Dependency Graph</h1>
+<p>Status: <code>1.6.0</code> Pingora-exit planning baseline</p>
+<p>Fluxheim should split large modules by dependency direction, not by line count alone. The root crate should keep orchestration and adapters while pure domain logic moves into focused crates that can be tested without the current Pingora runtime.</p>
+<h2 id="dependency-direction">Dependency Direction</h2>
+<p>Target dependency direction:</p>
+<pre class="language-text"><code class="language-text">fluxheim-common
+  -&gt; fluxheim-protocol
+  -&gt; fluxheim-config
+  -&gt; domain crates
+  -&gt; runtime/server/proxy adapters
+  -&gt; root fluxheim binary</code></pre>
+<p>The root crate may temporarily adapt Pingora request, response, listener, cache, and service types. Domain crates should not depend on those adapters.</p>
+<h2 id="extraction-order">Extraction Order</h2>
+<div class="source-table"><table>
+<thead><tr><th>Current area</th><th>Target boundary</th><th>Why this order</th></tr></thead>
+<tbody>
+<tr><td><code>snapshot.rs</code></td><td><code>fluxheim-snapshot</code></td><td>Mostly filesystem/config snapshot policy; already has a crate and should keep shrinking root admin/runtime coupling.</td></tr>
+<tr><td><code>proxy_protocol.rs</code></td><td><code>fluxheim-protocol</code></td><td>Pure framing plus the current Pingora L4 connector adapter; split protocol bytes before stream/server replacement.</td></tr>
+<tr><td><code>trace_context.rs</code> and OTLP helpers</td><td><code>fluxheim-observability</code></td><td>Pure parsing/export formatting can move before HTTP runtime changes.</td></tr>
+<tr><td><code>headers.rs</code></td><td><code>fluxheim-headers</code> or <code>fluxheim-http-policy</code></td><td>Security-sensitive but mostly request/response policy; extract pure rules before replacing Pingora HTTP types.</td></tr>
+<tr><td><code>acme.rs</code></td><td><code>fluxheim-acme</code></td><td>Large filesystem/TLS/runtime integration surface; extract after listener/TLS boundary traits exist.</td></tr>
+<tr><td><code>runtime.rs</code></td><td><code>fluxheim-runtime</code> and <code>fluxheim-server</code></td><td>Own task, shutdown, listener, TLS, and server bootstrap abstractions before removing Pingora server services.</td></tr>
+<tr><td><code>cache.rs</code></td><td><code>fluxheim-cache</code></td><td>Continue moving admission, keys, headers, storage plans, and purge logic; keep only Pingora cache adapters in root until HTTP proxy cutover.</td></tr>
+<tr><td><code>proxy.rs</code></td><td><code>fluxheim-proxy</code></td><td>Last large HTTP cutover; depends on config, protocol, headers, cache, PHP, observability, auth, mirror, compression, TLS, and server boundaries.</td></tr>
+<tr><td><code>admin.rs</code></td><td><code>fluxheim-admin</code></td><td>Depends on nearly every domain. Split after domain crates own status DTOs and mutation APIs.</td></tr>
+</tbody></table></div>
+<h2 id="1-6-rules">1.6 Rules</h2>
 <ul>
-<li>Version:</li>
-<li>Release date:</li>
-<li>Git tag:</li>
-<li>Git commit:</li>
-<li>License: EUPL-1.2</li>
+<li>Do not create a crate that depends back on the root <code>fluxheim</code> crate.</li>
+<li>Prefer pure request/response view traits over concrete Pingora request headers in domain crates.</li>
+<li>Keep temporary Pingora adapters narrow and named as adapters.</li>
+<li>When moving code, move tests with the owned logic rather than leaving all private behavior tests in root modules.</li>
+<li>If a moved file would exceed 500 lines, split it during extraction instead of creating a new oversized exception.</li>
 </ul>
-<h2 id="scope">Scope</h2>
+<h2 id="review-use">Review Use</h2>
+<p>Pentest and SAST reviews should use this graph to scope findings:</p>
 <ul>
-<li>Stable modules:</li>
-<li>Experimental modules:</li>
-<li>Default Cargo features:</li>
-<li>Container variants:</li>
-</ul>
-<h2 id="highlights">Highlights</h2>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="security-and-stability-gate">Security And Stability Gate</h2>
-<ul>
-<li>Gate command:</li>
-<li>Gate report directory:</li>
-<li>Result:</li>
-<li><code>cargo audit</code> result:</li>
-<li><code>cargo deny check</code> result:</li>
-<li>TLS scan result:</li>
-<li>Load smoke result:</li>
-<li>Request-framing smoke result:</li>
-<li>Fuzz target compile result:</li>
-<li>Podman smoke result:</li>
-<li>SBOM generation result:</li>
-<li>Reproducible build result:</li>
-</ul>
-<h2 id="reviewed-advisory-exceptions">Reviewed Advisory Exceptions</h2>
-<p>List every accepted dependency advisory and why it is acceptable for this release. Include whether the dependency is direct or transitive.</p>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="breaking-changes">Breaking Changes</h2>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="upgrade-notes">Upgrade Notes</h2>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="known-limitations">Known Limitations</h2>
-<ul>
-<li>TODO</li>
-</ul>
-<h2 id="container-images">Container Images</h2>
-<ul>
-<li>GitHub Container Registry:</li>
-<li>Docker Hub:</li>
-<li>Runtime user:</li>
-<li>Default config path:</li>
-<li>Static site path:</li>
-<li>Cache path:</li>
-<li>State path:</li>
-</ul>
-<h2 id="checksums-and-signatures">Checksums And Signatures</h2>
-<ul>
-<li>Source archive checksum:</li>
-<li>Binary checksums:</li>
-<li><code>fluxheim-VERSION-full-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-cache-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-proxy-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-load-balancer-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-php-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-config-tester-x86_64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-full-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-cache-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-proxy-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-load-balancer-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-php-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-config-tester-aarch64-linux.tar.gz</code></li>
-<li><code>fluxheim-VERSION-dev-aarch64-macos.tar.gz</code> when published</li>
-<li><code>fluxheim-VERSION-dev-x86_64-macos.tar.gz</code> when published</li>
-<li>SBOM checksums:</li>
-<li>Reproducible build hash:</li>
-<li>Container digests:</li>
-<li>Tag signature:</li>
+<li>pure parser or policy bug: fix in the domain crate;</li>
+<li>adapter bug: fix in the root adapter and add a domain-crate regression where possible;</li>
+<li>runtime lifecycle bug: fix through <code>fluxheim-runtime</code> / <code>fluxheim-server</code> abstractions before touching HTTP proxy orchestration;</li>
+<li>broad proxy lifecycle bug: keep it in the <code>1.6.x</code> HTTP cutover queue unless it is a release-blocking security fix.</li>
 </ul>
         </article>
       </div>

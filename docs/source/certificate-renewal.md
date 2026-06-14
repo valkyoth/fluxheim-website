@@ -531,8 +531,8 @@ Latest checked ACME runtime candidates:
   support. This is the current first candidate because it does not own the TLS
   listener model.
 - `rustls-acme 0.15.1`: Apache-2.0 OR MIT, useful reference for rustls-focused
-  certificate management, but less aligned with Fluxheim's multiple TLS backend
-  targets.
+  certificate management, but less aligned with Fluxheim's multiple TLS
+  backend targets.
 
 ## FIPS/ISO-Required Deployments
 

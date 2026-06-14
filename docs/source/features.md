@@ -178,8 +178,8 @@ TLS is not limited to those aliases: custom builds can combine
 `tls-openssl-fips` or `tls-rustls-fips` with cache, static web serving, reverse
 proxying, or PHP-FPM. Do not add a FIPS-capable TLS backend to an existing
 profile alias that already enables `tls-rustls`, because Cargo features are
-additive and Fluxheim supports only one TLS backend per binary. Select
-the raw modules instead:
+additive and Fluxheim supports one selected TLS backend per binary. Select the
+raw modules instead:
 
 ```bash
 # FIPS/ISO-capable cache edge
@@ -237,7 +237,7 @@ Focused image profile status:
 
 | Combination | Reason |
 | --- | --- |
-| Multiple `tls-*` backends | Fluxheim supports one selected TLS backend per binary. |
+| Multiple `tls-*` backends | Pingora exposes one TLS backend at a time. |
 | `privacy-mode` + `cache` | Zero-retention builds must not compile request/response cache code. |
 | `privacy-mode` + `metrics` | Zero-retention builds must not compile request metrics. |
 | `privacy-mode` + `metrics-otlp` | Zero-retention builds must not compile metrics export. |

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../assets/img/fluxheim-logo.webp" type="image/webp">
+  <title>Modularity Exceptions — Fluxheim Source Docs</title>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Fluxheim">
+  <meta property="og:title" content="Fluxheim">
+  <meta property="og:description" content="Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.">
+  <meta property="og:url" content="https://fluxheim.eu/">
+  <meta property="og:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <meta property="og:image:secure_url" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Fluxheim logo">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fluxheim">
+  <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust.">
+  <meta name="twitter:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <link rel="stylesheet" href="../../assets/css/prism-dark.min.css">
+  <link rel="stylesheet" href="../../assets/css/theme.css?v=20260519">
+  <script src="../../assets/js/theme.js?v=20260519"></script>
+  <script src="../../assets/js/tailwind.js"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 antialiased">
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="../../index.html" class="flex items-center gap-3">
+          <img src="../../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg">Fluxheim</span>
+        </a>
+        <div class="hidden md:flex items-center gap-6">
+          <a href="../index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+          <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+          <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.0</a>
+        </div>
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="flex min-h-screen pt-16">
+    <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+      <nav class="p-6 space-y-7">
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="../index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="../getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="../configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="../features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="load-balancer-ha.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer HA</a></li><li><a href="../tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="../cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="../observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="../deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="../advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li><li><a href="../reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
+        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
+      </nav>
+    </aside>
+
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
+      <div class="max-w-5xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
+          <a href="../../index.html" class="hover:text-gray-300">Fluxheim</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../index.html" class="hover:text-gray-300">Docs</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <a href="../reference.html" class="hover:text-gray-300">Source Reference</a>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          <span class="text-gray-400">Modularity Exceptions</span>
+        </div>
+
+        <article class="source-doc">
+<h1 id="fluxheim-modularity-exceptions">Fluxheim Modularity Exceptions</h1>
+<p>Status: baseline inventory for the 1.6 line</p>
+<p>This file records legacy non-generated Rust files above the 500-line target in <a href="modularity-policy.html" class="text-cyan-400 hover:text-cyan-300">Fluxheim Modularity Policy</a>. The 1.6 line should shrink this list as Pingora adapters, root orchestration, config, cache, admin, and proxy code move into focused workspace crates.</p>
+<p>New or newly split files should not be added here unless the same release documents why the exception is temporary and how it will be removed.</p>
+<h2 id="legacy-exceptions">Legacy Exceptions</h2>
+<div class="source-table"><table>
+<thead><tr><th>File</th><th>Baseline lines</th><th>Reason</th><th>Split target</th></tr></thead>
+<tbody>
+<tr><td><code>src/proxy.rs</code></td><td>19210</td><td>Legacy Pingora <code>ProxyHttp</code> orchestration and cross-domain adapter hub.</td><td>Split during <code>1.6.8</code>-<code>1.6.12</code> native HTTP proxy work.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_tests.rs</code></td><td>13913</td><td>Legacy central config regression suite.</td><td>Split by config domain as crates stabilize.</td></tr>
+<tr><td><code>src/cache.rs</code></td><td>13456</td><td>Legacy Pingora cache storage/runtime adapter plus remaining cache orchestration.</td><td>Continue moving pure cache runtime into <code>fluxheim-cache</code> in <code>1.6.2</code>.</td></tr>
+<tr><td><code>src/admin.rs</code></td><td>8059</td><td>Legacy admin HTTP endpoint router over every domain.</td><td>Reduce after domain APIs stabilize; possible <code>fluxheim-admin</code> after <code>1.6.12</code>.</td></tr>
+<tr><td><code>src/cli.rs</code></td><td>5544</td><td>Legacy command dispatch and release/admin/cache tooling.</td><td>Split command handlers by domain after runtime crates settle.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/lib.rs</code></td><td>4358</td><td>Load-balancer orchestration root still hosts many domain pieces.</td><td>Split while removing remaining Pingora LB boundaries in <code>1.6.1</code>.</td></tr>
+<tr><td><code>src/acme.rs</code></td><td>3909</td><td>ACME account/order/install/renewal and filesystem safety in one root adapter.</td><td>Move to <code>fluxheim-acme</code> around <code>1.6.6</code>.</td></tr>
+<tr><td><code>src/metrics.rs</code></td><td>2761</td><td>Root metrics registry/export adapter over many domains.</td><td>Move remaining pure metrics into <code>fluxheim-observability</code>.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config.rs</code></td><td>2512</td><td>Config root, validation helpers, and shared parsing glue.</td><td>Split by shared config primitives.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_cache.rs</code></td><td>2495</td><td>Cache config, validation, and merge behavior.</td><td>Split cache config primitives when <code>fluxheim-cache</code> owns more runtime.</td></tr>
+<tr><td><code>src/headers.rs</code></td><td>2125</td><td>Header mutation, forwarding, rewriting, and cookie policy.</td><td>Move to <code>fluxheim-headers</code>/<code>fluxheim-http-policy</code> in <code>1.6.5</code>.</td></tr>
+<tr><td><code>src/runtime.rs</code></td><td>2093</td><td>Pingora server/bootstrap/listener orchestration.</td><td>Replace through <code>fluxheim-runtime</code>/<code>fluxheim-server</code> in <code>1.6.4</code>-<code>1.6.7</code>.</td></tr>
+<tr><td><code>src/tls.rs</code></td><td>1834</td><td>TLS config/runtime helper surface for current listener adapter.</td><td>Split with listener/TLS abstraction in <code>1.6.6</code>.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_proxy.rs</code></td><td>1807</td><td>Proxy config and validation.</td><td>Split proxy/load-balancer subdomains as native proxy APIs land.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_load_balance.rs</code></td><td>1796</td><td>Load-balancer config and validation.</td><td>Split with <code>fluxheim-load-balancer</code> independence in <code>1.6.1</code>.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/health.rs</code></td><td>1750</td><td>Multiple active health-check protocols in one file.</td><td>Split by protocol after Pingora health adapters are gone.</td></tr>
+<tr><td><code>src/stream_proxy.rs</code></td><td>1745</td><td>Stream data path and current runtime adapter.</td><td>Move to <code>fluxheim-stream</code>/<code>fluxheim-proxy</code> in <code>1.6.3</code>.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_php.rs</code></td><td>1641</td><td>PHP-FPM config and validation.</td><td>Split managed/runtime/path validation helpers.</td></tr>
+<tr><td><code>src/web.rs</code></td><td>1507</td><td>Root static web adapter over <code>fluxheim-web</code>.</td><td>Reduce to adapter glue after native HTTP runtime lands.</td></tr>
+<tr><td><code>crates/fluxheim-cache/src/headers.rs</code></td><td>1482</td><td>Cache directive parsing and policy helpers.</td><td>Split request/response directive modules.</td></tr>
+<tr><td><code>src/php_fpm.rs</code></td><td>1348</td><td>Root PHP-FPM proxy adapter and response handling.</td><td>Move remaining pure pieces into <code>fluxheim-php-fpm</code>.</td></tr>
+<tr><td><code>crates/fluxheim-snapshot/src/lib.rs</code></td><td>1269</td><td>Snapshot store implementation in crate root.</td><td>Split into store, id, metadata, rollback, and fs modules.</td></tr>
+<tr><td><code>crates/fluxheim-observability/src/lib.rs</code></td><td>1139</td><td>Observability crate root still hosts multiple exporters/helpers.</td><td>Split metrics, tracing, OTLP, and access-log modules.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_header.rs</code></td><td>1060</td><td>Header policy config and validation.</td><td>Move with header-policy crate work.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/selection.rs</code></td><td>1050</td><td>Selection algorithms grouped in one reviewed module.</td><td>Keep grouped until algorithm API stabilizes, then split tests/helpers.</td></tr>
+<tr><td><code>src/udp_proxy.rs</code></td><td>1038</td><td>UDP beta runtime.</td><td>Split before beta promotion.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/policy.rs</code></td><td>977</td><td>Runtime backend policy overrides and keys.</td><td>Split keys, snapshots, and mutation policy.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_stream.rs</code></td><td>947</td><td>Stream proxy config and TLS validation.</td><td>Split with stream runtime cutover.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/backend.rs</code></td><td>889</td><td>Backend snapshots and runtime mutation surface.</td><td>Split backend set, health snapshot, and mutation helpers.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/discovery.rs</code></td><td>847</td><td>File/DNS/HTTP discovery and validation.</td><td>Split discovery backends.</td></tr>
+<tr><td><code>crates/fluxheim-cache/src/api.rs</code></td><td>819</td><td>Cache admin/status DTOs.</td><td>Split status, lookup, purge, and preview DTOs.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/reload.rs</code></td><td>809</td><td>Reload classification and diff behavior.</td><td>Move snapshot/reload-safe classification into dedicated modules.</td></tr>
+<tr><td><code>crates/fluxheim-php-fpm/src/lib.rs</code></td><td>778</td><td>PHP-FPM crate root still holds several pure domains.</td><td>Split params, response, retry, and managed runtime helpers.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_admin.rs</code></td><td>755</td><td>Admin config and validation.</td><td>Split ops socket, snapshots, auth, and status config.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/persistence.rs</code></td><td>753</td><td>Persistence, cookies, and request-view helpers.</td><td>Split cookie, header, source-IP, and state table helpers.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_acme.rs</code></td><td>719</td><td>ACME config and validation.</td><td>Move with <code>fluxheim-acme</code>.</td></tr>
+<tr><td><code>src/config_tester.rs</code></td><td>716</td><td>Config tester CLI and profile logic.</td><td>Split profile checks from CLI output.</td></tr>
+<tr><td><code>crates/fluxheim-web/src/lib.rs</code></td><td>708</td><td>Static web crate root.</td><td>Split range, directory listing, path safety, and response planning.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_tls.rs</code></td><td>677</td><td>TLS config and validation.</td><td>Split downstream/upstream TLS config helpers.</td></tr>
+<tr><td><code>src/stream_tls.rs</code></td><td>657</td><td>Stream upstream TLS adapter.</td><td>Move with stream runtime cutover.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_route.rs</code></td><td>641</td><td>Route config and validation.</td><td>Split redirect, methods, cache, and path policy helpers.</td></tr>
+<tr><td><code>src/edge_policy.rs</code></td><td>532</td><td>Edge access/rate/geo policy.</td><td>Split policy decisions and runtime proof types.</td></tr>
+<tr><td><code>crates/fluxheim-cache/src/request.rs</code></td><td>503</td><td>Cache request/range/slice planning.</td><td>Split range/slice planning if it grows.</td></tr>
+</tbody></table></div>
+        </article>
+      </div>
+    </main>
+  </div>
+  <script src="../../assets/js/alpine.min.js" defer></script>
+  <script src="../../assets/js/prism.min.js"></script>
+  <script src="../../assets/js/prism-bash.min.js"></script>
+  <script src="../../assets/js/prism-toml.min.js"></script>
+</body>
+</html>
