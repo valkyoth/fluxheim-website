@@ -1199,7 +1199,8 @@ contain whitespace after trimming surrounding whitespace. Fluxheim sends
 `Content-Type` values when the discovery endpoint includes that header; missing
 `Content-Type` is accepted so small internal sidecars can stay simple.
 Returned IP-literal backends in private, loopback, link-local, multicast,
-reserved, documentation, or metadata ranges are rejected by default. Set
+reserved, documentation, metadata, IPv4-mapped IPv6, IPv4-compatible IPv6,
+6to4, or Teredo-embedded private ranges are rejected by default. Set
 `upstreams_http_allow_private_backends = true` only when the configured
 discovery endpoint is trusted to return private service-network members and the
 route is intended to reach those networks.
@@ -1272,7 +1273,7 @@ where the platform and kernel allow it.
 `upstream_weights` is optional and, when set, must contain one positive weight
 for each `upstreams` entry. It enables weighted selection in `load-balancer`
 builds. Each weight must be at most 1000 and the total configured weight must
-fit in Fluxheim's weighted selector.
+fit in Pingora's weighted selector.
 `upstream_priority_groups` is optional and, when set, must contain one priority
 value for each `upstreams` entry. Higher values are preferred first, then lower
 values are activated when higher priority groups have fewer than
@@ -1341,7 +1342,7 @@ current weighted average load, and is valid only with bounded-load consistent
 selectors. Maglev modes use a fixed 65,537-slot bounded lookup table for static
 `proxy.upstreams` pools only; file-refreshed and DNS-refreshed pools reject
 Maglev until dynamic table rebuild semantics are promoted later.
-`max_iterations` bounds how many ready candidates Fluxheim may
+`max_iterations` bounds how many ready candidates Pingora or Fluxheim may
 inspect while applying health, drain, slow-start, backup, priority, and
 in-flight policies. `all_down_status` defaults to `502` and may be set to
 another HTTP 5xx status, commonly `503`, for requests where a configured
@@ -1631,13 +1632,12 @@ header value, and `cookie` mode writes the configured cookie value.
 an encrypted, access-restricted volume when raw header or cookie identifiers are
 used.
 
-Fluxheim-owned runtime mutation can add, remove, and update members for static
-pools. DNS and file-discovery pools remain discovery-owned; edit the discovery
-source or static config plus reload/restart for those membership changes. Hash
-and ring selectors still do not apply runtime weights, and managed-cookie
-signing keys are not shared across active-active Fluxheim nodes. Managed-cookie
-HA mirroring is tracked separately from the local managed-cookie table shipped
-in `1.5.3`; see [Load Balancer HA Design Notes](load-balancer-ha.md).
+The current `1.5.x` load-balancer line does not add/remove pool members at
+runtime, apply runtime weights to hash/ring selectors, share managed-cookie
+signing keys across nodes, or synchronize load-balancer state across
+active-active Fluxheim nodes. Managed-cookie HA mirroring is tracked separately
+from the local managed-cookie table shipped in `1.5.3`; see
+[Load Balancer HA Design Notes](load-balancer-ha.md).
 
 `upstreams` is the preferred static proxy target form for both one and many origins.
 The older single `upstream = "host:port"` field remains supported for simple
@@ -1655,7 +1655,10 @@ refresh is invalid. The same `proxy.load_balance` policy applies inside
 selection, passive-health, retry, and health-check state.
 `connect_timeout_secs`, `read_timeout_secs`, and `send_timeout_secs` are
 optional. They map to the upstream connection timeout, upstream response/read
-timeout, and upstream request-body/write timeout.
+timeout, and upstream request-body/write timeout. Optional and required
+second-based proxy/PHP/load-balancer health-check timeout fields reject `0` and
+values above `86400` seconds so a malformed config cannot pin connections or
+workers indefinitely.
 `websocket = true` enables HTTP/1.1 upgrade forwarding for websocket-style or
 other token-based upgrade requests on that proxy block. Fluxheim validates this
 with `upstream_http_version = "http1"` because HTTP/2 origins do not use the
@@ -3397,6 +3400,5 @@ Before packaging a custom feature set, validate it:
 scripts/validate-features.sh proxy,web,tls-rustls
 ```
 
-This catches unsupported combinations before Cargo starts compiling the selected
-modules.
+This catches unsupported combinations before Cargo starts compiling Pingora.
 See [Feature Matrix](features.md) for the complete feature/profile list.

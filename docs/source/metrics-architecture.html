@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.1</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.4</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -228,8 +228,8 @@ metrics-advanced = [&quot;metrics&quot;]</code></pre>
 </ul>
 <p>Optional push:</p>
 <ul>
-<li>initial implementation spawns a background exporter thread when <code>[metrics.otlp]</code> is enabled.</li>
-<li>future Pingora service integration can add richer lifecycle and health reporting.</li>
+<li><code>[metrics.otlp]</code> uses the Fluxheim background task lifecycle when enabled, so exporter sleep/shutdown behavior follows the same runtime boundary as cache purging, ACME renewal, admin watchdog, and load-balancer refresh tasks.</li>
+<li>future lifecycle work can add richer exporter health reporting.</li>
 <li>push failure must never block request workers.</li>
 <li>failed push keeps metrics locally available.</li>
 <li>do not buffer infinite historical metrics in memory.</li>

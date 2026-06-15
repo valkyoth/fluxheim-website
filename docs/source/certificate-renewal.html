@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.1</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.4</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -208,7 +208,7 @@ hmac_key_credential = &quot;actalis-eab-hmac-key&quot;</code></pre>
 <p>After successful renewal, Fluxheim reloads the downstream SNI certificate resolver or callback so new handshakes can use the freshly installed files without restarting. If a TLS backend or listener shape cannot provide a reload handle, Fluxheim logs that a restart or process reload is required.</p>
 <p>This reload happens inside the long-running Fluxheim process. The gateway also owns a local Unix-domain certificate reload socket at <code>server.process.certificate_reload_sock</code>, defaulting to:</p>
 <pre class="language-text"><code class="language-text">/run/fluxheim/fluxheim-cert-reload.sock</code></pre>
-<p>The socket accepts only the narrow <code>reload-certificates</code> operation and is created with owner-only permissions by the running gateway. It is intended for the same runtime user or container pod, not remote administration. The companion reads the gateway response with a small fixed bound so a compromised or replaced local socket cannot grow companion memory without limit.</p>
+<p>The socket accepts only the narrow <code>reload-certificates</code> operation and is created with owner-only permissions by the running gateway. It is intended for the same runtime user or container pod, not remote administration. The long-running gateway caps concurrent reload-control requests, and each accepted request still uses a short fixed read timeout. The companion reads the gateway response with a small fixed bound so a compromised or replaced local socket cannot grow companion memory without limit.</p>
 <p>Production packages include the <code>fluxheim-acme</code> companion binary while keeping the integrated background worker for simple installs. In this model, <code>fluxheim.service</code> stays focused on serving traffic and challenge files, while the one-shot <code>fluxheim-acme.service</code> and scheduled <code>fluxheim-acme.timer</code> run renewals as the Fluxheim runtime user. The companion command reuses the same ACME engine and storage layout as the legacy <code>fluxheim acme-renew</code> command, uses systemd credentials or container secrets for EAB material, and writes certificates below the configured <code>tls.acme.storage</code>. When certificates are renewed, it asks the running gateway to reload its certificate handles through <code>server.process.certificate_reload_sock</code>. Set <code>tls.acme.automation = &quot;external&quot;</code> in this mode so the webserver does not also run the background renewal loop.</p>
 <p>Preview targets without contacting the issuer:</p>
 <pre class="language-bash"><code class="language-bash">sudo fluxheim-acme --config /etc/fluxheim/fluxheim.toml targets</code></pre>
@@ -315,7 +315,7 @@ podman exec fluxheim_gateway \
 <p>Latest checked ACME runtime candidates:</p>
 <ul>
 <li><code>instant-acme 0.8.5</code>: Apache-2.0, async pure-Rust ACME client with EAB support. This is the current first candidate because it does not own the TLS listener model.</li>
-<li><code>rustls-acme 0.15.1</code>: Apache-2.0 OR MIT, useful reference for rustls-focused certificate management, but less aligned with Fluxheim&#x27;s multiple TLS backend targets.</li>
+<li><code>rustls-acme 0.15.1</code>: Apache-2.0 OR MIT, useful reference for rustls-focused certificate management, but less aligned with Fluxheim&#x27;s multiple Pingora TLS backend targets.</li>
 </ul>
 <h2 id="fips-iso-required-deployments">FIPS/ISO-Required Deployments</h2>
 <p>Managed Fluxheim ACME is intentionally outside the strict FIPS/ISO-required runtime boundary in <code>1.3.6</code>. A config with <code>[tls.fips] required = true</code> or <code>[tls.iso19790] required = true</code> rejects <code>[tls.acme] enabled = true</code> because ACME account key generation, JWS account signing, External Account Binding HMAC, outbound ACME HTTPS transport, and TLS-ALPN challenge certificate generation are not fully routed through the selected validated provider.</p>

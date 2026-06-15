@@ -14,16 +14,16 @@ scripts/validate-features.sh proxy,web,tls-rustls
 ```
 
 The validator expands profile aliases and rejects unsupported combinations
-before Cargo starts compiling the selected modules.
+before Cargo starts compiling Pingora.
 
 ## Stable Core Features
 
 | Feature | Default | Purpose |
 | --- | --- | --- |
-| `proxy` | Yes | HTTP proxy runtime and upstream forwarding. |
+| `proxy` | Yes | Pingora proxy runtime and upstream forwarding. |
 | `web` | Yes | Static file resolver and static response planning. |
 | `cache` | Yes | Image cache module. Runtime caching still requires config. |
-| `ingress` | Yes, through `proxy`/TLS profiles | Shared ingress primitives used by proxy, TLS, and ACME-capable focused builds. |
+| `ingress` | Yes, through `proxy`/TLS profiles | Shared Pingora/Tokio ingress primitives used by proxy, TLS, and ACME-capable focused builds. |
 | `tls-rustls` | Yes | rustls TLS backend. |
 | `tls-rustls-fips` | No | rustls/AWS-LC FIPS-capable TLS backend candidate. |
 | `security` | Yes | Compile-time security profile marker plus release hardening checks. Runtime enforcement lives in the concrete config, TLS, filesystem, admin, and request-handling modules. |
@@ -32,7 +32,7 @@ before Cargo starts compiling the selected modules.
 
 | Feature | Default | Purpose |
 | --- | --- | --- |
-| `load-balancer` | No | Fluxheim load-balancing module, backend-set management, discovery, health checks, and runtime pool policy. |
+| `load-balancer` | No | Fluxheim load-balancing support, health checks, and runtime pool policy. |
 | `metrics` | No | Prometheus metrics listener. |
 | `metrics-otlp` | No | Optional OTLP/HTTP JSON metrics export to a local Prometheus OTLP receiver or collector. |
 | `otel-tracing` | No | W3C `traceparent` propagation and access-log trace ID correlation. |
@@ -178,8 +178,8 @@ TLS is not limited to those aliases: custom builds can combine
 `tls-openssl-fips` or `tls-rustls-fips` with cache, static web serving, reverse
 proxying, or PHP-FPM. Do not add a FIPS-capable TLS backend to an existing
 profile alias that already enables `tls-rustls`, because Cargo features are
-additive and Fluxheim supports one selected TLS backend per binary. Select the
-raw modules instead:
+additive and Fluxheim supports only one Pingora TLS backend per binary. Select
+the raw modules instead:
 
 ```bash
 # FIPS/ISO-capable cache edge

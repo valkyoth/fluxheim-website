@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.1</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.4</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -81,36 +81,37 @@
 <div class="source-table"><table>
 <thead><tr><th>File</th><th>Baseline lines</th><th>Reason</th><th>Split target</th></tr></thead>
 <tbody>
-<tr><td><code>src/proxy.rs</code></td><td>19210</td><td>Legacy Pingora <code>ProxyHttp</code> orchestration and cross-domain adapter hub.</td><td>Split during <code>1.6.8</code>-<code>1.6.12</code> native HTTP proxy work.</td></tr>
-<tr><td><code>crates/fluxheim-config/src/config_tests.rs</code></td><td>13913</td><td>Legacy central config regression suite.</td><td>Split by config domain as crates stabilize.</td></tr>
-<tr><td><code>src/cache.rs</code></td><td>13456</td><td>Legacy Pingora cache storage/runtime adapter plus remaining cache orchestration.</td><td>Continue moving pure cache runtime into <code>fluxheim-cache</code> in <code>1.6.2</code>.</td></tr>
-<tr><td><code>src/admin.rs</code></td><td>8059</td><td>Legacy admin HTTP endpoint router over every domain.</td><td>Reduce after domain APIs stabilize; possible <code>fluxheim-admin</code> after <code>1.6.12</code>.</td></tr>
+<tr><td><code>src/proxy.rs</code></td><td>19208</td><td>Legacy Pingora <code>ProxyHttp</code> orchestration and cross-domain adapter hub.</td><td>Split during <code>1.6.8</code>-<code>1.6.12</code> native HTTP proxy work.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config_tests.rs</code></td><td>13952</td><td>Legacy central config regression suite.</td><td>Split by config domain as crates stabilize.</td></tr>
+<tr><td><code>src/cache.rs</code></td><td>13486</td><td>Legacy Pingora cache storage/runtime adapter plus remaining cache orchestration. The 1.6.2 native cache adapter temporarily increases this file until the Pingora HTTP runtime edge is removed.</td><td>Continue moving pure cache runtime into <code>fluxheim-cache</code>; shrink the compatibility adapter during the native HTTP/cache cutover.</td></tr>
+<tr><td><code>src/admin.rs</code></td><td>7943</td><td>Legacy admin HTTP endpoint router over every domain.</td><td>Reduce after domain APIs stabilize; possible <code>fluxheim-admin</code> after <code>1.6.12</code>.</td></tr>
 <tr><td><code>src/cli.rs</code></td><td>5544</td><td>Legacy command dispatch and release/admin/cache tooling.</td><td>Split command handlers by domain after runtime crates settle.</td></tr>
-<tr><td><code>crates/fluxheim-load-balancer/src/lib.rs</code></td><td>3961</td><td>Load-balancer orchestration root still hosts many domain pieces; API/runtime DTOs moved to <code>api.rs</code> in <code>1.6.1</code>.</td><td>Continue splitting orchestration, runtime mutation, and Pingora service adapter code during the remaining <code>1.6</code> load-balancer/background cutovers.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/lib.rs</code></td><td>4013</td><td>Load-balancer orchestration root still hosts many domain pieces; API/runtime DTOs moved to <code>api.rs</code> in <code>1.6.1</code>.</td><td>Continue splitting orchestration and runtime mutation code during the remaining <code>1.6</code> load-balancer/background cutovers.</td></tr>
 <tr><td><code>src/acme.rs</code></td><td>3909</td><td>ACME account/order/install/renewal and filesystem safety in one root adapter.</td><td>Move to <code>fluxheim-acme</code> around <code>1.6.6</code>.</td></tr>
 <tr><td><code>src/metrics.rs</code></td><td>2761</td><td>Root metrics registry/export adapter over many domains.</td><td>Move remaining pure metrics into <code>fluxheim-observability</code>.</td></tr>
-<tr><td><code>crates/fluxheim-config/src/config.rs</code></td><td>2512</td><td>Config root, validation helpers, and shared parsing glue.</td><td>Split by shared config primitives.</td></tr>
+<tr><td><code>crates/fluxheim-config/src/config.rs</code></td><td>2514</td><td>Config root, validation helpers, and shared parsing glue.</td><td>Split by shared config primitives.</td></tr>
 <tr><td><code>crates/fluxheim-config/src/config_cache.rs</code></td><td>2495</td><td>Cache config, validation, and merge behavior.</td><td>Split cache config primitives when <code>fluxheim-cache</code> owns more runtime.</td></tr>
 <tr><td><code>src/headers.rs</code></td><td>2125</td><td>Header mutation, forwarding, rewriting, and cookie policy.</td><td>Move to <code>fluxheim-headers</code>/<code>fluxheim-http-policy</code> in <code>1.6.5</code>.</td></tr>
-<tr><td><code>src/runtime.rs</code></td><td>2093</td><td>Pingora server/bootstrap/listener orchestration.</td><td>Replace through <code>fluxheim-runtime</code>/<code>fluxheim-server</code> in <code>1.6.4</code>-<code>1.6.7</code>.</td></tr>
+<tr><td><code>src/runtime.rs</code></td><td>2203</td><td>Pingora server/bootstrap/listener orchestration.</td><td>Replace through <code>fluxheim-runtime</code>/<code>fluxheim-server</code> in <code>1.6.4</code>-<code>1.6.7</code>.</td></tr>
 <tr><td><code>src/tls.rs</code></td><td>1834</td><td>TLS config/runtime helper surface for current listener adapter.</td><td>Split with listener/TLS abstraction in <code>1.6.6</code>.</td></tr>
 <tr><td><code>crates/fluxheim-config/src/config_proxy.rs</code></td><td>1807</td><td>Proxy config and validation.</td><td>Split proxy/load-balancer subdomains as native proxy APIs land.</td></tr>
 <tr><td><code>crates/fluxheim-config/src/config_load_balance.rs</code></td><td>1796</td><td>Load-balancer config and validation.</td><td>Split with <code>fluxheim-load-balancer</code> independence in <code>1.6.1</code>.</td></tr>
-<tr><td><code>crates/fluxheim-load-balancer/src/health.rs</code></td><td>1750</td><td>Multiple active health-check protocols in one file.</td><td>Split by protocol after Pingora health adapters are gone.</td></tr>
-<tr><td><code>src/stream_proxy.rs</code></td><td>1745</td><td>Stream data path and current runtime adapter.</td><td>Move to <code>fluxheim-stream</code>/<code>fluxheim-proxy</code> in <code>1.6.3</code>.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/health.rs</code></td><td>1911</td><td>Multiple active health-check protocols in one file.</td><td>Split by protocol after Pingora health adapters are gone.</td></tr>
+<tr><td><code>src/stream_proxy.rs</code></td><td>1026</td><td>Current Pingora service-registration, listener, socket connect, and TLS adapter for stream routes after the 1.6.3 stream crate extraction.</td><td>Keep shrinking as background/runtime supervision and TLS connector abstractions move in <code>1.6.4</code>-<code>1.6.7</code>.</td></tr>
 <tr><td><code>crates/fluxheim-config/src/config_php.rs</code></td><td>1641</td><td>PHP-FPM config and validation.</td><td>Split managed/runtime/path validation helpers.</td></tr>
 <tr><td><code>src/web.rs</code></td><td>1507</td><td>Root static web adapter over <code>fluxheim-web</code>.</td><td>Reduce to adapter glue after native HTTP runtime lands.</td></tr>
 <tr><td><code>crates/fluxheim-cache/src/headers.rs</code></td><td>1482</td><td>Cache directive parsing and policy helpers.</td><td>Split request/response directive modules.</td></tr>
 <tr><td><code>src/php_fpm.rs</code></td><td>1348</td><td>Root PHP-FPM proxy adapter and response handling.</td><td>Move remaining pure pieces into <code>fluxheim-php-fpm</code>.</td></tr>
-<tr><td><code>crates/fluxheim-snapshot/src/lib.rs</code></td><td>1269</td><td>Snapshot store implementation in crate root.</td><td>Split into store, id, metadata, rollback, and fs modules.</td></tr>
+<tr><td><code>crates/fluxheim-snapshot/src/lib.rs</code></td><td>1570</td><td>Snapshot store implementation plus self-healing snapshot runtime state in crate root.</td><td>Split into store, id, metadata, runtime state, rollback, and fs modules.</td></tr>
 <tr><td><code>crates/fluxheim-observability/src/lib.rs</code></td><td>1139</td><td>Observability crate root still hosts multiple exporters/helpers.</td><td>Split metrics, tracing, OTLP, and access-log modules.</td></tr>
 <tr><td><code>crates/fluxheim-config/src/config_header.rs</code></td><td>1060</td><td>Header policy config and validation.</td><td>Move with header-policy crate work.</td></tr>
 <tr><td><code>crates/fluxheim-load-balancer/src/selection.rs</code></td><td>1050</td><td>Selection algorithms grouped in one reviewed module.</td><td>Keep grouped until algorithm API stabilizes, then split tests/helpers.</td></tr>
 <tr><td><code>src/udp_proxy.rs</code></td><td>1038</td><td>UDP beta runtime.</td><td>Split before beta promotion.</td></tr>
+<tr><td><code>crates/fluxheim-stream/src/lib.rs</code></td><td>948</td><td>Stream upstream selection, source policy, copy-loop limits, DNS guards, and PROXY protocol helpers grouped during the 1.6.3 extraction.</td><td>Split selector, source policy, copy loop, and PROXY protocol modules after the stream crate boundary stabilizes.</td></tr>
 <tr><td><code>crates/fluxheim-load-balancer/src/policy.rs</code></td><td>977</td><td>Runtime backend policy overrides and keys.</td><td>Split keys, snapshots, and mutation policy.</td></tr>
 <tr><td><code>crates/fluxheim-config/src/config_stream.rs</code></td><td>947</td><td>Stream proxy config and TLS validation.</td><td>Split with stream runtime cutover.</td></tr>
-<tr><td><code>crates/fluxheim-load-balancer/src/backend.rs</code></td><td>889</td><td>Backend snapshots and runtime mutation surface.</td><td>Split backend set, health snapshot, and mutation helpers.</td></tr>
-<tr><td><code>crates/fluxheim-load-balancer/src/discovery.rs</code></td><td>847</td><td>File/DNS/HTTP discovery and validation.</td><td>Split discovery backends.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/backend.rs</code></td><td>848</td><td>Backend snapshots and runtime mutation surface.</td><td>Split backend set, health snapshot, and mutation helpers.</td></tr>
+<tr><td><code>crates/fluxheim-load-balancer/src/discovery.rs</code></td><td>876</td><td>File/DNS/HTTP discovery and validation.</td><td>Split discovery backends.</td></tr>
 <tr><td><code>crates/fluxheim-cache/src/api.rs</code></td><td>819</td><td>Cache admin/status DTOs.</td><td>Split status, lookup, purge, and preview DTOs.</td></tr>
 <tr><td><code>crates/fluxheim-config/src/reload.rs</code></td><td>809</td><td>Reload classification and diff behavior.</td><td>Move snapshot/reload-safe classification into dedicated modules.</td></tr>
 <tr><td><code>crates/fluxheim-php-fpm/src/lib.rs</code></td><td>778</td><td>PHP-FPM crate root still holds several pure domains.</td><td>Split params, response, retry, and managed runtime helpers.</td></tr>
@@ -122,8 +123,10 @@
 <tr><td><code>crates/fluxheim-config/src/config_tls.rs</code></td><td>677</td><td>TLS config and validation.</td><td>Split downstream/upstream TLS config helpers.</td></tr>
 <tr><td><code>src/stream_tls.rs</code></td><td>657</td><td>Stream upstream TLS adapter.</td><td>Move with stream runtime cutover.</td></tr>
 <tr><td><code>crates/fluxheim-config/src/config_route.rs</code></td><td>641</td><td>Route config and validation.</td><td>Split redirect, methods, cache, and path policy helpers.</td></tr>
+<tr><td><code>crates/fluxheim-cache/src/object.rs</code></td><td>637</td><td>Cache object envelope, plaintext disk object format, and disk index helpers were grouped during the 1.6.2 cache extraction.</td><td>Split disk object format, serialized envelope, and disk index helpers after the root cache adapter shrinks.</td></tr>
+<tr><td><code>crates/fluxheim-cache/src/storage_bin.rs</code></td><td>627</td><td>Storage-bin layout, manifest, allocation, and free-map helpers were moved together to preserve allocator review context.</td><td>Split manifest/layout, allocator, and index-entry helpers after the storage-bin file adapter moves out of <code>src/cache.rs</code>.</td></tr>
 <tr><td><code>src/edge_policy.rs</code></td><td>532</td><td>Edge access/rate/geo policy.</td><td>Split policy decisions and runtime proof types.</td></tr>
-<tr><td><code>crates/fluxheim-cache/src/request.rs</code></td><td>503</td><td>Cache request/range/slice planning.</td><td>Split range/slice planning if it grows.</td></tr>
+<tr><td><code>crates/fluxheim-cache/src/request.rs</code></td><td>545</td><td>Cache request/range/slice planning plus native cache key identity.</td><td>Split key identity and range/slice planning if it grows further.</td></tr>
 </tbody></table></div>
         </article>
       </div>

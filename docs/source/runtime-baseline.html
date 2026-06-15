@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.1</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.4</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -101,8 +101,8 @@ scripts/capture-runtime-baseline.sh release</code></pre>
 </tbody></table></div>
 <p>The stricter release policy is tracked in <a href="pingora-dependency-exceptions.tsv" class="text-cyan-400 hover:text-cyan-300">Pingora Dependency Exceptions</a> and checked by:</p>
 <pre class="language-bash"><code class="language-bash">scripts/validate-pingora-dependency-policy.sh check</code></pre>
-<p>That gate fails when a Pingora crate is present without an exception, when an exception is stale, or when the current Fluxheim version has reached the exception&#x27;s <code>removal_target</code>. Maintainers can test an upcoming release bump before editing <code>Cargo.toml</code> with:</p>
-<pre class="language-bash"><code class="language-bash">FLUXHEIM_PINGORA_POLICY_VERSION=1.6.1 scripts/validate-pingora-dependency-policy.sh check</code></pre>
+<p>That gate fails when a Pingora crate is present without an exception, when an exception is stale, or when the current Fluxheim version has reached the exception&#x27;s <code>removal_target</code>. <code>cargo test</code> also runs <code>tests/pingora_dependency_policy.rs</code>, which checks the same removal targets against <code>Cargo.lock</code> so deadline drift is visible outside the release gate. Maintainers can test an upcoming release bump before editing <code>Cargo.toml</code> with:</p>
+<pre class="language-bash"><code class="language-bash">FLUXHEIM_PINGORA_POLICY_VERSION=1.6.2 scripts/validate-pingora-dependency-policy.sh check</code></pre>
 <p>Release mode invokes the performance baseline automatically. To skip it for a local emergency run, set:</p>
 <pre class="language-bash"><code class="language-bash">FLUXHEIM_RUNTIME_BASELINE_PERFORMANCE=0 scripts/capture-runtime-baseline.sh release</code></pre>
 <h2 id="comparison-rules">Comparison Rules</h2>

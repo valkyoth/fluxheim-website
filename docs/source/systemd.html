@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.1</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.4</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -84,7 +84,7 @@
 <li>runs with <code>NoNewPrivileges</code> and grants only <code>CAP_NET_BIND_SERVICE</code>, allowing the unprivileged <code>fluxheim</code> user to bind production ports <code>80</code> and <code>443</code> without running the service as root;</li>
 <li>uses strict system path protection, private temporary and device namespaces, kernel/control-group write protection, namespace restrictions, native syscall architecture filtering, and a conservative system-service/network syscall allow-list;</li>
 <li>limits address families to IPv4, IPv6, and Unix domain sockets;</li>
-<li>stops with <code>SIGTERM</code> and lets Fluxheim shut down gracefully.</li>
+<li>stops with <code>SIGTERM</code> and lets Fluxheim/Pingora shut down gracefully.</li>
 </ul>
 <p>These systemd controls are the supported <code>1.0</code> host sandbox. They are deployment-level controls and do not require a special Fluxheim binary.</p>
 <p>The packaged native config listens on <code>0.0.0.0:80</code> by default. HTTPS uses <code>0.0.0.0:443</code> once <code>server.tls_listen</code> and certificate paths are enabled. This matches normal bare-metal web server expectations while keeping the process unprivileged.</p>

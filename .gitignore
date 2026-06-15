@@ -33,6 +33,7 @@ __pycache__/
 
 # Container/local generated artifacts
 /dist/
+/test/
 *.tar
 *.tar.gz
 *.tgz

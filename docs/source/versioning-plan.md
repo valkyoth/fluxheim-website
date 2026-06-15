@@ -2044,7 +2044,12 @@ Beta scope:
 - Fluxheim-owned cache interface decoupling for Pingora cache `Storage`,
   `HandleHit`, and `HandleMiss` semantics. Preserve existing cache behavior and
   add an adapter for the Pingora HTTP path rather than rewriting the cache
-  implementation.
+  implementation. `1.6.2` has moved cache key identity, serialized object
+  envelopes, cache-tag helpers, disk index types, native cache storage traits,
+  plaintext disk object header sizing/encoding/parsing, and storage-bin
+  layout/manifest/free-map helpers into `fluxheim-cache`; encrypted disk-object
+  handling and storage-bin safe file opening remain in the root adapter until
+  the native HTTP/cache cutover.
 - `1.6` server-runtime ownership work: replace Pingora `Server`, listener/TLS
   setup, hot-restart fd passing where retained, service registration, signal
   handling, and TLS resolver hooks with a Fluxheim-owned Tokio server
@@ -2497,19 +2502,37 @@ Planned `1.6.x` sequence:
   health-check connector is carried into the HTTP/runtime cutover.
 - `v1.6.2`: cache independence. Move cache interfaces into `fluxheim-cache`
   and replace remaining Pingora cache key/meta/hit/miss/admission adapter
-  usage in normal cache builds. Keep a temporary compatibility adapter only for
-  the old HTTP runtime. Add a cache profile gate proving `pingora-cache` is not
-  compiled.
+  usage where the cache domain itself can be made transport-neutral. Keep a
+  temporary compatibility adapter only for the old HTTP runtime. The current
+  Pingora facade still requires `pingora/cache` while the legacy proxy runtime
+  imports `pingora::cache`; keep that exception explicit and track final
+  `pingora-cache` compile removal under the native HTTP/runtime cutover.
+  Committed work includes cache key identity, serialized object envelopes,
+  disk index entries, disk index management, a crate-owned
+  `FluxCacheStorage`/hit/miss interface, and native-interface adapters for
+  memory, filesystem disk, storage-bin disk, disk-backend, and tiered cache
+  storage.
 - `v1.6.3`: stream runtime cutover. Move TCP stream proxying to
   `fluxheim-stream` or `fluxheim-proxy` using direct Tokio listeners and
-  connectors, including upstream TLS/mTLS through rustls and OpenSSL. Remove
-  Pingora stream service entrypoints from stream builds and keep stream smoke
-  tests for source ACL, SNI verification, PROXY protocol, limits, and timeout
-  behavior.
+  connectors, including upstream TLS/mTLS through rustls and OpenSSL.
+  Committed work includes `fluxheim-stream`, stream upstream selection,
+  source allow/deny policy, trusted PROXY source parsing, DNS-rebinding guard
+  decisions, copied-byte accounting, byte-limited copy-loop timeout handling,
+  and PROXY protocol parsing/writing. Keep the root stream adapter as the
+  temporary Pingora service-registration boundary until background/runtime
+  supervision is replaced, and keep stream smoke tests for source ACL, SNI
+  verification, PROXY protocol, limits, and timeout behavior.
 - `v1.6.4`: background runtime cutover. Replace Pingora background service
   wiring with Fluxheim-owned Tokio task supervision, cancellation, readiness,
   and shutdown handling for cache metrics, ACME renewal, stale purging,
   admin/self-healing work, discovery refresh loops, and load-balancer updates.
+  Committed work includes moving the shared Fluxheim shutdown, readiness,
+  background-task trait, and background-service handle into `fluxheim-runtime`,
+  replacing the root implementation with a narrow Pingora registration adapter,
+  and making the load-balancer crate reuse the same runtime primitives. It
+  also moves admin self-healing snapshot runtime state, pending validation,
+  validation metrics, health-signal outcomes, and expiry/error-rate rollback
+  decisions into `fluxheim-snapshot`.
   This is the right point to move durable config snapshot IDs, metadata, store
   validation, listing, rollback file operations, and known-good state helpers
   into `fluxheim-snapshot`, with the root admin/runtime modules left as API
@@ -2574,6 +2597,14 @@ Planned `1.6.x` sequence:
   before adding new extensibility or protocol surface. This release should
   prioritize pentest cleanup, performance regression checks, memory/FD leak
   checks, long-running soak tests, and documentation clarity.
+- `v1.6.15`: native load-balancer compatibility polish after Pingora is gone
+  from normal builds. Add a Fluxheim-owned nginx/Ketama-compatible consistent
+  hash selection mode for operators migrating from nginx or Pingora Ketama
+  behavior. Keep the existing rendezvous consistent-hash and bounded-load
+  consistent modes as the default Fluxheim algorithms, but document that the
+  compatibility mode is for matching nginx-style request-to-backend mapping.
+  Do not depend on `pingora-ketama`; implement and test the ring behavior in
+  Fluxheim with golden vectors and membership-change remapping tests.
 
 Stable exit criteria:
 

@@ -209,8 +209,8 @@ Fluxheim binary.
 
 For custom deployments, combine `tls-openssl-fips` with the raw modules you
 need. Do not combine it with a broad profile alias that already enables
-`tls-rustls`, because Cargo features are additive and Fluxheim supports one
-selected TLS backend per binary.
+`tls-rustls`, because Cargo features are additive and Fluxheim supports only one
+Pingora TLS backend per binary.
 
 Examples:
 
