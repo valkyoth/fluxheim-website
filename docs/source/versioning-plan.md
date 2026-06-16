@@ -2549,23 +2549,25 @@ Planned `1.6.x` sequence:
   shims where a not-yet-replaced outer runtime still needs them. Add a
   lint/search gate that blocks new internal `pingora::http` and
   `pingora::Error` usage outside adapters.
-- `v1.6.6`: listener/TLS abstraction. Introduce Fluxheim-owned listener,
-  certificate resolver, SNI, ALPN, mTLS/client-auth, OCSP, and upstream-peer
-  abstractions backed by rustls and OpenSSL. Keep Pingora listeners active only
-  as the old adapter while parity tests run. Move ACME order/account/certificate
-  installation, renewal scheduling inputs, filesystem safety helpers, and
-  certificate-install rollback logic behind `fluxheim-acme` APIs once the new
-  TLS/listener abstractions can consume them without depending on the old
-  Pingora runtime.
-- `v1.6.7`: server bootstrap cutover. Replace Pingora server bootstrap, worker
-  setup, service registration, signal handling, log-rotation signal behavior,
-  hot-restart file-descriptor passing where retained, listener creation, and
-  TLS listener configuration behind Fluxheim-owned APIs.
-- `v1.6.8`: native HTTP/1.1 runtime preview. Add the Fluxheim-owned HTTP/1.1
-  proxy pipeline beside the old path using standard `http` types, bounded body
-  streams, explicit downstream/upstream timeouts, and existing route/policy
-  modules. Keep it behind an internal migration feature until fixture parity is
-  green.
+- `v1.6.6`: listener/TLS abstraction. Introduce `fluxheim-tls` for
+  Fluxheim-owned downstream TLS listener planning, certificate selection, SNI
+  matching, ALPN/cipher policy, TLS provider setup, and FIPS runtime checks.
+  Keep Pingora listeners active only as the old adapter while parity tests run.
+  Move ACME order/account/certificate installation, renewal scheduling inputs,
+  filesystem safety helpers, and certificate-install rollback logic behind
+  `fluxheim-acme` APIs once the native listener/server cutover can consume them
+  without depending on the old Pingora runtime.
+- `v1.6.7`: server bootstrap planning boundary. Build the Fluxheim-owned
+  `ServerPlan` surface for process settings, listener inventory, service
+  intent, background-task intent, downstream HTTP/2 policy, PROXY protocol
+  listener policy, and admin/private Unix socket planning while keeping the
+  active Pingora runtime as an explicit compatibility adapter.
+- `v1.6.8`: native server/listener continuation and HTTP/1.1 runtime preview
+  foundations. Continue removing Pingora server/listener glue, then add the
+  Fluxheim-owned HTTP/1.1 proxy pipeline beside the old path using standard
+  `http` types, bounded body streams, explicit downstream/upstream timeouts,
+  and existing route/policy modules. Keep it behind an internal migration
+  feature until fixture parity is green.
 - `v1.6.9`: native HTTP/1.1 runtime cutover. Make the Fluxheim-owned HTTP/1.1
   path the default for selected profiles, preserving routing, upstream
   selection, request/response header policy, access policy,

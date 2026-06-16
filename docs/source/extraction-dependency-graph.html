@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.4</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -93,6 +93,7 @@
 <tr><td><code>proxy_protocol.rs</code></td><td><code>fluxheim-protocol</code></td><td>Pure framing plus the current Pingora L4 connector adapter; split protocol bytes before stream/server replacement.</td></tr>
 <tr><td><code>trace_context.rs</code> and OTLP helpers</td><td><code>fluxheim-observability</code></td><td>Pure parsing/export formatting can move before HTTP runtime changes.</td></tr>
 <tr><td><code>headers.rs</code></td><td><code>fluxheim-headers</code> or <code>fluxheim-http-policy</code></td><td>Security-sensitive but mostly request/response policy; extract pure rules before replacing Pingora HTTP types.</td></tr>
+<tr><td><code>tls.rs</code> listener/provider policy</td><td><code>fluxheim-tls</code></td><td>Own downstream listener planning, certificate selection, SNI matching, ALPN/cipher policy, and TLS provider/FIPS checks before replacing the Pingora listener adapter.</td></tr>
 <tr><td><code>acme.rs</code></td><td><code>fluxheim-acme</code></td><td>Large filesystem/TLS/runtime integration surface; extract after listener/TLS boundary traits exist.</td></tr>
 <tr><td><code>runtime.rs</code></td><td><code>fluxheim-runtime</code> and <code>fluxheim-server</code></td><td>Own task, shutdown, listener, TLS, and server bootstrap abstractions before removing Pingora server services.</td></tr>
 <tr><td><code>cache.rs</code></td><td><code>fluxheim-cache</code></td><td>Continue moving admission, keys, headers, storage plans, and purge logic; keep only Pingora cache adapters in root until HTTP proxy cutover.</td></tr>

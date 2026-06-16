@@ -62,7 +62,7 @@
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
             GitHub
           </a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.4</a>
+          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.7</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -171,9 +171,9 @@
                 <div class="code-win">
                   <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
 <pre class="language-bash"><code class="language-bash"># Use aarch64-linux instead of x86_64-linux on ARM64 servers.
-curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.6.4/fluxheim-1.6.4-full-x86_64-linux.tar.gz \
-  -o fluxheim-1.6.4.tar.gz
-tar xzf fluxheim-1.6.4.tar.gz</code></pre>
+curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.6.7/fluxheim-1.6.7-full-x86_64-linux.tar.gz \
+  -o fluxheim-1.6.7.tar.gz
+tar xzf fluxheim-1.6.7.tar.gz</code></pre>
                 </div>
               </div>
             </div>
@@ -222,10 +222,10 @@ curl -H 'Host: localhost' http://127.0.0.1:8080/</code></pre>
           <div class="code-win my-5">
             <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
 <pre class="language-bash"><code class="language-bash"># Pull the full image from GHCR or Quay
-podman pull ghcr.io/valkyoth/fluxheim:v1.6.4
-podman pull quay.io/valkyoth/fluxheim:v1.6.4
+podman pull ghcr.io/valkyoth/fluxheim:v1.6.7
+podman pull quay.io/valkyoth/fluxheim:v1.6.7
 
-# Other published profiles: v1.6.4-load-balancer, v1.6.4-cache, v1.6.4-proxy, v1.6.4-php
+# Other published profiles: v1.6.7-load-balancer, v1.6.7-cache, v1.6.7-proxy, v1.6.7-php
 
 # Run rootless — ports 8080 (HTTP) and 8443 (HTTPS)
 podman run -d \
@@ -235,7 +235,7 @@ podman run -d \
   -p 8443:8443 \
   -v /srv/sites:/srv/sites:ro,z \
   -v /etc/fluxheim:/etc/fluxheim:ro,z \
-  ghcr.io/valkyoth/fluxheim:v1.6.4
+  ghcr.io/valkyoth/fluxheim:v1.6.7
 
 podman logs -f fluxheim</code></pre>
           </div>

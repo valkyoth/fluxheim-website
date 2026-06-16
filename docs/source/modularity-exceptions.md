@@ -20,17 +20,17 @@ documents why the exception is temporary and how it will be removed.
 | `src/admin.rs` | 7943 | Legacy admin HTTP endpoint router over every domain. | Reduce after domain APIs stabilize; possible `fluxheim-admin` after `1.6.12`. |
 | `src/cli.rs` | 5544 | Legacy command dispatch and release/admin/cache tooling. | Split command handlers by domain after runtime crates settle. |
 | `crates/fluxheim-load-balancer/src/lib.rs` | 4013 | Load-balancer orchestration root still hosts many domain pieces; API/runtime DTOs moved to `api.rs` in `1.6.1`. | Continue splitting orchestration and runtime mutation code during the remaining `1.6` load-balancer/background cutovers. |
-| `src/acme.rs` | 3909 | ACME account/order/install/renewal and filesystem safety in one root adapter. | Move to `fluxheim-acme` around `1.6.6`. |
+| `src/acme.rs` | 3909 | ACME account/order/install/renewal and filesystem safety in one root adapter. | Move to `fluxheim-acme` after the native listener/TLS cutover stabilizes. |
 | `src/metrics.rs` | 2761 | Root metrics registry/export adapter over many domains. | Move remaining pure metrics into `fluxheim-observability`. |
 | `crates/fluxheim-config/src/config.rs` | 2514 | Config root, validation helpers, and shared parsing glue. | Split by shared config primitives. |
 | `crates/fluxheim-config/src/config_cache.rs` | 2495 | Cache config, validation, and merge behavior. | Split cache config primitives when `fluxheim-cache` owns more runtime. |
-| `src/headers.rs` | 2125 | Header mutation, forwarding, rewriting, and cookie policy. | Move to `fluxheim-headers`/`fluxheim-http-policy` in `1.6.5`. |
-| `src/runtime.rs` | 2203 | Pingora server/bootstrap/listener orchestration. | Replace through `fluxheim-runtime`/`fluxheim-server` in `1.6.4`-`1.6.7`. |
-| `src/tls.rs` | 1834 | TLS config/runtime helper surface for current listener adapter. | Split with listener/TLS abstraction in `1.6.6`. |
+| `src/headers.rs` | 1829 | Remaining Pingora request/response header mutation adapter after the first `fluxheim-headers` extraction. | Keep shrinking with native HTTP/header-policy cutovers. |
+| `src/runtime.rs` | 2013 | Pingora server/bootstrap/listener orchestration; TLS listener planning and server process/listener inventory now come from focused crates while this file remains the compatibility adapter. | Continue replacing through `fluxheim-runtime`/`fluxheim-server` during the remaining `1.6` runtime cutover. |
+| `src/tls.rs` | 1456 | Root TLS storage, ACME path resolution, and compatibility glue after `fluxheim-tls` extracted listener planning, provider, ALPN, cipher, and SNI selector policy. | Move remaining ACME/storage helpers to focused crates after native listener cutover. |
 | `crates/fluxheim-config/src/config_proxy.rs` | 1807 | Proxy config and validation. | Split proxy/load-balancer subdomains as native proxy APIs land. |
 | `crates/fluxheim-config/src/config_load_balance.rs` | 1796 | Load-balancer config and validation. | Split with `fluxheim-load-balancer` independence in `1.6.1`. |
 | `crates/fluxheim-load-balancer/src/health.rs` | 1911 | Multiple active health-check protocols in one file. | Split by protocol after Pingora health adapters are gone. |
-| `src/stream_proxy.rs` | 1026 | Current Pingora service-registration, listener, socket connect, and TLS adapter for stream routes after the 1.6.3 stream crate extraction. | Keep shrinking as background/runtime supervision and TLS connector abstractions move in `1.6.4`-`1.6.7`. |
+| `src/stream_proxy.rs` | 1026 | Current Pingora service-registration, listener, socket connect, and TLS adapter for stream routes after the 1.6.3 stream crate extraction. | Keep shrinking as background/runtime supervision and TLS connector abstractions move during the remaining `1.6` runtime cutover. |
 | `crates/fluxheim-config/src/config_php.rs` | 1641 | PHP-FPM config and validation. | Split managed/runtime/path validation helpers. |
 | `src/web.rs` | 1507 | Root static web adapter over `fluxheim-web`. | Reduce to adapter glue after native HTTP runtime lands. |
 | `crates/fluxheim-cache/src/headers.rs` | 1482 | Cache directive parsing and policy helpers. | Split request/response directive modules. |
