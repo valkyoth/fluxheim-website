@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.7</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.13</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -112,7 +112,7 @@ cargo build --release --no-default-features \
 <p><code>1.3.6</code> also closes other non-TLS crypto paths in FIPS/ISO-required mode: provider-backed admin auth is allowed in OpenSSL FIPS or rustls/AWS-LC FIPS builds, while local cache encryption, managed ACME, and remote/HTTPS OTLP export are rejected unless the path is non-secret, numeric-local-loopback-only, or externally evidenced as documented in the FIPS guide.</p>
 <p>PHP support starts with <code>php-fpm</code> in <code>1.3.1</code>. It is never compiled by default; build it explicitly with <code>profile-web-server,php-fpm</code> when Fluxheim should serve PHP applications through php-fpm.</p>
 <p>See <a href="features.html" class="text-cyan-400 hover:text-cyan-300">Feature Matrix</a> for the complete feature/profile list.</p>
-<p>Fluxheim&#x27;s production RPM intentionally compiles <code>profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp</code> for the <code>1.5.x</code> line. That keeps the normal packaged binary broad while the container and tarball release assets also provide focused cache/proxy builds. Custom source builds can still omit <code>acme-client</code>, load-balancer, cache, web, or observability features when they are not needed.</p>
+<p>Fluxheim&#x27;s production RPM intentionally compiles <code>profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp</code> for the current production line. That keeps the normal packaged binary broad while the container and tarball release assets also provide focused cache/proxy builds. Custom source builds can still omit <code>acme-client</code>, load-balancer, cache, web, or observability features when they are not needed.</p>
 <p>For package scripts or custom CI that accept user-provided feature strings, run the feature preflight before invoking Cargo:</p>
 <pre class="language-bash"><code class="language-bash">scripts/validate-features.sh proxy,web,tls-rustls</code></pre>
 <h2 id="system-build-dependencies">System Build Dependencies</h2>
@@ -286,27 +286,27 @@ scripts/podman_smoke_variants.sh</code></pre>
 </ul>
 <p>The workflow publishes OS-variant tags for the full/default image profile:</p>
 <ul>
-<li><code>v1.6.7-wolfi</code>, <code>v1.6.7-alpine</code>, <code>v1.6.7-suse-micro</code>, <code>v1.6.7-debian</code></li>
+<li><code>v1.6.13-wolfi</code>, <code>v1.6.13-alpine</code>, <code>v1.6.13-suse-micro</code>, <code>v1.6.13-debian</code></li>
 <li><code>sha-&lt;short-sha&gt;-wolfi</code>, <code>sha-&lt;short-sha&gt;-alpine</code>, etc.</li>
 <li><code>latest-wolfi</code>, <code>latest-alpine</code>, etc. when run from the default branch</li>
 </ul>
 <p>For the recommended Wolfi runtime, the full/default profile also gets short aliases:</p>
 <ul>
-<li><code>v1.6.7</code></li>
-<li><code>v1.6.7-base</code></li>
+<li><code>v1.6.13</code></li>
+<li><code>v1.6.13-base</code></li>
 <li><code>latest</code></li>
 <li><code>latest-base</code></li>
 </ul>
 <p>The <code>-base</code> aliases are kept for compatibility with earlier release notes and automation. They point at the full/default image profile.</p>
 <p>The focused image profiles publish tags with a profile segment:</p>
 <ul>
-<li><code>v1.6.7-cache-wolfi</code>, <code>v1.6.7-cache-alpine</code>, <code>v1.6.7-cache-suse-micro</code>, <code>v1.6.7-cache-debian</code></li>
-<li><code>v1.6.7-proxy-wolfi</code>, <code>v1.6.7-proxy-alpine</code>, <code>v1.6.7-proxy-suse-micro</code>, <code>v1.6.7-proxy-debian</code></li>
-<li><code>v1.6.7-load-balancer-wolfi</code>, <code>v1.6.7-load-balancer-alpine</code>, <code>v1.6.7-load-balancer-suse-micro</code>, <code>v1.6.7-load-balancer-debian</code></li>
-<li><code>v1.6.7-php-wolfi</code>, <code>v1.6.7-php-alpine</code>, <code>v1.6.7-php-suse-micro</code>, <code>v1.6.7-php-debian</code></li>
+<li><code>v1.6.13-cache-wolfi</code>, <code>v1.6.13-cache-alpine</code>, <code>v1.6.13-cache-suse-micro</code>, <code>v1.6.13-cache-debian</code></li>
+<li><code>v1.6.13-proxy-wolfi</code>, <code>v1.6.13-proxy-alpine</code>, <code>v1.6.13-proxy-suse-micro</code>, <code>v1.6.13-proxy-debian</code></li>
+<li><code>v1.6.13-load-balancer-wolfi</code>, <code>v1.6.13-load-balancer-alpine</code>, <code>v1.6.13-load-balancer-suse-micro</code>, <code>v1.6.13-load-balancer-debian</code></li>
+<li><code>v1.6.13-php-wolfi</code>, <code>v1.6.13-php-alpine</code>, <code>v1.6.13-php-suse-micro</code>, <code>v1.6.13-php-debian</code></li>
 <li><code>sha-&lt;short-sha&gt;-cache-wolfi</code>, <code>sha-&lt;short-sha&gt;-proxy-wolfi</code>, <code>sha-&lt;short-sha&gt;-load-balancer-wolfi</code>, <code>sha-&lt;short-sha&gt;-php-wolfi</code>, etc.</li>
 <li><code>latest-cache-wolfi</code>, <code>latest-proxy-wolfi</code>, <code>latest-load-balancer-wolfi</code>, <code>latest-php-wolfi</code>, etc. when run from the default branch</li>
-<li>Wolfi short aliases: <code>v1.6.7-cache</code>, <code>v1.6.7-proxy</code>, <code>v1.6.7-load-balancer</code>, <code>v1.6.7-php</code>, <code>latest-cache</code>, <code>latest-proxy</code>, <code>latest-load-balancer</code>, and <code>latest-php</code></li>
+<li>Wolfi short aliases: <code>v1.6.13-cache</code>, <code>v1.6.13-proxy</code>, <code>v1.6.13-load-balancer</code>, <code>v1.6.13-php</code>, <code>latest-cache</code>, <code>latest-proxy</code>, <code>latest-load-balancer</code>, and <code>latest-php</code></li>
 </ul>
 <p>Starting with <code>v1.5.0</code>, the load-balancer image profile is part of normal tag publishing. For older tags or development branches, it can still be included in manual workflow runs by setting <code>include_load_balancer=true</code>.</p>
 <p>The workflow defaults to <code>linux/amd64</code>. Use manual dispatch to test additional platforms, for example <code>linux/amd64,linux/arm64</code>, once every selected runtime base has been verified for those architectures.</p>
