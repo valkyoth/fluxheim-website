@@ -123,6 +123,19 @@ while replacing Pingora boundaries:
 - load-balancer backend selection/ejection;
 - admin runtime mutations.
 
+`v1.6.16` adds the first native HTTP/1 proxy cutover summary to the server
+plan. That summary is an eligibility signal, not a traffic switch: the
+production runtime remains on the compatibility adapter until every configured
+proxy path either has native parity or is explicitly kept on the compatibility
+path with a bounded reason. Operators should treat `NativeReady`, `Mixed`, and
+`CompatibilityRequired` as rollout evidence for the Pingora-exit line rather
+than as an active runtime adapter claim.
+
+`v1.6.19` adds the broader native runtime cutover summary. It reports
+remaining blockers such as native HTTP/1 proxy parity, native HTTP/2 downstream
+parity, admin, metrics, stream, and UDP service adapters. This is still
+diagnostic evidence only; it does not change the active runtime adapter.
+
 Later 1.6 releases may add a bounded in-memory fact ring for admin diagnostics.
 The ring must be optional, fixed-size, redacted by type, and safe to disable.
 It must never be required for request forwarding.

@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.13</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.19</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -81,6 +81,10 @@
 <li>an internal <code>cert_resolver</code> field used by the rustls listener when building <code>rustls::ServerConfig</code></li>
 </ul>
 <p>The patch keeps Pingora&#x27;s existing single-certificate path unchanged. It only allows Fluxheim to pass a rustls <code>ResolvesServerCert</code> implementation so per-vhost certificates can be selected by SNI in the default build.</p>
+<p>As of Fluxheim <code>1.6.19</code>, the resolver implementation itself lives in <code>fluxheim-tls</code>: Fluxheim owns wildcard/exact SNI lookup, the reloadable certificate table, PEM certificate/private-key parsing, and TLS-ALPN challenge certificate loading. The vendored Pingora patch is now only the temporary listener acceptor hook that lets the compatibility runtime pass that resolver into rustls. This keeps Pingora&#x27;s <code>build()</code> panic behavior isolated until the native downstream listener replaces the compatibility acceptor.</p>
+<p><code>fluxheim-tls</code> also owns the native rustls downstream <code>ServerConfig</code> builder. That builder applies Fluxheim TLS policy and returns typed errors for protocol, cipher, group, client-auth, and FIPS reporting failures. Until the native listener is wired into production profiles, the compatibility runtime still mirrors the same policy into Pingora&#x27;s <code>TlsSettings</code> shim.</p>
+<p>For OpenSSL-only builds, <code>fluxheim-tls</code> owns the native downstream <code>SslAcceptor</code> builder for the fallback-certificate listener path. It applies certificate/key loading, ALPN, cipher, curve, minimum protocol, and client-auth CA policy with typed errors. It also owns OpenSSL SNI certificate storage, reload, pending managed-certificate handling, and certificate application. The remaining Pingora layer is a thin <code>TlsAccept</code> adapter until production listener cutover.</p>
+<p><code>fluxheim-server</code> has a native rustls HTTP/1 listener preview that accepts a ready <code>rustls::ServerConfig</code>, bounds the TLS handshake, and then hands the stream to the same native HTTP/1 parser/handler path used by plain listeners. OpenSSL-only builds also have a matching native HTTP/1 listener preview that accepts an <code>openssl::ssl::SslAcceptor</code>, bounds the handshake, and uses the same native parser/handler. These are the intended replacement paths for the compatibility listener patch once the runtime cutover wires them into official profiles.</p>
 <h2 id="rustls-upstream-verification-policy">Rustls Upstream Verification Policy</h2>
 <p>Fluxheim also patches the rustls upstream connector so per-peer <code>verify_cert = false</code> and <code>verify_hostname = false</code> policies apply even when no other setting forced Pingora to clone the rustls client config. In Pingora 0.8, the dangerous verifier path was only installed when a cloned config already existed for ALPN or upstream mTLS. Fluxheim exposes explicit upstream TLS verification controls, so the connector must clone the config and install the custom verifier whenever verification is disabled or SNI is absent.</p>
 <p>This is a temporary compatibility patch, not a long-term fork. Keep it small, easy to audit, and limited to the rustls certificate resolver and upstream verification-policy gaps.</p>
@@ -127,7 +131,7 @@
 </ol>
 <ul>
 <li>add a resolver field to the rustls listener <code>TlsSettings</code>;</li>
-<li>add <code>TlsSettings::with_cert_resolver(...)</code>;</li>
+<li>add <code>TlsSettings::with_cert_resolver(...)</code> or use Fluxheim&#x27;s native listener resolver directly once Pingora is removed;</li>
 <li>make <code>build()</code> use the resolver when present and keep the existing <code>intermediate(cert, key)</code> single-certificate path unchanged.</li>
 </ul>
 <ol>

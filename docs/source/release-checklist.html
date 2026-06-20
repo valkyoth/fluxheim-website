@@ -38,7 +38,7 @@
           <a href="../../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
           <a href="../../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
           <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.13</a>
+          <a href="../../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.19</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -95,16 +95,17 @@ cargo install --locked cargo-sbom --version 0.10.0</code></pre>
 <h2 id="dependency-license-and-advisory-gates">Dependency, License, And Advisory Gates</h2>
 <ul>
 <li>Run <code>cargo update</code> only as a deliberate dependency maintenance step.</li>
-<li>Before tagging, verify compatible dependency updates are exhausted. This gate intentionally ignores <code>pingora*</code> packages while Fluxheim is still exiting the Pingora load-balancer/cache dependency surface:</li>
+<li>Before tagging, verify compatible dependency updates are exhausted. This gate intentionally ignores <code>pingora*</code> packages while Fluxheim is still exiting the Pingora compatibility runtime dependency surface:</li>
 </ul>
 <pre class="language-bash"><code class="language-bash">scripts/check_latest_crates.sh</code></pre>
 <ul>
-<li>During the <code>1.6.x</code> Pingora-exit line, capture the runtime baseline evidence before tagging. <code>check</code> mode records locked dependency trees and the per-profile Pingora dependency surface; <code>release</code> mode also records the default release-binary size and local performance baseline:</li>
+<li>During the <code>1.6.x</code> Pingora-exit line, capture the runtime baseline evidence before tagging. <code>check</code> mode records locked dependency trees and the per-profile Pingora dependency surface, including native web TLS proof profiles; <code>release</code> mode also records the default release-binary size and local performance baseline:</li>
 </ul>
 <pre class="language-bash"><code class="language-bash">scripts/capture-runtime-baseline.sh check
 scripts/capture-runtime-baseline.sh release
 scripts/capture-runtime-performance-baseline.sh release
 scripts/validate-pingora-dependency-policy.sh check
+scripts/validate-native-web-tls.sh check
 scripts/validate-runtime-fixtures.sh check</code></pre>
 <ul>
 <li>Review every new dependency for maintenance status and SPDX license metadata.</li>
