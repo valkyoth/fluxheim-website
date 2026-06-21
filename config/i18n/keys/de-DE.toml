@@ -15,4 +15,27 @@ changelog = "Änderungen"
 
 [release]
 latest_stable = "Aktuelle stabile Version"
+latest_stable_release = "Neueste stabile Version"
 download_version = "Herunterladen v{version}"
+
+[shell]
+home_title = "Fluxheim — Speichersicherer Edge-Server in Rust"
+view_on_github = "Auf GitHub ansehen"
+quick_start = "Schnellstart"
+switch_color_theme = "Farbschema wechseln"
+links = "Links"
+github_repository = "GitHub-Repository"
+issues = "Issues"
+menu = "Menü"
+
+[footer]
+tagline = "Speichersicherer Edge-Server in Rust. Lizenziert unter EUPL-1.2."
+project = "Projekt"
+releases = "Releases"
+roadmap = "Roadmap"
+community = "Community"
+discussions = "Diskussionen"
+eupl_license = "EUPL-1.2-Lizenz"
+valkyoth_org = "Valkyoth-Organisation"
+copyright_prefix = "© 2026 Valkyoth. Veröffentlicht unter der"
+built_with = "Gebaut mit Rust · Betrieben mit Fluxheim"

@@ -138,7 +138,7 @@ class VisibleTextParser(HTMLParser):
 def load_phrases(locale: str) -> list[str]:
     paths = [ROOT / f"config/i18n-{locale}.toml"]
     paths.extend(sorted((ROOT / "config/i18n" / locale).glob("*.toml")))
-    phrases: list[str] = []
+    phrases: list[str] = stable_key_sources()
     for path in paths:
         data = tomllib.loads(path.read_text(encoding="utf-8"))
         for phrase in data["phrase"]:
@@ -147,6 +147,28 @@ def load_phrases(locale: str) -> list[str]:
             phrases.extend(visible_parts(source))
     phrases.sort(key=len, reverse=True)
     return phrases
+
+
+def stable_key_sources() -> list[str]:
+    data = tomllib.loads((ROOT / "config/i18n/keys/en-EU.toml").read_text(encoding="utf-8"))
+    phrases: list[str] = []
+    for value in flatten_strings(data):
+        if "{version}" in value:
+            continue
+        phrases.append(value)
+        phrases.extend(visible_parts(value))
+    return phrases
+
+
+def flatten_strings(value: object) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, dict):
+        strings: list[str] = []
+        for nested in value.values():
+            strings.extend(flatten_strings(nested))
+        return strings
+    return []
 
 
 def visible_parts(source: str) -> list[str]:

@@ -17,6 +17,8 @@ struct KeyFile {
     language: LanguageKeys,
     nav: NavKeys,
     release: ReleaseKeys,
+    shell: ShellKeys,
+    footer: FooterKeys,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -39,7 +41,34 @@ struct NavKeys {
 #[derive(Debug, Clone, Deserialize)]
 struct ReleaseKeys {
     latest_stable: String,
+    latest_stable_release: String,
     download_version: String,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+struct ShellKeys {
+    home_title: String,
+    view_on_github: String,
+    quick_start: String,
+    switch_color_theme: String,
+    links: String,
+    github_repository: String,
+    issues: String,
+    menu: String,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+struct FooterKeys {
+    tagline: String,
+    project: String,
+    releases: String,
+    roadmap: String,
+    community: String,
+    discussions: String,
+    eupl_license: String,
+    valkyoth_org: String,
+    copyright_prefix: String,
+    built_with: String,
 }
 
 pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String {
@@ -48,6 +77,46 @@ pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String
     };
 
     html.replace(
+        "Fluxheim — Memory-Safe Edge Server Built in Rust",
+        &keys.shell.home_title,
+    )
+    .replace("Latest Stable Release", &keys.release.latest_stable_release)
+    .replace("Switch color theme", &keys.shell.switch_color_theme)
+    .replace(
+        ">View on GitHub<",
+        &format!(">{}<", keys.shell.view_on_github),
+    )
+    .replace(">Quick Start<", &format!(">{}<", keys.shell.quick_start))
+    .replace(">Links<", &format!(">{}<", keys.shell.links))
+    .replace(
+        ">GitHub Repository<",
+        &format!(">{}<", keys.shell.github_repository),
+    )
+    .replace(">Issues<", &format!(">{}<", keys.shell.issues))
+    .replace(">Menu<", &format!(">{}<", keys.shell.menu))
+    .replace(
+        "Memory-safe edge server built in Rust. Licensed under EUPL-1.2.",
+        &keys.footer.tagline,
+    )
+    .replace(">Project<", &format!(">{}<", keys.footer.project))
+    .replace(">Releases<", &format!(">{}<", keys.footer.releases))
+    .replace(">Roadmap<", &format!(">{}<", keys.footer.roadmap))
+    .replace(">Community<", &format!(">{}<", keys.footer.community))
+    .replace(">Discussions<", &format!(">{}<", keys.footer.discussions))
+    .replace(
+        ">EUPL-1.2 License<",
+        &format!(">{}<", keys.footer.eupl_license),
+    )
+    .replace(">Valkyoth Org<", &format!(">{}<", keys.footer.valkyoth_org))
+    .replace(
+        "© 2026 Valkyoth. Distributed under the",
+        &keys.footer.copyright_prefix,
+    )
+    .replace(
+        "Built with Rust · Powered by Fluxheim",
+        &keys.footer.built_with,
+    )
+    .replace(
         ">Download v1.6.28<",
         &format!(">{}<", versioned(&keys.release.download_version, version)),
     )
@@ -144,5 +213,25 @@ mod tests {
         assert!(fr_html.contains("Journal des changements"));
         assert!(fr_html.contains("Dernière version stable"));
         assert!(fr_html.contains("Télécharger v1.6.28"));
+    }
+
+    #[test]
+    fn applies_stable_shell_and_footer_keys() {
+        let site = Site::load().expect("site loads");
+        let de = site.locale("de-DE").expect("German locale");
+        let html = concat!(
+            "Fluxheim — Memory-Safe Edge Server Built in Rust",
+            ">View on GitHub<>Quick Start<>GitHub Repository<",
+            ">Project<>Community<>EUPL-1.2 License<",
+            "Memory-safe edge server built in Rust. Licensed under EUPL-1.2.",
+        )
+        .to_owned();
+
+        let translated = apply_shared_keys(de, html, "1.6.28");
+
+        assert!(translated.contains("Speichersicherer Edge-Server"));
+        assert!(translated.contains(">Auf GitHub ansehen<"));
+        assert!(translated.contains(">Projekt<"));
+        assert!(translated.contains(">EUPL-1.2-Lizenz<"));
     }
 }

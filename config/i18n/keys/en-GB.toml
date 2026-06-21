@@ -15,4 +15,27 @@ changelog = "Changelog"
 
 [release]
 latest_stable = "Latest Stable"
+latest_stable_release = "Latest Stable Release"
 download_version = "Download v{version}"
+
+[shell]
+home_title = "Fluxheim — Memory-Safe Edge Server Built in Rust"
+view_on_github = "View on GitHub"
+quick_start = "Quick Start"
+switch_color_theme = "Switch color theme"
+links = "Links"
+github_repository = "GitHub Repository"
+issues = "Issues"
+menu = "Menu"
+
+[footer]
+tagline = "Memory-safe edge server built in Rust. Licensed under EUPL-1.2."
+project = "Project"
+releases = "Releases"
+roadmap = "Roadmap"
+community = "Community"
+discussions = "Discussions"
+eupl_license = "EUPL-1.2 License"
+valkyoth_org = "Valkyoth Org"
+copyright_prefix = "© 2026 Valkyoth. Distributed under the"
+built_with = "Built with Rust · Powered by Fluxheim"

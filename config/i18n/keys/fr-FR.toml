@@ -15,4 +15,27 @@ changelog = "Journal des changements"
 
 [release]
 latest_stable = "Dernière version stable"
+latest_stable_release = "Dernière version stable"
 download_version = "Télécharger v{version}"
+
+[shell]
+home_title = "Fluxheim — Serveur edge sûr pour la mémoire en Rust"
+view_on_github = "Voir sur GitHub"
+quick_start = "Démarrage rapide"
+switch_color_theme = "Changer le thème de couleur"
+links = "Liens"
+github_repository = "Dépôt GitHub"
+issues = "Issues"
+menu = "Menu"
+
+[footer]
+tagline = "Serveur edge sûr pour la mémoire construit en Rust. Sous licence EUPL-1.2."
+project = "Projet"
+releases = "Versions"
+roadmap = "Feuille de route"
+community = "Communauté"
+discussions = "Discussions"
+eupl_license = "Licence EUPL-1.2"
+valkyoth_org = "Organisation Valkyoth"
+copyright_prefix = "© 2026 Valkyoth. Distribué sous la"
+built_with = "Construit avec Rust · Propulsé par Fluxheim"

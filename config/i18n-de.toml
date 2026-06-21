@@ -2,10 +2,6 @@ locale_id = "de-DE"
 html_lang = "de-DE"
 
 [[phrase]]
-from = "Fluxheim — Memory-Safe Edge Server Built in Rust"
-to = "Fluxheim — Speichersicherer Edge-Server in Rust"
-
-[[phrase]]
 from = "Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust."
 to = "Fluxheim ist ein leistungsstarker, modularer Webserver, Reverse Proxy und Cache-Server in Rust."
 
@@ -16,10 +12,6 @@ to = "Fluxheim ist ein leistungsstarker, modularer Webserver, Reverse Proxy und 
 [[phrase]]
 from = "A memory-safe edge server and reverse proxy built in Rust."
 to = "Ein speichersicherer Edge-Server und Reverse Proxy in Rust."
-
-[[phrase]]
-from = "Latest Stable Release"
-to = "Neueste stabile Version"
 
 [[phrase]]
 from = "Memory-Safe"
@@ -86,14 +78,6 @@ from = "Download v"
 to = "Herunterladen v"
 
 [[phrase]]
-from = "View on GitHub"
-to = "Auf GitHub ansehen"
-
-[[phrase]]
-from = "Quick Start"
-to = "Schnellstart"
-
-[[phrase]]
 from = "Rootless Containers"
 to = "Rootless-Container"
 
@@ -108,10 +92,6 @@ to = "Herunterladen"
 [[phrase]]
 from = "Changelog"
 to = "Änderungen"
-
-[[phrase]]
-from = "Switch color theme"
-to = "Farbschema wechseln"
 
 [[phrase]]
 from = "Documentation"
@@ -188,18 +168,6 @@ to = "Quellreferenz"
 [[phrase]]
 from = "Links"
 to = "Links"
-
-[[phrase]]
-from = "GitHub Repository"
-to = "GitHub-Repository"
-
-[[phrase]]
-from = "Issues"
-to = "Issues"
-
-[[phrase]]
-from = "Menu"
-to = "Menü"
 
 [[phrase]]
 from = "Downloads"
@@ -366,26 +334,6 @@ from = "See all features →"
 to = "Alle Funktionen ansehen →"
 
 [[phrase]]
-from = "Project"
-to = "Projekt"
-
-[[phrase]]
-from = "Releases"
-to = "Releases"
-
-[[phrase]]
-from = "Roadmap"
-to = "Roadmap"
-
-[[phrase]]
-from = "Community"
-to = "Community"
-
-[[phrase]]
-from = "Discussions"
-to = "Diskussionen"
-
-[[phrase]]
 from = "Recommended"
 to = "Empfohlen"
 
@@ -410,10 +358,6 @@ from = "EUPL-1.2 Open Source"
 to = "EUPL-1.2 Open Source"
 
 [[phrase]]
-from = "Memory-safe edge server built in Rust. Licensed under EUPL-1.2."
-to = "Speichersicherer Edge-Server in Rust. Lizenziert unter EUPL-1.2."
-
-[[phrase]]
 from = "Prometheus & OpenTelemetry"
 to = "Prometheus & OpenTelemetry"
 
@@ -424,19 +368,3 @@ to = "Copyleft-Lizenz, kompatibel mit vielen OSS-Lizenzen. EU-ursprünglich und 
 [[phrase]]
 from = "Fluxheim architecture overview"
 to = "Fluxheim-Architekturübersicht"
-
-[[phrase]]
-from = "EUPL-1.2 License"
-to = "EUPL-1.2-Lizenz"
-
-[[phrase]]
-from = "Valkyoth Org"
-to = "Valkyoth-Organisation"
-
-[[phrase]]
-from = "© 2026 Valkyoth. Distributed under the"
-to = "© 2026 Valkyoth. Veröffentlicht unter der"
-
-[[phrase]]
-from = "Built with Rust · Powered by Fluxheim"
-to = "Gebaut mit Rust · Betrieben mit Fluxheim"

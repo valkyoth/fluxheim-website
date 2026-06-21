@@ -2,10 +2,6 @@ locale_id = "fr-FR"
 html_lang = "fr-FR"
 
 [[phrase]]
-from = "Fluxheim — Memory-Safe Edge Server Built in Rust"
-to = "Fluxheim — Serveur edge sûr pour la mémoire en Rust"
-
-[[phrase]]
 from = "Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust."
 to = "Fluxheim est un serveur web modulaire hautes performances, reverse proxy et serveur de cache écrit en Rust."
 
@@ -16,10 +12,6 @@ to = "Fluxheim est un serveur web modulaire hautes performances, reverse proxy e
 [[phrase]]
 from = "A memory-safe edge server and reverse proxy built in Rust."
 to = "Un serveur edge et reverse proxy sûr pour la mémoire, écrit en Rust."
-
-[[phrase]]
-from = "Latest Stable Release"
-to = "Dernière version stable"
 
 [[phrase]]
 from = "Memory-Safe"
@@ -86,14 +78,6 @@ from = "Download v"
 to = "Télécharger v"
 
 [[phrase]]
-from = "View on GitHub"
-to = "Voir sur GitHub"
-
-[[phrase]]
-from = "Quick Start"
-to = "Démarrage rapide"
-
-[[phrase]]
 from = "Rootless Containers"
 to = "Conteneurs rootless"
 
@@ -108,10 +92,6 @@ to = "Télécharger"
 [[phrase]]
 from = "Changelog"
 to = "Journal des changements"
-
-[[phrase]]
-from = "Switch color theme"
-to = "Changer le thème de couleur"
 
 [[phrase]]
 from = "Documentation"
@@ -188,18 +168,6 @@ to = "Référence source"
 [[phrase]]
 from = "Links"
 to = "Liens"
-
-[[phrase]]
-from = "GitHub Repository"
-to = "Dépôt GitHub"
-
-[[phrase]]
-from = "Issues"
-to = "Issues"
-
-[[phrase]]
-from = "Menu"
-to = "Menu"
 
 [[phrase]]
 from = "Downloads"
@@ -366,26 +334,6 @@ from = "See all features →"
 to = "Voir toutes les fonctionnalités →"
 
 [[phrase]]
-from = "Project"
-to = "Projet"
-
-[[phrase]]
-from = "Releases"
-to = "Versions"
-
-[[phrase]]
-from = "Roadmap"
-to = "Feuille de route"
-
-[[phrase]]
-from = "Community"
-to = "Communauté"
-
-[[phrase]]
-from = "Discussions"
-to = "Discussions"
-
-[[phrase]]
 from = "Recommended"
 to = "Recommandé"
 
@@ -410,10 +358,6 @@ from = "EUPL-1.2 Open Source"
 to = "Open source EUPL-1.2"
 
 [[phrase]]
-from = "Memory-safe edge server built in Rust. Licensed under EUPL-1.2."
-to = "Serveur edge sûr pour la mémoire construit en Rust. Sous licence EUPL-1.2."
-
-[[phrase]]
 from = "Prometheus & OpenTelemetry"
 to = "Prometheus & OpenTelemetry"
 
@@ -424,19 +368,3 @@ to = "Licence copyleft compatible avec de nombreuses licences OSS. Origine UE, j
 [[phrase]]
 from = "Fluxheim architecture overview"
 to = "Vue d'ensemble de l'architecture Fluxheim"
-
-[[phrase]]
-from = "EUPL-1.2 License"
-to = "Licence EUPL-1.2"
-
-[[phrase]]
-from = "Valkyoth Org"
-to = "Organisation Valkyoth"
-
-[[phrase]]
-from = "© 2026 Valkyoth. Distributed under the"
-to = "© 2026 Valkyoth. Distribué sous la"
-
-[[phrase]]
-from = "Built with Rust · Powered by Fluxheim"
-to = "Construit avec Rust · Propulsé par Fluxheim"

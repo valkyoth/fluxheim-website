@@ -5,7 +5,7 @@ from = "Common Criteria Roadmap"
 to = "Roadmap Common Criteria"
 [[phrase]]
 from = "Common Criteria Readiness Roadmap"
-to = "Roadmap de preparation Common Criteria"
+to = "Feuille de route de preparation Common Criteria"
 [[phrase]]
 from = "This document tracks how Fluxheim can use ISO/IEC 15408:2026 concepts as an engineering and evidence framework. It is not a certification claim. Common Criteria evaluation is a product evaluation track, while FIPS 140-3 and ISO/IEC 19790 are cryptographic-module tracks. They can support each other, but they are not interchangeable."
 to = "Ce document suit la maniere dont Fluxheim peut utiliser les concepts ISO/IEC 15408:2026 comme framework d'engineering et de preuves. Ce n'est pas une revendication de certification. Une evaluation Common Criteria est une voie d'evaluation produit, tandis que FIPS 140-3 et ISO/IEC 19790 sont des voies pour modules cryptographiques. Elles peuvent se soutenir, mais ne sont pas interchangeables."
