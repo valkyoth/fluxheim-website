@@ -1,0 +1,166 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Fluxheim supports Prometheus metrics, OpenTelemetry metrics and traces, and structured logging. All observability features are opt-in at compile time."
+to = "Fluxheim prend en charge les métriques Prometheus, les métriques et traces OpenTelemetry, ainsi que les logs structurés. Toutes les fonctionnalités d'observabilité sont optionnelles à la compilation."
+
+[[phrase]]
+from = "Requires <code class=\"text-gray-400\">metrics</code> feature"
+to = "Nécessite la fonctionnalité <code class=\"text-gray-400\">metrics</code>"
+
+[[phrase]]
+from = "Requires <code class=\"text-gray-400\">metrics-otlp</code>"
+to = "Nécessite <code class=\"text-gray-400\">metrics-otlp</code>"
+
+[[phrase]]
+from = "Requires <code class=\"text-gray-400\">otel-tracing</code> + <code class=\"text-gray-400\">otel-otlp</code>"
+to = "Nécessite <code class=\"text-gray-400\">otel-tracing</code> + <code class=\"text-gray-400\">otel-otlp</code>"
+
+[[phrase]]
+from = "OTLP Metrics"
+to = "Métriques OTLP"
+
+[[phrase]]
+from = "OTLP Tracing"
+to = "Tracing OTLP"
+
+[[phrase]]
+from = "Building with Observability"
+to = "Build avec observabilité"
+
+[[phrase]]
+from = "The official <strong>full release binary</strong> includes all observability features. The cache and proxy edge binaries do not include metrics or tracing by default."
+to = "Le binaire officiel <strong>full release</strong> inclut toutes les fonctionnalités d'observabilité. Les binaires cache et proxy edge n'incluent pas les métriques ou le tracing par défaut."
+
+[[phrase]]
+from = "Prometheus Metrics"
+to = "Métriques Prometheus"
+
+[[phrase]]
+from = "Enable a Prometheus-compatible"
+to = "Activez un endpoint de scrape compatible Prometheus"
+
+[[phrase]]
+from = "scrape endpoint by configuring the metrics listener."
+to = "en configurant le listener de métriques."
+
+[[phrase]]
+from = "Scraping with Prometheus"
+to = "Scraping avec Prometheus"
+
+[[phrase]]
+from = "Available Metrics"
+to = "Métriques disponibles"
+
+[[phrase]]
+from = "— bounded ACME lifecycle outcomes"
+to = "- résultats bornés du cycle de vie ACME"
+
+[[phrase]]
+from = "— aggregate cache hit, miss, store, purge, stale, and peer-fill activity"
+to = "- activité agrégée du cache : hit, miss, store, purge, stale et peer-fill"
+
+[[phrase]]
+from = "— configured vhost/route cache activity without raw host or path labels"
+to = "- activité de cache vhost/route configurée sans labels host ou path bruts"
+
+[[phrase]]
+from = "— cache lookup and request-collapsing wait durations"
+to = "- durées de lookup cache et d'attente de request collapsing"
+
+[[phrase]]
+from = "and related purger metrics — cache cleanup health"
+to = "et métriques de purge associées - santé du nettoyage cache"
+
+[[phrase]]
+from = "— OTLP metrics exporter health"
+to = "- santé de l'exporteur de métriques OTLP"
+
+[[phrase]]
+from = "OpenTelemetry Metrics (OTLP)"
+to = "Métriques OpenTelemetry (OTLP)"
+
+[[phrase]]
+from = "Requires the <code>metrics-otlp</code> Cargo feature. Exports metrics to an OTLP-compatible endpoint (Grafana Alloy, OpenTelemetry Collector, etc.)."
+to = "Nécessite la fonctionnalité Cargo <code>metrics-otlp</code>. Exporte les métriques vers un endpoint compatible OTLP (Grafana Alloy, OpenTelemetry Collector, etc.)."
+
+[[phrase]]
+from = "OpenTelemetry Tracing"
+to = "Tracing OpenTelemetry"
+
+[[phrase]]
+from = "Requires <code>otel-tracing</code> for trace context propagation and <code>otel-otlp</code> for exporting traces. Propagates W3C <code>traceparent</code> headers to upstream services."
+to = "Nécessite <code>otel-tracing</code> pour la propagation du contexte de trace et <code>otel-otlp</code> pour l'export des traces. Propage les en-têtes W3C <code>traceparent</code> vers les services upstream."
+
+[[phrase]]
+from = "What gets traced"
+to = "Ce qui est tracé"
+
+[[phrase]]
+from = "Inbound W3C <code>traceparent</code> validation and normalized propagation to upstreams"
+to = "Validation W3C entrante de <code>traceparent</code> et propagation normalisée vers les upstreams"
+
+[[phrase]]
+from = "Structured access-log trace IDs when <code>log_trace_id</code> is enabled"
+to = "IDs de trace structurés dans l'access log lorsque <code>log_trace_id</code> est activé"
+
+[[phrase]]
+from = "Bounded request spans for OTLP export when <code>tracing.otlp.enabled</code> is true"
+to = "Spans de requête bornés pour l'export OTLP lorsque <code>tracing.otlp.enabled</code> vaut true"
+
+[[phrase]]
+from = "Cache attributes for cache-phase timing when the binary includes the <code>cache</code> feature"
+to = "Attributs de cache pour le timing des phases cache lorsque le binaire inclut la fonctionnalité <code>cache</code>"
+
+[[phrase]]
+from = "Logging"
+to = "Logging"
+
+[[phrase]]
+from = "Fluxheim emits structured logs. Log level, format, target, and access-log fields are controlled by the <code>[logging]</code> config."
+to = "Fluxheim émet des logs structurés. Le niveau, le format, la cible et les champs d'access log sont contrôlés par la configuration <code>[logging]</code>."
+
+[[phrase]]
+from = "profile-observability Build"
+to = "Build profile-observability"
+
+[[phrase]]
+from = "The <code>profile-observability</code> alias enables the full observability stack on top of <code>profile-core</code>: Prometheus metrics listener, OTLP metrics export, trace context propagation, and OTLP trace export."
+to = "L'alias <code>profile-observability</code> active la pile d'observabilité complète au-dessus de <code>profile-core</code> : listener de métriques Prometheus, export de métriques OTLP, propagation du contexte de trace et export de traces OTLP."
+
+[[phrase]]
+from = "The official full release binary includes all observability features. The cache and proxy edge binaries do not include metrics or tracing by default."
+to = "Le binaire officiel full release inclut toutes les fonctionnalités d'observabilité. Les binaires cache et proxy edge n'incluent pas les métriques ou le tracing par défaut."
+
+[[phrase]]
+from = "for trace context propagation and"
+to = "pour la propagation du contexte de trace et"
+
+[[phrase]]
+from = "for exporting traces. Propagates W3C"
+to = "pour l'export des traces. Propage les W3C"
+
+[[phrase]]
+from = "headers to upstream services."
+to = "headers vers les services upstream."
+
+[[phrase]]
+from = "Inbound W3C"
+to = "Validation W3C entrante"
+
+[[phrase]]
+from = "validation and normalized propagation to upstreams"
+to = "et propagation normalisée vers les upstreams"
+
+[[phrase]]
+from = "Structured access-log trace IDs when"
+to = "IDs de trace structurés dans l'access log lorsque"
+
+[[phrase]]
+from = "Bounded request spans for OTLP export when"
+to = "Spans de requête bornés pour l'export OTLP lorsque"
+
+[[phrase]]
+from = "Fluxheim emits structured logs. Log level, format, target, and access-log fields are controlled by the"
+to = "Fluxheim émet des logs structurés. Le niveau, le format, la cible et les champs d'access log sont contrôlés par la"

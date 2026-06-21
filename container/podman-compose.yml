@@ -1,15 +1,12 @@
 services:
-  fluxheim:
+  fluxheim-website:
     build:
       context: ..
       dockerfile: container/Dockerfile
-    image: fluxheim-website:1.6.19
+    image: fluxheim-website:0.1.0
     container_name: fluxheim-website
     restart: always
     stop_signal: SIGTERM
     stop_grace_period: 15s
     ports:
       - "8080:8080"
-    # Uncomment to mount a local config override without rebuilding:
-    # volumes:
-    #   - ../conf/fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro,z

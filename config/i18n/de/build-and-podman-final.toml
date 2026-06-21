@@ -1,0 +1,210 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "That workflow publishes"
+to = "Dieser Workflow veroeffentlicht"
+
+[[phrase]]
+from = "tag from"
+to = "Tag aus"
+
+[[phrase]]
+from = ". The development image is intentionally not mirrored to GHCR or Docker Hub, and it does not publish from pull requests, so registry secrets are not exposed to forked PR builds."
+to = ". Das Development-Image wird absichtlich nicht zu GHCR oder Docker Hub gespiegelt und nicht aus Pull Requests veroeffentlicht, damit Registry-Secrets Fork-PR-Builds nicht offengelegt werden."
+
+[[phrase]]
+from = "Build the self-contained managed PHP-FPM Wolfi profile locally:"
+to = "Das eigenstaendige Managed-PHP-FPM-Wolfi-Profil lokal bauen:"
+
+[[phrase]]
+from = "The matching smoke test builds that image when needed and verifies"
+to = "Der passende Smoke-Test baut dieses Image bei Bedarf und verifiziert, dass"
+
+[[phrase]]
+from = "is executed through Fluxheim-managed php-fpm:"
+to = "ueber Fluxheim-managed php-fpm ausgefuehrt wird:"
+
+[[phrase]]
+from = "Build the development Wolfi profile locally:"
+to = "Das Development-Wolfi-Profil lokal bauen:"
+
+[[phrase]]
+from = "Build a zero-retention privacy image. The smoke script automatically uses"
+to = "Ein Zero-Retention-Privacy-Image bauen. Das Smoke-Skript verwendet automatisch"
+
+[[phrase]]
+from = ", but explicit builds should pass the matching config:"
+to = ", aber explizite Builds sollen die passende Konfiguration uebergeben:"
+
+[[phrase]]
+from = "The smoke script builds the image, validates the packaged config, and confirms the runtime user is"
+to = "Das Smoke-Skript baut das Image, validiert die paketierte Konfiguration und bestaetigt, dass der Runtime-User"
+
+[[phrase]]
+from = "This smoke builds the"
+to = "Dieser Smoke-Test baut das"
+
+[[phrase]]
+from = "image by default, starts Fluxheim with host networking, verifies HTTP active health checks plus round-robin/header persistence, and fails if the load-balancer-edge dependency tree compiles"
+to = "Image standardmaessig, startet Fluxheim mit Host-Networking, verifiziert HTTP-Active-Health-Checks plus Round-Robin-/Header-Persistenz und schlaegt fehl, wenn der load-balancer-edge-Dependency-Tree"
+
+[[phrase]]
+from = "or if the"
+to = "kompiliert oder wenn der"
+
+[[phrase]]
+from = "crate dependency tree contains any Pingora crate."
+to = "Crate-Dependency-Tree irgendein Pingora-Crate enthaelt."
+
+[[phrase]]
+from = "FreeBSD"
+to = "FreeBSD"
+
+[[phrase]]
+from = "GitHub workflow builds the four variant Containerfiles and pushes tags to:"
+to = "GitHub-Workflow baut die vier Varianten-Containerfiles und pusht Tags nach:"
+
+[[phrase]]
+from = ", etc."
+to = ", usw."
+
+[[phrase]]
+from = ", etc. when run from the default branch"
+to = ", usw. bei Ausfuehrung vom Default-Branch"
+
+[[phrase]]
+from = "Starting with"
+to = "Ab"
+
+[[phrase]]
+from = "Manual workflow inputs also allow"
+to = "Manuelle Workflow-Inputs erlauben auch"
+
+[[phrase]]
+from = ", and a temporary feature override. Keep both IDs at"
+to = "und einen temporaeren Feature-Override. Halte beide IDs auf"
+
+[[phrase]]
+from = "only for a deliberate root-runtime image. Leave the feature override empty for normal release profile builds."
+to = "nur fuer ein bewusstes Root-Runtime-Image. Lasse den Feature-Override fuer normale Release-Profil-Builds leer."
+
+[[phrase]]
+from = "Example:"
+to = "Beispiel:"
+
+[[phrase]]
+from = "to match the release artifact or image profile you plan to run. Add"
+to = "passend zum Release-Artefakt oder Image-Profil, das du ausfuehren willst. Fuege"
+
+[[phrase]]
+from = "when you only need syntax, semantic, and profile validation from outside the gateway container and do not have access to the service runtime mount such as"
+to = "hinzu, wenn du nur Syntax-, Semantik- und Profilvalidierung ausserhalb des Gateway-Containers brauchst und keinen Zugriff auf Service-Runtime-Mounts wie"
+
+[[phrase]]
+from = ". Leave that flag off when you want the tester to inspect"
+to = ". Lasse das Flag weg, wenn der Tester"
+
+[[phrase]]
+from = ", upgrade socket, and certificate reload socket paths as part of a deployment preflight."
+to = ", Upgrade-Socket und Certificate-Reload-Socket-Pfade als Teil eines Deployment-Preflight pruefen soll."
+
+[[phrase]]
+from = "Runtime images and RPMs do include"
+to = "Runtime-Images und RPMs enthalten"
+
+[[phrase]]
+from = ", which is the ACME companion entry point for service-manager or container-scheduled renewal workflows:"
+to = ", den ACME-Companion-Einstiegspunkt fuer Service-Manager- oder Container-geplante Renewal-Workflows:"
+
+[[phrase]]
+from = "mount so"
+to = "Mount, damit"
+
+[[phrase]]
+from = "can reach"
+to = "erreichen kann"
+
+[[phrase]]
+from = "For HTTP-01 ACME, the CA must be able to reach Fluxheim on public port"
+to = "Fuer HTTP-01 ACME muss die CA Fluxheim auf oeffentlichem Port"
+
+[[phrase]]
+from = ". During first issuance, run Fluxheim with the HTTP listener enabled. Modern rustls-based builds can also keep"
+to = "erreichen koennen. Fuehre Fluxheim waehrend der Erstausstellung mit aktiviertem HTTP-Listener aus. Moderne rustls-basierte Builds koennen auch"
+
+[[phrase]]
+from = "enabled while Fluxheim-managed ACME certificate files are missing; those certificates are treated as pending until issuance succeeds. Keep"
+to = "aktiviert lassen, waehrend Fluxheim-managed ACME-Zertifikatsdateien fehlen; diese Zertifikate gelten als pending, bis die Ausstellung erfolgreich ist. Halte"
+
+[[phrase]]
+from = "disabled until the public HTTP-01 challenge path works, otherwise ordinary browser traffic may be redirected to HTTPS before a certificate is available."
+to = "deaktiviert, bis der oeffentliche HTTP-01-Challenge-Pfad funktioniert; sonst kann normaler Browser-Traffic zu HTTPS umgeleitet werden, bevor ein Zertifikat verfuegbar ist."
+
+[[phrase]]
+from = "The same deployment shape is available as"
+to = "Dieselbe Deployment-Form ist verfuegbar als"
+
+[[phrase]]
+from = ", with a matching container-oriented config at"
+to = ", mit passender containerorientierter Konfiguration unter"
+
+[[phrase]]
+from = ". For upstream containers on the same Podman network, use the service/container DNS name and port, for example:"
+to = ". Fuer Upstream-Container im selben Podman-Netzwerk verwende Service-/Container-DNS-Name und Port, zum Beispiel:"
+
+[[phrase]]
+from = "Fluxheim resolves direct proxy upstream names when selecting an upstream peer for a request. If a Podman DNS name is temporarily missing, Fluxheim returns an upstream failure for that request instead of panicking the worker. Keep Fluxheim and its upstream containers on the same user-defined network, and avoid using load-balancer pools for container names that are expected to appear only after Fluxheim has already started until dynamic pool re-resolution is promoted to a stable feature."
+to = "Fluxheim loest direkte Proxy-Upstream-Namen auf, wenn es einen Upstream-Peer fuer eine Anfrage auswaehlt. Wenn ein Podman-DNS-Name temporaer fehlt, gibt Fluxheim fuer diese Anfrage einen Upstream-Fehler zurueck, statt den Worker paniken zu lassen. Halte Fluxheim und seine Upstream-Container im selben user-defined Netzwerk und vermeide Load-Balancer-Pools fuer Container-Namen, die erst nach Fluxheims Start erscheinen sollen, bis dynamische Pool-Re-Resolution als stabiles Feature promoted ist."
+
+[[phrase]]
+from = "Published images default to the rootless-friendly"
+to = "Veroeffentlichte Images verwenden standardmaessig die rootless-freundliche"
+
+[[phrase]]
+from = "and a self-contained default page at"
+to = "und eine eigenstaendige Default-Seite unter"
+
+[[phrase]]
+from = ", installed in the image as"
+to = ", im Image installiert als"
+
+[[phrase]]
+from = ". Mount your own config or static root over those paths when deploying a real site."
+to = ". Mounte beim Deployment einer echten Site deine eigene Konfiguration oder Static Root ueber diese Pfade."
+
+[[phrase]]
+from = "If using a root-runtime image,"
+to = "Wenn ein Root-Runtime-Image verwendet wird,"
+
+[[phrase]]
+from = "is usually not needed for ownership, but keeping separate writable directories for state/cache/logs is still recommended so the container does not need write access to static site content or TLS keys."
+to = "ist fuer Ownership normalerweise nicht noetig, aber getrennte schreibbare Verzeichnisse fuer State/Cache/Logs bleiben empfohlen, damit der Container keinen Schreibzugriff auf statische Site-Inhalte oder TLS-Keys braucht."
+
+[[phrase]]
+from = "For manually compiled binaries or RPM-style native installs, Fluxheim ships a systemd unit, sysusers file, tmpfiles file, and optional environment file under"
+to = "Fuer manuell kompilierte Binaries oder RPM-artige native Installationen liefert Fluxheim eine systemd-Unit, sysusers-Datei, tmpfiles-Datei und optionale Environment-Datei unter"
+
+[[phrase]]
+from = ". See"
+to = ". Siehe"
+
+[[phrase]]
+from = "for the install steps and default paths. Native packages use"
+to = "fuer Installationsschritte und Default-Pfade. Native Pakete verwenden"
+
+[[phrase]]
+from = ", which listens on port"
+to = ", das standardmaessig auf Port"
+
+[[phrase]]
+from = "by default; the bundled systemd unit grants only"
+to = "lauscht; die mitgelieferte systemd-Unit gewaehrt nur"
+
+[[phrase]]
+from = "so the service can bind"
+to = "damit der Dienst"
+
+[[phrase]]
+from = "while still running as the unprivileged"
+to = "binden kann und weiterhin als unprivilegierter"

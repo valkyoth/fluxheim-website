@@ -1,0 +1,498 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Zero-Retention Privacy Mode — Fluxheim Source Docs"
+to = "Mode privacy zero-retention - Documentation source Fluxheim"
+
+[[phrase]]
+from = "Zero-Retention Privacy Mode"
+to = "Mode privacy zero-retention"
+
+[[phrase]]
+from = "Zero-retention privacy mode is a future compile-time build profile for users who want Fluxheim to serve static files and reverse-proxy requests without persisting request logs, client IPs, request metadata, or per-client telemetry."
+to = "Le mode privacy zero-retention est un futur profil de build a la compilation pour les utilisateurs qui veulent que Fluxheim serve des fichiers statiques et reverse-proxy des requetes sans conserver les logs de requete, IP client, metadonnees de requete ou telemetrie par client."
+
+[[phrase]]
+from = "This is the better name for the requested \"dark mode\": the goal is not visual appearance, but no application-level retention."
+to = "C'est le meilleur nom pour le \"dark mode\" demande: l'objectif n'est pas l'apparence visuelle, mais l'absence de retention au niveau applicatif."
+
+[[phrase]]
+from = "Honest Boundary"
+to = "Frontiere honnete"
+
+[[phrase]]
+from = "Fluxheim cannot be literally zero-knowledge at the network layer. A TCP/TLS server necessarily sees the peer address transiently while accepting and routing a connection. The operating system, container runtime, firewall, CDN, and upstream applications may also log traffic."
+to = "Fluxheim ne peut pas etre litteralement zero-knowledge au niveau reseau. Un serveur TCP/TLS voit necessairement l'adresse du pair de facon transitoire pendant l'acceptation et le routage d'une connexion. Le systeme d'exploitation, la runtime conteneur, le firewall, le CDN et les applications upstream peuvent aussi journaliser le trafic."
+
+[[phrase]]
+from = "The privacy-mode guarantee should be scoped to Fluxheim itself:"
+to = "La garantie du privacy-mode doit etre limitee a Fluxheim lui-meme:"
+
+[[phrase]]
+from = "no Fluxheim access logs;"
+to = "pas d'access logs Fluxheim;"
+
+[[phrase]]
+from = "no Fluxheim request audit logs;"
+to = "pas d'audit logs de requete Fluxheim;"
+
+[[phrase]]
+from = "no Fluxheim request metrics;"
+to = "pas de metriques de requete Fluxheim;"
+
+[[phrase]]
+from = "no persisted client IPs;"
+to = "pas d'IP client persistantes;"
+
+[[phrase]]
+from = "no persisted request paths, user agents, cookies, request IDs, or real-IP headers;"
+to = "pas de chemins de requete, user-agents, cookies, request IDs ou headers real-IP persistants;"
+
+[[phrase]]
+from = "no Fluxheim disk cache of proxied responses;"
+to = "pas de cache disque Fluxheim pour les reponses proxifiees;"
+
+[[phrase]]
+from = "no client-IP forwarding to upstreams by default."
+to = "pas de forwarding d'IP client vers les upstreams par defaut."
+
+[[phrase]]
+from = "Operators still need to configure the OS, Podman/systemd, firewall, CDN, and upstream services consistently if they want a whole deployment to be zero-retention."
+to = "Les operateurs doivent toujours configurer l'OS, Podman/systemd, le firewall, le CDN et les services upstream de facon coherente s'ils veulent qu'un deploiement complet soit zero-retention."
+
+[[phrase]]
+from = "Compile a small static-web plus reverse-proxy binary."
+to = "Compiler un petit binaire static-web plus reverse-proxy."
+
+[[phrase]]
+from = "Exclude logging and metrics exporters from the binary."
+to = "Exclure les exporters de logging et de metriques du binaire."
+
+[[phrase]]
+from = "Strip inbound client-identifying forwarding headers."
+to = "Supprimer les headers de forwarding entrants qui identifient le client."
+
+[[phrase]]
+from = "Avoid adding new client-identifying forwarding headers."
+to = "Eviter d'ajouter de nouveaux headers de forwarding identifiant le client."
+
+[[phrase]]
+from = "Keep request data transient and memory-only."
+to = "Garder les donnees de requete transitoires et uniquement en memoire."
+
+[[phrase]]
+from = "Keep startup/config diagnostics possible without request metadata."
+to = "Garder les diagnostics de demarrage/config possibles sans metadonnees de requete."
+
+[[phrase]]
+from = "No WAF audit logs."
+to = "Pas d'audit logs WAF."
+
+[[phrase]]
+from = "No Cloudflare real-IP restoration."
+to = "Pas de restauration real-IP Cloudflare."
+
+[[phrase]]
+from = "No per-client metrics."
+to = "Pas de metriques par client."
+
+[[phrase]]
+from = "No disk response cache."
+to = "Pas de cache disque de reponse."
+
+[[phrase]]
+from = "No PHP/CGI dynamic runtime execution."
+to = "Pas d'execution runtime dynamique PHP/CGI."
+
+[[phrase]]
+from = "No legacy protocol compatibility mode."
+to = "Pas de mode de compatibilite protocole legacy."
+
+[[phrase]]
+from = "No claim that upstream applications will avoid logging."
+to = "Aucune affirmation que les applications upstream eviteront de journaliser."
+
+[[phrase]]
+from = "Feature Flags"
+to = "Feature flags"
+
+[[phrase]]
+from = "Target build:"
+to = "Build cible:"
+
+[[phrase]]
+from = "Implemented feature:"
+to = "Feature implementee:"
+
+[[phrase]]
+from = " must not be part of "
+to = " ne doit pas faire partie de "
+
+[[phrase]]
+from = "Initial implemented behavior: privacy builds strip inbound client-IP forwarding headers before proxying and do not synthesize "
+to = "Comportement initial implemente: les builds privacy suppriment les headers de forwarding d'IP client entrants avant le proxying et ne synthetisent pas "
+
+[[phrase]]
+from = ", even when config requests those headers."
+to = ", meme lorsque la config demande ces headers."
+
+[[phrase]]
+from = "Access logging is disabled by default in "
+to = "L'access logging est desactive par defaut dans "
+
+[[phrase]]
+from = ", the Pingora access-log emission hook is not compiled into privacy builds, and config validation rejects "
+to = ", le hook d'emission access-log Pingora n'est pas compile dans les builds privacy, et la validation de config refuse "
+
+[[phrase]]
+from = ". Privacy builds also do not generate Fluxheim request IDs for access-log correlation."
+to = ". Les builds privacy ne generent pas non plus de request IDs Fluxheim pour la correlation access-log."
+
+[[phrase]]
+from = "Implemented compile-time incompatible features:"
+to = "Features incompatibles implementees a la compilation:"
+
+[[phrase]]
+from = " as the baseline runtime config for this profile. It disables Fluxheim access logging, request ID generation, metrics, cache, and client-IP forwarding headers."
+to = " comme configuration runtime de baseline pour ce profil. Elle desactive l'access logging Fluxheim, la generation de request ID, les metriques, le cache et les headers de forwarding d'IP client."
+
+[[phrase]]
+from = "Future Privacy Cache"
+to = "Futur cache privacy"
+
+[[phrase]]
+from = " remains incompatible with "
+to = " reste incompatible avec "
+
+[[phrase]]
+from = " because shared HTTP cache can persist response bodies, paths, query strings, "
+to = " car le cache HTTP partage peut persister des corps de reponse, chemins, query strings, dimensions "
+
+[[phrase]]
+from = " dimensions, cookies, and upstream privacy mistakes. A future "
+to = ", cookies et erreurs privacy upstream. Un futur design "
+
+[[phrase]]
+from = " design is planned as a separate, restricted public-asset cache rather than normal cache in privacy builds. The intended boundary is: no client-IP cache keys, no "
+to = " est prevu comme cache public-asset separe et restreint plutot que comme cache normal dans les builds privacy. La frontiere visee est: pas de cles de cache IP client, pas d'admission "
+
+[[phrase]]
+from = " admission, no per-user variants, no "
+to = ", pas de variantes par utilisateur, pas de stockage "
+
+[[phrase]]
+from = " storage, strict query-string defaults, and memory or encrypted short-TTL disk storage as the preferred shape."
+to = ", defaults stricts pour query-string, et memoire ou stockage disque chiffre a TTL court comme forme preferee."
+
+[[phrase]]
+from = "Implemented incompatible features:"
+to = "Features incompatibles implementees:"
+
+[[phrase]]
+from = "Planned incompatible features:"
+to = "Features incompatibles prevues:"
+
+[[phrase]]
+from = "PHP runtime features"
+to = "Features runtime PHP"
+
+[[phrase]]
+from = "Perl CGI features"
+to = "Features Perl CGI"
+
+[[phrase]]
+from = "legacy HTTP features"
+to = "Features HTTP legacy"
+
+[[phrase]]
+from = "disk cache features"
+to = "Features de cache disque"
+
+[[phrase]]
+from = "Where possible, enforce this with "
+to = "Lorsque possible, appliquer cela avec des guards "
+
+[[phrase]]
+from = " guards so invalid builds fail early."
+to = " afin que les builds invalides echouent tot."
+
+[[phrase]]
+from = "Runtime Behavior"
+to = "Comportement runtime"
+
+[[phrase]]
+from = "static file serving;"
+to = "service de fichiers statiques;"
+
+[[phrase]]
+from = "reverse proxying;"
+to = "reverse proxying;"
+
+[[phrase]]
+from = "TLS termination with configured certificates;"
+to = "terminaison TLS avec certificats configures;"
+
+[[phrase]]
+from = "memory-only routing/config state;"
+to = "etat de routage/config uniquement en memoire;"
+
+[[phrase]]
+from = "startup/config diagnostics without request metadata."
+to = "diagnostics de demarrage/config sans metadonnees de requete."
+
+[[phrase]]
+from = "request IDs persisted outside the request;"
+to = "request IDs persistes hors de la requete;"
+
+[[phrase]]
+from = "remote logging;"
+to = "logging distant;"
+
+[[phrase]]
+from = "file logging;"
+to = "logging fichier;"
+
+[[phrase]]
+from = "request metrics;"
+to = "metriques de requete;"
+
+[[phrase]]
+from = "admin endpoints that expose request activity;"
+to = "endpoints admin qui exposent l'activite des requetes;"
+
+[[phrase]]
+from = "cache activity endpoints;"
+to = "endpoints d'activite cache;"
+
+[[phrase]]
+from = "WAF audit events;"
+to = "evenements d'audit WAF;"
+
+[[phrase]]
+from = "Cloudflare real-IP restoration;"
+to = "restauration real-IP Cloudflare;"
+
+[[phrase]]
+from = "self-healing systems that persist request/error samples."
+to = "systemes self-healing qui persistent des echantillons de requete/erreur."
+
+[[phrase]]
+from = "Header Policy"
+to = "Policy de headers"
+
+[[phrase]]
+from = "Privacy mode should strip inbound headers that may carry client identity before proxying unless a future non-privacy build explicitly allows them:"
+to = "Le privacy mode doit supprimer les headers entrants pouvant porter une identite client avant le proxying, sauf si un futur build non-privacy les autorise explicitement:"
+
+[[phrase]]
+from = "Privacy mode must not synthesize:"
+to = "Le privacy mode ne doit pas synthetiser:"
+
+[[phrase]]
+from = "It may still forward normal HTTP headers needed for the application, such as "
+to = "Il peut toujours forwarder les headers HTTP normaux requis par l'application, comme "
+
+[[phrase]]
+from = ", and authentication headers, because removing those would break normal proxy behavior. Operators should understand that upstreams can still log whatever headers they receive."
+to = ", et les headers d'authentification, car les retirer casserait le comportement proxy normal. Les operateurs doivent comprendre que les upstreams peuvent toujours journaliser les headers qu'ils recoivent."
+
+[[phrase]]
+from = "Static File Serving"
+to = "Service de fichiers statiques"
+
+[[phrase]]
+from = "Static serving is compatible with privacy mode if it:"
+to = "Le service statique est compatible avec le privacy mode s'il:"
+
+[[phrase]]
+from = "uses canonical path resolution;"
+to = "utilise une resolution de chemin canonique;"
+
+[[phrase]]
+from = "does not create per-client records;"
+to = "ne cree pas d'enregistrements par client;"
+
+[[phrase]]
+from = "does not write request activity to disk;"
+to = "n'ecrit pas l'activite des requetes sur disque;"
+
+[[phrase]]
+from = "allows operators to set conservative static response cache headers;"
+to = "permet aux operateurs de definir des headers de cache statique conservateurs;"
+
+[[phrase]]
+from = "avoids directory listings unless explicitly enabled outside privacy mode."
+to = "evite les listings de repertoires sauf activation explicite hors privacy mode."
+
+[[phrase]]
+from = " to avoid encouraging client-side or intermediary retention. That is a deployment policy choice: Fluxheim's zero-retention guarantee covers Fluxheim itself, not browsers, intermediate networks, or upstream applications."
+to = " pour eviter d'encourager la retention cote client ou intermediaire. C'est un choix de policy de deploiement: la garantie zero-retention de Fluxheim couvre Fluxheim lui-meme, pas les navigateurs, reseaux intermediaires ou applications upstream."
+
+[[phrase]]
+from = "OS-level filesystem access times may still change depending on mount options. Operators who care about that should use "
+to = "Les temps d'acces filesystem au niveau OS peuvent encore changer selon les options de montage. Les operateurs concernes doivent utiliser des choix "
+
+[[phrase]]
+from = " choices appropriate to their deployment."
+to = " adaptes a leur deploiement."
+
+[[phrase]]
+from = "Reverse Proxying"
+to = "Reverse proxying"
+
+[[phrase]]
+from = "Reverse proxying is compatible with privacy mode if Fluxheim:"
+to = "Le reverse proxying est compatible avec le privacy mode si Fluxheim:"
+
+[[phrase]]
+from = "does not log upstream choices per request;"
+to = "ne journalise pas les choix upstream par requete;"
+
+[[phrase]]
+from = "does not emit per-request metrics;"
+to = "n'emet pas de metriques par requete;"
+
+[[phrase]]
+from = "does not persist failed request samples;"
+to = "ne persiste pas d'echantillons de requetes echouees;"
+
+[[phrase]]
+from = "strips client-IP forwarding headers;"
+to = "supprime les headers de forwarding d'IP client;"
+
+[[phrase]]
+from = "avoids disk cache;"
+to = "evite le cache disque;"
+
+[[phrase]]
+from = "keeps only transient in-memory request state."
+to = "garde uniquement un etat de requete transitoire en memoire."
+
+[[phrase]]
+from = "Upstream applications must be configured separately to avoid logging IPs or request metadata."
+to = "Les applications upstream doivent etre configurees separement pour eviter de journaliser les IP ou metadonnees de requete."
+
+[[phrase]]
+from = "Config Shape"
+to = "Forme de config"
+
+[[phrase]]
+from = "Initial target:"
+to = "Cible initiale:"
+
+[[phrase]]
+from = "The config validator should reject privacy mode if request logging, metrics, disk cache, WAF, Cloudflare real-IP restoration, PHP/CGI, or legacy HTTP modules are enabled."
+to = "Le validateur de config doit refuser le privacy mode si request logging, metriques, cache disque, WAF, restauration real-IP Cloudflare, PHP/CGI ou modules HTTP legacy sont actives."
+
+[[phrase]]
+from = "Logging Policy"
+to = "Policy de logging"
+
+[[phrase]]
+from = "Privacy builds should use a no-op request logger."
+to = "Les builds privacy doivent utiliser un request logger no-op."
+
+[[phrase]]
+from = "Allowed operational messages:"
+to = "Messages operationnels autorises:"
+
+[[phrase]]
+from = "process start/stop;"
+to = "demarrage/arret du processus;"
+
+[[phrase]]
+from = "config validation failure without request data;"
+to = "echec de validation de config sans donnees de requete;"
+
+[[phrase]]
+from = "certificate load failure without peer data;"
+to = "echec de chargement de certificat sans donnees de pair;"
+
+[[phrase]]
+from = "fatal internal errors without request data."
+to = "erreurs internes fatales sans donnees de requete."
+
+[[phrase]]
+from = "Forbidden operational messages:"
+to = "Messages operationnels interdits:"
+
+[[phrase]]
+from = "restored real IP;"
+to = "real IP restauree;"
+
+[[phrase]]
+from = "request path;"
+to = "chemin de requete;"
+
+[[phrase]]
+from = "query string;"
+to = "query string;"
+
+[[phrase]]
+from = "authorization headers;"
+to = "headers d'autorisation;"
+
+[[phrase]]
+from = "upstream selection tied to a request."
+to = "selection upstream liee a une requete."
+
+[[phrase]]
+from = "Metrics Policy"
+to = "Policy de metriques"
+
+[[phrase]]
+from = "The safest privacy build has no metrics module compiled."
+to = "Le build privacy le plus sur n'a aucun module de metriques compile."
+
+[[phrase]]
+from = "If a future operator asks for privacy-compatible metrics, it should be a separate feature and limited to process-level counters that cannot identify clients or requests, for example process uptime and build info. It should not be part of the first privacy mode."
+to = "Si un futur operateur demande des metriques compatibles privacy, elles doivent etre une feature separee et limitees a des compteurs de niveau processus qui ne peuvent pas identifier des clients ou requetes, par exemple uptime processus et build info. Elles ne doivent pas faire partie du premier privacy mode."
+
+[[phrase]]
+from = "Required tests:"
+to = "Tests requis:"
+
+[[phrase]]
+from = "Privacy build excludes metrics and logging exporter features."
+to = "Le build privacy exclut les features de metriques et d'exporter logging."
+
+[[phrase]]
+from = "Invalid feature combinations fail at compile time."
+to = "Les combinaisons de features invalides echouent a la compilation."
+
+[[phrase]]
+from = "Config validation rejects metrics, disk cache, WAF, Cloudflare real-IP restoration, PHP/CGI, and legacy HTTP when privacy mode is enabled."
+to = "La validation de config refuse metriques, cache disque, WAF, restauration real-IP Cloudflare, PHP/CGI et HTTP legacy lorsque le privacy mode est active."
+
+[[phrase]]
+from = "Proxy requests do not synthesize new real-IP forwarding headers."
+to = "Les requetes proxy ne synthetisent pas de nouveaux headers de forwarding real-IP."
+
+[[phrase]]
+from = "Access logging hook emits no request event."
+to = "Le hook d'access logging n'emet aucun evenement de requete."
+
+[[phrase]]
+from = "No request path, IP, user-agent, cookie, or request ID is written by Fluxheim-controlled sinks."
+to = "Aucun chemin de requete, IP, user-agent, cookie ou request ID n'est ecrit par les sinks controles par Fluxheim."
+
+[[phrase]]
+from = "Static file serving still works."
+to = "Le service de fichiers statiques fonctionne toujours."
+
+[[phrase]]
+from = "Reverse proxying still works."
+to = "Le reverse proxying fonctionne toujours."
+
+[[phrase]]
+from = "TLS still works with configured certificates."
+to = "TLS fonctionne toujours avec les certificats configures."
+
+[[phrase]]
+from = "is part of the normal default build, privacy builds must use"
+to = "fait partie du build par defaut normal, les builds privacy doivent utiliser"
+
+[[phrase]]
+from = "because shared HTTP cache can persist response bodies, paths, query strings,"
+to = "parce qu'un cache HTTP partage peut persister les corps de reponse, chemins, query strings,"

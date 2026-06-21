@@ -1,0 +1,110 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+[[phrase]]
+from = "Extraction Dependency Graph — Fluxheim Source Docs"
+to = "Extraktions-Abhaengigkeitsgraph - Fluxheim-Quelldokumentation"
+[[phrase]]
+from = "Extraction Dependency Graph"
+to = "Extraktions-Abhaengigkeitsgraph"
+[[phrase]]
+from = "Pingora-exit planning baseline"
+to = "Planungsbaseline fuer den Pingora-Ausstieg"
+[[phrase]]
+from = "Fluxheim should split large modules by dependency direction, not by line count alone. The root crate should keep orchestration and adapters while pure domain logic moves into focused crates that can be tested without the current Pingora runtime."
+to = "Fluxheim sollte grosse Module nach Abhaengigkeitsrichtung aufteilen, nicht nur nach Zeilenanzahl. Das Root-Crate sollte Orchestrierung und Adapter behalten, waehrend reine Domain-Logik in fokussierte Crates wandert, die ohne die aktuelle Pingora-Runtime getestet werden koennen."
+[[phrase]]
+from = "Dependency Direction"
+to = "Abhaengigkeitsrichtung"
+[[phrase]]
+from = "Target dependency direction:"
+to = "Zielrichtung der Abhaengigkeiten:"
+[[phrase]]
+from = "The root crate may temporarily adapt Pingora request, response, listener, cache, and service types. Domain crates should not depend on those adapters."
+to = "Das Root-Crate darf Pingora-Request-, Response-, Listener-, Cache- und Service-Typen voruebergehend adaptieren. Domain-Crates sollten nicht von diesen Adaptern abhaengen."
+[[phrase]]
+from = "Extraction Order"
+to = "Extraktionsreihenfolge"
+[[phrase]]
+from = "Current area"
+to = "Aktueller Bereich"
+[[phrase]]
+from = "Target boundary"
+to = "Zielgrenze"
+[[phrase]]
+from = "Why this order"
+to = "Warum diese Reihenfolge"
+[[phrase]]
+from = "Mostly filesystem/config snapshot policy; already has a crate and should keep shrinking root admin/runtime coupling."
+to = "Ueberwiegend Filesystem-/Config-Snapshot-Policy; hat bereits ein Crate und sollte die Root-Admin-/Runtime-Kopplung weiter reduzieren."
+[[phrase]]
+from = "Pure framing plus the current Pingora L4 connector adapter; split protocol bytes before stream/server replacement."
+to = "Reines Framing plus aktueller Pingora-L4-Connector-Adapter; Protocol-Bytes vor dem Stream-/Server-Ersatz trennen."
+[[phrase]]
+from = "Pure parsing/export formatting can move before HTTP runtime changes."
+to = "Reines Parsing und Export-Formatting kann vor HTTP-Runtime-Aenderungen verschoben werden."
+[[phrase]]
+from = "Security-sensitive but mostly request/response policy; extract pure rules before replacing Pingora HTTP types."
+to = "Sicherheitssensitiv, aber groesstenteils Request-/Response-Policy; reine Regeln extrahieren, bevor Pingora-HTTP-Typen ersetzt werden."
+[[phrase]]
+from = "listener/provider policy"
+to = "Listener-/Provider-Policy"
+[[phrase]]
+from = "Own downstream listener planning, certificate selection, SNI matching, ALPN/cipher policy, and TLS provider/FIPS checks before replacing the Pingora listener adapter."
+to = "Downstream-Listener-Planung, Zertifikatsauswahl, SNI-Matching, ALPN-/Cipher-Policy und TLS-Provider-/FIPS-Checks besitzen, bevor der Pingora-Listener-Adapter ersetzt wird."
+[[phrase]]
+from = "Large filesystem/TLS/runtime integration surface; extract after listener/TLS boundary traits exist."
+to = "Grosse Filesystem-/TLS-/Runtime-Integrationsflaeche; nach vorhandenen Listener-/TLS-Boundary-Traits extrahieren."
+[[phrase]]
+from = "Own task, shutdown, listener, TLS, and server bootstrap abstractions before removing Pingora server services."
+to = "Task-, Shutdown-, Listener-, TLS- und Server-Bootstrap-Abstraktionen besitzen, bevor Pingora-Server-Services entfernt werden."
+[[phrase]]
+from = "Continue moving admission, keys, headers, storage plans, and purge logic; keep only Pingora cache adapters in root until HTTP proxy cutover."
+to = "Admission, Keys, Header, Storage-Plans und Purge-Logik weiter verschieben; bis zum HTTP-Proxy-Cutover nur Pingora-Cache-Adapter im Root behalten."
+[[phrase]]
+from = "Last large HTTP cutover; depends on config, protocol, headers, cache, PHP, observability, auth, mirror, compression, TLS, and server boundaries."
+to = "Letzter grosser HTTP-Cutover; haengt von Config-, Protocol-, Header-, Cache-, PHP-, Observability-, Auth-, Mirror-, Compression-, TLS- und Server-Grenzen ab."
+[[phrase]]
+from = "Depends on nearly every domain. Split after domain crates own status DTOs and mutation APIs."
+to = "Haengt von nahezu jeder Domain ab. Aufteilen, nachdem Domain-Crates eigene Status-DTOs und Mutation-APIs besitzen."
+[[phrase]]
+from = "1.6 Rules"
+to = "1.6-Regeln"
+[[phrase]]
+from = "Do not create a crate that depends back on the root"
+to = "Kein Crate erstellen, das zurueck vom Root-"
+[[phrase]]
+from = "Prefer pure request/response view traits over concrete Pingora request headers in domain crates."
+to = "Reine Request-/Response-View-Traits gegenueber konkreten Pingora-Request-Headern in Domain-Crates bevorzugen."
+[[phrase]]
+from = "Keep temporary Pingora adapters narrow and named as adapters."
+to = "Temporaere Pingora-Adapter schmal halten und als Adapter benennen."
+[[phrase]]
+from = "When moving code, move tests with the owned logic rather than leaving all private behavior tests in root modules."
+to = "Beim Verschieben von Code die Tests mit der besessenen Logik verschieben, statt alle privaten Verhaltenstests in Root-Modulen zu lassen."
+[[phrase]]
+from = "If a moved file would exceed 500 lines, split it during extraction instead of creating a new oversized exception."
+to = "Wenn eine verschobene Datei mehr als 500 Zeilen haette, sie waehrend der Extraktion aufteilen, statt eine neue uebergrosse Ausnahme zu schaffen."
+[[phrase]]
+from = "Review Use"
+to = "Nutzung im Review"
+[[phrase]]
+from = "Pentest and SAST reviews should use this graph to scope findings:"
+to = "Pentest- und SAST-Reviews sollten diesen Graphen nutzen, um Findings einzugrenzen:"
+[[phrase]]
+from = "pure parser or policy bug: fix in the domain crate;"
+to = "reiner Parser- oder Policy-Bug: im Domain-Crate beheben;"
+[[phrase]]
+from = "adapter bug: fix in the root adapter and add a domain-crate regression where possible;"
+to = "Adapter-Bug: im Root-Adapter beheben und wenn moeglich eine Domain-Crate-Regression hinzufuegen;"
+[[phrase]]
+from = "runtime lifecycle bug: fix through"
+to = "Runtime-Lifecycle-Bug: ueber"
+[[phrase]]
+from = "abstractions before touching HTTP proxy orchestration;"
+to = "Abstraktionen beheben, bevor die HTTP-Proxy-Orchestrierung beruehrt wird;"
+[[phrase]]
+from = "broad proxy lifecycle bug: keep it in the"
+to = "breiter Proxy-Lifecycle-Bug: in der"
+[[phrase]]
+from = "HTTP cutover queue unless it is a release-blocking security fix."
+to = "HTTP-Cutover-Queue belassen, ausser es ist ein release-blockierender Security-Fix."

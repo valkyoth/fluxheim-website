@@ -1,0 +1,286 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Compression"
+to = "Komprimierung"
+
+[[phrase]]
+from = "Cargo features:"
+to = "Cargo-Features:"
+
+[[phrase]]
+from = "Compression remains opt-in. Default builds do not include compression code, and <code>privacy-mode</code> builds reject compression at compile time because response-body transforms can create side-channel and retention risks."
+to = "Komprimierung bleibt opt-in. Standard-Builds enthalten keinen Komprimierungscode, und <code>privacy-mode</code>-Builds lehnen Komprimierung zur Compile-Zeit ab, weil Response-Body-Transformationen Seitenkanal- und Retention-Risiken erzeugen koennen."
+
+[[phrase]]
+from = ": shared config and response filter integration."
+to = ": gemeinsame Konfiguration und Integration in den Response-Filter."
+
+[[phrase]]
+from = ": Brotli response encoding through"
+to = ": Brotli-Response-Encoding über"
+
+[[phrase]]
+from = ": gzip response encoding through"
+to = ": gzip-Response-Encoding über"
+
+[[phrase]]
+from = ": Zstandard response encoding."
+to = ": Zstandard-Response-Encoding."
+
+[[phrase]]
+from = "Goals"
+to = "Ziele"
+
+[[phrase]]
+from = "Keep gzip as a conservative compatibility baseline."
+to = "gzip als konservative Kompatibilitätsbasis beibehalten."
+
+[[phrase]]
+from = "Keep Zstandard and Brotli behind explicit Cargo features because they add extra codec dependencies and operational behavior."
+to = "Zstandard und Brotli hinter expliziten Cargo-Features halten, weil sie zusätzliche Codec-Abhängigkeiten und Betriebsverhalten hinzufügen."
+
+[[phrase]]
+from = "Avoid compressing already-compressed or low-value content."
+to = "Bereits komprimierte oder wenig wertvolle Inhalte nicht komprimieren."
+
+[[phrase]]
+from = "Keep request workers responsive by moving expensive compression work out of the main request path."
+to = "Request-Worker reaktionsfähig halten, indem teure Komprimierungsarbeit aus dem Haupt-Request-Pfad verlagert wird."
+
+[[phrase]]
+from = ", validators, and range behavior safely."
+to = ", Validatoren und Range-Verhalten sicher integrieren."
+
+[[phrase]]
+from = "Negotiation"
+to = "Aushandlung"
+
+[[phrase]]
+from = "and the binary is built with at least one codec feature. Gzip is available through"
+to = "und das Binary mit mindestens einem Codec-Feature gebaut wurde. Gzip ist verfügbar über"
+
+[[phrase]]
+from = ", Zstandard through"
+to = ", Zstandard über"
+
+[[phrase]]
+from = ", and Brotli through"
+to = "und Brotli über"
+
+[[phrase]]
+from = "Identity is served when no enabled coding is accepted by the client, the response is already encoded, the response is too small or too large, the content length is unknown, or policy disables compression."
+to = "Identity wird ausgeliefert, wenn der Client keine aktivierte Kodierung akzeptiert, die Response bereits kodiert ist, die Response zu klein oder zu groß ist, die Content-Length unbekannt ist oder eine Policy die Komprimierung deaktiviert."
+
+[[phrase]]
+from = "Every compressed response must set or update:"
+to = "Jede komprimierte Response muss setzen oder aktualisieren:"
+
+[[phrase]]
+from = "or validator behavior according to the selected variant;"
+to = "oder Validator-Verhalten entsprechend der ausgewählten Variante;"
+
+[[phrase]]
+from = "only when the encoded length is known."
+to = "nur wenn die kodierte Länge bekannt ist."
+
+[[phrase]]
+from = "Eligibility"
+to = "Eignung"
+
+[[phrase]]
+from = "Do not compress by default:"
+to = "Standardmäßig nicht komprimieren:"
+
+[[phrase]]
+from = "JPEG, PNG, GIF, WebP, AVIF, MP4, WebM, MP3, OGG, WOFF2, ZIP, gzip, Brotli, Zstandard, or other already-compressed formats;"
+to = "JPEG, PNG, GIF, WebP, AVIF, MP4, WebM, MP3, OGG, WOFF2, ZIP, gzip, Brotli, Zstandard oder andere bereits komprimierte Formate;"
+
+[[phrase]]
+from = "responses carrying sensitive per-user content unless the operator explicitly allows it and cache admission remains disabled;"
+to = "Responses mit sensiblen benutzerbezogenen Inhalten, außer der Betreiber erlaubt dies ausdrücklich und die Cache-Aufnahme bleibt deaktiviert;"
+
+[[phrase]]
+from = "partial/range responses unless a future range-aware design exists;"
+to = "Partial-/Range-Responses, solange kein zukünftiges range-bewusstes Design existiert;"
+
+[[phrase]]
+from = "responses above configured input/output limits."
+to = "Responses oberhalb der konfigurierten Eingabe-/Ausgabelimits."
+
+[[phrase]]
+from = "Initial positive MIME types should be conservative:"
+to = "Anfängliche positive MIME-Typen sollten konservativ sein:"
+
+[[phrase]]
+from = "Execution Model"
+to = "Ausführungsmodell"
+
+[[phrase]]
+from = "The first codec implementation is intentionally bounded:"
+to = "Die erste Codec-Implementierung ist absichtlich begrenzt:"
+
+[[phrase]]
+from = "only responses with a known"
+to = "nur Responses mit bekannter"
+
+[[phrase]]
+from = "input must fit between"
+to = "die Eingabe muss liegen zwischen"
+
+[[phrase]]
+from = "encoded output must stay within"
+to = "die kodierte Ausgabe muss innerhalb bleiben von"
+
+[[phrase]]
+from = "is capped at 64 MiB by config validation;"
+to = "wird durch die Konfigurationsvalidierung auf 64 MiB begrenzt;"
+
+[[phrase]]
+from = "is capped at 128 MiB by config validation;"
+to = "wird durch die Konfigurationsvalidierung auf 128 MiB begrenzt;"
+
+[[phrase]]
+from = "gzip levels are restricted to"
+to = "gzip-Level sind beschränkt auf"
+
+[[phrase]]
+from = "zstd levels are restricted to"
+to = "zstd-Level sind beschränkt auf"
+
+[[phrase]]
+from = "Brotli quality is restricted to"
+to = "Brotli-Qualität ist beschränkt auf"
+
+[[phrase]]
+from = "Fluxheim removes"
+to = "Fluxheim entfernt"
+
+[[phrase]]
+from = "A later implementation may add bounded compression worker pools, per-vhost concurrency, and precompressed static asset variants."
+to = "Eine spätere Implementierung kann begrenzte Komprimierungs-Worker-Pools, Nebenläufigkeit pro Vhost und vorkomprimierte Varianten statischer Assets hinzufügen."
+
+[[phrase]]
+from = "Cache Integration"
+to = "Cache-Integration"
+
+[[phrase]]
+from = "Future shared-cache compression variants must be cache-isolated by:"
+to = "Zukünftige Shared-Cache-Komprimierungsvarianten müssen cache-seitig isoliert werden nach:"
+
+[[phrase]]
+from = "source cache key;"
+to = "Quell-Cache-Key;"
+
+[[phrase]]
+from = "selected encoding;"
+to = "ausgewählte Kodierung;"
+
+[[phrase]]
+from = "compression policy version."
+to = "Version der Komprimierungs-Policy."
+
+[[phrase]]
+from = "Shared cache admission must still reject unsafe personalized responses such as responses with"
+to = "Die Shared-Cache-Aufnahme muss unsichere personalisierte Responses weiterhin ablehnen, etwa Responses mit"
+
+[[phrase]]
+from = "Precompressed static assets may be supported later through files such as"
+to = "Vorkomprimierte statische Assets können später über Dateien unterstützt werden wie"
+
+[[phrase]]
+from = "Hardware And Native Acceleration"
+to = "Hardware und native Beschleunigung"
+
+[[phrase]]
+from = "Hardware acceleration and CPU-specific codecs are future beta work. Any QAT, SIMD, or platform-specific backend must be selected through explicit feature flags or runtime capability detection with a safe fallback. Release artifacts must document whether they are generic or CPU-specific."
+to = "Hardwarebeschleunigung und CPU-spezifische Codecs sind zukünftige Beta-Arbeit. Jedes QAT-, SIMD- oder plattformspezifische Backend muss über explizite Feature-Flags oder Runtime-Erkennung der Fähigkeiten mit sicherem Fallback ausgewählt werden. Release-Artefakte müssen dokumentieren, ob sie generisch oder CPU-spezifisch sind."
+
+[[phrase]]
+from = "Privacy And Security"
+to = "Datenschutz und Sicherheit"
+
+[[phrase]]
+from = "Compression can create side-channel risk when secrets and attacker-controlled input share the same compressed response. Safe defaults:"
+to = "Komprimierung kann Seitenkanalrisiken erzeugen, wenn Secrets und angreifergesteuerte Eingaben dieselbe komprimierte Response teilen. Sichere Defaults:"
+
+[[phrase]]
+from = "do not compress admin, metrics, auth, or internal control responses;"
+to = "Admin-, Metrik-, Auth- oder interne Control-Responses nicht komprimieren;"
+
+[[phrase]]
+from = "do not compress responses with cookies or authorization-dependent content unless explicitly enabled for a selected vhost;"
+to = "Responses mit Cookies oder autorisierungsabhängigen Inhalten nicht komprimieren, außer dies ist für einen ausgewählten Vhost ausdrücklich aktiviert;"
+
+[[phrase]]
+from = "do not log compressed bytes or response bodies;"
+to = "komprimierte Bytes oder Response-Bodys nicht protokollieren;"
+
+[[phrase]]
+from = "reject the module with"
+to = "das Modul ablehnen mit"
+
+[[phrase]]
+from = "until a no-retention, no-side-channel design is written and tested."
+to = "bis ein No-Retention- und No-Side-Channel-Design geschrieben und getestet ist."
+
+[[phrase]]
+from = "The global block is the default for every vhost. A vhost can override it with"
+to = "Der globale Block ist der Default für jeden Vhost. Ein Vhost kann ihn überschreiben mit"
+
+[[phrase]]
+from = ", and a route can override the vhost with"
+to = ", und eine Route kann den Vhost überschreiben mit"
+
+[[phrase]]
+from = "This lets one site enable compression while another site keeps identity responses, or lets one path prefix opt in while the rest of the vhost stays uncompressed."
+to = "So kann eine Site Komprimierung aktivieren, während eine andere Identity-Responses beibehält, oder ein Pfadpräfix kann opt-in verwenden, während der Rest des Vhosts unkomprimiert bleibt."
+
+[[phrase]]
+from = "Path-scoped compression can be modeled as a route override:"
+to = "Pfadbezogene Komprimierung kann als Route-Override modelliert werden:"
+
+[[phrase]]
+from = "Eligibility checks still apply inside that path: already-compressed media types such as JPEG, PNG, WebP, AVIF, and most archives are served as identity."
+to = "Eignungsprüfungen gelten weiterhin innerhalb dieses Pfads: bereits komprimierte Medientypen wie JPEG, PNG, WebP, AVIF und die meisten Archive werden als Identity ausgeliefert."
+
+[[phrase]]
+from = "Test Plan"
+to = "Testplan"
+
+[[phrase]]
+from = ", and identity correctly for compiled codecs."
+to = "und Identity für einkompilierte Codecs korrekt aus."
+
+[[phrase]]
+from = "Does not compress excluded MIME types or"
+to = "Komprimiert ausgeschlossene MIME-Typen oder"
+
+[[phrase]]
+from = "Does not compress cookie, authorization,"
+to = "Komprimiert Cookie-, Autorisierungs-,"
+
+[[phrase]]
+from = ", range, or already encoded responses."
+to = "Range- oder bereits kodierte Responses nicht."
+
+[[phrase]]
+from = "Enforces input size and level limits."
+to = "Erzwingt Eingabegrößen- und Level-Limits."
+
+[[phrase]]
+from = "Proves compression code is absent from default and"
+to = "Belegt, dass Komprimierungscode in Default- und"
+
+[[phrase]]
+from = "Proves compression code is absent from default and <code>privacy-mode</code> builds."
+to = "Belegt, dass Komprimierungscode in Default- und <code>privacy-mode</code>-Builds fehlt."
+
+[[phrase]]
+from = "<p>Fluxheim negotiates response compression from <code>Accept-Encoding</code> when <code>compression.enabled = true</code> and the binary is built with at least one codec feature. Gzip is available through <code>compression-gzip</code>, Zstandard through <code>compression-zstd</code>, and Brotli through <code>compression-brotli</code>. <code>q=0</code> is respected for each coding. When multiple accepted codings are enabled, Fluxheim prefers <code>br</code>, then <code>zstd</code>, then <code>gzip</code>.</p>"
+to = "<p>Fluxheim handelt Response-Komprimierung aus <code>Accept-Encoding</code> aus, wenn <code>compression.enabled = true</code> gesetzt ist und das Binary mit mindestens einem Codec-Feature gebaut wurde. Gzip ist ueber <code>compression-gzip</code> verfuegbar, Zstandard ueber <code>compression-zstd</code> und Brotli ueber <code>compression-brotli</code>. <code>q=0</code> wird fuer jede Codierung respektiert. Wenn mehrere akzeptierte Codierungen aktiviert sind, bevorzugt Fluxheim <code>br</code>, dann <code>zstd</code>, dann <code>gzip</code>.</p>"
+
+[[phrase]]
+from = "<li>Negotiates <code>br</code>, <code>zstd</code>, <code>gzip</code>, and identity correctly for compiled codecs.</li>"
+to = "<li>Handelt <code>br</code>, <code>zstd</code>, <code>gzip</code> und Identity fuer einkompilierte Codecs korrekt aus.</li>"

@@ -1,0 +1,262 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "The default build enables"
+to = "Le build par defaut active"
+
+[[phrase]]
+from = ". Cargo does not have a separate"
+to = ". Cargo n'a pas de"
+
+[[phrase]]
+from = "flag, so Fluxheim exposes grouped build profiles as normal feature aliases such as"
+to = "separe, donc Fluxheim expose les profils de build groupes comme alias de fonctionnalites normaux, par exemple"
+
+[[phrase]]
+from = ". Fluxheim 1.3 also adds focused profile aliases:"
+to = ". Fluxheim 1.3 ajoute aussi des alias de profils focalises :"
+
+[[phrase]]
+from = "release line introduced"
+to = "a introduit dans la ligne de release"
+
+[[phrase]]
+from = "adds fail-closed internal-crypto gates and compliance evidence templates around those FIPS/ISO profiles."
+to = "ajoute des gates internal-crypto fail-closed et des modeles de preuves de conformite autour de ces profils FIPS/ISO."
+
+[[phrase]]
+from = "is the default and recommended non-FIPS backend."
+to = "est le backend par defaut et recommande hors FIPS."
+
+[[phrase]]
+from = "For FIPS/ISO-capable OpenSSL testing, build with"
+to = "Pour les tests OpenSSL compatibles FIPS/ISO, buildez avec"
+
+[[phrase]]
+from = " or the <code>tls-openssl-iso19790</code> alias instead of the default rustls backend and configure"
+to = " ou l'alias <code>tls-openssl-iso19790</code> au lieu du backend rustls par defaut et configurez"
+
+[[phrase]]
+from = ". The build must link to an OpenSSL 3 installation with a validated provider installed and configured by the operator:"
+to = ". Le build doit linker vers une installation OpenSSL 3 avec un provider valide installe et configure par l'operateur :"
+
+[[phrase]]
+from = "For rustls/AWS-LC FIPS candidate testing, build with"
+to = "Pour les tests du candidat FIPS rustls/AWS-LC, buildez avec"
+
+[[phrase]]
+from = ". This path builds"
+to = ". Ce chemin build"
+
+[[phrase]]
+from = ", so the build host needs CMake, Go, and a C compiler:"
+to = ", donc l'hote de build a besoin de CMake, Go et d'un compilateur C :"
+
+[[phrase]]
+from = "Use an AWS-LC-supported FIPS builder for"
+to = "Utilisez un builder FIPS supporte par AWS-LC pour"
+
+[[phrase]]
+from = ". Rolling distribution compilers can be ahead of AWS-LC FIPS support; newer GCC/Clang families may fail inside"
+to = ". Les compilateurs de distributions rolling peuvent etre en avance sur le support FIPS AWS-LC; les familles GCC/Clang plus recentes peuvent echouer dans"
+
+[[phrase]]
+from = "before Fluxheim code is compiled. The helper fails early for known newer compiler families and documents the investigation-only override in"
+to = "avant que le code Fluxheim soit compile. Le helper echoue tot pour les nouvelles familles de compilateurs connues et documente l'override reserve a l'investigation dans"
+
+[[phrase]]
+from = "The FIPS/ISO profile aliases are narrow proof profiles, not a limitation of the FIPS features. For custom cache or PHP-FPM builds, select raw modules so that the binary has exactly one TLS backend:"
+to = "Les alias de profils FIPS/ISO sont des profils de preuve etroits, pas une limite des fonctionnalites FIPS. Pour les builds cache ou PHP-FPM personnalises, selectionnez les modules bruts afin que le binaire ait exactement un backend TLS :"
+
+[[phrase]]
+from = "For the rustls/AWS-LC candidate, replace"
+to = "Pour le candidat rustls/AWS-LC, remplacez"
+
+[[phrase]]
+from = "in those raw feature examples."
+to = "dans ces exemples de fonctionnalites brutes."
+
+[[phrase]]
+from = "These examples intentionally omit"
+to = "Ces exemples omettent volontairement"
+
+[[phrase]]
+from = ". For stricter FIPS/ISO deployment boundaries, prefer local/static certificate files generated and renewed by an approved external process. If you add"
+to = ". Pour des frontieres de deploiement FIPS/ISO plus strictes, preferez des fichiers certificats locaux/statiques generes et renouveles par un processus externe approuve. Si vous ajoutez"
+
+[[phrase]]
+from = ", treat ACME account key generation, JWS account signing, EAB handling, ACME HTTPS client behavior, challenge certificate generation, and CA policy as a separate evidence area outside the TLS provider proof. In FIPS/ISO-required configs, Fluxheim rejects"
+to = ", traitez la generation de cle de compte ACME, la signature de compte JWS, la gestion EAB, le comportement client HTTPS ACME, la generation de certificats de challenge et la politique CA comme une zone de preuve separee hors de la preuve du provider TLS. Dans les configs exigeant FIPS/ISO, Fluxheim rejette"
+
+[[phrase]]
+from = "; compile-time availability of"
+to = "; la disponibilite compile-time de"
+
+[[phrase]]
+from = "does not make managed ACME part of the approved boundary."
+to = "ne fait pas de l'ACME gere une partie de la frontiere approuvee."
+
+[[phrase]]
+from = "The OpenSSL feature makes Fluxheim fail closed, loads the OpenSSL FIPS provider, enables default FIPS properties for the process, and exposes provider/default property diagnostics. The rustls/AWS-LC candidate installs or passes the rustls FIPS provider and checks rustls&#x27; FIPS indicators for required configs. Either deployment still needs the selected module&#x27;s CMVP certificate, Security Policy, provider/build configuration, and platform evidence. See"
+to = "La fonctionnalite OpenSSL fait echouer Fluxheim en mode fail-closed, charge le provider FIPS OpenSSL, active les proprietes FIPS par defaut pour le processus et expose les diagnostics provider/proprietes par defaut. Le candidat rustls/AWS-LC installe ou transmet le provider FIPS rustls et verifie les indicateurs FIPS de rustls pour les configs requises. Chaque deploiement a encore besoin du certificat CMVP du module choisi, de la Security Policy, de la configuration provider/build et des preuves de plateforme. Voir"
+
+[[phrase]]
+from = "also closes other non-TLS crypto paths in FIPS/ISO-required mode: provider-backed admin auth is allowed in OpenSSL FIPS or rustls/AWS-LC FIPS builds, while local cache encryption, managed ACME, and remote/HTTPS OTLP export are rejected unless the path is non-secret, numeric-local-loopback-only, or externally evidenced as documented in the FIPS guide."
+to = "ferme aussi d'autres chemins crypto non-TLS en mode exigeant FIPS/ISO : l'auth admin adossee au provider est permise dans les builds OpenSSL FIPS ou rustls/AWS-LC FIPS, tandis que le chiffrement de cache local, l'ACME gere et l'export OTLP distant/HTTPS sont rejetes sauf si le chemin est non-secret, numeric-local-loopback-only ou prouve externement comme documente dans le guide FIPS."
+
+[[phrase]]
+from = "PHP support starts with"
+to = "Le support PHP commence avec"
+
+[[phrase]]
+from = ". It is never compiled by default; build it explicitly with"
+to = ". Il n'est jamais compile par defaut; buildez-le explicitement avec"
+
+[[phrase]]
+from = "when Fluxheim should serve PHP applications through php-fpm."
+to = "lorsque Fluxheim doit servir des applications PHP via php-fpm."
+
+[[phrase]]
+from = "See"
+to = "Voir"
+
+[[phrase]]
+from = "for the complete feature/profile list."
+to = "pour la liste complete des fonctionnalites/profils."
+
+[[phrase]]
+from = "Fluxheim&#x27;s production RPM intentionally compiles"
+to = "Le RPM de production Fluxheim compile volontairement"
+
+[[phrase]]
+from = "for the current production line. That keeps the normal packaged binary broad while the container and tarball release assets also provide focused cache/proxy builds. Custom source builds can still omit"
+to = "pour la ligne de production actuelle. Cela garde le binaire package normal large, tandis que les assets de release conteneur et tarball fournissent aussi des builds cache/proxy focalises. Les builds source personnalises peuvent toujours omettre"
+
+[[phrase]]
+from = "load-balancer, cache, web, or observability features when they are not needed."
+to = "les fonctionnalites load-balancer, cache, web ou observabilite lorsqu'elles ne sont pas necessaires."
+
+[[phrase]]
+from = "For package scripts or custom CI that accept user-provided feature strings, run the feature preflight before invoking Cargo:"
+to = "Pour les scripts de packaging ou CI personnalisee qui acceptent des chaines de fonctionnalites fournies par l'utilisateur, lancez le preflight des fonctionnalites avant d'invoquer Cargo :"
+
+[[phrase]]
+from = "Rust 1.96.0, usually through"
+to = "Rust 1.96.0, habituellement via"
+
+[[phrase]]
+from = "or the distro Rust packages when they are new enough;"
+to = "ou les paquets Rust de la distribution lorsqu'ils sont assez recents ;"
+
+[[phrase]]
+from = ": install OpenSSL development headers, such as"
+to = ": installez les headers de developpement OpenSSL, comme"
+
+[[phrase]]
+from = ", or the distro equivalent."
+to = ", ou l'equivalent de la distribution."
+
+[[phrase]]
+from = "The root"
+to = "Le"
+
+[[phrase]]
+from = "remains the Debian default for simple local builds. New packaging and publishing work should use the explicit variant files under"
+to = "racine reste le defaut Debian pour les builds locaux simples. Les nouveaux travaux de packaging et publication doivent utiliser les fichiers de variantes explicites sous"
+
+[[phrase]]
+from = "The Alpine, Wolfi, and SUSE Micro variants build with the official Rust"
+to = "Les variantes Alpine, Wolfi et SUSE Micro buildent avec l'image Rust officielle"
+
+[[phrase]]
+from = "image to keep a musl-linked release binary portable across small runtime bases. The Debian variant builds with the official Rust"
+to = "pour garder un binaire release lie a musl portable entre petites bases runtime. La variante Debian build avec l'image Rust officielle"
+
+[[phrase]]
+from = "image and runs on"
+to = "et tourne sur"
+
+[[phrase]]
+from = "The builder installs"
+to = "Le builder installe"
+
+[[phrase]]
+from = "because Pingora&#x27;s compression and TLS transitives compile native C code. The runtime runs as UID/GID"
+to = "car les transitives compression et TLS de Pingora compilent du code C natif. Le runtime tourne avec UID/GID"
+
+[[phrase]]
+from = "and owns only:"
+to = "et ne possede que :"
+
+[[phrase]]
+from = "Operators who intentionally want a root runtime image can build one by setting the runtime UID/GID to"
+to = "Les operateurs qui veulent intentionnellement une image runtime root peuvent en builder une en definissant l'UID/GID runtime a"
+
+[[phrase]]
+from = ". This is supported, but not the recommended default:"
+to = ". C'est supporte, mais ce n'est pas le defaut recommande :"
+
+[[phrase]]
+from = "You can also override the user at runtime with the container engine&#x27;s"
+to = "Vous pouvez aussi override l'utilisateur au runtime avec le flag"
+
+[[phrase]]
+from = "flag. Prefer a non-root runtime unless a deployment explicitly needs root-owned filesystem writes or low-port binding inside the container."
+to = "du moteur conteneur. Preferez un runtime non-root sauf si un deploiement exige explicitement des ecritures filesystem possedees par root ou du binding de bas ports dans le conteneur."
+
+[[phrase]]
+from = "By default, the bundled Containerfiles compile the full production image profile:"
+to = "Par defaut, les Containerfiles fournis compilent le profil complet d'image de production :"
+
+[[phrase]]
+from = "That default image includes proxying, static serving, cache, load balancing, gzip/Zstandard/Brotli compression codecs, rustls TLS, managed ACME, Prometheus metrics, and OpenTelemetry export support. Published releases also build smaller focused profiles:"
+to = "Cette image par defaut inclut proxying, service statique, cache, load balancing, codecs de compression gzip/Zstandard/Brotli, TLS rustls, ACME gere, metriques Prometheus et support export OpenTelemetry. Les releases publiees buildent aussi des profils focalises plus petits :"
+
+[[phrase]]
+from = "These focused profiles use TLS/ACME as shared ingress capabilities. The"
+to = "Ces profils focalises utilisent TLS/ACME comme capacites d'ingress partagees. L'image"
+
+[[phrase]]
+from = "image is TLS-capable and omits local static web serving. The"
+to = "est compatible TLS et omet le service web statique local. L'image"
+
+[[phrase]]
+from = "image is TLS-capable and omits cache and static web serving. The"
+to = "est compatible TLS et omet cache et service web statique. L'image"
+
+[[phrase]]
+from = "image is TLS-capable, includes static web serving and PHP-FPM support, and omits cache and proxy-edge extras. Starting with"
+to = "est compatible TLS, inclut le service web statique et le support PHP-FPM, et omet cache et extras proxy-edge. A partir de"
+
+[[phrase]]
+from = "the recommended Wolfi"
+to = "l'image Wolfi recommandee"
+
+[[phrase]]
+from = "image also installs"
+to = "installe aussi"
+
+[[phrase]]
+from = "and uses"
+to = "et utilise"
+
+[[phrase]]
+from = "works out of the box for content mounted under"
+to = "fonctionne directement pour le contenu monte sous"
+
+[[phrase]]
+from = ". The non-Wolfi PHP image variants keep the external php-fpm container config unless their runtime packages are customized. The"
+to = ". Les variantes d'image PHP non-Wolfi gardent la config conteneur php-fpm externe sauf si leurs paquets runtime sont personnalises. L'image"
+
+[[phrase]]
+from = "image is TLS-capable and omits cache and static web serving. Starting with the"
+to = "est compatible TLS et omet cache et service web statique. A partir de la ligne"
+
+[[phrase]]
+from = "load-balancer line, it is part of the normal focused release image set. The focused images still reuse the shared proxy runtime internally until lower-level serving internals are split further. Override"
+to = "load-balancer, elle fait partie du set normal d'images release focalisees. Les images focalisees reutilisent encore le runtime proxy partage en interne jusqu'a ce que les internes de serving de niveau inferieur soient separes davantage. Override"
+
+[[phrase]]
+from = "only when you intentionally want a custom image."
+to = "uniquement lorsque vous voulez intentionnellement une image personnalisee."

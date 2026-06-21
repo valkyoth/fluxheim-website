@@ -1,0 +1,430 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "External Authorization Request"
+to = "Externe Autorisierungsanfrage"
+
+[[phrase]]
+from = "Planned Cargo feature:"
+to = "Geplantes Cargo-Feature:"
+
+[[phrase]]
+from = "Keep the default binary free of external-authorization code."
+to = "Das Standard-Binary frei von Code fuer externe Autorisierung halten."
+
+[[phrase]]
+from = "Make authorization per-vhost and per-route."
+to = "Autorisierung pro Vhost und pro Route ermoeglichen."
+
+[[phrase]]
+from = "Support global authorization zones that protect all routes by default unless a route is explicitly excluded."
+to = "Globale Autorisierungszonen unterstuetzen, die standardmaessig alle Routen schuetzen, sofern eine Route nicht explizit ausgeschlossen ist."
+
+[[phrase]]
+from = "Keep request workers protected with strict timeouts and response-size limits."
+to = "Request-Worker mit strikten Timeouts und Response-Groessenlimits schuetzen."
+
+[[phrase]]
+from = "Never trust headers supplied by the client as authorization facts."
+to = "Vom Client gelieferte Header niemals als Autorisierungsfakten vertrauen."
+
+[[phrase]]
+from = "Make every fail-open/fail-closed choice explicit in config."
+to = "Jede Fail-Open-/Fail-Closed-Entscheidung in der Konfiguration explizit machen."
+
+[[phrase]]
+from = "Prefer local JWT/OIDC verification when a request can be decided without a network call."
+to = "Lokale JWT-/OIDC-Pruefung bevorzugen, wenn eine Anfrage ohne Netzwerkaufruf entschieden werden kann."
+
+[[phrase]]
+from = "Support low-latency authorization hooks over HTTPS, Unix domain sockets, and later gRPC."
+to = "Autorisierungs-Hooks mit niedriger Latenz ueber HTTPS, Unix-Domain-Sockets und spaeter gRPC unterstuetzen."
+
+[[phrase]]
+from = "Decision Contract"
+to = "Entscheidungsvertrag"
+
+[[phrase]]
+from = "Fluxheim sends a small authorization request to a configured internal endpoint. The authorization endpoint decides whether the original request may continue."
+to = "Fluxheim sendet eine kleine Autorisierungsanfrage an einen konfigurierten internen Endpunkt. Der Autorisierungsendpunkt entscheidet, ob die urspruengliche Anfrage fortgesetzt werden darf."
+
+[[phrase]]
+from = "Transport options should be explicit:"
+to = "Transportoptionen sollten explizit sein:"
+
+[[phrase]]
+from = ": simplest integration with existing policy services."
+to = ": einfachste Integration mit vorhandenen Policy-Diensten."
+
+[[phrase]]
+from = ": local sidecar/service integration without exposing a TCP port."
+to = ": lokale Sidecar-/Service-Integration ohne Offenlegung eines TCP-Ports."
+
+[[phrase]]
+from = ": future persistent typed authorization API for high-throughput deployments."
+to = ": kuenftige persistente typisierte Autorisierungs-API fuer Deployments mit hohem Durchsatz."
+
+[[phrase]]
+from = "Decision handling:"
+to = "Entscheidungsbehandlung:"
+
+[[phrase]]
+from = ": allow the original request."
+to = ": die urspruengliche Anfrage erlauben."
+
+[[phrase]]
+from = "; pass through only configured challenge headers."
+to = "; nur konfigurierte Challenge-Header durchreichen."
+
+[[phrase]]
+from = "Any other status: treat as an authorization service error."
+to = "Jeden anderen Status als Fehler des Autorisierungsdienstes behandeln."
+
+[[phrase]]
+from = "Error handling is configurable:"
+to = "Fehlerbehandlung ist konfigurierbar:"
+
+[[phrase]]
+from = "or configured error status."
+to = "oder konfigurierter Fehlerstatus."
+
+[[phrase]]
+from = "Request Shape"
+to = "Anfrageform"
+
+[[phrase]]
+from = "normalized path;"
+to = "normalisierter Pfad;"
+
+[[phrase]]
+from = "query presence or query value depending on policy;"
+to = "Query-Vorhandensein oder Query-Wert je nach Policy;"
+
+[[phrase]]
+from = "configured request headers;"
+to = "konfigurierte Request-Header;"
+
+[[phrase]]
+from = "TLS/SNI metadata where useful;"
+to = "TLS-/SNI-Metadaten, wo nuetzlich;"
+
+[[phrase]]
+from = "vhost name and route name."
+to = "Vhost-Name und Routenname."
+
+[[phrase]]
+from = "Request bodies are disabled by default. If an operator enables body forwarding, Fluxheim must enforce:"
+to = "Request-Bodies sind standardmaessig deaktiviert. Wenn ein Operator Body-Forwarding aktiviert, muss Fluxheim Folgendes erzwingen:"
+
+[[phrase]]
+from = "allowed content types;"
+to = "erlaubte Content-Types;"
+
+[[phrase]]
+from = "redaction rules;"
+to = "Redaktionsregeln;"
+
+[[phrase]]
+from = "timeout budgets;"
+to = "Timeout-Budgets;"
+
+[[phrase]]
+from = "no body forwarding for streaming uploads unless explicitly supported."
+to = "kein Body-Forwarding fuer Streaming-Uploads, sofern es nicht explizit unterstuetzt wird."
+
+[[phrase]]
+from = "Header Policy"
+to = "Header-Policy"
+
+[[phrase]]
+from = "The module must use allow-lists, not pass-through-by-default behavior."
+to = "Das Modul muss Allow-Lists verwenden, kein Pass-through-by-default-Verhalten."
+
+[[phrase]]
+from = "Inbound headers stripped before auth:"
+to = "Vor der Authentifizierung entfernte eingehende Header:"
+
+[[phrase]]
+from = "unless explicitly forwarded;"
+to = "sofern nicht explizit weitergeleitet;"
+
+[[phrase]]
+from = "cookies unless explicitly forwarded;"
+to = "Cookies, sofern nicht explizit weitergeleitet;"
+
+[[phrase]]
+from = ", or configured identity headers that could be spoofed by the client."
+to = ", oder konfigurierte Identity-Header, die vom Client gefaelscht werden koennten."
+
+[[phrase]]
+from = "When an operator explicitly allow-lists common request-context names, Fluxheim-generated context wins over client-supplied values."
+to = "Wenn ein Operator gaengige Request-Context-Namen explizit erlaubt, hat von Fluxheim erzeugter Kontext Vorrang vor vom Client gelieferten Werten."
+
+[[phrase]]
+from = "fields are joined with"
+to = "Felder werden verbunden mit"
+
+[[phrase]]
+from = ", matching the normalized upstream origin request, so the auth service and origin receive the same cookie structure when cookies are explicitly forwarded."
+to = ", passend zur normalisierten Upstream-Origin-Anfrage, sodass Auth-Dienst und Origin dieselbe Cookie-Struktur erhalten, wenn Cookies explizit weitergeleitet werden."
+
+[[phrase]]
+from = "no copied headers;"
+to = "keine kopierten Header;"
+
+[[phrase]]
+from = "optional namespaced verified headers such as"
+to = "optionale namespaced verifizierte Header wie"
+
+[[phrase]]
+from = "no raw token propagation unless explicitly configured."
+to = "keine Weitergabe roher Tokens, sofern nicht explizit konfiguriert."
+
+[[phrase]]
+from = "may be passed to the client only from an allow-list."
+to = "duerfen nur aus einer Allow-List an den Client weitergegeben werden."
+
+[[phrase]]
+from = "Identity Context And Claim Mapping"
+to = "Identity-Kontext und Claim-Mapping"
+
+[[phrase]]
+from = "strip inbound identity headers before verification;"
+to = "eingehende Identity-Header vor der Verifikation entfernen;"
+
+[[phrase]]
+from = "map only verified claims from the auth response or local JWT verifier;"
+to = "nur verifizierte Claims aus der Auth-Antwort oder dem lokalen JWT-Verifier abbilden;"
+
+[[phrase]]
+from = "prefer namespaced headers such as"
+to = "namespaced Header wie diese bevorzugen:"
+
+[[phrase]]
+from = "never forward raw tokens unless the operator explicitly allow-lists them."
+to = "rohe Tokens niemals weiterleiten, sofern der Operator sie nicht explizit erlaubt."
+
+[[phrase]]
+from = "Global Auth Zones"
+to = "Globale Auth-Zonen"
+
+[[phrase]]
+from = "For protected deployments, authorization should be opt-out at the route level rather than opt-in everywhere. A global auth zone can cover a vhost, with explicit exclusions for public assets and health checks."
+to = "Fuer geschuetzte Deployments sollte Autorisierung auf Routenebene Opt-out sein, statt ueberall Opt-in zu verlangen. Eine globale Auth-Zone kann einen Vhost mit expliziten Ausschluessen fuer oeffentliche Assets und Healthchecks abdecken."
+
+[[phrase]]
+from = "Config validation must reject ambiguous policies where a route both requires and excludes auth through conflicting inherited settings."
+to = "Die Config-Validierung muss mehrdeutige Policies ablehnen, bei denen eine Route durch widerspruechliche geerbte Einstellungen Auth sowohl verlangt als auch ausschliesst."
+
+[[phrase]]
+from = "Local JWT Verification"
+to = "Lokale JWT-Verifikation"
+
+[[phrase]]
+from = "When the identity provider issues signed JWTs, Fluxheim should be able to verify the token locally through the future"
+to = "Wenn der Identity-Provider signierte JWTs ausstellt, sollte Fluxheim das Token lokal ueber das kuenftige"
+
+[[phrase]]
+from = "issuer and audience validation;"
+to = "Issuer- und Audience-Validierung;"
+
+[[phrase]]
+from = "expiry, not-before, and clock-skew validation;"
+to = "Expiry-, Not-before- und Clock-skew-Validierung;"
+
+[[phrase]]
+from = "algorithm allow-listing;"
+to = "Algorithmus-Allow-Listing;"
+
+[[phrase]]
+from = "bounded token and key sizes;"
+to = "begrenzte Token- und Schluesselgroessen;"
+
+[[phrase]]
+from = "key rotation and stale-key behavior."
+to = "Key-Rotation und Verhalten bei veralteten Schluesseln."
+
+[[phrase]]
+from = "Local verification avoids an auth-service round trip for normal requests. Live external authorization remains useful for session revocation, policy checks, device posture, and other decisions that cannot be encoded safely in a token."
+to = "Lokale Verifikation vermeidet fuer normale Anfragen einen Roundtrip zum Auth-Dienst. Live-Autorisierung extern bleibt fuer Session-Widerruf, Policy-Pruefungen, Geraetezustand und andere Entscheidungen nuetzlich, die nicht sicher in einem Token codiert werden koennen."
+
+[[phrase]]
+from = "Denial Responses"
+to = "Ablehnungsantworten"
+
+[[phrase]]
+from = "Denial behavior should be explicit and client-aware:"
+to = "Ablehnungsverhalten sollte explizit und clientbewusst sein:"
+
+[[phrase]]
+from = "browser requests may redirect to a configured login URL;"
+to = "Browser-Anfragen duerfen zu einer konfigurierten Login-URL weiterleiten;"
+
+[[phrase]]
+from = "redirects may include a safe return destination generated from the normalized original URL;"
+to = "Weiterleitungen duerfen ein sicheres Ruecksprungziel enthalten, das aus der normalisierten Original-URL erzeugt wurde;"
+
+[[phrase]]
+from = "API/AJAX requests can receive a JSON"
+to = "API-/AJAX-Anfragen koennen eine JSON-"
+
+[[phrase]]
+from = "response instead of a redirect;"
+to = "Antwort statt einer Weiterleitung erhalten;"
+
+[[phrase]]
+from = "redirect destinations must be validated to avoid open redirects."
+to = "Weiterleitungsziele muessen validiert werden, um Open Redirects zu vermeiden."
+
+[[phrase]]
+from = "Caching"
+to = "Caching"
+
+[[phrase]]
+from = "Cache key isolation must include:"
+to = "Cache-Key-Isolation muss Folgendes enthalten:"
+
+[[phrase]]
+from = "normalized path or configured path bucket;"
+to = "normalisierter Pfad oder konfigurierter Pfad-Bucket;"
+
+[[phrase]]
+from = "selected identity/session token fingerprint;"
+to = "ausgewaehlter Identity-/Session-Token-Fingerprint;"
+
+[[phrase]]
+from = "auth policy version."
+to = "Auth-Policy-Version."
+
+[[phrase]]
+from = "max TTL bounded in config validation."
+to = "maximale TTL in der Config-Validierung begrenzt."
+
+[[phrase]]
+from = "Auth backend URL must be explicit per vhost or inherited from a typed global profile."
+to = "Die Auth-Backend-URL muss pro Vhost explizit sein oder von einem typisierten globalen Profil geerbt werden."
+
+[[phrase]]
+from = "mTLS to the auth backend should be supported."
+to = "mTLS zum Auth-Backend sollte unterstuetzt werden."
+
+[[phrase]]
+from = "Auth backend response headers and bodies must have strict size limits."
+to = "Response-Header und -Bodies des Auth-Backends muessen strikte Groessenlimits haben."
+
+[[phrase]]
+from = "Auth requests must have connect, read, and total timeouts."
+to = "Auth-Anfragen muessen Connect-, Read- und Gesamt-Timeouts haben."
+
+[[phrase]]
+from = "Redirect responses from the auth backend are errors unless explicitly allowed for a narrow use case."
+to = "Redirect-Antworten vom Auth-Backend sind Fehler, sofern sie nicht explizit fuer einen engen Anwendungsfall erlaubt sind."
+
+[[phrase]]
+from = "Auth loops must be impossible: auth endpoints cannot themselves require the same auth policy."
+to = "Auth-Schleifen muessen unmoeglich sein: Auth-Endpunkte duerfen nicht selbst dieselbe Auth-Policy verlangen."
+
+[[phrase]]
+from = "Logs must record decision class, policy name, status, latency, and error class after redaction. They must not log raw tokens, cookies, or auth response bodies."
+to = "Logs muessen Entscheidungsklasse, Policy-Name, Status, Latenz und Fehlerklasse nach Redaktion erfassen. Sie duerfen keine rohen Tokens, Cookies oder Auth-Response-Bodies protokollieren."
+
+[[phrase]]
+from = "by default because external authorization intentionally sends request metadata to another service."
+to = "standardmaessig inkompatibel sein, weil externe Autorisierung absichtlich Request-Metadaten an einen anderen Dienst sendet."
+
+[[phrase]]
+from = "Treat every other auth status as an error."
+to = "Jeden anderen Auth-Status als Fehler behandeln."
+
+[[phrase]]
+from = "Strip spoofable identity headers before auth and before upstream forwarding."
+to = "Faelschbare Identity-Header vor Auth und vor Upstream-Forwarding entfernen."
+
+[[phrase]]
+from = "Enforce auth backend timeout and response-size limits."
+to = "Timeout- und Response-Groessenlimits des Auth-Backends erzwingen."
+
+[[phrase]]
+from = "Reject recursive auth configuration."
+to = "Rekursive Auth-Konfiguration ablehnen."
+
+[[phrase]]
+from = "Verify global auth zones protect routes by default and honor explicit exclusions."
+to = "Pruefen, dass globale Auth-Zonen Routen standardmaessig schuetzen und explizite Ausschluesse respektieren."
+
+[[phrase]]
+from = "Verify UDS auth endpoints and later gRPC hooks enforce the same timeout and size limits as HTTPS endpoints."
+to = "Pruefen, dass UDS-Auth-Endpunkte und spaetere gRPC-Hooks dieselben Timeout- und Groessenlimits wie HTTPS-Endpunkte erzwingen."
+
+[[phrase]]
+from = "Verify local JWT issuer, audience, expiry, algorithm, and key rotation behavior."
+to = "Lokales JWT-Verhalten fuer Issuer, Audience, Ablauf, Algorithmus und Key-Rotation pruefen."
+
+[[phrase]]
+from = "Verify browser redirects preserve a safe return destination and API/AJAX requests can receive non-redirect denials."
+to = "Pruefen, dass Browser-Redirects ein sicheres Ruecksprungziel bewahren und API-/AJAX-Anfragen Ablehnungen ohne Redirect erhalten koennen."
+
+[[phrase]]
+from = "should be the default."
+to = "sollte die Vorgabe sein."
+
+[[phrase]]
+from = ", challenge headers such as "
+to = ", Challenge-Header wie "
+
+[[phrase]]
+from = " may be passed to the client only from an allow-list."
+to = " duerfen nur aus einer Allow-List an den Client weitergegeben werden."
+
+[[phrase]]
+from = "Pass only allow-listed challenge headers on "
+to = "Nur allow-gelistete Challenge-Header weitergeben bei "
+
+[[phrase]]
+from = "Verify positive/negative cache TTL boundaries when decision caching is enabled."
+to = "Positive/negative Cache-TTL-Grenzen pruefen, wenn Decision-Caching aktiviert ist."
+
+[[phrase]]
+from = " is absent from default builds and rejected with "
+to = " fehlt in Default-Builds und wird abgelehnt mit "
+
+[[phrase]]
+from = "Verify claim mapping only injects values from verified identity context."
+to = "Pruefen, dass Claim-Mapping nur Werte aus verifiziertem Identity-Kontext injiziert."
+
+[[phrase]]
+from = "challenge headers such as"
+to = "Challenge-Header wie"
+
+[[phrase]]
+from = "should be incompatible with"
+to = "sollte inkompatibel sein mit"
+
+[[phrase]]
+from = "Pass only allow-listed challenge headers on"
+to = "Nur allow-gelistete Challenge-Header weitergeben bei"
+
+[[phrase]]
+from = "is absent from default builds and rejected with"
+to = "fehlt in Default-Builds und wird abgelehnt mit"
+
+[[phrase]]
+from = "<li>a small <code>max_body_bytes</code>;</li>"
+to = "<li>ein kleines <code>max_body_bytes</code>;</li>"
+
+[[phrase]]
+from = "<li>any <code>X-User-*</code>, <code>X-Auth-*</code>, <code>X-Forwarded-*</code>, or configured identity headers that could be spoofed by the client.</li>"
+to = "<li>alle <code>X-User-*</code>-, <code>X-Auth-*</code>-, <code>X-Forwarded-*</code>- oder konfigurierten Identity-Header, die vom Client gefaelscht werden koennten.</li>"
+
+[[phrase]]
+from = "<li>Allow on <code>2xx</code>.</li>"
+to = "<li>Erlauben bei <code>2xx</code>.</li>"
+
+[[phrase]]
+from = "<li>Deny on <code>401</code> and <code>403</code>.</li>"
+to = "<li>Ablehnen bei <code>401</code> und <code>403</code>.</li>"
+
+[[phrase]]
+from = "<li>Verify <code>fail_closed</code> and explicit <code>fail_open</code> behavior.</li>"
+to = "<li><code>fail_closed</code>- und explizites <code>fail_open</code>-Verhalten pruefen.</li>"

@@ -1,0 +1,491 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+[[phrase]]
+from = "Compliance Evidence Package Template"
+to = "Modele de paquet de preuves de conformite"
+[[phrase]]
+from = "Release Metadata"
+to = "Metadonnees de release"
+[[phrase]]
+from = "Fluxheim version"
+to = "Version de Fluxheim"
+[[phrase]]
+from = "Git tag"
+to = "Tag Git"
+[[phrase]]
+from = "Tag commit"
+to = "Commit du tag"
+[[phrase]]
+from = "Tag signature verification"
+to = "Verification de signature du tag"
+[[phrase]]
+from = "Release date"
+to = "Date de release"
+[[phrase]]
+from = "Release builder identity"
+to = "Identite du builder de release"
+[[phrase]]
+from = "Build host OS/image"
+to = "OS/image de l'hote de build"
+[[phrase]]
+from = "Rust toolchain"
+to = "Toolchain Rust"
+[[phrase]]
+from = "Cargo build command"
+to = "Commande de build Cargo"
+[[phrase]]
+from = "Selected feature profile"
+to = "Profil de features selectionne"
+[[phrase]]
+from = "Candidate TOE Boundary"
+to = "Frontiere TOE candidate"
+[[phrase]]
+from = "Pick one candidate Target of Evaluation (TOE) boundary for this evidence package. Do not mix boundaries in the same evidence record."
+to = "Choisissez une frontiere candidate de Target of Evaluation (TOE) pour ce paquet de preuves. Ne melangez pas les frontieres dans le meme enregistrement de preuve."
+[[phrase]]
+from = "Candidate TOE"
+to = "TOE candidate"
+[[phrase]]
+from = "Excluded / Operational Environment"
+to = "Exclu / environnement operationnel"
+[[phrase]]
+from = "Gateway binary"
+to = "Binaire gateway"
+[[phrase]]
+from = "binary and selected Cargo features"
+to = "binaire et features Cargo selectionnees"
+[[phrase]]
+from = "OS, systemd, OpenSSL provider, PHP-FPM, OpenBao, ACME CA, upstream apps"
+to = "OS, systemd, fournisseur OpenSSL, PHP-FPM, OpenBao, CA ACME, apps upstream"
+[[phrase]]
+from = "RPM profile"
+to = "Profil RPM"
+[[phrase]]
+from = "RPM files, helper binaries, systemd units, default filesystem layout"
+to = "fichiers RPM, binaires helper, units systemd, layout filesystem par defaut"
+[[phrase]]
+from = "Host OS packages, external crypto providers, runtime directory ownership"
+to = "paquets de l'OS hote, fournisseurs crypto externes, ownership des repertoires runtime"
+[[phrase]]
+from = "Container image"
+to = "Image conteneur"
+[[phrase]]
+from = "Image layers, entrypoint, bundled helper binaries, filesystem layout"
+to = "layers d'image, entrypoint, binaires helper embarques, layout filesystem"
+[[phrase]]
+from = "Container runtime, host kernel, mounted secrets, external services"
+to = "runtime conteneur, kernel hote, secrets montes, services externes"
+[[phrase]]
+from = "FIPS/ISO OpenSSL profile"
+to = "Profil OpenSSL FIPS/ISO"
+[[phrase]]
+from = "Selected candidate TOE:"
+to = "TOE candidate selectionnee :"
+[[phrase]]
+from = "Assets:"
+to = "Assets :"
+[[phrase]]
+from = "TLS private keys and certificate material."
+to = "Cles privees TLS et materiel de certificat."
+[[phrase]]
+from = "Admin tokens and control-socket access."
+to = "Tokens admin et acces au control socket."
+[[phrase]]
+from = "PHP-FPM request metadata and spooled bodies."
+to = "Metadonnees de requete PHP-FPM et bodies spoules."
+[[phrase]]
+from = "Threats considered:"
+to = "Menaces considerees :"
+[[phrase]]
+from = "Local symlink, permission, ownership, and runtime-state attacks."
+to = "Attaques locales sur symlinks, permissions, ownership et etat runtime."
+[[phrase]]
+from = "Compromised upstream, PHP-FPM, OpenBao, ACME, OTLP, or crypto-RPC services."
+to = "Services upstream, PHP-FPM, OpenBao, ACME, OTLP ou crypto-RPC compromis."
+[[phrase]]
+from = "Build, dependency, container, and release-artifact supply-chain attacks."
+to = "Attaques supply-chain sur build, dependances, conteneur et artefacts de release."
+[[phrase]]
+from = "Operational assumptions:"
+to = "Hypotheses operationnelles :"
+[[phrase]]
+from = "Fluxheim runs as a dedicated service user."
+to = "Fluxheim s'execute avec un utilisateur de service dedie."
+[[phrase]]
+from = "Admin endpoints and control sockets are local or otherwise restricted to trusted operators."
+to = "Les endpoints admin et control sockets sont locaux ou autrement limites aux operateurs de confiance."
+[[phrase]]
+from = "Operators preserve release evidence, SBOMs, checksums, signatures, scanner output, and provider evidence."
+to = "Les operateurs conservent preuves de release, SBOM, checksums, signatures, sorties de scanner et preuves fournisseur."
+[[phrase]]
+from = "Fluxheim objectives:"
+to = "Objectifs Fluxheim :"
+[[phrase]]
+from = "Reject unsafe filesystem paths, symlinked runtime paths, unsafe permissions, and insecure config combinations."
+to = "Rejeter les chemins filesystem dangereux, chemins runtime symlinkes, permissions dangereuses et combinaisons de config insecure."
+[[phrase]]
+from = "Fail closed when FIPS/ISO-required mode selects unsupported crypto paths."
+to = "Echouer en mode ferme lorsqu'un mode requis FIPS/ISO selectionne des chemins crypto non supportes."
+[[phrase]]
+from = "Operational-environment objectives:"
+to = "Objectifs de l'environnement operationnel :"
+[[phrase]]
+from = "Provide a trustworthy OS, filesystem, service manager, container runtime, and network boundary."
+to = "Fournir un OS, filesystem, service manager, runtime conteneur et frontiere reseau dignes de confiance."
+[[phrase]]
+from = "Protect secrets and credential mounts."
+to = "Proteger les secrets et montages de credentials."
+[[phrase]]
+from = "Provide validated crypto module evidence when FIPS/ISO claims are made."
+to = "Fournir des preuves de module crypto valide lorsque des claims FIPS/ISO sont faits."
+[[phrase]]
+from = "TLS policy, host routing, request limits"
+to = "policy TLS, routage host, limites de requete"
+[[phrase]]
+from = "config, tests, TLS diagnostics"
+to = "config, tests, diagnostics TLS"
+[[phrase]]
+from = "upstream TLS, headers, retries, timeouts"
+to = "TLS upstream, headers, retries, timeouts"
+[[phrase]]
+from = "config, tests"
+to = "config, tests"
+[[phrase]]
+from = "path traversal and symlink prevention"
+to = "prevention du path traversal et des symlinks"
+[[phrase]]
+from = "tests, docs"
+to = "tests, docs"
+[[phrase]]
+from = "PHP-FPM FastCGI"
+to = "PHP-FPM FastCGI"
+[[phrase]]
+from = "CGI params, body limits, response parsing"
+to = "parametres CGI, limites de body, parsing de reponse"
+[[phrase]]
+from = "tests, PHP-FPM docs"
+to = "tests, docs PHP-FPM"
+[[phrase]]
+from = "Cache store"
+to = "Store de cache"
+[[phrase]]
+from = "object limits, encryption boundary"
+to = "limites d'objet, frontiere de chiffrement"
+[[phrase]]
+from = "config, smoke tests"
+to = "config, smoke tests"
+[[phrase]]
+from = "ACME challenge and renewal"
+to = "challenge ACME et renouvellement"
+[[phrase]]
+from = "certificate lifecycle"
+to = "cycle de vie des certificats"
+[[phrase]]
+from = "ACME docs, FIPS gates"
+to = "docs ACME, gates FIPS"
+[[phrase]]
+from = "management and rollback"
+to = "gestion et rollback"
+[[phrase]]
+from = "admin docs, auth tests"
+to = "docs admin, tests auth"
+[[phrase]]
+from = "Control socket"
+to = "Control socket"
+[[phrase]]
+from = "certificate reload command"
+to = "commande de reload des certificats"
+[[phrase]]
+from = "runtime tests, permissions"
+to = "tests runtime, permissions"
+[[phrase]]
+from = "telemetry metadata export"
+to = "export des metadonnees de telemetrie"
+[[phrase]]
+from = "config, CA, FIPS gates"
+to = "config, CA, gates FIPS"
+[[phrase]]
+from = "audit trail and diagnostics"
+to = "audit trail et diagnostics"
+[[phrase]]
+from = "logging config, redaction docs"
+to = "config logging, docs de redaction"
+[[phrase]]
+from = "Cryptographic Evidence"
+to = "Preuves cryptographiques"
+[[phrase]]
+from = "Required mode"
+to = "Mode requis"
+[[phrase]]
+from = "none / FIPS 140-3 / ISO/IEC 19790"
+to = "aucun / FIPS 140-3 / ISO/IEC 19790"
+[[phrase]]
+from = "TLS backend"
+to = "Backend TLS"
+[[phrase]]
+from = "Fluxheim feature profile"
+to = "Profil de features Fluxheim"
+[[phrase]]
+from = "Module provider"
+to = "Fournisseur de module"
+[[phrase]]
+from = "OpenSSL FIPS provider / AWS-LC FIPS / other"
+to = "fournisseur OpenSSL FIPS / AWS-LC FIPS / autre"
+[[phrase]]
+from = "CMVP certificate number"
+to = "Numero de certificat CMVP"
+[[phrase]]
+from = "Provider install/config files"
+to = "Fichiers d'installation/config du fournisseur"
+[[phrase]]
+from = "Provider self-test evidence"
+to = "Preuves d'auto-test du fournisseur"
+[[phrase]]
+from = "output archived"
+to = "sortie archivee"
+[[phrase]]
+from = "FIPS validation script output archived"
+to = "sortie du script de validation FIPS archivee"
+[[phrase]]
+from = "Non-TLS crypto gates reviewed"
+to = "gates crypto non-TLS revus"
+[[phrase]]
+from = "Exact Cargo build command."
+to = "Commande exacte de build Cargo."
+[[phrase]]
+from = "output when applicable."
+to = "sortie si applicable."
+[[phrase]]
+from = "Explanation for every external crypto boundary, such as OpenBao Transit."
+to = "Explication pour chaque frontiere crypto externe, comme OpenBao Transit."
+[[phrase]]
+from = "Release Artifact Evidence"
+to = "Preuves d'artefacts de release"
+[[phrase]]
+from = "Source archive checksums"
+to = "Checksums des archives source"
+[[phrase]]
+from = "Binary archive checksums"
+to = "Checksums des archives binaires"
+[[phrase]]
+from = "Config tester checksum"
+to = "Checksum du testeur de config"
+[[phrase]]
+from = "SBOM SPDX checksum"
+to = "Checksum SBOM SPDX"
+[[phrase]]
+from = "SBOM CycloneDX checksum"
+to = "Checksum SBOM CycloneDX"
+[[phrase]]
+from = "Reproducible-build hash"
+to = "Hash de build reproductible"
+[[phrase]]
+from = "Container image digests"
+to = "Digests d'image conteneur"
+[[phrase]]
+from = "GitHub release URL"
+to = "URL de release GitHub"
+[[phrase]]
+from = "RPM repository metadata/checksums"
+to = "Metadonnees/checksums du repository RPM"
+[[phrase]]
+from = "Validation Script Identifiers"
+to = "Identifiants des scripts de validation"
+[[phrase]]
+from = "Script / check"
+to = "Script / check"
+[[phrase]]
+from = "Release metadata consistency"
+to = "Coherence des metadonnees de release"
+[[phrase]]
+from = "command output"
+to = "sortie de commande"
+[[phrase]]
+from = "Cargo feature graph validation"
+to = "Validation du graphe de features Cargo"
+[[phrase]]
+from = "OpenSSL FIPS/ISO fail-closed and provider evidence"
+to = "fail-closed OpenSSL FIPS/ISO et preuves fournisseur"
+[[phrase]]
+from = "OWASP Top 10 2025 baseline checks"
+to = "checks de baseline OWASP Top 10 2025"
+[[phrase]]
+from = "SPDX and CycloneDX SBOM generation"
+to = "generation SBOM SPDX et CycloneDX"
+[[phrase]]
+from = "SBOM files and checksums"
+to = "fichiers SBOM et checksums"
+[[phrase]]
+from = "Reproducible-build evidence"
+to = "preuve de build reproductible"
+[[phrase]]
+from = "hash output"
+to = "sortie de hash"
+[[phrase]]
+from = "Aggregated release evidence bundle"
+to = "bundle agrege de preuves de release"
+[[phrase]]
+from = "generated markdown"
+to = "markdown genere"
+[[phrase]]
+from = "RustSec advisory check"
+to = "check advisory RustSec"
+[[phrase]]
+from = "license/source/advisory policy"
+to = "policy licence/source/advisory"
+[[phrase]]
+from = "GitHub CodeQL/code scanning"
+to = "GitHub CodeQL/code scanning"
+[[phrase]]
+from = "static-analysis baseline"
+to = "baseline d'analyse statique"
+[[phrase]]
+from = "GitHub run URL"
+to = "URL du run GitHub"
+[[phrase]]
+from = "Scanner Output Checklist"
+to = "Checklist des sorties de scanner"
+[[phrase]]
+from = "Archive the output or URL for each applicable item:"
+to = "Archivez la sortie ou l'URL pour chaque element applicable :"
+[[phrase]]
+from = "GitHub CI workflow run."
+to = "Run de workflow GitHub CI."
+[[phrase]]
+from = "CodeQL/code scanning alerts state."
+to = "Etat des alertes CodeQL/code scanning."
+[[phrase]]
+from = "SBOM generation output and checksums."
+to = "Sortie de generation SBOM et checksums."
+[[phrase]]
+from = "Pentest report identifier and remediation commit list."
+to = "Identifiant du rapport pentest et liste des commits de remediation."
+[[phrase]]
+from = "Vulnerability Analysis Record"
+to = "Enregistrement d'analyse de vulnerabilite"
+[[phrase]]
+from = "Finding summary"
+to = "Resume du finding"
+[[phrase]]
+from = "Remediation commit"
+to = "Commit de remediation"
+[[phrase]]
+from = "Regression evidence"
+to = "Preuve de regression"
+[[phrase]]
+from = "pentest / CodeQL / audit / internal"
+to = "pentest / CodeQL / audit / interne"
+[[phrase]]
+from = "Decision guidance:"
+to = "Guide de decision :"
+[[phrase]]
+from = ": code, docs, or tests changed."
+to = ": code, docs ou tests modifies."
+[[phrase]]
+from = ": documented design limitation with no new exploit path."
+to = ": limitation de design documentee sans nouveau chemin d'exploitation."
+[[phrase]]
+from = ": finding does not apply, with reason."
+to = ": le finding ne s'applique pas, avec raison."
+[[phrase]]
+from = ": tracked for a future release with clear risk owner."
+to = ": suivi pour une future release avec risk owner clair."
+[[phrase]]
+from = "External Dependency And Operational Evidence"
+to = "Preuves de dependances externes et operationnelles"
+[[phrase]]
+from = "Evidence required"
+to = "Preuve requise"
+[[phrase]]
+from = "OpenSSL FIPS provider"
+to = "Fournisseur OpenSSL FIPS"
+[[phrase]]
+from = "TLS crypto module"
+to = "Module crypto TLS"
+[[phrase]]
+from = "AWS-LC FIPS module"
+to = "Module AWS-LC FIPS"
+[[phrase]]
+from = "OpenBao Transit"
+to = "OpenBao Transit"
+[[phrase]]
+from = "module/platform evidence, policy, network boundary"
+to = "preuve module/plateforme, policy, frontiere reseau"
+[[phrase]]
+from = "PHP execution environment"
+to = "environnement d'execution PHP"
+[[phrase]]
+from = "pool config, user/group, socket permissions"
+to = "config pool, user/group, permissions socket"
+[[phrase]]
+from = "ACME issuer/renewal process"
+to = "processus d'emission/renouvellement ACME"
+[[phrase]]
+from = "issuer policy, account handling, renewal logs"
+to = "policy d'issuer, gestion de compte, logs de renouvellement"
+[[phrase]]
+from = "OTLP collector"
+to = "collecteur OTLP"
+[[phrase]]
+from = "telemetry sink"
+to = "sink de telemetrie"
+[[phrase]]
+from = "endpoint TLS/locality, CA, retention/redaction policy"
+to = "TLS/localite d'endpoint, CA, policy retention/redaction"
+[[phrase]]
+from = "Container/runtime OS"
+to = "OS conteneur/runtime"
+[[phrase]]
+from = "operational environment"
+to = "environnement operationnel"
+[[phrase]]
+from = "image digest, hardening settings, secret mounts"
+to = "digest d'image, parametres de hardening, montages de secrets"
+[[phrase]]
+from = "FIPS-capable build path"
+to = "chemin de build compatible FIPS"
+[[phrase]]
+from = "ISO/IEC 19790 terminology alias"
+to = "alias terminologique ISO/IEC 19790"
+[[phrase]]
+from = "Common Criteria evidence-aligned"
+to = "aligne avec les preuves Common Criteria"
+[[phrase]]
+from = "TOE boundary candidate"
+to = "frontiere TOE candidate"
+[[phrase]]
+from = "Do not use:"
+to = "Ne pas utiliser :"
+[[phrase]]
+from = "FIPS certified Fluxheim"
+to = "Fluxheim certifie FIPS"
+[[phrase]]
+from = "ISO/IEC 19790 certified Fluxheim"
+to = "Fluxheim certifie ISO/IEC 19790"
+[[phrase]]
+from = "Common Criteria certified"
+to = "certifie Common Criteria"
+[[phrase]]
+from = "EAL compliant"
+to = "conforme EAL"
+[[phrase]]
+from = "<thead><tr><th>Field</th><th>Value</th></tr></thead>"
+to = "<thead><tr><th>Champ</th><th>Valeur</th></tr></thead>"
+[[phrase]]
+from = "<thead><tr><th>Candidate TOE</th><th>Included</th><th>Excluded / Operational Environment</th></tr></thead>"
+to = "<thead><tr><th>TOE candidate</th><th>Inclus</th><th>Exclu / environnement operationnel</th></tr></thead>"
+[[phrase]]
+from = "<thead><tr><th>Interface</th><th>Direction</th><th>Security role</th><th>Evidence</th></tr></thead>\n<tbody>\n<tr><td>Downstream HTTP/TLS listener</td><td>inbound</td><td>TLS policy, host routing, request limits</td><td>config, tests, TLS diagnostics</td></tr>\n<tr><td>Upstream proxy connector</td><td>outbound</td><td>upstream TLS, headers, retries, timeouts</td><td>config, tests</td></tr>\n<tr><td>Static web root</td><td>filesystem</td><td>path traversal and symlink prevention</td><td>tests, docs</td></tr>\n<tr><td>PHP-FPM FastCGI</td><td>outbound/local</td><td>CGI params, body limits, response parsing</td><td>tests, PHP-FPM docs</td></tr>\n<tr><td>Cache store</td><td>filesystem/OpenBao</td><td>object limits, encryption boundary</td><td>config, smoke tests</td></tr>\n<tr><td>ACME challenge and renewal</td><td>inbound/outbound</td><td>certificate lifecycle</td><td>ACME docs, FIPS gates</td></tr>\n<tr><td>Admin API</td><td>inbound</td><td>management and rollback</td><td>admin docs, auth tests</td></tr>\n<tr><td>Control socket</td><td>local IPC</td><td>certificate reload command</td><td>runtime tests, permissions</td></tr>\n<tr><td>OTLP metrics/traces</td><td>outbound</td><td>telemetry metadata export</td><td>config, CA, FIPS gates</td></tr>\n<tr><td>Logs</td><td>outbound/filesystem</td><td>audit trail and diagnostics</td><td>logging config, redaction docs</td></tr>\n</tbody>"
+to = "<thead><tr><th>Interface</th><th>Direction</th><th>Role de securite</th><th>Preuve</th></tr></thead>\n<tbody>\n<tr><td>Listener HTTP/TLS downstream</td><td>entrant</td><td>policy TLS, routage host, limites de requete</td><td>config, tests, diagnostics TLS</td></tr>\n<tr><td>Connecteur proxy upstream</td><td>sortant</td><td>TLS upstream, headers, retries, timeouts</td><td>config, tests</td></tr>\n<tr><td>Racine web statique</td><td>systeme de fichiers</td><td>prevention path traversal et symlink</td><td>tests, docs</td></tr>\n<tr><td>PHP-FPM FastCGI</td><td>sortant/local</td><td>parametres CGI, limites de body, parsing de reponse</td><td>tests, docs PHP-FPM</td></tr>\n<tr><td>Stockage cache</td><td>systeme de fichiers/OpenBao</td><td>limites d'objet, frontiere de chiffrement</td><td>config, smoke tests</td></tr>\n<tr><td>Challenge et renouvellement ACME</td><td>entrant/sortant</td><td>cycle de vie des certificats</td><td>docs ACME, gates FIPS</td></tr>\n<tr><td>API admin</td><td>entrant</td><td>gestion et rollback</td><td>docs admin, tests auth</td></tr>\n<tr><td>Socket de controle</td><td>IPC local</td><td>commande de rechargement de certificat</td><td>tests runtime, permissions</td></tr>\n<tr><td>Metriques/traces OTLP</td><td>sortant</td><td>export de metadonnees de telemetrie</td><td>config, CA, gates FIPS</td></tr>\n<tr><td>Logs</td><td>sortant/systeme de fichiers</td><td>audit trail et diagnostics</td><td>config logging, docs de redaction</td></tr>\n</tbody>"
+[[phrase]]
+from = "<tr><td><code>fluxheim crypto</code> output archived</td><td>yes/no</td></tr>\n<tr><td>FIPS validation script output archived</td><td>yes/no</td></tr>\n<tr><td>Non-TLS crypto gates reviewed</td><td>yes/no</td></tr>"
+to = "<tr><td>Sortie <code>fluxheim crypto</code> archivee</td><td>oui/non</td></tr>\n<tr><td>Sortie du script de validation FIPS archivee</td><td>oui/non</td></tr>\n<tr><td>Gates crypto non-TLS revus</td><td>oui/non</td></tr>"
+[[phrase]]
+from = "<thead><tr><th>Artifact</th><th>Evidence</th></tr></thead>"
+to = "<thead><tr><th>Artefact</th><th>Preuve</th></tr></thead>"
+[[phrase]]
+from = "<thead><tr><th>ID</th><th>Source</th><th>Finding summary</th><th>Decision</th><th>Remediation commit</th><th>Regression evidence</th></tr></thead>"
+to = "<thead><tr><th>ID</th><th>Source</th><th>Resume du finding</th><th>Decision</th><th>Commit de remediation</th><th>Preuve de regression</th></tr></thead>"
+[[phrase]]
+from = "<thead><tr><th>Component</th><th>Role</th><th>Evidence required</th><th>Collected</th></tr></thead>"
+to = "<thead><tr><th>Composant</th><th>Role</th><th>Preuve requise</th><th>Collecte</th></tr></thead>"

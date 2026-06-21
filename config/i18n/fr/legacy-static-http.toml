@@ -1,0 +1,314 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Legacy Static HTTP Support"
+to = "Support HTTP statique legacy"
+
+[[phrase]]
+from = "Legacy HTTP support is a future experimental compatibility feature for isolated devices that cannot speak modern HTTP. It must never be part of Fluxheim&#x27;s default binary and must never run on normal proxy, cache, admin, PHP, CGI, or TLS listener paths."
+to = "Le support HTTP legacy est une future fonctionnalite experimentale de compatibilite pour appareils isoles qui ne savent pas parler HTTP moderne. Il ne doit jamais faire partie du binaire Fluxheim par defaut et ne doit jamais tourner sur les chemins listener normaux proxy, cache, admin, PHP, CGI ou TLS."
+
+[[phrase]]
+from = "The modern protocol focus for Fluxheim remains strict HTTP/1.1 and HTTP/2 today, with HTTP/3/QUIC planned as the future performance and security direction. Legacy protocol support is a quarantined compatibility exception."
+to = "Le focus protocolaire moderne de Fluxheim reste aujourd'hui HTTP/1.1 strict et HTTP/2, avec HTTP/3/QUIC prevu comme direction future de performance et securite. Le support de protocole legacy est une exception de compatibilite quarantined."
+
+[[phrase]]
+from = "Compile-Time Features"
+to = "Features compile-time"
+
+[[phrase]]
+from = "Planned feature flags:"
+to = "Feature flags prevus :"
+
+[[phrase]]
+from = "The default feature set must never include these features. Release checks should fail if"
+to = "Le jeu de features par defaut ne doit jamais inclure ces features. Les checks de release doivent echouer si"
+
+[[phrase]]
+from = "shows any legacy HTTP feature enabled by default."
+to = "montre une feature HTTP legacy activee par defaut."
+
+[[phrase]]
+from = "Runtime Isolation"
+to = "Isolation runtime"
+
+[[phrase]]
+from = "Legacy support requires explicit runtime config and dedicated listeners:"
+to = "Le support legacy requiert une config runtime explicite et des listeners dedies :"
+
+[[phrase]]
+from = "Legacy listeners must not share"
+to = "Les listeners legacy ne doivent pas partager"
+
+[[phrase]]
+from = ". Listener changes are process-upgrade changes."
+to = ". Les changements de listener sont des changements process-upgrade."
+
+[[phrase]]
+from = "HTTP/1.0 Static Mode"
+to = "Mode statique HTTP/1.0"
+
+[[phrase]]
+from = "HTTP/1.0 support is allowed only for static file serving."
+to = "Le support HTTP/1.0 est autorise uniquement pour le service de fichiers statiques."
+
+[[phrase]]
+from = "Required behavior:"
+to = "Comportement requis :"
+
+[[phrase]]
+from = "Dedicated legacy listener only."
+to = "Listener legacy dedie uniquement."
+
+[[phrase]]
+from = "Explicit legacy vhost only."
+to = "Vhost legacy explicite uniquement."
+
+[[phrase]]
+from = "Static <code>GET</code> and <code>HEAD</code> only by default."
+to = "<code>GET</code> et <code>HEAD</code> statiques uniquement par defaut."
+
+[[phrase]]
+from = "No reverse proxying."
+to = "Pas de reverse proxying."
+
+[[phrase]]
+from = "No cache admission or cache lookup."
+to = "Pas d'admission cache ni de lookup cache."
+
+[[phrase]]
+from = "No admin endpoints."
+to = "Pas d'endpoints admin."
+
+[[phrase]]
+from = "No PHP or CGI execution."
+to = "Pas d'execution PHP ou CGI."
+
+[[phrase]]
+from = "No compression/body filters."
+to = "Pas de filtres compression/body."
+
+[[phrase]]
+from = "No protocol upgrade."
+to = "Pas d'upgrade de protocole."
+
+[[phrase]]
+from = "No persistent connections."
+to = "Pas de connexions persistantes."
+
+[[phrase]]
+from = "Always force <code>Connection: close</code>."
+to = "Toujours forcer <code>Connection: close</code>."
+
+[[phrase]]
+from = "Reject <code>Transfer-Encoding</code>."
+to = "Rejeter <code>Transfer-Encoding</code>."
+
+[[phrase]]
+from = "Reject multiple or invalid <code>Content-Length</code>."
+to = "Rejeter les <code>Content-Length</code> multiples ou invalides."
+
+[[phrase]]
+from = "Reject request bodies unless a later static-only use case is explicitly justified."
+to = "Rejeter les bodies de requete sauf si un futur cas static-only est explicitement justifie."
+
+[[phrase]]
+from = "If <code>Host</code> is absent, route only to the configured legacy vhost."
+to = "Si <code>Host</code> est absent, router uniquement vers le vhost legacy configure."
+
+[[phrase]]
+from = "If <code>Host</code> is present, still restrict the request to the configured legacy vhost and static root."
+to = "Si <code>Host</code> est present, restreindre quand meme la requete au vhost legacy configure et a la racine statique."
+
+[[phrase]]
+from = "The motivation is compatibility with old internal health checks, PLCs, and legacy enterprise equipment, not public internet service."
+to = "La motivation est la compatibilite avec d'anciens health checks internes, PLCs et equipements enterprise legacy, pas le service internet public."
+
+[[phrase]]
+from = "HTTP/0.9 Static Mode"
+to = "Mode statique HTTP/0.9"
+
+[[phrase]]
+from = "HTTP/0.9 is too old and ambiguous for Pingora&#x27;s normal HTTP pipeline. It should be implemented, if ever, as a separate raw TCP service."
+to = "HTTP/0.9 est trop ancien et ambigu pour la pipeline HTTP normale de Pingora. S'il est un jour implemente, il doit l'etre comme service raw TCP separe."
+
+[[phrase]]
+from = "Dedicated raw TCP listener only."
+to = "Listener raw TCP dedie uniquement."
+
+[[phrase]]
+from = "One request per connection."
+to = "Une requete par connexion."
+
+[[phrase]]
+from = "Accept only <code>GET /path</code> followed by line ending."
+to = "Accepter uniquement <code>GET /path</code> suivi d'une fin de ligne."
+
+[[phrase]]
+from = "Static files only."
+to = "Fichiers statiques uniquement."
+
+[[phrase]]
+from = "No headers."
+to = "Pas de headers."
+
+[[phrase]]
+from = "No request body."
+to = "Pas de body de requete."
+
+[[phrase]]
+from = "No TLS."
+to = "Pas de TLS."
+
+[[phrase]]
+from = "No vhost by <code>Host</code> header."
+to = "Pas de vhost via header <code>Host</code>."
+
+[[phrase]]
+from = "No PHP or CGI."
+to = "Pas de PHP ou CGI."
+
+[[phrase]]
+from = "No directory listing."
+to = "Pas de directory listing."
+
+[[phrase]]
+from = "No redirects that rely on HTTP status codes."
+to = "Pas de redirects dependant de codes de statut HTTP."
+
+[[phrase]]
+from = "Close the connection after the response body."
+to = "Fermer la connexion apres le body de reponse."
+
+[[phrase]]
+from = "Most unexpected input that resembles HTTP/0.9 should be treated as hostile and rejected."
+to = "La plupart des entrees inattendues ressemblant a HTTP/0.9 doivent etre traitees comme hostiles et rejetees."
+
+[[phrase]]
+from = "Security Tests"
+to = "Tests de securite"
+
+[[phrase]]
+from = "Before implementation is considered usable:"
+to = "Avant que l'implementation soit consideree utilisable :"
+
+[[phrase]]
+from = "HTTP/1.0 <code>Transfer-Encoding: chunked</code> must be rejected."
+to = "HTTP/1.0 <code>Transfer-Encoding: chunked</code> doit etre rejete."
+
+[[phrase]]
+from = "Multiple <code>Content-Length</code> values must be rejected."
+to = "Les valeurs <code>Content-Length</code> multiples doivent etre rejetees."
+
+[[phrase]]
+from = "Invalid <code>Content-Length</code> must be rejected."
+to = "Un <code>Content-Length</code> invalide doit etre rejete."
+
+[[phrase]]
+from = "<code>Upgrade</code> headers must be rejected."
+to = "Les headers <code>Upgrade</code> doivent etre rejetes."
+
+[[phrase]]
+from = "Keep-alive attempts must still close the connection."
+to = "Les tentatives keep-alive doivent quand meme fermer la connexion."
+
+[[phrase]]
+from = "HTTP/1.0 requests must never reach proxy/cache/admin/PHP/CGI paths."
+to = "Les requetes HTTP/1.0 ne doivent jamais atteindre les chemins proxy/cache/admin/PHP/CGI."
+
+[[phrase]]
+from = "HTTP/0.9 malformed request lines must be rejected."
+to = "Les lignes de requete HTTP/0.9 malformees doivent etre rejetees."
+
+[[phrase]]
+from = "HTTP/0.9 traversal attempts must be rejected."
+to = "Les tentatives traversal HTTP/0.9 doivent etre rejetees."
+
+[[phrase]]
+from = "HTTP/0.9 absolute URLs and scheme-prefixed paths must be rejected."
+to = "Les URLs absolues HTTP/0.9 et chemins prefixes par scheme doivent etre rejetes."
+
+[[phrase]]
+from = "Both modes must reuse the existing static resolver&#x27;s canonical path checks."
+to = "Les deux modes doivent reutiliser les checks de chemin canonique du resolver statique existant."
+
+[[phrase]]
+from = "Metrics and access logs must label legacy protocol traffic clearly."
+to = "Les metriques et access logs doivent labelliser clairement le trafic protocole legacy."
+
+[[phrase]]
+from = "Relationship To Pingora Smuggling Advisories"
+to = "Relation avec les advisories de smuggling Pingora"
+
+[[phrase]]
+from = "Pingora versions before <code>0.8.0</code> had HTTP request-smuggling vulnerabilities around HTTP/1.0 transfer-encoding parsing and premature upgrade handling. Fluxheim already tracks Pingora <code>0.8.0</code>, but legacy support must still add its own stricter rejection layer because compatibility modes are especially exposed to ambiguous parsing attacks."
+to = "Les versions de Pingora avant <code>0.8.0</code> avaient des vulnerabilites HTTP request-smuggling autour du parsing transfer-encoding HTTP/1.0 et du handling premature d'upgrade. Fluxheim suit deja Pingora <code>0.8.0</code>, mais le support legacy doit quand meme ajouter sa propre couche de rejet plus stricte, car les modes de compatibilite sont particulierement exposes aux attaques de parsing ambigu."
+
+[[phrase]]
+from = "Legacy support must not weaken the normal modern listener behavior."
+to = "Le support legacy ne doit pas affaiblir le comportement normal des listeners modernes."
+
+[[phrase]]
+from = "Always force"
+to = "Toujours forcer"
+
+[[phrase]]
+from = "Reject multiple or invalid"
+to = "Rejeter les valeurs multiples ou invalides"
+
+[[phrase]]
+from = "is absent, route only to the configured legacy vhost."
+to = "est absent, router uniquement vers le vhost legacy configure."
+
+[[phrase]]
+from = "is present, still restrict the request to the configured legacy vhost and static root."
+to = "est present, restreindre quand meme la requete au vhost legacy configure et a la racine statique."
+
+[[phrase]]
+from = "Accept only"
+to = "Accepter uniquement"
+
+[[phrase]]
+from = "followed by line ending."
+to = "suivi d'une fin de ligne."
+
+[[phrase]]
+from = "No vhost by"
+to = "Pas de vhost via"
+
+[[phrase]]
+from = "values must be rejected."
+to = "doivent etre rejetees."
+
+[[phrase]]
+from = "headers must be rejected."
+to = "headers doivent etre rejetes."
+
+[[phrase]]
+from = "HTTP/0.9 is too old and ambiguous for Pingora&#x27;s normal HTTP pipeline. It should be implemented, if ever, as a separate raw TCP service."
+to = "HTTP/0.9 est trop ancien et ambigu pour le pipeline HTTP normal de Pingora. S'il est un jour implemente, il devrait l'etre comme service TCP brut separe."
+
+[[phrase]]
+from = "Both modes must reuse the existing static resolver&#x27;s canonical path checks."
+to = "Les deux modes doivent reutiliser les controles de chemin canonique du resolver statique existant."
+
+[[phrase]]
+from = "had HTTP request-smuggling vulnerabilities around HTTP/1.0 transfer-encoding parsing and premature upgrade handling. Fluxheim already tracks Pingora"
+to = "avaient des vulnerabilites de request-smuggling HTTP autour du parsing transfer-encoding HTTP/1.0 et de la gestion prematuree des upgrades. Fluxheim suit deja Pingora"
+
+[[phrase]]
+from = ", but legacy support must still add its own stricter rejection layer because compatibility modes are especially exposed to ambiguous parsing attacks."
+to = ", mais le support legacy doit quand meme ajouter sa propre couche de rejet plus stricte, car les modes de compatibilite sont particulierement exposes aux attaques de parsing ambigu."
+
+[[phrase]]
+from = "HTTP/0.9 is too old and ambiguous for Pingora's normal HTTP pipeline. It should be implemented, if ever, as a separate raw TCP service."
+to = "HTTP/0.9 est trop ancien et ambigu pour le pipeline HTTP normal de Pingora. S'il est un jour implemente, il devrait l'etre comme service TCP brut separe."
+
+[[phrase]]
+from = "Both modes must reuse the existing static resolver's canonical path checks."
+to = "Les deux modes doivent reutiliser les controles de chemin canonique du resolver statique existant."
+
+[[phrase]]
+from = "Pingora versions before"
+to = "Versions de Pingora avant"

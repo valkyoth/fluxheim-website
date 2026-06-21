@@ -1,0 +1,446 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+[[phrase]]
+from = "Common Criteria Roadmap"
+to = "Common-Criteria-Roadmap"
+[[phrase]]
+from = "Common Criteria Readiness Roadmap"
+to = "Common-Criteria-Readiness-Roadmap"
+[[phrase]]
+from = "This document tracks how Fluxheim can use ISO/IEC 15408:2026 concepts as an engineering and evidence framework. It is not a certification claim. Common Criteria evaluation is a product evaluation track, while FIPS 140-3 and ISO/IEC 19790 are cryptographic-module tracks. They can support each other, but they are not interchangeable."
+to = "Dieses Dokument verfolgt, wie Fluxheim ISO/IEC-15408:2026-Konzepte als Engineering- und Nachweis-Framework nutzen kann. Es ist keine Zertifizierungsbehauptung. Eine Common-Criteria-Evaluierung ist ein Produktbewertungsweg, waehrend FIPS 140-3 und ISO/IEC 19790 Wege fuer kryptografische Module sind. Sie koennen einander stuetzen, sind aber nicht austauschbar."
+[[phrase]]
+from = "The practical value for Fluxheim is to make product boundaries, security functions, operator assumptions, tests, and lifecycle evidence explicit enough that a future Protection Profile or Security Target can be written without reconstructing years of engineering decisions."
+to = "Der praktische Wert fuer Fluxheim besteht darin, Produktgrenzen, Sicherheitsfunktionen, Betreiberannahmen, Tests und Lifecycle-Nachweise so explizit zu machen, dass ein zukuenftiges Protection Profile oder Security Target geschrieben werden kann, ohne Jahre von Engineering-Entscheidungen zu rekonstruieren."
+[[phrase]]
+from = "Source Scope"
+to = "Quellenumfang"
+[[phrase]]
+from = "The local reference set reviewed was the ISO/IEC 15408:2026 series:"
+to = "Der lokal gepruefte Referenzsatz war die ISO/IEC-15408:2026-Reihe:"
+[[phrase]]
+from = "Part 1: introduction and general model."
+to = "Teil 1: Einfuehrung und allgemeines Modell."
+[[phrase]]
+from = "Part 2: security functional components."
+to = "Teil 2: funktionale Sicherheitskomponenten."
+[[phrase]]
+from = "Part 3: security assurance components."
+to = "Teil 3: Sicherheits-Assurance-Komponenten."
+[[phrase]]
+from = "Part 4: evaluation methods and activities framework."
+to = "Teil 4: Evaluierungsmethoden und Aktivitaeten-Framework."
+[[phrase]]
+from = "Part 5: predefined packages of security requirements."
+to = "Teil 5: vordefinierte Pakete von Sicherheitsanforderungen."
+[[phrase]]
+from = "Do not copy licensed standard text into Fluxheim docs. Use this roadmap as a derived engineering checklist only."
+to = "Kopieren Sie keinen lizenzierten Standardtext in Fluxheim-Dokumente. Verwenden Sie diese Roadmap nur als abgeleitete Engineering-Checkliste."
+[[phrase]]
+from = "Product Boundary"
+to = "Produktgrenze"
+[[phrase]]
+from = "A future evaluation has to define the Target of Evaluation (TOE). Fluxheim should prepare for multiple possible TOE shapes:"
+to = "Eine zukuenftige Evaluierung muss das Target of Evaluation (TOE) definieren. Fluxheim sollte sich auf mehrere moegliche TOE-Formen vorbereiten:"
+[[phrase]]
+from = "gateway binary only."
+to = "nur Gateway-Binary."
+[[phrase]]
+from = "RPM installation including systemd units, default directories, and helper binaries."
+to = "RPM-Installation einschliesslich systemd-Units, Default-Verzeichnissen und Helper-Binaries."
+[[phrase]]
+from = "Container image including entrypoint, base image, runtime filesystem layout, and"
+to = "Container-Image einschliesslich Entrypoint, Basis-Image, Runtime-Dateisystemlayout und"
+[[phrase]]
+from = "FIPS/ISO OpenSSL profile where the validated OpenSSL provider is outside the Fluxheim TOE but part of the operational environment."
+to = "FIPS/ISO-OpenSSL-Profil, bei dem der validierte OpenSSL-Provider ausserhalb des Fluxheim-TOE liegt, aber Teil der Betriebsumgebung ist."
+[[phrase]]
+from = "For each TOE shape, the evidence should identify:"
+to = "Fuer jede TOE-Form sollten die Nachweise Folgendes identifizieren:"
+[[phrase]]
+from = "Physical and logical scope."
+to = "Physischen und logischen Umfang."
+[[phrase]]
+from = "Required non-TOE hardware, software, firmware, services, and operator procedures."
+to = "Erforderliche Nicht-TOE-Hardware, Software, Firmware, Services und Betreiberverfahren."
+[[phrase]]
+from = "Security functionality provided by Fluxheim itself."
+to = "Sicherheitsfunktionalitaet, die Fluxheim selbst bereitstellt."
+[[phrase]]
+from = "Security functionality delegated to the operating system, OpenSSL, OpenBao, ACME issuer, container runtime, or external upstream."
+to = "Sicherheitsfunktionalitaet, die an Betriebssystem, OpenSSL, OpenBao, ACME-Aussteller, Container-Runtime oder externen Upstream delegiert wird."
+[[phrase]]
+from = "Interfaces that are security-enforcing or security-supporting."
+to = "Schnittstellen, die Sicherheit erzwingen oder unterstuetzen."
+[[phrase]]
+from = "Security Problem Definition"
+to = "Definition des Sicherheitsproblems"
+[[phrase]]
+from = "Fluxheim should keep a living product-level security problem definition. It should not be limited to cryptography."
+to = "Fluxheim sollte eine lebende Sicherheitsproblemdefinition auf Produktebene pflegen. Sie sollte nicht auf Kryptografie beschraenkt sein."
+[[phrase]]
+from = "Candidate assets:"
+to = "Kandidaten-Assets:"
+[[phrase]]
+from = "TLS private keys and ACME account material."
+to = "Private TLS-Schluessel und ACME-Kontomaterial."
+[[phrase]]
+from = "Admin bearer tokens and control-socket access."
+to = "Admin-Bearer-Tokens und Control-Socket-Zugriff."
+[[phrase]]
+from = "Configuration snapshots and release artifacts."
+to = "Konfigurations-Snapshots und Release-Artefakte."
+[[phrase]]
+from = "Cache encryption keys, object metadata, and cached response bodies."
+to = "Cache-Verschluesselungsschluessel, Objektmetadaten und gecachte Response-Bodies."
+[[phrase]]
+from = "Request identity metadata, logs, traces, and metrics."
+to = "Request-Identity-Metadaten, Logs, Traces und Metriken."
+[[phrase]]
+from = "PHP-FPM request parameters and spooled request bodies."
+to = "PHP-FPM-Request-Parameter und gespulte Request-Bodies."
+[[phrase]]
+from = "Candidate threat classes:"
+to = "Kandidaten-Bedrohungsklassen:"
+[[phrase]]
+from = "Remote request smuggling, routing bypass, cache poisoning, header injection, path traversal, request-body exhaustion, and protocol downgrade."
+to = "Remote Request Smuggling, Routing-Bypass, Cache Poisoning, Header Injection, Path Traversal, Request-Body-Erschoepfung und Protokoll-Downgrade."
+[[phrase]]
+from = "Local filesystem and symlink attacks against runtime state, cache, spool, ACME, snapshot, and TLS paths."
+to = "Lokale Dateisystem- und Symlink-Angriffe gegen Runtime-State-, Cache-, Spool-, ACME-, Snapshot- und TLS-Pfade."
+[[phrase]]
+from = "Misconfiguration that silently disables security controls."
+to = "Fehlkonfiguration, die Sicherheitskontrollen stillschweigend deaktiviert."
+[[phrase]]
+from = "Compromised or lagging upstream services in proxy, PHP-FPM, ACME, OpenBao, OTLP, and future crypto-RPC deployments."
+to = "Kompromittierte oder zurueckliegende Upstream-Services in Proxy-, PHP-FPM-, ACME-, OpenBao-, OTLP- und zukuenftigen Crypto-RPC-Deployments."
+[[phrase]]
+from = "Supply-chain compromise of build inputs, dependencies, container bases, and release artifacts."
+to = "Supply-Chain-Kompromittierung von Build-Eingaben, Abhaengigkeiten, Container-Basen und Release-Artefakten."
+[[phrase]]
+from = "Candidate operational assumptions:"
+to = "Kandidaten fuer betriebliche Annahmen:"
+[[phrase]]
+from = "The service runs as a dedicated Unix user."
+to = "Der Service laeuft als dedizierter Unix-Benutzer."
+[[phrase]]
+from = "Runtime state directories are owned by the service user and not writable by untrusted users."
+to = "Runtime-State-Verzeichnisse gehoeren dem Service-Benutzer und sind fuer nicht vertrauenswuerdige Benutzer nicht beschreibbar."
+[[phrase]]
+from = "Admin endpoints and control sockets are reachable only from trusted networks or local operators."
+to = "Admin-Endpunkte und Control-Sockets sind nur aus vertrauenswuerdigen Netzwerken oder fuer lokale Betreiber erreichbar."
+[[phrase]]
+from = "Operators preserve release evidence, SBOMs, checksums, signatures, and module Security Policies."
+to = "Betreiber bewahren Release-Nachweise, SBOMs, Pruefsummen, Signaturen und Modul-Security-Policies auf."
+[[phrase]]
+from = "External cryptographic modules and services are installed and operated within their own validation boundaries when a regulated deployment claims them."
+to = "Externe kryptografische Module und Services werden innerhalb ihrer eigenen Validierungsgrenzen installiert und betrieben, wenn ein reguliertes Deployment sie beansprucht."
+[[phrase]]
+from = "Functional Requirement Mapping"
+to = "Zuordnung funktionaler Anforderungen"
+[[phrase]]
+from = "Fluxheim should map existing and planned features to Common Criteria-style security functional areas. This is a roadmap classification, not formal SFR language."
+to = "Fluxheim sollte bestehende und geplante Features auf Sicherheitsfunktionsbereiche im Common-Criteria-Stil abbilden. Dies ist eine Roadmap-Klassifizierung, keine formale SFR-Sprache."
+[[phrase]]
+from = "Security Audit"
+to = "Security-Audit"
+[[phrase]]
+from = "Current and planned evidence should cover:"
+to = "Aktuelle und geplante Nachweise sollten Folgendes abdecken:"
+[[phrase]]
+from = "Structured access logs with request IDs."
+to = "Strukturierte Access-Logs mit Request-IDs."
+[[phrase]]
+from = "Admin, config reload, self-healing, ACME, cache, TLS provider, and startup events."
+to = "Admin-, Config-Reload-, Self-Healing-, ACME-, Cache-, TLS-Provider- und Startup-Events."
+[[phrase]]
+from = "Clear separation between security-relevant events and routine traffic noise."
+to = "Klare Trennung zwischen sicherheitsrelevanten Events und routinemaessigem Traffic-Rauschen."
+[[phrase]]
+from = "Log size, retention, and redaction guidance for secrets and personal data."
+to = "Anleitung zu Log-Groesse, Aufbewahrung und Redaction fuer Secrets und personenbezogene Daten."
+[[phrase]]
+from = "Failure behavior when logging sinks are unavailable."
+to = "Fehlerverhalten, wenn Logging-Sinks nicht verfuegbar sind."
+[[phrase]]
+from = "Cryptographic Support"
+to = "Kryptografische Unterstuetzung"
+[[phrase]]
+from = "Backend selection and status reporting."
+to = "Backend-Auswahl und Status-Reporting."
+[[phrase]]
+from = "TLS protocol, cipher, group, and signature restrictions."
+to = "TLS-Protokoll-, Cipher-, Gruppen- und Signaturbeschraenkungen."
+[[phrase]]
+from = "Clear handling for non-TLS crypto such as ACME, cache encryption, OpenBao, request IDs, and outbound HTTPS."
+to = "Klare Behandlung von Nicht-TLS-Kryptografie wie ACME, Cache-Verschluesselung, OpenBao, Request-IDs und ausgehendem HTTPS."
+[[phrase]]
+from = "Evidence showing whether crypto is internal, delegated to a validated module, or disabled in regulated profiles."
+to = "Nachweise, die zeigen, ob Kryptografie intern ist, an ein validiertes Modul delegiert wird oder in regulierten Profilen deaktiviert ist."
+[[phrase]]
+from = "Identification And Authentication"
+to = "Identifikation und Authentifizierung"
+[[phrase]]
+from = "Relevant Fluxheim surfaces:"
+to = "Relevante Fluxheim-Oberflaechen:"
+[[phrase]]
+from = "Admin API bearer-token validation."
+to = "Bearer-Token-Validierung der Admin-API."
+[[phrase]]
+from = "Control socket permissions and command scope."
+to = "Control-Socket-Berechtigungen und Befehlsumfang."
+[[phrase]]
+from = "Optional future mTLS or stronger admin authentication."
+to = "Optionale zukuenftige mTLS- oder staerkere Admin-Authentifizierung."
+[[phrase]]
+from = "Login throttling, lockout, token rotation, and audit events."
+to = "Login-Throttling, Lockout, Token-Rotation und Audit-Events."
+[[phrase]]
+from = "Security Management"
+to = "Security-Management"
+[[phrase]]
+from = "Relevant Fluxheim controls:"
+to = "Relevante Fluxheim-Kontrollen:"
+[[phrase]]
+from = "Config validation and"
+to = "Config-Validierung und"
+[[phrase]]
+from = "Safe defaults, deny-unknown-fields parsing, and fail-closed feature guards."
+to = "Sichere Defaults, Deny-Unknown-Fields-Parsing und Fail-Closed-Feature-Guards."
+[[phrase]]
+from = "Runtime reload, self-healing snapshots, and rollback controls."
+to = "Runtime-Reload, Self-Healing-Snapshots und Rollback-Kontrollen."
+[[phrase]]
+from = "Clear operator roles for package install, service runtime, admin API, ACME renewal, and release signing."
+to = "Klare Betreiberrollen fuer Paketinstallation, Service-Runtime, Admin-API, ACME-Erneuerung und Release-Signierung."
+[[phrase]]
+from = "Protection Of Security Functionality"
+to = "Schutz der Sicherheitsfunktionalitaet"
+[[phrase]]
+from = "Evidence should cover:"
+to = "Nachweise sollten Folgendes abdecken:"
+[[phrase]]
+from = "Safe path handling with ownership, mode, symlink, and"
+to = "Sichere Pfadbehandlung mit Ownership-, Mode-, Symlink- und"
+[[phrase]]
+from = "Config snapshot integrity and rollback behavior."
+to = "Integritaet von Config-Snapshots und Rollback-Verhalten."
+[[phrase]]
+from = "Startup diagnostics and self-tests for selected crypto providers."
+to = "Startup-Diagnosen und Self-Tests fuer ausgewaehlte Krypto-Provider."
+[[phrase]]
+from = "Panic policy, error handling, and no-unsafe-code boundaries."
+to = "Panic-Policy, Fehlerbehandlung und No-Unsafe-Code-Grenzen."
+[[phrase]]
+from = "Separation between Fluxheim-controlled state and untrusted web content."
+to = "Trennung zwischen von Fluxheim kontrolliertem Zustand und nicht vertrauenswuerdigen Web-Inhalten."
+[[phrase]]
+from = "Resource Utilization"
+to = "Ressourcennutzung"
+[[phrase]]
+from = "Request header/body limits."
+to = "Request-Header-/Body-Limits."
+[[phrase]]
+from = "PHP-FPM response/body/spool limits."
+to = "PHP-FPM-Response-/Body-/Spool-Limits."
+[[phrase]]
+from = "Cache memory, disk, peer-fill, and object-size limits."
+to = "Cache-Memory-, Disk-, Peer-Fill- und Objektgroessen-Limits."
+[[phrase]]
+from = "Upstream retry, timeout, and connection-pool limits."
+to = "Upstream-Retry-, Timeout- und Connection-Pool-Limits."
+[[phrase]]
+from = "Fuzzing and regression tests for parser and buffering limits."
+to = "Fuzzing- und Regressionstests fuer Parser- und Pufferlimits."
+[[phrase]]
+from = "Trusted Channels And Paths"
+to = "Vertrauenswuerdige Kanaele und Pfade"
+[[phrase]]
+from = "Downstream TLS policies."
+to = "Downstream-TLS-Policies."
+[[phrase]]
+from = "Upstream TLS policies."
+to = "Upstream-TLS-Policies."
+[[phrase]]
+from = "OTLP HTTPS and custom CA behavior."
+to = "OTLP-HTTPS- und Custom-CA-Verhalten."
+[[phrase]]
+from = "OpenBao Transit connectivity."
+to = "OpenBao-Transit-Konnektivitaet."
+[[phrase]]
+from = "ACME issuer connectivity."
+to = "ACME-Aussteller-Konnektivitaet."
+[[phrase]]
+from = "Admin API and control-socket access expectations."
+to = "Erwartungen an Admin-API- und Control-Socket-Zugriff."
+[[phrase]]
+from = "Assurance Evidence"
+to = "Assurance-Nachweise"
+[[phrase]]
+from = "The ISO/IEC 15408-3 assurance families are useful as a release evidence checklist even without claiming an EAL."
+to = "Die ISO/IEC-15408-3-Assurance-Familien sind auch ohne EAL-Behauptung als Release-Nachweis-Checkliste nuetzlich."
+[[phrase]]
+from = "Fluxheim should maintain:"
+to = "Fluxheim sollte Folgendes pflegen:"
+[[phrase]]
+from = "Architecture notes for security-enforcing modules and interfaces."
+to = "Architekturnotizen fuer sicherheitserzwingende Module und Schnittstellen."
+[[phrase]]
+from = "Functional specifications for config validation, routing, TLS, ACME, cache, PHP-FPM, admin, snapshots, logging, and telemetry."
+to = "Funktionale Spezifikationen fuer Config-Validierung, Routing, TLS, ACME, Cache, PHP-FPM, Admin, Snapshots, Logging und Telemetrie."
+[[phrase]]
+from = "Operational guidance and preparative procedures for RPM, container, systemd, and source builds."
+to = "Betriebsanleitungen und vorbereitende Verfahren fuer RPM-, Container-, systemd- und Source-Builds."
+[[phrase]]
+from = "Configuration management evidence: signed tags, SBOMs, lockfiles, release notes, changelog, build scripts, and dependency audit output."
+to = "Konfigurationsmanagement-Nachweise: signierte Tags, SBOMs, Lockfiles, Release Notes, Changelog, Build-Skripte und Dependency-Audit-Ausgaben."
+[[phrase]]
+from = "Delivery evidence: checksums, signatures, image digests, release runbook, and reproducible-build output where available."
+to = "Liefernachweise: Pruefsummen, Signaturen, Image-Digests, Release-Runbook und Reproducible-Build-Ausgaben, soweit verfuegbar."
+[[phrase]]
+from = "Flaw remediation evidence: security policy, issue process, pentest fixes, CodeQL, cargo-audit, cargo-deny, fuzzing, and regression tests."
+to = "Nachweise zur Fehlerbehebung: Security Policy, Issue-Prozess, Pentest-Fixes, CodeQL, cargo-audit, cargo-deny, Fuzzing und Regressionstests."
+[[phrase]]
+from = "Developer test coverage and independent-test entry points that a third party can run without privileged production access."
+to = "Entwicklertestabdeckung und Independent-Test-Einstiegspunkte, die Dritte ohne privilegierten Produktionszugriff ausfuehren koennen."
+[[phrase]]
+from = "Vulnerability analysis records for public-domain issues and pentest findings."
+to = "Vulnerability-Analysis-Aufzeichnungen fuer oeffentliche Probleme und Pentest-Ergebnisse."
+[[phrase]]
+from = "Evaluation Methods"
+to = "Evaluierungsmethoden"
+[[phrase]]
+from = "ISO/IEC 15408-4 is most useful to Fluxheim as a format for repeatable local security checks."
+to = "ISO/IEC 15408-4 ist fuer Fluxheim vor allem als Format fuer wiederholbare lokale Sicherheitspruefungen nuetzlich."
+[[phrase]]
+from = "Every major security check should have:"
+to = "Jede groessere Sicherheitspruefung sollte Folgendes haben:"
+[[phrase]]
+from = "A stable identifier."
+to = "Eine stabile Kennung."
+[[phrase]]
+from = "Scope and objective."
+to = "Umfang und Ziel."
+[[phrase]]
+from = "Required inputs and environment."
+to = "Erforderliche Eingaben und Umgebung."
+[[phrase]]
+from = "Tool requirements."
+to = "Tool-Anforderungen."
+[[phrase]]
+from = "Execution steps."
+to = "Ausfuehrungsschritte."
+[[phrase]]
+from = "Pass/fail criteria."
+to = "Pass/Fail-Kriterien."
+[[phrase]]
+from = "Output artifacts to archive."
+to = "Zu archivierende Ausgabe-Artefakte."
+[[phrase]]
+from = "Rationale linking the check to a threat, requirement, or release gate."
+to = "Begruendung, die die Pruefung mit einer Bedrohung, Anforderung oder einem Release-Gate verknuepft."
+[[phrase]]
+from = "Existing scripts that fit this pattern include release metadata validation, OWASP baseline checks, FIPS-capable OpenSSL and rustls/AWS-LC validation, config fixture validation, fuzzing targets, cargo-audit, cargo-deny, CodeQL, and PHP-FPM regression tests."
+to = "Bestehende Skripte, die zu diesem Muster passen, umfassen Release-Metadatenvalidierung, OWASP-Baseline-Pruefungen, FIPS-faehige OpenSSL- und rustls/AWS-LC-Validierung, Config-Fixture-Validierung, Fuzzing-Targets, cargo-audit, cargo-deny, CodeQL und PHP-FPM-Regressionstests."
+[[phrase]]
+from = "Package Strategy"
+to = "Paketstrategie"
+[[phrase]]
+from = "ISO/IEC 15408-5 packages are useful for long-term planning, but Fluxheim should not claim an EAL or Common Criteria conformance until a real Security Target and accredited evaluation path exist."
+to = "ISO/IEC-15408-5-Pakete sind fuer langfristige Planung nuetzlich, aber Fluxheim sollte kein EAL und keine Common-Criteria-Konformitaet beanspruchen, bis ein echtes Security Target und ein akkreditierter Evaluierungspfad existieren."
+[[phrase]]
+from = "Practical near-term approach:"
+to = "Praktischer kurzfristiger Ansatz:"
+[[phrase]]
+from = "Use EAL terminology only internally as an evidence maturity reference."
+to = "EAL-Terminologie nur intern als Referenz fuer Nachweisreife verwenden."
+[[phrase]]
+from = "Avoid \"EAL-ready\" marketing language."
+to = "\"EAL-ready\"-Marketingsprache vermeiden."
+[[phrase]]
+from = "Prefer \"Common Criteria evidence-aligned\" for documentation."
+to = "\"Common Criteria evidence-aligned\" fuer Dokumentation bevorzugen."
+[[phrase]]
+from = "Track composed deployments separately, because Fluxheim often depends on OpenSSL, PHP-FPM, OpenBao, container runtimes, ACME issuers, and upstream applications."
+to = "Zusammengesetzte Deployments separat verfolgen, weil Fluxheim oft von OpenSSL, PHP-FPM, OpenBao, Container-Runtimes, ACME-Ausstellern und Upstream-Anwendungen abhaengt."
+[[phrase]]
+from = "Roadmap"
+to = "Roadmap"
+[[phrase]]
+from = "Phase 1 - Evidence Alignment"
+to = "Phase 1 - Nachweisausrichtung"
+[[phrase]]
+from = "provides sections for TOE boundary, assumptions, security functions, operational environment, external dependencies, cryptographic module evidence, scanner output, and vulnerability-analysis records."
+to = "stellt Abschnitte fuer TOE-Grenze, Annahmen, Sicherheitsfunktionen, Betriebsumgebung, externe Abhaengigkeiten, Krypto-Modulnachweise, Scanner-Ausgaben und Vulnerability-Analysis-Aufzeichnungen bereit."
+[[phrase]]
+from = "stable validation-script identifiers are documented in the evidence template for release metadata, feature validation, FIPS OpenSSL, FIPS rustls, OWASP baseline, SBOM, reproducible-build, cargo-audit, cargo-deny, CodeQL, and aggregated release evidence."
+to = "stabile Validierungsskript-Kennungen sind in der Nachweisvorlage fuer Release-Metadaten, Feature-Validierung, FIPS OpenSSL, FIPS rustls, OWASP-Baseline, SBOM, Reproducible-Build, cargo-audit, cargo-deny, CodeQL und aggregierte Release-Nachweise dokumentiert."
+[[phrase]]
+from = "Expand docs so each security feature has operator guidance and test evidence."
+to = "Dokumentation erweitern, damit jedes Sicherheitsfeature Betreiberanleitung und Testnachweise hat."
+[[phrase]]
+from = "Phase 2 - Security Target Draft"
+to = "Phase 2 - Security-Target-Entwurf"
+[[phrase]]
+from = "Draft a non-certification Security Target-style document for one TOE shape: the RPM gateway profile is likely the most concrete first target."
+to = "Ein nicht zertifizierendes Dokument im Security-Target-Stil fuer eine TOE-Form entwerfen: Das RPM-Gateway-Profil ist wahrscheinlich das konkreteste erste Ziel."
+[[phrase]]
+from = "Define the TOE boundary, security problem, objectives, requirements mapping, and summary specification in Fluxheim terminology."
+to = "TOE-Grenze, Sicherheitsproblem, Ziele, Anforderungszuordnung und zusammenfassende Spezifikation in Fluxheim-Terminologie definieren."
+[[phrase]]
+from = "Keep it explicitly marked as an engineering draft, not an evaluated ST."
+to = "Es explizit als Engineering-Entwurf markieren, nicht als evaluiertes ST."
+[[phrase]]
+from = "Phase 3 - Protection Profile Research"
+to = "Phase 3 - Protection-Profile-Recherche"
+[[phrase]]
+from = "Check whether an existing firewall, TLS gateway, web server, reverse proxy, or network device Protection Profile can reasonably fit Fluxheim."
+to = "Pruefen, ob ein bestehendes Protection Profile fuer Firewall, TLS-Gateway, Webserver, Reverse Proxy oder Netzwerkgeraet vernuenftig zu Fluxheim passt."
+[[phrase]]
+from = "If no profile fits, document why and identify which SFR groups would need a custom PP or direct-rationale ST."
+to = "Wenn kein Profil passt, dokumentieren warum, und identifizieren, welche SFR-Gruppen ein eigenes PP oder ein Direct-Rationale-ST benoetigen wuerden."
+[[phrase]]
+from = "Phase 4 - External Evaluation Decision"
+to = "Phase 4 - Entscheidung zur externen Evaluierung"
+[[phrase]]
+from = "Only pursue formal Common Criteria evaluation if there is a sponsor, a fixed TOE boundary, a lab, a target assurance package, and a maintenance budget."
+to = "Eine formale Common-Criteria-Evaluierung nur verfolgen, wenn es Sponsor, feste TOE-Grenze, Labor, Ziel-Assurance-Paket und Wartungsbudget gibt."
+[[phrase]]
+from = "Do not combine formal Common Criteria claims with FIPS/ISO cryptographic module claims unless the evidence boundary for each is separately clear."
+to = "Formale Common-Criteria-Claims nicht mit FIPS/ISO-Claims zu kryptografischen Modulen kombinieren, sofern die Nachweisgrenze fuer jeden nicht separat klar ist."
+[[phrase]]
+from = "Documentation Rules"
+to = "Dokumentationsregeln"
+[[phrase]]
+from = "\"Common Criteria evidence-aligned\""
+to = "\"Common Criteria evidence-aligned\""
+[[phrase]]
+from = "\"ISO/IEC 15408-inspired evidence\""
+to = "\"ISO/IEC-15408-inspirierte Nachweise\""
+[[phrase]]
+from = "\"Security Target-style draft\""
+to = "\"Security-Target-artiger Entwurf\""
+[[phrase]]
+from = "\"TOE boundary candidate\""
+to = "\"TOE-Grenzkandidat\""
+[[phrase]]
+from = "\"operator assumptions\""
+to = "\"Betreiberannahmen\""
+[[phrase]]
+from = "Avoid:"
+to = "Vermeiden:"
+[[phrase]]
+from = "\"Common Criteria certified\""
+to = "\"Common Criteria certified\""
+[[phrase]]
+from = "\"EAL compliant\""
+to = "\"EAL compliant\""
+[[phrase]]
+from = "\"Protection Profile compliant\""
+to = "\"Protection Profile compliant\""
+[[phrase]]
+from = "\"evaluated Security Target\""
+to = "\"evaluated Security Target\""
+[[phrase]]
+from = "Any wording that implies an accredited evaluation has happened."
+to = "Jede Formulierung, die impliziert, dass eine akkreditierte Evaluierung stattgefunden hat."

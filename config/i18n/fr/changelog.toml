@@ -1,0 +1,450 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Changelog — Fluxheim"
+to = "Journal des changements — Fluxheim"
+
+[[phrase]]
+from = "Fluxheim release history and changelog."
+to = "Historique des versions et journal des changements de Fluxheim."
+
+[[phrase]]
+from = "Release history for Fluxheim. Full release notes are on"
+to = "Historique des versions de Fluxheim. Les notes de version complètes sont sur"
+
+[[phrase]]
+from = "GitHub Releases"
+to = "GitHub Releases"
+
+[[phrase]]
+from = "View on GitHub →"
+to = "Voir sur GitHub →"
+
+[[phrase]]
+from = "View on GitHub ->"
+to = "Voir sur GitHub ->"
+
+[[phrase]]
+from = "All on GitHub ->"
+to = "Tout sur GitHub ->"
+
+[[phrase]]
+from = "All on GitHub"
+to = "Tout sur GitHub"
+
+[[phrase]]
+from = "Released June 19, 2026"
+to = "Publié le 19 juin 2026"
+
+[[phrase]]
+from = "Released June 18, 2026"
+to = "Publié le 18 juin 2026"
+
+[[phrase]]
+from = "Released June 17, 2026"
+to = "Publié le 17 juin 2026"
+
+[[phrase]]
+from = "Released June 16, 2026"
+to = "Publié le 16 juin 2026"
+
+[[phrase]]
+from = "Released June 15, 2026"
+to = "Publié le 15 juin 2026"
+
+[[phrase]]
+from = "Released June 14, 2026"
+to = "Publié le 14 juin 2026"
+
+[[phrase]]
+from = "Released May 25, 2026"
+to = "Publié le 25 mai 2026"
+
+[[phrase]]
+from = "June 2026"
+to = "Juin 2026"
+
+[[phrase]]
+from = "full"
+to = "full"
+
+[[phrase]]
+from = "cache"
+to = "cache"
+
+[[phrase]]
+from = "proxy"
+to = "proxy"
+
+[[phrase]]
+from = "php"
+to = "php"
+
+[[phrase]]
+from = "load-balancer"
+to = "load-balancer"
+
+[[phrase]]
+from = "config-tester"
+to = "config-tester"
+
+[[phrase]]
+from = "arm64"
+to = "arm64"
+
+[[phrase]]
+from = "mac dev"
+to = "mac dev"
+
+[[phrase]]
+from = "Adds explicit"
+to = "Ajoute un"
+
+[[phrase]]
+from = "feature gating for the remaining compatibility runtime boundary"
+to = "feature gating explicite pour la frontière runtime de compatibilité restante"
+
+[[phrase]]
+from = "Keeps native TLS-only web builds from enabling Pingora rustls/OpenSSL features unless compatibility runtime is selected"
+to = "Empêche les builds web natifs TLS-only d'activer les fonctionnalités Pingora rustls/OpenSSL sauf si le runtime de compatibilité est sélectionné"
+
+[[phrase]]
+from = "Moves rustls and OpenSSL downstream SNI, certificate storage, reload, PEM parsing, and managed-cert handling into"
+to = "Déplace le SNI downstream, le stockage de certificats, le reload, le parsing PEM et la gestion des certificats gérés pour rustls et OpenSSL dans"
+
+[[phrase]]
+from = "Adds Fluxheim-owned native rustls"
+to = "Ajoute des"
+
+[[phrase]]
+from = "and OpenSSL"
+to = "et OpenSSL"
+
+[[phrase]]
+from = "builders for downstream TLS"
+to = "builders natifs appartenant à Fluxheim pour le TLS downstream"
+
+[[phrase]]
+from = "Adds native rustls/OpenSSL HTTP/1 listener previews, real TLS handshake tests, and native runtime cutover diagnostics"
+to = "Ajoute des previews de listeners HTTP/1 natifs rustls/OpenSSL, de vrais tests de handshake TLS et des diagnostics de bascule runtime native"
+
+[[phrase]]
+from = "Continues the Pingora-exit slice by shrinking the remaining root compatibility surface for proxy, cache, and runtime paths"
+to = "Poursuit la tranche de sortie de Pingora en réduisant la surface de compatibilité racine restante pour les chemins proxy, cache et runtime"
+
+[[phrase]]
+from = "Splits native health checks into HTTP/gRPC, database, exec, and TCP/TLS transport helper modules with stricter probe bounds"
+to = "Sépare les health checks natifs en modules auxiliaires HTTP/gRPC, base de données, exec et transport TCP/TLS avec des bornes de probe plus strictes"
+
+[[phrase]]
+from = "Removes the direct Pingora dependency from"
+to = "Supprime la dépendance directe à Pingora de"
+
+[[phrase]]
+from = "Adds Fluxheim-owned bounded HTTP/1.1 and h2 gRPC active health checks with policy coverage to prevent Pingora reintroduction"
+to = "Ajoute des health checks actifs HTTP/1.1 bornés et h2 gRPC appartenant à Fluxheim, avec couverture policy pour empêcher la réintroduction de Pingora"
+
+[[phrase]]
+from = "Adds native HTTP/1.1 proxy cutover readiness planning on"
+to = "Ajoute la planification de readiness de bascule proxy HTTP/1.1 native sur"
+
+[[phrase]]
+from = "Fails closed for compatibility-only proxy features such as auth subrequests, mirroring, redirects, strip/rewrite transforms, and advanced load-balancer policy"
+to = "Échoue fermé pour les fonctionnalités proxy de compatibilité uniquement comme les sous-requêtes d'authentification, le mirroring, les redirections, les transformations strip/rewrite et les policies load-balancer avancées"
+
+[[phrase]]
+from = "Adds a Fluxheim-owned native HTTP/2 upstream client primitive with bounded headers, bodies, trailers, and deadlines"
+to = "Ajoute une primitive client upstream HTTP/2 native appartenant à Fluxheim, avec headers, bodies, trailers et deadlines bornés"
+
+[[phrase]]
+from = "Adds h2 client/server tests for trailer preservation, oversized responses, stream resets, and flow-control timeout behavior"
+to = "Ajoute des tests client/serveur h2 pour la conservation des trailers, les réponses surdimensionnées, les resets de stream et le comportement de timeout du flow-control"
+
+[[phrase]]
+from = "Adds native rustls/OpenSSL upstream TLS and mTLS support to the staged HTTP/1.1 proxy path"
+to = "Ajoute le support TLS et mTLS upstream natif rustls/OpenSSL au chemin proxy HTTP/1.1 staged"
+
+[[phrase]]
+from = "Adds ordered static upstream failover for safe methods plus bounded no-follow TLS material reads and hostname-policy coverage"
+to = "Ajoute un failover upstream statique ordonné pour les méthodes sûres, ainsi que des lectures bornées de matériel TLS no-follow et une couverture de policy hostname"
+
+[[phrase]]
+from = "Adds bounded native HTTP/1.1 upstream connection pooling for safe content-length and no-body origin responses"
+to = "Ajoute un pooling de connexions upstream HTTP/1.1 natif borné pour les réponses d'origine sûres avec content-length ou sans corps"
+
+[[phrase]]
+from = "Adds keepalive pool sizing, upstream idle timeout handling, conservative no-reuse guards, and real socket reuse/expiry tests"
+to = "Ajoute le dimensionnement du pool keepalive, la gestion du timeout idle upstream, des gardes no-reuse conservatrices et de vrais tests de réutilisation/expiration de sockets"
+
+[[phrase]]
+from = "Adds reusable native HTTP/2 connection primitives with bounded request-body collection and response trailer support"
+to = "Ajoute des primitives de connexion HTTP/2 natives réutilisables avec collecte bornée du corps de requête et support des trailers de réponse"
+
+[[phrase]]
+from = "Hardens HTTP/2 response lifetime, handler timeout, DATA capacity handling, prohibited headers/trailers, and request-body zeroization"
+to = "Renforce la durée de vie des réponses HTTP/2, le timeout de handler, la gestion de capacité DATA, les headers/trailers interdits et la zeroization du corps de requête"
+
+[[phrase]]
+from = "Adds the native HTTP/2 runtime preview gate and h2 stack probe with bounded headers, URI, body, streams, frames, buffers, and rapid reset policy"
+to = "Ajoute le gate de preview du runtime HTTP/2 natif et le probe de stack h2 avec headers, URI, corps, streams, frames, buffers et policy rapid reset bornés"
+
+[[phrase]]
+from = "Adds HTTP/2 preview smoke coverage and extends native HTTP/1 behavior coverage for HTTP/1.0 keep-alive/close semantics"
+to = "Ajoute la couverture smoke de preview HTTP/2 et étend la couverture du comportement HTTP/1 natif pour la sémantique keep-alive/close HTTP/1.0"
+
+[[phrase]]
+from = "Adds the bounded native HTTP/1 upstream client and staged native proxy handler for plain static upstreams"
+to = "Ajoute le client upstream HTTP/1 natif borné et le handler proxy natif staged pour les upstreams statiques simples"
+
+[[phrase]]
+from = "Adds native proxy candidate inventory, Fluxheim-owned proxy headers, privacy-mode behavior, and fail-closed eligibility for unsupported policy layers"
+to = "Ajoute l'inventaire des candidats proxy natifs, les headers proxy appartenant à Fluxheim, le comportement privacy mode et l'éligibilité fail-closed pour les couches de policy non prises en charge"
+
+[[phrase]]
+from = "Adds the native HTTP/1 connection/listener runtime over Tokio IO and staged native static-file adapter"
+to = "Ajoute le runtime natif de connexion/listener HTTP/1 sur Tokio IO et l'adaptateur natif staged pour fichiers statiques"
+
+[[phrase]]
+from = "Maps server limits into native HTTP/1 policy and adds socket tests for keep-alive, body framing, shutdown, static files, slow clients, and connection caps"
+to = "Mappe les limites serveur dans la policy HTTP/1 native et ajoute des tests socket pour keep-alive, framing du corps, shutdown, fichiers statiques, clients lents et plafonds de connexions"
+
+[[phrase]]
+from = "Adds Fluxheim-owned HTTP/1.0/HTTP/1.1 request-head parsing, request-body framing classification, Host validation, persistence handling, and chunked decoding"
+to = "Ajoute le parsing request-head HTTP/1.0/HTTP/1.1 appartenant à Fluxheim, la classification du framing de corps, la validation Host, la gestion de persistance et le décodage chunked"
+
+[[phrase]]
+from = "Adds downstream HTTP/1 policy defaults and hardened native parser boundaries for future runtime cutover work"
+to = "Ajoute des defaults de policy HTTP/1 downstream et des frontières de parser natif renforcées pour les futurs travaux de bascule runtime"
+
+[[phrase]]
+from = "Hardens TLS feature gates, SNI fallback behavior, PROXY v2 signature validation, and trusted PROXY CIDR validation"
+to = "Renforce les feature gates TLS, le comportement de fallback SNI, la validation de signature PROXY v2 et la validation CIDR des PROXY de confiance"
+
+[[phrase]]
+from = "boundary for header policy helpers"
+to = "frontière pour les helpers de policy de headers"
+
+[[phrase]]
+from = "Moves rewrite algorithms, forwarded-header handling, hop-by-hop request policy, and repeated-header joining into Fluxheim-owned header code"
+to = "Déplace les algorithmes de rewrite, la gestion des forwarded headers, la policy de requête hop-by-hop et la jonction des headers répétés dans le code de headers appartenant à Fluxheim"
+
+[[phrase]]
+from = "Moves stream PROXY protocol byte parsers into"
+to = "Déplace les parsers d'octets du protocole PROXY stream dans"
+
+[[phrase]]
+from = "Moves shared background task lifecycle primitives into"
+to = "Déplace les primitives partagées de cycle de vie des tâches d'arrière-plan dans"
+
+[[phrase]]
+from = "Hardens the local certificate reload control socket and private backend filtering"
+to = "Renforce le socket local de contrôle du rechargement de certificat et le filtrage des backends privés"
+
+[[phrase]]
+from = "Moves stream upstream selection, PROXY protocol parsing/writing, source policy, DNS-rebinding guards, byte accounting, and timeout handling behind Fluxheim-owned stream code"
+to = "Déplace la sélection upstream stream, le parsing/écriture du protocole PROXY, la policy source, les protections DNS-rebinding, le comptage d'octets et la gestion des timeouts derrière le code stream appartenant à Fluxheim"
+
+[[phrase]]
+from = "Adds tests and release gates that enforce Pingora dependency removal targets during normal"
+to = "Ajoute des tests et des release gates qui imposent les objectifs de suppression des dépendances Pingora pendant les exécutions normales de"
+
+[[phrase]]
+from = "Starts the first concrete 1.6.x implementation release after the foundation tag"
+to = "Démarre la première version d'implémentation concrète 1.6.x après le tag de fondation"
+
+[[phrase]]
+from = "Pingora-exit foundation line while keeping runtime behavior unchanged"
+to = "ligne de fondation de sortie de Pingora tout en conservant le comportement runtime inchangé"
+
+[[phrase]]
+from = "Added modularity policy validation, legacy oversized-file exceptions, runtime baseline capture, and performance evidence capture"
+to = "A ajouté la validation de policy de modularité, les exceptions legacy pour fichiers surdimensionnés, la capture de baseline runtime et la capture de preuves de performance"
+
+[[phrase]]
+from = "Added release-gated Pingora dependency exceptions, runtime parity fixtures, and the extraction dependency graph"
+to = "A ajouté les exceptions de dépendances Pingora gated par release, les fixtures de parité runtime et le graphe de dépendances d'extraction"
+
+[[phrase]]
+from = "boundary crates plus typed policy proof primitives"
+to = "crates de frontière plus primitives typées de preuve de policy"
+
+[[phrase]]
+from = "Added managed affinity cookies, service discovery, active and protocol-aware health checks, restart-persistent state, and runtime backend mutation controls"
+to = "A ajouté les cookies d'affinité gérés, la découverte de services, les health checks actifs et protocol-aware, l'état persistant après redémarrage et les contrôles de mutation backend runtime"
+
+[[phrase]]
+from = "Load-balancer resilience, TLS/protocol parity, PROXY protocol v1/v2, upstream mTLS, HTTP/2 controls, and gRPC pass-through"
+to = "Résilience load-balancer, parité TLS/protocole, protocole PROXY v1/v2, mTLS upstream, contrôles HTTP/2 et pass-through gRPC"
+
+[[phrase]]
+from = "Released May 23, 2026"
+to = "Publié le 23 mai 2026"
+
+[[phrase]]
+from = "Respawn watchdog, bounded backoff, SIGTERM-before-SIGKILL teardown, sanitized environment, and private generated pool state"
+to = "Watchdog de respawn, backoff borné, teardown SIGTERM avant SIGKILL, environnement assaini et état de pool généré privé"
+
+[[phrase]]
+from = "config surface for private sockets, worker counts, process manager modes, slowlog, temp paths, and pool files"
+to = "surface de configuration pour sockets privés, nombres de workers, modes de process manager, slowlog, chemins temporaires et fichiers de pool"
+
+[[phrase]]
+from = "Expanded WordPress PHP-FPM smoke coverage across external, managed-static, managed-dynamic, managed-ondemand, and managed-respawn modes"
+to = "A étendu la couverture smoke WordPress PHP-FPM aux modes external, managed-static, managed-dynamic, managed-ondemand et managed-respawn"
+
+[[phrase]]
+from = "Released May 22, 2026"
+to = "Publié le 22 mai 2026"
+
+[[phrase]]
+from = "Released May 21, 2026"
+to = "Publié le 21 mai 2026"
+
+[[phrase]]
+from = "OpenSSL FIPS/ISO-capable TLS validation through"
+to = "Validation TLS OpenSSL compatible FIPS/ISO via"
+
+[[phrase]]
+from = "and provider diagnostics"
+to = "et diagnostics provider"
+
+[[phrase]]
+from = "FIPS deployment guide, config fixtures, validation script, release evidence, and OWASP Top 10 2025 baseline"
+to = "Guide de déploiement FIPS, fixtures de configuration, script de validation, preuves de release et baseline OWASP Top 10 2025"
+
+[[phrase]]
+from = "Released May 20, 2026"
+to = "Publié le 20 mai 2026"
+
+[[phrase]]
+from = "PHP-FPM keepalive pooling, upstream retry/failover, and request body disk spooling for safer operation under load"
+to = "Pooling keepalive PHP-FPM, retry/failover upstream et spooling disque du corps de requête pour un fonctionnement plus sûr sous charge"
+
+[[phrase]]
+from = "Released May 18, 2026"
+to = "Publié le 18 mai 2026"
+
+[[phrase]]
+from = "standalone companion binary for certificate renewal, status, and ACME reload socket signalling"
+to = "binaire compagnon autonome pour le renouvellement des certificats, le statut et la signalisation du socket de reload ACME"
+
+[[phrase]]
+from = "standalone binary for validating configs in CI and container entrypoints without starting the gateway"
+to = "binaire autonome pour valider les configurations en CI et dans les entrypoints conteneur sans démarrer le gateway"
+
+[[phrase]]
+from = "ACME reload Unix socket — live certificate pickup without gateway restart"
+to = "Socket Unix de reload ACME - prise en compte live des certificats sans redémarrage du gateway"
+
+[[phrase]]
+from = "Released May 16, 2026"
+to = "Publié le 16 mai 2026"
+
+[[phrase]]
+from = "Strict script resolution and bounded FastCGI request/response handling"
+to = "Résolution stricte des scripts et traitement requête/réponse FastCGI borné"
+
+[[phrase]]
+from = "PHP-FPM can serve static assets from same root while routing PHP to FPM"
+to = "PHP-FPM peut servir les assets statiques depuis la même racine tout en routant PHP vers FPM"
+
+[[phrase]]
+from = "Cargo feature (implies"
+to = "fonctionnalité Cargo (implique"
+
+[[phrase]]
+from = "Released May 14, 2026"
+to = "Publié le 14 mai 2026"
+
+[[phrase]]
+from = "+ Opt-in"
+to = "+ Optionnel"
+
+[[phrase]]
+from = "extends bounded range caching"
+to = "étend le caching de ranges borné"
+
+[[phrase]]
+from = "peer fetches"
+to = "fetches peer"
+
+[[phrase]]
+from = "+ Bounded fail-open/fail-closed peer fill behavior"
+to = "+ Comportement peer fill borné fail-open/fail-closed"
+
+[[phrase]]
+from = "+ Opt-in local static-file caching via"
+to = "+ Caching local optionnel des fichiers statiques via"
+
+[[phrase]]
+from = "+ Cache locks, stale serving, purge and status endpoints"
+to = "+ Cache locks, stale serving, endpoints de purge et de statut"
+
+[[phrase]]
+from = "+ Cache warm, key assertion, and lookup tooling"
+to = "+ Cache warm, assertion de clé et tooling de lookup"
+
+[[phrase]]
+from = "+ TLS policy profiles"
+to = "+ Profils de policy TLS"
+
+[[phrase]]
+from = "+ Managed ACME certificate issuance and renewal"
+to = "+ Émission et renouvellement de certificats ACME gérés"
+
+[[phrase]]
+from = "+ EAB-capable issuers (Actalis and others)"
+to = "+ Issuers compatibles EAB (Actalis et autres)"
+
+[[phrase]]
+from = "+ File-backed TLS secrets"
+to = "+ Secrets TLS adossés à des fichiers"
+
+[[phrase]]
+from = "guided issuer bootstrap tool"
+to = "outil guidé de bootstrap d'issuer"
+
+[[phrase]]
+from = "+ Packaged certificate renewal systemd units"
+to = "+ Unités systemd packagées pour le renouvellement des certificats"
+
+[[phrase]]
+from = "+ Virtual host routing by Host header with default-vhost fallback"
+to = "+ Routage virtual host par header Host avec fallback default-vhost"
+
+[[phrase]]
+from = "+ Safe ACME HTTP-01 challenge forwarding"
+to = "+ Forwarding sûr des challenges ACME HTTP-01"
+
+[[phrase]]
+from = "+ Secure request/response header policy"
+to = "+ Policy sécurisée de headers requête/réponse"
+
+[[phrase]]
+from = "+ Systemd unit, RPM packaging"
+to = "+ Unité systemd, packaging RPM"
+
+[[phrase]]
+from = "makes the remaining compatibility boundary explicit with"
+to = "rend explicite la frontière de compatibilité restante avec"
+
+[[phrase]]
+from = "What's Next"
+to = "Prochaines étapes"
+
+[[phrase]]
+from = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>Adds tests and release gates that enforce Pingora dependency removal targets during normal <code class=\"text-cyan-400 text-xs\">cargo test</code> runs</li>"
+to = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>Ajoute des tests et des release gates qui imposent les objectifs de suppression des dependances Pingora pendant les executions normales de <code class=\"text-cyan-400 text-xs\">cargo test</code></li>"
+
+[[phrase]]
+from = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>Started the <code class=\"text-cyan-400 text-xs\">1.6.x</code> Pingora-exit foundation line while keeping runtime behavior unchanged</li>"
+to = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>A demarre la ligne de fondation de sortie de Pingora <code class=\"text-cyan-400 text-xs\">1.6.x</code> tout en conservant le comportement runtime inchange</li>"
+
+[[phrase]]
+from = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>New <code class=\"text-cyan-400 text-xs\">profile-php</code> build profile — <code class=\"text-cyan-400 text-xs\">proxy + web + php-fpm + tls-rustls + security</code></li>"
+to = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>Nouveau profil de build <code class=\"text-cyan-400 text-xs\">profile-php</code> — <code class=\"text-cyan-400 text-xs\">proxy + web + php-fpm + tls-rustls + security</code></li>"
+
+[[phrase]]
+from = "<span class=\"px-2 py-0.5 text-xs bg-gray-700 text-gray-400 rounded-full\">Series</span>"
+to = "<span class=\"px-2 py-0.5 text-xs bg-gray-700 text-gray-400 rounded-full\">Serie</span>"

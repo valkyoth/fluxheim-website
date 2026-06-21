@@ -1,0 +1,10 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "fallback pages backed by"
+to = "pages de fallback appuyées par"
+
+[[phrase]]
+from = "Moves"
+to = "Déplace"

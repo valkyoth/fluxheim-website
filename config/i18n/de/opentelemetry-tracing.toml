@@ -1,0 +1,459 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "OpenTelemetry Tracing — Fluxheim Source Docs"
+to = "OpenTelemetry-Tracing — Fluxheim-Quelldokumentation"
+
+[[phrase]]
+from = "OpenTelemetry Tracing"
+to = "OpenTelemetry-Tracing"
+
+[[phrase]]
+from = "Status: stage 1 trace context propagation is implemented behind the optional"
+to = "Status: Trace-Context-Propagation der Stufe 1 ist hinter dem optionalen"
+
+[[phrase]]
+from = "Cargo feature. A first bounded OTLP/HTTP trace exporter is implemented behind"
+to = "Cargo-Feature implementiert. Ein erster begrenzter OTLP/HTTP-Trace-Exporter ist hinter"
+
+[[phrase]]
+from = "for local collectors and Jaeger test setups. Richer internal spans, sampling, exporter health, and TLS/gRPC export remain planned."
+to = "fuer lokale Collector und Jaeger-Testaufbauten implementiert. Umfangreichere interne Spans, Sampling, Exporter-Health und TLS/gRPC-Export bleiben geplant."
+
+[[phrase]]
+from = "Cargo features:"
+to = "Cargo-Features:"
+
+[[phrase]]
+from = ": implemented propagation and access-log correlation."
+to = ": implementierte Propagation und Access-Log-Korrelation."
+
+[[phrase]]
+from = ": implemented initial OTLP/HTTP JSON trace export."
+to = ": implementierter erster OTLP/HTTP-JSON-Trace-Export."
+
+[[phrase]]
+from = "Latest crate candidates checked on 2026-05-05:"
+to = "Neueste Crate-Kandidaten geprueft am 2026-05-05:"
+
+[[phrase]]
+from = "Tracing is different from metrics and logs. Metrics show aggregate behavior, logs record events, and traces explain the path of a specific request through Fluxheim and its upstream services."
+to = "Tracing unterscheidet sich von Metriken und Logs. Metriken zeigen aggregiertes Verhalten, Logs zeichnen Ereignisse auf, und Traces erklaeren den Weg einer bestimmten Anfrage durch Fluxheim und seine Upstream-Dienste."
+
+[[phrase]]
+from = "Design Goals"
+to = "Designziele"
+
+[[phrase]]
+from = "Keep OpenTelemetry code out of default builds."
+to = "OpenTelemetry-Code aus Standard-Builds heraushalten."
+
+[[phrase]]
+from = "Use W3C Trace Context propagation."
+to = "W3C-Trace-Context-Propagation verwenden."
+
+[[phrase]]
+from = "Correlate access logs, security events, and traces through a trace ID."
+to = "Access Logs, Sicherheitsereignisse und Traces ueber eine Trace-ID korrelieren."
+
+[[phrase]]
+from = "Pair new operational observability with Prometheus metrics where practical: metrics provide aggregate service health, while OpenTelemetry explains the request path behind those aggregate signals."
+to = "Neue betriebliche Observability, wo sinnvoll, mit Prometheus-Metriken koppeln: Metriken liefern aggregierte Service-Health, waehrend OpenTelemetry den Anfragepfad hinter diesen aggregierten Signalen erklaert."
+
+[[phrase]]
+from = "Keep tracing overhead bounded through sampling and background export."
+to = "Tracing-Overhead durch Sampling und Hintergrundexport begrenzen."
+
+[[phrase]]
+from = "Avoid storing secrets, cookies, authorization headers, raw request bodies, or high-cardinality labels in spans."
+to = "Secrets, Cookies, Authorization-Header, rohe Request-Bodies oder Labels mit hoher Kardinalitaet nicht in Spans speichern."
+
+[[phrase]]
+from = "Make tracing incompatible with"
+to = "Tracing inkompatibel machen mit"
+
+[[phrase]]
+from = "unless a future privacy-preserve propagation-only mode is explicitly designed."
+to = "sofern nicht ein zukuenftiger datenschutzwahrender Nur-Propagation-Modus explizit entworfen wird."
+
+[[phrase]]
+from = "Stage 1: Trace Context Propagation"
+to = "Stufe 1: Trace-Context-Propagation"
+
+[[phrase]]
+from = "The first useful milestone is propagation without exporting spans. This stage is implemented when Fluxheim is built with"
+to = "Der erste nuetzliche Meilenstein ist Propagation ohne Span-Export. Diese Stufe ist implementiert, wenn Fluxheim mit"
+
+[[phrase]]
+from = "is enabled at runtime."
+to = "zur Laufzeit aktiviert ist."
+
+[[phrase]]
+from = "Behavior:"
+to = "Verhalten:"
+
+[[phrase]]
+from = "extract a valid"
+to = "einen gueltigen"
+
+[[phrase]]
+from = "header from incoming requests;"
+to = "Header aus eingehenden Anfragen extrahieren;"
+
+[[phrase]]
+from = "reject malformed trace context without reflecting it;"
+to = "fehlgeformten Trace Context ablehnen, ohne ihn zurueckzuspiegeln;"
+
+[[phrase]]
+from = "generate a new trace ID when no valid context exists;"
+to = "eine neue Trace-ID erzeugen, wenn kein gueltiger Context existiert;"
+
+[[phrase]]
+from = "inject the selected context into upstream proxy requests;"
+to = "den ausgewaehlten Context in Upstream-Proxy-Anfragen injizieren;"
+
+[[phrase]]
+from = "include the trace ID in structured access logs when logging is enabled;"
+to = "die Trace-ID in strukturierte Access Logs aufnehmen, wenn Logging aktiviert ist;"
+
+[[phrase]]
+from = "trust inbound sampled flags only when the direct peer is trusted."
+to = "eingehenden Sampled-Flags nur vertrauen, wenn der direkte Peer vertrauenswuerdig ist."
+
+[[phrase]]
+from = "This gives operators log/backend correlation even before Fluxheim exports full traces."
+to = "Das gibt Betreibern Log-/Backend-Korrelation, noch bevor Fluxheim vollstaendige Traces exportiert."
+
+[[phrase]]
+from = "Stage 2: Internal Spans"
+to = "Stufe 2: Interne Spans"
+
+[[phrase]]
+from = "After propagation is stable, Fluxheim should create spans around key request operations."
+to = "Sobald Propagation stabil ist, sollte Fluxheim Spans um zentrale Request-Operationen erzeugen."
+
+[[phrase]]
+from = "Planned spans:"
+to = "Geplante Spans:"
+
+[[phrase]]
+from = ": root request span;"
+to = ": Root-Request-Span;"
+
+[[phrase]]
+from = ": host/SNI routing and policy selection;"
+to = ": Host-/SNI-Routing und Policy-Auswahl;"
+
+[[phrase]]
+from = ": request limits, header policy, and security checks;"
+to = ": Request-Limits, Header-Policy und Sicherheitspruefungen;"
+
+[[phrase]]
+from = ": future external authorization probe;"
+to = ": zukuenftige externe Autorisierungsprobe;"
+
+[[phrase]]
+from = ": memory/disk cache lookup and hit/miss decision;"
+to = ": Memory-/Disk-Cache-Lookup und Hit-/Miss-Entscheidung;"
+
+[[phrase]]
+from = ": cache admission and write;"
+to = ": Cache-Aufnahme und Schreibvorgang;"
+
+[[phrase]]
+from = ": admin-triggered cache invalidation by scope, prefix, wildcard, tag, or soft-purge operation;"
+to = ": admin-ausgeloeste Cache-Invalidierung nach Scope, Praefix, Wildcard, Tag oder Soft-Purge-Operation;"
+
+[[phrase]]
+from = ": load-balancer selection;"
+to = ": Load-Balancer-Auswahl;"
+
+[[phrase]]
+from = ": TCP/TLS connect and handshake;"
+to = ": TCP/TLS-Verbindung und Handshake;"
+
+[[phrase]]
+from = ": upstream first-byte and response metadata;"
+to = ": Upstream-First-Byte und Response-Metadaten;"
+
+[[phrase]]
+from = ": compression, image transforms, WAF body scanning, or other future body work;"
+to = ": Kompression, Bildtransformationen, WAF-Body-Scanning oder andere zukuenftige Body-Arbeit;"
+
+[[phrase]]
+from = ": static resolution and body read path."
+to = ": statische Aufloesung und Body-Lesepfad."
+
+[[phrase]]
+from = "Span attributes must use bounded, low-cardinality values:"
+to = "Span-Attribute muessen begrenzte Werte mit niedriger Kardinalitaet verwenden:"
+
+[[phrase]]
+from = "vhost name;"
+to = "vhost-Name;"
+
+[[phrase]]
+from = "route name;"
+to = "Routenname;"
+
+[[phrase]]
+from = "status class;"
+to = "Statusklasse;"
+
+[[phrase]]
+from = "cache tier and hit/miss;"
+to = "Cache-Tier und Hit/Miss;"
+
+[[phrase]]
+from = "upstream pool name, not arbitrary upstream URL;"
+to = "Upstream-Pool-Name, keine beliebige Upstream-URL;"
+
+[[phrase]]
+from = "load-balancer upstream alias and retry count, never raw upstream URLs;"
+to = "Load-Balancer-Upstream-Alias und Retry-Anzahl, nie rohe Upstream-URLs;"
+
+[[phrase]]
+from = "configured policy names;"
+to = "konfigurierte Policy-Namen;"
+
+[[phrase]]
+from = "error class, not raw error strings when they may contain paths or secrets."
+to = "Fehlerklasse, keine rohen Fehlerstrings, wenn sie Pfade oder Secrets enthalten koennen."
+
+[[phrase]]
+from = "raw path by default;"
+to = "roher Pfad standardmaessig;"
+
+[[phrase]]
+from = "query strings;"
+to = "Query-Strings;"
+
+[[phrase]]
+from = "authorization values;"
+to = "Autorisierungswerte;"
+
+[[phrase]]
+from = "request/response bodies;"
+to = "Request-/Response-Bodies;"
+
+[[phrase]]
+from = "client IP unless a non-privacy deployment explicitly enables it."
+to = "Client-IP, ausser ein Nicht-Privacy-Deployment aktiviert sie explizit."
+
+[[phrase]]
+from = "Stage 3: OTLP Trace Export"
+to = "Stufe 3: OTLP-Trace-Export"
+
+[[phrase]]
+from = "Trace export is optional and intended to send data to a local OpenTelemetry Collector or tracing backend. Prometheus can receive OTLP metrics over HTTP when its OTLP receiver is enabled, but it is not the direct trace storage target."
+to = "Trace-Export ist optional und dafuer gedacht, Daten an einen lokalen OpenTelemetry Collector oder ein Tracing-Backend zu senden. Prometheus kann OTLP-Metriken ueber HTTP empfangen, wenn sein OTLP-Receiver aktiviert ist, ist aber nicht das direkte Trace-Speicherziel."
+
+[[phrase]]
+from = "Implemented in the first exporter:"
+to = "Im ersten Exporter implementiert:"
+
+[[phrase]]
+from = "background worker;"
+to = "Hintergrund-Worker;"
+
+[[phrase]]
+from = "bounded queue with drop-on-full behavior;"
+to = "begrenzte Queue mit Drop-on-full-Verhalten;"
+
+[[phrase]]
+from = "OTLP/HTTP JSON export to"
+to = "OTLP/HTTP-JSON-Export an"
+
+[[phrase]]
+from = "endpoints such as local Jaeger"
+to = "Endpunkte wie lokales Jaeger"
+
+[[phrase]]
+from = "PEM CA bundle for private-PKI HTTPS collectors;"
+to = "PEM-CA-Bundle fuer Private-PKI-HTTPS-Collector;"
+
+[[phrase]]
+from = "request-level server spans with trace ID, regenerated span ID, optional parent span ID, method, vhost, resolved route name, status, error flag, body byte counts, cache phase/timing, compression encoding, and PHP-FPM outcome when those modules are compiled in."
+to = "Server-Spans auf Request-Ebene mit Trace-ID, neu erzeugter Span-ID, optionaler Parent-Span-ID, Methode, vhost, aufgeloestem Routennamen, Status, Fehler-Flag, Body-Byte-Zaehlern, Cache-Phase/-Timing, Kompressions-Encoding und PHP-FPM-Ergebnis, wenn diese Module einkompiliert sind."
+
+[[phrase]]
+from = "expose exporter health through metrics/admin status when those modules are enabled;"
+to = "Exporter-Health ueber Metriken/Admin-Status offenlegen, wenn diese Module aktiviert sind;"
+
+[[phrase]]
+from = "support explicit overflow behavior:"
+to = "explizites Overflow-Verhalten unterstuetzen:"
+
+[[phrase]]
+from = "never block request workers on collector availability;"
+to = "Request-Worker nie durch Collector-Verfuegbarkeit blockieren;"
+
+[[phrase]]
+from = "use HTTPS for remote collectors unless the network is already isolated and authenticated;"
+to = "HTTPS fuer entfernte Collector verwenden, ausser das Netzwerk ist bereits isoliert und authentifiziert;"
+
+[[phrase]]
+from = "redact all configured sensitive fields before export."
+to = "alle konfigurierten sensiblen Felder vor dem Export redigieren."
+
+[[phrase]]
+from = "The exporter supports HTTP and HTTPS. Keep loopback HTTP for local collectors; use HTTPS for collector endpoints that cross a host or container trust boundary. When no private CA bundle is configured, the HTTPS client uses the bundled WebPKI roots. Plaintext HTTP to a non-loopback collector logs a startup warning."
+to = "Der Exporter unterstuetzt HTTP und HTTPS. Loopback-HTTP fuer lokale Collector beibehalten; HTTPS fuer Collector-Endpunkte verwenden, die eine Host- oder Container-Vertrauensgrenze ueberschreiten. Wenn kein privates CA-Bundle konfiguriert ist, nutzt der HTTPS-Client die gebuendelten WebPKI-Roots. Klartext-HTTP zu einem Nicht-Loopback-Collector protokolliert beim Start eine Warnung."
+
+[[phrase]]
+from = "Sampling"
+to = "Sampling"
+
+[[phrase]]
+from = "Tracing every request can be too expensive for a proxy. Sampling must be configurable."
+to = "Jede Anfrage zu tracen kann fuer einen Proxy zu teuer sein. Sampling muss konfigurierbar sein."
+
+[[phrase]]
+from = "Planned sampling modes:"
+to = "Geplante Sampling-Modi:"
+
+[[phrase]]
+from = "fixed probabilistic sampling;"
+to = "festes probabilistisches Sampling;"
+
+[[phrase]]
+from = "status-aware sampling;"
+to = "statusbewusstes Sampling;"
+
+[[phrase]]
+from = "latency-aware sampling;"
+to = "latenzbewusstes Sampling;"
+
+[[phrase]]
+from = "always sample admin/security failures when those modules are enabled."
+to = "Admin-/Sicherheitsfehler immer samplen, wenn diese Module aktiviert sind."
+
+[[phrase]]
+from = "Recommended future default for enabled export:"
+to = "Empfohlener zukuenftiger Standard fuer aktivierten Export:"
+
+[[phrase]]
+from = "sample a small percentage of normal successful requests;"
+to = "einen kleinen Prozentsatz normaler erfolgreicher Anfragen samplen;"
+
+[[phrase]]
+from = "sample requests slower than a configured latency threshold;"
+to = "Anfragen samplen, die langsamer als ein konfigurierter Latenzschwellwert sind;"
+
+[[phrase]]
+from = "respect inbound sampled flags only when the direct peer is trusted."
+to = "eingehende Sampled-Flags nur beachten, wenn der direkte Peer vertrauenswuerdig ist."
+
+[[phrase]]
+from = "Future sampling configuration is expected to look like this:"
+to = "Zukuenftige Sampling-Konfiguration wird voraussichtlich so aussehen:"
+
+[[phrase]]
+from = "Remote export disabled unless explicitly configured."
+to = "Remote-Export bleibt deaktiviert, sofern er nicht explizit konfiguriert ist."
+
+[[phrase]]
+from = "Collector endpoint must be validated."
+to = "Collector-Endpunkt muss validiert werden."
+
+[[phrase]]
+from = "Trace and span IDs must be validated before reuse."
+to = "Trace- und Span-IDs muessen vor Wiederverwendung validiert werden."
+
+[[phrase]]
+from = "Do not trust inbound sampled flags from untrusted peers by default."
+to = "Eingehenden Sampled-Flags von nicht vertrauenswuerdigen Peers standardmaessig nicht vertrauen."
+
+[[phrase]]
+from = "Do not expose trace IDs as authorization or session identifiers."
+to = "Trace-IDs nicht als Autorisierungs- oder Session-Identifier offenlegen."
+
+[[phrase]]
+from = "Do not store trace context in cache keys."
+to = "Trace Context nicht in Cache-Keys speichern."
+
+[[phrase]]
+from = "Do not propagate trace context to auth, metadata, ad, or AI decision services unless that service is explicitly configured to receive it."
+to = "Trace Context nicht an Auth-, Metadata-, Ad- oder AI-Entscheidungsdienste propagieren, ausser der Dienst ist explizit dafuer konfiguriert."
+
+[[phrase]]
+from = "Redact trace attributes before logging/export."
+to = "Trace-Attribute vor Logging/Export redigieren."
+
+[[phrase]]
+from = "Test Plan"
+to = "Testplan"
+
+[[phrase]]
+from = "Generate trace context when absent."
+to = "Trace Context erzeugen, wenn er fehlt."
+
+[[phrase]]
+from = "Inject trace context into upstream requests."
+to = "Trace Context in Upstream-Anfragen injizieren."
+
+[[phrase]]
+from = "Correlate trace ID in access logs when logging is enabled."
+to = "Trace-ID in Access Logs korrelieren, wenn Logging aktiviert ist."
+
+[[phrase]]
+from = "Ensure malformed trace headers are never reflected."
+to = "Sicherstellen, dass fehlgeformte Trace-Header nie zurueckgespiegelt werden."
+
+[[phrase]]
+from = "Ensure untrusted sampled flags do not force sampling."
+to = "Sicherstellen, dass nicht vertrauenswuerdige Sampled-Flags kein Sampling erzwingen."
+
+[[phrase]]
+from = "Verify exporter queue overflow behavior."
+to = "Overflow-Verhalten der Exporter-Queue pruefen."
+
+[[phrase]]
+from = "Verify collector failure never blocks request handling."
+to = "Pruefen, dass Collector-Fehler die Request-Verarbeitung nie blockieren."
+
+[[phrase]]
+from = "Verify sensitive span attributes are redacted."
+to = "Pruefen, dass sensible Span-Attribute redigiert werden."
+
+[[phrase]]
+from = "Verify OpenTelemetry code is absent from default and privacy builds."
+to = "Pruefen, dass OpenTelemetry-Code in Standard- und Privacy-Builds fehlt."
+
+[[phrase]]
+from = "Verify sampling decisions for success, slow, and"
+to = "Sampling-Entscheidungen fuer erfolgreiche, langsame und"
+
+[[phrase]]
+from = "is the only implemented mode in stage 1. It validates incoming W3C"
+to = "ist der einzige in Stufe 1 implementierte Modus. Er validiert eingehende W3C-"
+
+[[phrase]]
+from = "generates a fresh context when the inbound header is missing or invalid, forwards a normalized"
+to = "erzeugt einen frischen Kontext, wenn der eingehende Header fehlt oder ungueltig ist, leitet einen normalisierten"
+
+[[phrase]]
+from = "to upstreams, and can add"
+to = "an Upstreams weiter und kann"
+
+[[phrase]]
+from = "to structured access logs."
+to = "zu strukturierten Access Logs hinzufuegen."
+
+[[phrase]]
+from = "Reject with config validation when combined with"
+to = "Per Config-Validation ablehnen, wenn kombiniert mit"
+
+[[phrase]]
+from = "unless the future mode is strictly propagation-only and documented separately."
+to = "sofern der kuenftige Modus nicht strikt propagation-only ist und separat dokumentiert wird."
+[[phrase]]
+from = "<li>optional <code>tracing.otlp.tls_ca_cert_path</code> PEM CA bundle for private-PKI HTTPS collectors;</li>"
+to = "<li>optionales <code>tracing.otlp.tls_ca_cert_path</code>-PEM-CA-Bundle fuer Private-PKI-HTTPS-Collectors;</li>"
+[[phrase]]
+from = "<li>sample all <code>5xx</code> responses;</li>"
+to = "<li>alle <code>5xx</code>-Responses samplen;</li>"
+[[phrase]]
+from = "<li>Extract valid <code>traceparent</code>.</li>"
+to = "<li>Gueltigen <code>traceparent</code> extrahieren.</li>"

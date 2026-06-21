@@ -1,0 +1,498 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Certificate Renewal And Reload — Fluxheim Source Docs"
+to = "Renouvellement et rechargement des certificats - Documentation source Fluxheim"
+
+[[phrase]]
+from = "Certificate Renewal And Reload"
+to = "Renouvellement et rechargement des certificats"
+
+[[phrase]]
+from = "Fluxheim should support both operator-owned certificates and ACME-managed certificates. Manual certificates are configured with"
+to = "Fluxheim doit prendre en charge les certificats detenus par l'operateur et les certificats geres par ACME. Les certificats manuels sont configures avec"
+
+[[phrase]]
+from = ". ACME certificates are configured per vhost and managed under"
+to = ". Les certificats ACME sont configures par vhost et geres sous"
+
+[[phrase]]
+from = ". Fluxheim derives managed certificate paths under"
+to = ". Fluxheim derive les chemins de certificats geres sous"
+
+[[phrase]]
+from = "the segment is sanitized and hash-suffixed by Fluxheim, not supplied by the operator. For HTTP-01, Fluxheim also derives a local challenge store at"
+to = "le segment est nettoye et suffixe par hash par Fluxheim, il n'est pas fourni par l'operateur. Pour HTTP-01, Fluxheim derive aussi un stockage local de challenge a"
+
+[[phrase]]
+from = "and serves safe challenge token files directly when"
+to = "et sert directement les fichiers de tokens de challenge surs lorsque"
+
+[[phrase]]
+from = "for the default rustls backend. During renewal, Fluxheim writes short-lived challenge certificates under"
+to = "pour le backend rustls par defaut. Pendant le renouvellement, Fluxheim ecrit des certificats de challenge de courte duree sous"
+
+[[phrase]]
+from = "ALPN protocol. DNS-01 remains future work because secure provider integrations need explicit, provider-specific secret handling rather than generic shell hooks."
+to = "ALPN. DNS-01 reste un travail futur, car les integrations de fournisseurs securisees exigent une gestion explicite des secrets propre au fournisseur plutot que des hooks shell generiques."
+
+[[phrase]]
+from = "Downstream TLS listeners are explicit in"
+to = "Les listeners TLS downstream sont explicites dans"
+
+[[phrase]]
+from = "entry as the default certificate for those listeners. If no global certificate is configured,"
+to = "comme certificat par defaut pour ces listeners. Si aucun certificat global n'est configure,"
+
+[[phrase]]
+from = "Managed ACME certificates may be absent during first issuance. Reloadable SNI TLS backends, including the default rustls build, treat missing Fluxheim-managed ACME certificate files as pending instead of refusing startup."
+to = "Les certificats ACME geres peuvent etre absents pendant la premiere emission. Les backends TLS SNI rechargeables, y compris le build rustls par defaut, traitent les fichiers de certificats ACME geres par Fluxheim manquants comme en attente au lieu de refuser le demarrage."
+
+[[phrase]]
+from = "Storage Permissions"
+to = "Permissions de stockage"
+
+[[phrase]]
+from = "Fluxheim has a runtime storage checker for operator-owned certificates and ACME storage directories."
+to = "Fluxheim dispose d'un verificateur runtime du stockage pour les certificats detenus par l'operateur et les repertoires de stockage ACME."
+
+[[phrase]]
+from = "Recommended Unix permissions:"
+to = "Permissions Unix recommandees:"
+
+[[phrase]]
+from = "private keys:"
+to = "cles privees:"
+
+[[phrase]]
+from = "ACME storage directory:"
+to = "repertoire de stockage ACME:"
+
+[[phrase]]
+from = "public certificate chains: normal read permissions are acceptable, for example"
+to = "chaines de certificats publics: des permissions de lecture normales sont acceptables, par exemple"
+
+[[phrase]]
+from = "The checker reports missing certificate/key files, non-file certificate/key paths, non-directory ACME storage paths, symlinked certificate/key/EAB/storage paths including symlinked parent directories, group/world-readable private keys, and group/world-accessible ACME storage directories."
+to = "Le verificateur signale les fichiers certificat/cle manquants, les chemins certificat/cle qui ne sont pas des fichiers, les chemins de stockage ACME qui ne sont pas des repertoires, les chemins certificat/cle/EAB/stockage symlinkes, y compris les repertoires parents symlinkes, les cles privees lisibles par le groupe ou le monde, et les repertoires de stockage ACME accessibles au groupe ou au monde."
+
+[[phrase]]
+from = "Secret Handling"
+to = "Gestion des secrets"
+
+[[phrase]]
+from = "ACME issuers that require External Account Binding, such as Actalis and Google Trust Services, need a key identifier and HMAC key. Fluxheim supports environment variables and files for these values, but production deployments should prefer file-backed secrets:"
+to = "Les emetteurs ACME qui exigent External Account Binding, comme Actalis et Google Trust Services, ont besoin d'un identifiant de cle et d'une cle HMAC. Fluxheim prend en charge les variables d'environnement et les fichiers pour ces valeurs, mais les deploiements de production devraient preferer des secrets adosses a des fichiers:"
+
+[[phrase]]
+from = "systemd credentials mounted under"
+to = "credentials systemd montes sous"
+
+[[phrase]]
+from = "Docker or Podman secrets mounted under"
+to = "secrets Docker ou Podman montes sous"
+
+[[phrase]]
+from = "Kubernetes secret volumes"
+to = "volumes de secrets Kubernetes"
+
+[[phrase]]
+from = "Example systemd service override:"
+to = "Exemple d'override de service systemd:"
+
+[[phrase]]
+from = "Matching Fluxheim config. Credential names resolve below"
+to = "Configuration Fluxheim correspondante. Les noms de credentials se resolvent sous"
+
+[[phrase]]
+from = "for normal container-style secret mounts:"
+to = "pour les montages de secrets classiques de style conteneur:"
+
+[[phrase]]
+from = "Built-in issuer names:"
+to = "Noms d'emetteurs integres:"
+
+[[phrase]]
+from = "Google Trust Services EAB credentials are environment-specific and single-use for account registration. Fluxheim keeps separate production and staging defaults:"
+to = "Les credentials EAB Google Trust Services sont propres a l'environnement et a usage unique pour l'enregistrement de compte. Fluxheim conserve des valeurs par defaut separees pour production et staging:"
+
+[[phrase]]
+from = "For containers, mount the same two values as secrets and point Fluxheim at the mounted files:"
+to = "Pour les conteneurs, montez les deux memes valeurs comme secrets et pointez Fluxheim vers les fichiers montes:"
+
+[[phrase]]
+from = "Environment variables remain useful for local testing, but they should not be the recommended production path for EAB secrets."
+to = "Les variables d'environnement restent utiles pour les tests locaux, mais elles ne devraient pas etre le chemin de production recommande pour les secrets EAB."
+
+[[phrase]]
+from = "Account Credentials"
+to = "Credentials de compte"
+
+[[phrase]]
+from = "ACME account credentials contain account identity and private key material. They are not kept in the TOML config. Fluxheim derives their storage path from the issuer name and writes them below"
+to = "Les credentials de compte ACME contiennent l'identite du compte et le materiau de cle privee. Ils ne sont pas conserves dans la configuration TOML. Fluxheim derive leur chemin de stockage depuis le nom de l'emetteur et les ecrit sous"
+
+[[phrase]]
+from = "The credential file is bounded, parsed as JSON, written through a temporary file, installed with owner-only permissions on Unix, and opened without following the final symlink on Linux."
+to = "Le fichier de credentials est borne, parse comme JSON, ecrit via un fichier temporaire, installe avec des permissions reservees au proprietaire sous Unix et ouvert sans suivre le symlink final sous Linux."
+
+[[phrase]]
+from = "When Fluxheim is built with"
+to = "Lorsque Fluxheim est construit avec"
+
+[[phrase]]
+from = "Production packages and container images ship the"
+to = "Les paquets de production et images conteneur livrent le compagnon"
+
+[[phrase]]
+from = "companion as the preferred external renewal command."
+to = "comme commande externe preferee de renouvellement."
+
+[[phrase]]
+from = "observes the managed certificate files and attempts only missing or due certificates."
+to = "observe les fichiers de certificats geres et ne tente que les certificats manquants ou dus."
+
+[[phrase]]
+from = "also asks the running gateway to reload its certificate handles after a successful renewal when"
+to = "demande aussi a la gateway en cours d'execution de recharger ses handles de certificats apres un renouvellement reussi lorsque"
+
+[[phrase]]
+from = "The legacy integrated command is kept for manual compatibility, but new automation should use"
+to = "La commande integree legacy est conservee pour la compatibilite manuelle, mais la nouvelle automatisation devrait utiliser"
+
+[[phrase]]
+from = "only for deliberate emergency rotation or testing when you really need to reissue certificates that are still valid; repeated forced renewals can hit issuer rate limits:"
+to = "uniquement pour une rotation d'urgence volontaire ou des tests lorsque vous devez vraiment reemettre des certificats encore valides; des renouvellements forces repetes peuvent atteindre les limites de debit de l'emetteur:"
+
+[[phrase]]
+from = "Initialize ACME"
+to = "Initialiser ACME"
+
+[[phrase]]
+from = "Packaged builds include a guided initializer for the global issuer setup:"
+to = "Les builds packages incluent un initialiseur guide pour la configuration globale des emetteurs:"
+
+[[phrase]]
+from = "For Actalis, the command asks for the contact email, EAB key id, and EAB HMAC key. The HMAC prompt is hidden."
+to = "Pour Actalis, la commande demande l'email de contact, l'id de cle EAB et la cle HMAC EAB. Le prompt HMAC est masque."
+
+[[phrase]]
+from = "Automation should pass secrets through files, not command-line values:"
+to = "L'automatisation devrait transmettre les secrets par fichiers, pas par valeurs de ligne de commande:"
+
+[[phrase]]
+from = "Packaged Actalis Credentials"
+to = "Credentials Actalis packages"
+
+[[phrase]]
+from = "To use Actalis EAB with systemd credentials:"
+to = "Pour utiliser Actalis EAB avec des credentials systemd:"
+
+[[phrase]]
+from = "Then point the issuer EAB sources at credential names. The same TOML works for"
+to = "Ensuite, pointez les sources EAB de l'emetteur vers des noms de credentials. Le meme TOML fonctionne pour"
+
+[[phrase]]
+from = "Renewal Queue Planning"
+to = "Planification de la file de renouvellement"
+
+[[phrase]]
+from = "Fluxheim derives renewal targets from validated vhost ACME config. The planner is implemented and produces queue items with:"
+to = "Fluxheim derive les cibles de renouvellement depuis la configuration ACME vhost validee. Le planificateur est implemente et produit des elements de file avec:"
+
+[[phrase]]
+from = "vhost name"
+to = "nom du vhost"
+
+[[phrase]]
+from = "issuer name"
+to = "nom de l'emetteur"
+
+[[phrase]]
+from = "concrete certificate domains"
+to = "domaines concrets du certificat"
+
+[[phrase]]
+from = "challenge type"
+to = "type de challenge"
+
+[[phrase]]
+from = "certificate expiration time"
+to = "date d'expiration du certificat"
+
+[[phrase]]
+from = "next renewal time"
+to = "prochaine date de renouvellement"
+
+[[phrase]]
+from = "The first renewal time should be the later of:"
+to = "La premiere date de renouvellement devrait etre la plus tardive entre:"
+
+[[phrase]]
+from = "After successful renewal, Fluxheim reloads the downstream SNI certificate resolver or callback so new handshakes can use the freshly installed files without restarting."
+to = "Apres un renouvellement reussi, Fluxheim recharge le resolver ou callback de certificats SNI downstream afin que les nouveaux handshakes puissent utiliser les fichiers fraichement installes sans redemarrage."
+
+[[phrase]]
+from = "Preview targets without contacting the issuer:"
+to = "Previsualiser les cibles sans contacter l'emetteur:"
+
+[[phrase]]
+from = "Check due/missing/valid state before issuing:"
+to = "Verifier l'etat du, manquant ou valide avant emission:"
+
+[[phrase]]
+from = "Run renewal and request live certificate activation after successful issuance:"
+to = "Executer le renouvellement et demander l'activation live du certificat apres emission reussie:"
+
+[[phrase]]
+from = "Container Renewal"
+to = "Renouvellement en conteneur"
+
+[[phrase]]
+from = "Keep the host-side run directory private to the container runtime user and mount it read-write into both containers:"
+to = "Gardez le repertoire run cote hote prive pour l'utilisateur runtime du conteneur et montez-le en lecture-ecriture dans les deux conteneurs:"
+
+[[phrase]]
+from = "Runtime Crate Candidates"
+to = "Crates runtime candidates"
+
+[[phrase]]
+from = "Latest checked ACME runtime candidates:"
+to = "Derniers candidats runtime ACME verifies:"
+
+[[phrase]]
+from = "FIPS/ISO-Required Deployments"
+to = "Deploiements exigeant FIPS/ISO"
+
+[[phrase]]
+from = "Retry Policy"
+to = "Politique de retry"
+
+[[phrase]]
+from = "Failed renewal attempts should retry with bounded backoff:"
+to = "Les tentatives de renouvellement echouees devraient reessayer avec un backoff borne:"
+
+[[phrase]]
+from = "Atomic Install"
+to = "Installation atomique"
+
+[[phrase]]
+from = "Renewed certificates must be installed atomically:"
+to = "Les certificats renouveles doivent etre installes atomiquement:"
+
+[[phrase]]
+from = "No-Downtime Reload"
+to = "Rechargement sans interruption"
+
+[[phrase]]
+from = "Reload Classification"
+to = "Classification du reload"
+
+[[phrase]]
+from = "Process upgrade is required when:"
+to = "Une mise a niveau de processus est requise lorsque:"
+
+[[phrase]]
+from = "may provide the fallback through either"
+to = "peut fournir le fallback via"
+
+[[phrase]]
+from = "when Fluxheim is launched by systemd, and below"
+to = "lorsque Fluxheim est lance par systemd, et sous"
+
+[[phrase]]
+from = "and a status message saying no certificates are due. First issuance normally does not need"
+to = "et un message de statut indiquant qu'aucun certificat n'est du. La premiere emission n'a normalement pas besoin de"
+
+[[phrase]]
+from = "lines. For HTTP-01 failures after challenge files are published, the failure includes"
+to = "lignes. Pour les echecs HTTP-01 apres publication des fichiers de challenge, l'echec inclut"
+
+[[phrase]]
+from = "URLs so operators can test the exact public challenge paths that the issuer should have reached. It exits non-zero if any target failed, while still reporting successful renewals from the same run."
+to = "URL afin que les operateurs puissent tester les chemins publics exacts de challenge que l'emetteur aurait du atteindre. La commande sort avec un code non nul si une cible a echoue, tout en rapportant les renouvellements reussis du meme run."
+
+[[phrase]]
+from = "explicitly after manually installing managed files:"
+to = "explicitement apres installation manuelle de fichiers geres:"
+
+[[phrase]]
+from = "Official RPM and container release assets include"
+to = "Les assets de release RPM et conteneur officiels incluent"
+
+[[phrase]]
+from = "It refuses to overwrite existing files unless"
+to = "La commande refuse d'ecraser les fichiers existants sauf si"
+
+[[phrase]]
+from = "blocks to the vhosts that should receive managed certificates, reload systemd when a drop-in was created, and run the renewal command:"
+to = "aux vhosts qui doivent recevoir des certificats geres, rechargez systemd lorsqu'un drop-in a ete cree, puis lancez la commande de renouvellement:"
+
+[[phrase]]
+from = "with root-only permissions and ship an optional systemd drop-in example at:"
+to = "avec des permissions reservees a root et livrent un exemple optionnel de drop-in systemd a:"
+
+[[phrase]]
+from = "lets an operator defer automatic renewal until a chosen TOML offset datetime, for example"
+to = "permet a un operateur de differer le renouvellement automatique jusqu'a un datetime TOML offset choisi, par exemple"
+
+[[phrase]]
+from = "operation and is created with owner-only permissions by the running gateway. It is intended for the same runtime user or container pod, not remote administration."
+to = "et il est cree avec des permissions reservees au proprietaire par la gateway en cours d'execution. Il est destine au meme utilisateur runtime ou pod conteneur, pas a l'administration distante."
+
+[[phrase]]
+from = "stays focused on serving traffic and challenge files, while the one-shot"
+to = "reste concentre sur le service du trafic et des fichiers de challenge, tandis que le one-shot"
+
+[[phrase]]
+from = "run renewals as the Fluxheim runtime user. The companion command reuses the same ACME engine and storage layout as the legacy"
+to = "executent les renouvellements comme utilisateur runtime Fluxheim. La commande compagnon reutilise le meme moteur ACME et le meme layout de stockage que la commande legacy"
+
+[[phrase]]
+from = "Request only the live certificate-handle reload, for example after manually installing files below"
+to = "Demander uniquement le rechargement live des handles de certificats, par exemple apres installation manuelle de fichiers sous"
+
+[[phrase]]
+from = "Enable the packaged timer after ACME config and credentials are installed:"
+to = "Activer le timer package apres installation de la configuration ACME et des credentials:"
+
+[[phrase]]
+from = "The gateway and companion must share"
+to = "La gateway et le compagnon doivent partager"
+
+[[phrase]]
+from = "If the gateway container is already running, the simplest operational commands are:"
+to = "Si le conteneur gateway est deja en cours d'execution, les commandes operationnelles les plus simples sont:"
+
+[[phrase]]
+from = "naturally shares the gateway container filesystem, secrets, and reload socket. It is useful for manual checks, but scheduled renewals are often cleaner as a one-shot companion container:"
+to = "partage naturellement le systeme de fichiers du conteneur gateway, les secrets et le socket de reload. C'est utile pour les controles manuels, mais les renouvellements planifies sont souvent plus propres sous forme de conteneur compagnon one-shot:"
+
+[[phrase]]
+from = "For scheduled container renewals, use a host systemd timer, Kubernetes CronJob, or the platform scheduler to start the one-shot companion. Keep"
+to = "Pour les renouvellements conteneur planifies, utilisez un timer systemd hote, un CronJob Kubernetes ou le scheduler de la plateforme pour demarrer le compagnon one-shot. Gardez"
+
+[[phrase]]
+from = "so the gateway does not also run the background renewal loop."
+to = "afin que la gateway n'execute pas aussi la boucle de renouvellement en arriere-plan."
+
+[[phrase]]
+from = "Managed Fluxheim ACME is intentionally outside the strict FIPS/ISO-required runtime boundary in"
+to = "L'ACME gere par Fluxheim est volontairement hors de la stricte frontiere runtime requise FIPS/ISO en"
+
+[[phrase]]
+from = "For regulated deployments, use local static certificate files in"
+to = "Pour les deploiements regules, utilisez des fichiers de certificats statiques locaux dans"
+
+[[phrase]]
+from = "and renew them with an external process that has its own evidence package. If that external process is ACME-based, keep the ACME client version, host FIPS/ISO mode, key-generation policy, CA/audit evidence, and renewal logs with the deployment evidence."
+to = "et renouvelez-les avec un processus externe disposant de son propre paquet de preuves. Si ce processus externe est base sur ACME, conservez la version du client ACME, le mode FIPS/ISO de l'hote, la politique de generation de cles, les preuves CA/audit et les journaux de renouvellement avec les preuves de deploiement."
+
+[[phrase]]
+from = "never remove the currently active certificate because of a failed renewal"
+to = "ne jamais retirer le certificat actuellement actif a cause d'un renouvellement echoue"
+
+[[phrase]]
+from = "The scheduler should wake at least every"
+to = "Le scheduler devrait se reveiller au moins toutes les"
+
+[[phrase]]
+from = "to catch newly due certificates and config changes."
+to = "pour detecter les certificats nouvellement dus et les changements de configuration."
+
+[[phrase]]
+from = "Validate that the certificate parses, matches the private key, and covers the configured domains."
+to = "Valider que le certificat se parse, correspond a la cle privee et couvre les domaines configures."
+
+[[phrase]]
+from = "Flush files and directory metadata where the platform supports it."
+to = "Flusher les fichiers et la metadata de repertoire lorsque la plateforme le prend en charge."
+
+[[phrase]]
+from = "Keep the previous certificate available until the new one is active."
+to = "Garder le certificat precedent disponible jusqu'a ce que le nouveau soit actif."
+
+[[phrase]]
+from = "Listener changes are process-level changes and should use Pingora's zero-downtime upgrade path rather than in-place mutation."
+to = "Les changements de listeners sont des changements au niveau processus et devraient utiliser le chemin d'upgrade zero-downtime de Pingora plutot qu'une mutation en place."
+
+[[phrase]]
+from = "Fluxheim classifies a config change before applying it:"
+to = "Fluxheim classe un changement de configuration avant de l'appliquer:"
+
+[[phrase]]
+from = "Operators can check the impact of a planned config change:"
+to = "Les operateurs peuvent verifier l'impact d'un changement de configuration planifie:"
+
+[[phrase]]
+from = "Durable config history and rollback commands are documented in"
+to = "L'historique durable de configuration et les commandes de rollback sont documentes dans"
+
+[[phrase]]
+from = "This keeps the hot-reload path conservative until Fluxheim has explicit runtime ownership for adding and removing background services after startup."
+to = "Cela garde le chemin de hot-reload conservateur jusqu'a ce que Fluxheim ait une responsabilite runtime explicite pour ajouter et retirer des services en arriere-plan apres le demarrage."
+
+[[phrase]]
+from = "TLS-ALPN-01 is also supported in"
+to = "TLS-ALPN-01 est aussi pris en charge dans"
+
+[[phrase]]
+from = ", again using a Fluxheim-generated sanitized and hash-suffixed segment rather than a raw config value."
+to = ", toujours avec un segment nettoye et suffixe par hash genere par Fluxheim plutot qu'une valeur de configuration brute."
+
+[[phrase]]
+from = "The runtime uses the first global"
+to = "Le runtime utilise le premier"
+
+[[phrase]]
+from = "Other vhosts can override that certificate with their own static or ACME-managed source; Fluxheim selects the matching certificate by SNI during the downstream TLS handshake."
+to = "Les autres vhosts peuvent remplacer ce certificat par leur propre source statique ou geree par ACME; Fluxheim selectionne le certificat correspondant par SNI pendant le handshake TLS downstream."
+
+[[phrase]]
+from = "it can load existing credentials from that path or create a new issuer account through"
+to = "il peut charger les credentials existants depuis ce chemin ou creer un nouveau compte d'emetteur via"
+
+[[phrase]]
+from = "missing certificate files are due targets."
+to = "les fichiers de certificat manquants sont des targets dues."
+
+[[phrase]]
+from = "but it prints a deprecation warning and should not be used in new automation."
+to = "mais il affiche un avertissement de deprecation et ne devrait pas etre utilise dans une nouvelle automatisation."
+
+[[phrase]]
+from = "by default. If you compile from source with a custom feature list, include it explicitly:"
+to = "par defaut. Si vous compilez depuis les sources avec une liste de features personnalisee, incluez-le explicitement:"
+
+[[phrase]]
+from = "Local TOML datetimes are rejected so the queue cannot interpret operator intent in the wrong timezone."
+to = "Les datetimes TOML locales sont rejetees afin que la queue n'interprete pas l'intention operateur dans le mauvais fuseau horaire."
+
+[[phrase]]
+from = "the runtime registers a background renewal service when ACME-managed vhosts are configured and"
+to = "le runtime enregistre un service de renouvellement en arriere-plan lorsque des vhosts geres par ACME sont configures et que"
+
+[[phrase]]
+from = "and renews missing or due certificates through the same ACME challenge path used by the CLI."
+to = "et renouvelle les certificats manquants ou dus via le meme chemin de challenge ACME que la CLI."
+
+[[phrase]]
+from = "companion binary while keeping the integrated background worker for simple installs."
+to = "binaire compagnon tout en gardant le worker en arriere-plan integre pour les installations simples."
+
+[[phrase]]
+from = "command, uses systemd credentials or container secrets for EAB material, and writes certificates below the configured"
+to = "utilise des credentials systemd ou des secrets conteneur pour le materiel EAB, et ecrit les certificats sous le"
+
+[[phrase]]
+from = "When certificates are renewed, it asks the running gateway to reload its certificate handles through"
+to = "Lorsque les certificats sont renouveles, il demande a la gateway en cours d'execution de recharger ses handles de certificat via"
+
+[[phrase]]
+from = "as a normal automation tool unless and until managed ACME has provider-routed signing, key generation, EAB, and outbound TLS evidence."
+to = "comme un outil d'automatisation normal jusqu'a ce que l'ACME gere dispose de signatures routees par fournisseur, de generation de cles, d'EAB et de preuves TLS sortantes."
+
+[[phrase]]
+from = "requires Pingora's process-level zero-downtime upgrade path."
+to = "necessite le chemin d'upgrade zero-downtime au niveau processus de Pingora."

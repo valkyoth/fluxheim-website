@@ -1,0 +1,66 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Introduction"
+to = "Einführung"
+
+[[phrase]]
+from = "TLS & ACME"
+to = "TLS & ACME"
+
+[[phrase]]
+from = "Static website hosting with MIME detection, ETag, conditional 304, and byte ranges"
+to = "Statisches Website-Hosting mit MIME-Erkennung, ETag, bedingtem 304 und Byte-Ranges"
+
+[[phrase]]
+from = "Vhost routing by Host header with default-vhost fallback and strict host routing"
+to = "Vhost-Routing über Host-Header mit Default-Vhost-Fallback und strengem Host-Routing"
+
+[[phrase]]
+from = "Auth subrequests, WebSocket upgrades, dynamic upstream discovery, and safe traffic mirroring"
+to = "Auth-Subrequests, WebSocket-Upgrades, dynamische Upstream-Erkennung und sicheres Traffic Mirroring"
+
+[[phrase]]
+from = "Admin control-plane with bearer-token auth, loopback defaults, and read-only local ops socket"
+to = "Admin-Control-Plane mit Bearer-Token-Auth, Loopback-Defaults und read-only lokalem Ops-Socket"
+
+[[phrase]]
+from = "rustls TLS with multi-cert SNI, static/bought certificates"
+to = "rustls TLS mit Multi-Zertifikat-SNI und statischen/gekauften Zertifikaten"
+
+[[phrase]]
+from = "Managed ACME with HTTP-01 and TLS-ALPN-01 issuance and renewal"
+to = "Verwaltetes ACME mit HTTP-01- und TLS-ALPN-01-Ausstellung und Erneuerung"
+
+[[phrase]]
+from = "Prometheus metrics and OpenTelemetry metrics/tracing export profiles"
+to = "Prometheus-Metrics und OpenTelemetry-Metrics-/Tracing-Exportprofile"
+
+[[phrase]]
+from = "Bounded GeoIP/Geo-Context for local MMDB country and ASN policy"
+to = "Begrenzter GeoIP-/Geo-Kontext für lokale MMDB-Länder- und ASN-Richtlinien"
+
+[[phrase]]
+from = "Rootless Podman containers: Wolfi, Alpine, SUSE Micro, Debian"
+to = "Rootless-Podman-Container: Wolfi, Alpine, SUSE Micro, Debian"
+
+[[phrase]]
+from = "All Cargo features, build profile aliases, TLS backends, and what each enables in the compiled binary."
+to = "Alle Cargo-Features, Build-Profil-Aliasse, TLS-Backends und was sie im kompilierten Binary aktivieren."
+
+[[phrase]]
+from = "TLS backend selection, multi-cert SNI, managed ACME certificate issuance with HTTP-01 and TLS-ALPN-01."
+to = "TLS-Backend-Auswahl, Multi-Zertifikat-SNI und verwaltete ACME-Zertifikatsausstellung mit HTTP-01 und TLS-ALPN-01."
+
+[[phrase]]
+from = "Prometheus metrics listener, OTLP export, trace context propagation, and structured logging architecture."
+to = "Prometheus-Metrics-Listener, OTLP-Export, Trace-Context-Propagation und strukturierte Logging-Architektur."
+
+[[phrase]]
+from = "Deploying with systemd, hardened service unit, rootless Podman images, RPM packaging, and production readiness."
+to = "Deployment mit systemd, gehärteter Service-Unit, rootless Podman-Images, RPM-Packaging und Production Readiness."
+
+[[phrase]]
+from = "Complete upstream Markdown docs mirrored from Fluxheim main: architecture tracks, release runbooks, operations, and roadmap notes."
+to = "Vollständige Upstream-Markdown-Dokumentation aus Fluxheim main: Architektur-Tracks, Release-Runbooks, Betrieb und Roadmap-Notizen."

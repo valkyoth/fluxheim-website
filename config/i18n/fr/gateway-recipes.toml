@@ -1,0 +1,158 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+[[phrase]]
+from = "Gateway Recipes"
+to = "Recettes gateway"
+[[phrase]]
+from = "This page shows practical"
+to = "Cette page montre des patterns pratiques"
+[[phrase]]
+from = "gateway-style patterns for moving common static and proxy vhosts into Fluxheim. The examples use one split config file per site; keep shared listeners, TLS defaults, logging, and global header policy in"
+to = "de style gateway pour migrer des vhosts statiques et proxy courants vers Fluxheim. Les exemples utilisent un fichier de config separe par site; gardez les listeners partages, defaults TLS, logging et policy globale de headers dans"
+[[phrase]]
+from = "Shared Server Baseline"
+to = "Baseline serveur partagee"
+[[phrase]]
+from = "only for proxies you actually control. When it is empty, Fluxheim uses the direct peer address for generated client-IP headers. When the direct peer is trusted, Fluxheim treats"
+to = "uniquement pour les proxies que vous controlez reellement. Quand il est vide, Fluxheim utilise l'adresse peer directe pour les headers client-IP generes. Quand le peer direct est fiable, Fluxheim traite"
+[[phrase]]
+from = "like nginx"
+to = "comme nginx"
+[[phrase]]
+from = ": trusted hops are skipped from the right and generated"
+to = ": les hops fiables sont ignores depuis la droite et les valeurs generees"
+[[phrase]]
+from = "values use the restored client address."
+to = "utilisent l'adresse client restauree."
+[[phrase]]
+from = "Cleartext Challenge Exception And HTTPS Redirect"
+to = "Exception de challenge cleartext et redirect HTTPS"
+[[phrase]]
+from = "If a cleartext challenge helper must stay reachable while everything else moves to HTTPS, enable the global redirect and the vhost challenge helper:"
+to = "Si un helper de challenge cleartext doit rester joignable pendant que tout le reste passe a HTTPS, activez le redirect global et le helper de challenge vhost:"
+[[phrase]]
+from = "This internally creates the standard HTTP-01 challenge route at"
+to = "Cela cree en interne la route standard de challenge HTTP-01 sous"
+[[phrase]]
+from = "and exempts only that path from the global redirect. Normal proxy and static routes still redirect on cleartext requests."
+to = "et exempte uniquement ce chemin du redirect global. Les routes proxy et statiques normales redirigent toujours les requetes cleartext."
+[[phrase]]
+from = "Canonical Host Redirect"
+to = "Redirect de host canonique"
+[[phrase]]
+from = "Create a small vhost for the secondary host and redirect it to the canonical name:"
+to = "Creez un petit vhost pour le host secondaire et redirigez-le vers le nom canonique:"
+[[phrase]]
+from = "App Proxy With Upload Limit"
+to = "Proxy applicatif avec limite d'upload"
+[[phrase]]
+from = "on the vhost when the whole site shares one upload budget. Set it on a route only when a specific path needs a different limit."
+to = "sur le vhost lorsque tout le site partage un meme budget d'upload. Definissez-le sur une route seulement lorsqu'un chemin specifique necessite une limite differente."
+[[phrase]]
+from = "For common upstream identity headers, prefer the typed request-header fields in the shared baseline:"
+to = "Pour les headers d'identite upstream courants, preferez les champs de request-header types dans la baseline partagee:"
+[[phrase]]
+from = "Use dynamic header templates only when a backend needs an exact value that is not covered by a typed field. The supported variables are intentionally small:"
+to = "Utilisez des templates de headers dynamiques seulement lorsqu'un backend a besoin d'une valeur exacte non couverte par un champ type. Les variables supportees sont volontairement limitees:"
+[[phrase]]
+from = "TLS client-certificate variables,"
+to = "variables de certificat client TLS,"
+[[phrase]]
+from = "and bounded regex route captures such as"
+to = "et captures de route regex bornees comme"
+[[phrase]]
+from = "when the matched route uses"
+to = "lorsque la route matchee utilise"
+[[phrase]]
+from = "Unknown variables fail config validation, and rendered values still pass HTTP header validation before they are sent upstream."
+to = "Les variables inconnues font echouer la validation de config, et les valeurs rendues passent toujours la validation des headers HTTP avant d'etre envoyees upstream."
+[[phrase]]
+from = "Browser Login Probe For WordPress"
+to = "Probe de login navigateur pour WordPress"
+[[phrase]]
+from = "Some proxy bugs only show up in a real browser. One important example is HTTP/2 clients sending multiple"
+to = "Certains bugs de proxy n'apparaissent que dans un vrai navigateur. Un exemple important est celui de clients HTTP/2 qui envoient plusieurs"
+[[phrase]]
+from = "header fields; an HTTP/2-to-HTTP/1.x gateway must forward those to classic backends as one semicolon-delimited"
+to = "champs de header; une gateway HTTP/2-vers-HTTP/1.x doit les transmettre aux backends classiques sous forme d'un seul header delimite par des points-virgules"
+[[phrase]]
+from = "header, not as a comma-delimited list."
+to = ", pas comme une liste delimitee par des virgules."
+[[phrase]]
+from = "Use the browser probe when a WordPress login works with"
+to = "Utilisez la probe navigateur lorsqu'un login WordPress fonctionne avec"
+[[phrase]]
+from = "but loops in Chrome or another browser:"
+to = "mais boucle dans Chrome ou un autre navigateur:"
+[[phrase]]
+from = "The script launches local Chrome or Chromium through the DevTools protocol, submits the login form, checks for the admin dashboard, and writes artifacts to"
+to = "Le script lance Chrome ou Chromium local via le protocole DevTools, soumet le formulaire de login, verifie le dashboard admin et ecrit les artefacts dans"
+[[phrase]]
+from = "Password values are redacted from request logs, but the captured HTML and cookie names are still operational debugging artifacts; keep them local and delete them after analysis."
+to = "Les valeurs de mot de passe sont redigees dans les logs de requete, mais le HTML capture et les noms de cookies restent des artefacts operationnels de debug; gardez-les locaux et supprimez-les apres analyse."
+[[phrase]]
+from = "or another supported browser name when more than one standard Chrome/Chromium binary is installed. The accepted names are"
+to = "ou un autre nom de navigateur supporte lorsque plusieurs binaires Chrome/Chromium standard sont installes. Les noms acceptes sont"
+[[phrase]]
+from = "arbitrary executable paths are intentionally rejected. The probe is intentionally not part of the normal release gate because it targets live sites and needs credentials."
+to = "les chemins executables arbitraires sont volontairement rejetes. La probe ne fait volontairement pas partie du release gate normal parce qu'elle cible des sites live et necessite des credentials."
+[[phrase]]
+from = "Websocket Or Long-Lived Route"
+to = "Websocket ou route longue duree"
+[[phrase]]
+from = "Fluxheim preserves"
+to = "Fluxheim preserve"
+[[phrase]]
+from = "request headers by default. Use a prefix route with longer upstream timeouts and optional prefix stripping:"
+to = "les headers de requete par defaut. Utilisez une route prefixe avec des timeouts upstream plus longs et un stripping de prefixe optionnel:"
+[[phrase]]
+from = "If the backend requires explicit legacy-style upgrade forwarding on that route, set it route-locally:"
+to = "Si le backend exige un forwarding d'upgrade explicite de style legacy sur cette route, definissez-le localement a la route:"
+[[phrase]]
+from = "Static Alias With Directory Listing"
+to = "Alias statique avec listing de repertoire"
+[[phrase]]
+from = "Use a route-local static action when only one path should expose a different filesystem root:"
+to = "Utilisez une action statique locale a la route lorsqu'un seul chemin doit exposer une racine filesystem differente:"
+[[phrase]]
+from = "Directory listings are off by default. When enabled, index files still win, dotfiles remain hidden when"
+to = "Les listings de repertoire sont desactives par defaut. Lorsqu'ils sont actives, les fichiers index restent prioritaires, les dotfiles restent caches lorsque"
+[[phrase]]
+from = "and symlink entries are skipped. Set"
+to = "et les entrees symlink sont ignorees. Definissez"
+[[phrase]]
+from = "when you want listing modification times shown with the server's local UTC offset instead of GMT HTTP-date timestamps."
+to = "lorsque vous voulez afficher les heures de modification du listing avec l'offset UTC local du serveur plutot qu'avec des timestamps HTTP-date GMT."
+[[phrase]]
+from = "Custom Upstream Error Page"
+to = "Page d'erreur upstream personnalisee"
+[[phrase]]
+from = "Attach static fallback pages to a proxy policy:"
+to = "Attachez des pages fallback statiques a une policy proxy:"
+[[phrase]]
+from = "The configured error page is internal to the proxy fallback. It is not exposed as a public route unless another"
+to = "La page d'erreur configuree est interne au fallback proxy. Elle n'est pas exposee comme route publique sauf si une autre route"
+[[phrase]]
+from = "route serves that same path."
+to = "sert ce meme chemin."
+[[phrase]]
+from = "Current 1.0 Boundaries"
+to = "Frontieres 1.0 actuelles"
+[[phrase]]
+from = "DNS refresh is available for load-balancer builds through"
+to = "Le refresh DNS est disponible pour les builds load-balancer via"
+[[phrase]]
+from = "and local sidecar/orchestrator discovery can use"
+to = "et la decouverte locale sidecar/orchestrator peut utiliser"
+[[phrase]]
+from = "backend per line. Rich dynamic backend metadata such as weights, aliases, backups, and drains still requires static"
+to = "par ligne. Les metadonnees backend dynamiques riches comme poids, alias, backups et drains exigent encore des"
+[[phrase]]
+from = "in this release."
+to = "statiques dans cette release."
+[[phrase]]
+from = "Per-route proxy, static, redirect, upload limit, timeout, header policy, prefix stripping, and internal error-page fallback are the supported gateway building blocks."
+to = "Proxy, static, redirect, limite d'upload, timeout, policy de headers, stripping de prefixe et fallback interne de page d'erreur par route sont les briques gateway supportees."
+[[phrase]]
+from = "Advanced auth, rewrite engines, compression, WAF, image/video filters, and WASM policy hooks are planned as optional post-"
+to = "Auth avancee, moteurs de rewrite, compression, WAF, filtres image/video et hooks de policy WASM sont prevus comme modules post-"

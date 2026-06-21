@@ -1,0 +1,500 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+[[phrase]]
+from = "FIPS-Capable Deployment — Fluxheim Source Docs"
+to = "FIPS-faehiges Deployment - Fluxheim-Source-Dokumentation"
+[[phrase]]
+from = "FIPS / ISO-Capable Deployments"
+to = "FIPS-/ISO-faehige Deployments"
+[[phrase]]
+from = "This document defines Fluxheim's FIPS 140-3 and ISO/IEC 19790 direction. It is intentionally strict about language: Fluxheim can provide FIPS/ISO-capable builds and fail-closed configuration enforcement, but Fluxheim itself is not a validated cryptographic module."
+to = "Dieses Dokument definiert Fluxheims FIPS-140-3- und ISO/IEC-19790-Richtung. Es ist absichtlich streng in der Sprache: Fluxheim kann FIPS-/ISO-faehige Builds und Fail-Closed-Konfigurationserzwingung bereitstellen, aber Fluxheim selbst ist kein validiertes kryptografisches Modul."
+[[phrase]]
+from = "For a real FIPS-required deployment, the operator must use a cryptographic module validated by the NIST/CCCS Cryptographic Module Validation Program (CMVP), operate that module in its approved mode, and follow the module's published Security Policy."
+to = "Fuer ein echtes FIPS-erforderliches Deployment muss der Operator ein kryptografisches Modul verwenden, das vom NIST/CCCS Cryptographic Module Validation Program (CMVP) validiert wurde, dieses Modul im genehmigten Modus betreiben und der veroeffentlichten Security Policy des Moduls folgen."
+[[phrase]]
+from = "Current release line:"
+to = "Aktuelle Release-Linie:"
+[[phrase]]
+from = "Official References"
+to = "Offizielle Referenzen"
+[[phrase]]
+from = "Fluxheim's FIPS work should be tracked against these primary sources:"
+to = "Fluxheims FIPS-Arbeit sollte gegen diese Primaerquellen verfolgt werden:"
+[[phrase]]
+from = "Compliance Boundary"
+to = "Compliance-Grenze"
+[[phrase]]
+from = "FIPS validation attaches to a cryptographic module and its tested operating environment, not to a web server merely because it links a library."
+to = "FIPS-Validierung haengt an einem kryptografischen Modul und seiner getesteten Betriebsumgebung, nicht an einem Webserver nur deshalb, weil er eine Bibliothek linkt."
+[[phrase]]
+from = "Fluxheim can be responsible for:"
+to = "Fluxheim kann verantwortlich sein fuer:"
+[[phrase]]
+from = "Selecting a TLS backend compiled for a FIPS-capable module path."
+to = "Auswahl eines TLS-Backends, das fuer einen FIPS-faehigen Modulpfad kompiliert wurde."
+[[phrase]]
+from = "Restricting TLS protocol versions, cipher suites, groups, signatures, and certificate/key policy to NIST-approved settings."
+to = "Beschraenkung von TLS-Protokollversionen, Cipher Suites, Gruppen, Signaturen und Zertifikats-/Key-Policy auf NIST-genehmigte Einstellungen."
+[[phrase]]
+from = "Triggering or verifying the selected backend's approved/FIPS mode where the backend exposes that check."
+to = "Ausloesen oder Verifizieren des genehmigten/FIPS-Modus des gewaehlten Backends, wenn das Backend diese Pruefung offenlegt."
+[[phrase]]
+from = "Rejecting configs that request non-approved cryptography while FIPS-required mode is enabled."
+to = "Ablehnen von Konfigurationen, die nicht genehmigte Kryptografie anfordern, waehrend FIPS-required-Modus aktiviert ist."
+[[phrase]]
+from = "Keeping Fluxheim-owned security-sensitive cryptography off non-validated fallback crates in FIPS-required builds."
+to = "Fluxheim-eigene sicherheitssensitive Kryptografie in FIPS-required-Builds von nicht validierten Fallback-Crates fernhalten."
+[[phrase]]
+from = "Operators remain responsible for:"
+to = "Operatoren bleiben verantwortlich fuer:"
+[[phrase]]
+from = "Choosing a CMVP-validated module with an active certificate appropriate for their environment."
+to = "Auswahl eines CMVP-validierten Moduls mit aktivem Zertifikat, das zu ihrer Umgebung passt."
+[[phrase]]
+from = "Installing exactly the module build covered by the selected Security Policy."
+to = "Exakte Installation des Modul-Builds, der von der gewaehlten Security Policy abgedeckt ist."
+[[phrase]]
+from = "Maintaining operational evidence for auditors."
+to = "Pflege betrieblicher Nachweise fuer Auditoren."
+[[phrase]]
+from = "Fluxheim's status and diagnostic output are application indicators. They are not a replacement for the validated module's own service indicators, self-test status, or laboratory evidence."
+to = "Fluxheims Status- und Diagnoseausgaben sind Anwendungsindikatoren. Sie ersetzen nicht die eigenen Service-Indikatoren, den Self-Test-Status oder Labor-Nachweise des validierten Moduls."
+[[phrase]]
+from = "Fluxheim release notes must therefore use wording such as:"
+to = "Fluxheim-Release-Notes muessen daher Formulierungen verwenden wie:"
+[[phrase]]
+from = "\"FIPS-capable OpenSSL build path\""
+to = "\"FIPS-faehiger OpenSSL-Build-Pfad\""
+[[phrase]]
+from = "\"FIPS-required mode rejects non-approved TLS configuration\""
+to = "\"FIPS-required-Modus lehnt nicht genehmigte TLS-Konfiguration ab\""
+[[phrase]]
+from = "\"Validated-module evidence is exposed in diagnostics\""
+to = "\"Nachweise des validierten Moduls werden in Diagnosen offengelegt\""
+[[phrase]]
+from = "Fluxheim release notes must not say:"
+to = "Fluxheim-Release-Notes duerfen nicht sagen:"
+[[phrase]]
+from = "\"Fluxheim is FIPS certified\""
+to = "\"Fluxheim ist FIPS-zertifiziert\""
+[[phrase]]
+from = "\"Fluxheim is FIPS compliant by enabling a Cargo feature\""
+to = "\"Fluxheim ist durch Aktivieren eines Cargo-Features FIPS-konform\""
+[[phrase]]
+from = "TLS Policy Requirements"
+to = "TLS-Policy-Anforderungen"
+[[phrase]]
+from = "FIPS-required TLS profiles should follow NIST SP 800-52 Rev. 2 unless a newer applicable NIST document supersedes it."
+to = "FIPS-required-TLS-Profile sollten NIST SP 800-52 Rev. 2 folgen, sofern kein neueres anwendbares NIST-Dokument es ersetzt."
+[[phrase]]
+from = "Baseline server policy:"
+to = "Baseline-Server-Policy:"
+[[phrase]]
+from = "Support TLS 1.2 with FIPS-based cipher suites."
+to = "TLS 1.2 mit FIPS-basierten Cipher Suites unterstuetzen."
+[[phrase]]
+from = "Support TLS 1.3."
+to = "TLS 1.3 unterstuetzen."
+[[phrase]]
+from = "Reject SSL 2.0, SSL 3.0, and TLS versions below the chosen FIPS profile."
+to = "SSL 2.0, SSL 3.0 und TLS-Versionen unterhalb des gewaehlten FIPS-Profils ablehnen."
+[[phrase]]
+from = "Prefer TLS 1.3 where clients support it."
+to = "TLS 1.3 bevorzugen, wo Clients es unterstuetzen."
+[[phrase]]
+from = "Allow TLS 1.2 only with NIST-approved algorithms."
+to = "TLS 1.2 nur mit NIST-genehmigten Algorithmen erlauben."
+[[phrase]]
+from = "Fluxheim-specific FIPS policy should therefore:"
+to = "Fluxheim-spezifische FIPS-Policy sollte daher:"
+[[phrase]]
+from = "Reject TLS 1.0 and TLS 1.1 in FIPS-required mode."
+to = "TLS 1.0 und TLS 1.1 im FIPS-required-Modus ablehnen."
+[[phrase]]
+from = "Reject post-quantum/hybrid groups such as "
+to = "Post-Quantum-/Hybrid-Gruppen wie "
+[[phrase]]
+from = " until the chosen validated module and NIST guidance clearly cover them for the deployment."
+to = " ablehnen, bis das gewaehlte validierte Modul und NIST-Guidance sie fuer das Deployment klar abdecken."
+[[phrase]]
+from = "Prefer AES-GCM/SHA-2 TLS 1.3 suites and NIST elliptic curves such as P-256, P-384, and P-521 where the backend supports them."
+to = "AES-GCM/SHA-2-TLS-1.3-Suites und NIST-Elliptic-Curves wie P-256, P-384 und P-521 bevorzugen, wo das Backend sie unterstuetzt."
+[[phrase]]
+from = "Reject configured TLS cipher-suite names that Fluxheim cannot map to a backend-approved implementation."
+to = "Konfigurierte TLS-Cipher-Suite-Namen ablehnen, die Fluxheim keiner backend-genehmigten Implementierung zuordnen kann."
+[[phrase]]
+from = "Backend Paths"
+to = "Backend-Pfade"
+[[phrase]]
+from = "OpenSSL FIPS Provider"
+to = "OpenSSL-FIPS-Provider"
+[[phrase]]
+from = "This is the practical first implementation path. Fluxheim "
+to = "Dies ist der praktische erste Implementierungspfad. Fluxheim "
+[[phrase]]
+from = " completes the OpenSSL FIPS-capable TLS proof path with an opt-in feature, runtime provider probe, and default-property enforcement; it still does not make a blanket FIPS-compliance claim for the deployment."
+to = " vervollstaendigt den OpenSSL-FIPS-faehigen TLS-Proof-Pfad mit Opt-in-Feature, Runtime-Provider-Probe und Default-Property-Erzwingung; es erhebt weiterhin keinen pauschalen FIPS-Compliance-Claim fuer das Deployment."
+[[phrase]]
+from = "Feature shape:"
+to = "Feature-Form:"
+[[phrase]]
+from = "Current Fluxheim enforcement:"
+to = "Aktuelle Fluxheim-Erzwingung:"
+[[phrase]]
+from = "Operator responsibilities:"
+to = "Operator-Verantwortlichkeiten:"
+[[phrase]]
+from = "Important caveat:"
+to = "Wichtiger Vorbehalt:"
+[[phrase]]
+from = "Linking to OpenSSL is not enough. A Fluxheim binary built with "
+to = "Gegen OpenSSL zu linken reicht nicht. Ein Fluxheim-Binary, das mit "
+[[phrase]]
+from = " refuses to run in FIPS-required mode if the validated provider and OpenSSL default FIPS property path cannot be proven active."
+to = " gebaut wurde, verweigert den Start im FIPS-required-Modus, wenn der validierte Provider und der OpenSSL-Default-FIPS-Property-Pfad nicht aktiv nachgewiesen werden koennen."
+[[phrase]]
+from = "rustls With AWS-LC FIPS"
+to = "rustls mit AWS-LC FIPS"
+[[phrase]]
+from = "Unsupported TLS Backends"
+to = "Nicht unterstuetzte TLS-Backends"
+[[phrase]]
+from = "BoringSSL and s2n are not supported compliance paths. The supported TLS matrix is rustls, rustls/AWS-LC FIPS, OpenSSL, and OpenSSL FIPS."
+to = "BoringSSL und s2n sind keine unterstuetzten Compliance-Pfade. Die unterstuetzte TLS-Matrix ist rustls, rustls/AWS-LC FIPS, OpenSSL und OpenSSL FIPS."
+[[phrase]]
+from = "Internal Crypto Inventory"
+to = "Internes Kryptografie-Inventar"
+[[phrase]]
+from = "TLS is the visible part, but FIPS-required mode also has to account for security-sensitive cryptography outside TLS."
+to = "TLS ist der sichtbare Teil, aber FIPS-required-Modus muss auch sicherheitssensitive Kryptografie ausserhalb von TLS beruecksichtigen."
+[[phrase]]
+from = "Fluxheim tracks these internal crypto areas before widening any FIPS-required deployment claims:"
+to = "Fluxheim verfolgt diese internen Kryptografie-Bereiche, bevor FIPS-required-Deployment-Claims erweitert werden:"
+[[phrase]]
+from = "FIPS-required mode should classify each area as one of:"
+to = "FIPS-required-Modus sollte jeden Bereich klassifizieren als:"
+[[phrase]]
+from = "Routed through selected validated module."
+to = "Durch das gewaehlte validierte Modul geroutet."
+[[phrase]]
+from = "Externally delegated to a validated service with operator evidence."
+to = "Extern an einen validierten Dienst mit Operator-Nachweisen delegiert."
+[[phrase]]
+from = "Non-security-sensitive and documented as such."
+to = "Nicht sicherheitssensitiv und so dokumentiert."
+[[phrase]]
+from = "Disabled/rejected in FIPS-required builds."
+to = "In FIPS-required-Builds deaktiviert/abgelehnt."
+[[phrase]]
+from = "Known remaining blockers after "
+to = "Bekannte verbleibende Blocker nach "
+[[phrase]]
+from = "Release Roadmap After 1.3.4"
+to = "Release-Roadmap nach 1.3.4"
+[[phrase]]
+from = "Operator Checklist"
+to = "Operator-Checkliste"
+[[phrase]]
+from = "Before claiming a Fluxheim deployment uses FIPS-validated cryptography:"
+to = "Bevor behauptet wird, ein Fluxheim-Deployment nutze FIPS-validierte Kryptografie:"
+[[phrase]]
+from = "Pingora-exit line does not broaden the compliance claim."
+to = "Die Pingora-Exit-Linie erweitert den Compliance-Anspruch nicht."
+[[phrase]]
+from = "FIPS 140-3 Adopts ISO/IEC Standards"
+to = "FIPS 140-3 uebernimmt ISO/IEC-Standards"
+[[phrase]]
+from = "FIPS 140-3 CMVP documents and Implementation Guidance"
+to = "FIPS-140-3-CMVP-Dokumente und Implementation Guidance"
+[[phrase]]
+from = "NIST SP 800-52 Rev. 2, Guidelines for TLS Implementations"
+to = "NIST SP 800-52 Rev. 2, Leitlinien fuer TLS-Implementierungen"
+[[phrase]]
+from = "AWS-LC Cryptographic Module certificate 5146"
+to = "AWS-LC Cryptographic Module Zertifikat 5146"
+[[phrase]]
+from = "OpenSSL fipsinstall documentation"
+to = "OpenSSL-fipsinstall-Dokumentation"
+[[phrase]]
+from = "Ensuring the OS, container image, package source, CPU/platform, and runtime environment match the module validation boundary."
+to = "Sicherstellen, dass Betriebssystem, Container-Image, Paketquelle, CPU/Plattform und Runtime-Umgebung zur Validierungsgrenze des Moduls passen."
+[[phrase]]
+from = "Example future FIPS-required TLS profile:"
+to = "Beispiel fuer ein kuenftiges FIPS-required-TLS-Profil:"
+[[phrase]]
+from = "property query can fetch an approved cipher, enables OpenSSL default FIPS properties for the process, and verifies that the default fetch path rejects a non-FIPS cipher. The exact schema may grow when more backend proof fields are implemented. The important rule is fail closed: a FIPS/ISO-required config must not silently fall back to a non-validated provider or non-approved cipher."
+to = "Property-Abfrage einen genehmigten Cipher abrufen kann, aktiviert OpenSSL-Default-FIPS-Properties fuer den Prozess und prueft, dass der Default-Abrufpfad einen Nicht-FIPS-Cipher ablehnt. Das genaue Schema kann wachsen, wenn weitere Backend-Proof-Felder implementiert werden. Die wichtige Regel ist Fail Closed: Eine FIPS-/ISO-required-Konfiguration darf nicht still auf einen nicht validierten Provider oder nicht genehmigten Cipher zurueckfallen."
+[[phrase]]
+from = "completes the OpenSSL FIPS-capable TLS proof path with an opt-in feature, runtime provider probe, and default-property enforcement; it still does not make a blanket FIPS-compliance claim for the deployment."
+to = "vervollstaendigt den OpenSSL-FIPS-faehigen TLS-Proof-Pfad mit Opt-in-Feature, Runtime-Provider-Probe und Default-Property-Erzwingung; es erhebt weiterhin keinen pauschalen FIPS-Compliance-Anspruch fuer das Deployment."
+[[phrase]]
+from = "are intentionally small proof profiles. They are useful for local provider validation and release evidence, but they are not the only valid way to build a FIPS/ISO-capable Fluxheim binary."
+to = "sind absichtlich kleine Proof-Profile. Sie sind nuetzlich fuer lokale Provider-Validierung und Release-Nachweise, aber sie sind nicht der einzige gueltige Weg, ein FIPS-/ISO-faehiges Fluxheim-Binary zu bauen."
+[[phrase]]
+from = "The recommended strict-boundary pattern is to use local/static certificate files generated and renewed by an approved external process. For conservative public-Web PKI evidence, configure that external process to use RSA 2048 or RSA 3072 certificate keys unless your assessor explicitly accepts an ECDSA profile and chain. Managed ACME can still be compiled into a FIPS-capable TLS binary by adding"
+to = "Das empfohlene Strict-Boundary-Muster ist die Nutzung lokaler/statischer Zertifikatsdateien, die von einem genehmigten externen Prozess erzeugt und erneuert werden. Fuer konservative Public-Web-PKI-Nachweise konfigurieren Sie diesen externen Prozess fuer RSA-2048- oder RSA-3072-Zertifikatsschluessel, sofern Ihr Assessor nicht ausdruecklich ein ECDSA-Profil und eine ECDSA-Kette akzeptiert. Managed ACME kann weiterhin in ein FIPS-faehiges TLS-Binary kompiliert werden durch Hinzufuegen von"
+[[phrase]]
+from = "Requires OpenSSL 3.x behavior for the FIPS property query path."
+to = "Erfordert OpenSSL-3.x-Verhalten fuer den FIPS-Property-Abfragepfad."
+[[phrase]]
+from = "Exposes diagnostic output showing OpenSSL version, provider availability, and default FIPS property status."
+to = "Gibt Diagnoseausgaben aus, die OpenSSL-Version, Provider-Verfuegbarkeit und Default-FIPS-Property-Status zeigen."
+[[phrase]]
+from = "Install an OpenSSL build and FIPS provider covered by a CMVP certificate."
+to = "Installieren Sie einen OpenSSL-Build und FIPS-Provider, die von einem CMVP-Zertifikat abgedeckt sind."
+[[phrase]]
+from = "Provide the OpenSSL config/module paths using the mechanism required by the module and operating system, commonly"
+to = "Stellen Sie die OpenSSL-Konfigurations-/Modulpfade ueber den vom Modul und Betriebssystem geforderten Mechanismus bereit, ueblicherweise"
+[[phrase]]
+from = "property query without enabling OpenSSL global FIPS default properties. FIPS-required runtime startup then enables OpenSSL default FIPS properties for the process-default library context, verifies"
+to = "Property-Abfrage, ohne globale OpenSSL-FIPS-Default-Properties zu aktivieren. Der FIPS-required-Runtime-Start aktiviert danach OpenSSL-Default-FIPS-Properties fuer den process-default Library-Kontext, prueft"
+[[phrase]]
+from = "Provider handles are intentionally kept loaded for the process lifetime. Moving between FIPS-required and non-FIPS TLS operation is a process-restart boundary, not a hot-reload boundary."
+to = "Provider-Handles bleiben absichtlich fuer die Lebensdauer des Prozesses geladen. Der Wechsel zwischen FIPS-required- und Nicht-FIPS-TLS-Betrieb ist eine Prozessneustart-Grenze, keine Hot-Reload-Grenze."
+[[phrase]]
+from = "Fluxheim does not hardcode a provider directory. It lets OpenSSL use the platform's normal provider search rules, including"
+to = "Fluxheim hardcodiert kein Provider-Verzeichnis. Es laesst OpenSSL die normalen Provider-Suchregeln der Plattform nutzen, einschliesslich"
+[[phrase]]
+from = "This is a native-code dependency boundary."
+to = "Dies ist eine Native-Code-Abhaengigkeitsgrenze."
+[[phrase]]
+from = "A practical smoke path that avoids rolling-host compiler drift is to run the release helper in"
+to = "Ein praktischer Smoke-Pfad, der Compiler-Drift auf Rolling Hosts vermeidet, ist das Ausfuehren des Release-Helfers in"
+[[phrase]]
+from = "TLS key exchange, signatures, symmetric encryption, and secure random."
+to = "TLS-Key-Exchange, Signaturen, symmetrische Verschluesselung und sichere Zufallszahlen."
+[[phrase]]
+from = "ACME account/order/challenge signing and ACME TLS-ALPN certificate handling."
+to = "ACME-Account-/Order-/Challenge-Signierung und ACME-TLS-ALPN-Zertifikatsbehandlung."
+[[phrase]]
+from = "ACME EAB HMAC handling."
+to = "ACME-EAB-HMAC-Behandlung."
+[[phrase]]
+from = "Admin bearer-token comparison and any token/MAC generation."
+to = "Admin-Bearer-Token-Vergleich und jede Token-/MAC-Erzeugung."
+[[phrase]]
+from = "OTLP HTTPS client TLS and any future outbound HTTPS clients."
+to = "OTLP-HTTPS-Client-TLS und alle kuenftigen ausgehenden HTTPS-Clients."
+[[phrase]]
+from = "Future CSRF/session/JWT/plugin signing features."
+to = "Kuenftige CSRF-/Session-/JWT-/Plugin-Signaturfunktionen."
+[[phrase]]
+from = "Test/dev certificate generation."
+to = "Test-/Entwicklungs-Zertifikatserzeugung."
+[[phrase]]
+from = "For ISO/IEC 19790-facing evidence, the same inventory should also identify:"
+to = "Fuer ISO/IEC-19790-orientierte Nachweise sollte dasselbe Inventar ausserdem identifizieren:"
+[[phrase]]
+from = "The Fluxheim feature and configuration option that enables or disables the service."
+to = "Das Fluxheim-Feature und die Konfigurationsoption, die den Dienst aktiviert oder deaktiviert."
+[[phrase]]
+from = "Which SSPs, if any, are generated, imported, stored, output, or zeroized by Fluxheim itself."
+to = "Welche SSPs, falls vorhanden, von Fluxheim selbst erzeugt, importiert, gespeichert, ausgegeben oder zeroisiert werden."
+[[phrase]]
+from = "Whether the approved-mode indicator comes from Fluxheim, the validated crypto module, or an external service."
+to = "Ob der Approved-Mode-Indikator von Fluxheim, dem validierten Kryptomodul oder einem externen Dienst kommt."
+[[phrase]]
+from = "The exact error state and operator action when a provider check, self-test, or configuration guard fails."
+to = "Der genaue Fehlerzustand und die Operator-Aktion, wenn ein Provider-Check, Self-Test oder Konfigurationsschutz fehlschlaegt."
+[[phrase]]
+from = "Request IDs and trace correlation IDs are treated as non-secret diagnostic identifiers. They are not used as authentication tokens, authorization decisions, key material, or SSPs."
+to = "Request-IDs und Trace-Correlation-IDs werden als nicht geheime Diagnosekennungen behandelt. Sie werden nicht als Authentifizierungstoken, Autorisierungsentscheidungen, Schluesselmaterial oder SSPs genutzt."
+[[phrase]]
+from = "Temporary object names are used for collision resistance and race hardening, not for authentication or cryptographic secrecy. The OS RNG remains part of the deployment environment evidence."
+to = "Temporaere Objektnamen werden fuer Kollisionsresistenz und Race-Hardening genutzt, nicht fuer Authentifizierung oder kryptografische Geheimhaltung. Der Betriebssystem-RNG bleibt Teil der Nachweise zur Deployment-Umgebung."
+[[phrase]]
+from = "Test and development certificate generation is not production evidence and must not be used to claim a regulated deployment boundary."
+to = "Test- und Entwicklungs-Zertifikatserzeugung ist kein Produktionsnachweis und darf nicht genutzt werden, um eine regulierte Deployment-Grenze zu beanspruchen."
+[[phrase]]
+from = "Admin authentication needs a provider-routed MAC or a different externally-evidenced authentication boundary."
+to = "Admin-Authentifizierung benoetigt einen provider-gerouteten MAC oder eine andere extern nachgewiesene Authentifizierungsgrenze."
+[[phrase]]
+from = "Managed ACME needs provider-routed account key generation, JWS account signing, External Account Binding HMAC, outbound ACME HTTPS transport, and challenge certificate handling, or it must remain outside strict FIPS/ISO-required deployments."
+to = "Managed ACME benoetigt provider-geroutete Account-Key-Erzeugung, JWS-Account-Signierung, External-Account-Binding-HMAC, ausgehenden ACME-HTTPS-Transport und Challenge-Zertifikatsbehandlung, oder es muss ausserhalb strikter FIPS-/ISO-required-Deployments bleiben."
+[[phrase]]
+from = "Goal: complete the OpenSSL FIPS-capable TLS path without claiming that Fluxheim itself is a validated cryptographic module."
+to = "Ziel: den OpenSSL-FIPS-faehigen TLS-Pfad abschliessen, ohne zu behaupten, dass Fluxheim selbst ein validiertes kryptografisches Modul ist."
+[[phrase]]
+from = "Deliverables:"
+to = "Liefergegenstaende:"
+[[phrase]]
+from = "This standalone FIPS documentation."
+to = "Diese eigenstaendige FIPS-Dokumentation."
+[[phrase]]
+from = "FIPS terminology guardrails in README, roadmap, and release notes."
+to = "FIPS-Terminologie-Leitplanken in README, Roadmap und Release Notes."
+[[phrase]]
+from = "A FIPS TLS policy validator design: protocols, cipher suites, curves, signature algorithms, and backend support."
+to = "Ein Design fuer einen FIPS-TLS-Policy-Validator: Protokolle, Cipher Suites, Kurven, Signaturalgorithmen und Backend-Support."
+[[phrase]]
+from = "Exit criteria:"
+to = "Exit-Kriterien:"
+[[phrase]]
+from = "Operators can see which non-OpenSSL pieces remain blockers before they attempt a regulated deployment."
+to = "Operatoren koennen sehen, welche Nicht-OpenSSL-Teile weiterhin Blocker sind, bevor sie ein reguliertes Deployment versuchen."
+[[phrase]]
+from = "Likely limitations:"
+to = "Wahrscheinliche Einschraenkungen:"
+[[phrase]]
+from = "Managed ACME may be disabled in FIPS-required mode until ACME signing is routed through validated crypto or separately justified."
+to = "Managed ACME kann im FIPS-required-Modus deaktiviert bleiben, bis ACME-Signierung durch validierte Kryptografie geroutet oder separat begruendet ist."
+[[phrase]]
+from = "Build documentation for AWS-LC FIPS dependencies, including Go."
+to = "Build-Dokumentation fuer AWS-LC-FIPS-Abhaengigkeiten, einschliesslich Go."
+[[phrase]]
+from = "CI build coverage where feasible, or a documented manual evidence workflow if CI cannot reasonably host the validated environment."
+to = "CI-Build-Coverage, wo machbar, oder ein dokumentierter manueller Nachweis-Workflow, falls CI die validierte Umgebung nicht sinnvoll hosten kann."
+[[phrase]]
+from = "Release-mode evidence guard for unsupported/newer compiler families, with an explicit override only for investigation builds."
+to = "Release-Mode-Nachweisschutz fuer nicht unterstuetzte/neuere Compiler-Familien, mit explizitem Override nur fuer Untersuchungs-Builds."
+[[phrase]]
+from = "Goal: remove or gate non-validated crypto paths from FIPS-required builds."
+to = "Ziel: nicht validierte Kryptopfade aus FIPS-required-Builds entfernen oder gateen."
+[[phrase]]
+from = "Managed ACME is rejected in FIPS/ISO-required mode, with documentation pointing operators to externally issued static certificates or external renewal workflows."
+to = "Managed ACME wird im FIPS-/ISO-required-Modus abgelehnt, mit Dokumentation, die Operatoren auf extern ausgestellte statische Zertifikate oder externe Erneuerungsworkflows verweist."
+[[phrase]]
+from = "Request IDs and temporary object names are classified as non-secret operational identifiers rather than SSPs."
+to = "Request-IDs und temporaere Objektnamen werden als nicht geheime Betriebskennungen statt als SSPs klassifiziert."
+[[phrase]]
+from = "Evidence package deliverables:"
+to = "Liefergegenstaende des Nachweispakets:"
+[[phrase]]
+from = "Release evidence bundle template."
+to = "Template fuer Release-Nachweisbundle."
+[[phrase]]
+from = "SBOM notes identifying the selected crypto module path."
+to = "SBOM-Notizen, die den ausgewaehlten Kryptomodulpfad identifizieren."
+[[phrase]]
+from = "Runtime diagnostics capture template."
+to = "Template fuer Runtime-Diagnoseerfassung."
+[[phrase]]
+from = "Example systemd and container deployment checklists."
+to = "Beispiel-Checklisten fuer systemd- und Container-Deployment."
+[[phrase]]
+from = "Select a validated cryptographic module from the CMVP database."
+to = "Waehlen Sie ein validiertes kryptografisches Modul aus der CMVP-Datenbank."
+[[phrase]]
+from = "Configure Fluxheim with a FIPS-capable backend that can prove approved mode."
+to = "Konfigurieren Sie Fluxheim mit einem FIPS-faehigen Backend, das Approved Mode nachweisen kann."
+[[phrase]]
+from = "Enable Fluxheim's FIPS-required guard."
+to = "Aktivieren Sie Fluxheims FIPS-required-Schutz."
+[[phrase]]
+from = "Verify TLS protocol/cipher/group behavior with an external scanner."
+to = "Pruefen Sie TLS-Protokoll-/Cipher-/Gruppenverhalten mit einem externen Scanner."
+[[phrase]]
+from = "Evidence Capture Template"
+to = "Template zur Nachweiserfassung"
+[[phrase]]
+from = "For each FIPS-capable deployment or release candidate, capture:"
+to = "Erfassen Sie fuer jedes FIPS-faehige Deployment oder jeden Release Candidate:"
+[[phrase]]
+from = "\"application-level indicator\" when referring to Fluxheim's own diagnostics"
+to = "\"application-level indicator\" bei Bezug auf Fluxheims eigene Diagnosen"
+[[phrase]]
+from = "\"FIPS compliant\" without a named deployment boundary."
+to = "\"FIPS compliant\" ohne benannte Deployment-Grenze."
+[[phrase]]
+from = "\"ISO/IEC 19790 compliant\" without a named deployment boundary."
+to = "\"ISO/IEC 19790 compliant\" ohne benannte Deployment-Grenze."
+[[phrase]]
+from = "\"Compile this feature and you are compliant.\""
+to = "\"Compile this feature and you are compliant.\""
+[[phrase]]
+from = "Any statement that treats Fluxheim's status endpoint as the validated module's laboratory service indicator."
+to = "Jede Aussage, die Fluxheims Status-Endpunkt als Labor-Service-Indikator des validierten Moduls behandelt."
+[[phrase]]
+from = "Common Criteria readiness roadmap"
+to = "Common-Criteria-Readiness-Roadmap"
+[[phrase]]
+from = "Exposing application-level status indicators such as the configured"
+to = "Offenlegen von Statusindikatoren auf Anwendungsebene wie dem konfigurierten"
+[[phrase]]
+from = ", backend, provider checks, and fail-closed validation result."
+to = ", Backend, Provider-Checks und Fail-Closed-Validierungsergebnis."
+[[phrase]]
+from = "Running required installation steps such as OpenSSL"
+to = "Ausfuehren erforderlicher Installationsschritte wie OpenSSL"
+[[phrase]]
+from = "Reject post-quantum/hybrid groups such as"
+to = "Post-Quantum-/Hybrid-Gruppen ablehnen wie"
+[[phrase]]
+from = "until the chosen validated module and NIST guidance clearly cover them for the deployment."
+to = "bis das gewaehlte validierte Modul und die NIST-Guidance sie fuer das Deployment klar abdecken."
+[[phrase]]
+from = "is present as a fail-closed OpenSSL guard."
+to = "ist als Fail-Closed-OpenSSL-Schutz vorhanden."
+[[phrase]]
+from = "is an operator-controlled stricter data-at-rest policy: when set under either"
+to = "ist eine vom Operator kontrollierte strengere Data-at-Rest-Policy: wenn sie unter einem der folgenden Bloecke gesetzt wird"
+[[phrase]]
+from = "For custom deployments, combine"
+to = "Fuer angepasste Deployments kombinieren Sie"
+[[phrase]]
+from = "with the raw modules you need. Do not combine it with a broad profile alias that already enables"
+to = "mit den rohen Modulen, die Sie brauchen. Kombinieren Sie es nicht mit einem breiten Profilalias, der bereits aktiviert"
+[[phrase]]
+from = "Examples:"
+to = "Beispiele:"
+[[phrase]]
+from = "crate dependency only for OpenSSL FIPS diagnostics and provider/property checks."
+to = "Crate-Abhaengigkeit nur fuer OpenSSL-FIPS-Diagnosen und Provider-/Property-Checks."
+[[phrase]]
+from = "provider and keeps it loaded for the process lifetime."
+to = "Provider und haelt ihn fuer die Prozesslebensdauer geladen."
+[[phrase]]
+from = "provider for normal encoder/decoder support."
+to = "Provider fuer normalen Encoder-/Decoder-Support."
+[[phrase]]
+from = "to prove the property query can resolve an approved cipher."
+to = "um nachzuweisen, dass die Property-Abfrage einen genehmigten Cipher aufloesen kann."
+[[phrase]]
+from = "can be fetched through the default property path, and proves"
+to = "ueber den Default-Property-Pfad abgerufen werden kann, und weist nach"
+[[phrase]]
+from = "is rejected through that path."
+to = "ueber diesen Pfad abgelehnt wird."
+[[phrase]]
+from = "Generate and verify the module config with"
+to = "Erzeugen und pruefen Sie die Modulkonfiguration mit"
+[[phrase]]
+from = "Linking to OpenSSL is not enough. A Fluxheim binary built with"
+to = "Gegen OpenSSL zu linken reicht nicht. Ein Fluxheim-Binary, gebaut mit"
+[[phrase]]
+from = "where that policy requires it. Fluxheim verifies the process behavior it can observe; it does not replace CMVP certificate, platform, or operational evidence."
+to = "wo diese Policy es verlangt. Fluxheim prueft das beobachtbare Prozessverhalten; es ersetzt nicht CMVP-Zertifikat, Plattform- oder Betriebsnachweise."
+[[phrase]]
+from = "Local provider sanity check:"
+to = "Lokaler Provider-Sanity-Check:"
+[[phrase]]
+from = "The repository includes"
+to = "Das Repository enthaelt"
+[[phrase]]
+from = "as minimal validation fixtures. Validate them with a"
+to = "als minimale Validierungs-Fixtures. Validieren Sie sie mit einem"
+[[phrase]]
+from = "Build and validation examples:"
+to = "Build- und Validierungsbeispiele:"
+[[phrase]]
+from = ". Building it requires the toolchain documented by that crate, including CMake, Go, and a C compiler. Fluxheim installs or passes"
+to = ". Der Build erfordert die von dieser Crate dokumentierte Toolchain, einschliesslich CMake, Go und C-Compiler. Fluxheim installiert oder uebergibt"
+[[phrase]]
+from = "has known build failures with newer compiler families such as GCC >= 14 and newer Clang releases. Fluxheim's validation script therefore fails early in"
+to = "hat bekannte Build-Fehler mit neueren Compiler-Familien wie GCC >= 14 und neueren Clang-Releases. Fluxheims Validierungsskript scheitert daher frueh in"
+[[phrase]]
+from = "after installing CMake, Go, Clang/libclang, pkg-config, Perl, and CA certificates. This has been verified to build both"
+to = "nach Installation von CMake, Go, Clang/libclang, pkg-config, Perl und CA-Zertifikaten. Dies wurde verifiziert, um beide zu bauen"
+[[phrase]]
+from = "is not a complete Fluxheim policy backend."
+to = "ist kein vollstaendiges Fluxheim-Policy-Backend."
+[[phrase]]
+from = "adds the first fail-closed internal-crypto closure layer. When"
+to = "fuegt die erste Fail-Closed-Internal-Crypto-Closure-Schicht hinzu. Wenn"
+[[phrase]]
+from = "is active, config validation now applies these classifications:"
+to = "aktiv ist, wendet die Konfigurationsvalidierung jetzt diese Klassifizierungen an:"
+[[phrase]]
+from = ") is accepted only when the build has a validated-provider HMAC route."
+to = ") wird nur akzeptiert, wenn der Build eine Validated-Provider-HMAC-Route hat."

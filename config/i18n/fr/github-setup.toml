@@ -1,0 +1,262 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "GitHub Repository Setup"
+to = "Configuration du repository GitHub"
+
+[[phrase]]
+from = "This document explains how to connect this local Fluxheim folder to a GitHub repository that already contains placeholder files such as <code>.gitignore</code>, <code>README.md</code>, and <code>LICENSE</code>."
+to = "Ce document explique comment connecter ce dossier Fluxheim local a un repository GitHub qui contient deja des fichiers placeholders comme <code>.gitignore</code>, <code>README.md</code> et <code>LICENSE</code>."
+
+[[phrase]]
+from = "Before Connecting"
+to = "Avant la connexion"
+
+[[phrase]]
+from = "From the Fluxheim folder:"
+to = "Depuis le dossier Fluxheim :"
+
+[[phrase]]
+from = "If the project is not initialized yet:"
+to = "Si le projet n'est pas encore initialise :"
+
+[[phrase]]
+from = "Fluxheim should keep <code>LICENSE</code> as <code>EUPL-1.2</code>. If the GitHub repository already has a different license file, decide before merging which license is authoritative."
+to = "Fluxheim doit garder <code>LICENSE</code> en <code>EUPL-1.2</code>. Si le repository GitHub contient deja un fichier de licence different, decidez avant le merge quelle licence fait autorite."
+
+[[phrase]]
+from = "Recommended Safe Path"
+to = "Chemin sur recommande"
+
+[[phrase]]
+from = "Use this when the remote has files you do not want to accidentally overwrite."
+to = "Utilisez ceci lorsque le remote contient des fichiers que vous ne voulez pas ecraser par accident."
+
+[[phrase]]
+from = "Add the GitHub remote:"
+to = "Ajouter le remote GitHub :"
+
+[[phrase]]
+from = "or with HTTPS:"
+to = "ou avec HTTPS :"
+
+[[phrase]]
+from = "Fetch the remote:"
+to = "Fetcher le remote :"
+
+[[phrase]]
+from = "Inspect what is already on GitHub:"
+to = "Inspecter ce qui existe deja sur GitHub :"
+
+[[phrase]]
+from = "If the branch is named <code>master</code> remotely, use <code>origin/master</code> in those commands or rename the remote branch in GitHub before continuing."
+to = "Si la branche remote s'appelle <code>master</code>, utilisez <code>origin/master</code> dans ces commandes ou renommez la branche remote dans GitHub avant de continuer."
+
+[[phrase]]
+from = "Create a local integration branch:"
+to = "Creer une branche d'integration locale :"
+
+[[phrase]]
+from = "Merge the remote history:"
+to = "Merger l'historique remote :"
+
+[[phrase]]
+from = "Resolve conflicts deliberately:"
+to = "Resoudre les conflits deliberement :"
+
+[[phrase]]
+from = "keep Fluxheim&#x27;s README if the remote README is empty;"
+to = "garder le README de Fluxheim si le README remote est vide ;"
+
+[[phrase]]
+from = "keep the EUPL-1.2 LICENSE;"
+to = "garder la LICENSE EUPL-1.2 ;"
+
+[[phrase]]
+from = "merge <code>.gitignore</code> entries if the remote has useful ignore patterns;"
+to = "merger les entrees <code>.gitignore</code> si le remote contient des patterns utiles ;"
+
+[[phrase]]
+from = "do not delete Fluxheim docs or source files."
+to = "ne pas supprimer la documentation ou les fichiers source Fluxheim."
+
+[[phrase]]
+from = "Run checks:"
+to = "Executer les checks :"
+
+[[phrase]]
+from = "Commit the integration:"
+to = "Committer l'integration :"
+
+[[phrase]]
+from = "Push:"
+to = "Pusher :"
+
+[[phrase]]
+from = "Open a pull request from <code>integrate-github-main</code> to <code>main</code>, or push to <code>main</code> after reviewing the diff."
+to = "Ouvrez une pull request de <code>integrate-github-main</code> vers <code>main</code>, ou pushez vers <code>main</code> apres review du diff."
+
+[[phrase]]
+from = "Fast Path For Empty Placeholder Repositories"
+to = "Chemin rapide pour repositories placeholders vides"
+
+[[phrase]]
+from = "Use this only if the remote files are truly empty/placeholders and you are comfortable replacing them with the local Fluxheim project."
+to = "Utilisez ceci seulement si les fichiers remote sont vraiment vides/placeholders et si vous acceptez de les remplacer par le projet Fluxheim local."
+
+[[phrase]]
+from = "<code>--force-with-lease</code> is safer than plain <code>--force</code> because it refuses to overwrite new remote commits you have not fetched."
+to = "<code>--force-with-lease</code> est plus sur que <code>--force</code> seul, car il refuse d'ecraser de nouveaux commits remote que vous n'avez pas fetches."
+
+[[phrase]]
+from = "If The Local Branch Is Not Main"
+to = "Si la branche locale n'est pas main"
+
+[[phrase]]
+from = "Check the current branch:"
+to = "Verifier la branche courante :"
+
+[[phrase]]
+from = "Rename it to <code>main</code>:"
+to = "La renommer en <code>main</code> :"
+
+[[phrase]]
+from = "Then push:"
+to = "Puis pusher :"
+
+[[phrase]]
+from = "If The Remote Already Exists"
+to = "Si le remote existe deja"
+
+[[phrase]]
+from = "If <code>origin</code> is already configured:"
+to = "Si <code>origin</code> est deja configure :"
+
+[[phrase]]
+from = "Change it with:"
+to = "Le changer avec :"
+
+[[phrase]]
+from = "What To Commit Before Publishing"
+to = "Quoi committer avant publication"
+
+[[phrase]]
+from = "Before the first GitHub push, the repository should include:"
+to = "Avant le premier push GitHub, le repository doit inclure :"
+
+[[phrase]]
+from = "<code>.cargo/</code> config if it contains project-specific build settings."
+to = "la config <code>.cargo/</code> si elle contient des reglages de build propres au projet."
+
+[[phrase]]
+from = "Do not commit local secrets, private TLS keys, ACME account keys, Cloudflare API tokens, cache directories, Podman volumes, or generated release artifacts."
+to = "Ne committez pas de secrets locaux, cles TLS privees, cles de compte ACME, tokens API Cloudflare, repertoires de cache, volumes Podman ou artefacts de release generes."
+
+[[phrase]]
+from = "GitHub Security Settings"
+to = "Reglages de securite GitHub"
+
+[[phrase]]
+from = "After pushing, confirm these repository settings are enabled:"
+to = "Apres le push, confirmez que ces reglages repository sont actives :"
+
+[[phrase]]
+from = "Dependabot alerts;"
+to = "alertes Dependabot ;"
+
+[[phrase]]
+from = "Dependabot version updates from <code>.github/dependabot.yml</code>;"
+to = "updates de version Dependabot depuis <code>.github/dependabot.yml</code> ;"
+
+[[phrase]]
+from = "CodeQL default setup for code scanning alerts;"
+to = "configuration CodeQL par defaut pour les alertes de code scanning ;"
+
+[[phrase]]
+from = "private vulnerability reporting or GitHub security advisories."
+to = "private vulnerability reporting ou GitHub security advisories."
+
+[[phrase]]
+from = "Keep only one active CodeQL configuration. If GitHub default setup is enabled, do not also add an advanced CodeQL workflow; GitHub rejects the duplicate SARIF upload."
+to = "Gardez une seule configuration CodeQL active. Si le setup par defaut GitHub est active, n'ajoutez pas aussi un workflow CodeQL avance ; GitHub rejette l'upload SARIF duplique."
+
+[[phrase]]
+from = "First Tag After GitHub Import"
+to = "Premier tag apres import GitHub"
+
+[[phrase]]
+from = "After the repository is on GitHub and checks pass, create a signed incubator tag instead of jumping straight to 1.0:"
+to = "Une fois le repository sur GitHub et les checks passes, creez un tag incubateur signe au lieu de passer directement a 1.0 :"
+
+[[phrase]]
+from = "Use the versioning plan to decide when the project is ready for"
+to = "Utilisez le plan de version pour decider quand le projet est pret pour"
+
+[[phrase]]
+from = "This document explains how to connect this local Fluxheim folder to a GitHub repository that already contains placeholder files such as"
+to = "Ce document explique comment connecter ce dossier Fluxheim local a un repository GitHub qui contient deja des fichiers placeholders comme"
+
+[[phrase]]
+from = "Fluxheim should keep"
+to = "Fluxheim doit garder"
+
+[[phrase]]
+from = ". If the GitHub repository already has a different license file, decide before merging which license is authoritative."
+to = ". Si le repository GitHub contient deja un fichier de licence different, decidez avant le merge quelle licence fait autorite."
+
+[[phrase]]
+from = "If the branch is named"
+to = "Si la branche s'appelle"
+
+[[phrase]]
+from = "remotely, use"
+to = "sur le remote, utilisez"
+
+[[phrase]]
+from = "in those commands or rename the remote branch in GitHub before continuing."
+to = "dans ces commandes ou renommez la branche remote dans GitHub avant de continuer."
+
+[[phrase]]
+from = "Open a pull request from"
+to = "Ouvrez une pull request de"
+
+[[phrase]]
+from = "after reviewing the diff."
+to = "apres review du diff."
+
+[[phrase]]
+from = "because it refuses to overwrite new remote commits you have not fetched."
+to = "car il refuse d'ecraser de nouveaux commits remote que vous n'avez pas fetches."
+
+[[phrase]]
+from = "config if it contains project-specific build settings."
+to = "config si elle contient des reglages de build propres au projet."
+
+[[phrase]]
+from = "keep Fluxheim&#x27;s README if the remote README is empty;"
+to = "gardez le README de Fluxheim si le README remote est vide ;"
+
+[[phrase]]
+from = "entries if the remote has useful ignore patterns;"
+to = "entrees si le remote contient des patterns d'ignore utiles ;"
+
+[[phrase]]
+from = "is safer than plain"
+to = "est plus sur que"
+
+[[phrase]]
+from = "Rename it to"
+to = "Renommez-la en"
+
+[[phrase]]
+from = "is already configured:"
+to = "est deja configure :"
+
+[[phrase]]
+from = "Dependabot version updates from"
+to = "Mises a jour de version Dependabot depuis"
+
+[[phrase]]
+from = "keep Fluxheim's README if the remote README is empty;"
+to = "gardez le README de Fluxheim si le README remote est vide ;"

@@ -1,0 +1,442 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Fluxheim — Memory-Safe Edge Server Built in Rust"
+to = "Fluxheim — Serveur edge sûr pour la mémoire en Rust"
+
+[[phrase]]
+from = "Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust."
+to = "Fluxheim est un serveur web modulaire hautes performances, reverse proxy et serveur de cache écrit en Rust."
+
+[[phrase]]
+from = "Fluxheim is a high-performance, modular web server, reverse proxy and caching server. Written in Rust. Secure by default."
+to = "Fluxheim est un serveur web modulaire hautes performances, reverse proxy et serveur de cache. Écrit en Rust. Sécurisé par défaut."
+
+[[phrase]]
+from = "A memory-safe edge server and reverse proxy built in Rust."
+to = "Un serveur edge et reverse proxy sûr pour la mémoire, écrit en Rust."
+
+[[phrase]]
+from = "Latest Stable Release"
+to = "Dernière version stable"
+
+[[phrase]]
+from = "Memory-Safe"
+to = "Sûr pour la mémoire"
+
+[[phrase]]
+from = "Edge Server"
+to = "Serveur edge"
+
+[[phrase]]
+from = "Built in Rust"
+to = "écrit en Rust"
+
+[[phrase]]
+from = "Modular reverse proxy, cache, load balancer, and static host written"
+to = "Reverse proxy modulaire, cache, équilibreur de charge et hébergeur statique,"
+
+[[phrase]]
+from = "in Rust. Secure by default with TLS, ACME, compression, edge policy,"
+to = "écrit en Rust. Sécurisé par défaut avec TLS, ACME, compression, politiques edge,"
+
+[[phrase]]
+from = "dynamic upstream discovery, and safe traffic mirroring built in."
+to = "découverte dynamique des upstreams et miroir de trafic sûr intégrés."
+
+[[phrase]]
+from = "Everything You Need at the Edge"
+to = "Tout ce qu'il faut à l'edge"
+
+[[phrase]]
+from = "Fluxheim ships as focused, modular builds — use only what your deployment needs."
+to = "Fluxheim est livré sous forme de builds ciblés et modulaires — n'utilisez que ce dont votre déploiement a besoin."
+
+[[phrase]]
+from = "Memory-Safe by Design"
+to = "Sûr pour la mémoire par conception"
+
+[[phrase]]
+from = "Written in Rust with a pinned stable toolchain. No buffer overflows, no use-after-free, no data races by construction."
+to = "Écrit en Rust avec une toolchain stable verrouillée. Pas de dépassement de tampon, pas de use-after-free, pas de data race par construction."
+
+[[phrase]]
+from = "Fluxheim HTTP Core"
+to = "Noyau HTTP Fluxheim"
+
+[[phrase]]
+from = "A Rust-native edge runtime with connection pooling, upstream retries, active health checks, HTTP/2, WebSocket upgrades, and gRPC pass-through."
+to = "Un runtime edge natif Rust avec pool de connexions, reprises upstream, contrôles de santé actifs, HTTP/2, mises à niveau WebSocket et passage gRPC."
+
+[[phrase]]
+from = "Load Balancer Control Plane"
+to = "Plan de contrôle de l'équilibreur de charge"
+
+[[phrase]]
+from = "Modular Build Profiles"
+to = "Profils de build modulaires"
+
+[[phrase]]
+from = "TLS & Managed ACME"
+to = "TLS & ACME géré"
+
+[[phrase]]
+from = "Download v"
+to = "Télécharger v"
+
+[[phrase]]
+from = "View on GitHub"
+to = "Voir sur GitHub"
+
+[[phrase]]
+from = "Quick Start"
+to = "Démarrage rapide"
+
+[[phrase]]
+from = "Rootless Containers"
+to = "Conteneurs rootless"
+
+[[phrase]]
+from = "Docs"
+to = "Documentation"
+
+[[phrase]]
+from = "Download"
+to = "Télécharger"
+
+[[phrase]]
+from = "Changelog"
+to = "Journal des changements"
+
+[[phrase]]
+from = "Switch color theme"
+to = "Changer le thème de couleur"
+
+[[phrase]]
+from = "Documentation"
+to = "Documentation"
+
+[[phrase]]
+from = "Fluxheim Documentation"
+to = "Documentation Fluxheim"
+
+[[phrase]]
+from = "These docs cover installation, configuration, all features, and deployment."
+to = "Cette documentation couvre l'installation, la configuration, toutes les fonctionnalités et le déploiement."
+
+[[phrase]]
+from = "What Fluxheim Does Today"
+to = "Ce que Fluxheim fait aujourd'hui"
+
+[[phrase]]
+from = "Getting Started"
+to = "Bien démarrer"
+
+[[phrase]]
+from = "Installation & Quick Start"
+to = "Installation & démarrage rapide"
+
+[[phrase]]
+from = "Configuration"
+to = "Configuration"
+
+[[phrase]]
+from = "Config Reference"
+to = "Référence de configuration"
+
+[[phrase]]
+from = "Features & Modules"
+to = "Fonctionnalités & modules"
+
+[[phrase]]
+from = "Feature Matrix"
+to = "Matrice des fonctionnalités"
+
+[[phrase]]
+from = "Load Balancer Migration"
+to = "Migration de l'équilibreur de charge"
+
+[[phrase]]
+from = "Cache System"
+to = "Système de cache"
+
+[[phrase]]
+from = "Observability"
+to = "Observabilité"
+
+[[phrase]]
+from = "Deployment"
+to = "Déploiement"
+
+[[phrase]]
+from = "Systemd & Containers"
+to = "Systemd & conteneurs"
+
+[[phrase]]
+from = "Advanced"
+to = "Avancé"
+
+[[phrase]]
+from = "PHP-FPM, WAF & More"
+to = "PHP-FPM, WAF & plus"
+
+[[phrase]]
+from = "Source Reference"
+to = "Référence source"
+
+[[phrase]]
+from = "Links"
+to = "Liens"
+
+[[phrase]]
+from = "GitHub Repository"
+to = "Dépôt GitHub"
+
+[[phrase]]
+from = "Issues"
+to = "Issues"
+
+[[phrase]]
+from = "Menu"
+to = "Menu"
+
+[[phrase]]
+from = "Downloads"
+to = "Téléchargements"
+
+[[phrase]]
+from = "Release Notes"
+to = "Notes de version"
+
+[[phrase]]
+from = "Installation"
+to = "Installation"
+
+[[phrase]]
+from = "Linux"
+to = "Linux"
+
+[[phrase]]
+from = "macOS Development"
+to = "Développement macOS"
+
+[[phrase]]
+from = "Security"
+to = "Sécurité"
+
+[[phrase]]
+from = "Language"
+to = "Langue"
+
+[[phrase]]
+from = "Fluxheim Core"
+to = "Noyau Fluxheim"
+
+[[phrase]]
+from = "macOS Dev"
+to = "Dév macOS"
+
+[[phrase]]
+from = "Focused 1.5 load-balancer binary and image with advanced selection, local persistence, health/ejection policy, bounded queueing, and runtime member controls."
+to = "Binaire et image load-balancer 1.5 ciblés avec sélection avancée, persistance locale, politiques de santé/éjection, files bornées et contrôles de membres à l'exécution."
+
+[[phrase]]
+from = "Compile only what you need. Focused profiles for static site, cache edge, reverse proxy, load balancing, TCP stream proxying, PHP-FPM, GeoIP, traffic mirroring, and compression-enabled production bundles."
+to = "Compilez seulement ce dont vous avez besoin. Profils ciblés pour site statique, cache edge, reverse proxy, équilibrage de charge, proxy de flux TCP, PHP-FPM, GeoIP, miroir de trafic et bundles de production avec compression."
+
+[[phrase]]
+from = "rustls-first with supported OpenSSL and FIPS/ISO proof build paths, client certificate auth, upstream mTLS, automatic ACME issuance, and multi-cert SNI."
+to = "rustls d'abord, avec chemins de build OpenSSL et FIPS/ISO pris en charge, authentification par certificat client, mTLS upstream, émission ACME automatique et SNI multi-certificats."
+
+[[phrase]]
+from = "Advanced Cache System"
+to = "Système de cache avancé"
+
+[[phrase]]
+from = "Memory, disk, tiered, and encrypted cache backends with cache-safe gzip, Zstandard, and Brotli compression plus range caching for large objects."
+to = "Backends de cache mémoire, disque, hiérarchisés et chiffrés avec compression gzip, Zstandard et Brotli compatible cache, plus cache par plages pour les grands objets."
+
+[[phrase]]
+from = "Container Native"
+to = "Natif conteneur"
+
+[[phrase]]
+from = "Rootless Podman images for Wolfi, Alpine, SUSE Micro, and Debian. Systemd/RPM for native deployments. Zero external assets on startup."
+to = "Images Podman rootless pour Wolfi, Alpine, SUSE Micro et Debian. Systemd/RPM pour les déploiements natifs. Aucun asset externe au démarrage."
+
+[[phrase]]
+from = "Opt-in Prometheus metrics listener, OTLP metrics export, trace context propagation, and OTLP trace export for full observability."
+to = "Listener de métriques Prometheus optionnel, export OTLP des métriques, propagation du contexte de trace et export OTLP des traces pour une observabilité complète."
+
+[[phrase]]
+from = "Optional local MMDB lookups for country and ASN policy using MaxMind GeoIP2/GeoLite2 or CIRCL Geo Open datasets. No remote lookup or downloader in the request path."
+to = "Lookups MMDB locaux optionnels pour les politiques pays et ASN avec les jeux de données MaxMind GeoIP2/GeoLite2 ou CIRCL Geo Open. Aucun lookup distant ni téléchargeur dans le chemin de requête."
+
+[[phrase]]
+from = "TCP Stream Proxy"
+to = "Proxy de flux TCP"
+
+[[phrase]]
+from = "Raw L4 TCP services with dedicated stream routes, true idle/lifetime/byte caps, upstream TLS/mTLS controls, weighted/drain/backup policy, and route-local PROXY protocol."
+to = "Services TCP L4 bruts avec routes de flux dédiées, limites réelles d'inactivité, de durée de vie et d'octets, contrôles TLS/mTLS upstream, politiques pondérées/drain/secours et protocole PROXY local à la route."
+
+[[phrase]]
+from = "PHP-FPM Support"
+to = "Support PHP-FPM"
+
+[[phrase]]
+from = "Opt-in PHP-FPM FastCGI bridge for WordPress-style front-controller applications. Strict script resolution and bounded request handling."
+to = "Bridge PHP-FPM FastCGI optionnel pour les applications front-controller de style WordPress. Résolution stricte des scripts et traitement borné des requêtes."
+
+[[phrase]]
+from = "Edge Policy Controls"
+to = "Contrôles de politique edge"
+
+[[phrase]]
+from = "Trusted-proxy-aware ACLs, rate limits, auth subrequests, traffic mirroring, regex rewrites, bounded queues, strict config validation, and hardened request handling."
+to = "ACL tenant compte des proxys de confiance, limites de débit, sous-requêtes d'authentification, miroir de trafic, réécritures regex, files bornées, validation stricte de configuration et traitement renforcé des requêtes."
+
+[[phrase]]
+from = "Get Running in Minutes"
+to = "Démarrez en quelques minutes"
+
+[[phrase]]
+from = "From Source"
+to = "Depuis les sources"
+
+[[phrase]]
+from = "Full installation guide →"
+to = "Guide d'installation complet →"
+
+[[phrase]]
+from = "Why Fluxheim?"
+to = "Pourquoi Fluxheim ?"
+
+[[phrase]]
+from = "Built for operators who want a modern, auditable stack without hidden legacy behaviour."
+to = "Conçu pour les opérateurs qui veulent une pile moderne et auditable sans comportement legacy caché."
+
+[[phrase]]
+from = "No hidden legacy protocol fallback"
+to = "Aucun fallback legacy caché"
+
+[[phrase]]
+from = "Config validation is strict. Ambiguous or insecure options are rejected, not silently accepted."
+to = "La validation de configuration est stricte. Les options ambiguës ou non sûres sont rejetées, pas acceptées silencieusement."
+
+[[phrase]]
+from = "Checked-in Cargo.lock"
+to = "Cargo.lock versionné"
+
+[[phrase]]
+from = "Reproducible builds. Every dependency is pinned."
+to = "Builds reproductibles. Chaque dépendance est verrouillée."
+
+[[phrase]]
+from = "Overview"
+to = "Vue d'ensemble"
+
+[[phrase]]
+from = "A glance at what Fluxheim looks like in a production deployment."
+to = "Un aperçu de Fluxheim dans un déploiement de production."
+
+[[phrase]]
+from = "Get Started"
+to = "Commencer"
+
+[[phrase]]
+from = "Read guide →"
+to = "Lire le guide →"
+
+[[phrase]]
+from = "Full TOML config reference with examples."
+to = "Référence complète de configuration TOML avec exemples."
+
+[[phrase]]
+from = "Browse reference →"
+to = "Parcourir la référence →"
+
+[[phrase]]
+from = "All modules, build profiles, and TLS backends."
+to = "Tous les modules, profils de build et backends TLS."
+
+[[phrase]]
+from = "See all features →"
+to = "Voir toutes les fonctionnalités →"
+
+[[phrase]]
+from = "Project"
+to = "Projet"
+
+[[phrase]]
+from = "Releases"
+to = "Versions"
+
+[[phrase]]
+from = "Roadmap"
+to = "Feuille de route"
+
+[[phrase]]
+from = "Community"
+to = "Communauté"
+
+[[phrase]]
+from = "Discussions"
+to = "Discussions"
+
+[[phrase]]
+from = "Recommended"
+to = "Recommandé"
+
+[[phrase]]
+from = "Full Production Build"
+to = "Build de production complet"
+
+[[phrase]]
+from = "Latest Stable"
+to = "Dernière version stable"
+
+[[phrase]]
+from = "Rootless-first containers"
+to = "Conteneurs rootless-first"
+
+[[phrase]]
+from = "Run without root. Internal ports 8080/8443 by default. Explicit runtime images for different operational policies."
+to = "Exécution sans root. Ports internes 8080/8443 par défaut. Images runtime explicites pour différentes politiques opérationnelles."
+
+[[phrase]]
+from = "EUPL-1.2 Open Source"
+to = "Open source EUPL-1.2"
+
+[[phrase]]
+from = "Memory-safe edge server built in Rust. Licensed under EUPL-1.2."
+to = "Serveur edge sûr pour la mémoire construit en Rust. Sous licence EUPL-1.2."
+
+[[phrase]]
+from = "Prometheus & OpenTelemetry"
+to = "Prometheus & OpenTelemetry"
+
+[[phrase]]
+from = "Copyleft license compatible with many OSS licenses. EU-originated, legally clear for government and enterprise use."
+to = "Licence copyleft compatible avec de nombreuses licences OSS. Origine UE, juridiquement claire pour les usages gouvernementaux et d'entreprise."
+
+[[phrase]]
+from = "Fluxheim architecture overview"
+to = "Vue d'ensemble de l'architecture Fluxheim"
+
+[[phrase]]
+from = "EUPL-1.2 License"
+to = "Licence EUPL-1.2"
+
+[[phrase]]
+from = "Valkyoth Org"
+to = "Organisation Valkyoth"
+
+[[phrase]]
+from = "© 2026 Valkyoth. Distributed under the"
+to = "© 2026 Valkyoth. Distribué sous la"
+
+[[phrase]]
+from = "Built with Rust · Powered by Fluxheim"
+to = "Construit avec Rust · Propulsé par Fluxheim"

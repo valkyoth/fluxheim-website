@@ -1,0 +1,6 @@
+project_name = "Fluxheim"
+fluxheim_version = "1.6.28"
+github_url = "https://github.com/valkyoth/fluxheim"
+releases_url = "https://github.com/valkyoth/fluxheim/releases"
+license = "EUPL-1.2"
+default_locale = "en-EU"

@@ -1,21 +1,12 @@
-# VCS and local agent state
-.git/
-.codex/
-.agents/
-
-# Build/runtime output
-target/
-dist/
-logs/
+/target
+/.agents
+/.codex
+/.cargo-deny-advisory-dbs
+/dist
 *.log
-*.md
-*.tmp
-tmp/
-
-# Local environments and secrets
+*.pid
 .env
 .env.*
-!.env.example
 *.secret
 *.token
 *.key

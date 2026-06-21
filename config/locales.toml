@@ -1,0 +1,17 @@
+[[locales]]
+locale_id = "en-EU"
+html_lang = "en"
+url_prefix = "en-eu"
+display_name = "English (EU)"
+
+[[locales]]
+locale_id = "de-DE"
+html_lang = "de-DE"
+url_prefix = "de"
+display_name = "Deutsch"
+
+[[locales]]
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+url_prefix = "fr"
+display_name = "Français"

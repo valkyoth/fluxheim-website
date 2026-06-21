@@ -1,0 +1,143 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+[[phrase]]
+from = "OWASP Top 10 2025 Baseline — Fluxheim Source Docs"
+to = "Baseline OWASP Top 10 2025 - documentation source Fluxheim"
+[[phrase]]
+from = "OWASP Top 10 2025 Baseline"
+to = "Baseline OWASP Top 10 2025"
+[[phrase]]
+from = "This page maps Fluxheim&#x27;s automated checks to the OWASP Top 10 2025 categories. It is a baseline gate, not a compliance certificate. Some OWASP risks are application/business-logic risks that Fluxheim cannot prove for an origin application. The goal is to keep the web-server, reverse-proxy, PHP-FPM, cache, admin, TLS, and release controls from regressing."
+to = "Cette page mappe les checks automatises de Fluxheim sur les categories OWASP Top 10 2025. C'est un gate de baseline, pas un certificat de conformite. Certains risques OWASP relevent de l'application ou de la logique metier, et Fluxheim ne peut pas les prouver pour une application origin. L'objectif est d'empecher les regressions des controles web-server, reverse-proxy, PHP-FPM, cache, admin, TLS et release."
+[[phrase]]
+from = "This page maps Fluxheim's automated checks to the OWASP Top 10 2025 categories. It is a baseline gate, not a compliance certificate. Some OWASP risks are application/business-logic risks that Fluxheim cannot prove for an origin application. The goal is to keep the web-server, reverse-proxy, PHP-FPM, cache, admin, TLS, and release controls from regressing."
+to = "Cette page mappe les checks automatises de Fluxheim sur les categories OWASP Top 10 2025. C'est un gate de baseline, pas un certificat de conformite. Certains risques OWASP relevent de l'application ou de la logique metier, et Fluxheim ne peut pas les prouver pour une application origin. L'objectif est d'empecher les regressions des controles web-server, reverse-proxy, PHP-FPM, cache, admin, TLS et release."
+[[phrase]]
+from = "Run the quick CI baseline:"
+to = "Executer la baseline CI rapide :"
+[[phrase]]
+from = "Run the deeper local baseline, which executes each representative regression test filter:"
+to = "Executer la baseline locale plus profonde, qui lance chaque filtre de test de regression representatif :"
+[[phrase]]
+from = "The automated baseline checks:"
+to = "La baseline automatisee verifie :"
+[[phrase]]
+from = "policy files and CI gates that should always exist;"
+to = "les fichiers de policy et les gates CI qui doivent toujours exister ;"
+[[phrase]]
+from = "representative unit tests for each OWASP category;"
+to = "des tests unitaires representatifs pour chaque categorie OWASP ;"
+[[phrase]]
+from = "secure example defaults for headers, admin tokens, dotfile denial, and FIPS diagnostics;"
+to = "des defaults d'exemple securises pour les headers, tokens admin, refus des dotfiles et diagnostics FIPS ;"
+[[phrase]]
+from = "The baseline does not prove:"
+to = "La baseline ne prouve pas :"
+[[phrase]]
+from = "application-specific authorization or ownership checks;"
+to = "les checks d'autorisation ou d'ownership specifiques a l'application ;"
+[[phrase]]
+from = "origin application authentication strength;"
+to = "la robustesse de l'authentification de l'application origin ;"
+[[phrase]]
+from = "business transaction rollback correctness inside a backend application;"
+to = "la correction des rollbacks de transactions metier dans une application backend ;"
+[[phrase]]
+from = "monitoring and alert delivery in an operator&#x27;s external SOC stack;"
+to = "le monitoring et la livraison d'alertes dans le stack SOC externe d'un operateur ;"
+[[phrase]]
+from = "monitoring and alert delivery in an operator's external SOC stack;"
+to = "le monitoring et la livraison d'alertes dans le stack SOC externe d'un operateur ;"
+[[phrase]]
+from = "FIPS compliance of an operator&#x27;s full deployment boundary."
+to = "la conformite FIPS de toute la frontiere de deploiement d'un operateur."
+[[phrase]]
+from = "FIPS compliance of an operator's full deployment boundary."
+to = "la conformite FIPS de toute la frontiere de deploiement d'un operateur."
+[[phrase]]
+from = "OWASP 2025 category"
+to = "Categorie OWASP 2025"
+[[phrase]]
+from = "Fluxheim-owned baseline checks"
+to = "Checks de baseline possedes par Fluxheim"
+[[phrase]]
+from = "A01 Broken Access Control"
+to = "A01 Controle d'acces casse"
+[[phrase]]
+from = "Static traversal and dotfile denial tests, admin bearer-token tests, authenticated cache purge tests, safe redirect host tests."
+to = "Tests de refus de traversal statique et de dotfiles, tests de bearer-token admin, tests de purge cache authentifiee et tests d'hotes de redirection surs."
+[[phrase]]
+from = "A02 Security Misconfiguration"
+to = "A02 Mauvaise configuration de securite"
+[[phrase]]
+from = "Directory listing disabled by default, default security headers, admin auth required, remote admin rejected by default, secure example configs."
+to = "Listing de repertoire desactive par defaut, headers de securite par defaut, authentification admin requise, admin distant rejete par defaut et configurations d'exemple securisees."
+[[phrase]]
+from = "A03 Software Supply Chain Failures"
+to = "A03 Defaillances de supply chain logicielle"
+[[phrase]]
+from = "SBOM generation, registry allow-listing, and FIPS-capable OpenSSL/rustls profile validation."
+to = "generation SBOM, allow-listing de registries et validation de profils OpenSSL/rustls compatibles FIPS."
+[[phrase]]
+from = "A04 Cryptographic Failures"
+to = "A04 Defaillances cryptographiques"
+[[phrase]]
+from = "TLS FIPS policy rejection tests, TLS storage symlink/permission tests, OpenSSL and rustls/AWS-LC FIPS-capable validation scripts, FIPS documentation."
+to = "Tests de rejet de policy TLS FIPS, tests de symlink/permissions du stockage TLS, scripts de validation OpenSSL et rustls/AWS-LC compatibles FIPS, documentation FIPS."
+[[phrase]]
+from = "A05 Injection"
+to = "A05 Injection"
+[[phrase]]
+from = "Header value validation tests, PHP FastCGI parameter control-character rejection, cache-warm header injection rejection, route traversal rejection, dynamic header control-character stripping."
+to = "Tests de validation de valeurs de header, rejet des caracteres de controle dans les parametres PHP FastCGI, rejet d'injection de headers cache-warm, rejet de traversal de route et suppression des caracteres de controle des headers dynamiques."
+[[phrase]]
+from = "A06 Insecure Design"
+to = "A06 Conception non securisee"
+[[phrase]]
+from = "Request header count/byte limits, bounded admin JSON, capped PHP parameter lists, saturating body counters, explicit feature-policy gates."
+to = "Limites de nombre et d'octets pour les headers de requete, JSON admin borne, listes de parametres PHP plafonnees, compteurs de corps saturants et gates explicites de feature-policy."
+[[phrase]]
+from = "A07 Authentication Failures"
+to = "A07 Defaillances d'authentification"
+[[phrase]]
+from = "Admin token file size/path tests, full bearer-token comparison, per-source and global admin-auth throttle tests."
+to = "Tests de taille et chemin du fichier de token admin, comparaison complete du bearer-token, tests de throttling admin-auth par source et global."
+[[phrase]]
+from = "A08 Software or Data Integrity Failures"
+to = "A08 Defaillances d'integrite logicielle ou des donnees"
+[[phrase]]
+from = "Snapshot store safe-path tests, symlinked config rejection, reload process-upgrade rejection, self-healing rollback fail-closed tests."
+to = "Tests de chemins surs du snapshot store, rejet des configurations symlinkees, rejet des process-upgrades au reload et tests fail-closed du rollback self-healing."
+[[phrase]]
+from = "A09 Security Logging and Alerting Failures"
+to = "A09 Defaillances de logging et d'alerting securite"
+[[phrase]]
+from = "JSON log escaping, access-log escaping, request-id generation, release evidence and observability smoke gates."
+to = "Echappement des logs JSON, echappement des access logs, generation de request-id, preuves de release et smoke gates d'observabilite."
+[[phrase]]
+from = "A10 Mishandling of Exceptional Conditions"
+to = "A10 Mauvaise gestion des conditions exceptionnelles"
+[[phrase]]
+from = "Oversized admin error clamping, config parse context tests, permission-error diagnostics, saturating response counters,"
+to = "Clamping des erreurs admin surdimensionnees, tests de contexte de parsing config, diagnostics d'erreurs de permission, compteurs de reponse saturants,"
+[[phrase]]
+from = "Maintenance Rule"
+to = "Regle de maintenance"
+[[phrase]]
+from = "When a security-sensitive feature is added, update"
+to = "Lorsqu'une feature sensible pour la securite est ajoutee, mettez a jour"
+[[phrase]]
+from = "if the feature changes one of the baseline control areas above. If a category cannot be represented by an automated test, document the manual/operator boundary here instead of leaving the category implicit."
+to = "si la feature modifie l'une des zones de controle de baseline ci-dessus. Si une categorie ne peut pas etre representee par un test automatise, documentez ici la frontiere manuelle ou operateur au lieu de laisser la categorie implicite."
+
+[[phrase]]
+from = "supply-chain gates such as"
+to = "gates de supply-chain comme"
+
+[[phrase]]
+from = ", and SBOM generation."
+to = "et la generation SBOM."
+
+[[phrase]]
+from = "CI requires"
+to = "La CI exige"

@@ -1,0 +1,490 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Feature Matrix — Fluxheim Source Docs"
+to = "Feature-Matrix - Fluxheim-Source-Dokumentation"
+
+[[phrase]]
+from = "Fluxheim uses Cargo features for compile-time module selection. The default binary is intentionally useful but conservative:"
+to = "Fluxheim nutzt Cargo-Features fuer die Modulauswahl zur Compile-Zeit. Das Standard-Binary ist absichtlich nuetzlich, aber konservativ:"
+
+[[phrase]]
+from = "The validator expands profile aliases and rejects unsupported combinations before Cargo starts compiling Pingora."
+to = "Der Validator erweitert Profil-Aliasse und lehnt nicht unterstuetzte Kombinationen ab, bevor Cargo mit dem Kompilieren von Pingora beginnt."
+
+[[phrase]]
+from = "Stable Core Features"
+to = "Stabile Core-Features"
+
+[[phrase]]
+from = "Optional Implemented Features"
+to = "Optional implementierte Features"
+
+[[phrase]]
+from = "TLS Backends"
+to = "TLS-Backends"
+
+[[phrase]]
+from = "Cache Encryption Key Utility"
+to = "Hilfswerkzeug fuer Cache-Verschluesselungskeys"
+
+[[phrase]]
+from = "ACME Client Wiring"
+to = "ACME-Client-Verdrahtung"
+
+[[phrase]]
+from = "PHP Runtime Modules"
+to = "PHP-Runtime-Module"
+
+[[phrase]]
+from = "Profile Aliases"
+to = "Profil-Aliasse"
+
+[[phrase]]
+from = "FIPS-Capable TLS Features"
+to = "FIPS-faehige TLS-Features"
+
+[[phrase]]
+from = "Incompatible Combinations"
+to = "Inkompatible Kombinationen"
+
+[[phrase]]
+from = "Planned Future Features"
+to = "Geplante kuenftige Features"
+
+[[phrase]]
+from = "Pingora proxy runtime and upstream forwarding."
+to = "Pingora-Proxy-Runtime und Upstream-Forwarding."
+
+[[phrase]]
+from = "Static file resolver and static response planning."
+to = "Resolver fuer statische Dateien und Planung statischer Antworten."
+
+[[phrase]]
+from = "Image cache module. Runtime caching still requires config."
+to = "Bild-Cache-Modul. Runtime-Caching benoetigt weiterhin Konfiguration."
+
+[[phrase]]
+from = "Shared Pingora/Tokio ingress primitives used by proxy, TLS, and ACME-capable focused builds."
+to = "Gemeinsame Pingora-/Tokio-Ingress-Primitive fuer Proxy-, TLS- und ACME-faehige fokussierte Builds."
+
+[[phrase]]
+from = "rustls TLS backend."
+to = "rustls-TLS-Backend."
+
+[[phrase]]
+from = "rustls/AWS-LC FIPS-capable TLS backend candidate."
+to = "rustls/AWS-LC-Kandidat fuer ein FIPS-faehiges TLS-Backend."
+
+[[phrase]]
+from = "Compile-time security profile marker plus release hardening checks. Runtime enforcement lives in the concrete config, TLS, filesystem, admin, and request-handling modules."
+to = "Security-Profilmarker zur Compile-Zeit plus Release-Hardening-Checks. Runtime-Erzwingung liegt in den konkreten Config-, TLS-, Filesystem-, Admin- und Request-Handling-Modulen."
+
+[[phrase]]
+from = "Fluxheim load-balancing support, health checks, and runtime pool policy."
+to = "Fluxheim-Load-Balancing-Support, Health-Checks und Runtime-Pool-Policy."
+
+[[phrase]]
+from = "Prometheus metrics listener."
+to = "Prometheus-Metrics-Listener."
+
+[[phrase]]
+from = "Optional OTLP/HTTP JSON metrics export to a local Prometheus OTLP receiver or collector."
+to = "Optionaler OTLP/HTTP-JSON-Metrics-Export an einen lokalen Prometheus-OTLP-Receiver oder Collector."
+
+[[phrase]]
+from = "Optional OTLP/HTTP JSON trace export to a local collector or Jaeger endpoint."
+to = "Optionaler OTLP/HTTP-JSON-Trace-Export an einen lokalen Collector oder Jaeger-Endpunkt."
+
+[[phrase]]
+from = "ACME config, renewal planning, managed certificate/account paths, local HTTP-01 and rustls TLS-ALPN-01 challenge serving, and the renewal executor contract."
+to = "ACME-Konfiguration, Renewal-Planung, verwaltete Zertifikats-/Account-Pfade, lokales HTTP-01- und rustls-TLS-ALPN-01-Challenge-Serving sowie der Vertrag fuer den Renewal-Executor."
+
+[[phrase]]
+from = "Live ACME account/order HTTP client and background renewal service."
+to = "Live-ACME-Account-/Order-HTTP-Client und Background-Renewal-Service."
+
+[[phrase]]
+from = "Shared response compression config and body-filter integration."
+to = "Gemeinsame Response-Compression-Konfiguration und Body-Filter-Integration."
+
+[[phrase]]
+from = "Brotli response compression for eligible known-length responses."
+to = "Brotli-Response-Compression fuer geeignete Antworten mit bekannter Laenge."
+
+[[phrase]]
+from = "gzip response compression for eligible known-length responses."
+to = "gzip-Response-Compression fuer geeignete Antworten mit bekannter Laenge."
+
+[[phrase]]
+from = "Zstandard response compression for eligible known-length responses."
+to = "Zstandard-Response-Compression fuer geeignete Antworten mit bekannter Laenge."
+
+[[phrase]]
+from = "Local MMDB Geo-Context lookup for MaxMind GeoIP2/GeoLite2 and CIRCL Geo Open datasets, exposed to bounded access policy and structured logs."
+to = "Lokaler MMDB-Geo-Context-Lookup fuer MaxMind GeoIP2/GeoLite2 und CIRCL Geo Open-Datensaetze, verfuegbar fuer begrenzte Access-Policy und strukturierte Logs."
+
+[[phrase]]
+from = "Raw L4 TCP stream proxy service with separate stream routes, source IP/CIDR allow/deny policy, DNS-rebinding guards for hostname upstreams, bounded idle/lifetime/byte caps, route-local PROXY protocol receive/send, stream upstream TLS/mTLS controls, and weighted/drain/backup policy."
+to = "Roher L4-TCP-Stream-Proxy-Service mit separaten Stream-Routen, Source-IP-/CIDR-Allow-/Deny-Policy, DNS-Rebinding-Guards fuer Hostname-Upstreams, begrenzten Idle-/Lifetime-/Byte-Caps, routenlokalem PROXY-Protocol Receive/Send, Stream-Upstream-TLS-/mTLS-Kontrollen und Weighted-/Drain-/Backup-Policy."
+
+[[phrase]]
+from = "Zero-retention static/proxy build profile."
+to = "Zero-Retention-Static-/Proxy-Build-Profil."
+
+[[phrase]]
+from = "Internal marker for TLS-aware code; select a concrete backend for serving."
+to = "Interner Marker fuer TLS-faehigen Code; waehle ein konkretes Backend fuer Serving."
+
+[[phrase]]
+from = "Select at most one:"
+to = "Waehle hoechstens eines:"
+
+[[phrase]]
+from = "Default and recommended."
+to = "Standard und empfohlen."
+
+[[phrase]]
+from = "Optional rustls/AWS-LC FIPS-capable candidate."
+to = "Optionaler rustls/AWS-LC-FIPS-faehiger Kandidat."
+
+[[phrase]]
+from = "ISO/IEC 19790 terminology alias for "
+to = "ISO/IEC-19790-Terminologiealias fuer "
+
+[[phrase]]
+from = "Optional OpenSSL backend."
+to = "Optionales OpenSSL-Backend."
+
+[[phrase]]
+from = "Cargo features are additive, and Fluxheim supports exactly one TLS backend per build. The feature validator catches conflicting TLS backend selections before build."
+to = "Cargo-Features sind additiv, und Fluxheim unterstuetzt genau ein TLS-Backend pro Build. Der Feature-Validator erkennt widerspruechliche TLS-Backend-Auswahlen vor dem Build."
+
+[[phrase]]
+from = "BoringSSL and s2n-tls are no longer supported Fluxheim backends because their integrations did not provide the same complete policy, SNI, upstream TLS, and client-auth coverage as rustls and OpenSSL."
+to = "BoringSSL und s2n-tls sind keine unterstuetzten Fluxheim-Backends mehr, weil ihre Integrationen nicht dieselbe vollstaendige Policy-, SNI-, Upstream-TLS- und Client-Auth-Abdeckung wie rustls und OpenSSL boten."
+
+[[phrase]]
+from = " to validate the supported TLS backends on the current machine."
+to = ", um die unterstuetzten TLS-Backends auf der aktuellen Maschine zu validieren."
+
+[[phrase]]
+from = " is available in every build profile. It prints one random 256-bit lowercase hex key suitable for "
+to = " ist in jedem Build-Profil verfuegbar. Es gibt einen zufaelligen 256-Bit-Hex-Key in Kleinbuchstaben aus, passend fuer "
+
+[[phrase]]
+from = ". The command does not write files itself; pipe it into the operator's preferred secret manager, systemd credential source, or container secret."
+to = ". Der Befehl schreibt selbst keine Dateien; leite ihn in den bevorzugten Secret-Manager, die systemd-Credential-Quelle oder das Container-Secret des Operators."
+
+[[phrase]]
+from = " contains the config, storage, challenge, certificate observation, and renewal-executor pieces. "
+to = " enthaelt die Konfigurations-, Storage-, Challenge-, Zertifikatsbeobachtungs- und Renewal-Executor-Teile. "
+
+[[phrase]]
+from = " adds the live ACME HTTP client stack used to load or create issuer accounts and complete HTTP-01 or rustls TLS-ALPN-01 orders through "
+to = " ergaenzt den Live-ACME-HTTP-Client-Stack zum Laden oder Erstellen von Issuer-Accounts und zum Abschliessen von HTTP-01- oder rustls-TLS-ALPN-01-Orders ueber "
+
+[[phrase]]
+from = ", plus the runtime background renewal service. Keep "
+to = " sowie den Runtime-Background-Renewal-Service. Halte "
+
+[[phrase]]
+from = " enabled only in builds that perform certificate issuance or renewal."
+to = " nur in Builds aktiviert, die Zertifikatsausstellung oder Renewal durchfuehren."
+
+[[phrase]]
+from = " adds managed php-fpm process supervision as a runtime config mode inside this same "
+to = " ergaenzt verwaltete php-fpm-Prozessueberwachung als Runtime-Config-Modus innerhalb desselben "
+
+[[phrase]]
+from = " feature, not as a separate Cargo feature. It still uses the FastCGI bridge; only php-fpm process lifecycle changes from operator-managed to Fluxheim-supervised."
+to = "-Features, nicht als separates Cargo-Feature. Es nutzt weiterhin die FastCGI-Bridge; nur der php-fpm-Prozesslebenszyklus wechselt von operatorverwaltet zu Fluxheim-ueberwacht."
+
+[[phrase]]
+from = "Fluxheim no longer reserves a pure-Rust PHP/phprs runtime for "
+to = "Fluxheim reserviert keine pure-Rust-PHP-/phprs-Runtime mehr fuer "
+
+[[phrase]]
+from = ". Managed php-fpm is the supported zero-admin PHP direction."
+to = ". Verwaltetes php-fpm ist die unterstuetzte Zero-Admin-PHP-Richtung."
+
+[[phrase]]
+from = "Cargo does not have a separate "
+to = "Cargo hat kein separates "
+
+[[phrase]]
+from = " flag. Fluxheim provides normal Cargo feature aliases for common deployment shapes."
+to = "-Flag. Fluxheim stellt normale Cargo-Feature-Aliasse fuer uebliche Deployment-Formen bereit."
+
+[[phrase]]
+from = "Same intent as default."
+to = "Gleiche Absicht wie Standard."
+
+[[phrase]]
+from = "Static sites without Fluxheim cache."
+to = "Statische Sites ohne Fluxheim-Cache."
+
+[[phrase]]
+from = "Reverse proxy without static hosting/cache."
+to = "Reverse Proxy ohne statisches Hosting/Cache."
+
+[[phrase]]
+from = "Static/proxy server with cache enabled."
+to = "Static-/Proxy-Server mit aktiviertem Cache."
+
+[[phrase]]
+from = "Edge server with Fluxheim load balancing and all compression codecs compiled in."
+to = "Edge-Server mit Fluxheim-Load-Balancing und allen Compression-Codecs einkompiliert."
+
+[[phrase]]
+from = "Core server with Prometheus metrics, optional local OTLP metrics export, trace context propagation, and optional local OTLP trace export."
+to = "Core-Server mit Prometheus-Metriken, optionalem lokalem OTLP-Metrics-Export, Trace-Context-Propagation und optionalem lokalem OTLP-Trace-Export."
+
+[[phrase]]
+from = "All stable production modules, including GeoIP, traffic mirroring, and the current stream/load-balancer runtime lines."
+to = "Alle stabilen Produktionsmodule, inklusive GeoIP, Traffic-Mirroring und aktueller Stream-/Load-Balancer-Runtime-Linien."
+
+[[phrase]]
+from = "Broad development build with all compatible production modules."
+to = "Breiter Entwicklungs-Build mit allen kompatiblen Produktionsmodulen."
+
+[[phrase]]
+from = "Static webserver profile while serving still uses the shared proxy runtime."
+to = "Statisches Webserver-Profil, waehrend Serving weiter die gemeinsame Proxy-Runtime nutzt."
+
+[[phrase]]
+from = "Cache edge without local static web serving."
+to = "Cache-Edge ohne lokales statisches Web-Serving."
+
+[[phrase]]
+from = "Focused reverse proxy edge."
+to = "Fokussierter Reverse-Proxy-Edge."
+
+[[phrase]]
+from = "Load-balancer edge without cache or static web serving."
+to = "Load-Balancer-Edge ohne Cache oder statisches Web-Serving."
+
+[[phrase]]
+from = "FIPS-capable OpenSSL proxy build that links to the operator-selected OpenSSL provider."
+to = "FIPS-faehiger OpenSSL-Proxy-Build, der gegen den vom Operator gewaehlten OpenSSL-Provider linkt."
+
+[[phrase]]
+from = "FIPS-capable rustls/AWS-LC candidate build."
+to = "FIPS-faehiger rustls/AWS-LC-Kandidaten-Build."
+
+[[phrase]]
+from = "The remaining Pingora compatibility runtime is selected through "
+to = "Die verbleibende Pingora-Kompatibilitaetsruntime wird ueber "
+
+[[phrase]]
+from = "Examples that match the official release artifacts:"
+to = "Beispiele, die zu den offiziellen Release-Artefakten passen:"
+
+[[phrase]]
+from = "The raw profile aliases do not force "
+to = "Die rohen Profil-Aliasse erzwingen "
+
+[[phrase]]
+from = "; that is intentional for offline or static-certificate custom builds."
+to = " nicht; das ist fuer Offline- oder Static-Certificate-Custom-Builds absichtlich."
+
+[[phrase]]
+from = "Official RPMs, images, and release tarballs add "
+to = "Offizielle RPMs, Images und Release-Tarballs ergaenzen "
+
+[[phrase]]
+from = " to the full, cache, proxy, load-balancer, and PHP profiles by default."
+to = " standardmaessig zu Full-, Cache-, Proxy-, Load-Balancer- und PHP-Profilen."
+
+[[phrase]]
+from = "Those profile aliases are deliberately narrow proof builds."
+to = "Diese Profil-Aliasse sind absichtlich enge Proof-Builds."
+
+[[phrase]]
+from = "These combinations make Fluxheim's TLS boundary FIPS/ISO-capable when the operator provides the selected backend's validated provider evidence."
+to = "Diese Kombinationen machen Fluxheims TLS-Grenze FIPS-/ISO-faehig, wenn der Operator die validierten Provider-Nachweise des gewaehlten Backends bereitstellt."
+
+[[phrase]]
+from = "They do not automatically make the whole deployment FIPS compliant:"
+to = "Sie machen nicht automatisch das ganze Deployment FIPS-konform:"
+
+[[phrase]]
+from = "For the cleanest regulated boundary, prefer local/static certificates that were issued and renewed outside Fluxheim through an approved process."
+to = "Fuer die sauberste regulierte Grenze sollten lokale/statische Zertifikate bevorzugt werden, die ausserhalb von Fluxheim durch einen genehmigten Prozess ausgestellt und erneuert wurden."
+
+[[phrase]]
+from = "Focused image profile status:"
+to = "Status fokussierter Image-Profile:"
+
+[[phrase]]
+from = "TLS and ACME are shared ingress capabilities, not implicit static webserver capabilities."
+to = "TLS und ACME sind gemeinsame Ingress-Faehigkeiten, keine impliziten statischen Webserver-Faehigkeiten."
+
+[[phrase]]
+from = "Compatibility aliases may keep the older broad behavior, but published focused images are "
+to = "Kompatibilitaets-Aliasse koennen das aeltere breite Verhalten behalten, aber veroeffentlichte fokussierte Images sind "
+
+[[phrase]]
+from = "Pingora exposes one TLS backend at a time."
+to = "Pingora stellt jeweils ein TLS-Backend bereit."
+
+[[phrase]]
+from = "Zero-retention builds must not compile request/response cache code."
+to = "Zero-Retention-Builds duerfen keinen Request-/Response-Cache-Code kompilieren."
+
+[[phrase]]
+from = "Zero-retention builds must not compile request metrics."
+to = "Zero-Retention-Builds duerfen keine Request-Metriken kompilieren."
+
+[[phrase]]
+from = "Zero-retention builds must not compile metrics export."
+to = "Zero-Retention-Builds duerfen keinen Metrics-Export kompilieren."
+
+[[phrase]]
+from = "Zero-retention builds must not compile trace context propagation."
+to = "Zero-Retention-Builds duerfen keine Trace-Context-Propagation kompilieren."
+
+[[phrase]]
+from = "Zero-retention builds must not compile trace export."
+to = "Zero-Retention-Builds duerfen keinen Trace-Export kompilieren."
+
+[[phrase]]
+from = "These are documented architecture tracks, not enabled Cargo features yet:"
+to = "Dies sind dokumentierte Architekturspuren, noch keine aktivierten Cargo-Features:"
+
+[[phrase]]
+from = "Programmable media edge"
+to = "Programmierbarer Media-Edge"
+
+[[phrase]]
+from = "OpenTelemetry OTLP export"
+to = "OpenTelemetry-OTLP-Export"
+
+[[phrase]]
+from = "WASM extensibility"
+to = "WASM-Erweiterbarkeit"
+
+[[phrase]]
+from = "Crypto RPC edge"
+to = "Crypto-RPC-Edge"
+
+[[phrase]]
+from = "PHP runtimes"
+to = "PHP-Runtimes"
+
+[[phrase]]
+from = "Perl CGI"
+to = "Perl-CGI"
+
+[[phrase]]
+from = "WireGuard smart load balancing"
+to = "Smartes WireGuard-Load-Balancing"
+
+[[phrase]]
+from = "propagation and access-log trace ID correlation."
+to = "Propagation und Access-Log-Trace-ID-Korrelation."
+
+[[phrase]]
+from = "flag. Fluxheim provides normal Cargo feature aliases for common deployment shapes."
+to = "Flag. Fluxheim stellt normale Cargo-Feature-Aliasse fuer gaengige Deployment-Formen bereit."
+
+[[phrase]]
+from = "adds release-gate dependency and compile proofs for"
+to = "fuegt Release-Gate-Dependency- und Compile-Proofs fuer"
+
+[[phrase]]
+from = "; those builds do not compile Pingora crates, but they are not yet the production static-site runtime profile."
+to = "hinzu; diese Builds kompilieren keine Pingora-Crates, sind aber noch nicht das Production-Static-Site-Runtime-Profil."
+
+[[phrase]]
+from = "is an opt-in OpenSSL 3 FIPS-provider proof path. It expands to"
+to = "ist ein opt-in OpenSSL-3-FIPS-Provider-Proof-Pfad. Er expandiert zu"
+
+[[phrase]]
+from = "and adds OpenSSL provider diagnostics plus default FIPS property enforcement for configurations that set"
+to = "und fuegt OpenSSL-Provider-Diagnostik plus Default-FIPS-Property-Erzwingung fuer Konfigurationen hinzu, die"
+
+[[phrase]]
+from = "feature, uses"
+to = "Feature, nutzt"
+
+[[phrase]]
+from = "and requires CMake, Go, and a C compiler."
+to = "und erfordert CMake, Go und einen C-Compiler."
+
+[[phrase]]
+from = "into a FIPS-capable TLS build for non-required configs, but"
+to = "in einen FIPS-faehigen TLS-Build fuer nicht verpflichtende Konfigurationen kompilieren, aber"
+
+[[phrase]]
+from = "to see whether the binary can load or report the selected FIPS-capable provider in the current environment. The"
+to = "um zu sehen, ob das Binary den ausgewaehlten FIPS-faehigen Provider in der aktuellen Umgebung laden oder melden kann. Die"
+
+[[phrase]]
+from = "before using this for regulated systems."
+to = "bevor dies fuer regulierte Systeme verwendet wird."
+
+[[phrase]]
+from = "Compatibility aliases may keep the older broad behavior, but published focused images are"
+to = "Kompatibilitaets-Aliasse koennen das aeltere breite Verhalten behalten, aber veroeffentlichte fokussierte Images sind"
+
+[[phrase]]
+from = "is part of the default build, privacy builds must use"
+to = "Teil des Default-Builds ist, muessen Privacy-Builds"
+
+[[phrase]]
+from = "The remaining Pingora compatibility runtime is selected through"
+to = "Die verbleibende Pingora-Kompatibilitaetsruntime wird ausgewaehlt ueber"
+
+[[phrase]]
+from = "The raw profile aliases do not force"
+to = "Die rohen Profil-Aliasse erzwingen nicht"
+
+[[phrase]]
+from = "profiles validate the same guard with"
+to = "Profile validieren denselben Guard mit"
+
+[[phrase]]
+from = "Future feature family"
+to = "Kuenftige Feature-Familie"
+
+[[phrase]]
+from = "<tr><td><code>ingress</code></td><td>Yes, through <code>proxy</code>/TLS profiles</td><td>Shared Pingora/Tokio ingress primitives used by proxy, TLS, and ACME-capable focused builds.</td></tr>"
+to = "<tr><td><code>ingress</code></td><td>Ja, ueber <code>proxy</code>/TLS-Profile</td><td>Gemeinsame Pingora/Tokio-Ingress-Primitiven, die von Proxy-, TLS- und ACME-faehigen fokussierten Builds genutzt werden.</td></tr>"
+
+[[phrase]]
+from = "<p><code>php-fpm</code> enables the <code>1.3.1</code> FastCGI bridge for PHP applications. It implies <code>proxy</code> and <code>web</code>, uses <code>fastcgi-client</code>, and must be selected explicitly:</p>"
+to = "<p><code>php-fpm</code> aktiviert die <code>1.3.1</code>-FastCGI-Bridge fuer PHP-Anwendungen. Es impliziert <code>proxy</code> und <code>web</code>, nutzt <code>fastcgi-client</code> und muss explizit ausgewaehlt werden:</p>"
+
+[[phrase]]
+from = "<tr><td>Multiple <code>tls-*</code> backends</td><td>Pingora exposes one TLS backend at a time.</td></tr>"
+to = "<tr><td>Mehrere <code>tls-*</code>-Backends</td><td>Pingora stellt jeweils nur ein TLS-Backend bereit.</td></tr>"
+
+[[phrase]]
+from = "<p>Because <code>cache</code> is part of the default build, privacy builds must use <code>--no-default-features</code>.</p>"
+to = "<p>Da <code>cache</code> Teil des Default-Builds ist, muessen Privacy-Builds <code>--no-default-features</code> nutzen.</p>"
+
+[[phrase]]
+from = "<thead><tr><th>Future feature family</th><th>Document</th></tr></thead>"
+to = "<thead><tr><th>Kuenftige Feature-Familie</th><th>Dokument</th></tr></thead>"
+
+[[phrase]]
+from = "<tr><td><code>proxy</code></td><td>Yes</td><td>Pingora proxy runtime and upstream forwarding.</td></tr>"
+to = "<tr><td><code>proxy</code></td><td>Ja</td><td>Pingora-Proxy-Runtime und Upstream-Forwarding.</td></tr>"
+
+[[phrase]]
+from = "<tr><td><code>web</code></td><td>Yes</td><td>Static file resolver and static response planning.</td></tr>"
+to = "<tr><td><code>web</code></td><td>Ja</td><td>Static-File-Resolver und statische Response-Planung.</td></tr>"
+
+[[phrase]]
+from = "<tr><td><code>cache</code></td><td>Yes</td><td>Image cache module. Runtime caching still requires config.</td></tr>"
+to = "<tr><td><code>cache</code></td><td>Ja</td><td>Image-Cache-Modul. Runtime-Caching erfordert weiterhin Konfiguration.</td></tr>"
+
+[[phrase]]
+from = "<tr><td><code>tls-rustls</code></td><td>Yes</td><td>rustls TLS backend.</td></tr>"
+to = "<tr><td><code>tls-rustls</code></td><td>Ja</td><td>rustls-TLS-Backend.</td></tr>"
+
+[[phrase]]
+from = "<tr><td><code>security</code></td><td>Yes</td><td>Compile-time security profile marker plus release hardening checks. Runtime enforcement lives in the concrete config, TLS, filesystem, admin, and request-handling modules.</td></tr>"
+to = "<tr><td><code>security</code></td><td>Ja</td><td>Compile-time-Sicherheitsprofilmarker plus Release-Hardening-Checks. Runtime-Erzwingung liegt in den konkreten Config-, TLS-, Filesystem-, Admin- und Request-Handling-Modulen.</td></tr>"

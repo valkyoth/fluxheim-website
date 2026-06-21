@@ -1,0 +1,182 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "targets Level 1 macOS support: contributors should be able to build and run local development profiles on Apple Silicon Macs. This is not a production macOS support claim."
+to = "vise le support macOS de niveau 1 : les contributeurs doivent pouvoir construire et executer des profils de developpement locaux sur des Macs Apple Silicon. Ce n'est pas une promesse de support macOS en production."
+
+[[phrase]]
+from = "Linux remains the production baseline for native packages, systemd units, containers, FIPS/ISO evidence, and release-gate parity. macOS support is for local development, site testing, and contributor workflows while Pingora macOS support remains experimental."
+to = "Linux reste la baseline de production pour les packages natifs, units systemd, conteneurs, preuves FIPS/ISO et parite de release gate. Le support macOS concerne le developpement local, les tests du site et les workflows contributeur, tandis que le support macOS de Pingora reste experimental."
+
+[[phrase]]
+from = "Supported Scope"
+to = "Perimetre supporte"
+
+[[phrase]]
+from = "Primary Apple Silicon developer target for M-series Macs."
+to = "Cible developpeur Apple Silicon principale pour les Macs serie M."
+
+[[phrase]]
+from = "Intel Mac developer target when a maintainer can test it."
+to = "Cible developpeur Intel Mac lorsqu'un maintainer peut la tester."
+
+[[phrase]]
+from = "Linux ARM64 release target, released as"
+to = "Cible de release Linux ARM64, publiee comme"
+
+[[phrase]]
+from = "Main Linux production release target, released as"
+to = "Cible principale de release production Linux, publiee comme"
+
+[[phrase]]
+from = "ARM is not one release artifact. The Rust target triple defines the operating system ABI and CPU baseline. For normal server ARM64 hardware such as Apple Silicon, AWS Graviton, Ampere, and 64-bit Raspberry Pi operating systems, build the matching"
+to = "ARM n'est pas un artefact de release unique. Le target triple Rust definit l'ABI du systeme d'exploitation et la baseline CPU. Pour le materiel serveur ARM64 normal comme Apple Silicon, AWS Graviton, Ampere et les systemes d'exploitation Raspberry Pi 64 bits, construisez la cible correspondante"
+
+[[phrase]]
+from = "<code>aarch64-*</code> target. Do not use <code>RUSTFLAGS=&quot;-C target-cpu=native&quot;</code> for published release assets unless the artifact is intentionally tied to one machine class."
+to = "<code>aarch64-*</code>. N'utilisez pas <code>RUSTFLAGS=&quot;-C target-cpu=native&quot;</code> pour des assets de release publies sauf si l'artefact est volontairement lie a une classe de machines."
+
+[[phrase]]
+from = "for published release assets unless the artifact is intentionally tied to one machine class."
+to = "pour des assets de release publies sauf si l'artefact est volontairement lie a une classe de machines."
+
+[[phrase]]
+from = "Install:"
+to = "Installer :"
+
+[[phrase]]
+from = "Xcode Command Line Tools:"
+to = "Xcode Command Line Tools :"
+
+[[phrase]]
+from = "Rust 1.96 through rustup"
+to = "Rust 1.96 via rustup"
+
+[[phrase]]
+from = "CMake if selecting native C dependencies such as zstd/libz-ng/AWS-LC paths"
+to = "CMake si vous selectionnez des dependances C natives comme les chemins zstd/libz-ng/AWS-LC"
+
+[[phrase]]
+from = "Optional Homebrew PHP for managed PHP-FPM development tests"
+to = "PHP Homebrew optionnel pour les tests de developpement PHP-FPM gere"
+
+[[phrase]]
+from = "Check the host target:"
+to = "Verifier la cible hote :"
+
+[[phrase]]
+from = "On an M-series Mac this should print"
+to = "Sur un Mac serie M, ceci doit afficher"
+
+[[phrase]]
+from = "Build Checks"
+to = "Checks de build"
+
+[[phrase]]
+from = "These are the Level 1 developer checks:"
+to = "Voici les checks developpeur de niveau 1 :"
+
+[[phrase]]
+from = "For a quick runtime check:"
+to = "Pour un check runtime rapide :"
+
+[[phrase]]
+from = "The smoke script writes all runtime state under"
+to = "Le smoke script ecrit tout l'etat runtime sous"
+
+[[phrase]]
+from = "by default and does not touch"
+to = "par defaut et ne touche pas"
+
+[[phrase]]
+from = ", launchd, or system service locations."
+to = ", launchd ni les emplacements de services systeme."
+
+[[phrase]]
+from = "Local Runtime Paths"
+to = "Chemins runtime locaux"
+
+[[phrase]]
+from = "macOS development configs should use project-local paths, or a private per-user temporary directory whose parents are not group/world writable:"
+to = "Les configs de developpement macOS doivent utiliser des chemins locaux au projet, ou un repertoire temporaire prive par utilisateur dont les parents ne sont pas accessibles en ecriture au groupe/monde :"
+
+[[phrase]]
+from = "Runtime data"
+to = "Donnees runtime"
+
+[[phrase]]
+from = "Recommended macOS dev path"
+to = "Chemin dev macOS recommande"
+
+[[phrase]]
+from = "pid file"
+to = "fichier PID"
+
+[[phrase]]
+from = "upgrade socket"
+to = "socket d'upgrade"
+
+[[phrase]]
+from = "certificate reload socket"
+to = "socket de reload certificat"
+
+[[phrase]]
+from = "admin snapshots"
+to = "snapshots admin"
+
+[[phrase]]
+from = "ACME storage"
+to = "stockage ACME"
+
+[[phrase]]
+from = "disk cache"
+to = "cache disque"
+
+[[phrase]]
+from = "file logs"
+to = "logs fichier"
+
+[[phrase]]
+from = "managed PHP-FPM sockets"
+to = "sockets PHP-FPM geres"
+
+[[phrase]]
+from = "Do not copy Linux service examples directly to macOS:"
+to = "Ne copiez pas les exemples de service Linux directement vers macOS :"
+
+[[phrase]]
+from = "are packaging defaults for Linux service deployments. Do not place Fluxheim runtime state directly under"
+to = "sont des valeurs par defaut de packaging pour les deploiements de service Linux. Ne placez pas l'etat runtime Fluxheim directement sous"
+
+[[phrase]]
+from = "; Fluxheim&#x27;s filesystem trust checks reject world-writable parents."
+to = "; les checks de confiance filesystem de Fluxheim rejettent les parents world-writable."
+
+[[phrase]]
+from = "Release Assets"
+to = "Assets de release"
+
+[[phrase]]
+from = "If macOS developer binaries are attached to a GitHub release, build them on macOS with the release helper:"
+to = "Si des binaires developpeur macOS sont attaches a une release GitHub, construisez-les sur macOS avec le helper de release :"
+
+[[phrase]]
+from = "Preferred release naming examples:"
+to = "Exemples de nommage de release preferes :"
+
+[[phrase]]
+from = "Universal macOS binaries are optional and can be produced with"
+to = "Les binaires macOS universels sont optionnels et peuvent etre produits avec"
+
+[[phrase]]
+from = "from separate Intel and Apple Silicon builds, but per-target tarballs are simpler and clearer for Fluxheim's current support level."
+to = "depuis des builds Intel et Apple Silicon separes, mais les tarballs par cible sont plus simples et plus clairs pour le niveau de support actuel de Fluxheim."
+
+[[phrase]]
+from = "from separate Intel and Apple Silicon builds, but per-target tarballs are simpler and clearer for Fluxheim&#x27;s current support level."
+to = "depuis des builds Intel et Apple Silicon separes, mais les tarballs par cible sont plus simples et plus clairs pour le niveau de support actuel de Fluxheim."
+
+[[phrase]]
+from = "<thead><tr><th>Target</th><th>Scope</th></tr></thead>"
+to = "<thead><tr><th>Cible</th><th>Portee</th></tr></thead>"

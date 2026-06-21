@@ -1,0 +1,497 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+[[phrase]]
+from = "Config Reference — Fluxheim Source Docs"
+to = "Reference de configuration - Documentation source Fluxheim"
+[[phrase]]
+from = "Config Reference"
+to = "Reference de configuration"
+[[phrase]]
+from = "Fluxheim config is TOML. Unknown fields are rejected, so misspelled settings fail during"
+to = "La configuration Fluxheim est en TOML. Les champs inconnus sont rejetes, donc les parametres mal orthographies echouent pendant"
+[[phrase]]
+from = "instead of being ignored."
+to = "au lieu d'etre ignores."
+[[phrase]]
+from = "Inspect a config before running it:"
+to = "Inspecter une config avant de l'executer :"
+[[phrase]]
+from = "For deployment preflight, use"
+to = "Pour le preflight de deploiement, utilisez"
+[[phrase]]
+from = "This performs the same static validation and also builds the runtime proxy state, so missing static web roots and other startup-blocking filesystem issues fail before systemd starts the service:"
+to = "Cela effectue la meme validation statique et construit aussi l'etat proxy runtime, donc les racines web statiques manquantes et autres problemes filesystem bloquant le demarrage echouent avant que systemd demarre le service :"
+[[phrase]]
+from = "When debugging a container or mounted config from outside the runtime environment, use the release-asset tester."
+to = "Lors du debug d'un conteneur ou d'une config montee depuis l'exterieur de l'environnement runtime, utilisez le testeur d'asset de release."
+[[phrase]]
+from = "runtime path inspection, which is useful when"
+to = "l'inspection des chemins runtime, ce qui est utile lorsque"
+[[phrase]]
+from = "is not mounted locally, while other config semantics and profile checks still run:"
+to = "n'est pas monte localement, tandis que les autres semantiques de config et controles de profil s'executent toujours :"
+[[phrase]]
+from = "For split config directories, Fluxheim reads"
+to = "Pour les repertoires de config split, Fluxheim lit les"
+[[phrase]]
+from = "files in sorted order:"
+to = "fichiers dans l'ordre trie :"
+[[phrase]]
+from = "When the config path is a file, Fluxheim loads only that file unless the file sets"
+to = "Lorsque le chemin de config est un fichier, Fluxheim charge seulement ce fichier sauf s'il definit"
+[[phrase]]
+from = "child. Files are loaded in lexical order within each directory."
+to = "enfant. Les fichiers sont charges dans l'ordre lexical dans chaque repertoire."
+[[phrase]]
+from = "When multiple fragments set"
+to = "Lorsque plusieurs fragments definissent"
+[[phrase]]
+from = "Fluxheim extends the trusted-proxy list and deduplicates exact entries instead of replacing the earlier list. This keeps a later fragment from silently discarding the main config's client-IP trust boundary."
+to = "Fluxheim etend la liste trusted-proxy et deduplique les entrees exactes au lieu de remplacer la liste precedente. Cela empeche un fragment ulterieur d'ecarter silencieusement la frontiere de confiance client-IP de la config principale."
+[[phrase]]
+from = "Fluxheim applies field-level merge semantics."
+to = "Fluxheim applique une semantique de merge au niveau des champs."
+[[phrase]]
+from = "A later proxy fragment that sets a timeout or buffer setting does not replace the earlier upstream, TLS verification, authentication, mirror, or load-balancer policy."
+to = "Un fragment proxy ulterieur qui definit un timeout ou un parametre de buffer ne remplace pas la policy upstream, verification TLS, authentification, miroir ou load-balancer precedente."
+[[phrase]]
+from = "The same field-level merge model applies to"
+to = "Le meme modele de merge au niveau des champs s'applique a"
+[[phrase]]
+from = "Later fragments can override fields they explicitly set without clearing previously configured admin authentication, resource limits, cache encryption, static-file safety policy, or stream routes."
+to = "Les fragments ulterieurs peuvent remplacer les champs qu'ils definissent explicitement sans effacer l'authentification admin, les limites de ressources, le chiffrement du cache, la policy de surete des fichiers statiques ou les routes stream deja configurees."
+[[phrase]]
+from = "Relative filesystem paths are resolved from the config file directory. Config sources must be real TOML files or real directories. Fluxheim rejects a symlink used as the top-level config source, rejects config sources below a symlinked directory, and ignores symlinked TOML entries inside split config directories, so a reload cannot be redirected through an unexpected filesystem pointer."
+to = "Les chemins filesystem relatifs sont resolus depuis le repertoire du fichier de config. Les sources de config doivent etre de vrais fichiers TOML ou de vrais repertoires. Fluxheim rejette un symlink utilise comme source de config top-level, rejette les sources de config sous un repertoire symlinke et ignore les entrees TOML symlinkees dans les repertoires de config split, afin qu'un reload ne puisse pas etre redirige par un pointeur filesystem inattendu."
+[[phrase]]
+from = "Each TOML file is size-limited to 1 MiB; large deployments should use a split config directory instead of one huge file. Split config directories are limited to 256 visible TOML files."
+to = "Chaque fichier TOML est limite a 1 MiB; les grands deploiements doivent utiliser un repertoire de config split plutot qu'un seul enorme fichier. Les repertoires de config split sont limites a 256 fichiers TOML visibles."
+[[phrase]]
+from = "Configured filesystem paths are also rejected when any existing path component is a symlink; missing final directories may still be created by the owning runtime module, but never through a symlinked prefix."
+to = "Les chemins filesystem configures sont aussi rejetes lorsqu'un composant de chemin existant est un symlink; les repertoires finaux manquants peuvent encore etre crees par le module runtime proprietaire, mais jamais via un prefixe symlinke."
+[[phrase]]
+from = "Server"
+to = "Serveur"
+[[phrase]]
+from = "controls listeners, default vhost selection, trusted proxies, and global request limits."
+to = "controle les listeners, la selection du vhost par defaut, les proxies de confiance et les limites globales de requetes."
+[[phrase]]
+from = "Notes:"
+to = "Notes :"
+[[phrase]]
+from = "TLS listeners are explicit through"
+to = "Les listeners TLS sont explicites via"
+[[phrase]]
+from = "Fluxheim does not infer TLS from port numbers."
+to = "Fluxheim ne deduit pas TLS depuis les numeros de ports."
+[[phrase]]
+from = "Host names are normalized to lowercase and reject percent signs, empty labels such as consecutive dots, leading/trailing label hyphens, overlong labels, and numeric-only final labels."
+to = "Les hostnames sont normalises en minuscules et rejettent signes pourcent, labels vides comme des points consecutifs, tirets en debut/fin de label, labels trop longs et labels finaux uniquement numeriques."
+[[phrase]]
+from = "Single-label internal names such as"
+to = "Les noms internes a label unique comme"
+[[phrase]]
+from = "remain valid."
+to = "restent valides."
+[[phrase]]
+from = "trusted_proxies should contain only peers you operate, such as a container gateway, Cloudflare, or a trusted edge proxy."
+to = "trusted_proxies doit contenir seulement les peers que vous exploitez, comme une gateway conteneur, Cloudflare ou un proxy edge de confiance."
+[[phrase]]
+from = "When the direct peer is trusted, Fluxheim walks"
+to = "Lorsque le peer direct est fiable, Fluxheim parcourt"
+[[phrase]]
+from = "from right to left and restores the last non-trusted hop for generated client-IP headers, equivalent to nginx"
+to = "de droite a gauche et restaure le dernier hop non fiable pour les headers client-IP generes, equivalent a nginx"
+[[phrase]]
+from = "The list is capped at 512 entries."
+to = "La liste est limitee a 512 entrees."
+[[phrase]]
+from = "Entries must be concrete IP addresses or bounded CIDR ranges; catch-all and near-global trust scopes such as"
+to = "Les entrees doivent etre des adresses IP concretes ou des plages CIDR bornees; les scopes de confiance catch-all ou quasi globaux comme"
+[[phrase]]
+from = "and unspecified addresses are rejected."
+to = "et les adresses unspecified sont rejetees."
+[[phrase]]
+from = "proxy_protocol defaults to"
+to = "proxy_protocol vaut par defaut"
+[[phrase]]
+from = "Set it to"
+to = "Definissez-le sur"
+[[phrase]]
+from = "only on listeners reached exclusively through trusted load balancers or edge proxies that send HAProxy PROXY protocol before TLS/HTTP/stream bytes."
+to = "seulement sur les listeners atteints exclusivement via des load balancers ou proxies edge fiables qui envoient le protocole HAProxy PROXY avant les octets TLS/HTTP/stream."
+[[phrase]]
+from = "Fluxheim requires"
+to = "Fluxheim exige"
+[[phrase]]
+from = "when this is enabled, rejects direct peers outside that trust list before parsing the header, and restores the PROXY source address before TLS, HTTP, and stream handling."
+to = "lorsque ceci est active, rejette les peers directs hors de cette liste de confiance avant de parser le header, et restaure l'adresse source PROXY avant le traitement TLS, HTTP et stream."
+[[phrase]]
+from = "The v2 parser supports TCP4/TCP6 and LOCAL/UNSPEC frames, skips bounded TLV payloads, and rejects unsupported address families or oversized v2 payloads."
+to = "Le parseur v2 prend en charge les frames TCP4/TCP6 et LOCAL/UNSPEC, ignore les payloads TLV bornes et rejette les familles d'adresses non supportees ou les payloads v2 trop grands."
+[[phrase]]
+from = "maps safe process settings into Pingora's"
+to = "mappe les parametres de processus surs dans"
+[[phrase]]
+from = "Changes to these values require a process upgrade, not a live snapshot reload."
+to = "Les changements de ces valeurs exigent un upgrade de processus, pas un reload de snapshot live."
+[[phrase]]
+from = "Keep"
+to = "Gardez"
+[[phrase]]
+from = "conservative in containers because Pingora allocates worker threads per service."
+to = "conservateur dans les conteneurs, car Pingora alloue des threads worker par service."
+[[phrase]]
+from = "must not contain parent traversal, must not be below symlinked existing parent directories, and on Unix must not use a group- or world-writable existing parent such as"
+to = "ne doivent pas contenir de parent traversal, ne doivent pas etre sous des repertoires parents existants symlinkes, et sous Unix ne doivent pas utiliser un parent existant modifiable par groupe ou tous comme"
+[[phrase]]
+from = "Use a dedicated runtime directory such as"
+to = "Utilisez un repertoire runtime dedie comme"
+[[phrase]]
+from = "certificate_reload_sock is a local Unix-domain control socket used by"
+to = "certificate_reload_sock est un socket de controle Unix-domain local utilise par"
+[[phrase]]
+from = "to request certificate-handle reloads after external ACME renewal. It is not a general admin API."
+to = "pour demander des reloads de handles de certificat apres renouvellement ACME externe. Ce n'est pas une API admin generale."
+[[phrase]]
+from = "is disabled by default. When enabled, cleartext requests receive a direct HTTPS redirect before static serving or proxying."
+to = "est desactive par defaut. Lorsqu'active, les requetes cleartext recoivent un redirect HTTPS direct avant service statique ou proxying."
+[[phrase]]
+from = "It requires at least one"
+to = "Cela exige au moins une"
+[[phrase]]
+from = "status may be"
+to = "status peut etre"
+[[phrase]]
+from = "target_port is optional and should be used only when clients must be redirected to a non-default HTTPS port."
+to = "target_port est optionnel et doit etre utilise seulement lorsque les clients doivent etre rediriges vers un port HTTPS non standard."
+[[phrase]]
+from = "Redirects require a syntactically safe"
+to = "Les redirects exigent un"
+[[phrase]]
+from = "header, otherwise Fluxheim returns"
+to = "syntactiquement sur, sinon Fluxheim renvoie"
+[[phrase]]
+from = "instead of constructing a risky"
+to = "au lieu de construire un"
+[[phrase]]
+from = "TCP Stream Proxy"
+to = "Proxy TCP stream"
+[[phrase]]
+from = "is disabled by default and requires a build with the"
+to = "est desactive par defaut et exige un build avec la feature"
+[[phrase]]
+from = "feature. Stream routes are raw L4 TCP services."
+to = ". Les routes stream sont des services TCP L4 bruts."
+[[phrase]]
+from = "They do not run HTTP routing, headers, cache, compression, auth subrequests, PHP, or web serving logic."
+to = "Elles n'executent pas la logique HTTP routing, headers, cache, compression, auth subrequests, PHP ou web serving."
+[[phrase]]
+from = "The current stream datapath and listener loop are Fluxheim-owned in the"
+to = "Le datapath stream courant et la boucle listener appartiennent a Fluxheim dans la ligne"
+[[phrase]]
+from = "line, including the internal async IO boundary used by accepted TCP connections and selected upstream connections."
+to = ", y compris la frontiere async IO interne utilisee par les connexions TCP acceptees et les connexions upstream selectionnees."
+[[phrase]]
+from = "Stream upstream TLS also uses Fluxheim-owned"
+to = "Le TLS upstream stream utilise aussi des connecteurs"
+[[phrase]]
+from = "it no longer depends on Pingora's stream wrapper or TLS connector adapter."
+to = "il ne depend plus du wrapper stream ou de l'adaptateur connector TLS de Pingora."
+[[phrase]]
+from = "Multiple upstreams use stream-local round-robin selection by default."
+to = "Plusieurs upstreams utilisent par defaut une selection round-robin locale au stream."
+[[phrase]]
+from = "Drained stream upstreams do not receive new connections. Backup stream upstreams are not selected while a primary is available, but are tried as connect-fallback candidates before the downstream stream starts copying."
+to = "Les upstreams stream draines ne recoivent pas de nouvelles connexions. Les upstreams stream backup ne sont pas selectionnes tant qu'un primary est disponible, mais sont essayes comme candidats de fallback de connexion avant que le stream downstream commence a copier."
+[[phrase]]
+from = "The timer resets whenever either direction transfers bytes."
+to = "Le timer se reinitialise des qu'une direction transfere des octets."
+[[phrase]]
+from = "is optional and bounds total accepted stream lifetime when set. Leave it unset for no wall-clock lifetime cap."
+to = "est optionnel et borne la duree de vie totale du stream accepte lorsqu'il est defini. Laissez-le unset pour ne pas avoir de cap de duree wall-clock."
+[[phrase]]
+from = "is optional and caps copied bytes per direction for a single stream connection."
+to = "est optionnel et limite les octets copies par direction pour une seule connexion stream."
+[[phrase]]
+from = "enables PROXY protocol receive for this stream route only. It defaults to"
+to = "active la reception PROXY protocol uniquement pour cette route stream. La valeur par defaut est"
+[[phrase]]
+from = "are route-local stream source policies. Entries are IP addresses or CIDR ranges."
+to = "sont des policies source stream locales a la route. Les entrees sont des adresses IP ou plages CIDR."
+[[phrase]]
+from = "sends TLS to the selected stream upstream. Hostname upstreams are resolved on connection setup. By default, Fluxheim rejects hostname DNS answers that resolve only to private, loopback, link-local, multicast, broadcast, documentation, or unspecified addresses to reduce DNS-rebinding pivots. Set"
+to = "envoie TLS a l'upstream stream selectionne. Les upstreams hostname sont resolus lors de l'etablissement de connexion. Par defaut, Fluxheim rejette les reponses DNS de hostname qui resolvent seulement vers des adresses privees, loopback, link-local, multicast, broadcast, documentation ou unspecified afin de reduire les pivots DNS-rebinding. Definissez"
+[[phrase]]
+from = "only for routes whose hostname upstreams are intentionally resolved by trusted internal DNS. IP-literal upstreams remain explicit and are not blocked by this DNS guard."
+to = "seulement pour les routes dont les upstreams hostname sont volontairement resolus par un DNS interne de confiance. Les upstreams IP-literal restent explicites et ne sont pas bloques par ce garde DNS."
+[[phrase]]
+from = "is optional for hostname upstreams; when unset Fluxheim derives SNI from the selected upstream host. IP-literal upstreams with"
+to = "est optionnel pour les upstreams hostname; lorsqu'il est unset, Fluxheim derive SNI depuis l'hote upstream selectionne. Les upstreams IP-literal avec"
+[[phrase]]
+from = "because an IP address does not provide a DNS hostname for certificate verification."
+to = "car une adresse IP ne fournit pas de hostname DNS pour la verification de certificat."
+[[phrase]]
+from = "disabling certificate verification also requires hostname verification to be disabled so the policy cannot imply a hostname check that is not happening."
+to = "desactiver la verification de certificat exige aussi de desactiver la verification hostname afin que la policy n'implique pas un check hostname qui n'a pas lieu."
+[[phrase]]
+from = "replaces the SNI-derived verification hostname with one explicit non-wildcard hostname. It is not an additional hostname checked alongside SNI."
+to = "remplace le hostname de verification derive de SNI par un hostname explicite non wildcard. Ce n'est pas un hostname supplementaire verifie a cote de SNI."
+[[phrase]]
+from = "loads a route-local PEM CA bundle."
+to = "charge un bundle CA PEM local a la route."
+[[phrase]]
+from = "records bounded connection outcomes and"
+to = "enregistre les resultats de connexion bornes et"
+[[phrase]]
+from = "records copied bytes in each direction."
+to = "enregistre les octets copies dans chaque direction."
+[[phrase]]
+from = "UDP Beta"
+to = "UDP beta"
+[[phrase]]
+from = "it is a beta UDP/GSLB exploration runtime, not a production UDP platform. Normal release profiles do not enable the"
+to = "c'est un runtime d'exploration beta UDP/GSLB, pas une plateforme UDP de production. Les profils de release normaux n'activent pas la feature"
+[[phrase]]
+from = "fails clearly unless Fluxheim is built with that beta feature."
+to = "echoue clairement sauf si Fluxheim est construit avec cette feature beta."
+[[phrase]]
+from = "The namespace is intentionally separate from"
+to = "Le namespace est volontairement separe de"
+[[phrase]]
+from = "is an explicit runtime target, not a generic protocol parser."
+to = "est une cible runtime explicite, pas un parseur de protocole generique."
+[[phrase]]
+from = "performs one bounded upstream request/response exchange per downstream datagram."
+to = "effectue un echange upstream requete/reponse borne par datagramme downstream."
+[[phrase]]
+from = "forwards one datagram upstream and does not wait for a response."
+to = "transmet un datagramme upstream et n'attend pas de reponse."
+[[phrase]]
+from = "are reserved until route-local UDP session affinity is implemented."
+to = "sont reserves jusqu'a l'implementation de l'affinite de session UDP locale a la route."
+[[phrase]]
+from = "must be between 1 and 65507. Route examples should use smaller protocol-aware values where possible, such as 1232 bytes for DNS over UDP deployments that want conservative fragmentation behavior."
+to = "doit etre entre 1 et 65507. Les exemples de routes doivent utiliser des valeurs plus petites et conscientes du protocole lorsque possible, comme 1232 octets pour les deploiements DNS over UDP qui veulent un comportement de fragmentation conservateur."
+[[phrase]]
+from = "means unlimited for that UDP route. Non-zero values are capped at 1000000."
+to = "signifie illimite pour cette route UDP. Les valeurs non nulles sont plafonnees a 1000000."
+[[phrase]]
+from = "It limits concurrent in-flight datagram sessions per source IP and is released when the datagram finishes."
+to = "Cela limite les sessions datagramme in-flight concurrentes par IP source et se libere lorsque le datagramme se termine."
+[[phrase]]
+from = "disables the per-source cap. Non-zero values are capped at 1000000."
+to = "desactive le cap par source. Les valeurs non nulles sont plafonnees a 1000000."
+[[phrase]]
+from = "In rootless container deployments, prefer binding UDP beta routes to an explicit host/container IP and publish only the required UDP port. Avoid broad"
+to = "Dans les deploiements conteneur rootless, preferez binder les routes UDP beta a une IP hote/conteneur explicite et publier uniquement le port UDP requis. Evitez les"
+[[phrase]]
+from = "The admin API exposes configured UDP route status at"
+to = "L'API admin expose le statut des routes UDP configurees a"
+[[phrase]]
+from = "when both admin and"
+to = "lorsque admin et"
+[[phrase]]
+from = "are compiled in."
+to = "sont tous deux compiles."
+[[phrase]]
+from = "Admin"
+to = "Admin"
+[[phrase]]
+from = "Snapshot and rollback endpoints also require"
+to = "Les endpoints snapshot et rollback exigent aussi"
+[[phrase]]
+from = "The snapshot store runtime applies the same rule when it is used directly by CLI/admin paths."
+to = "Le runtime snapshot store applique la meme regle lorsqu'il est utilise directement par les chemins CLI/admin."
+[[phrase]]
+from = "loopback whenever possible. If"
+to = "loopback chaque fois que possible. Si"
+[[phrase]]
+from = "enables a separate Unix-domain HTTP socket for local, read-only operational checks. It exposes only"
+to = "active un socket HTTP Unix-domain separe pour les checks operationnels locaux en lecture seule. Il expose seulement"
+[[phrase]]
+from = "must grant owner read/write access, may grant group read/write access, and must not grant world access; use"
+to = "doit donner au proprietaire l'acces lecture/ecriture, peut donner au groupe l'acces lecture/ecriture, et ne doit pas donner d'acces world; utilisez"
+[[phrase]]
+from = "for service-owner-only status or"
+to = "pour un statut reserve au proprietaire du service ou"
+[[phrase]]
+from = "for a dedicated operator group. By default, the Unix socket's filesystem permissions are the trust boundary. Set"
+to = "pour un groupe operateur dedie. Par defaut, les permissions filesystem du socket Unix sont la frontiere de confiance. Definissez"
+[[phrase]]
+from = "always requires the bearer token on the ops socket because snapshot IDs and messages expose deployment change history."
+to = "exige toujours le bearer token sur le socket ops car les IDs et messages de snapshot exposent l'historique des changements de deploiement."
+[[phrase]]
+from = "is the runtime status view for a backend currently ejected by passive health;"
+to = "est la vue de statut runtime d'un backend actuellement ejecte par passive health;"
+[[phrase]]
+from = "means the backend is not passively ejected. Per-backend rows include"
+to = "signifie que le backend n'est pas ejecte passivement. Les lignes par backend incluent"
+[[phrase]]
+from = "when an authenticated runtime member operation is active and"
+to = "lorsqu'une operation runtime authentifiee de membre est active et"
+[[phrase]]
+from = "when that override currently has a recorded manual transition time. In"
+to = "lorsque cet override a actuellement un temps de transition manuel enregistre. Dans"
+[[phrase]]
+from = "backend addresses are omitted from this status object."
+to = "les adresses backend sont omises de cet objet de statut."
+[[phrase]]
+from = "Background discovery refresh loops also emit"
+to = "Les boucles de refresh de discovery en arriere-plan emettent aussi"
+[[phrase]]
+from = "and the same vhost/route pool labels used by selection, retry, queue, and runtime mutation events."
+to = "et les memes labels vhost/route/pool utilises par les evenements selection, retry, queue et mutation runtime."
+[[phrase]]
+from = "authenticated admins can update the in-memory state of an existing configured pool member without reloading:"
+to = "les admins authentifies peuvent mettre a jour l'etat in-memory d'un membre de pool configure existant sans reload:"
+[[phrase]]
+from = "for a route-local pool,"
+to = "pour un pool local a la route,"
+[[phrase]]
+from = "for the configured upstream address or"
+to = "pour l'adresse upstream configuree ou"
+[[phrase]]
+from = "removes the member from selection like"
+to = "retire le membre de la selection comme"
+[[phrase]]
+from = "but remains distinct in admin status so operators can separate forced health actions from maintenance disables."
+to = "mais reste distinct dans le statut admin afin que les operateurs puissent separer les actions health forcees des desactivations de maintenance."
+[[phrase]]
+from = "clears any runtime override, clears the member's passive-health failure/ejection state, and restarts slow-start ramp when slow-start is configured."
+to = "efface tout override runtime, efface l'etat failure/ejection passive-health du membre et redemarre la rampe slow-start lorsqu'elle est configuree."
+[[phrase]]
+from = "clears only runtime overrides; static"
+to = "efface seulement les overrides runtime; les statiques"
+[[phrase]]
+from = "remain enforced until the config changes. Runtime member state is in-memory unless"
+to = "restent appliques jusqu'a ce que la config change. L'etat runtime des membres est en memoire sauf si"
+[[phrase]]
+from = "is configured for that pool. Mutation responses include"
+to = "est configure pour ce pool. Les reponses de mutation incluent"
+[[phrase]]
+from = "when the pool has a local runtime state file and"
+to = "lorsque le pool a un fichier d'etat runtime local et"
+[[phrase]]
+from = "otherwise. The response also includes"
+to = "sinon. La reponse inclut aussi"
+[[phrase]]
+from = "so operators can audit which pool was changed. In"
+to = "afin que les operateurs puissent auditer quel pool a ete modifie. Dans"
+[[phrase]]
+from = "overrides after a member disappears from the live discovery set. Runtime"
+to = "overrides apres qu'un membre disparait du live discovery set. Les overrides runtime"
+[[phrase]]
+from = "overrides are retained across discovery churn and are cleared only by explicit"
+to = "sont conserves pendant le churn de discovery et ne sont effaces que par"
+[[phrase]]
+from = "with bounded events"
+to = "avec des evenements bornes"
+[[phrase]]
+from = "Authenticated admins can also mutate the runtime backend set for static upstream pools:"
+to = "Les admins authentifies peuvent aussi muter le set backend runtime pour les pools upstream statiques:"
+[[phrase]]
+from = "takes a socket-address"
+to = "prend une adresse socket"
+[[phrase]]
+from = "and optional numeric"
+to = "et un numerique optionnel"
+[[phrase]]
+from = "takes the existing"
+to = "prend l'existant"
+[[phrase]]
+from = "and optional replacement address via"
+to = "et une adresse de remplacement optionnelle via"
+[[phrase]]
+from = "Address retargeting is rejected for aliased members because aliases are part of the static config identity; change those through config reload."
+to = "Le retargeting d'adresse est refuse pour les membres aliases parce que les aliases font partie de l'identite de config statique; changez-les via reload de config."
+[[phrase]]
+from = "Authenticated admins can adjust the runtime weight of an already configured member without reloading when the pool uses"
+to = "Les admins authentifies peuvent ajuster le poids runtime d'un membre deja configure sans reload lorsque le pool utilise"
+[[phrase]]
+from = "selection:"
+to = "selection:"
+[[phrase]]
+from = "to remove the runtime override and return to the configured"
+to = "pour retirer l'override runtime et revenir a la valeur configuree"
+[[phrase]]
+from = "value. Runtime weights are bounded to"
+to = ". Les poids runtime sont bornes a"
+[[phrase]]
+from = "are local/in-memory like runtime member state, and are returned in backend status as"
+to = "sont locaux/en memoire comme l'etat runtime des membres, et sont retournes dans le statut backend sous"
+[[phrase]]
+from = "For dynamic DNS/file/HTTP-discovery pools, runtime weight overrides are retained while the same backend is explicitly"
+to = "Pour les pools dynamiques DNS/fichier/HTTP-discovery, les overrides de poids runtime sont conserves tant que le meme backend est explicitement"
+[[phrase]]
+from = "and are otherwise reclaimed after the backend leaves the live discovery set. Successful and rejected weight operations are counted as"
+to = "et sont sinon recuperes apres que le backend quitte le live discovery set. Les operations de poids reussies et rejetees sont comptees comme"
+[[phrase]]
+from = "The response is"
+to = "La reponse est"
+[[phrase]]
+from = "the same read-only endpoint is available over the local Unix ops socket. It follows"
+to = "le meme endpoint read-only est disponible via le socket Unix ops local. Il suit"
+[[phrase]]
+from = "unlike status endpoints,"
+to = "contrairement aux endpoints de statut,"
+[[phrase]]
+from = "always requires bearer authentication."
+to = "exige toujours l'authentification bearer."
+[[phrase]]
+from = "rejected clear requests are counted separately as"
+to = "les requetes clear rejetees sont comptees separement comme"
+[[phrase]]
+from = "rejects requests without a single valid 64-character SHA-256 hex value,"
+to = "rejette les requetes sans une seule valeur hex SHA-256 valide de 64 caracteres,"
+[[phrase]]
+from = "rejects matching fingerprints, and"
+to = "rejette les fingerprints correspondants, et"
+[[phrase]]
+from = "Snapshot messages submitted through the admin API are trimmed and capped at 4096 bytes of non-control text before they are persisted."
+to = "Les messages de snapshot soumis via l'API admin sont trimmes et limites a 4096 octets de texte non-control avant persistance."
+[[phrase]]
+from = "Metrics"
+to = "Metriques"
+[[phrase]]
+from = "is disabled by default and should remain loopback-only unless it is fronted by a trusted local monitoring agent."
+to = "est desactive par defaut et doit rester loopback-only sauf s'il est protege par un agent de monitoring local fiable."
+[[phrase]]
+from = "compile-time feature is not part of"
+to = "feature compile-time ne fait pas partie de"
+[[phrase]]
+from = "feature. The exporter sends OTLP/HTTP JSON to"
+to = "feature. L'exporter envoie du JSON OTLP/HTTP vers"
+[[phrase]]
+from = "endpoints. Prefer local loopback HTTP for same-host collectors and HTTPS for remote collectors."
+to = "endpoints. Preferez HTTP loopback local pour les collectors meme hote et HTTPS pour les collectors distants."
+[[phrase]]
+from = "With that opt-in, visible"
+to = "Avec cet opt-in, les fichiers visibles"
+[[phrase]]
+from = "files from a sibling"
+to = "depuis un"
+[[phrase]]
+from = "directory load after the main file. When the config path is a directory, Fluxheim loads visible"
+to = "voisin se chargent apres le fichier principal. Lorsque le chemin de configuration est un repertoire, Fluxheim charge les fichiers visibles"
+[[phrase]]
+from = "in hardened multi-tenant deployments to reject missing or invalid host identity with"
+to = "dans les deploiements multi-tenant renforces pour rejeter une identite d'hote manquante ou invalide avec"
+[[phrase]]
+from = "and unknown hosts with"
+to = "et les hotes inconnus avec"
+[[phrase]]
+from = "IPv4 prefixes broader than"
+to = "prefixes IPv4 plus larges que"
+[[phrase]]
+from = "IPv6 prefixes broader than"
+to = "prefixes IPv6 plus larges que"
+[[phrase]]
+from = "until the progressive lockout expires."
+to = "jusqu'a expiration du lockout progressif."
+[[phrase]]
+from = "must be an absolute path no longer than 2048 bytes and cannot contain whitespace, control characters, backslashes,"
+to = "doit etre un chemin absolu d'au plus 2048 octets et ne peut pas contenir d'espaces, de caracteres de controle, de barres obliques inversees,"
+[[phrase]]
+from = "instead of the default JSON status body to reduce fingerprinting."
+to = "au lieu du corps JSON de statut par defaut afin de reduire le fingerprinting."

@@ -1,0 +1,286 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Rust Supply-Chain Security"
+to = "Rust-Supply-Chain-Sicherheit"
+
+[[phrase]]
+from = "Fluxheim treats the Rust dependency graph as part of the trusted computing base. Rust's memory safety reduces classes of runtime bugs, but it does not protect against a compromised crate, a malicious build script, a procedural macro, a poisoned native dependency, or a maintainer account takeover."
+to = "Fluxheim behandelt den Rust-Dependency-Graph als Teil der Trusted Computing Base. Rusts Speichersicherheit reduziert Klassen von Runtime-Bugs, schuetzt aber nicht vor einer kompromittierten Crate, einem boesartigen Build-Script, einem prozeduralen Makro, einer vergifteten nativen Dependency oder einer Maintainer-Account-Uebernahme."
+
+[[phrase]]
+from = "This document defines the current supply-chain controls and the hardening roadmap for Fluxheim release work."
+to = "Dieses Dokument definiert die aktuellen Supply-Chain-Kontrollen und die Haertungs-Roadmap fuer Fluxheim-Release-Arbeit."
+
+[[phrase]]
+from = "Current Controls"
+to = "Aktuelle Kontrollen"
+
+[[phrase]]
+from = "is committed and release builds use"
+to = "ist committed und Release-Builds nutzen"
+
+[[phrase]]
+from = "denies unknown registries, unknown git sources, yanked crates, and unknown licenses by default."
+to = "verbietet standardmaessig unbekannte Registries, unbekannte Git-Quellen, yanked Crates und unbekannte Lizenzen."
+
+[[phrase]]
+from = "keeps RustSec advisory exceptions explicit and versioned."
+to = "haelt RustSec-Advisory-Ausnahmen explizit und versioniert."
+
+[[phrase]]
+from = "GitHub CI runs formatting, clippy, tests, CodeQL,"
+to = "GitHub CI fuehrt Formatierung, clippy, Tests, CodeQL,"
+
+[[phrase]]
+from = ", OWASP baseline checks, feature builds, and smoke tests."
+to = ", OWASP-Baseline-Checks, Feature-Builds und Smoke-Tests aus."
+
+[[phrase]]
+from = "Stable releases generate SPDX and CycloneDX SBOMs from the tagged source tree."
+to = "Stabile Releases erzeugen SPDX- und CycloneDX-SBOMs aus dem getaggten Source-Tree."
+
+[[phrase]]
+from = "Stable releases record source archive checksums, binary checksums, SBOM checksums, signed tag verification, container digests, and reproducible-build evidence."
+to = "Stabile Releases erfassen Source-Archiv-Checksummen, Binary-Checksummen, SBOM-Checksummen, signierte Tag-Verifikation, Container-Digests und Reproducible-Build-Nachweise."
+
+[[phrase]]
+from = "Build Scripts And Procedural Macros"
+to = "Build-Scripts und prozedurale Makros"
+
+[[phrase]]
+from = "Cargo build scripts and procedural macros execute code on the build host. Treat them like native build tools, not like passive source files."
+to = "Cargo-Build-Scripts und prozedurale Makros fuehren Code auf dem Build-Host aus. Behandle sie wie native Build-Tools, nicht wie passive Quelldateien."
+
+[[phrase]]
+from = "Fluxheim does not rely on a global \"disable every dependency build script\" switch. Cargo supports overriding some build scripts for"
+to = "Fluxheim verlaesst sich nicht auf einen globalen Schalter \"jedes Dependency-Build-Script deaktivieren\". Cargo unterstuetzt das Ueberschreiben einiger Build-Scripts fuer"
+
+[[phrase]]
+from = "packages and a package can opt out of its own build script, but stable Cargo does not provide a single project-wide control that safely disables every transitive build script and procedural macro while preserving normal builds."
+to = "Packages und ein Package kann sein eigenes Build-Script abwaehlen, aber Stable Cargo bietet keine einzelne projektweite Kontrolle, die jedes transitive Build-Script und prozedurale Makro sicher deaktiviert und normale Builds erhaelt."
+
+[[phrase]]
+from = "Required review for dependency changes:"
+to = "Erforderliches Review fuer Dependency-Aenderungen:"
+
+[[phrase]]
+from = ", procedural macro crate,"
+to = ", prozedurale Makro-Crate,"
+
+[[phrase]]
+from = "crate, vendored C or assembly source, and native tool invocation."
+to = "Crate, vendored C- oder Assembly-Source und nativen Tool-Aufruf."
+
+[[phrase]]
+from = "Check for environment variable reads, network access, file writes outside"
+to = "Pruefe auf Environment-Variable-Reads, Netzwerkzugriff, Dateiwrites ausserhalb"
+
+[[phrase]]
+from = ", generated code, compiler/linker wrapper use, and bundled binaries."
+to = ", generierten Code, Compiler-/Linker-Wrapper-Nutzung und gebuendelte Binaries."
+
+[[phrase]]
+from = "Prefer system-provided cryptographic modules for regulated profiles, such as OpenSSL FIPS provider deployments, over vendored native crypto unless the vendor module and build path are explicitly documented."
+to = "Bevorzuge fuer regulierte Profile systembereitgestellte kryptografische Module, etwa OpenSSL-FIPS-Provider-Deployments, gegenueber vendored nativer Crypto, sofern Vendor-Modul und Build-Pfad nicht explizit dokumentiert sind."
+
+[[phrase]]
+from = "Do not build untrusted forks, unreviewed dependency branches, or experimental dependency updates in an environment that has release keys, production tokens, registry credentials, SSH agents, or cloud credentials."
+to = "Baue keine nicht vertrauenswuerdigen Forks, unreviewten Dependency-Branches oder experimentellen Dependency-Updates in einer Umgebung mit Release-Keys, Production-Tokens, Registry-Credentials, SSH-Agents oder Cloud-Credentials."
+
+[[phrase]]
+from = "Dependency Update Workflow"
+to = "Dependency-Update-Workflow"
+
+[[phrase]]
+from = "Use <code>cargo update</code> only as a deliberate dependency maintenance step."
+to = "Nutze <code>cargo update</code> nur als bewussten Dependency-Maintenance-Schritt."
+
+[[phrase]]
+from = "For each update:"
+to = "Fuer jedes Update:"
+
+[[phrase]]
+from = "diff before running the full test suite."
+to = "Diff, bevor die volle Testsuite laeuft."
+
+[[phrase]]
+from = "Identify new crates, new major versions, new publishers, new build scripts, new proc macros, and new native dependencies."
+to = "Identifiziere neue Crates, neue Major-Versionen, neue Publisher, neue Build-Scripts, neue Proc-Macros und neue native Dependencies."
+
+[[phrase]]
+from = "Run the relevant feature builds and tests for the changed dependency area."
+to = "Fuehre die relevanten Feature-Builds und Tests fuer den geaenderten Dependency-Bereich aus."
+
+[[phrase]]
+from = ", release notes,"
+to = ", Release Notes,"
+
+[[phrase]]
+from = "when an advisory exception or license exception changes."
+to = "wenn sich eine Advisory-Exception oder Lizenz-Exception aendert."
+
+[[phrase]]
+from = "Do not hide dependency churn inside unrelated feature commits."
+to = "Verstecke Dependency-Churn nicht in nicht verwandten Feature-Commits."
+
+[[phrase]]
+from = "Build Isolation"
+to = "Build-Isolation"
+
+[[phrase]]
+from = "Local development and CI should keep build environments low-trust by default:"
+to = "Lokale Entwicklung und CI sollten Build-Umgebungen standardmaessig low-trust halten:"
+
+[[phrase]]
+from = "Use rootless containers or a restricted sandbox for dependency experiments, untrusted forks, and native build investigation."
+to = "Nutze rootless Container oder eine eingeschraenkte Sandbox fuer Dependency-Experimente, nicht vertrauenswuerdige Forks und native Build-Untersuchungen."
+
+[[phrase]]
+from = "Keep production secrets out of the shell used for"
+to = "Halte Production-Secrets aus der Shell heraus, die fuer"
+
+[[phrase]]
+from = ", and dependency tooling."
+to = "und Dependency-Tooling genutzt wird."
+
+[[phrase]]
+from = "Do not give pull-request workflows from external forks registry push credentials, release signing keys, or production service tokens."
+to = "Gib Pull-Request-Workflows aus externen Forks keine Registry-Push-Credentials, Release-Signing-Keys oder Production-Service-Tokens."
+
+[[phrase]]
+from = "Keep image publishing and GitHub release publishing on maintainer-triggered workflows."
+to = "Halte Image-Publishing und GitHub-Release-Publishing auf Maintainer-getriggerten Workflows."
+
+[[phrase]]
+from = "Human Review Roadmap"
+to = "Human-Review-Roadmap"
+
+[[phrase]]
+from = "Fluxheim should add"
+to = "Fluxheim sollte"
+
+[[phrase]]
+from = "after the 1.4.0 proxy-parity release stabilizes."
+to = "nach Stabilisierung des 1.4.0-Proxy-Parity-Releases hinzufuegen."
+
+[[phrase]]
+from = "Planned adoption path:"
+to = "Geplanter Einfuehrungspfad:"
+
+[[phrase]]
+from = "directory and commit the generated"
+to = "Verzeichnis und committe die generierten"
+
+[[phrase]]
+from = "Import only trusted third-party audit sources that are relevant to the Fluxheim dependency graph."
+to = "Importiere nur vertrauenswuerdige Third-party-Audit-Quellen, die fuer den Fluxheim-Dependency-Graph relevant sind."
+
+[[phrase]]
+from = "Start with explicit exemptions for the existing graph so the first integration is reviewable."
+to = "Beginne mit expliziten Exemptions fuer den bestehenden Graph, damit die erste Integration reviewbar ist."
+
+[[phrase]]
+from = "Require human audit entries for new direct dependencies, new proc macros, new build scripts, and new native dependencies."
+to = "Verlange menschliche Audit-Eintraege fuer neue direkte Dependencies, neue Proc-Macros, neue Build-Scripts und neue native Dependencies."
+
+[[phrase]]
+from = "to CI after the initial policy is stable and false positives are understood."
+to = "zur CI hinzu, nachdem die initiale Policy stabil ist und False Positives verstanden sind."
+
+[[phrase]]
+from = "is not a replacement for"
+to = "ist kein Ersatz fuer"
+
+[[phrase]]
+from = "; it adds human review evidence for code that has no known advisory."
+to = "; es fuegt menschliche Review-Nachweise fuer Code hinzu, der kein bekanntes Advisory hat."
+
+[[phrase]]
+from = "Embedded Binary Metadata Roadmap"
+to = "Roadmap fuer eingebettete Binary-Metadaten"
+
+[[phrase]]
+from = "Fluxheim already publishes external SBOM files. A future release should evaluate"
+to = "Fluxheim veroeffentlicht bereits externe SBOM-Dateien. Ein kuenftiges Release sollte"
+
+[[phrase]]
+from = "or native Rust SBOM embedding for release binaries so scanners can recover dependency metadata directly from deployed artifacts."
+to = "oder natives Rust-SBOM-Embedding fuer Release-Binaries evaluieren, damit Scanner Dependency-Metadaten direkt aus deployten Artefakten wiederherstellen koennen."
+
+[[phrase]]
+from = "Before enabling embedded metadata by default, validate:"
+to = "Vor der standardmaessigen Aktivierung eingebetteter Metadaten validieren:"
+
+[[phrase]]
+from = "release reproducibility impact;"
+to = "Auswirkung auf Release-Reproduzierbarkeit;"
+
+[[phrase]]
+from = "RPM and container build compatibility;"
+to = "RPM- und Container-Build-Kompatibilitaet;"
+
+[[phrase]]
+from = "cross-target behavior;"
+to = "Cross-target-Verhalten;"
+
+[[phrase]]
+from = "interaction with the current SPDX and CycloneDX release evidence."
+to = "Interaktion mit den aktuellen SPDX- und CycloneDX-Release-Nachweisen."
+
+[[phrase]]
+from = "Accepted Limitations"
+to = "Akzeptierte Einschraenkungen"
+
+[[phrase]]
+from = "Dependency-level"
+to = "Dependency-Level-"
+
+[[phrase]]
+from = "code in networking, TLS, OS, and runtime crates is not automatically a vulnerability. It is a review trigger."
+to = "Code in Networking-, TLS-, OS- und Runtime-Crates ist nicht automatisch eine Schwachstelle. Er ist ein Review-Trigger."
+
+[[phrase]]
+from = "result only means there is no known RustSec advisory for the resolved graph. It does not prove a crate is non-malicious."
+to = "Ergebnis bedeutet nur, dass es kein bekanntes RustSec-Advisory fuer den aufgeloesten Graph gibt. Es beweist nicht, dass eine Crate nicht boesartig ist."
+
+[[phrase]]
+from = "SBOM files improve traceability, but they do not prevent a malicious build."
+to = "SBOM-Dateien verbessern die Nachverfolgbarkeit, verhindern aber keinen boesartigen Build."
+
+[[phrase]]
+from = "FIPS or ISO/IEC 19790 TLS mode constrains cryptographic providers and TLS configuration. It does not validate unrelated dependency behavior."
+to = "FIPS- oder ISO/IEC-19790-TLS-Modus beschraenkt kryptografische Provider und TLS-Konfiguration. Er validiert kein nicht verwandtes Dependency-Verhalten."
+
+[[phrase]]
+from = "Review every new <code>build.rs</code>, procedural macro crate, <code>*-sys</code> crate, vendored C or assembly source, and native tool invocation."
+to = "Pruefe jedes neue <code>build.rs</code>, jede prozedurale Makro-Crate, jede <code>*-sys</code>-Crate, vendored C- oder Assembly-Source und jeden nativen Tool-Aufruf."
+
+[[phrase]]
+from = "Treat <code>.cargo/config.toml</code>, Cargo aliases, wrapper scripts, CI workflow changes, and release scripts as executable supply-chain changes."
+to = "Behandle <code>.cargo/config.toml</code>, Cargo-Aliase, Wrapper-Scripts, CI-Workflow-Aenderungen und Release-Scripts als ausfuehrbare Supply-Chain-Aenderungen."
+
+[[phrase]]
+from = "Review the <code>Cargo.lock</code> diff before running the full test suite."
+to = "Pruefe den <code>Cargo.lock</code>-Diff, bevor die volle Testsuite laeuft."
+
+[[phrase]]
+from = "Run <code>cargo deny check</code>, <code>cargo deny check licenses</code>, and <code>cargo audit</code>."
+to = "Fuehre <code>cargo deny check</code>, <code>cargo deny check licenses</code> und <code>cargo audit</code> aus."
+
+[[phrase]]
+from = "Update <code>SECURITY.md</code>, release notes, <code>deny.toml</code>, or <code>.cargo/audit.toml</code> when an advisory exception or license exception changes."
+to = "Aktualisiere <code>SECURITY.md</code>, Release Notes, <code>deny.toml</code> oder <code>.cargo/audit.toml</code>, wenn sich eine Advisory-Exception oder Lizenz-Exception aendert."
+
+[[phrase]]
+from = "Initialize a <code>supply-chain/</code> directory and commit the generated <code>config.toml</code>, <code>audits.toml</code>, and <code>imports.lock</code>."
+to = "Initialisiere ein <code>supply-chain/</code>-Verzeichnis und committe die generierten Dateien <code>config.toml</code>, <code>audits.toml</code> und <code>imports.lock</code>."
+
+[[phrase]]
+from = "Add <code>cargo vet</code> to CI after the initial policy is stable and false positives are understood."
+to = "Fuege <code>cargo vet</code> zur CI hinzu, nachdem die initiale Policy stabil ist und False Positives verstanden sind."
+
+[[phrase]]
+from = "A clean <code>cargo audit</code> result only means there is no known RustSec advisory for the resolved graph. It does not prove a crate is non-malicious."
+to = "Ein sauberes <code>cargo audit</code>-Ergebnis bedeutet nur, dass es kein bekanntes RustSec-Advisory fuer den aufgeloesten Graph gibt. Es beweist nicht, dass eine Crate nicht boesartig ist."

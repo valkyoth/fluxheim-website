@@ -1,0 +1,329 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "All stable production modules: proxy, web, cache, compression, load balancing, raw TCP stream proxying, TLS (rustls), PHP-FPM, ACME client, GeoIP/Geo-Context, security hardening, metrics, and OpenTelemetry."
+to = "Tous les modules de production stables : proxy, web, cache, compression, équilibrage de charge, proxy de flux TCP brut, TLS (rustls), PHP-FPM, client ACME, GeoIP/Geo-Contexte, durcissement sécurité, métriques et OpenTelemetry."
+
+[[phrase]]
+from = "Focused HTTP/TCP load-balancer build without cache, static web, PHP, GeoIP, stream proxying, or traffic mirroring."
+to = "Build load-balancer HTTP/TCP ciblé sans cache, web statique, PHP, GeoIP, proxy de flux ni miroir de trafic."
+
+[[phrase]]
+from = "Static web + reverse proxy + PHP-FPM FastCGI bridge. Ideal for WordPress and PHP front-controller apps. No cache module compiled."
+to = "Web statique + reverse proxy + bridge PHP-FPM FastCGI. Idéal pour WordPress et les applications PHP front-controller. Aucun module de cache compilé."
+
+[[phrase]]
+from = "Focused cache edge without local static web serving. Includes proxy, cache, compression, TLS, and ACME. Ideal for CDN-style deployments."
+to = "Cache edge ciblé sans service web statique local. Inclut proxy, cache, compression, TLS et ACME. Idéal pour les déploiements de type CDN."
+
+[[phrase]]
+from = "Focused reverse proxy without cache, static web, or the dedicated load-balancer module. Designed for pure reverse-proxy deployments with TLS, ACME, compression, and upstream resilience."
+to = "Reverse proxy ciblé sans cache, web statique ni module load-balancer dédié. Conçu pour les déploiements reverse proxy purs avec TLS, ACME, compression et résilience upstream."
+
+[[phrase]]
+from = "The packaged systemd unit uses"
+to = "L'unité systemd fournie utilise"
+
+[[phrase]]
+from = "so Fluxheim can bind to ports 80 and 443 without running as root. The unit file includes security hardening options."
+to = "afin que Fluxheim puisse écouter les ports 80 et 443 sans s'exécuter en root. Le fichier d'unité inclut des options de durcissement sécurité."
+
+[[phrase]]
+from = "Full, load-balancer, cache, proxy, and PHP image profiles"
+to = "Profils d'images full, load-balancer, cache, proxy et PHP"
+
+[[phrase]]
+from = "All release image builds are published on GHCR and"
+to = "Tous les builds d'images de release sont publiés sur GHCR et"
+
+[[phrase]]
+from = "Static serving + reverse proxy + PHP-FPM"
+to = "Service statique + reverse proxy + PHP-FPM"
+
+[[phrase]]
+from = "Cache backends (memory, disk, tiered)"
+to = "Backends de cache (mémoire, disque, hiérarchisé)"
+
+[[phrase]]
+from = "gzip, zstd, and Brotli compression"
+to = "compression gzip, zstd et Brotli"
+
+[[phrase]]
+from = "TLS + managed ACME renewal"
+to = "TLS + renouvellement ACME géré"
+
+[[phrase]]
+from = "Local GeoIP country/ASN context"
+to = "Contexte GeoIP local pays/ASN"
+
+[[phrase]]
+from = "Hardened TCP stream proxying"
+to = "Proxy de flux TCP renforcé"
+
+[[phrase]]
+from = "Prometheus + OpenTelemetry"
+to = "Prometheus + OpenTelemetry"
+
+[[phrase]]
+from = "Load Balancer Edge"
+to = "Load-balancer edge"
+
+[[phrase]]
+from = "Drain, disable, force-down"
+to = "Drain, désactivation, force-down"
+
+[[phrase]]
+from = "Hardened LB core"
+to = "Noyau LB renforcé"
+
+[[phrase]]
+from = "Managed PHP-FPM"
+to = "PHP-FPM géré"
+
+[[phrase]]
+from = "PHP Application Build"
+to = "Build d'application PHP"
+
+[[phrase]]
+from = "PHP-FPM FastCGI bridge"
+to = "Bridge PHP-FPM FastCGI"
+
+[[phrase]]
+from = "Static asset serving from same root"
+to = "Service des assets statiques depuis la même racine"
+
+[[phrase]]
+from = "Cache Edge Build"
+to = "Build cache edge"
+
+[[phrase]]
+from = "Reverse proxy + cache"
+to = "Reverse proxy + cache"
+
+[[phrase]]
+from = "Cache-safe compression controls"
+to = "Contrôles de compression compatibles cache"
+
+[[phrase]]
+from = "No static web module compiled"
+to = "Aucun module web statique compilé"
+
+[[phrase]]
+from = "Proxy Edge Build"
+to = "Build proxy edge"
+
+[[phrase]]
+from = "Reverse proxy only"
+to = "Reverse proxy uniquement"
+
+[[phrase]]
+from = "ACLs, rate limits, retries, health checks"
+to = "ACL, limites de débit, reprises, contrôles de santé"
+
+[[phrase]]
+from = "No cache or web module compiled"
+to = "Aucun module cache ou web compilé"
+
+[[phrase]]
+from = "macOS is for developer testing only"
+to = "macOS est réservé aux tests de développement"
+
+[[phrase]]
+from = "Container (Podman)"
+to = "Conteneur (Podman)"
+
+[[phrase]]
+from = "Systemd Service"
+to = "Service systemd"
+
+[[phrase]]
+from = "ACME Setup"
+to = "Configuration ACME"
+
+[[phrase]]
+from = "Full TLS & ACME documentation →"
+to = "Documentation TLS & ACME complète →"
+
+[[phrase]]
+from = "System Requirements"
+to = "Prérequis système"
+
+[[phrase]]
+from = "Supported Platforms"
+to = "Plateformes prises en charge"
+
+[[phrase]]
+from = "Container Images"
+to = "Images conteneur"
+
+[[phrase]]
+from = "View all on GitHub →"
+to = "Tout voir sur GitHub →"
+
+[[phrase]]
+from = "Highlights"
+to = "Points forts"
+
+[[phrase]]
+from = "Latest"
+to = "Dernière"
+
+[[phrase]]
+from = "Full"
+to = "Full"
+
+[[phrase]]
+from = "New"
+to = "Nouveau"
+
+[[phrase]]
+from = "bash — tarball installation"
+to = "bash — installation tarball"
+
+[[phrase]]
+from = "bash — rootless Podman"
+to = "bash — Podman rootless"
+
+[[phrase]]
+from = "bash — systemd service"
+to = "bash — service systemd"
+
+[[phrase]]
+from = "bash — managed ACME certificate issuance"
+to = "bash — émission de certificats ACME gérée"
+
+[[phrase]]
+from = "fluxheim.toml — ACME config"
+to = "fluxheim.toml — configuration ACME"
+
+[[phrase]]
+from = "macOS developer binaries only"
+to = "Binaires macOS développeur uniquement"
+
+[[phrase]]
+from = "Wolfi (minimal, hardened)"
+to = "Wolfi (minimal, renforcé)"
+
+[[phrase]]
+from = "June 19, 2026"
+to = "19 juin 2026"
+
+[[phrase]]
+from = "June 18, 2026"
+to = "18 juin 2026"
+
+[[phrase]]
+from = "June 17, 2026"
+to = "17 juin 2026"
+
+[[phrase]]
+from = "June 16, 2026"
+to = "16 juin 2026"
+
+[[phrase]]
+from = "June 15, 2026"
+to = "15 juin 2026"
+
+[[phrase]]
+from = "June 14, 2026"
+to = "14 juin 2026"
+
+[[phrase]]
+from = "May 2026"
+to = "Mai 2026"
+
+[[phrase]]
+from = "Pingora-exit continuation that shrinks the root compatibility surface and splits native health checks into HTTP/gRPC, database, exec, and TCP/TLS transport helpers with stronger probe bounds."
+to = "Continuation de sortie de Pingora qui réduit la surface de compatibilité racine et sépare les health checks natifs en helpers de transport HTTP/gRPC, base de données, exec et TCP/TLS avec des bornes de probe renforcées."
+
+[[phrase]]
+from = "Native HTTP/2 upstream client primitive with bounded headers, bodies, trailers, request/response deadlines, and h2 tests for trailer, reset, size, and flow-control behavior."
+to = "Primitive client upstream HTTP/2 native avec headers, corps, trailers, deadlines requête/réponse bornés et tests h2 pour trailers, reset, taille et comportement flow-control."
+
+[[phrase]]
+from = "Native HTTP/1.1 upstream pooling release with bounded keepalive reuse, pool-size config, upstream idle timeout handling, conservative no-reuse guards, and real socket reuse/expiry tests."
+to = "Version de pooling upstream HTTP/1.1 natif avec réutilisation keepalive bornée, configuration de taille de pool, gestion du timeout idle upstream, gardes no-reuse conservatrices et vrais tests de réutilisation/expiration de sockets."
+
+[[phrase]]
+from = "Native HTTP/2 hardening release with reusable h2 connection primitives, response trailers, response-write lifetime, handler timeout, bounded DATA capacity, prohibited header/trailer rejection, and request-body zeroization."
+to = "Version de durcissement HTTP/2 natif avec primitives de connexion h2 réutilisables, trailers de réponse, durée de vie response-write, timeout de handler, capacité DATA bornée, rejet des headers/trailers interdits et zeroization du corps de requête."
+
+[[phrase]]
+from = "Native HTTP/2 preview gate with bounded header/body/stream/frame/send-buffer policy, h2 stack probe tests, and native HTTP/1.0 socket behavior coverage."
+to = "Gate de preview HTTP/2 natif avec policy bornée de header/corps/stream/frame/send-buffer, tests de probe de stack h2 et couverture du comportement socket HTTP/1.0 natif."
+
+[[phrase]]
+from = "Native HTTP/1 protocol foundation with bounded request-head parsing, body-framing classification, Host validation, persistence classification, chunked decoding, and response-head parsing."
+to = "Fondation du protocole HTTP/1 natif avec parsing request-head borné, classification du framing de corps, validation Host, classification de persistance, décodage chunked et parsing response-head."
+
+[[phrase]]
+from = "TLS planning boundary release with"
+to = "Version de frontière de planification TLS avec"
+
+[[phrase]]
+from = "Header/protocol boundary release with"
+to = "Version de frontière header/protocole avec"
+
+[[phrase]]
+from = "for header policy helpers and"
+to = "pour les helpers de policy de headers et"
+
+[[phrase]]
+from = "handling stream PROXY protocol byte parsers."
+to = "la gestion des parsers d'octets du protocole PROXY stream."
+
+[[phrase]]
+from = "Background runtime cutover release with shared Fluxheim background-task primitives, OTLP export and ACME reload control moved into the Fluxheim task lifecycle, snapshot validation state moved into"
+to = "Version de bascule du runtime d'arrière-plan avec primitives partagées de tâches Fluxheim, export OTLP et contrôle de reload ACME déplacés dans le cycle de vie des tâches Fluxheim, état de validation des snapshots déplacé dans"
+
+[[phrase]]
+from = ", and hardened certificate reload/private-backend handling."
+to = "et gestion renforcée du reload de certificat et des backends privés."
+
+[[phrase]]
+from = "Stream runtime cutover with"
+to = "Bascule du runtime stream avec"
+
+[[phrase]]
+from = ", native stream upstream selection, PROXY protocol parsing/writing, source policy, DNS-rebinding guards, copied-byte accounting, and timeout handling."
+to = ", sélection upstream stream native, parsing/écriture du protocole PROXY, policy source, protections DNS-rebinding, comptage d'octets copiés et gestion des timeouts."
+
+[[phrase]]
+from = "Pingora-exit foundation release with modularity policy gates, runtime baseline and performance capture, dependency exception policy, runtime parity fixtures, initial"
+to = "Version de fondation de sortie de Pingora avec gates de policy de modularité, capture de baseline runtime et de performance, policy d'exceptions de dépendances, fixtures de parité runtime et crates initiaux"
+
+[[phrase]]
+from = "boundary crates, and extraction dependency graph docs"
+to = "de frontière, ainsi que la documentation du graphe de dépendances d'extraction"
+
+[[phrase]]
+from = "for detailed release notes."
+to = "pour les notes de version détaillées."
+[[phrase]]
+from = "Tarball"
+to = "Archive tar"
+[[phrase]]
+from = "<span class=\"text-xs font-bold uppercase tracking-widest text-amber-400\">Cache</span>"
+to = "<span class=\"text-xs font-bold uppercase tracking-widest text-amber-400\">Profil cache</span>"
+[[phrase]]
+from = "<span class=\"text-xs font-bold uppercase tracking-widest text-violet-400\">Proxy</span>"
+to = "<span class=\"text-xs font-bold uppercase tracking-widest text-violet-400\">Profil proxy</span>"
+[[phrase]]
+from = "<th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Build</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Linux x86_64</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Linux ARM64</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">macOS dev</th>"
+to = "<th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Build</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Linux x86_64</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Linux ARM64</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">macOS dev</th>"
+[[phrase]]
+from = "<td class=\"px-4 py-3 font-semibold text-white\">Cache</td>"
+to = "<td class=\"px-4 py-3 font-semibold text-white\">Build cache</td>"
+[[phrase]]
+from = "<td class=\"px-4 py-3 font-semibold text-white\">Proxy</td>"
+to = "<td class=\"px-4 py-3 font-semibold text-white\">Build proxy</td>"
+[[phrase]]
+from = "<td class=\"px-4 py-3 font-semibold text-white\">Config tester</td>"
+to = "<td class=\"px-4 py-3 font-semibold text-white\">Testeur config</td>"
+[[phrase]]
+from = "<th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Version</th>\n                <th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Date</th>"
+to = "<th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Version</th>\n                <th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Date</th>"
+[[phrase]]
+from = "<a href=\"index.html\" class=\"text-gray-600 hover:text-gray-400 text-sm transition-colors\">Home</a>"
+to = "<a href=\"index.html\" class=\"text-gray-600 hover:text-gray-400 text-sm transition-colors\">Accueil</a>"

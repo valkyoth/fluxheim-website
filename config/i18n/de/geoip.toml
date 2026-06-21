@@ -1,0 +1,86 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "adds a bounded optional"
+to = "fuegt ein begrenztes optionales"
+
+[[phrase]]
+from = "feature. It is a local Geo-Context foundation for access policy, not a dynamic downloader or programmable geo engine."
+to = "Feature hinzu. Es ist eine lokale Geo-Context-Grundlage fuer Zugriffspolitik, kein dynamischer Downloader und keine programmierbare Geo-Engine."
+
+[[phrase]]
+from = "<code>profile-full</code> includes <code>geoip</code>. Focused builds can enable it directly:"
+to = "<code>profile-full</code> enthaelt <code>geoip</code>. Fokussierte Builds koennen es direkt aktivieren:"
+
+[[phrase]]
+from = ". Focused builds can enable it directly:"
+to = ". Fokussierte Builds koennen es direkt aktivieren:"
+
+[[phrase]]
+from = "<code>privacy-mode</code> and <code>geoip</code> are mutually exclusive. Privacy builds reject GeoIP lookup and Geo-Context metadata entirely."
+to = "<code>privacy-mode</code> und <code>geoip</code> schliessen sich gegenseitig aus. Privacy-Builds lehnen GeoIP-Lookups und Geo-Context-Metadaten vollstaendig ab."
+
+[[phrase]]
+from = "are mutually exclusive. Privacy builds reject GeoIP lookup and Geo-Context metadata entirely."
+to = "schliessen sich gegenseitig aus. Privacy-Builds lehnen GeoIP-Lookups und Geo-Context-Metadaten vollstaendig ab."
+
+[[phrase]]
+from = "Local Databases"
+to = "Lokale Datenbanken"
+
+[[phrase]]
+from = "Fluxheim reads local MMDB files through a provider-agnostic layer. The initial providers are labels for compatible MMDB datasets:"
+to = "Fluxheim liest lokale MMDB-Dateien ueber eine provider-agnostische Schicht. Die ersten Provider sind Labels fuer kompatible MMDB-Datasets:"
+
+[[phrase]]
+from = ": MaxMind GeoIP2 or GeoLite2 MMDB files."
+to = ": MaxMind-GeoIP2- oder GeoLite2-MMDB-Dateien."
+
+[[phrase]]
+from = ": European CIRCL Geo Open MMDB-compatible datasets."
+to = ": europaeische CIRCL-Geo-Open-MMDB-kompatible Datasets."
+
+[[phrase]]
+from = "Fluxheim does not download or update databases in-process. Use an external systemd timer, package job, or sidecar to fetch and verify database files, then reload Fluxheim. Database files are opened as regular files and symlink leaf paths are rejected."
+to = "Fluxheim laedt oder aktualisiert Datenbanken nicht im Prozess. Nutze einen externen systemd-Timer, Package-Job oder Sidecar, um Datenbankdateien abzurufen und zu verifizieren, und lade Fluxheim danach neu. Datenbankdateien werden als regulaere Dateien geoeffnet, und Symlink-Blattpfade werden abgelehnt."
+
+[[phrase]]
+from = "Each MMDB file is capped at 512 MiB at both metadata and read time. A single loaded GeoIP runtime is capped at 1 GiB of MMDB data, so keep the ordered fallback set small. During hot reload, the old and new runtimes can briefly coexist while in-flight requests finish, so size host/container memory for that temporary overlap."
+to = "Jede MMDB-Datei ist sowohl bei Metadaten als auch beim Lesen auf 512 MiB begrenzt. Eine einzelne geladene GeoIP-Runtime ist auf 1 GiB MMDB-Daten begrenzt; halte das geordnete Fallback-Set daher klein. Waehrend eines Hot Reloads koennen alte und neue Runtimes kurzzeitig parallel bestehen, waehrend laufende Requests fertig werden; dimensioniere Host-/Container-Speicher fuer diese temporaere Ueberlappung."
+
+[[phrase]]
+from = "Databases are evaluated in order. When"
+to = "Datenbanken werden der Reihe nach ausgewertet. Wenn"
+
+[[phrase]]
+from = "When <code>fallback_enabled = true</code>, Fluxheim fills missing country or ASN fields from later databases when possible. When it is false, Fluxheim consults only the first configured database."
+to = "Wenn <code>fallback_enabled = true</code> ist, fuellt Fluxheim fehlende Land- oder ASN-Felder nach Moeglichkeit aus spaeteren Datenbanken. Wenn der Wert false ist, konsultiert Fluxheim nur die erste konfigurierte Datenbank."
+
+[[phrase]]
+from = "When country or ASN access rules are configured, Fluxheim checks the loaded MMDB database type strings and emits a security warning if no loaded database appears to provide the required record family. This is a diagnostic guard, not a substitute for testing policy behavior with known source IPs."
+to = "Wenn Country- oder ASN-Zugriffsregeln konfiguriert sind, prueft Fluxheim die Type-Strings der geladenen MMDB-Datenbanken und gibt eine Sicherheitswarnung aus, wenn keine geladene Datenbank die erforderliche Record-Familie bereitzustellen scheint. Das ist eine Diagnoseabsicherung, kein Ersatz fuer Tests des Policy-Verhaltens mit bekannten Source-IPs."
+
+[[phrase]]
+from = "Access Policy"
+to = "Zugriffspolitik"
+
+[[phrase]]
+from = "Geo rules live on the existing vhost and route access policy. Country codes are ISO alpha-2 uppercase values. ASN values are numeric and must be greater than zero."
+to = "Geo-Regeln liegen auf der bestehenden vhost- und Route-Zugriffspolitik. Laendercodes sind ISO-Alpha-2-Werte in Grossbuchstaben. ASN-Werte sind numerisch und muessen groesser als null sein."
+
+[[phrase]]
+from = "Vhost policy runs before route policy. Geo allow lists fail closed when no Geo-Context is available for the client IP. Geo deny lists only deny when the resolved country or ASN matches."
+to = "Vhost-Policy laeuft vor Route-Policy. Geo-Allow-Listen fail-closed, wenn fuer die Client-IP kein Geo-Context verfuegbar ist. Geo-Deny-Listen verweigern nur, wenn das aufgeloeste Land oder ASN passt."
+
+[[phrase]]
+from = "When <code>geoip</code> is compiled and a lookup succeeds, structured access logs include:"
+to = "Wenn <code>geoip</code> einkompiliert ist und ein Lookup erfolgreich ist, enthalten strukturierte Access-Logs:"
+
+[[phrase]]
+from = "is compiled and a lookup succeeds, structured access logs include:"
+to = "einkompiliert ist und ein Lookup erfolgreich ist, enthalten strukturierte Access-Logs:"
+
+[[phrase]]
+from = "GeoIP metrics and trace attributes remain bounded follow-up work; do not add high-cardinality labels from city, latitude/longitude, or raw database fields."
+to = "GeoIP-Metriken und Trace-Attribute bleiben begrenzte Folgearbeit; fuege keine High-Cardinality-Labels aus Stadt, Breiten-/Laengengrad oder rohen Datenbankfeldern hinzu."

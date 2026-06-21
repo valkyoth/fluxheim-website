@@ -1,0 +1,497 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+[[phrase]]
+from = "PHP Runtime Support"
+to = "Prise en charge du runtime PHP"
+[[phrase]]
+from = "adds the first production-compatible PHP path through"
+to = "ajoute le premier chemin PHP compatible production via"
+[[phrase]]
+from = ". PHP is not part of the default binary. Each PHP runtime changes the security model from serving files and proxying HTTP to executing user code, so every PHP path is opt-in at compile time and opt-in per vhost or route."
+to = ". PHP ne fait pas partie du binaire par defaut. Chaque runtime PHP change le modele de securite, qui passe du service de fichiers et du proxy HTTP a l'execution de code utilisateur ; chaque chemin PHP est donc opt-in a la compilation et par vhost ou route."
+[[phrase]]
+from = "Use this implementation model:"
+to = "Utiliser ce modele d'implementation :"
+[[phrase]]
+from = ": stable backwards-compatible path for PHP applications. This is implemented in"
+to = " : chemin stable et retrocompatible pour les applications PHP. C'est implemente dans"
+[[phrase]]
+from = "<li>Managed <code>php-fpm</code>: zero-admin deployment mode inside the existing <code>php-fpm</code> feature. Fluxheim generates a minimal private php-fpm pool, spawns and supervises php-fpm, and connects to its private socket while still using the same FastCGI request path as external php-fpm.</li>"
+to = "<li><code>php-fpm</code> gere : mode de deploiement zero-admin dans la feature existante <code>php-fpm</code>. Fluxheim genere un pool php-fpm prive minimal, demarre et supervise php-fpm, puis se connecte a son socket prive tout en utilisant le meme chemin de requete FastCGI que php-fpm externe.</li>"
+[[phrase]]
+from = "feature. Fluxheim generates a minimal private php-fpm pool, spawns and supervises php-fpm, and connects to its private socket while still using the same FastCGI request path as external php-fpm."
+to = "Fluxheim genere un pool php-fpm prive minimal, demarre et supervise php-fpm, puis se connecte a son socket prive tout en utilisant le meme chemin de requete FastCGI que php-fpm externe."
+[[phrase]]
+from = "As of the current review,"
+to = "A la date de la revue actuelle,"
+[[phrase]]
+from = "remains an embedding reference only. Turbine is not a Fluxheim runtime target; it is better treated as an external PHP application server that Fluxheim can reverse-proxy to if an operator chooses it."
+to = "reste seulement une reference d'embedding. Turbine n'est pas une cible runtime Fluxheim ; il vaut mieux le traiter comme serveur applicatif PHP externe vers lequel Fluxheim peut faire du reverse proxy si un operateur le choisit."
+[[phrase]]
+from = "Implemented feature flags:"
+to = "Feature flags implementes :"
+[[phrase]]
+from = "is the only PHP runtime feature in the 1.3 line. Managed php-fpm is a runtime configuration mode under the same feature because it changes process lifecycle, not the request protocol."
+to = "est la seule feature runtime PHP dans la ligne 1.3. php-fpm gere est un mode de configuration runtime sous la meme feature, car il change le cycle de vie des processus, pas le protocole de requete."
+[[phrase]]
+from = "The default feature set must not include"
+to = "Le jeu de features par defaut ne doit pas inclure"
+[[phrase]]
+from = "Release order:"
+to = "Ordre de release :"
+[[phrase]]
+from = ": shared ingress/TLS feature-graph split and focused image/profile cleanup."
+to = " : separation du graphe de features ingress/TLS partage et nettoyage cible image/profil."
+[[phrase]]
+from = "FastCGI bridge, WordPress-style front-controller support, strict script resolution, bounded request/response buffering, split-cookie normalization, and browser-validated WordPress login/admin flows."
+to = "pont FastCGI, prise en charge front-controller type WordPress, resolution stricte des scripts, buffering requete/reponse borne, normalisation split-cookie et flux login/admin WordPress valides au navigateur."
+[[phrase]]
+from = ": focused php-fpm hardening and compatibility fixes found during production tests."
+to = " : durcissement php-fpm cible et correctifs de compatibilite trouves pendant les tests de production."
+[[phrase]]
+from = ": managed php-fpm mode as a config option under the existing"
+to = " : mode php-fpm gere comme option de configuration sous la feature existante"
+[[phrase]]
+from = "feature, not as a separate Cargo runtime. The goal is a single-binary operator experience while retaining normal php-fpm request isolation and compatibility."
+to = ", pas comme runtime Cargo separe. L'objectif est une experience operateur en binaire unique tout en conservant l'isolation et la compatibilite normales des requetes php-fpm."
+[[phrase]]
+from = "Minimal vhost TOML:"
+to = "TOML vhost minimal :"
+[[phrase]]
+from = "Managed php-fpm mode keeps the runtime selection in"
+to = "Le mode php-fpm gere garde la selection du runtime dans"
+[[phrase]]
+from = "instead of adding a new compile-time PHP runtime:"
+to = "au lieu d'ajouter un nouveau runtime PHP a la compilation :"
+[[phrase]]
+from = "Managed mode generates a minimal private php-fpm config, creates a Fluxheim-owned Unix socket, supervises the php-fpm master process, and shuts it down cleanly on reload or gateway shutdown. It is not implemented as a persistent"
+to = "Le mode gere genere une configuration php-fpm privee minimale, cree un socket Unix appartenant a Fluxheim, supervise le processus maitre php-fpm et l'arrete proprement lors d'un reload ou d'un arret de gateway. Il n'est pas implemente comme pool persistant"
+[[phrase]]
+from = "stdin/stdout worker pool for production apps, because normal WordPress, Laravel, Symfony, forum, and wiki applications expect per-request PHP isolation."
+to = "de workers stdin/stdout pour applications de production, car les applications WordPress, Laravel, Symfony, forum et wiki normales attendent une isolation PHP par requete."
+[[phrase]]
+from = "The generated socket, config, pid, and php-fpm log files live under"
+to = "Les fichiers de socket, config, pid et logs php-fpm generes vivent sous"
+[[phrase]]
+from = ". Normal reload/drop cleanup removes the generated control files, but forced process termination can leave stale files behind because destructors do not run. They are safe to remove when Fluxheim is stopped."
+to = ". Le nettoyage normal reload/drop supprime les fichiers de controle generes, mais une terminaison forcee peut laisser des fichiers obsoletes car les destructeurs ne s'executent pas. Ils peuvent etre supprimes sans risque lorsque Fluxheim est arrete."
+[[phrase]]
+from = "Managed pools support the php-fpm process manager modes operators usually tune in"
+to = "Les pools geres prennent en charge les modes de process manager php-fpm que les operateurs reglent habituellement dans"
+[[phrase]]
+from = "starts exactly"
+to = "demarre exactement"
+[[phrase]]
+from = "Fluxheim also writes bounded php-fpm directives for"
+to = "Fluxheim ecrit aussi des directives php-fpm bornees pour"
+[[phrase]]
+from = "are created with owner-only permissions when missing; if the managed pool drops to another"
+to = "sont crees avec permissions owner-only lorsqu'ils manquent ; si le pool gere bascule vers un autre"
+[[phrase]]
+from = ", make those directories writable by that PHP worker identity before starting Fluxheim."
+to = ", rendez ces repertoires modifiables par cette identite de worker PHP avant de demarrer Fluxheim."
+[[phrase]]
+from = "The PHP handler runs before static fallback. Existing non-PHP files under the PHP root are declined so the normal static server can serve assets. Missing paths use the configured front controller, normally"
+to = "Le handler PHP s'execute avant le fallback statique. Les fichiers non-PHP existants sous la racine PHP sont refuses afin que le serveur statique normal puisse servir les assets. Les chemins manquants utilisent le front controller configure, normalement"
+[[phrase]]
+from = "requests are executed through php-fpm. Static serving must never return PHP source when PHP execution fails."
+to = "sont executees via php-fpm. Le service statique ne doit jamais renvoyer la source PHP lorsque l'execution PHP echoue."
+[[phrase]]
+from = "Fluxheim normalizes multiple inbound"
+to = "Fluxheim normalise plusieurs lignes entrantes"
+[[phrase]]
+from = "header lines into one CGI"
+to = "en une valeur CGI"
+[[phrase]]
+from = "value before calling php-fpm. This matters for WordPress and other PHP applications behind HTTP/2 or intermediaries that split cookies across multiple header fields."
+to = "avant d'appeler php-fpm. C'est important pour WordPress et les autres applications PHP derriere HTTP/2 ou des intermediaires qui separent les cookies sur plusieurs champs d'en-tete."
+[[phrase]]
+from = "For application-specific examples, including WordPress, WordPress Multisite, Laravel, Symfony, Flarum, MediaWiki, phpBB, XenForo, MyBB, and Discourse-as-proxy, see"
+to = "Pour des exemples propres aux applications, notamment WordPress, WordPress Multisite, Laravel, Symfony, Flarum, MediaWiki, phpBB, XenForo, MyBB et Discourse-as-proxy, voir"
+[[phrase]]
+from = "FastCGI Protocol Scope"
+to = "Perimetre du protocole FastCGI"
+[[phrase]]
+from = "Fluxheim's php-fpm integration intentionally implements the normal web-serving FastCGI subset: one"
+to = "L'integration php-fpm de Fluxheim implemente volontairement le sous-ensemble FastCGI web normal : une"
+[[phrase]]
+from = "request at a time per selected backend connection,"
+to = "requete a la fois par connexion backend selectionnee,"
+[[phrase]]
+from = ". Opt-in keepalive may reuse an idle backend connection after a request completes, but Fluxheim does not multiplex concurrent FastCGI request IDs on one connection."
+to = ". Le keepalive opt-in peut reutiliser une connexion backend inactive apres la fin d'une requete, mais Fluxheim ne multiplexe pas d'ID de requetes FastCGI concurrentes sur une meme connexion."
+[[phrase]]
+from = ", FastCGI management records, and application protocols that require multiplexed request state are unsupported in"
+to = ", les enregistrements de gestion FastCGI et les protocoles applicatifs qui exigent un etat de requete multiplexe ne sont pas pris en charge dans"
+[[phrase]]
+from = ". They are not required for standard PHP-FPM WordPress, Laravel, Symfony, or legacy PHP web serving. Operators that need those roles should keep them behind a dedicated FastCGI-aware component until Fluxheim has an explicit design and test suite for them."
+to = ". Ils ne sont pas requis pour le service web PHP-FPM standard WordPress, Laravel, Symfony ou PHP legacy. Les operateurs qui ont besoin de ces roles doivent les garder derriere un composant dedie compatible FastCGI jusqu'a ce que Fluxheim ait une conception et une suite de tests explicites pour eux."
+[[phrase]]
+from = "The PHP layer must implement these checks before any runtime is production eligible:"
+to = "La couche PHP doit implementer ces controles avant qu'un runtime soit eligible a la production :"
+[[phrase]]
+from = "Canonicalize the vhost PHP root and target script path."
+to = "Canonicaliser la racine PHP du vhost et le chemin du script cible."
+[[phrase]]
+from = "Reject traversal, symlink escapes, empty script names, and non-file script targets."
+to = "Rejeter traversal, echappements par symlink, noms de script vides et cibles de script non-fichiers."
+[[phrase]]
+from = "<li>Never build <code>SCRIPT_FILENAME</code> through string concatenation alone.</li>"
+to = "<li>Ne jamais construire <code>SCRIPT_FILENAME</code> par simple concatenation de chaines.</li>"
+[[phrase]]
+from = "Deny dotfiles and hidden path segments by default."
+to = "Refuser par defaut les dotfiles et segments de chemin caches."
+[[phrase]]
+from = "Deny configured PHP execution path prefixes before contacting php-fpm."
+to = "Refuser les prefixes de chemin d'execution PHP configures avant de contacter php-fpm."
+[[phrase]]
+from = "Never pass arbitrary process environment to PHP."
+to = "Ne jamais transmettre un environnement de processus arbitraire a PHP."
+[[phrase]]
+from = "Use a small allow-list for CGI/FastCGI params."
+to = "Utiliser une petite allow-list pour les params CGI/FastCGI."
+[[phrase]]
+from = "Reject decoded control characters in path-derived FastCGI params and avoid protocol-relative directory-slash redirects."
+to = "Rejeter les caracteres de controle decodes dans les params FastCGI derives des chemins et eviter les redirects directory-slash relatifs au protocole."
+[[phrase]]
+from = "Translate safe inbound HTTP headers to CGI"
+to = "Traduire les en-tetes HTTP entrants surs en params CGI"
+[[phrase]]
+from = "to avoid HTTPoxy exposure."
+to = "pour eviter l'exposition HTTPoxy."
+[[phrase]]
+from = "from the downstream connection state."
+to = "depuis l'etat de la connexion downstream."
+[[phrase]]
+from = "for php-fpm compatibility with common PHP hardening defaults."
+to = "pour la compatibilite php-fpm avec les valeurs de durcissement PHP courantes."
+[[phrase]]
+from = "as disabled by default; enable"
+to = "comme desactive par defaut ; activer"
+[[phrase]]
+from = "only when the application expects safe trailing segments after"
+to = "uniquement lorsque l'application attend des segments suffixes surs apres"
+[[phrase]]
+from = "Allow administrator-controlled custom FastCGI params only after validating names and values, and never let them override Fluxheim-managed CGI params such as"
+to = "Autoriser les params FastCGI personnalises controles par l'administrateur seulement apres validation des noms et valeurs, et ne jamais leur permettre de remplacer les params CGI geres par Fluxheim comme"
+[[phrase]]
+from = "Enforce global and PHP-specific request body limits for both declared and streaming bodies."
+to = "Appliquer les limites globales et specifiques PHP de corps de requete aux corps declares comme streamables."
+[[phrase]]
+from = "switches. Body pass-through disabled still drains and limits the downstream body before sending empty FastCGI stdin."
+to = ". Lorsque le pass-through de corps est desactive, Fluxheim draine et limite quand meme le corps downstream avant d'envoyer un stdin FastCGI vide."
+[[phrase]]
+from = "Apply runtime request timeouts and connection timeouts."
+to = "Appliquer les timeouts de requete runtime et les timeouts de connexion."
+[[phrase]]
+from = "Log php-fpm STDERR only when"
+to = "Journaliser STDERR php-fpm seulement lorsque"
+[[phrase]]
+from = "is enabled, sanitize controls, and cap each log message with"
+to = "est active, nettoyer les controles et borner chaque message de log avec"
+[[phrase]]
+from = "Remove selected php-fpm response headers with"
+to = "Supprimer les en-tetes de reponse php-fpm selectionnes avec"
+[[phrase]]
+from = "before the response reaches clients."
+to = "avant que la reponse atteigne les clients."
+[[phrase]]
+from = "Optionally ignore PHP-generated"
+to = "Ignorer optionnellement les"
+[[phrase]]
+from = "before response policy is applied."
+to = "generes par PHP avant l'application de la policy de reponse."
+[[phrase]]
+from = "Cap response header bytes returned by PHP. Implemented as"
+to = "Borner les octets d'en-tetes de reponse renvoyes par PHP. Implemente comme"
+[[phrase]]
+from = "Parse PHP-generated headers strictly; reject malformed status lines and header injection."
+to = "Parser strictement les en-tetes generes par PHP ; rejeter les lignes de statut mal formees et l'injection d'en-tete."
+[[phrase]]
+from = "Strip hop-by-hop php-fpm response headers, including"
+to = "Retirer les en-tetes de reponse php-fpm hop-by-hop, y compris"
+[[phrase]]
+from = "before Fluxheim frames the client response."
+to = "avant que Fluxheim cadre la reponse client."
+[[phrase]]
+from = "Optionally intercept selected PHP 4xx/5xx responses with"
+to = "Intercepter optionnellement des reponses PHP 4xx/5xx selectionnees avec"
+[[phrase]]
+from = "and replace them with Fluxheim-generated error responses."
+to = "et les remplacer par des reponses d'erreur generees par Fluxheim."
+[[phrase]]
+from = "Serve configured static PHP error pages with"
+to = "Servir les pages d'erreur PHP statiques configurees avec"
+[[phrase]]
+from = "; an error-page entry also intercepts that status and falls back to Fluxheim's generated error if the static page cannot be served."
+to = " ; une entree error-page intercepte aussi ce statut et revient a l'erreur generee par Fluxheim si la page statique ne peut pas etre servie."
+[[phrase]]
+from = "Log PHP STDERR only through size-limited sanitized logs."
+to = "Journaliser PHP STDERR uniquement via des logs nettoyes et limites en taille."
+[[phrase]]
+from = "Keep php-fpm sockets private and validate Unix socket path permissions where possible."
+to = "Garder les sockets php-fpm prives et valider les permissions du chemin de socket Unix lorsque possible."
+[[phrase]]
+from = "Prefer php-fpm process isolation for production until embedded runtimes prove safe concurrency and reload behavior."
+to = "Preferer l'isolation de processus php-fpm en production jusqu'a ce que les runtimes embarques prouvent une concurrence et un comportement de reload surs."
+[[phrase]]
+from = "Runtime Plans"
+to = "Plans runtime"
+[[phrase]]
+from = "This is the compatibility-first path. Fluxheim acts as a FastCGI client:"
+to = "C'est le chemin priorisant la compatibilite. Fluxheim agit comme client FastCGI :"
+[[phrase]]
+from = "Match an eligible PHP request from vhost config."
+to = "Faire correspondre une requete PHP eligible depuis la configuration vhost."
+[[phrase]]
+from = "Resolve and canonicalize the target script under the configured root."
+to = "Resoudre et canonicaliser le script cible sous la racine configuree."
+[[phrase]]
+from = "Build FastCGI params from a strict allow-list."
+to = "Construire les params FastCGI depuis une allow-list stricte."
+[[phrase]]
+from = "Bounded-buffer the request body to php-fpm."
+to = "Bufferiser de maniere bornee le corps de requete vers php-fpm."
+[[phrase]]
+from = "Bounded-buffer and parse FastCGI STDOUT into HTTP headers and body."
+to = "Bufferiser de maniere bornee et parser STDOUT FastCGI en en-tetes HTTP et corps."
+[[phrase]]
+from = "Send PHP STDERR to sanitized logs and metrics."
+to = "Envoyer PHP STDERR vers des logs et metriques nettoyes."
+[[phrase]]
+from = ". Hardened edge deployments can lower it per vhost or route to reduce per-request memory exposure for PHP responses. Large generated files should use"
+to = ". Les deploiements edge durcis peuvent l'abaisser par vhost ou route pour reduire l'exposition memoire par requete des reponses PHP. Les gros fichiers generes doivent utiliser"
+[[phrase]]
+from = "so Fluxheim serves the file path directly instead of buffering the PHP output in memory."
+to = "afin que Fluxheim serve directement le chemin de fichier au lieu de bufferiser la sortie PHP en memoire."
+[[phrase]]
+from = "Prefer Unix sockets first for local/rootless deployments. TCP support is useful for separate php-fpm containers, but must require explicit config."
+to = "Preferer d'abord les sockets Unix pour les deploiements locaux/rootless. Le support TCP est utile pour des conteneurs php-fpm separes, mais doit exiger une configuration explicite."
+[[phrase]]
+from = "Current tests cover config validation, traversal rejection, disabled"
+to = "Les tests actuels couvrent la validation de configuration, le rejet de traversal,"
+[[phrase]]
+from = "behavior, safe CGI header translation with HTTPoxy mitigation, custom FastCGI param validation, malformed FastCGI response headers, php-fpm timeout classification, spooled request-body replay and cleanup, and bounded STDERR handling."
+to = "desactive, la traduction sure d'en-tetes CGI avec mitigation HTTPoxy, la validation de params FastCGI personnalises, les en-tetes de reponse FastCGI mal formes, la classification des timeouts php-fpm, le replay et nettoyage du corps de requete spoole, et le traitement borne de STDERR."
+[[phrase]]
+from = "so the same install/login/admin flow can verify an operator-managed php-fpm container, every Fluxheim-managed php-fpm process manager mode, and the managed php-fpm post-start crash respawn watchdog."
+to = "afin que le meme flux install/login/admin puisse verifier un conteneur php-fpm gere par l'operateur, chaque mode de process manager php-fpm gere par Fluxheim, et le watchdog de respawn apres crash post-demarrage du php-fpm gere."
+[[phrase]]
+from = "verifies the self-contained Wolfi PHP image path with bundled"
+to = "verifie le chemin d'image PHP Wolfi autonome avec"
+[[phrase]]
+from = "and managed php-fpm enabled."
+to = "embarque et php-fpm gere active."
+[[phrase]]
+from = "Managed php-fpm starts the php-fpm master with a cleared environment and a minimal"
+to = "php-fpm gere demarre le maitre php-fpm avec un environnement nettoye et un"
+[[phrase]]
+from = ", so Fluxheim process secrets such as admin tokens are not inherited by the child process. On reload/shutdown, Fluxheim asks the managed php-fpm master to terminate gracefully before escalating to a forced kill after a short deadline. A per-pool watchdog monitors the php-fpm master after startup and respawns it with bounded backoff if it crashes, so managed PHP service can recover without a Fluxheim config reload."
+to = ", afin que les secrets du processus Fluxheim, comme les tokens admin, ne soient pas herites par le processus enfant. Au reload/shutdown, Fluxheim demande au maitre php-fpm gere de terminer proprement avant d'escalader vers un kill force apres un court delai. Un watchdog par pool surveille le maitre php-fpm apres demarrage et le respawn avec backoff borne s'il crashe, afin que le service PHP gere puisse recuperer sans reload de configuration Fluxheim."
+[[phrase]]
+from = "When a managed php-fpm pool drops workers to a different"
+to = "Lorsqu'un pool php-fpm gere bascule ses workers vers un autre"
+[[phrase]]
+from = "when the php-fpm master should chown the private socket for Fluxheim, and use"
+to = "lorsque le maitre php-fpm doit chown le socket prive pour Fluxheim, et utiliser"
+[[phrase]]
+from = "only when a shared service group is intentional. The default remains"
+to = "seulement lorsqu'un groupe de service partage est intentionnel. Le defaut reste"
+[[phrase]]
+from = "for single-user/rootless deployments."
+to = "pour les deploiements single-user/rootless."
+[[phrase]]
+from = "php-fpm hardening status:"
+to = "Statut du durcissement php-fpm :"
+[[phrase]]
+from = "Connection pooling to php-fpm with idle pruning. Implemented as opt-in"
+to = "Pooling de connexions vers php-fpm avec pruning idle. Implemente en opt-in"
+[[phrase]]
+from = "Safe FastCGI keep-connection reuse where the client/runtime supports it. Implemented for the"
+to = "Reutilisation sure des connexions FastCGI lorsque le client/runtime la prend en charge. Implemente pour le chemin"
+[[phrase]]
+from = "keep-alive path."
+to = "keep-alive."
+[[phrase]]
+from = "True streaming request and response bodies. Request-body disk replay is in place for large PHP bodies; direct downstream-to-FastCGI and FastCGI-to-client streaming remain future work."
+to = "Vrai streaming des corps de requete et de reponse. Le replay disque du corps de requete existe pour les grands corps PHP ; le streaming direct downstream-vers-FastCGI et FastCGI-vers-client reste un futur travail."
+[[phrase]]
+from = "Chunked upload disk-spooling before php-fpm dispatch. Implemented with"
+to = "Spooling disque des uploads chunked avant dispatch php-fpm. Implemente avec"
+[[phrase]]
+from = "so large uploads keep exact FastCGI"
+to = "afin que les gros uploads gardent le"
+[[phrase]]
+from = "without retaining the whole request body in memory. Both settings must be configured together, and the threshold must be lower than"
+to = "FastCGI exact sans garder tout le corps de requete en memoire. Les deux parametres doivent etre configures ensemble, et le seuil doit etre inferieur a"
+[[phrase]]
+from = "when both are set on the same PHP action. Existing spool directories must not be group/world writable, and runtime spool creation rechecks permissions before writing upload bodies."
+to = "lorsque les deux sont definis sur la meme action PHP. Les repertoires de spool existants ne doivent pas etre modifiables par le groupe/tous, et la creation runtime du spool reverifie les permissions avant d'ecrire les corps d'upload."
+[[phrase]]
+from = "Custom FastCGI params in config. Implemented as"
+to = "Params FastCGI personnalises dans la configuration. Implemente comme"
+[[phrase]]
+from = "with protected core CGI params."
+to = "avec params CGI coeur proteges."
+[[phrase]]
+from = "Path mapping for separate Fluxheim/php-fpm container filesystem roots. Implemented as"
+to = "Mapping de chemins pour racines de systeme de fichiers de conteneurs Fluxheim/php-fpm separees. Implemente comme"
+[[phrase]]
+from = "paths are rejected when they include symlink components; missing absolute values are allowed for split-container paths that exist only inside the php-fpm environment."
+to = "locaux sont rejetes lorsqu'ils incluent des composants symlink ; les valeurs absolues manquantes sont autorisees pour les chemins split-container qui n'existent que dans l'environnement php-fpm."
+[[phrase]]
+from = "PHP root override for split container filesystem layouts. Implemented with"
+to = "Override de racine PHP pour layouts de systeme de fichiers split-container. Implemente avec"
+[[phrase]]
+from = "for the path sent to php-fpm and"
+to = "pour le chemin envoye a php-fpm et"
+[[phrase]]
+from = "symlink resolution in current-release deploy layouts."
+to = "resolution de symlink dans les layouts de deploiement de la release courante."
+[[phrase]]
+from = "WordPress PHP-side migration preset. Implemented as"
+to = "Preset de migration cote PHP WordPress. Implemente comme"
+[[phrase]]
+from = "to combine WordPress front-controller behavior with deny prefixes for common upload/file execution paths."
+to = "pour combiner le comportement front-controller WordPress avec des prefixes deny pour les chemins courants d'upload/execution de fichiers."
+[[phrase]]
+from = "Canonical directory slash redirects for directory index PHP apps. Implemented as a"
+to = "Redirects directory-slash canoniques pour applications PHP a index de repertoire. Implementes comme redirect"
+[[phrase]]
+from = "redirect before executing directory"
+to = "avant l'execution des scripts"
+[[phrase]]
+from = "Explicit request header/body pass-through switches for advanced migrations. Implemented as"
+to = "Switches explicites de pass-through en-tetes/corps de requete pour migrations avancees. Implementes comme"
+[[phrase]]
+from = "PHP-specific in-flight request cap. Implemented as"
+to = "Plafond de requetes en vol propre a PHP. Implemente comme"
+[[phrase]]
+from = ", so buffered PHP-FPM responses cannot multiply without a route-local or vhost-local bound."
+to = ", afin que les reponses PHP-FPM bufferisees ne puissent pas se multiplier sans limite locale a la route ou au vhost."
+[[phrase]]
+from = "support. Implemented for PHP-assisted static offload under"
+to = "pris en charge. Implemente pour l'offload statique assiste par PHP sous"
+[[phrase]]
+from = "response control handling. Implemented for PHP responses: Fluxheim strips the internal header, maps valid TTLs to"
+to = "traitement du controle de reponse. Implemente pour les reponses PHP : Fluxheim retire l'en-tete interne, mappe les TTL valides vers"
+[[phrase]]
+from = ", Fluxheim preserves that policy and does not promote the response to shared-cache eligibility."
+to = ", Fluxheim conserve cette policy et ne promeut pas la reponse a l'eligibilite au cache partage."
+[[phrase]]
+from = "Response header hide/pass/ignore controls for PHP backends. Initial hide controls implemented as"
+to = "Controles hide/pass/ignore d'en-tetes de reponse pour backends PHP. Controles hide initiaux implementes comme"
+[[phrase]]
+from = "STDERR capture/truncation/severity controls and fatal-error matching."
+to = "Controles de capture/troncature/severite STDERR et matching d'erreurs fatales."
+[[phrase]]
+from = "Initial php-fpm TCP upstream list and failover. Implemented as"
+to = "Liste d'upstreams TCP php-fpm initiale et failover. Implemente comme"
+[[phrase]]
+from = "with round-robin endpoint selection and safe-method failover on connection failures and connect timeouts. Upstream lists are capped at 64 entries and reject duplicate authorities."
+to = "avec selection d'endpoint round-robin et failover des methodes sures sur echecs de connexion et connect timeouts. Les listes d'upstreams sont limitees a 64 entrees et rejettent les autorites dupliquees."
+[[phrase]]
+from = "Retry policy for connection failures and connect timeouts on configured safe methods. Implemented as"
+to = "Policy de retry pour echecs de connexion et connect timeouts sur methodes sures configurees. Implemente comme"
+[[phrase]]
+from = "FastCGI cache-specific convenience config. Initial convenience preset implemented as"
+to = "Configuration de commodite propre au cache FastCGI. Preset de commodite initial implemente comme"
+[[phrase]]
+from = "FastCGI cache compatibility presets: cache keys, status TTLs, bypass/no-cache predicates, cache lock, stale-on-error/timeout, background refresh, and purge."
+to = "Presets de compatibilite cache FastCGI : cles de cache, TTLs par statut, predicats bypass/no-cache, cache lock, stale-on-error/timeout, refresh en arriere-plan et purge."
+[[phrase]]
+from = "Super Cache/W3TC-style static-file fallbacks remain future work. They need a typed static-file probing design so Fluxheim can avoid broad rewrite-string interpolation while still matching common WordPress plugin cache layouts."
+to = "Les fallbacks de fichiers statiques type Super Cache/W3TC restent un futur travail. Ils exigent une conception typee de probing de fichiers statiques afin que Fluxheim evite une interpolation large de chaines rewrite tout en correspondant aux layouts courants de cache de plugins WordPress."
+[[phrase]]
+from = "Turbine-Style PHP App Servers"
+to = "Serveurs applicatifs PHP de style Turbine"
+[[phrase]]
+from = "Turbine-style PHP runtimes are outside Fluxheim's embedded PHP runtime plan. They are app servers with their own listener, worker, TLS, lifecycle, and metrics model. Operators can run one behind Fluxheim like any other HTTP upstream:"
+to = "Les runtimes PHP de style Turbine sont hors du plan de runtime PHP embarque de Fluxheim. Ce sont des serveurs applicatifs avec leur propre modele listener, worker, TLS, cycle de vie et metriques. Les operateurs peuvent en executer un derriere Fluxheim comme n'importe quel upstream HTTP :"
+[[phrase]]
+from = "Fluxheim should not duplicate that model as an embedded PHP runtime unless a future project exposes a small auditable library API with a clearly safer security boundary than reverse proxying."
+to = "Fluxheim ne doit pas dupliquer ce modele comme runtime PHP embarque sauf si un futur projet expose une petite API de bibliotheque auditable avec une frontiere de securite clairement plus sure que le reverse proxy."
+[[phrase]]
+from = "Pure-Rust PHP"
+to = "PHP pure Rust"
+[[phrase]]
+from = "Reload And Operations"
+to = "Reload et operations"
+[[phrase]]
+from = "PHP runtime selection and PHP runtime process settings should be classified as process-upgrade changes until a runtime proves safe snapshot-only reload semantics."
+to = "La selection du runtime PHP et les parametres de processus runtime PHP doivent etre classes comme changements par upgrade de processus jusqu'a ce qu'un runtime prouve une semantique de reload uniquement par snapshot sure."
+[[phrase]]
+from = "Per-vhost PHP routing policy may later become snapshot-safe, but only after path resolution, runtime handles, and request isolation are immutable per runtime snapshot."
+to = "La policy de routage PHP par vhost pourra plus tard devenir sure pour snapshot, mais seulement apres que la resolution de chemins, les handles runtime et l'isolation des requetes seront immuables par snapshot runtime."
+[[phrase]]
+from = "Operational metrics include bounded Prometheus request totals, durations, STDERR event counts, php-fpm retry-attempt counts, and keepalive pool idle and event metrics for the PHP handler."
+to = "Les metriques operationnelles incluent des totaux de requetes Prometheus bornes, durees, compteurs d'evenements STDERR, compteurs de tentatives retry php-fpm, et metriques idle/evenements de pool keepalive pour le handler PHP."
+[[phrase]]
+from = "; keep running them as release evidence when PHP behavior changes. The local WordPress smoke accepts"
+to = " ; continuer a les executer comme preuve de release lorsque le comportement PHP change. Le smoke WordPress local accepte"
+[[phrase]]
+from = "/front-controller presets for WordPress, Laravel/Symfony, and strict"
+to = "/front-controller pour WordPress, Laravel/Symfony et emplacements stricts"
+[[phrase]]
+from = "PHP locations. Implemented as"
+to = "PHP. Implemente comme"
+[[phrase]]
+from = "<li>Configurable safe <code>PATH_INFO</code> splitting. Implemented as <code>php.path_info = &quot;disabled&quot;</code> or <code>&quot;split&quot;</code>; the legacy <code>&quot;strict&quot;</code> spelling remains accepted as an alias for <code>&quot;split&quot;</code>.</li>"
+to = "<li>Decoupage <code>PATH_INFO</code> sur et configurable. Implemente comme <code>php.path_info = &quot;disabled&quot;</code> ou <code>&quot;split&quot;</code>; l'ancien libelle <code>&quot;strict&quot;</code> reste accepte comme alias de <code>&quot;split&quot;</code>.</li>"
+[[phrase]]
+from = "for split containers, and configured PHP script extensions are refused as offload targets."
+to = "pour les conteneurs separes, et les extensions de scripts PHP configurees sont refusees comme cibles d'offload."
+[[phrase]]
+from = ", treats zero or past expiries as"
+to = ", traite les expirations nulles ou passees comme"
+[[phrase]]
+from = "-style integration with Fluxheim error pages. Initial generic interception implemented as"
+to = "avec les pages d'erreur Fluxheim. Interception generique initiale implementee comme"
+[[phrase]]
+from = "removes PHP-generated"
+to = "supprime les"
+[[phrase]]
+from = "; hop-by-hop PHP response headers are stripped by default."
+to = " ; les en-tetes de reponse PHP hop-by-hop sont retires par defaut."
+[[phrase]]
+from = ", and request timeouts are not retried to avoid duplicating PHP side effects. With"
+to = ", et les timeouts de requete ne sont pas retentes afin d'eviter de dupliquer les effets de bord PHP. Avec"
+[[phrase]]
+from = ", Fluxheim tries enough endpoints to cover the configured list for safe methods even when"
+to = ", Fluxheim essaie assez d'endpoints pour couvrir la liste configuree pour les methodes sures meme lorsque"
+[[phrase]]
+from = ". Broader status/invalid-header retry policy is available as opt-in"
+to = ". Une policy de retry plus large pour statut/en-tete invalide est disponible en opt-in"
+[[phrase]]
+from = "attributes for PHP-handled requests when"
+to = "attributs pour les requetes gerees par PHP lorsque"
+[[phrase]]
+from = ". Initial execution denial implemented as"
+to = ". Refus d'execution initial implemente comme"
+[[phrase]]
+from = "FastCGI multiplexing, authorizer, and filter-role review. Documented as unsupported for"
+to = "Revue du multiplexing FastCGI, de l'authorizer et du role filter. Documente comme non pris en charge pour"
+[[phrase]]
+from = "; Fluxheim supports the normal one-request-at-a-time"
+to = " ; Fluxheim prend en charge le sous-ensemble normal one-request-at-a-time"
+[[phrase]]
+from = "Fluxheim 1.3.6 also completed the adjacent admin API JSON cleanup. This is not part of the PHP runtime, but it landed in the same hardening window: dynamic admin responses now serialize through"
+to = "Fluxheim 1.3.6 a aussi acheve le nettoyage JSON adjacent de l'API admin. Cela ne fait pas partie du runtime PHP, mais a atterri dans la meme fenetre de durcissement : les reponses admin dynamiques serialisent maintenant via"
+[[phrase]]
+from = "while preserving the existing admin API schemas and regression coverage."
+to = "tout en preservant les schemas existants de l'API admin et la couverture de regression."
+[[phrase]]
+from = "Set TLS-related CGI context ("
+to = "Definir le contexte CGI lie a TLS ("
+[[phrase]]
+from = "paths are mapped from"
+to = "les chemins sont mappes depuis"
+[[phrase]]
+from = "for opt-in final"
+to = "pour la resolution finale opt-in"
+[[phrase]]
+from = ", both defaulting to"
+to = ", les deux valant par defaut"
+[[phrase]]
+from = "Support explicit"
+to = "Prendre en charge les switches explicites"

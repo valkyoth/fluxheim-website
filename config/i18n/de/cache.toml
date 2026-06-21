@@ -1,0 +1,146 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Fluxheim's cache system supports memory, disk, tiered, and encrypted backends with route-scoped policies, cache locks, stale serving, distributed peer fill, and range caching."
+to = "Fluxheims Cache-System unterstützt Memory-, Disk-, Tiered- und verschlüsselte Backends mit routenbezogenen Policies, Cache-Locks, Stale Serving, verteiltem Peer Fill und Range-Caching."
+
+[[phrase]]
+from = "Enabling Cache"
+to = "Cache aktivieren"
+
+[[phrase]]
+from = "The <code>cache</code> Cargo feature must be compiled in (default in pre-built binaries). Runtime cache is disabled until configured per-vhost."
+to = "Das Cargo-Feature <code>cache</code> muss einkompiliert sein (Standard in vorgebauten Binaries). Der Runtime-Cache ist deaktiviert, bis er pro Vhost konfiguriert wird."
+
+[[phrase]]
+from = "fluxheim.toml — basic memory cache"
+to = "fluxheim.toml - einfacher Memory-Cache"
+
+[[phrase]]
+from = "Cache Backends"
+to = "Cache-Backends"
+
+[[phrase]]
+from = "Memory Cache"
+to = "Memory-Cache"
+
+[[phrase]]
+from = "Fast in-process LRU cache. Lost on restart. Best for frequently accessed small-to-medium objects."
+to = "Schneller In-Process-LRU-Cache. Geht beim Neustart verloren. Am besten für häufig abgerufene kleine bis mittlere Objekte."
+
+[[phrase]]
+from = "Disk Cache"
+to = "Disk-Cache"
+
+[[phrase]]
+from = "Persistent on-disk cache. Survives restarts. The storage-bin backend (v1.2.2+) is optimised for larger, high-churn caches."
+to = "Persistenter On-Disk-Cache. Übersteht Neustarts. Das storage-bin-Backend (v1.2.2+) ist für größere, stark wechselnde Caches optimiert."
+
+[[phrase]]
+from = "Tiered Cache"
+to = "Tiered Cache"
+
+[[phrase]]
+from = "Hot memory tier backed by disk. Objects are promoted to memory on repeated access and written through to disk for persistence."
+to = "Heißer Memory-Tier mit Disk als Hintergrundspeicher. Objekte werden bei wiederholtem Zugriff in den Memory-Cache befördert und zur Persistenz auf Disk geschrieben."
+
+[[phrase]]
+from = "Encrypted Disk Cache"
+to = "Verschlüsselter Disk-Cache"
+
+[[phrase]]
+from = "Available since v1.2.3. Cache objects are encrypted at rest using a local key or an OpenBao Transit engine."
+to = "Verfügbar seit v1.2.3. Cache-Objekte werden ruhend mit einem lokalen Schlüssel oder einer OpenBao-Transit-Engine verschlüsselt."
+
+[[phrase]]
+from = "Cache Policies"
+to = "Cache-Policies"
+
+[[phrase]]
+from = "Cache Lock (Stampede Prevention)"
+to = "Cache-Lock (Stampede-Vermeidung)"
+
+[[phrase]]
+from = "With <code>[vhosts.cache.lock].enabled = true</code>, only one upstream request is made per cache key when a miss occurs. Other requests wait for the fill to complete and are served from cache."
+to = "Mit <code>[vhosts.cache.lock].enabled = true</code> wird bei einem Miss nur ein Upstream-Request pro Cache-Key ausgeführt. Andere Requests warten auf den Abschluss des Fills und werden aus dem Cache bedient."
+
+[[phrase]]
+from = "Stale While Revalidate"
+to = "Stale While Revalidate"
+
+[[phrase]]
+from = "With <code>stale_while_revalidate_secs</code>, expired cache entries are served immediately while a background request fills the cache with fresh content. Eliminates tail latency on cache expiry."
+to = "Mit <code>stale_while_revalidate_secs</code> werden abgelaufene Cache-Einträge sofort ausgeliefert, während ein Hintergrund-Request den Cache mit frischem Inhalt füllt. Beseitigt Tail-Latenz beim Cache-Ablauf."
+
+[[phrase]]
+from = "Distributed Peer Fill"
+to = "Verteilter Peer Fill"
+
+[[phrase]]
+from = "Available since v1.2.4. When a request misses the local cache, Fluxheim can fetch from a cache peer before going to the upstream origin. Uses a safe"
+to = "Verfügbar seit v1.2.4. Wenn ein Request den lokalen Cache verfehlt, kann Fluxheim vor dem Upstream-Origin von einem Cache-Peer abrufen. Nutzt eine sichere"
+
+[[phrase]]
+from = "semantics — if the peer doesn't have it, the request falls through to the origin."
+to = "Semantik - wenn der Peer es nicht hat, fällt der Request zum Origin durch."
+
+[[phrase]]
+from = "Range Caching"
+to = "Range-Caching"
+
+[[phrase]]
+from = "Available since v1.2.5. Opt-in bounded range caching for large proxy-cache objects — useful for large media files and binary downloads."
+to = "Verfügbar seit v1.2.5. Optionales begrenztes Range-Caching für große Proxy-Cache-Objekte - nützlich für große Mediendateien und Binärdownloads."
+
+[[phrase]]
+from = "Fixed-Slice Range Cache (v1.2.6+)"
+to = "Fixed-Slice-Range-Cache (v1.2.6+)"
+
+[[phrase]]
+from = "Extended range-cache mode that supports open-ended, suffix, and multipart byte-range responses by composing cached fixed-size slices."
+to = "Erweiterter Range-Cache-Modus, der offene, Suffix- und Multipart-Byte-Range-Responses durch Zusammensetzen gecachter Slices fester Größe unterstützt."
+
+[[phrase]]
+from = "Cache Operations"
+to = "Cache-Operationen"
+
+[[phrase]]
+from = "Fluxheim exposes protected cache status and purge endpoints through the admin API. Warming and key inspection are CLI operations."
+to = "Fluxheim stellt geschützte Cache-Status- und Purge-Endpunkte über die Admin-API bereit. Warming und Key-Inspection sind CLI-Operationen."
+
+[[phrase]]
+from = "bash — admin API cache operations"
+to = "bash - Cache-Operationen der Admin-API"
+
+[[phrase]]
+from = "Local Static-File Caching"
+to = "Lokales Static-File-Caching"
+
+[[phrase]]
+from = "Opt-in since v1.2.1. When <code>local_static = true</code> is enabled on the cache policy, Fluxheim caches static files from the local filesystem through the cache layer for hot-path performance."
+to = "Optional seit v1.2.1. Wenn <code>local_static = true</code> in der Cache-Policy aktiviert ist, cached Fluxheim statische Dateien aus dem lokalen Dateisystem über die Cache-Schicht für Hot-Path-Performance."
+
+[[phrase]]
+from = "<p><strong>Privacy builds:</strong> The <code>cache</code> feature is compile-time incompatible with <code>privacy-mode</code>. Zero-retention deployments must use <code>--no-default-features</code> with <code>profile-privacy</code> to ensure no caching occurs.</p>"
+to = "<p><strong>Privacy-Builds:</strong> Das Feature <code>cache</code> ist zur Compile-Zeit inkompatibel mit <code>privacy-mode</code>. Zero-Retention-Deployments müssen <code>--no-default-features</code> mit <code>profile-privacy</code> nutzen, damit kein Caching erfolgt.</p>"
+
+[[phrase]]
+from = "Opt-in since v1.2.1. When"
+to = "Optional seit v1.2.1. Wenn"
+
+[[phrase]]
+from = "Privacy builds:"
+to = "Privacy-Builds:"
+
+[[phrase]]
+from = "feature is compile-time incompatible with"
+to = "Feature ist zur Compile-Zeit inkompatibel mit"
+
+[[phrase]]
+from = ". Zero-retention deployments must use"
+to = ". Zero-Retention-Deployments müssen"
+
+[[phrase]]
+from = "to ensure no caching occurs."
+to = "nutzen, damit kein Caching erfolgt."

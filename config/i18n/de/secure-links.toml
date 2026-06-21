@@ -1,0 +1,214 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = ": shared config, URL token parsing, expiry checks, and route enforcement."
+to = ": gemeinsame Konfiguration, URL-Token-Parsing, Ablaufpruefungen und Routendurchsetzung."
+
+[[phrase]]
+from = ": symmetric HMAC signing."
+to = ": symmetrisches HMAC-Signing."
+
+[[phrase]]
+from = ": asymmetric public-key verification."
+to = ": asymmetrische Public-Key-Verifikation."
+
+[[phrase]]
+from = ": optional replay and usage accounting when a state backend is available."
+to = ": optionales Replay- und Nutzungs-Accounting, wenn ein State-Backend verfuegbar ist."
+
+[[phrase]]
+from = "Replace weak legacy signing patterns with modern, reviewable cryptography."
+to = "Schwache Legacy-Signing-Muster durch moderne, pruefbare Kryptografie ersetzen."
+
+[[phrase]]
+from = "Support stateless verification for high-volume static and media paths."
+to = "Stateless-Verifikation fuer statische und Medienpfade mit hohem Volumen unterstuetzen."
+
+[[phrase]]
+from = "Support asymmetric verification so Fluxheim can verify links without holding the private signing key."
+to = "Asymmetrische Verifikation unterstuetzen, damit Fluxheim Links pruefen kann, ohne den privaten Signing-Key zu halten."
+
+[[phrase]]
+from = "Treat URL tokens as claims with expiry, audience, path, method, and optional entitlement constraints."
+to = "URL-Tokens als Claims mit Ablauf, Audience, Pfad, Methode und optionalen Entitlement-Einschraenkungen behandeln."
+
+[[phrase]]
+from = "Avoid logging raw tokens, signatures, or entitlement claims."
+to = "Logging roher Tokens, Signaturen oder Entitlement-Claims vermeiden."
+
+[[phrase]]
+from = "Cryptography"
+to = "Kryptografie"
+
+[[phrase]]
+from = "HMAC-SHA-256 or HMAC-SHA-384 for symmetric deployments;"
+to = "HMAC-SHA-256 oder HMAC-SHA-384 fuer symmetrische Deployments;"
+
+[[phrase]]
+from = "Ed25519 for asymmetric deployments where application servers sign and Fluxheim verifies with public keys."
+to = "Ed25519 fuer asymmetrische Deployments, bei denen Application-Server signieren und Fluxheim mit Public Keys verifiziert."
+
+[[phrase]]
+from = "Future token formats may include compact JWT or PASETO-like claims, but the module should not accept arbitrary algorithms. Config must define an algorithm allow-list, key IDs, expiry requirements, maximum token size, and key rotation behavior."
+to = "Kuenftige Token-Formate koennen kompakte JWT- oder PASETO-aehnliche Claims enthalten, aber das Modul sollte keine beliebigen Algorithmen akzeptieren. Die Konfiguration muss Algorithmus-Allow-List, Key-IDs, Ablaufanforderungen, maximale Token-Groesse und Key-Rotationsverhalten definieren."
+
+[[phrase]]
+from = "Do not use weak digest-only constructions. A signature must cover at least:"
+to = "Keine schwachen Digest-only-Konstruktionen verwenden. Eine Signatur muss mindestens Folgendes abdecken:"
+
+[[phrase]]
+from = "normalized path;"
+to = "normalisierter Pfad;"
+
+[[phrase]]
+from = "method when configured;"
+to = "Methode, wenn konfiguriert;"
+
+[[phrase]]
+from = "expiry timestamp;"
+to = "Ablauf-Zeitstempel;"
+
+[[phrase]]
+from = "key ID or policy ID;"
+to = "Key-ID oder Policy-ID;"
+
+[[phrase]]
+from = "optional audience/tenant/route constraints."
+to = "optionale Audience-/Tenant-/Routen-Einschraenkungen."
+
+[[phrase]]
+from = "Claims"
+to = "Claims"
+
+[[phrase]]
+from = "Secure-link claims should be typed and bounded:"
+to = "Secure-Link-Claims sollten typisiert und begrenzt sein:"
+
+[[phrase]]
+from = ": required expiry timestamp;"
+to = ": erforderlicher Ablauf-Zeitstempel;"
+
+[[phrase]]
+from = ": optional not-before timestamp;"
+to = ": optionaler Not-before-Zeitstempel;"
+
+[[phrase]]
+from = ": exact path or policy-approved path prefix;"
+to = ": exakter Pfad oder von der Policy genehmigtes Pfadpraefix;"
+
+[[phrase]]
+from = ": optional method allow-list;"
+to = ": optionale Methoden-Allow-List;"
+
+[[phrase]]
+from = ": optional vhost/route audience;"
+to = ": optionale Vhost-/Routen-Audience;"
+
+[[phrase]]
+from = ": optional user or account identifier;"
+to = ": optionaler Benutzer- oder Konto-Identifier;"
+
+[[phrase]]
+from = ": optional entitlement tier;"
+to = ": optionale Entitlement-Stufe;"
+
+[[phrase]]
+from = ": optional token ID for replay controls;"
+to = ": optionale Token-ID fuer Replay-Kontrollen;"
+
+[[phrase]]
+from = ": optional transfer budget when accounting exists."
+to = ": optionales Transferbudget, wenn Accounting existiert."
+
+[[phrase]]
+from = "Replay And Usage Controls"
+to = "Replay- und Nutzungskontrollen"
+
+[[phrase]]
+from = "Replay prevention needs state. It should not be claimed in the stateless core."
+to = "Replay-Verhinderung braucht State. Sie sollte im stateless Core nicht beansprucht werden."
+
+[[phrase]]
+from = "one-time token IDs;"
+to = "Einmal-Token-IDs;"
+
+[[phrase]]
+from = "max uses per token;"
+to = "maximale Nutzungen pro Token;"
+
+[[phrase]]
+from = "max distinct client identities per token;"
+to = "maximal unterschiedliche Client-Identitaeten pro Token;"
+
+[[phrase]]
+from = "max transferred bytes per token;"
+to = "maximal uebertragene Bytes pro Token;"
+
+[[phrase]]
+from = "short-lived Bloom-filter style duplicate detection for media segments."
+to = "kurzlebige Duplikaterkennung im Bloom-Filter-Stil fuer Mediensegmente."
+
+[[phrase]]
+from = "All stateful replay controls must define consistency semantics. In a cluster, operators must choose between local-only, eventual, or strict behavior."
+to = "Alle stateful Replay-Kontrollen muessen Konsistenzsemantik definieren. In einem Cluster muessen Operatoren zwischen lokalem, eventualem oder striktem Verhalten waehlen."
+
+[[phrase]]
+from = "Client Binding"
+to = "Client-Binding"
+
+[[phrase]]
+from = "IP-only binding is fragile. If supported, it should be optional and tolerant:"
+to = "IP-only-Binding ist fragil. Wenn es unterstuetzt wird, sollte es optional und tolerant sein:"
+
+[[phrase]]
+from = "bind to an IP CIDR range rather than a single IP;"
+to = "an einen IP-CIDR-Bereich statt an eine einzelne IP binden;"
+
+[[phrase]]
+from = "support future identity or device-posture claims when identity modules exist;"
+to = "kuenftige Identity- oder Device-Posture-Claims unterstuetzen, wenn Identity-Module existieren;"
+
+[[phrase]]
+from = "avoid client binding entirely for privacy-mode deployments."
+to = "Client-Binding fuer Privacy-Mode-Deployments vollstaendig vermeiden."
+
+[[phrase]]
+from = "TLS/session binding is future research and must not be promised until the selected Pingora/TLS backends expose enough safe metadata."
+to = "TLS-/Session-Binding ist kuenftige Forschung und darf nicht versprochen werden, bis die ausgewaehlten Pingora-/TLS-Backends genug sichere Metadaten bereitstellen."
+
+[[phrase]]
+from = "Never log raw secure-link tokens, signatures, or decoded claims by default."
+to = "Rohe Secure-Link-Tokens, Signaturen oder dekodierte Claims standardmaessig niemals protokollieren."
+
+[[phrase]]
+from = "Strip secure-link query parameters from access-log paths unless the operator explicitly disables redaction."
+to = "Secure-Link-Query-Parameter aus Access-Log-Pfaden entfernen, sofern der Operator Redaction nicht explizit deaktiviert."
+
+[[phrase]]
+from = "should reject replay/accounting features and may reject the whole module until token redaction and no-retention behavior are tested."
+to = "sollte Replay-/Accounting-Features ablehnen und kann das gesamte Modul ablehnen, bis Token-Redaction und No-Retention-Verhalten getestet sind."
+
+[[phrase]]
+from = "Valid signed URL allows access."
+to = "Gueltig signierte URL erlaubt Zugriff."
+
+[[phrase]]
+from = "Expired and not-yet-valid tokens deny access."
+to = "Abgelaufene und noch nicht gueltige Tokens verweigern Zugriff."
+
+[[phrase]]
+from = "Wrong path, method, audience, or route denies access."
+to = "Falscher Pfad, falsche Methode, Audience oder Route verweigern Zugriff."
+
+[[phrase]]
+from = "Malformed and oversized tokens are rejected safely."
+to = "Fehlgeformte und uebergrosse Tokens werden sicher abgelehnt."
+
+[[phrase]]
+from = "Tokens are redacted from logs and error output."
+to = "Tokens werden aus Logs und Fehlerausgaben redigiert."
+
+[[phrase]]
+from = "Cache and media routes cannot leak personalized protected content."
+to = "Cache- und Medienrouten duerfen keine personalisierten geschuetzten Inhalte leaken."

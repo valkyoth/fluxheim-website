@@ -1,0 +1,274 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Perl CGI Support"
+to = "Prise en charge CGI Perl"
+
+[[phrase]]
+from = "Perl CGI support is a future Fluxheim application-server milestone for legacy tools that still depend on RFC 3875 CGI execution. It must be opt-in at compile time and opt-in per vhost. It should not be part of the default runtime behavior because CGI executes local programs with request-controlled input."
+to = "La prise en charge CGI Perl est un futur jalon de serveur applicatif Fluxheim pour les outils legacy qui dependent encore de l'execution CGI RFC 3875. Elle doit etre activee explicitement a la compilation et par vhost. Elle ne doit pas faire partie du comportement runtime par defaut, car CGI execute des programmes locaux avec des entrees controlees par la requete."
+
+[[phrase]]
+from = "Current Recommendation"
+to = "Recommandation actuelle"
+
+[[phrase]]
+from = "The planned implementation path is"
+to = "Le chemin d'implementation prevu est"
+
+[[phrase]]
+from = ": high-level CGI implementation for Rust, MIT."
+to = " : implementation CGI haut niveau pour Rust, MIT."
+
+[[phrase]]
+from = ": Tokio runtime support for CGI process execution, MIT."
+to = " : prise en charge runtime Tokio pour l'execution de processus CGI, MIT."
+
+[[phrase]]
+from = ": Unix resource limits, MIT."
+to = " : limites de ressources Unix, MIT."
+
+[[phrase]]
+from = ": optional Linux path-based sandboxing, MIT OR Apache-2.0."
+to = " : sandboxing Linux optionnel base sur les chemins, MIT OR Apache-2.0."
+
+[[phrase]]
+from = "The CGI module should use a normal external Perl interpreter first, for example"
+to = "Le module CGI doit d'abord utiliser un interpreteur Perl externe normal, par exemple"
+
+[[phrase]]
+from = ", and should not embed Perl into Fluxheim. Process isolation is the main security boundary."
+to = ", et ne doit pas embarquer Perl dans Fluxheim. L'isolation de processus est la principale frontiere de securite."
+
+[[phrase]]
+from = "Compile-Time Features"
+to = "Features de compilation"
+
+[[phrase]]
+from = "Planned feature flags:"
+to = "Feature flags prevus :"
+
+[[phrase]]
+from = "The default binary should not enable Perl CGI. If a release profile later chooses to compile the module by default, runtime execution must still remain disabled unless a vhost explicitly enables it."
+to = "Le binaire par defaut ne doit pas activer CGI Perl. Si un profil de release choisit plus tard de compiler le module par defaut, l'execution runtime doit quand meme rester desactivee sauf si un vhost l'active explicitement."
+
+[[phrase]]
+from = "Config Shape"
+to = "Forme de configuration"
+
+[[phrase]]
+from = "Initial typed TOML target:"
+to = "Cible TOML typee initiale :"
+
+[[phrase]]
+from = "The CGI handler should run before normal static fallback for configured CGI paths. If CGI execution fails, Fluxheim must return an error response and must not serve the script source."
+to = "Le handler CGI doit s'executer avant le fallback statique normal pour les chemins CGI configures. Si l'execution CGI echoue, Fluxheim doit renvoyer une reponse d'erreur et ne doit pas servir la source du script."
+
+[[phrase]]
+from = "Request Flow"
+to = "Flux de requete"
+
+[[phrase]]
+from = "Match an enabled vhost CGI route."
+to = "Faire correspondre une route CGI vhost activee."
+
+[[phrase]]
+from = "Resolve the requested script under the configured CGI root."
+to = "Resoudre le script demande sous la racine CGI configuree."
+
+[[phrase]]
+from = "Canonicalize the root and script path."
+to = "Canonicaliser la racine et le chemin du script."
+
+[[phrase]]
+from = "Reject traversal, symlink escapes, hidden files, non-files, and scripts with unsafe permissions."
+to = "Rejeter les traversals, echappements par symlink, fichiers caches, non-fichiers et scripts avec permissions dangereuses."
+
+[[phrase]]
+from = "Build a strict CGI environment from the request."
+to = "Construire un environnement CGI strict a partir de la requete."
+
+[[phrase]]
+from = "Spawn the Perl interpreter with clean environment, configured uid/gid, resource limits, timeout, and optional Landlock restrictions."
+to = "Demarrer l'interpreteur Perl avec environnement propre, uid/gid configures, limites de ressources, timeout et restrictions Landlock optionnelles."
+
+[[phrase]]
+from = "Pipe the bounded request body to stdin."
+to = "Envoyer le corps de requete borne vers stdin."
+
+[[phrase]]
+from = "Parse stdout as CGI headers plus body."
+to = "Parser stdout comme en-tetes CGI plus corps."
+
+[[phrase]]
+from = "Capture stderr separately, cap it, sanitize it, and log it."
+to = "Capturer stderr separement, le borner, le nettoyer et le journaliser."
+
+[[phrase]]
+from = "Kill the process group on timeout, client cancellation, or output limit violation."
+to = "Tuer le groupe de processus en cas de timeout, annulation client ou violation de limite de sortie."
+
+[[phrase]]
+from = "Security Requirements"
+to = "Exigences de securite"
+
+[[phrase]]
+from = "Before CGI is production eligible:"
+to = "Avant que CGI soit eligible a la production :"
+
+[[phrase]]
+from = "CGI must be disabled unless both compile feature and vhost config enable it."
+to = "CGI doit etre desactive sauf si la feature de compilation et la configuration vhost l'activent toutes deux."
+
+[[phrase]]
+from = "must come from canonical path resolution, not string concatenation."
+to = "doit venir d'une resolution de chemin canonique, pas d'une concatenation de chaines."
+
+[[phrase]]
+from = "Dotfiles and hidden path segments are denied by default."
+to = "Les dotfiles et segments de chemin caches sont refuses par defaut."
+
+[[phrase]]
+from = "Symlink escapes outside the CGI root are denied."
+to = "Les echappements par symlink hors de la racine CGI sont refuses."
+
+[[phrase]]
+from = "Group/world-writable scripts are denied."
+to = "Les scripts modifiables par le groupe ou par tous sont refuses."
+
+[[phrase]]
+from = "The interpreter path must be absolute and validated at startup."
+to = "Le chemin de l'interpreteur doit etre absolu et valide au demarrage."
+
+[[phrase]]
+from = "The child environment starts empty by default."
+to = "L'environnement enfant demarre vide par defaut."
+
+[[phrase]]
+from = "Only strict RFC 3875 CGI variables are passed:"
+to = "Seules les variables CGI RFC 3875 strictes sont transmises :"
+
+[[phrase]]
+from = ", and explicitly configured allow-list variables."
+to = ", et les variables d'allow-list explicitement configurees."
+
+[[phrase]]
+from = "Incoming request body limits are enforced for declared and streaming bodies."
+to = "Les limites de corps de requete entrant sont appliquees aux corps declares et streamables."
+
+[[phrase]]
+from = "CGI response headers have a hard byte limit."
+to = "Les en-tetes de reponse CGI ont une limite dure en octets."
+
+[[phrase]]
+from = "Malformed CGI headers, NUL bytes, and header injection are rejected."
+to = "Les en-tetes CGI mal formes, octets NUL et injections d'en-tete sont rejetes."
+
+[[phrase]]
+from = "stdout and stderr have independent byte caps."
+to = "stdout et stderr ont des plafonds d'octets independants."
+
+[[phrase]]
+from = "stderr is sanitized before logging to avoid leaking secrets."
+to = "stderr est nettoye avant journalisation pour eviter les fuites de secrets."
+
+[[phrase]]
+from = "Child processes are spawned in their own process group where supported."
+to = "Les processus enfants sont demarres dans leur propre groupe de processus lorsque c'est pris en charge."
+
+[[phrase]]
+from = "Timeouts kill the process group, not only the direct child."
+to = "Les timeouts tuent le groupe de processus, pas seulement l'enfant direct."
+
+[[phrase]]
+from = "Resource limits should cover CPU, address space, file size, open files, and child processes."
+to = "Les limites de ressources doivent couvrir CPU, espace d'adressage, taille de fichier, fichiers ouverts et processus enfants."
+
+[[phrase]]
+from = "Landlock, when enabled and available, should restrict file reads/writes to configured paths after all required files are opened."
+to = "Landlock, lorsqu'il est active et disponible, doit restreindre les lectures/ecritures de fichiers aux chemins configures apres l'ouverture de tous les fichiers requis."
+
+[[phrase]]
+from = "Deployment Model"
+to = "Modele de deploiement"
+
+[[phrase]]
+from = "The preferred deployment boundary is rootless Podman plus low-privilege Unix users inside the container. Fluxheim should not require privileged host access for CGI."
+to = "La frontiere de deploiement preferee est Podman rootless plus des utilisateurs Unix a faibles privileges dans le conteneur. Fluxheim ne doit pas exiger d'acces hote privilegie pour CGI."
+
+[[phrase]]
+from = "can be documented as an advanced future option, but it should not be the primary security boundary because it needs privileges and careful filesystem construction."
+to = "peut etre documente comme option future avancee, mais ne doit pas etre la principale frontiere de securite, car il exige des privileges et une construction de systeme de fichiers soigneuse."
+
+[[phrase]]
+from = "Testing Plan"
+to = "Plan de test"
+
+[[phrase]]
+from = "Required tests before implementation is considered usable:"
+to = "Tests requis avant de considerer l'implementation utilisable :"
+
+[[phrase]]
+from = "Compile checks with and without"
+to = "Verifications de compilation avec et sans"
+
+[[phrase]]
+from = "Config validation for unsafe interpreter paths, missing roots, bad limits, and remote/insecure writable paths."
+to = "Validation de configuration pour chemins d'interpreteur dangereux, racines manquantes, mauvaises limites et chemins modifiables distants/non securises."
+
+[[phrase]]
+from = "Path traversal and symlink escape tests."
+to = "Tests de path traversal et d'echappement par symlink."
+
+[[phrase]]
+from = "Denied source fallback tests."
+to = "Tests de fallback source refuse."
+
+[[phrase]]
+from = "Environment allow-list tests."
+to = "Tests d'allow-list d'environnement."
+
+[[phrase]]
+from = "Timeout and process-kill tests."
+to = "Tests de timeout et de kill de processus."
+
+[[phrase]]
+from = "stdout/stderr limit tests."
+to = "Tests de limites stdout/stderr."
+
+[[phrase]]
+from = "malformed header tests."
+to = "Tests d'en-tetes mal formes."
+
+[[phrase]]
+from = "request body limit tests for"
+to = "Tests de limite de corps de requete pour"
+
+[[phrase]]
+from = "and streaming bodies."
+to = "et corps streamables."
+
+[[phrase]]
+from = "rootless Podman smoke test with a tiny Perl CGI script."
+to = "Smoke test Podman rootless avec un petit script CGI Perl."
+
+[[phrase]]
+from = "Reload And Operations"
+to = "Reload et operations"
+
+[[phrase]]
+from = "CGI runtime settings should be process-upgrade changes until the process model is proven safe for snapshot-only reloads. Per-vhost route policy may later become snapshot-safe if it only changes immutable config and does not alter process pools, interpreter paths, uid/gid, Landlock policy, or resource limits."
+to = "Les parametres runtime CGI doivent etre des changements par upgrade de processus jusqu'a ce que le modele de processus soit prouve sur pour les reloads uniquement par snapshot. La policy de route par vhost pourra plus tard devenir sure pour snapshot si elle ne change que de la configuration immuable et ne modifie pas les pools de processus, chemins d'interpreteur, uid/gid, policy Landlock ou limites de ressources."
+
+[[phrase]]
+from = "Metrics should include CGI request totals, exit statuses, timeouts, output-limit violations, spawn failures, and stderr counts by vhost."
+to = "Les metriques doivent inclure les totaux de requetes CGI, statuts de sortie, timeouts, violations de limite de sortie, echecs de spawn et compteurs stderr par vhost."
+
+[[phrase]]
+from = "headers are parsed explicitly."
+to = "les headers sont parses explicitement."
+
+[[phrase]]
+from = "is preserved, but header names and values are validated."
+to = "est conserve, mais les noms et valeurs de headers sont valides."

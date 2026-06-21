@@ -1,0 +1,402 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Cloudflare Origin Support"
+to = "Cloudflare-Origin-Unterstuetzung"
+
+[[phrase]]
+from = "No Cloudflare module should be compiled into the default binary."
+to = "Kein Cloudflare-Modul sollte in das Standard-Binary kompiliert werden."
+
+[[phrase]]
+from = "Restore the real visitor IP only for verified Cloudflare-originated requests."
+to = "Die echte Besucher-IP nur fuer verifizierte Anfragen wiederherstellen, die von Cloudflare stammen."
+
+[[phrase]]
+from = "Correlate access logs with Cloudflare Ray IDs."
+to = "Access-Logs mit Cloudflare-Ray-IDs korrelieren."
+
+[[phrase]]
+from = "Support Cloudflare IP range refresh without downtime."
+to = "Cloudflare-IP-Range-Refresh ohne Downtime unterstuetzen."
+
+[[phrase]]
+from = "Support Cloudflare Origin CA certificate issuance as an optional automation."
+to = "Die Ausstellung von Cloudflare-Origin-CA-Zertifikaten als optionale Automatisierung unterstuetzen."
+
+[[phrase]]
+from = "Support Authenticated Origin Pulls as an optional mTLS hardening layer."
+to = "Authenticated Origin Pulls als optionale mTLS-Haertungsschicht unterstuetzen."
+
+[[phrase]]
+from = "Keep Cloudflare credentials out of config snapshots and logs."
+to = "Cloudflare-Zugangsdaten aus Konfigurations-Snapshots und Logs heraushalten."
+
+[[phrase]]
+from = "No dependency on Cloudflare in default builds."
+to = "Keine Abhaengigkeit von Cloudflare in Standard-Builds."
+
+[[phrase]]
+from = "No automatic mutation of Cloudflare zone settings in the MVP."
+to = "Keine automatische Aenderung von Cloudflare-Zone-Einstellungen im MVP."
+
+[[phrase]]
+from = "No promise that Cloudflare global AOP proves the user's specific account."
+to = "Kein Versprechen, dass globales Cloudflare-AOP das konkrete Konto des Benutzers beweist."
+
+[[phrase]]
+from = "No replacement for normal ACME/own-certificate support."
+to = "Kein Ersatz fuer normale ACME- oder eigene Zertifikat-Unterstuetzung."
+
+[[phrase]]
+from = "Reviewed crate candidates as of 2026-05-05:"
+to = "Gepruefte Crate-Kandidaten mit Stand 2026-05-05:"
+
+[[phrase]]
+from = ", BSD-3-Clause: Rust library for Cloudflare v4 API. Configure with"
+to = ", BSD-3-Clause: Rust-Bibliothek fuer die Cloudflare-v4-API. Mit"
+
+[[phrase]]
+from = "if used so it follows Fluxheim's default TLS direction."
+to = "konfigurieren, falls genutzt, damit sie Fluxheims Standard-TLS-Richtung folgt."
+
+[[phrase]]
+from = ", MIT/Apache-2.0: local CSR/private-key generation."
+to = ", MIT/Apache-2.0: lokale CSR- und Private-Key-Erzeugung."
+
+[[phrase]]
+from = ", MIT/Apache-2.0: CIDR parsing and membership checks."
+to = ", MIT/Apache-2.0: CIDR-Parsing und Zugehoerigkeitspruefungen."
+
+[[phrase]]
+from = ", MIT/Apache-2.0: atomic replacement of trusted IP range snapshots or certificate state."
+to = ", MIT/Apache-2.0: atomarer Austausch von vertrauenswuerdigen IP-Range-Snapshots oder Zertifikatszustand."
+
+[[phrase]]
+from = "Trust Boundary"
+to = "Vertrauensgrenze"
+
+[[phrase]]
+from = "Cloudflare request headers are trusted only when at least one configured trust condition succeeds:"
+to = "Cloudflare-Request-Headern wird nur vertraut, wenn mindestens eine konfigurierte Vertrauensbedingung erfolgreich ist:"
+
+[[phrase]]
+from = "the direct peer socket IP is in the validated Cloudflare IP range set;"
+to = "die direkte Peer-Socket-IP liegt im validierten Cloudflare-IP-Range-Set;"
+
+[[phrase]]
+from = "Authenticated Origin Pulls mTLS verification succeeded;"
+to = "die mTLS-Verifikation von Authenticated Origin Pulls war erfolgreich;"
+
+[[phrase]]
+from = "a future explicit trusted listener is configured for private Cloudflare tunnel traffic."
+to = "ein zukuenftiger explizit vertrauenswuerdiger Listener ist fuer privaten Cloudflare-Tunnel-Traffic konfiguriert."
+
+[[phrase]]
+from = "If none of those conditions succeeds, Fluxheim must treat"
+to = "Wenn keine dieser Bedingungen erfolgreich ist, muss Fluxheim"
+
+[[phrase]]
+from = ", and related headers as untrusted remote input."
+to = "und verwandte Header als nicht vertrauenswuerdige Remote-Eingaben behandeln."
+
+[[phrase]]
+from = "The direct peer IP should remain available in logs as"
+to = "Die direkte Peer-IP sollte in Logs weiterhin als"
+
+[[phrase]]
+from = "The restored client IP should be stored separately as"
+to = "Die wiederhergestellte Client-IP sollte separat als"
+
+[[phrase]]
+from = "so operators can audit whether traffic is actually coming through Cloudflare."
+to = "gespeichert werden, damit Betreiber pruefen koennen, ob Traffic tatsaechlich ueber Cloudflare kommt."
+
+[[phrase]]
+from = "Header Handling"
+to = "Header-Behandlung"
+
+[[phrase]]
+from = "Accepted headers after trust validation:"
+to = "Akzeptierte Header nach der Vertrauensvalidierung:"
+
+[[phrase]]
+from = ": visitor IP to use for logs, WAF/rate-limit decisions, and admin visibility."
+to = ": Besucher-IP fuer Logs, WAF-/Rate-Limit-Entscheidungen und Admin-Sichtbarkeit."
+
+[[phrase]]
+from = ": request correlation ID for structured logs and optional response echoing."
+to = ": Request-Korrelations-ID fuer strukturierte Logs und optionales Response-Echoing."
+
+[[phrase]]
+from = ": coarse country signal for logs/metrics after cardinality controls."
+to = ": grobes Laendersignal fuer Logs/Metriken nach Kardinalitaetskontrollen."
+
+[[phrase]]
+from = ": optional scheme metadata, parsed strictly as JSON if needed."
+to = ": optionale Scheme-Metadaten, bei Bedarf strikt als JSON geparst."
+
+[[phrase]]
+from = ": optional context fields, never security authorities."
+to = ": optionale Kontextfelder, niemals Security-Authorities."
+
+[[phrase]]
+from = "Reject or ignore malformed IP values."
+to = "Fehlformatierte IP-Werte ablehnen oder ignorieren."
+
+[[phrase]]
+from = "Never let untrusted Cloudflare headers override socket-derived metadata."
+to = "Niemals zulassen, dass nicht vertrauenswuerdige Cloudflare-Header aus dem Socket abgeleitete Metadaten ueberschreiben."
+
+[[phrase]]
+from = ", city, device, worker, or bot headers as authorization decisions."
+to = ", City-, Device-, Worker- oder Bot-Header als Autorisierungsentscheidungen verwenden."
+
+[[phrase]]
+from = "Keep metrics labels bounded. Country labels may be allowed only as fixed two-letter country codes plus"
+to = "Metrik-Labels begrenzen. Laender-Labels duerfen nur als feste zweibuchstabige Laendercodes plus"
+
+[[phrase]]
+from = "; never use free-form city names as labels."
+to = "zugelassen werden; niemals frei formulierte Staedtenamen als Labels verwenden."
+
+[[phrase]]
+from = "Redact or bound all header values in logs."
+to = "Alle Header-Werte in Logs redigieren oder begrenzen."
+
+[[phrase]]
+from = "IP Range Refresh"
+to = "IP-Range-Refresh"
+
+[[phrase]]
+from = "load a configured pinned Cloudflare IP range file;"
+to = "eine konfigurierte gepinnte Cloudflare-IP-Range-Datei laden;"
+
+[[phrase]]
+from = "validate every CIDR;"
+to = "jedes CIDR validieren;"
+
+[[phrase]]
+from = "refuse startup if Cloudflare mode requires trusted ranges and none are usable."
+to = "den Start verweigern, wenn der Cloudflare-Modus vertrauenswuerdige Ranges verlangt und keine nutzbar sind."
+
+[[phrase]]
+from = "fetch Cloudflare's official IP range API daily or on a configured interval;"
+to = "Cloudflares offizielle IP-Range-API taeglich oder in einem konfigurierten Intervall abrufen;"
+
+[[phrase]]
+from = "validate the complete response before swapping it in;"
+to = "die komplette Antwort validieren, bevor sie ausgetauscht wird;"
+
+[[phrase]]
+from = "keep the last known-good range set if refresh fails;"
+to = "das letzte als gut bekannte Range-Set behalten, wenn der Refresh fehlschlaegt;"
+
+[[phrase]]
+from = "last_failure"
+to = "last_failure"
+
+[[phrase]]
+from = "last_success"
+to = "last_success"
+
+[[phrase]]
+from = "and active range count in metrics and admin status;"
+to = "und die aktive Range-Anzahl in Metriken und Admin-Status erfassen;"
+
+[[phrase]]
+from = "never block request workers while refreshing."
+to = "Request-Worker waehrend des Refreshs niemals blockieren."
+
+[[phrase]]
+from = "or equivalent atomic state so new requests see the fresh range set without interrupting active requests."
+to = "oder aequivalenten atomaren Zustand verwenden, damit neue Requests das frische Range-Set sehen, ohne aktive Requests zu unterbrechen."
+
+[[phrase]]
+from = "Origin CA Automation"
+to = "Origin-CA-Automatisierung"
+
+[[phrase]]
+from = "Cloudflare Origin CA certificates are separate from Let's Encrypt/ACME certificates. They are trusted by Cloudflare for edge-to-origin TLS, not by normal browsers directly."
+to = "Cloudflare-Origin-CA-Zertifikate sind von Let's-Encrypt-/ACME-Zertifikaten getrennt. Cloudflare vertraut ihnen fuer Edge-to-Origin-TLS, normale Browser aber nicht direkt."
+
+[[phrase]]
+from = "Generate a private key locally with strict permissions."
+to = "Einen Private Key lokal mit strikten Berechtigungen erzeugen."
+
+[[phrase]]
+from = "Generate a CSR for configured hostnames."
+to = "Einen CSR fuer konfigurierte Hostnames erzeugen."
+
+[[phrase]]
+from = "Call the Cloudflare Origin CA create-certificate API."
+to = "Die Cloudflare-Origin-CA-Create-Certificate-API aufrufen."
+
+[[phrase]]
+from = "Persist certificate and key through Fluxheim's atomic snapshot/storage pattern."
+to = "Zertifikat und Key ueber Fluxheims atomares Snapshot-/Storage-Muster persistieren."
+
+[[phrase]]
+from = "Validate certificate hostnames and expiry."
+to = "Zertifikat-Hostnames und Ablauf validieren."
+
+[[phrase]]
+from = "Reload TLS state without downtime through the existing cert reload model."
+to = "TLS-Zustand ohne Downtime ueber das bestehende Zertifikat-Reload-Modell neu laden."
+
+[[phrase]]
+from = "Optionally revoke superseded Origin CA certificates after a safe overlap period."
+to = "Ersetzte Origin-CA-Zertifikate optional nach einer sicheren Ueberlappungszeit widerrufen."
+
+[[phrase]]
+from = "API token must be least-privilege and loaded from a secret path or environment, not committed into config snapshots."
+to = "Das API-Token muss Least-Privilege sein und aus einem Secret-Pfad oder der Umgebung geladen werden, nicht in Konfigurations-Snapshots committed."
+
+[[phrase]]
+from = "Token, CSR private key, and certificate private key must never be logged."
+to = "Token, CSR-Private-Key und Zertifikat-Private-Key duerfen niemals geloggt werden."
+
+[[phrase]]
+from = "Renewal should happen well before expiry and expose failures through admin/metrics/logging."
+to = "Renewal sollte deutlich vor Ablauf erfolgen und Fehler ueber Admin, Metriken und Logging sichtbar machen."
+
+[[phrase]]
+from = "The operator must be able to disable automation and use their own certificate files."
+to = "Der Betreiber muss Automatisierung deaktivieren und eigene Zertifikatsdateien nutzen koennen."
+
+[[phrase]]
+from = "Authenticated Origin Pulls"
+to = "Authenticated Origin Pulls"
+
+[[phrase]]
+from = "Authenticated Origin Pulls add mTLS client-certificate verification from Cloudflare to the origin."
+to = "Authenticated Origin Pulls ergaenzen mTLS-Client-Zertifikat-Verifikation von Cloudflare zum Origin."
+
+[[phrase]]
+from = "Global AOP: easiest setup, but the Cloudflare-provided client certificate is shared across Cloudflare accounts and proves only that the connection came from Cloudflare's network."
+to = "Globales AOP: einfachstes Setup, aber das von Cloudflare bereitgestellte Client-Zertifikat wird ueber Cloudflare-Konten geteilt und beweist nur, dass die Verbindung aus Cloudflares Netzwerk kam."
+
+[[phrase]]
+from = "Zone-level AOP: uses a user-uploaded certificate and is stricter."
+to = "Zone-Level-AOP: nutzt ein vom Benutzer hochgeladenes Zertifikat und ist strikter."
+
+[[phrase]]
+from = "Per-hostname AOP: uses a user-uploaded certificate for specific hostnames and is preferred for mixed or high-security deployments."
+to = "Per-Hostname-AOP: nutzt ein vom Benutzer hochgeladenes Zertifikat fuer bestimmte Hostnames und wird fuer gemischte oder hochsichere Deployments bevorzugt."
+
+[[phrase]]
+from = "configured AOP CA bundle per listener/vhost;"
+to = "konfiguriertes AOP-CA-Bundle pro Listener/Vhost;"
+
+[[phrase]]
+from = "certificate verification during TLS handshake where the selected TLS backend supports it;"
+to = "Zertifikatsverifikation waehrend des TLS-Handshakes, wo das ausgewaehlte TLS-Backend sie unterstuetzt;"
+
+[[phrase]]
+from = "certificate reload without dropping active requests;"
+to = "Zertifikat-Reload ohne aktive Requests zu verlieren;"
+
+[[phrase]]
+from = "metrics/logs for AOP success/failure counts;"
+to = "Metriken/Logs fuer AOP-Erfolgs- und Fehlerzaehler;"
+
+[[phrase]]
+from = "clear validation warnings when a deployment relies only on global AOP."
+to = "klare Validierungswarnungen, wenn ein Deployment nur auf globales AOP setzt."
+
+[[phrase]]
+from = "Config Shape"
+to = "Konfigurationsform"
+
+[[phrase]]
+from = "Per-vhost override target:"
+to = "Ziel fuer Per-Vhost-Overrides:"
+
+[[phrase]]
+from = "Add feature guards and config validation."
+to = "Feature-Guards und Konfigurationsvalidierung hinzufuegen."
+
+[[phrase]]
+from = "Add trusted Cloudflare range loading from a local pinned file."
+to = "Laden vertrauenswuerdiger Cloudflare-Ranges aus einer lokalen gepinnten Datei hinzufuegen."
+
+[[phrase]]
+from = "Restore real IP and Ray ID only after trust validation."
+to = "Echte IP und Ray-ID nur nach Vertrauensvalidierung wiederherstellen."
+
+[[phrase]]
+from = "Add structured log fields and metrics."
+to = "Strukturierte Log-Felder und Metriken hinzufuegen."
+
+[[phrase]]
+from = "Add background IP range refresh with last-known-good fallback."
+to = "Hintergrund-IP-Range-Refresh mit Last-Known-Good-Fallback hinzufuegen."
+
+[[phrase]]
+from = "Add Cloudflare Origin CA CSR and renewal workflow."
+to = "Cloudflare-Origin-CA-CSR und Renewal-Workflow hinzufuegen."
+
+[[phrase]]
+from = "Add AOP/mTLS configuration and reload tests for the active TLS backend."
+to = "AOP-/mTLS-Konfiguration und Reload-Tests fuer das aktive TLS-Backend hinzufuegen."
+
+[[phrase]]
+from = "Add optional API calls for managing AOP only after credential and permission scope is reviewed."
+to = "Optionale API-Aufrufe zur Verwaltung von AOP erst hinzufuegen, nachdem Credential- und Berechtigungsumfang geprueft wurden."
+
+[[phrase]]
+from = "Default build does not compile Cloudflare modules."
+to = "Der Standard-Build kompiliert keine Cloudflare-Module."
+
+[[phrase]]
+from = "is ignored or denied according to config."
+to = "wird je nach Konfiguration ignoriert oder abgelehnt."
+
+[[phrase]]
+from = "is logged only as a bounded correlation field."
+to = "wird nur als begrenztes Korrelationsfeld geloggt."
+
+[[phrase]]
+from = "IP range refresh failure keeps the last known-good set."
+to = "Fehler beim IP-Range-Refresh behalten das letzte als gut bekannte Set."
+
+[[phrase]]
+from = "Empty or invalid trusted range config fails closed when required."
+to = "Leere oder ungueltige Trusted-Range-Konfiguration scheitert bei Bedarf geschlossen."
+
+[[phrase]]
+from = "API tokens are redacted from logs, admin status, and validation errors."
+to = "API-Tokens werden in Logs, Admin-Status und Validierungsfehlern redigiert."
+
+[[phrase]]
+from = "Origin CA CSR includes only configured hostnames."
+to = "Der Origin-CA-CSR enthaelt nur konfigurierte Hostnames."
+
+[[phrase]]
+from = "Certificate reload does not interrupt active requests."
+to = "Zertifikat-Reload unterbricht keine aktiven Requests."
+
+[[phrase]]
+from = "AOP fail-closed denies requests without a valid client certificate."
+to = "AOP Fail-Closed lehnt Requests ohne gueltiges Client-Zertifikat ab."
+
+[[phrase]]
+from = "No blind trust in"
+to = "Kein blindes Vertrauen in"
+
+[[phrase]]
+from = "from a non-Cloudflare peer is ignored."
+to = "von einem Nicht-Cloudflare-Peer wird ignoriert."
+
+[[phrase]]
+from = "Valid Cloudflare peer restores"
+to = "Ein gueltiger Cloudflare-Peer stellt wieder her:"
+
+[[phrase]]
+from = "<li>Never use <code>CF-IPCountry</code>, city, device, worker, or bot headers as authorization decisions.</li>"
+to = "<li><code>CF-IPCountry</code>-, City-, Device-, Worker- oder Bot-Header niemals als Autorisierungsentscheidungen verwenden.</li>"
+
+[[phrase]]
+from = "<li>Spoofed <code>CF-Connecting-IP</code> from a non-Cloudflare peer is ignored.</li>"
+to = "<li>Gefaelschtes <code>CF-Connecting-IP</code> von einem Nicht-Cloudflare-Peer wird ignoriert.</li>"

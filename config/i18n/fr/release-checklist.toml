@@ -1,0 +1,494 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+[[phrase]]
+from = "Release Checklist — Fluxheim Source Docs"
+to = "Checklist de publication - documentation source Fluxheim"
+[[phrase]]
+from = "Use this checklist before publishing a Fluxheim release, changing dependency versions, changing TLS/cache/proxy behavior, or building an image for other people to run."
+to = "Utilisez cette checklist avant de publier une version Fluxheim, de modifier les versions des dependances, de changer le comportement TLS/cache/proxy ou de construire une image destinee a etre executee par d'autres."
+[[phrase]]
+from = "Version And Toolchain"
+to = "Version et chaine d'outils"
+[[phrase]]
+from = "Confirm the Rust version in"
+to = "Confirmez la version de Rust dans"
+[[phrase]]
+from = "Run the release metadata preflight:"
+to = "Executez le precontrole des metadonnees de publication :"
+[[phrase]]
+from = "Check that the pinned Rust version is still the current stable release before release work starts."
+to = "Verifiez que la version Rust epinglee est toujours la version stable actuelle avant de commencer le travail de publication."
+[[phrase]]
+from = "Install or update the tools with locked dependency resolution:"
+to = "Installez ou mettez a jour les outils avec une resolution de dependances verrouillee :"
+[[phrase]]
+from = "Dependency, License, And Advisory Gates"
+to = "Gates de dependances, licences et avis"
+[[phrase]]
+from = "only as a deliberate dependency maintenance step."
+to = "uniquement comme une etape volontaire de maintenance des dependances."
+[[phrase]]
+from = "Before tagging, verify compatible dependency updates are exhausted. This gate intentionally ignores"
+to = "Avant de taguer, verifiez que les mises a jour de dependances compatibles sont epuisees. Ce gate ignore volontairement"
+[[phrase]]
+from = "packages while Fluxheim is still exiting the Pingora compatibility runtime dependency surface:"
+to = "les paquets pendant que Fluxheim sort encore de la surface de dependances runtime de compatibilite Pingora :"
+[[phrase]]
+from = "Pingora-exit line, capture the runtime baseline evidence before tagging."
+to = "ligne de sortie de Pingora, capturez les preuves de baseline runtime avant de taguer."
+[[phrase]]
+from = "mode records locked dependency trees and the per-profile Pingora dependency surface, including native web TLS proof profiles;"
+to = "mode enregistre les arbres de dependances verrouilles et la surface de dependances Pingora par profil, y compris les profils de preuve TLS web native ;"
+[[phrase]]
+from = "mode also records the default release-binary size and local performance baseline:"
+to = "mode enregistre aussi la taille du binaire de publication par defaut et la baseline de performance locale :"
+[[phrase]]
+from = "Review every new dependency for maintenance status and SPDX license metadata."
+to = "Passez en revue chaque nouvelle dependance pour son statut de maintenance et ses metadonnees de licence SPDX."
+[[phrase]]
+from = "Review every new build script, procedural macro,"
+to = "Passez en revue chaque nouveau script de build, macro procedurale,"
+[[phrase]]
+from = "crate, vendored native source, native tool invocation, Cargo alias, and CI workflow edit as build-host code execution."
+to = "crate, source native vendoree, invocation d'outil natif, alias Cargo et modification de workflow CI comme de l'execution de code sur l'hote de build."
+[[phrase]]
+from = "strict: unknown registries, git sources, and unknown licenses stay denied."
+to = "strict : les registres inconnus, sources git et licences inconnues restent refuses."
+[[phrase]]
+from = "exceptions narrow, versioned, and documented with a removal condition."
+to = "les exceptions etroites, versionnees et documentees avec une condition de retrait."
+[[phrase]]
+from = "For unmaintained transitive dependencies inherited from Pingora or TLS backends, prefer upstream fixes over local forks. Track the package, advisory ID, upstream source, Fluxheim reachability, and removal condition in"
+to = "Pour les dependances transitives non maintenues heritees de Pingora ou des backends TLS, preferez les corrections upstream aux forks locaux. Suivez le paquet, l'ID d'avis, la source upstream, l'accessibilite Fluxheim et la condition de retrait dans"
+[[phrase]]
+from = "and release notes. Do not promote an ignored advisory from warning to accepted risk without a written reason."
+to = "et les notes de publication. Ne transformez pas un avis ignore de simple avertissement en risque accepte sans justification ecrite."
+[[phrase]]
+from = "Run the release wrapper:"
+to = "Executez le wrapper de publication :"
+[[phrase]]
+from = "The wrapper runs formatting, clippy, tests, selected feature builds, example config validation,"
+to = "Le wrapper execute le formatage, clippy, les tests, des builds de fonctionnalites selectionnees, la validation des exemples de configuration,"
+[[phrase]]
+from = "gateway scope is defined in the versioning plan and must cover representative multi-site gateway configs before a stable tag."
+to = "le perimetre gateway est defini dans le plan de versionnement et doit couvrir des configurations gateway multi-sites representatives avant un tag stable."
+[[phrase]]
+from = "For the stable-release gate without incubator module checks, use:"
+to = "Pour le gate de publication stable sans controles des modules incubateurs, utilisez :"
+[[phrase]]
+from = "Run the core localhost smoke directly when changing stable static/proxy behavior:"
+to = "Executez directement le smoke core localhost lorsque le comportement stable static/proxy change :"
+[[phrase]]
+from = "<p>This smoke requires <code>openssl</code> for a temporary self-signed certificate. It covers HTTP static hosting, HTTP proxying, static certificate storage validation, HTTPS static hosting, and HTTPS proxying.</p>"
+to = "<p>Ce smoke exige <code>openssl</code> pour un certificat auto-signe temporaire. Il couvre l'hebergement statique HTTP, le proxy HTTP, la validation du stockage de certificats statiques, l'hebergement statique HTTPS et le proxy HTTPS.</p>"
+[[phrase]]
+from = "for a temporary self-signed certificate. It covers HTTP static hosting, HTTP proxying, static certificate storage validation, HTTPS static hosting, and HTTPS proxying."
+to = "pour un certificat auto-signe temporaire. Il couvre l'hebergement statique HTTP, le proxy HTTP, la validation du stockage de certificats statiques, l'hebergement statique HTTPS et le proxy HTTPS."
+[[phrase]]
+from = "Confirm GitHub CodeQL default setup is enabled for"
+to = "Confirmez que la configuration par defaut GitHub CodeQL est activee pour"
+[[phrase]]
+from = ". Do not also enable an advanced CodeQL workflow for the same repository; GitHub rejects advanced SARIF uploads when default setup is active."
+to = ". N'activez pas aussi un workflow CodeQL avance pour le meme depot ; GitHub rejette les televersements SARIF avances lorsque la configuration par defaut est active."
+[[phrase]]
+from = "Confirm the Rust CI workflow still runs the core feature matrix in both check and release modes, plus the"
+to = "Confirmez que le workflow CI Rust execute toujours la matrice de fonctionnalites core en modes check et release, ainsi que le"
+[[phrase]]
+from = "TLS And Certificate Storage"
+to = "TLS et stockage des certificats"
+[[phrase]]
+from = "Static certificate chains and private keys are supported. Bought certificates remain a first-class deployment mode."
+to = "Les chaines de certificats statiques et les cles privees sont prises en charge. Les certificats achetes restent un mode de deploiement de premier rang."
+[[phrase]]
+from = "In the default rustls build, validate the default downstream certificate and at least one vhost-specific SNI certificate per TLS listener."
+to = "Dans le build rustls par defaut, validez le certificat downstream par defaut et au moins un certificat SNI specifique a un vhost par listener TLS."
+[[phrase]]
+from = "The core smoke generates temporary static certificates and proves static, proxied, and SNI-selected vhosts over a TLS listener."
+to = "Le smoke core genere des certificats statiques temporaires et prouve des vhosts statiques, proxifies et selectionnes par SNI sur un listener TLS."
+[[phrase]]
+from = "ACME config and renewal queue planning are implemented, but account/order and challenge runtime work is not release-ready yet. Do not document automated ACME issuance as operational until that runtime is implemented and tested."
+to = "La configuration ACME et la planification de la file de renouvellement sont implementees, mais le travail runtime account/order et challenge n'est pas encore pret pour publication. Ne documentez pas l'emission ACME automatisee comme operationnelle tant que ce runtime n'est pas implemente et teste."
+[[phrase]]
+from = "Validate production-like TLS storage before startup:"
+to = "Validez le stockage TLS proche de la production avant le demarrage :"
+[[phrase]]
+from = "On Unix, private keys should be owner-only ("
+to = "Sous Unix, les cles privees devraient etre reservees au proprietaire ("
+[[phrase]]
+from = ") and ACME storage directories should be owner-only ("
+to = ") et les repertoires de stockage ACME devraient etre reserves au proprietaire ("
+[[phrase]]
+from = "Core Build Matrix"
+to = "Matrice de build core"
+[[phrase]]
+from = "release, confirm the stable core binaries compile. This matrix intentionally excludes post-1.0 modules such as load balancing, metrics, admin, ACME runtime, WAF, PHP/CGI, Cloudflare automation, legacy HTTP, and WASM."
+to = "release, confirmez que les binaires core stables compilent. Cette matrice exclut volontairement les modules post-1.0 comme load balancing, metrics, admin, runtime ACME, WAF, PHP/CGI, automatisation Cloudflare, HTTP legacy et WASM."
+[[phrase]]
+from = "For faster local iteration before a release tag, run the same matrix as checks instead of release builds:"
+to = "Pour iterer localement plus vite avant un tag de publication, executez la meme matrice en checks plutot qu'en builds release :"
+[[phrase]]
+from = "Validate the representative split-config fixture set before a"
+to = "Validez le jeu de fixtures split-config representatif avant une"
+[[phrase]]
+from = "Stable Release Security And Stability Gate"
+to = "Gate de securite et de stabilite des publications stables"
+[[phrase]]
+from = "Passing memory-safe Rust builds is not enough for a proxy. Before every stable release, run this gate against the stable modules included in that release and record the results in the release notes. For"
+to = "Reussir des builds Rust memory-safe ne suffit pas pour un proxy. Avant chaque publication stable, executez ce gate sur les modules stables inclus et consignez les resultats dans les notes de publication. Pour"
+[[phrase]]
+from = ", the target is the documented basic-sites preview. For"
+to = ", la cible est la preview basic-sites documentee. Pour"
+[[phrase]]
+from = ", the target is the gateway core needed for representative multi-site configs. For later minors, include every module promoted to"
+to = ", la cible est le core gateway necessaire aux configurations multi-sites representatives. Pour les minors suivantes, incluez chaque module promu en"
+[[phrase]]
+from = "in that release."
+to = "dans cette publication."
+[[phrase]]
+from = "Local checks that can be run from this repository:"
+to = "Controles locaux executables depuis ce depot :"
+[[phrase]]
+from = "Run the local gate wrapper:"
+to = "Executez le wrapper de gate local :"
+[[phrase]]
+from = "For faster iteration before release week, run the same local gate in check mode:"
+to = "Pour iterer plus vite avant la semaine de publication, executez le meme gate local en mode check :"
+[[phrase]]
+from = "The stable gate includes the mapped OWASP Top 10 2025 baseline in quick"
+to = "Le gate stable inclut la baseline OWASP Top 10 2025 mappee en mode rapide"
+[[phrase]]
+from = "mode. Run the deeper representative-test mode when the release touches request handling, admin, PHP, TLS, logging, cache, dependency, or error-handling code:"
+to = "mode. Executez le mode de test representatif plus profond lorsque la publication touche au traitement des requetes, admin, PHP, TLS, logging, cache, dependances ou code de gestion d'erreurs :"
+[[phrase]]
+from = "The stable gate includes the promoted cache and observability smoke tests for the"
+to = "Le gate stable inclut les smoke tests cache et observability promus pour la"
+[[phrase]]
+from = "plus representative Debian and Alpine variant builds. This catches workspace, packaging, and image build context mistakes before an immutable tag is pushed."
+to = "plus des builds de variantes Debian et Alpine representatifs. Cela detecte les erreurs de workspace, packaging et contexte de build d'image avant qu'un tag immuable soit pousse."
+[[phrase]]
+from = "beta changes, include the optional UDP smoke before tagging:"
+to = "modifications beta, incluez le smoke UDP optionnel avant de taguer :"
+[[phrase]]
+from = "with that gate for a longer local soak when UDP forwarding, rate limits, or passive health behavior changed."
+to = "avec ce gate pour un soak local plus long lorsque le forwarding UDP, les limites de debit ou le comportement de sante passive ont change."
+[[phrase]]
+from = "If a release builder cannot run Podman, do not skip this silently. Run the image gate on another builder and attach the evidence before tagging. The emergency-only bypass is:"
+to = "Si un builder de publication ne peut pas executer Podman, ne l'ignorez pas silencieusement. Executez le gate d'image sur un autre builder et joignez les preuves avant de taguer. Le contournement reserve aux urgences est :"
+[[phrase]]
+from = "Optional gates below still cover slower or environment-specific checks such as TLS backend matrices, load testing, fuzz target compilation, and full Podman variant image smoke tests."
+to = "Les gates optionnels ci-dessous couvrent toujours les controles plus lents ou propres a l'environnement, comme les matrices de backends TLS, les tests de charge, la compilation des cibles de fuzz et les smoke tests complets des variantes d'image Podman."
+[[phrase]]
+from = "For release-candidate validation, run the deeper local gate. It enables the TLS backend matrix, OpenSSL FIPS-capable validation, rustls/AWS-LC FIPS-capable validation, local TLS scan, local load smoke, raw request-framing smoke, and fuzz target compile check:"
+to = "Pour la validation d'un release candidate, executez le gate local plus profond. Il active la matrice de backends TLS, la validation compatible OpenSSL FIPS, la validation rustls/AWS-LC compatible FIPS, le scan TLS local, le smoke de charge local, le smoke de framing brut des requetes et le controle de compilation des cibles de fuzz :"
+[[phrase]]
+from = "If the local release builder can run the rest of the deep gate but is not an AWS-LC-supported rustls FIPS builder, disable only that gate and attach rustls evidence from the supported builder separately:"
+to = "Si le builder local de publication peut executer le reste du deep gate mais n'est pas un builder rustls FIPS pris en charge par AWS-LC, desactivez uniquement ce gate et joignez separement les preuves rustls du builder pris en charge :"
+[[phrase]]
+from = "Enable optional local matrices when the release includes those deliverables:"
+to = "Activez les matrices locales optionnelles lorsque la publication inclut ces livrables :"
+[[phrase]]
+from = "For release builders that are expected to have a working OpenSSL FIPS provider, make absence a hard failure:"
+to = "Pour les builders de publication censes avoir un fournisseur OpenSSL FIPS fonctionnel, faites de son absence un echec dur :"
+[[phrase]]
+from = "Dependency and license policy:"
+to = "Politique de dependances et licences :"
+[[phrase]]
+from = "Static analysis and regression suite:"
+to = "Analyse statique et suite de regression :"
+[[phrase]]
+from = "Direct unsafe policy. Fluxheim"
+to = "Politique unsafe directe. Fluxheim"
+[[phrase]]
+from = "; this is enforced by the normal compile, clippy, and feature-matrix gates. Do not add direct"
+to = "; c'est impose par les gates de compilation normale, clippy et matrice de fonctionnalites. N'ajoutez pas de blocs directs"
+[[phrase]]
+from = "blocks or raw FFI to Fluxheim source. Prefer safe wrapper crates for platform APIs and safe task/waker primitives in tests."
+to = "ni de FFI brute au source Fluxheim. Preferez des crates wrapper sures pour les API plateforme et des primitives task/waker sures dans les tests."
+[[phrase]]
+from = "Panic and overflow policy. Release artifacts build with"
+to = "Politique panic et overflow. Les artefacts de publication sont construits avec"
+[[phrase]]
+from = "through clippy. Keep operational errors on"
+to = "via clippy. Gardez les erreurs operationnelles sur"
+[[phrase]]
+from = "or explicit fallback responses. Test-only assertions may continue using panicking helpers."
+to = "ou sur des reponses de fallback explicites. Les assertions reservees aux tests peuvent continuer a utiliser des helpers qui paniquent."
+[[phrase]]
+from = "Native dependency policy. FIPS-capable profiles can intentionally pull native cryptographic modules such as OpenSSL providers or"
+to = "Politique de dependances natives. Les profils compatibles FIPS peuvent volontairement tirer des modules cryptographiques natifs comme des fournisseurs OpenSSL ou"
+[[phrase]]
+from = ". Record the provider/module certificate, compiler, platform, and Security Policy in release evidence, and run sanitizer builds where supported by that native dependency and target platform."
+to = ". Consignez le certificat fournisseur/module, le compilateur, la plateforme et la Security Policy dans les preuves de publication, et executez des builds sanitizer lorsqu'ils sont pris en charge par cette dependance native et la plateforme cible."
+[[phrase]]
+from = "Secret handling policy. Admin bearer tokens are read into zeroizing buffers, hashed, and compared through a vetted constant-time equality primitive. Keep new long-lived credentials in"
+to = "Politique de gestion des secrets. Les bearer tokens admin sont lus dans des buffers zeroizing, haches et compares via une primitive d'egalite en temps constant verifiee. Gardez les nouveaux identifiants a longue duree de vie dans"
+[[phrase]]
+from = "for any equality check involving authentication tokens, signing secrets, or derived verifiers. Disk cache encryption keys and OpenBao tokens are long-lived credentials and must follow this policy. Do not classify normal cache object bodies as secrets unless a future module explicitly stores private user data."
+to = "pour tout controle d'egalite impliquant des jetons d'authentification, secrets de signature ou verificateurs derives. Les cles de chiffrement du cache disque et les jetons OpenBao sont des identifiants a longue duree de vie et doivent suivre cette politique. Ne classez pas les corps d'objets de cache normaux comme secrets sauf si un futur module stocke explicitement des donnees utilisateur privees."
+[[phrase]]
+from = "Third-party unsafe inventory. Before a stable release, run"
+to = "Inventaire unsafe tiers. Avant une publication stable, executez"
+[[phrase]]
+from = "as an informational dependency review and record unexpected changes in the release notes. Do not treat every dependency-level unsafe finding as an automatic blocker: the networking, TLS, OS, and runtime stack may contain audited unsafe internals. Treat new unsafe in direct dependencies as a review trigger alongside"
+to = "comme revue informative des dependances et consignez les changements inattendus dans les notes de publication. Ne traitez pas chaque constat unsafe au niveau dependance comme un bloqueur automatique : la pile reseau, TLS, OS et runtime peut contenir des internes unsafe audites. Traitez le nouvel unsafe dans les dependances directes comme un declencheur de revue aux cotes de"
+[[phrase]]
+from = "Supply-chain evidence. Stable release gates must generate SPDX and CycloneDX SBOMs with"
+to = "Preuves de supply chain. Les gates de publication stable doivent generer des SBOM SPDX et CycloneDX avec"
+[[phrase]]
+from = ", record their checksums, and run a local reproducible-build check that compiles the release binary twice from separate target directories and compares the resulting executable hash. This does not prove cross-machine bit-for-bit reproducibility; it proves the published builder can reproduce its own release artifact from the tagged source and pinned lockfile. Cross-distro/container reproducibility remains a future hardening goal."
+to = ", enregistrer leurs sommes de controle et executer un controle local de build reproductible qui compile deux fois le binaire de publication depuis des repertoires target separes et compare le hash de l'executable obtenu. Cela ne prouve pas une reproductibilite bit pour bit entre machines ; cela prouve que le builder de publication peut reproduire son propre artefact depuis la source taguee et le lockfile epingle. La reproductibilite cross-distro/container reste un futur objectif de durcissement."
+[[phrase]]
+from = "Human dependency review. Track the"
+to = "Revue humaine des dependances. Suivez le"
+[[phrase]]
+from = "adoption path in"
+to = "chemin d'adoption dans"
+[[phrase]]
+from = "Rust Supply-Chain Security"
+to = "Securite de la supply chain Rust"
+[[phrase]]
+from = "a blocking release gate until the initial exemption set and trusted audit imports have been reviewed."
+to = "un gate de publication bloquant tant que l'ensemble initial d'exemptions et les imports d'audits de confiance n'ont pas ete revus."
+[[phrase]]
+from = "Request framing and smuggling regression tests. The unit suite must keep coverage for ambiguous"
+to = "Tests de regression de framing et smuggling de requetes. La suite unitaire doit conserver la couverture des cas ambigus"
+[[phrase]]
+from = "values, and redirect target construction. Later stable modules must add their own malicious-input regression tests before release."
+to = "valeurs et construction de cibles de redirection. Les modules stables ulterieurs doivent ajouter leurs propres tests de regression pour entrees malveillantes avant publication."
+[[phrase]]
+from = "Run the raw-socket framing smoke before tagging a stable proxy release:"
+to = "Executez le smoke de framing raw-socket avant de taguer une publication proxy stable :"
+[[phrase]]
+from = "This smoke bypasses browser/client normalization and verifies malformed request framing is rejected on the wire."
+to = "Ce smoke contourne la normalisation navigateur/client et verifie que le framing de requete malforme est rejete sur le fil."
+[[phrase]]
+from = "Header scrubbing checks. The 1.0 smoke must continue proving that the default response policy does not expose version banners and strips common upstream implementation headers from proxied responses. Later stable modules must prove equivalent secret/banner scrubbing for their own outputs."
+to = "Controles de nettoyage des en-tetes. Le smoke 1.0 doit continuer a prouver que la politique de reponse par defaut n'expose pas de bannieres de version et retire les en-tetes courants d'implementation upstream des reponses proxifiees. Les modules stables ulterieurs doivent prouver un nettoyage equivalent des secrets/bannieres pour leurs propres sorties."
+[[phrase]]
+from = "Local load test with a release binary and a representative 1.0 config:"
+to = "Test de charge local avec un binaire de publication et une configuration 1.0 representative :"
+[[phrase]]
+from = "Watch CPU, memory, open file descriptors, and logs during this test. The server should reject or shed load cleanly rather than panic."
+to = "Surveillez CPU, memoire, descripteurs de fichiers ouverts et logs pendant ce test. Le serveur devrait rejeter ou delester proprement la charge plutot que paniquer."
+[[phrase]]
+from = "Fluxheim also includes a local wrapper for this check:"
+to = "Fluxheim inclut aussi un wrapper local pour ce controle :"
+[[phrase]]
+from = "The default duration is intentionally modest. Tune it for release validation:"
+to = "La duree par defaut est volontairement modeste. Ajustez-la pour la validation de publication :"
+[[phrase]]
+from = "TLS policy check. The current Fluxheim TLS listener configuration uses the selected Pingora TLS backend defaults and does not expose user-configurable cipher-suite or protocol-version settings yet. Release scans are therefore the enforcement gate: a stable release must not ship if the selected default TLS backend negotiates deprecated protocol versions or weak cipher suites."
+to = "Controle de politique TLS. La configuration actuelle des listeners TLS Fluxheim utilise les valeurs par defaut du backend TLS Pingora selectionne et n'expose pas encore de parametres de suites de chiffrement ou versions de protocole configurables par l'utilisateur. Les scans de publication sont donc le gate d'application : une publication stable ne doit pas etre livree si le backend TLS par defaut selectionne negocie des versions de protocole obsoletes ou des suites faibles."
+[[phrase]]
+from = "Local TLS smoke. The localhost smoke already proves a static certificate over a TLS listener. For a deeper local scan, use a temporary copy of the latest stable"
+to = "Smoke TLS local. Le smoke localhost prouve deja un certificat statique sur un listener TLS. Pour un scan local plus profond, utilisez une copie temporaire de la derniere version stable"
+[[phrase]]
+from = "release against the release binary. Re-check the latest stable tag before each release; as of 2026-05-06, GitHub lists"
+to = "contre le binaire de publication. Reverifiez le dernier tag stable avant chaque publication ; au 2026-05-06, GitHub indique"
+[[phrase]]
+from = "as the latest stable release:"
+to = "comme derniere version stable :"
+[[phrase]]
+from = "Fluxheim also includes a local wrapper that starts a temporary TLS listener, downloads the pinned stable scanner, and stores the report:"
+to = "Fluxheim inclut aussi un wrapper local qui demarre un listener TLS temporaire, telecharge le scanner stable epingle et stocke le rapport :"
+[[phrase]]
+from = "Do not vendor this script into the repository. Re-download it for release validation and record the commit/version it reports."
+to = "Ne vendorez pas ce script dans le depot. Retelechargez-le pour la validation de publication et consignez le commit ou la version qu'il rapporte."
+[[phrase]]
+from = "Checks that should be run by the maintainer from a deployment-like environment:"
+to = "Controles que le mainteneur devrait executer depuis un environnement proche du deploiement :"
+[[phrase]]
+from = "Run an authenticated or allowlisted OWASP ZAP/Burp active scan against a staging deployment that has no real secrets, users, or customer content."
+to = "Executez un scan actif OWASP ZAP/Burp authentifie ou allowliste contre un deploiement de staging qui ne contient pas de vrais secrets, utilisateurs ou contenus client."
+[[phrase]]
+from = "or a public TLS scanner against the real public hostname after DNS, certificates, and firewall rules are final."
+to = "ou un scanner TLS public contre le vrai nom d'hote public une fois DNS, certificats et regles de pare-feu finalises."
+[[phrase]]
+from = ", or Gatling load test from a separate host. Local loopback hides network and socket pressure."
+to = ", ou un test de charge Gatling depuis un hote separe. La loopback locale masque la pression reseau et socket."
+[[phrase]]
+from = "Run a slow-client test from a separate host to confirm header/body timeouts and connection limits are effective. If using a tool such as"
+to = "Executez un test slow-client depuis un hote separe pour confirmer que les timeouts header/body et les limites de connexion sont efficaces. Si vous utilisez un outil comme"
+[[phrase]]
+from = ", point it only at infrastructure you own."
+to = ", pointez-le uniquement vers une infrastructure que vous possedez."
+[[phrase]]
+from = "Confirm upstream handoff uses one of the supported safe deployment patterns: private network, loopback/service network, TLS upstream verification, or mTLS where the backend supports it."
+to = "Confirmez que le handoff upstream utilise l'un des modeles de deploiement surs pris en charge : reseau prive, reseau loopback/service, verification TLS upstream ou mTLS lorsque le backend le prend en charge."
+[[phrase]]
+from = "Confirm trusted-proxy settings are not enabled for public traffic unless the actual ingress proxy IP ranges are pinned and reviewed."
+to = "Confirmez que les parametres trusted-proxy ne sont pas actives pour le trafic public sauf si les plages IP reelles du proxy d'ingress sont epinglees et revues."
+[[phrase]]
+from = "Fuzzing gate:"
+to = "Gate de fuzzing :"
+[[phrase]]
+from = "Before tagging a stable release, add or run fuzz targets for custom parser and policy code rather than Pingora internals. For"
+to = "Avant de taguer une publication stable, ajoutez ou executez des cibles de fuzz pour les parseurs et le code de politique propres plutot que les internes Pingora. Pour"
+[[phrase]]
+from = ", cover Host normalization, redirect URL construction, header mutation policy, static path resolution, cache key generation, and cache-header parsing. Later stable modules must add fuzz targets for their own parsers and security policy boundaries."
+to = ", couvrez la normalisation Host, la construction d'URL de redirection, la politique de mutation des en-tetes, la resolution des chemins statiques, la generation des cles de cache et le parsing des en-tetes cache. Les modules stables ulterieurs doivent ajouter des cibles de fuzz pour leurs propres parseurs et limites de politique de securite."
+[[phrase]]
+from = "Fuzzing is release-blocking if it finds a panic, path escape, open redirect, request-boundary ambiguity, or unbounded memory growth."
+to = "Le fuzzing bloque la publication s'il trouve un panic, une echappee de chemin, une redirection ouverte, une ambiguite de limite de requete ou une croissance memoire non bornee."
+[[phrase]]
+from = "Initial fuzz targets live under"
+to = "Les cibles de fuzz initiales se trouvent sous"
+[[phrase]]
+from = "and can be run with"
+to = "et peuvent etre executees avec"
+[[phrase]]
+from = "Increase the runtime substantially before a stable tag. Keep generated corpora and artifacts out of git unless a minimized regression case should be promoted into a normal unit test."
+to = "Augmentez fortement la duree d'execution avant un tag stable. Gardez les corpus et artefacts generes hors de git sauf si un cas de regression minimise doit etre promu en test unitaire normal."
+[[phrase]]
+from = "Property-testing gate:"
+to = "Gate de property testing :"
+[[phrase]]
+from = "includes property-based checks for Host normalization, dynamic request-header templates, and ACME retry backoff. These tests are intended to protect invariants that are easy to miss with hand-picked examples."
+to = "inclut des controles property-based pour la normalisation Host, les templates dynamiques d'en-tetes de requete et le backoff de retry ACME. Ces tests protegent des invariants faciles a manquer avec des exemples choisis a la main."
+[[phrase]]
+from = "Add a property test when a parser, normalizer, path resolver, or security policy accepts attacker-controlled input and the expected behavior can be stated as an invariant."
+to = "Ajoutez un test de propriete lorsqu'un parseur, normaliseur, resolveur de chemin ou une politique de securite accepte une entree controlee par un attaquant et que le comportement attendu peut etre formule comme un invariant."
+[[phrase]]
+from = "Property-test failures are release-blocking if they show a panic, invalid header generation, path escape, open redirect, arithmetic overflow, or acceptance of a malformed security-sensitive value."
+to = "Les echecs de tests de propriete bloquent la publication s'ils montrent un panic, une generation d'en-tetes invalide, une echappee de chemin, une redirection ouverte, un overflow arithmetique ou l'acceptation d'une valeur malformee sensible pour la securite."
+[[phrase]]
+from = "Formal-verification note:"
+to = "Note de verification formelle :"
+[[phrase]]
+from = "release gate. Before enabling it in CI, add a small harness for one bounded parser and prove that the toolchain is reproducible on the supported release builders."
+to = "gate de publication. Avant de l'activer en CI, ajoutez un petit harness pour un parseur borne et prouvez que la chaine d'outils est reproductible sur les builders de publication pris en charge."
+[[phrase]]
+from = "Candidate future harnesses are header-template parsing, Host normalization, ACME date/backoff arithmetic, and static path containment checks."
+to = "Les futurs harnesses candidats sont le parsing de templates d'en-tetes, la normalisation Host, l'arithmetique date/backoff ACME et les controles de confinement des chemins statiques."
+[[phrase]]
+from = "Incubator Feature Matrix"
+to = "Matrice de fonctionnalites incubateur"
+[[phrase]]
+from = "Run this matrix for normal development and for pre-release validation when post-1.0 modules changed. Passing these commands does not make the modules part of the"
+to = "Executez cette matrice pour le developpement normal et la validation pre-publication lorsque des modules post-1.0 ont change. Reussir ces commandes n'integre pas ces modules au"
+[[phrase]]
+from = "stable scope."
+to = "perimetre stable."
+[[phrase]]
+from = "TLS backend validation is split into its own helper so release builders can check the supported rustls and OpenSSL backend families explicitly:"
+to = "La validation des backends TLS est separee dans son propre helper afin que les builders de publication puissent verifier explicitement les familles de backends rustls et OpenSSL prises en charge :"
+[[phrase]]
+from = "build toolchain, including CMake, Go, and a C compiler. Skip it on release builders that are not intended to produce rustls/AWS-LC FIPS candidate evidence."
+to = "chaine d'outils de build, y compris CMake, Go et un compilateur C. Ignorez-la sur les builders de publication qui ne doivent pas produire de preuves candidates rustls/AWS-LC FIPS."
+[[phrase]]
+from = "For release evidence, use an AWS-LC-supported FIPS builder. Rolling distribution compilers can be too new for"
+to = "Pour les preuves de publication, utilisez un builder FIPS pris en charge par AWS-LC. Les compilateurs de distributions rolling peuvent etre trop recents pour"
+[[phrase]]
+from = "; the helper fails early for known newer GCC/Clang families unless the investigation-only"
+to = "; le helper echoue tot pour les familles GCC/Clang plus recentes connues sauf si le remplacement reserve a l'investigation"
+[[phrase]]
+from = "override is set."
+to = "est defini."
+[[phrase]]
+from = "For hardware-specific local binaries, use"
+to = "Pour les binaires locaux specifiques au materiel, utilisez"
+[[phrase]]
+from = "only for the machine that will run the binary. Do not publish those binaries as portable artifacts:"
+to = "uniquement pour la machine qui executera le binaire. Ne publiez pas ces binaires comme artefacts portables :"
+[[phrase]]
+from = "Rootless Podman"
+to = "Podman rootless"
+[[phrase]]
+from = "Run the Podman smoke before publishing a container image:"
+to = "Executez le smoke Podman avant de publier une image conteneur :"
+[[phrase]]
+from = "Before publishing multi-OS container images, run the variant smoke matrix:"
+to = "Avant de publier des images conteneur multi-OS, executez la matrice de smoke des variantes :"
+[[phrase]]
+from = "Or include it in the release wrapper:"
+to = "Ou incluez-la dans le wrapper de publication :"
+[[phrase]]
+from = "If Codex or another sandboxed tool cannot reach the rootless socket, export the socket explicitly:"
+to = "Si Codex ou un autre outil sandboxe ne peut pas atteindre le socket rootless, exportez explicitement le socket :"
+[[phrase]]
+from = "The smoke builds the image, validates the packaged config, and checks that the runtime process does not run as root."
+to = "Le smoke construit l'image, valide la configuration empaquetee et verifie que le processus runtime ne s'execute pas en root."
+[[phrase]]
+from = "Fluxheim publishes variant images from the explicit Containerfiles under"
+to = "Fluxheim publie les images de variantes depuis les Containerfiles explicites sous"
+[[phrase]]
+from = ". Each OS variant is published for the full/default, cache, proxy, PHP, and, starting with the"
+to = ". Chaque variante d'OS est publiee pour les profils full/default, cache, proxy, PHP et, a partir de la"
+[[phrase]]
+from = "line, load-balancer image profiles. Pre-"
+to = "ligne, les profils d'image load-balancer. Les tags pre-"
+[[phrase]]
+from = "tags can include the load-balancer profile only through manual workflow dispatch. GitHub Container Registry publishing uses the repository"
+to = "peuvent inclure le profil load-balancer uniquement via un dispatch manuel du workflow. La publication GitHub Container Registry utilise le"
+[[phrase]]
+from = "; Docker Hub publishing requires"
+to = "; la publication Docker Hub exige"
+[[phrase]]
+from = "repository secrets."
+to = "secrets du depot."
+[[phrase]]
+from = "The published default images should keep"
+to = "Les images par defaut publiees devraient conserver"
+[[phrase]]
+from = ". Root-runtime images are supported through build args, but should be tagged deliberately and not replace the non-root defaults."
+to = ". Les images root-runtime sont prises en charge via les build args, mais doivent etre taguees deliberement et ne pas remplacer les valeurs par defaut non-root."
+[[phrase]]
+from = "Final Release Gate"
+to = "Gate final de publication"
+[[phrase]]
+from = "<li>Confirm <code>git status</code> contains only intentional release changes.</li>"
+to = "<li>Confirmez que <code>git status</code> ne contient que des changements de publication intentionnels.</li>"
+[[phrase]]
+from = "contains only intentional release changes."
+to = "ne contient que des changements de publication intentionnels."
+[[phrase]]
+from = "before tagging."
+to = "avant de taguer."
+[[phrase]]
+from = "Prepare release notes from"
+to = "Preparez les notes de publication depuis"
+[[phrase]]
+from = "Confirm the repository still carries the"
+to = "Confirmez que le depot porte toujours la licence"
+[[phrase]]
+from = "license."
+to = "."
+[[phrase]]
+from = "Confirm reviewed advisory exceptions still match current"
+to = "Confirmez que les exceptions d'avis revues correspondent toujours a la sortie actuelle"
+[[phrase]]
+from = "output."
+to = "."
+[[phrase]]
+from = "Capture a local release-gate report for the tag:"
+to = "Capturez un rapport local de release gate pour le tag :"
+[[phrase]]
+from = "For release candidates, capture the deep gate with scanner, load, framing, fuzz-target, and TLS-backend checks enabled:"
+to = "Pour les release candidates, capturez le deep gate avec les controles scanner, charge, framing, cible de fuzz et backend TLS actives :"
+[[phrase]]
+from = "Attach or summarize the stable release security and stability gate results in the release notes."
+to = "Joignez ou resumez les resultats du gate de securite et stabilite de publication stable dans les notes de publication."
+[[phrase]]
+from = "Re-check the latest"
+to = "Reverifiez les dernieres versions de"
+[[phrase]]
+from = "versions:"
+to = ":"
+[[phrase]]
+from = "and localhost smoke tests. It may include incubator-module smoke checks during development. The"
+to = "et les smoke tests localhost. Il peut inclure des smoke checks de modules incubateurs pendant le developpement. Le"
+[[phrase]]
+from = "mode it also requires a local container image smoke before tagging: the root"
+to = "il exige aussi un smoke local d'image conteneur avant le tag: le"
+[[phrase]]
+from = "and crate roots deny production"
+to = "et les racines de crates interdisent en production"
+[[phrase]]
+from = "Run a larger"
+to = "Executez un test plus large avec"
+[[phrase]]
+from = "Kani or another Rust verifier is not part of the mandatory"
+to = "Kani ou un autre verificateur Rust ne fait pas partie du gate obligatoire"
+[[phrase]]
+from = "only when no FIPS evidence is relevant to that release."
+to = "uniquement lorsqu'aucune preuve FIPS n'est pertinente pour cette release."

@@ -1,0 +1,186 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Fluxheim ships with a hardened systemd unit, RPM packaging, and rootless Podman container images for Wolfi, Alpine, SUSE Micro, and Debian."
+to = "Fluxheim wird mit einer gehärteten systemd-Unit, RPM-Paketen und rootless Podman-Container-Images für Wolfi, Alpine, SUSE Micro und Debian ausgeliefert."
+
+[[phrase]]
+from = "The tarball includes a pre-configured hardened systemd unit. The unit runs Fluxheim with"
+to = "Das Tarball enthält eine vorkonfigurierte gehärtete systemd-Unit. Die Unit führt Fluxheim mit"
+
+[[phrase]]
+from = "(to allow ports 80/443 without root) and a dedicated system user."
+to = "(damit Ports 80/443 ohne root möglich sind) und einem eigenen Systembenutzer aus."
+
+[[phrase]]
+from = "Setup"
+to = "Einrichtung"
+
+[[phrase]]
+from = "bash — systemd setup"
+to = "bash - systemd-Einrichtung"
+
+[[phrase]]
+from = "Config Reload"
+to = "Konfiguration neu laden"
+
+[[phrase]]
+from = "Fluxheim supports live config reload without dropping connections. Send"
+to = "Fluxheim unterstützt Live-Neuladen der Konfiguration ohne Verbindungsabbrüche. Sende"
+
+[[phrase]]
+from = "or use the admin API."
+to = "oder nutze die Admin-API."
+
+[[phrase]]
+from = "Rootless Podman Containers"
+to = "Rootless Podman-Container"
+
+[[phrase]]
+from = "Fluxheim's official container images are designed for rootless Podman operation. They use internal ports 8080 (HTTP) and 8443 (HTTPS) by default — no root required. The same release image set is published to GHCR and"
+to = "Die offiziellen Fluxheim-Container-Images sind für rootless Podman-Betrieb ausgelegt. Sie nutzen standardmäßig die internen Ports 8080 (HTTP) und 8443 (HTTPS) - root ist nicht erforderlich. Dasselbe Release-Image-Set wird auf GHCR und"
+
+[[phrase]]
+from = "Quay"
+to = "Quay"
+
+[[phrase]]
+from = "Image tag"
+to = "Image-Tag"
+
+[[phrase]]
+from = "Base"
+to = "Basis"
+
+[[phrase]]
+from = "Profile"
+to = "Profil"
+
+[[phrase]]
+from = "Full (recommended)"
+to = "Vollständig (empfohlen)"
+
+[[phrase]]
+from = "Load balancer edge"
+to = "Load-Balancer-Edge"
+
+[[phrase]]
+from = "Cache edge"
+to = "Cache-Edge"
+
+[[phrase]]
+from = "Proxy edge"
+to = "Proxy-Edge"
+
+[[phrase]]
+from = "Managed PHP-FPM"
+to = "Verwaltetes PHP-FPM"
+
+[[phrase]]
+from = "Full mirror"
+to = "Vollständiger Mirror"
+
+[[phrase]]
+from = "Load balancer mirror"
+to = "Load-Balancer-Mirror"
+
+[[phrase]]
+from = "Cache mirror"
+to = "Cache-Mirror"
+
+[[phrase]]
+from = "Proxy mirror"
+to = "Proxy-Mirror"
+
+[[phrase]]
+from = "PHP mirror"
+to = "PHP-Mirror"
+
+[[phrase]]
+from = "bash — rootless Podman run"
+to = "bash - rootless Podman ausführen"
+
+[[phrase]]
+from = "bash — image variants"
+to = "bash - Image-Varianten"
+
+[[phrase]]
+from = "Podman Quadlet (systemd integration)"
+to = "Podman Quadlet (systemd-Integration)"
+
+[[phrase]]
+from = "Use Podman Quadlet to manage container lifecycle with systemd on the host:"
+to = "Nutze Podman Quadlet, um den Container-Lebenszyklus mit systemd auf dem Host zu verwalten:"
+
+[[phrase]]
+from = "Production Readiness Checklist"
+to = "Checkliste für Produktionsreife"
+
+[[phrase]]
+from = "<li>Run <code>fluxheim --check-config</code> before every restart or reload</li>"
+to = "<li>Führe <code>fluxheim --check-config</code> vor jedem Neustart oder Neuladen aus</li>"
+
+[[phrase]]
+from = "<li>Run <code>scripts/release_checks.sh</code> before publishing security-sensitive changes</li>"
+to = "<li>Führe <code>scripts/release_checks.sh</code> vor dem Veröffentlichen sicherheitssensibler Änderungen aus</li>"
+
+[[phrase]]
+from = "Pin to a specific image digest in production, not"
+to = "Pinne in Produktion auf einen bestimmten Image-Digest, nicht auf"
+
+[[phrase]]
+from = "Mount config and site content as read-only ("
+to = "Binde Konfiguration und Website-Inhalte read-only ein ("
+
+[[phrase]]
+from = "Mount ACME state directory as read-write ("
+to = "Binde das ACME-State-Verzeichnis read-write ein ("
+
+[[phrase]]
+from = ") separately"
+to = ") separat"
+
+[[phrase]]
+from = "Use the admin API over loopback only, or configure a trusted TLS terminator"
+to = "Nutze die Admin-API nur über Loopback oder konfiguriere einen vertrauenswürdigen TLS-Terminator"
+
+[[phrase]]
+from = "<li>Set <code>[server.host_routing] strict = true</code> for multi-tenant hardened deployments</li>"
+to = "<li>Setze <code>[server.host_routing] strict = true</code> für gehärtete Multi-Tenant-Deployments</li>"
+
+[[phrase]]
+from = "<li>Review <code>deny_dotfiles = true</code> is set on all <code>[vhosts.web]</code> sections</li>"
+to = "<li>Prüfe, dass <code>deny_dotfiles = true</code> auf allen <code>[vhosts.web]</code>-Abschnitten gesetzt ist</li>"
+
+[[phrase]]
+from = "Verify HSTS is only set when TLS is confirmed working"
+to = "Stelle sicher, dass HSTS nur gesetzt wird, wenn TLS nachweislich funktioniert"
+
+[[phrase]]
+from = "The native systemd unit (at"
+to = "Die native systemd-Unit (unter"
+
+[[phrase]]
+from = ". Container configs (at"
+to = ". Container-Konfigurationen (unter"
+
+[[phrase]]
+from = ") use internal ports 8080 and 8443 for rootless compatibility."
+to = ") nutzen die internen Ports 8080 und 8443 für rootless Kompatibilität."
+
+[[phrase]]
+from = "Systemd & Containers"
+to = "Systemd & Container"
+
+[[phrase]]
+from = "Wolfi + PHP"
+to = "Wolfi + PHP"
+
+[[phrase]]
+from = "before every restart or reload"
+to = "vor jedem Neustart oder Neuladen"
+
+[[phrase]]
+from = "for multi-tenant hardened deployments"
+to = "für gehärtete Multi-Tenant-Deployments"

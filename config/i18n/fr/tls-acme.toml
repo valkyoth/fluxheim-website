@@ -1,0 +1,178 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Fluxheim ships with rustls as the default TLS backend and full managed ACME support for automatic certificate issuance and renewal."
+to = "Fluxheim est livré avec rustls comme backend TLS par défaut et une prise en charge ACME gérée complète pour l'émission et le renouvellement automatiques des certificats."
+
+[[phrase]]
+from = "TLS Backends"
+to = "Backends TLS"
+
+[[phrase]]
+from = "TLS backends are compile-time selections. Exactly one backend must be chosen when TLS is needed. Selecting more than one is a compile error."
+to = "Les backends TLS sont sélectionnés à la compilation. Lorsqu'un TLS est nécessaire, exactement un backend doit être choisi. En sélectionner plusieurs est une erreur de compilation."
+
+[[phrase]]
+from = "Status"
+to = "État"
+
+[[phrase]]
+from = "Notes"
+to = "Notes"
+
+[[phrase]]
+from = "Default & Recommended"
+to = "Par défaut & recommandé"
+
+[[phrase]]
+from = "Memory-safe Rust TLS. Multi-cert SNI. Used in all official builds."
+to = "TLS Rust sûr pour la mémoire. SNI multi-certificat. Utilisé dans tous les builds officiels."
+
+[[phrase]]
+from = "Optional"
+to = "Optionnel"
+
+[[phrase]]
+from = "OpenSSL backend. FIPS-capable deployments."
+to = "Backend OpenSSL. Déploiements compatibles FIPS."
+
+[[phrase]]
+from = "rustls/AWS-LC FIPS-capable candidate build path."
+to = "Chemin de build candidat rustls/AWS-LC compatible FIPS."
+
+[[phrase]]
+from = "OpenSSL 3 FIPS provider proof path."
+to = "Chemin de preuve fournisseur FIPS OpenSSL 3."
+
+[[phrase]]
+from = "Fluxheim 1.5.4 removed the incomplete BoringSSL and s2n integrations from the supported TLS matrix. Config values"
+to = "Fluxheim 1.5.4 a supprimé les intégrations BoringSSL et s2n incomplètes de la matrice TLS prise en charge. Les valeurs de configuration"
+
+[[phrase]]
+from = "are rejected."
+to = "sont rejetées."
+
+[[phrase]]
+from = "Static / Bought Certificates"
+to = "Certificats statiques / achetés"
+
+[[phrase]]
+from = "Configure a certificate and key file path per vhost. rustls supports multi-cert SNI — you can configure multiple vhosts each with their own certificate."
+to = "Configurez un chemin de certificat et de clé par vhost. rustls prend en charge le SNI multi-certificat - vous pouvez configurer plusieurs vhosts avec chacun son propre certificat."
+
+[[phrase]]
+from = "fluxheim.toml — static cert"
+to = "fluxheim.toml - certificat statique"
+
+[[phrase]]
+from = "Managed ACME — Auto-Issuance"
+to = "ACME géré - émission automatique"
+
+[[phrase]]
+from = "Enable global ACME storage and then enable ACME on each vhost that should receive managed certificates. Requires the"
+to = "Activez le stockage ACME global, puis activez ACME sur chaque vhost qui doit recevoir des certificats gérés. Nécessite la fonctionnalité Cargo"
+
+[[phrase]]
+from = "Cargo feature for live issuance and renewal."
+to = "pour l'émission et le renouvellement live."
+
+[[phrase]]
+from = "fluxheim.toml — managed ACME"
+to = "fluxheim.toml - ACME géré"
+
+[[phrase]]
+from = "ACME Challenge Methods"
+to = "Méthodes de challenge ACME"
+
+[[phrase]]
+from = "— Port 80 must be reachable from the internet. Fluxheim handles the challenge automatically."
+to = "- Le port 80 doit être joignable depuis Internet. Fluxheim gère automatiquement le challenge."
+
+[[phrase]]
+from = "— Requires the"
+to = "- Nécessite le backend"
+
+[[phrase]]
+from = "backend and port 443 to be reachable. No HTTP dependency."
+to = "et un port 443 joignable. Aucune dépendance HTTP."
+
+[[phrase]]
+from = "acme-init — Guided Bootstrap"
+to = "acme-init - bootstrap guidé"
+
+[[phrase]]
+from = "Packaged 1.3.x builds include"
+to = "Les builds packagés 1.3.x incluent"
+
+[[phrase]]
+from = "for guided issuer bootstrap before the first run."
+to = "pour le bootstrap guidé de l'issuer avant la première exécution."
+
+[[phrase]]
+from = "External ACME with fluxheim-acme"
+to = "ACME externe avec fluxheim-acme"
+
+[[phrase]]
+from = "The companion tool"
+to = "L'outil compagnon"
+
+[[phrase]]
+from = "(included in release builds from v1.3.2) handles renewal, status checks, and graceful reload for service-manager and container deployments where certificates are managed externally."
+to = "(inclus dans les builds de release depuis v1.3.2) gère le renouvellement, les contrôles d'état et le rechargement graceful pour les déploiements par service manager et conteneur où les certificats sont gérés en externe."
+
+[[phrase]]
+from = "EAB — External Account Binding"
+to = "EAB - External Account Binding"
+
+[[phrase]]
+from = "Some ACME CAs (such as Actalis) require External Account Binding credentials. Configure EAB in the ACME issuer section."
+to = "Certaines ACME CA (comme Actalis) exigent des identifiants External Account Binding. Configurez EAB dans la section issuer ACME."
+
+[[phrase]]
+from = "fluxheim.toml — EAB issuer"
+to = "fluxheim.toml - issuer EAB"
+
+[[phrase]]
+from = "<p>See <code>examples/acme-actalis.toml</code> in the repository for a complete working example.</p>"
+to = "<p>Voir <code>examples/acme-actalis.toml</code> dans le dépôt pour un exemple complet fonctionnel.</p>"
+
+[[phrase]]
+from = "TLS Policy Profiles"
+to = "Profils de politique TLS"
+
+[[phrase]]
+from = "Fluxheim supports two TLS policy profiles that control cipher suite and protocol version selection:"
+to = "Fluxheim prend en charge deux profils de politique TLS qui contrôlent la sélection des suites de chiffrement et des versions de protocole :"
+
+[[phrase]]
+from = "— TLS 1.3 only. Strongest security. May not support very old clients."
+to = "- TLS 1.3 uniquement. Sécurité la plus forte. Peut ne pas prendre en charge les très anciens clients."
+
+[[phrase]]
+from = "— TLS 1.2 + 1.3. Broader client compatibility. Follows Mozilla intermediate guidelines."
+to = "- TLS 1.2 + 1.3. Compatibilité client plus large. Suit les recommandations intermédiaires de Mozilla."
+
+[[phrase]]
+from = "<p>See <code>examples/tls-modern.toml</code> and <code>examples/tls-intermediate.toml</code> in the repository for checked policy examples.</p>"
+to = "<p>Voir <code>examples/tls-modern.toml</code> et <code>examples/tls-intermediate.toml</code> dans le dépôt pour des exemples de politique vérifiés.</p>"
+
+[[phrase]]
+from = "Important:"
+to = "Important :"
+
+[[phrase]]
+from = "<p><strong>Important:</strong> Set <code>strict_transport_security</code> in <code>[headers.response]</code> only when TLS is configured and working. An incorrect HSTS header on an HTTP-only host can make it unreachable.</p>"
+to = "<p><strong>Important :</strong> Définissez <code>strict_transport_security</code> dans <code>[headers.response]</code> uniquement lorsque TLS est configuré et fonctionnel. Un en-tête HSTS incorrect sur un hôte HTTP-only peut le rendre injoignable.</p>"
+
+[[phrase]]
+from = "in the repository for a complete working example."
+to = "dans le depot pour un exemple complet fonctionnel."
+
+[[phrase]]
+from = "in the repository for checked policy examples."
+to = "dans le depot pour des exemples de policy verifies."
+
+[[phrase]]
+from = "only when TLS is configured and working. An incorrect HSTS header on an HTTP-only host can make it unreachable."
+to = "uniquement lorsque TLS est configure et fonctionnel. Un header HSTS incorrect sur un host HTTP-only peut le rendre injoignable."

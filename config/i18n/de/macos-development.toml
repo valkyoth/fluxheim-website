@@ -1,0 +1,182 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "targets Level 1 macOS support: contributors should be able to build and run local development profiles on Apple Silicon Macs. This is not a production macOS support claim."
+to = "zielt auf Level-1-macOS-Support: Contributors sollen lokale Entwicklungsprofile auf Apple-Silicon-Macs bauen und ausfuehren koennen. Das ist kein Anspruch auf Produktionssupport fuer macOS."
+
+[[phrase]]
+from = "Linux remains the production baseline for native packages, systemd units, containers, FIPS/ISO evidence, and release-gate parity. macOS support is for local development, site testing, and contributor workflows while Pingora macOS support remains experimental."
+to = "Linux bleibt die Produktions-Baseline fuer native Packages, systemd-Units, Container, FIPS-/ISO-Nachweise und Release-Gate-Paritaet. macOS-Support ist fuer lokale Entwicklung, Site-Tests und Contributor-Workflows gedacht, waehrend Pingora-macOS-Support experimentell bleibt."
+
+[[phrase]]
+from = "Supported Scope"
+to = "Unterstuetzter Umfang"
+
+[[phrase]]
+from = "Primary Apple Silicon developer target for M-series Macs."
+to = "Primaeres Apple-Silicon-Entwicklerziel fuer M-Series-Macs."
+
+[[phrase]]
+from = "Intel Mac developer target when a maintainer can test it."
+to = "Intel-Mac-Entwicklerziel, wenn ein Maintainer es testen kann."
+
+[[phrase]]
+from = "Linux ARM64 release target, released as"
+to = "Linux-ARM64-Release-Ziel, veroeffentlicht als"
+
+[[phrase]]
+from = "Main Linux production release target, released as"
+to = "Hauptziel fuer Linux-Produktions-Releases, veroeffentlicht als"
+
+[[phrase]]
+from = "ARM is not one release artifact. The Rust target triple defines the operating system ABI and CPU baseline. For normal server ARM64 hardware such as Apple Silicon, AWS Graviton, Ampere, and 64-bit Raspberry Pi operating systems, build the matching"
+to = "ARM ist nicht ein einzelnes Release-Artefakt. Das Rust-Target-Triple definiert Betriebssystem-ABI und CPU-Baseline. Fuer normale Server-ARM64-Hardware wie Apple Silicon, AWS Graviton, Ampere und 64-Bit-Raspberry-Pi-Betriebssysteme baue das passende"
+
+[[phrase]]
+from = "<code>aarch64-*</code> target. Do not use <code>RUSTFLAGS=&quot;-C target-cpu=native&quot;</code> for published release assets unless the artifact is intentionally tied to one machine class."
+to = "<code>aarch64-*</code>-Target. Nutze <code>RUSTFLAGS=&quot;-C target-cpu=native&quot;</code> nicht fuer veroeffentlichte Release-Assets, ausser das Artefakt ist absichtlich an eine Maschinenklasse gebunden."
+
+[[phrase]]
+from = "for published release assets unless the artifact is intentionally tied to one machine class."
+to = "fuer veroeffentlichte Release-Assets, ausser das Artefakt ist absichtlich an eine Maschinenklasse gebunden."
+
+[[phrase]]
+from = "Install:"
+to = "Installieren:"
+
+[[phrase]]
+from = "Xcode Command Line Tools:"
+to = "Xcode Command Line Tools:"
+
+[[phrase]]
+from = "Rust 1.96 through rustup"
+to = "Rust 1.96 ueber rustup"
+
+[[phrase]]
+from = "CMake if selecting native C dependencies such as zstd/libz-ng/AWS-LC paths"
+to = "CMake, wenn native C-Dependencies wie zstd-/libz-ng-/AWS-LC-Pfade ausgewaehlt werden"
+
+[[phrase]]
+from = "Optional Homebrew PHP for managed PHP-FPM development tests"
+to = "Optional Homebrew-PHP fuer verwaltete PHP-FPM-Entwicklungstests"
+
+[[phrase]]
+from = "Check the host target:"
+to = "Host-Target pruefen:"
+
+[[phrase]]
+from = "On an M-series Mac this should print"
+to = "Auf einem M-Series-Mac sollte dies ausgeben:"
+
+[[phrase]]
+from = "Build Checks"
+to = "Build-Checks"
+
+[[phrase]]
+from = "These are the Level 1 developer checks:"
+to = "Dies sind die Level-1-Entwicklerchecks:"
+
+[[phrase]]
+from = "For a quick runtime check:"
+to = "Fuer einen schnellen Runtime-Check:"
+
+[[phrase]]
+from = "The smoke script writes all runtime state under"
+to = "Das Smoke-Script schreibt den gesamten Runtime-State unter"
+
+[[phrase]]
+from = "by default and does not touch"
+to = "standardmaessig und beruehrt nicht"
+
+[[phrase]]
+from = ", launchd, or system service locations."
+to = ", launchd oder System-Service-Orte."
+
+[[phrase]]
+from = "Local Runtime Paths"
+to = "Lokale Runtime-Pfade"
+
+[[phrase]]
+from = "macOS development configs should use project-local paths, or a private per-user temporary directory whose parents are not group/world writable:"
+to = "macOS-Entwicklungskonfigurationen sollten projektlokale Pfade oder ein privates temporaeres Pro-User-Verzeichnis verwenden, dessen Parents nicht fuer Gruppe/Welt beschreibbar sind:"
+
+[[phrase]]
+from = "Runtime data"
+to = "Runtime-Daten"
+
+[[phrase]]
+from = "Recommended macOS dev path"
+to = "Empfohlener macOS-Dev-Pfad"
+
+[[phrase]]
+from = "pid file"
+to = "PID-Datei"
+
+[[phrase]]
+from = "upgrade socket"
+to = "Upgrade-Socket"
+
+[[phrase]]
+from = "certificate reload socket"
+to = "Certificate-Reload-Socket"
+
+[[phrase]]
+from = "admin snapshots"
+to = "Admin-Snapshots"
+
+[[phrase]]
+from = "ACME storage"
+to = "ACME-Speicher"
+
+[[phrase]]
+from = "disk cache"
+to = "Disk-Cache"
+
+[[phrase]]
+from = "file logs"
+to = "Datei-Logs"
+
+[[phrase]]
+from = "managed PHP-FPM sockets"
+to = "verwaltete PHP-FPM-Sockets"
+
+[[phrase]]
+from = "Do not copy Linux service examples directly to macOS:"
+to = "Kopiere Linux-Service-Beispiele nicht direkt nach macOS:"
+
+[[phrase]]
+from = "are packaging defaults for Linux service deployments. Do not place Fluxheim runtime state directly under"
+to = "sind Packaging-Defaults fuer Linux-Service-Deployments. Lege Fluxheim-Runtime-State nicht direkt unter"
+
+[[phrase]]
+from = "; Fluxheim&#x27;s filesystem trust checks reject world-writable parents."
+to = "; Fluxheims Filesystem-Trust-Checks lehnen world-writable Parents ab."
+
+[[phrase]]
+from = "Release Assets"
+to = "Release-Assets"
+
+[[phrase]]
+from = "If macOS developer binaries are attached to a GitHub release, build them on macOS with the release helper:"
+to = "Wenn macOS-Entwicklerbinaries an ein GitHub-Release angehaengt werden, baue sie auf macOS mit dem Release-Helper:"
+
+[[phrase]]
+from = "Preferred release naming examples:"
+to = "Bevorzugte Beispiele fuer Release-Namen:"
+
+[[phrase]]
+from = "Universal macOS binaries are optional and can be produced with"
+to = "Universelle macOS-Binaries sind optional und koennen mit"
+
+[[phrase]]
+from = "from separate Intel and Apple Silicon builds, but per-target tarballs are simpler and clearer for Fluxheim's current support level."
+to = "aus separaten Intel- und Apple-Silicon-Builds erzeugt werden, aber Pro-Target-Tarballs sind fuer Fluxheims aktuelles Support-Level einfacher und klarer."
+
+[[phrase]]
+from = "from separate Intel and Apple Silicon builds, but per-target tarballs are simpler and clearer for Fluxheim&#x27;s current support level."
+to = "aus separaten Intel- und Apple-Silicon-Builds erzeugt werden, aber Pro-Target-Tarballs sind fuer Fluxheims aktuelles Support-Level einfacher und klarer."
+
+[[phrase]]
+from = "<thead><tr><th>Target</th><th>Scope</th></tr></thead>"
+to = "<thead><tr><th>Ziel</th><th>Umfang</th></tr></thead>"

@@ -1,0 +1,374 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Fluxheim is configured via a single TOML file. Use"
+to = "Fluxheim se configure via un seul fichier TOML. Utilisez"
+
+[[phrase]]
+from = "to validate before restarting."
+to = "pour valider avant de redémarrer."
+
+[[phrase]]
+from = "Key"
+to = "Clé"
+
+[[phrase]]
+from = "Type"
+to = "Type"
+
+[[phrase]]
+from = "Default"
+to = "Défaut"
+
+[[phrase]]
+from = "Description"
+to = "Description"
+
+[[phrase]]
+from = "Cleartext listener addresses. Each entry is"
+to = "Adresses de listeners en clair. Chaque entrée est"
+
+[[phrase]]
+from = "Explicit TLS listener addresses. Fluxheim does not infer TLS from port numbers."
+to = "Adresses de listeners TLS explicites. Fluxheim ne déduit pas TLS des numéros de port."
+
+[[phrase]]
+from = "Name of the vhost to use when no Host header matches. Required."
+to = "Nom du vhost à utiliser lorsqu'aucun en-tête Host ne correspond. Requis."
+
+[[phrase]]
+from = "Trusted direct peers for recursive client-IP restoration."
+to = "Pairs directs de confiance pour restaurer récursivement l'IP client."
+
+[[phrase]]
+from = "Enable global HTTP to HTTPS redirect with safe Host validation."
+to = "Active la redirection globale HTTP vers HTTPS avec validation Host sûre."
+
+[[phrase]]
+from = "Reject missing, invalid, or unknown host identity instead of falling back to the default vhost."
+to = "Rejette une identité Host manquante, invalide ou inconnue au lieu de revenir au vhost par défaut."
+
+[[phrase]]
+from = "Maximum request body size."
+to = "Taille maximale du corps de requête."
+
+[[phrase]]
+from = "Runtime worker thread count. Process settings require a process upgrade."
+to = "Nombre de threads workers runtime. Les paramètres de processus nécessitent une mise à niveau du processus."
+
+[[phrase]]
+from = "The admin control-plane provides health, status, purge, and config-reload endpoints. It requires bearer-token authentication on non-loopback listeners."
+to = "Le plan de contrôle admin fournit les endpoints health, status, purge et config-reload. Il exige une authentification par bearer token sur les listeners non-loopback."
+
+[[phrase]]
+from = "Enable the admin listener."
+to = "Active le listener admin."
+
+[[phrase]]
+from = "Admin listener address. Keep loopback where possible."
+to = "Adresse du listener admin. Gardez loopback lorsque c'est possible."
+
+[[phrase]]
+from = "Require the admin listener to stay loopback-only."
+to = "Exige que le listener admin reste uniquement sur loopback."
+
+[[phrase]]
+from = "Environment variable containing the bearer token."
+to = "Variable d'environnement contenant le bearer token."
+
+[[phrase]]
+from = "File containing the bearer token. Prefer container or systemd secrets."
+to = "Fichier contenant le bearer token. Préférez les secrets conteneur ou systemd."
+
+[[phrase]]
+from = "only when a trusted local sidecar terminates TLS/mTLS."
+to = "uniquement lorsqu'un sidecar local de confiance termine TLS/mTLS."
+
+[[phrase]]
+from = "Enable the secure response header policy."
+to = "Active la policy d'en-têtes de réponse sécurisés."
+
+[[phrase]]
+from = "Headers to remove. Use"
+to = "En-têtes à retirer. Utilisez"
+
+[[phrase]]
+from = "to suppress the default server banner."
+to = "pour supprimer la bannière serveur par défaut."
+
+[[phrase]]
+from = "Headers to add or set, such as"
+to = "En-têtes à ajouter ou définir, comme"
+
+[[phrase]]
+from = "Only set when TLS is in use."
+to = "À définir uniquement lorsque TLS est utilisé."
+
+[[phrase]]
+from = "When Fluxheim is built with the optional"
+to = "Lorsque Fluxheim est buildé avec la feature optionnelle"
+
+[[phrase]]
+from = "feature, it can load local MMDB databases and expose bounded country/ASN context to route policy and structured logs. GeoIP is local-only: Fluxheim does not download, poll, or refresh databases itself."
+to = "il peut charger des bases MMDB locales et exposer un contexte pays/ASN borné aux policies de route et aux logs structurés. GeoIP est local uniquement : Fluxheim ne télécharge, ne poll ni ne rafraîchit les bases lui-même."
+
+[[phrase]]
+from = "Enable local Geo-Context lookup when the binary includes"
+to = "Active le lookup Geo-Contexte local lorsque le binaire inclut"
+
+[[phrase]]
+from = "Try later local MMDB files when the primary file has no usable country or ASN result."
+to = "Essaie les fichiers MMDB locaux suivants lorsque le fichier primaire n'a pas de résultat pays ou ASN exploitable."
+
+[[phrase]]
+from = "Absolute path to a local MMDB file. Files are bounded at load time."
+to = "Chemin absolu vers un fichier MMDB local. Les fichiers sont bornés au chargement."
+
+[[phrase]]
+from = "Route policy can use"
+to = "La policy de route peut utiliser"
+
+[[phrase]]
+from = "Allow lists fail closed when no Geo-Context is available; deny lists only deny on a known match."
+to = "Les listes allow échouent fermées lorsqu'aucun Geo-Contexte n'est disponible ; les listes deny ne bloquent que sur correspondance connue."
+
+[[phrase]]
+from = "cannot be compiled together."
+to = "ne peuvent pas être compilés ensemble."
+
+[[phrase]]
+from = "string[]"
+to = "string[]"
+
+[[phrase]]
+from = "string"
+to = "string"
+
+[[phrase]]
+from = "bool"
+to = "bool"
+
+[[phrase]]
+from = "integer"
+to = "integer"
+
+[[phrase]]
+from = "table"
+to = "table"
+
+[[phrase]]
+from = "true"
+to = "true"
+
+[[phrase]]
+from = "false"
+to = "false"
+
+[[phrase]]
+from = "listen"
+to = "listen"
+
+[[phrase]]
+from = "tls_listen"
+to = "tls_listen"
+
+[[phrase]]
+from = "default_vhost"
+to = "default_vhost"
+
+[[phrase]]
+from = "trusted_proxies"
+to = "trusted_proxies"
+
+[[phrase]]
+from = "enabled"
+to = "enabled"
+
+[[phrase]]
+from = "token_env"
+to = "token_env"
+
+[[phrase]]
+from = "token_file"
+to = "token_file"
+
+[[phrase]]
+from = "fallback_enabled"
+to = "fallback_enabled"
+
+[[phrase]]
+from = "When Fluxheim is built with the optional"
+to = "Lorsque Fluxheim est construit avec la fonctionnalité optionnelle"
+
+[[phrase]]
+from = "exposes raw L4 TCP services that stay separate from HTTP routing, headers, cache, compression, auth subrequests, PHP, and static web serving."
+to = "expose des services TCP L4 bruts qui restent séparés du routage HTTP, des headers, du cache, de la compression, des sous-requêtes d'authentification, de PHP et du service web statique."
+
+[[phrase]]
+from = "Enable dedicated TCP stream listeners when the binary includes"
+to = "Active les listeners TCP stream dédiés lorsque le binaire inclut"
+
+[[phrase]]
+from = "TCP listeners. Each listener may belong to only one stream route."
+to = "listeners TCP. Chaque listener ne peut appartenir qu'à une seule route stream."
+
+[[phrase]]
+from = "upstreams. Multiple upstreams use weighted selection when weights are configured."
+to = "upstreams. Plusieurs upstreams utilisent une sélection pondérée lorsque des poids sont configurés."
+
+[[phrase]]
+from = "Optional per-upstream weights for stream-local TCP selection."
+to = "Poids optionnels par upstream pour la sélection TCP locale au stream."
+
+[[phrase]]
+from = "Optional safe labels for stream upstreams in logs and metrics."
+to = "Labels sûrs optionnels pour les upstreams stream dans les logs et les métriques."
+
+[[phrase]]
+from = "Backup upstreams attempted when primary stream upstream connection attempts fail."
+to = "Upstreams de secours essayés lorsque les tentatives de connexion aux upstreams stream primaires échouent."
+
+[[phrase]]
+from = "Upstreams excluded from new stream selections while existing connections drain."
+to = "Upstreams exclus des nouvelles sélections stream pendant que les connexions existantes se drainent."
+
+[[phrase]]
+from = "True idle timeout that resets when either direction transfers bytes."
+to = "Vrai timeout idle qui se réinitialise lorsqu'une direction transfère des octets."
+
+[[phrase]]
+from = "Optional wall-clock lifetime cap for one accepted stream connection."
+to = "Limite optionnelle de durée wall-clock pour une connexion stream acceptée."
+
+[[phrase]]
+from = "Optional copied-byte cap per direction for a single stream connection."
+to = "Limite optionnelle d'octets copiés par direction pour une seule connexion stream."
+
+[[phrase]]
+from = "Per-route concurrent connection cap. Zero means unlimited."
+to = "Limite de connexions concurrentes par route. Zéro signifie illimité."
+
+[[phrase]]
+from = "receive for this stream route only. Requires route-local trusted proxies."
+to = "à recevoir uniquement pour cette route stream. Nécessite des proxies de confiance locaux à la route."
+
+[[phrase]]
+from = "send to upstream before forwarding stream bytes."
+to = "à envoyer à l'upstream avant de transférer les octets stream."
+
+[[phrase]]
+from = "Enable TLS for stream upstream connections. Cannot be combined with upstream PROXY protocol in this release."
+to = "Active TLS pour les connexions upstream stream. Ne peut pas être combiné avec le protocole PROXY upstream dans cette version."
+
+[[phrase]]
+from = "Optional RFC 6066-safe SNI name for stream upstream TLS."
+to = "Nom SNI optionnel compatible RFC 6066 pour le TLS upstream stream."
+
+[[phrase]]
+from = "Verify the upstream certificate chain when stream upstream TLS is enabled."
+to = "Vérifie la chaîne de certificats upstream lorsque le TLS upstream stream est activé."
+
+[[phrase]]
+from = "Verify upstream TLS hostname identity using SNI or the upstream host."
+to = "Vérifie l'identité hostname TLS upstream avec le SNI ou l'hôte upstream."
+
+[[phrase]]
+from = "One alternative certificate name accepted for stream upstream TLS."
+to = "Un nom de certificat alternatif accepté pour le TLS upstream stream."
+
+[[phrase]]
+from = "Route-local CA bundle for stream upstream TLS verification."
+to = "Bundle CA local à la route pour la vérification TLS upstream stream."
+
+[[phrase]]
+from = "Client certificate chain for stream upstream mTLS."
+to = "Chaîne de certificat client pour le mTLS upstream stream."
+
+[[phrase]]
+from = "Client private key for stream upstream mTLS. Temporary key bytes are zeroized after parsing."
+to = "Clé privée client pour le mTLS upstream stream. Les octets de clé temporaires sont zeroized après parsing."
+
+[[phrase]]
+from = "compiled and enabled, stream proxying exports bounded connection outcome and per-direction byte counters."
+to = "compilé et activé, le proxy stream exporte des résultats de connexion bornés et des compteurs d'octets par direction."
+
+[[phrase]]
+from = "Stream routes do not support UDP, TLS passthrough SNI routing, HTTP policy, HTTP header/body mutation, or Wasm/Lua filters in this release."
+to = "Les routes stream ne prennent pas en charge UDP, le routage SNI TLS passthrough, la policy HTTP, la mutation header/corps HTTP ni les filtres Wasm/Lua dans cette version."
+
+[[phrase]]
+from = "cannot be combined."
+to = "ne peuvent pas être combinés."
+
+[[phrase]]
+from = "table in TOML (array of tables). They are matched by the"
+to = "table TOML (array of tables). Ils sont appairés par le header"
+
+[[phrase]]
+from = "Unique identifier for this vhost. Used in logs and as the default_vhost reference."
+to = "Identifiant unique pour ce vhost. Utilisé dans les logs et comme référence default_vhost."
+
+[[phrase]]
+from = "<tr><td class=\"key\">hosts</td><td class=\"type\">string[]</td><td class=\"desc\">List of <code class=\"section-ref\">Host</code> header values that route to this vhost. Wildcard hosts are accepted for matching; managed ACME derives exact domains only unless configured.</td></tr>"
+to = "<tr><td class=\"key\">hosts</td><td class=\"type\">string[]</td><td class=\"desc\">Liste de valeurs de header <code class=\"section-ref\">Host</code> qui routent vers ce vhost. Les hosts wildcard sont acceptes pour le matching ; ACME gere deduit les domaines exacts uniquement sauf configuration contraire.</td></tr>"
+
+[[phrase]]
+from = "Absolute path to the document root directory."
+to = "Chemin absolu vers le répertoire document root."
+
+[[phrase]]
+from = "<tr><td class=\"key\">index_files</td><td class=\"type\">string[]</td><td class=\"desc\">List of filenames to serve as directory index. E.g. <code class=\"section-ref\">[\"index.html\"]</code>.</td></tr>"
+to = "<tr><td class=\"key\">index_files</td><td class=\"type\">string[]</td><td class=\"desc\">Liste de noms de fichiers a servir comme index de repertoire. Par ex. <code class=\"section-ref\">[\"index.html\"]</code>.</td></tr>"
+
+[[phrase]]
+from = "Deny requests for files or directories starting with"
+to = "Refuse les requêtes pour les fichiers ou répertoires commençant par"
+
+[[phrase]]
+from = "response header."
+to = "header de réponse."
+
+[[phrase]]
+from = "Enable managed ACME certificate issuance and renewal for this vhost."
+to = "Active l'émission et le renouvellement de certificats ACME gérés pour ce vhost."
+
+[[phrase]]
+from = "Path to PEM certificate file for static/bought certs."
+to = "Chemin vers le fichier de certificat PEM pour les certificats statiques/achetés."
+
+[[phrase]]
+from = "Path to PEM private key file."
+to = "Chemin vers le fichier de clé privée PEM."
+
+[[phrase]]
+from = "Routes are matched in order. The first matching route wins."
+to = "Les routes sont appairées dans l'ordre. La première route correspondante gagne."
+
+[[phrase]]
+from = "for one or more origins."
+to = "pour une ou plusieurs origines."
+
+[[phrase]]
+from = "Redirect action with"
+to = "Action de redirection avec"
+
+[[phrase]]
+from = "and optional"
+to = "et optionnel"
+
+[[phrase]]
+from = "Route-scoped PHP action when built with a PHP runtime feature."
+to = "Action PHP limitée à la route lorsque le build inclut une fonctionnalité runtime PHP."
+
+[[phrase]]
+from = "Per-status TTLs, e.g."
+to = "TTLs par statut, par ex."
+
+[[phrase]]
+from = "Multi-vhost with shared TLS"
+to = "Multi-vhost avec TLS partagé"
+
+[[phrase]]
+from = "WordPress with PHP-FPM"
+to = "WordPress avec PHP-FPM"

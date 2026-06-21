@@ -1,0 +1,186 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Run every runtime variant smoke:"
+to = "Jeden Runtime-Varianten-Smoke ausfuehren:"
+
+[[phrase]]
+from = "Limit the variant smoke while iterating:"
+to = "Den Varianten-Smoke beim Iterieren begrenzen:"
+
+[[phrase]]
+from = "Smoke a root-runtime build:"
+to = "Einen Root-Runtime-Build per Smoke testen:"
+
+[[phrase]]
+from = "Fluxheim&#x27;s published OCI images are Linux containers. They are not FreeBSD jail images and should not be expected to run natively on a FreeBSD kernel without a Linux VM or compatible Linux-container runtime layer."
+to = "Fluxheims veroeffentlichte OCI-Images sind Linux-Container. Sie sind keine FreeBSD-Jail-Images und sollten ohne Linux-VM oder kompatible Linux-Container-Runtime-Schicht nicht nativ auf einem FreeBSD-Kernel erwartet werden."
+
+[[phrase]]
+from = "Native FreeBSD packaging should be documented separately after it is tested on a FreeBSD host. The expected path is a normal Fluxheim binary plus an rc.d service or jail deployment, not the Linux container images above."
+to = "Native FreeBSD-Paketierung soll separat dokumentiert werden, nachdem sie auf einem FreeBSD-Host getestet wurde. Der erwartete Pfad ist ein normales Fluxheim-Binary plus rc.d-Service oder Jail-Deployment, nicht die obigen Linux-Container-Images."
+
+[[phrase]]
+from = "Cross-compiling from Linux to FreeBSD may be possible later, but it needs its own CI job because Pingora and native TLS/compression dependencies can require platform-specific toolchains and libraries."
+to = "Cross-Compiling von Linux nach FreeBSD kann spaeter moeglich sein, braucht aber einen eigenen CI-Job, weil Pingora und native TLS-/Compression-Dependencies plattformspezifische Toolchains und Libraries erfordern koennen."
+
+[[phrase]]
+from = "The <code>Container Images</code> GitHub workflow builds the four variant Containerfiles and pushes tags to:"
+to = "Der GitHub-Workflow <code>Container Images</code> baut die vier Varianten-Containerfiles und pusht Tags nach:"
+
+[[phrase]]
+from = ", when Docker Hub secrets are configured"
+to = ", wenn Docker-Hub-Secrets konfiguriert sind"
+
+[[phrase]]
+from = ", when Quay secrets are configured"
+to = ", wenn Quay-Secrets konfiguriert sind"
+
+[[phrase]]
+from = "The workflow publishes OS-variant tags for the full/default image profile:"
+to = "Der Workflow veroeffentlicht OS-Varianten-Tags fuer das Full-/Default-Image-Profil:"
+
+[[phrase]]
+from = "For the recommended Wolfi runtime, the full/default profile also gets short aliases:"
+to = "Fuer die empfohlene Wolfi-Runtime bekommt das Full-/Default-Profil auch kurze Aliasse:"
+
+[[phrase]]
+from = "The <code>-base</code> aliases are kept for compatibility with earlier release notes and automation. They point at the full/default image profile."
+to = "Die <code>-base</code>-Aliasse bleiben fuer Kompatibilitaet mit frueheren Release Notes und Automation erhalten. Sie zeigen auf das Full-/Default-Image-Profil."
+
+[[phrase]]
+from = "The focused image profiles publish tags with a profile segment:"
+to = "Die fokussierten Image-Profile veroeffentlichen Tags mit einem Profilsegment:"
+
+[[phrase]]
+from = "Wolfi short aliases:"
+to = "Kurze Wolfi-Aliasse:"
+
+[[phrase]]
+from = "Starting with <code>v1.5.0</code>, the load-balancer image profile is part of normal tag publishing. For older tags or development branches, it can still be included in manual workflow runs by setting <code>include_load_balancer=true</code>."
+to = "Ab <code>v1.5.0</code> ist das Load-Balancer-Image-Profil Teil der normalen Tag-Veröffentlichung. Fuer aeltere Tags oder Entwicklungsbranches kann es in manuellen Workflow-Laeufen weiter mit <code>include_load_balancer=true</code> eingeschlossen werden."
+
+[[phrase]]
+from = "The workflow defaults to <code>linux/amd64</code>. Use manual dispatch to test additional platforms, for example <code>linux/amd64,linux/arm64</code>, once every selected runtime base has been verified for those architectures."
+to = "Der Workflow verwendet standardmaessig <code>linux/amd64</code>. Nutze manuelle Ausfuehrung, um weitere Plattformen zu testen, zum Beispiel <code>linux/amd64,linux/arm64</code>, sobald jede ausgewaehlte Runtime-Basis fuer diese Architekturen verifiziert ist."
+
+[[phrase]]
+from = "Manual workflow inputs also allow <code>runtime_uid</code>, <code>runtime_gid</code>, and a temporary feature override. Keep both IDs at <code>65532</code> for normal images. Use <code>0</code> only for a deliberate root-runtime image. Leave the feature override empty for normal release profile builds."
+to = "Manuelle Workflow-Inputs erlauben auch <code>runtime_uid</code>, <code>runtime_gid</code> und einen temporaeren Feature-Override. Halte beide IDs fuer normale Images auf <code>65532</code>. Verwende <code>0</code> nur fuer ein bewusstes Root-Runtime-Image. Lasse den Feature-Override fuer normale Release-Profil-Builds leer."
+
+[[phrase]]
+from = "<code>1.3.2</code> adds a separate <code>fluxheim-config-tester</code> binary target for diagnosing configs outside the runtime container. It is intended for cases where a Podman or systemd deployment cannot start and the operator still needs Fluxheim&#x27;s real config parser, feature/profile checks, TLS storage checks, ACME target preview, and upstream DNS checks."
+to = "<code>1.3.2</code> fuegt ein separates Binary-Target <code>fluxheim-config-tester</code> hinzu, um Konfigurationen ausserhalb des Runtime-Containers zu diagnostizieren. Es ist fuer Faelle gedacht, in denen ein Podman- oder systemd-Deployment nicht starten kann und der Operator trotzdem Fluxheims echten Config-Parser, Feature-/Profil-Pruefungen, TLS-Storage-Pruefungen, ACME-Target-Preview und Upstream-DNS-Pruefungen braucht."
+
+[[phrase]]
+from = "Use <code>--profile full</code>, <code>--profile cache</code>, <code>--profile proxy</code>, or <code>--profile web-php</code> to match the release artifact or image profile you plan to run. Add <code>--no-runtime-paths</code> when you only need syntax, semantic, and profile validation from outside the gateway container and do not have access to the service runtime mount such as <code>/run/fluxheim</code>. Leave that flag off when you want the tester to inspect <code>server.process.pid_file</code>, upgrade socket, and certificate reload socket paths as part of a deployment preflight."
+to = "Nutze <code>--profile full</code>, <code>--profile cache</code>, <code>--profile proxy</code> oder <code>--profile web-php</code>, passend zum Release-Artefakt oder Image-Profil, das du ausfuehren willst. Fuege <code>--no-runtime-paths</code> hinzu, wenn du nur Syntax-, Semantik- und Profilvalidierung ausserhalb des Gateway-Containers brauchst und keinen Zugriff auf Service-Runtime-Mounts wie <code>/run/fluxheim</code> hast. Lasse das Flag weg, wenn der Tester <code>server.process.pid_file</code>, Upgrade-Socket und Certificate-Reload-Socket-Pfade als Teil eines Deployment-Preflight pruefen soll."
+
+[[phrase]]
+from = "Runtime images and RPMs do include <code>fluxheim-acme</code>, which is the ACME companion entry point for service-manager or container-scheduled renewal workflows:"
+to = "Runtime-Images und RPMs enthalten <code>fluxheim-acme</code>, den ACME-Companion-Einstiegspunkt fuer Service-Manager- oder Container-geplante Renewal-Workflows:"
+
+[[phrase]]
+from = "For live activation after renewal, the running gateway and companion need the same writable <code>/run/fluxheim</code> mount so <code>fluxheim-acme</code> can reach <code>server.process.certificate_reload_sock</code>."
+to = "Fuer Live-Aktivierung nach der Erneuerung brauchen laufendes Gateway und Companion denselben schreibbaren <code>/run/fluxheim</code>-Mount, damit <code>fluxheim-acme</code> <code>server.process.certificate_reload_sock</code> erreichen kann."
+
+[[phrase]]
+from = "Process runtime files such as PID files, upgrade sockets, and the certificate reload socket."
+to = "Prozess-Runtime-Dateien wie PID-Dateien, Upgrade-Sockets und der Certificate-Reload-Socket."
+
+[[phrase]]
+from = "Default static content root if you want one shared root."
+to = "Default-Root fuer statische Inhalte, wenn du eine gemeinsame Root willst."
+
+[[phrase]]
+from = "Per-site static roots referenced by vhosts."
+to = "Per-Site-Static-Roots, die von Vhosts referenziert werden."
+
+[[phrase]]
+from = "Optional file logs when <code>[logging.file]</code> is enabled."
+to = "Optionale File-Logs, wenn <code>[logging.file]</code> aktiviert ist."
+
+[[phrase]]
+from = "For Podman on SELinux hosts, <code>:Z</code> gives the bind mount a private container label. Add <code>:U</code> only for writable paths when you want Podman to adjust ownership for user namespaces. Read-only paths normally use <code>:ro,Z</code>, not <code>:U</code>."
+to = "Fuer Podman auf SELinux-Hosts gibt <code>:Z</code> dem Bind-Mount ein privates Container-Label. Fuege <code>:U</code> nur fuer schreibbare Pfade hinzu, wenn Podman Ownership fuer User Namespaces anpassen soll. Read-only-Pfade verwenden normalerweise <code>:ro,Z</code>, nicht <code>:U</code>."
+
+[[phrase]]
+from = "The default image user is <code>65532:65532</code>, so writable host directories should be owned or mapped for that user. With rootless Podman, <code>:U</code> is often the easiest safe option for cache/state/log directories."
+to = "Der Default-Image-User ist <code>65532:65532</code>, daher sollten schreibbare Host-Verzeichnisse diesem User gehoeren oder fuer ihn gemappt sein. Mit rootless Podman ist <code>:U</code> oft die einfachste sichere Option fuer Cache-/State-/Log-Verzeichnisse."
+
+[[phrase]]
+from = "Example host layout:"
+to = "Beispiel-Host-Layout:"
+
+[[phrase]]
+from = "Matching config paths:"
+to = "Passende Config-Pfade:"
+
+[[phrase]]
+from = "For multi-site setups, prefer <code>/etc/fluxheim/conf.d/</code> with one vhost per file. <code>[[vhosts]]</code> starts a vhost, and each following <code>[vhosts.*]</code> table belongs to that vhost until the next <code>[[vhosts]]</code>. The packaged <code>/etc/fluxheim/fluxheim.toml</code> sets <code>include_conf_d = true</code>, so it also loads visible <code>*.toml</code> files from <code>/etc/fluxheim/conf.d/</code> after the main file. When Fluxheim starts from <code>/etc/fluxheim</code>, it loads top-level TOML files first and then <code>/etc/fluxheim/conf.d/*.toml</code>."
+to = "Fuer Multi-Site-Setups bevorzuge <code>/etc/fluxheim/conf.d/</code> mit einem Vhost pro Datei. <code>[[vhosts]]</code> startet einen Vhost, und jede folgende <code>[vhosts.*]</code>-Tabelle gehoert zu diesem Vhost bis zum naechsten <code>[[vhosts]]</code>. Die paketierte <code>/etc/fluxheim/fluxheim.toml</code> setzt <code>include_conf_d = true</code> und laedt daher sichtbare <code>*.toml</code>-Dateien aus <code>/etc/fluxheim/conf.d/</code> nach der Hauptdatei. Wenn Fluxheim aus <code>/etc/fluxheim</code> startet, laedt es zuerst Top-Level-TOML-Dateien und danach <code>/etc/fluxheim/conf.d/*.toml</code>."
+
+[[phrase]]
+from = "For managed ACME in containers, use the same bind mounts for the gateway and the one-shot renewal container. A complete example with an external <code>fluxheim-acme</code> service is available at"
+to = "Fuer Managed ACME in Containern verwende dieselben Bind-Mounts fuer Gateway und One-Shot-Renewal-Container. Ein vollstaendiges Beispiel mit externem <code>fluxheim-acme</code>-Service ist verfuegbar unter"
+
+[[phrase]]
+from = ". Start the gateway first, then run due-only renewal with:"
+to = ". Starte zuerst das Gateway und fuehre dann Due-only-Renewal aus mit:"
+
+[[phrase]]
+from = "Keep <code>tls.acme.automation = &quot;external&quot;</code> in this mode so the long-running gateway does not also run the background renewal loop."
+to = "Halte <code>tls.acme.automation = &quot;external&quot;</code> in diesem Modus, damit das langlebige Gateway nicht zusaetzlich den Background-Renewal-Loop ausfuehrt."
+
+[[phrase]]
+from = "Example container main config shape for first issuance:"
+to = "Beispiel fuer die Container-Hauptkonfiguration bei Erstausstellung:"
+
+[[phrase]]
+from = "For container secret files, mount the files read-only. If the host tree is already labeled with <code>container_file_t</code>, do not add a <code>:Z</code> relabel suffix to individual secret-file mounts:"
+to = "Fuer Container-Secret-Dateien mounte die Dateien read-only. Wenn der Host-Tree bereits mit <code>container_file_t</code> gelabelt ist, fuege einzelnen Secret-File-Mounts kein <code>:Z</code>-Relabel-Suffix hinzu:"
+
+[[phrase]]
+from = "Validate the mounted config directly with <code>podman run --rm</code>. This avoids compose-provider differences around one-shot commands:"
+to = "Validiere die gemountete Konfiguration direkt mit <code>podman run --rm</code>. Das vermeidet Compose-Provider-Unterschiede bei One-Shot-Kommandos:"
+
+[[phrase]]
+from = "Then start Fluxheim, replacing any existing gateway on the published ports. If you kept <code>server.tls_listen</code> enabled, also publish <code>443:8443</code>; otherwise publish only <code>80:8080</code> for the first issuance step:"
+to = "Starte dann Fluxheim und ersetze jedes bestehende Gateway auf den veroeffentlichten Ports. Wenn <code>server.tls_listen</code> aktiviert blieb, veroeffentliche auch <code>443:8443</code>; sonst veroeffentliche fuer den Erstausstellungs-Schritt nur <code>80:8080</code>:"
+
+[[phrase]]
+from = "Run due-only renewal from a second container. Missing certificate files are due targets, so first issuance does not require <code>--force-renew</code>:"
+to = "Fuehre Due-only-Renewal aus einem zweiten Container aus. Fehlende Zertifikatsdateien sind due targets, daher braucht die Erstausstellung kein <code>--force-renew</code>:"
+
+[[phrase]]
+from = "If you kept <code>server.tls_listen</code> disabled for the first run, enable HTTPS in the main config after every configured ACME target has renewed:"
+to = "Wenn <code>server.tls_listen</code> fuer den ersten Lauf deaktiviert blieb, aktiviere HTTPS in der Hauptkonfiguration, nachdem jedes konfigurierte ACME-Target erneuert wurde:"
+
+[[phrase]]
+from = "Recreate the gateway with both published ports and verify SNI:"
+to = "Erstelle das Gateway mit beiden veroeffentlichten Ports neu und verifiziere SNI:"
+
+[[phrase]]
+from = "Optional mounted error pages should use a path whose parent already exists in the runtime image, such as <code>/var/lib/fluxheim/errors</code>. Avoid nested mountpoints below read-only image paths such as <code>/srv/fluxheim/errors</code>."
+to = "Optional gemountete Error Pages sollen einen Pfad verwenden, dessen Parent bereits im Runtime-Image existiert, zum Beispiel <code>/var/lib/fluxheim/errors</code>. Vermeide verschachtelte Mountpoints unter read-only Image-Pfaden wie <code>/srv/fluxheim/errors</code>."
+
+[[phrase]]
+from = "For services running on the host, use Podman&#x27;s host gateway name when available:"
+to = "Fuer Dienste auf dem Host verwende Podmans Host-Gateway-Namen, wenn verfuegbar:"
+
+[[phrase]]
+from = "The container config sets <code>grace_period_seconds = 2</code> and <code>graceful_shutdown_timeout_seconds = 5</code>; keep the Podman stop timeout higher than the sum of those values so normal shutdown does not fall back to <code>SIGKILL</code>."
+to = "Die Container-Konfiguration setzt <code>grace_period_seconds = 2</code> und <code>graceful_shutdown_timeout_seconds = 5</code>; halte das Podman-Stop-Timeout hoeher als die Summe dieser Werte, damit ein normaler Shutdown nicht auf <code>SIGKILL</code> zurueckfaellt."
+
+[[phrase]]
+from = "For local binary RPM smoke builds, use the containerized helper:"
+to = "Fuer lokale Binary-RPM-Smoke-Builds verwende den containerisierten Helper:"
+
+[[phrase]]
+from = "This helper is intended for installation testing on RPM-based hosts. The release-grade RPM source of truth remains <code>packaging/rpm/fluxheim.spec</code>."
+to = "Dieser Helper ist fuer Installationstests auf RPM-basierten Hosts gedacht. Die release-taugliche RPM-Source-of-Truth bleibt <code>packaging/rpm/fluxheim.spec</code>."
+
+[[phrase]]
+from = "Official Podman documentation describes the rootless API socket default as <code>unix://$XDG_RUNTIME_DIR/podman/podman.sock</code>, and <code>CONTAINER_HOST</code> has precedence over configured service destinations for Podman remote connections."
+to = "Die offizielle Podman-Dokumentation beschreibt den rootless API-Socket-Default als <code>unix://$XDG_RUNTIME_DIR/podman/podman.sock</code>, und <code>CONTAINER_HOST</code> hat Vorrang vor konfigurierten Service-Zielen fuer Podman-Remote-Verbindungen."

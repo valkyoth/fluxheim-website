@@ -1,0 +1,278 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "systemd Deployment"
+to = "systemd-Deployment"
+
+[[phrase]]
+from = "Fluxheim can run as a native systemd service when you manually compile the binary or install an RPM package."
+to = "Fluxheim kann als nativer systemd-Dienst laufen, wenn du das Binary manuell kompilierst oder ein RPM-Paket installierst."
+
+[[phrase]]
+from = "The packaged unit is intentionally conservative:"
+to = "Die paketierte Unit ist absichtlich konservativ:"
+
+[[phrase]]
+from = "runs as the"
+to = "laeuft als"
+
+[[phrase]]
+from = "user and group;"
+to = "User und Gruppe;"
+
+[[phrase]]
+from = "validates the config before starting;"
+to = "validiert die Konfiguration vor dem Start;"
+
+[[phrase]]
+from = "uses <code>/run/fluxheim</code>, <code>/var/lib/fluxheim</code>, <code>/var/cache/fluxheim</code>, and <code>/var/log/fluxheim</code> as writable service paths;"
+to = "verwendet <code>/run/fluxheim</code>, <code>/var/lib/fluxheim</code>, <code>/var/cache/fluxheim</code> und <code>/var/log/fluxheim</code> als schreibbare Dienstpfade;"
+
+[[phrase]]
+from = "keeps <code>/etc/fluxheim</code> and <code>/srv/fluxheim</code> readable but not writable by the service;"
+to = "haelt <code>/etc/fluxheim</code> und <code>/srv/fluxheim</code> fuer den Dienst lesbar, aber nicht schreibbar;"
+
+[[phrase]]
+from = "runs with"
+to = "laeuft mit"
+
+[[phrase]]
+from = "and grants only"
+to = "und gewaehrt nur"
+
+[[phrase]]
+from = ", allowing the unprivileged"
+to = ", wodurch der unprivilegierte"
+
+[[phrase]]
+from = "user to bind production ports"
+to = "User Produktionsports binden kann"
+
+[[phrase]]
+from = "without running the service as root;"
+to = "ohne den Dienst als root auszufuehren;"
+
+[[phrase]]
+from = "uses strict system path protection, private temporary and device namespaces, kernel/control-group write protection, namespace restrictions, native syscall architecture filtering, and a conservative system-service/network syscall allow-list;"
+to = "nutzt strikten Systempfad-Schutz, private temporaere und Device-Namespaces, Kernel-/Control-Group-Schreibschutz, Namespace-Restriktionen, native Syscall-Architekturfilterung und eine konservative Allow-List fuer System-Service-/Netzwerk-Syscalls;"
+
+[[phrase]]
+from = "limits address families to IPv4, IPv6, and Unix domain sockets;"
+to = "begrenzt Address-Families auf IPv4, IPv6 und Unix-Domain-Sockets;"
+
+[[phrase]]
+from = "stops with"
+to = "stoppt mit"
+
+[[phrase]]
+from = "and lets Fluxheim/Pingora shut down gracefully."
+to = "und laesst Fluxheim/Pingora graceful herunterfahren."
+
+[[phrase]]
+from = "These systemd controls are the supported"
+to = "Diese systemd-Controls sind die unterstuetzte"
+
+[[phrase]]
+from = "host sandbox. They are deployment-level controls and do not require a special Fluxheim binary."
+to = "Host-Sandbox. Sie sind Deployment-Level-Controls und erfordern kein spezielles Fluxheim-Binary."
+
+[[phrase]]
+from = "The packaged native config listens on"
+to = "Die paketierte native Konfiguration lauscht auf"
+
+[[phrase]]
+from = "by default. HTTPS uses"
+to = "standardmaessig. HTTPS verwendet"
+
+[[phrase]]
+from = "once <code>server.tls_listen</code> and certificate paths are enabled."
+to = "sobald <code>server.tls_listen</code> und Zertifikatspfade aktiviert sind."
+
+[[phrase]]
+from = "This matches normal bare-metal web server expectations while keeping the process unprivileged."
+to = "Das entspricht normalen Bare-Metal-Webserver-Erwartungen, waehrend der Prozess unprivilegiert bleibt."
+
+[[phrase]]
+from = "Manual Binary Install"
+to = "Manuelle Binary-Installation"
+
+[[phrase]]
+from = "Build Fluxheim:"
+to = "Fluxheim bauen:"
+
+[[phrase]]
+from = "Install the binary where the provided unit expects it:"
+to = "Das Binary dort installieren, wo die bereitgestellte Unit es erwartet:"
+
+[[phrase]]
+from = "Install the service user, runtime directories, default config, and default static page:"
+to = "Service-User, Runtime-Verzeichnisse, Default-Konfiguration und Default-Static-Page installieren:"
+
+[[phrase]]
+from = "The prepare script is intentionally path-restricted. Any path override must be absolute, must not pass through a symlinked existing directory, and must stay below one of Fluxheim&#x27;s standard native roots:"
+to = "Das Prepare-Skript ist absichtlich pfadbeschraenkt. Jeder Pfad-Override muss absolut sein, darf nicht durch ein symlinked bestehendes Verzeichnis fuehren und muss unter einer von Fluxheims nativen Standard-Roots bleiben:"
+
+[[phrase]]
+from = "The prepare script is intentionally path-restricted. Any path override must be absolute, must not pass through a symlinked existing directory, and must stay below one of Fluxheim's standard native roots:"
+to = "Das Prepare-Skript ist absichtlich pfadbeschraenkt. Jeder Pfad-Override muss absolut sein, darf nicht durch ein symlinked bestehendes Verzeichnis fuehren und muss unter einer von Fluxheims nativen Standard-Roots bleiben:"
+
+[[phrase]]
+from = "Install the systemd unit and optional environment file:"
+to = "systemd-Unit und optionale Environment-Datei installieren:"
+
+[[phrase]]
+from = "Validate before starting:"
+to = "Vor dem Start validieren:"
+
+[[phrase]]
+from = "Start and enable:"
+to = "Starten und aktivieren:"
+
+[[phrase]]
+from = "View logs:"
+to = "Logs anzeigen:"
+
+[[phrase]]
+from = "Config Path Override"
+to = "Config-Path-Override"
+
+[[phrase]]
+from = "The unit defaults to:"
+to = "Die Unit verwendet standardmaessig:"
+
+[[phrase]]
+from = "To use another config, edit"
+to = "Um eine andere Konfiguration zu verwenden, bearbeite"
+
+[[phrase]]
+from = "Then reload systemd and restart:"
+to = "Dann systemd neu laden und neu starten:"
+
+[[phrase]]
+from = "Reload And Restart"
+to = "Reload und Restart"
+
+[[phrase]]
+from = "treat native service changes as validate-then-restart unless a specific runtime reload path is documented for the setting you changed:"
+to = "behandle native Service-Aenderungen als validate-then-restart, sofern fuer die geaenderte Einstellung kein spezifischer Runtime-Reload-Pfad dokumentiert ist:"
+
+[[phrase]]
+from = "Fluxheim exits on"
+to = "Fluxheim beendet sich bei"
+
+[[phrase]]
+from = "; the unit uses"
+to = "; die Unit verwendet"
+
+[[phrase]]
+from = "so the process has time to drain and shut down cleanly before systemd escalates."
+to = "damit der Prozess Zeit zum Drainen und sauberen Herunterfahren hat, bevor systemd eskaliert."
+
+[[phrase]]
+from = "ACME Timer"
+to = "ACME-Timer"
+
+[[phrase]]
+from = "RPM packages install a one-shot renewal unit and timer:"
+to = "RPM-Pakete installieren eine One-Shot-Renewal-Unit und einen Timer:"
+
+[[phrase]]
+from = "The service runs"
+to = "Der Dienst fuehrt"
+
+[[phrase]]
+from = "as the same"
+to = "als denselben"
+
+[[phrase]]
+from = "user, with the same runtime/state/cache/log directories as the web service. It does not bind ports and does not receive"
+to = "User aus, mit denselben Runtime-/State-/Cache-/Log-Verzeichnissen wie der Webdienst. Er bindet keine Ports und erhaelt kein"
+
+[[phrase]]
+from = ". After successful renewal it requests live certificate activation through"
+to = ". Nach erfolgreicher Erneuerung fordert er Live-Zertifikatsaktivierung an ueber"
+
+[[phrase]]
+from = "when using the timer so the main webserver does not also run the background renewal loop."
+to = "bei Verwendung des Timers, damit der Haupt-Webserver nicht zusaetzlich den Background-Renewal-Loop ausfuehrt."
+
+[[phrase]]
+from = "For issuers with External Account Binding, install the ACME credential drop-in for the ACME unit and use credential names in the TOML:"
+to = "Fuer Issuer mit External Account Binding installiere den ACME-Credential-Drop-in fuer die ACME-Unit und verwende Credential-Namen im TOML:"
+
+[[phrase]]
+from = "Enable scheduled renewal:"
+to = "Geplante Erneuerung aktivieren:"
+
+[[phrase]]
+from = "Sandbox Overrides"
+to = "Sandbox-Overrides"
+
+[[phrase]]
+from = "The default unit is strict enough for normal static/proxy deployments. If a deployment needs extra host access, prefer a local drop-in instead of editing the packaged unit:"
+to = "Die Default-Unit ist fuer normale Static-/Proxy-Deployments streng genug. Wenn ein Deployment zusaetzlichen Host-Zugriff braucht, bevorzuge einen lokalen Drop-in statt die paketierte Unit zu bearbeiten:"
+
+[[phrase]]
+from = "For example, add another read-only content root:"
+to = "Zum Beispiel eine weitere read-only Content-Root hinzufuegen:"
+
+[[phrase]]
+from = "Then validate and restart:"
+to = "Dann validieren und neu starten:"
+
+[[phrase]]
+from = "TLS And Content Paths"
+to = "TLS- und Content-Pfade"
+
+[[phrase]]
+from = "The default native paths are:"
+to = "Die nativen Default-Pfade sind:"
+
+[[phrase]]
+from = "<th>Path</th>"
+to = "<th>Pfad</th>"
+
+[[phrase]]
+from = "<th>Purpose</th>"
+to = "<th>Zweck</th>"
+
+[[phrase]]
+from = "Main config."
+to = "Hauptkonfiguration."
+
+[[phrase]]
+from = "Optional split config directory."
+to = "Optionales Split-Config-Verzeichnis."
+
+[[phrase]]
+from = "Static certificate chains and private keys."
+to = "Statische Zertifikatsketten und private Schluessel."
+
+[[phrase]]
+from = "Default static site root."
+to = "Default-Root fuer statische Sites."
+
+[[phrase]]
+from = "State and future ACME/snapshot storage."
+to = "State und zukuenftiger ACME-/Snapshot-Speicher."
+
+[[phrase]]
+from = "Cache storage."
+to = "Cache-Speicher."
+
+[[phrase]]
+from = "Optional file logs."
+to = "Optionale File-Logs."
+
+[[phrase]]
+from = "PID file, upgrade socket, and certificate reload socket."
+to = "PID-Datei, Upgrade-Socket und Certificate-Reload-Socket."
+
+[[phrase]]
+from = "Keep private keys mode"
+to = "Halte Private-Key-Modus"
+
+[[phrase]]
+from = "or stricter and owned by the runtime user when Fluxheim reads them directly:"
+to = "oder strenger und im Besitz des Runtime-Users, wenn Fluxheim sie direkt liest:"

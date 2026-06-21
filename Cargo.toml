@@ -1,0 +1,27 @@
+[package]
+name = "fluxheim-website"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.96"
+license = "EUPL-1.2"
+publish = false
+description = "Localized Rust website for Fluxheim."
+
+[dependencies]
+axum = { version = "0.8.9", default-features = false, features = ["http1", "original-uri", "tokio", "tracing"] }
+http = "1.4.2"
+sanitization = { version = "1.1.0", features = ["alloc"] }
+serde = { version = "1.0.228", features = ["derive"] }
+tokio = { version = "1.52.3", features = ["macros", "net", "rt-multi-thread", "signal"] }
+toml = "1.1.2"
+tower-http = { version = "0.7.0", features = ["fs", "set-header", "trace"] }
+tracing = "0.1.44"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter", "fmt"] }
+
+[dev-dependencies]
+tower = { version = "0.5.3", features = ["util"] }
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+strip = "symbols"

@@ -1,0 +1,490 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Feature Matrix"
+to = "Matrice des fonctionnalités"
+
+[[phrase]]
+from = "All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.6.28."
+to = "Toutes les fonctionnalités Cargo, les alias de profil de build et les options de backend TLS pour Fluxheim v1.6.28."
+
+[[phrase]]
+from = "Individual Features"
+to = "Fonctionnalités individuelles"
+
+[[phrase]]
+from = "Select features individually with"
+to = "Sélectionnez les fonctionnalités individuellement avec"
+
+[[phrase]]
+from = "or use profile aliases (below). TLS backends are mutually exclusive — pick exactly one."
+to = "ou utilisez les alias de profil ci-dessous. Les backends TLS sont mutuellement exclusifs - choisissez-en exactement un."
+
+[[phrase]]
+from = "Feature"
+to = "Fonctionnalité"
+
+[[phrase]]
+from = "Static file resolver. Runtime currently uses"
+to = "Résolveur de fichiers statiques. Le runtime utilise actuellement les"
+
+[[phrase]]
+from = "sessions."
+to = "sessions."
+
+[[phrase]]
+from = "Shared response compression framework. Requires at least one codec feature."
+to = "Framework partagé de compression des réponses. Nécessite au moins une fonctionnalité de codec."
+
+[[phrase]]
+from = "Brotli response compression codec and first-preference encoding when clients advertise it."
+to = "Codec de compression Brotli des réponses et encodage préféré lorsque les clients l'annoncent."
+
+[[phrase]]
+from = "Compile-time security profile marker plus release hardening checks. Runtime enforcement lives in concrete config, TLS, filesystem, admin, and request-handling modules."
+to = "Marqueur de profil de sécurité à la compilation plus vérifications de durcissement de release. L'application runtime se trouve dans les modules concrets de configuration, TLS, système de fichiers, admin et traitement des requêtes."
+
+[[phrase]]
+from = "rustls TLS backend (default and recommended). Mutually exclusive with other TLS features."
+to = "Backend TLS rustls (par défaut et recommandé). Mutuellement exclusif avec les autres fonctionnalités TLS."
+
+[[phrase]]
+from = "Internal rustls backend marker shared by ring-backed rustls and the AWS-LC FIPS-capable candidate path."
+to = "Marqueur interne du backend rustls partagé par rustls basé sur ring et le chemin candidat AWS-LC compatible FIPS."
+
+[[phrase]]
+from = "Optional rustls/AWS-LC FIPS-capable TLS backend candidate."
+to = "Candidat de backend TLS rustls/AWS-LC compatible FIPS optionnel."
+
+[[phrase]]
+from = "ISO/IEC 19790 terminology alias for"
+to = "Alias de terminologie ISO/IEC 19790 pour"
+
+[[phrase]]
+from = "Internal TLS-aware code marker. Select exactly one concrete backend for serving."
+to = "Marqueur de code interne conscient de TLS. Sélectionnez exactement un backend concret pour servir."
+
+[[phrase]]
+from = "Opt-in bodyless request shadowing for safe traffic mirroring. Implies"
+to = "Shadowing optionnel des requêtes sans body pour un mirroring de trafic sûr. Implique"
+
+[[phrase]]
+from = "Local MMDB Geo-Context lookup for MaxMind GeoIP2/GeoLite2 and CIRCL Geo Open datasets. Exposes bounded country/ASN policy and access-log fields. Implies"
+to = "Recherche Geo-Context MMDB locale pour les jeux de données MaxMind GeoIP2/GeoLite2 et CIRCL Geo Open. Expose une politique pays/ASN bornée et des champs de journal d'accès. Implique"
+
+[[phrase]]
+from = "routes, bounded idle/lifetime/byte caps, route-local PROXY protocol receive/send, upstream TLS/mTLS controls, and weighted/drain/backup policy."
+to = "routes, limites bornées d'inactivité, de durée de vie et d'octets, réception/envoi PROXY protocol local à la route, contrôles TLS/mTLS upstream et politiques pondérées, drain et backup."
+
+[[phrase]]
+from = "Optional local OTLP metrics export."
+to = "Export local optionnel de métriques OTLP."
+
+[[phrase]]
+from = "OpenTelemetry trace context propagation."
+to = "Propagation du contexte de trace OpenTelemetry."
+
+[[phrase]]
+from = "Optional local OTLP trace export."
+to = "Export local optionnel de traces OTLP."
+
+[[phrase]]
+from = "ACME config, storage, challenge serving, renewal planning, and renewal-executor contract."
+to = "Configuration ACME, stockage, service des challenges, planification des renouvellements et contrat du renewal executor."
+
+[[phrase]]
+from = "Live ACME account/order HTTP client and background renewal service for HTTP-01 and TLS-ALPN-01."
+to = "Client HTTP live pour comptes/commandes ACME et service de renouvellement en arrière-plan pour HTTP-01 et TLS-ALPN-01."
+
+[[phrase]]
+from = "Shared PHP runtime marker. Implies"
+to = "Marqueur partagé du runtime PHP. Implique"
+
+[[phrase]]
+from = "Optional OpenSSL TLS backend. Mutually exclusive with other TLS features."
+to = "Backend TLS OpenSSL optionnel. Mutuellement exclusif avec les autres fonctionnalités TLS."
+
+[[phrase]]
+from = "OpenSSL 3 FIPS-provider proof path with provider diagnostics and fail-closed FIPS/ISO-required startup checks."
+to = "Chemin de preuve fournisseur FIPS OpenSSL 3 avec diagnostics fournisseur et contrôles de démarrage fail-closed exigés par FIPS/ISO."
+
+[[phrase]]
+from = "Build Profile Aliases"
+to = "Alias de profil de build"
+
+[[phrase]]
+from = "Profile aliases are normal Cargo feature aliases that enable a curated set of features. Use"
+to = "Les alias de profil sont des alias Cargo normaux qui activent un ensemble organisé de fonctionnalités. Utilisez"
+
+[[phrase]]
+from = "to build a focused image. The raw aliases do not force"
+to = "pour construire une image ciblée. Les alias bruts ne forcent pas"
+
+[[phrase]]
+from = "; official release artifacts add it where managed certificates are expected."
+to = "; les artefacts de release officiels l'ajoutent là où des certificats gérés sont attendus."
+
+[[phrase]]
+from = "Profile"
+to = "Profil"
+
+[[phrase]]
+from = "Enables"
+to = "Active"
+
+[[phrase]]
+from = "Use case"
+to = "Cas d'utilisation"
+
+[[phrase]]
+from = "Same as default build"
+to = "Identique au build par défaut"
+
+[[phrase]]
+from = "Static sites without cache"
+to = "Sites statiques sans cache"
+
+[[phrase]]
+from = "Reverse proxy without static hosting or cache"
+to = "Reverse proxy sans hébergement statique ni cache"
+
+[[phrase]]
+from = "Static/proxy server with cache enabled"
+to = "Serveur statique/proxy avec cache activé"
+
+[[phrase]]
+from = "Cache edge without local static web serving"
+to = "Edge de cache sans service web statique local"
+
+[[phrase]]
+from = "Focused reverse proxy edge"
+to = "Edge reverse proxy ciblée"
+
+[[phrase]]
+from = "Production proxy/load-balancer bundle with compression enabled"
+to = "Bundle proxy/load-balancer de production avec compression activée"
+
+[[phrase]]
+from = "Load-balancer edge without cache or static web"
+to = "Edge load-balancer sans cache ni web statique"
+
+[[phrase]]
+from = "Core with full observability stack"
+to = "Core avec pile d'observabilité complète"
+
+[[phrase]]
+from = "Zero-retention static/proxy profile"
+to = "Profil statique/proxy sans rétention"
+
+[[phrase]]
+from = "Static webserver profile"
+to = "Profil serveur web statique"
+
+[[phrase]]
+from = "All stable production modules, including safe traffic mirroring, bounded Geo-Context, and hardened stream proxying"
+to = "Tous les modules de production stables, dont le mirroring de trafic sûr, le Geo-Context borné et le proxying de flux durci"
+
+[[phrase]]
+from = "Broad development build"
+to = "Build de développement large"
+
+[[phrase]]
+from = "FIPS-capable OpenSSL proof build"
+to = "Build de preuve OpenSSL compatible FIPS"
+
+[[phrase]]
+from = "ISO/IEC 19790 terminology alias for the OpenSSL proof path"
+to = "Alias de terminologie ISO/IEC 19790 pour le chemin de preuve OpenSSL"
+
+[[phrase]]
+from = "FIPS-capable rustls/AWS-LC candidate build"
+to = "Build candidat rustls/AWS-LC compatible FIPS"
+
+[[phrase]]
+from = "ISO/IEC 19790 terminology alias for the rustls/AWS-LC candidate path"
+to = "Alias de terminologie ISO/IEC 19790 pour le chemin candidat rustls/AWS-LC"
+
+[[phrase]]
+from = "Official Release Builds"
+to = "Builds de release officiels"
+
+[[phrase]]
+from = "The release artifacts match specific feature sets. Custom source builds can omit"
+to = "Les artefacts de release correspondent à des ensembles précis de fonctionnalités. Les builds source personnalisés peuvent omettre"
+
+[[phrase]]
+from = "for offline or static-certificate deployments."
+to = "pour les déploiements hors ligne ou à certificats statiques."
+
+[[phrase]]
+from = "Cache Encryption Key Utility"
+to = "Utilitaire de clé de chiffrement du cache"
+
+[[phrase]]
+from = "is available in every build profile. It prints one random 256-bit lowercase hex key suitable for"
+to = "est disponible dans chaque profil de build. Il imprime une clé hexadécimale aléatoire de 256 bits en minuscules adaptée à"
+
+[[phrase]]
+from = ". The command does not write files; pipe it into your secret manager, systemd credential source, or container secret workflow."
+to = ". La commande n'écrit aucun fichier; redirigez-la vers votre gestionnaire de secrets, votre source d'identifiants systemd ou votre workflow de secrets conteneur."
+
+[[phrase]]
+from = "Feature Validation"
+to = "Validation des fonctionnalités"
+
+[[phrase]]
+from = "Use"
+to = "Utilisez"
+
+[[phrase]]
+from = "before packaging custom feature strings. The validator expands profile aliases and rejects unsupported combinations before Cargo starts compiling Fluxheim."
+to = "avant de packager des chaînes de fonctionnalités personnalisées. Le validateur développe les alias de profil et rejette les combinaisons non prises en charge avant que Cargo commence à compiler Fluxheim."
+
+[[phrase]]
+from = "Privacy Build Constraints"
+to = "Contraintes de build privacy"
+
+[[phrase]]
+from = "at compile time. Always use"
+to = "à la compilation. Utilisez toujours"
+
+[[phrase]]
+from = "since the default build includes"
+to = "car le build par défaut inclut"
+
+[[phrase]]
+from = "Extended Source References"
+to = "Références source étendues"
+
+[[phrase]]
+from = "Some source documents describe implemented 1.6.28 capabilities, while others remain architecture tracks for future releases. The complete upstream source documents are available in the"
+to = "Certains documents source décrivent des capacités 1.6.28 implémentées, tandis que d'autres restent des pistes d'architecture pour de futures releases. Les documents source upstream complets sont disponibles dans la"
+
+[[phrase]]
+from = "Source Reference"
+to = "Référence source"
+
+[[phrase]]
+from = "Topic"
+to = "Sujet"
+
+[[phrase]]
+from = "Source document"
+to = "Document source"
+
+[[phrase]]
+from = "Fluxheim reverse proxy runtime and admin plumbing."
+to = "Runtime reverse proxy de Fluxheim et plomberie d'administration."
+
+[[phrase]]
+from = "Cache module compiled in. Runtime cache remains disabled until configured."
+to = "Module de cache compilé. Le cache runtime reste désactivé jusqu'à configuration."
+
+[[phrase]]
+from = "gzip response compression codec with MIME, size, privacy, range, and cache-safety guards."
+to = "Codec gzip de compression des réponses avec protections MIME, taille, privacy, range et sécurité du cache."
+
+[[phrase]]
+from = "Zstandard response compression codec, negotiated after Brotli and before gzip when enabled."
+to = "Codec Zstandard de compression des réponses, négocié après Brotli et avant gzip lorsqu'il est activé."
+
+[[phrase]]
+from = "Shared Rust/Tokio ingress primitives used by proxy, TLS, and ACME-capable focused builds."
+to = "Primitives d'ingress Rust/Tokio partagées pour les builds ciblés proxy, TLS et compatibles ACME."
+
+[[phrase]]
+from = "Fluxheim load-balancer control plane with advanced selection, health, persistence, runtime member controls, and focused 1.5 image profile support."
+to = "Plan de contrôle load-balancer de Fluxheim avec sélection avancée, santé, persistance, contrôles runtime des membres et support du profil d'image 1.5 ciblé."
+
+[[phrase]]
+from = "Raw L4 TCP stream proxy service with separate"
+to = "Service proxy de flux TCP L4 brut avec"
+
+[[phrase]]
+from = "Prometheus metrics listener."
+to = "Listener de métriques Prometheus."
+
+[[phrase]]
+from = "PHP-FPM FastCGI bridge for WordPress-style PHP applications. Implies"
+to = "Pont FastCGI PHP-FPM pour applications PHP de type WordPress. Implique"
+
+[[phrase]]
+from = "Zero-retention static/proxy profile. Incompatible with cache, compression, metrics, and tracing/export features."
+to = "Profil statique/proxy sans rétention. Incompatible avec le cache, la compression, les métriques et les fonctionnalités de tracing/export."
+
+[[phrase]]
+from = "Fluxheim 1.5.4 removed the incomplete BoringSSL and s2n backend integrations. The supported TLS backend matrix is rustls, rustls/AWS-LC FIPS-capable candidate builds, OpenSSL, and OpenSSL FIPS/ISO proof builds."
+to = "Fluxheim 1.5.4 a supprimé les intégrations backend BoringSSL et s2n incomplètes. La matrice de backends TLS prise en charge comprend rustls, les builds candidats rustls/AWS-LC compatibles FIPS, OpenSSL et les builds de preuve OpenSSL FIPS/ISO."
+
+[[phrase]]
+from = "The <code>privacy-mode</code> feature is incompatible with"
+to = "La fonctionnalité <code>privacy-mode</code> est incompatible avec"
+
+[[phrase]]
+from = "<code>otel-otlp</code> at compile time. Always use"
+to = "<code>otel-otlp</code> à la compilation. Utilisez toujours"
+
+[[phrase]]
+from = "bash — official release build commands"
+to = "bash - commandes de build de release officielles"
+
+[[phrase]]
+from = "bash — local cache encryption key"
+to = "bash - clé locale de chiffrement du cache"
+
+[[phrase]]
+from = "bash — feature validation"
+to = "bash - validation des fonctionnalités"
+
+[[phrase]]
+from = "bash — privacy builds"
+to = "bash - builds privacy"
+
+[[phrase]]
+from = "Compression"
+to = "Compression"
+
+[[phrase]]
+from = "Load balancer migration"
+to = "Migration de load-balancer"
+
+[[phrase]]
+from = "Image filter"
+to = "Filtre d'image"
+
+[[phrase]]
+from = "Programmable media edge"
+to = "Edge média programmable"
+
+[[phrase]]
+from = "OpenTelemetry OTLP export"
+to = "Export OTLP OpenTelemetry"
+
+[[phrase]]
+from = "WASM extensibility"
+to = "Extensibilité WASM"
+
+[[phrase]]
+from = "Crypto RPC edge"
+to = "Edge Crypto RPC"
+
+[[phrase]]
+from = "Cloudflare origin support"
+to = "Support d'origine Cloudflare"
+
+[[phrase]]
+from = "External authorization request"
+to = "Requête d'autorisation externe"
+
+[[phrase]]
+from = "Secure links"
+to = "Liens sécurisés"
+
+[[phrase]]
+from = "PHP runtimes"
+to = "Runtimes PHP"
+
+[[phrase]]
+from = "Perl CGI"
+to = "CGI Perl"
+
+[[phrase]]
+from = "Legacy static HTTP listeners"
+to = "Listeners HTTP statiques legacy"
+
+[[phrase]]
+from = "WireGuard smart load balancing"
+to = "Load balancing intelligent WireGuard"
+
+[[phrase]]
+from = "web"
+to = "web"
+
+[[phrase]]
+from = "compression"
+to = "compression"
+
+[[phrase]]
+from = "compression-gzip"
+to = "compression-gzip"
+
+[[phrase]]
+from = "compression-zstd"
+to = "compression-zstd"
+
+[[phrase]]
+from = "compression-brotli"
+to = "compression-brotli"
+
+[[phrase]]
+from = "ingress"
+to = "ingress"
+
+[[phrase]]
+from = "security"
+to = "security"
+
+[[phrase]]
+from = "tls-rustls"
+to = "tls-rustls"
+
+[[phrase]]
+from = "tls-rustls-backend"
+to = "tls-rustls-backend"
+
+[[phrase]]
+from = "tls-rustls-fips"
+to = "tls-rustls-fips"
+
+[[phrase]]
+from = "tls-rustls-iso19790"
+to = "tls-rustls-iso19790"
+
+[[phrase]]
+from = "tls"
+to = "tls"
+
+[[phrase]]
+from = "traffic-mirror"
+to = "traffic-mirror"
+
+[[phrase]]
+from = "geoip"
+to = "geoip"
+
+[[phrase]]
+from = "metrics"
+to = "metrics"
+
+[[phrase]]
+from = "metrics-otlp"
+to = "metrics-otlp"
+
+[[phrase]]
+from = "otel-tracing"
+to = "otel-tracing"
+
+[[phrase]]
+from = "otel-otlp"
+to = "otel-otlp"
+
+[[phrase]]
+from = "acme"
+to = "acme"
+
+[[phrase]]
+from = "acme-client"
+to = "acme-client"
+
+[[phrase]]
+from = "contains the config, storage, challenge, certificate observation, and renewal-executor pieces."
+to = "contient les elements de configuration, stockage, challenge, observation de certificat et renewal-executor."
+
+[[phrase]]
+from = "FastCGI bridge for PHP applications. It implies"
+to = "bridge FastCGI pour applications PHP. Il implique"
+
+[[phrase]]
+from = "Cargo does not have a separate"
+to = "Cargo n'a pas de"

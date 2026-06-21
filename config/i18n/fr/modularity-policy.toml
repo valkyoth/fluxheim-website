@@ -1,0 +1,158 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Modularity Policy — Fluxheim Source Docs"
+to = "Policy de modularite - documentation source Fluxheim"
+
+[[phrase]]
+from = "Modularity Policy"
+to = "Policy de modularite"
+
+[[phrase]]
+from = "Fluxheim Modularity Policy"
+to = "Policy de modularite Fluxheim"
+
+[[phrase]]
+from = "Status: 1.6 planning policy"
+to = "Statut : policy de planification 1.6"
+
+[[phrase]]
+from = "Fluxheim treats large files and unclear crate boundaries as security review risk, not only style debt. The 1.6 Pingora-exit line should move Fluxheim toward the same discipline used by smaller security-focused workspace projects: focused crates, small files, explicit adapters, and release-gated exceptions."
+to = "Fluxheim traite les gros fichiers et les limites de crate peu claires comme un risque pour la revue de securite, pas seulement comme une dette de style. La ligne 1.6 de sortie Pingora doit rapprocher Fluxheim de la meme discipline que celle utilisee par des projets workspace plus petits orientes securite : crates ciblees, petits fichiers, adaptateurs explicites et exceptions gatees par release."
+
+[[phrase]]
+from = "Core Rule"
+to = "Regle centrale"
+
+[[phrase]]
+from = "crate should become orchestration glue. Major domains belong in focused workspace crates with one-way dependencies back to common types, never circular dependencies through admin, proxy, or runtime modules."
+to = "doit devenir de la glue d'orchestration. Les grands domaines appartiennent a des crates workspace ciblees avec des dependances a sens unique vers les types communs, jamais des dependances circulaires via les modules admin, proxy ou runtime."
+
+[[phrase]]
+from = "Target crates include:"
+to = "Les crates cibles incluent :"
+
+[[phrase]]
+from = ", and ecosystem crates"
+to = "et des crates d'ecosysteme"
+
+[[phrase]]
+from = "File Size Rule"
+to = "Regle de taille de fichier"
+
+[[phrase]]
+from = "New or newly split Rust implementation files should follow:"
+to = "Les fichiers d'implementation Rust nouveaux ou nouvellement decoupes doivent suivre :"
+
+[[phrase]]
+from = "normal target: 300 lines or less;"
+to = "objectif normal : 300 lignes ou moins ;"
+
+[[phrase]]
+from = "hard target: 500 lines or less;"
+to = "objectif dur : 500 lignes ou moins ;"
+
+[[phrase]]
+from = "tests should be split by behavior before they make a production file hard to review;"
+to = "les tests doivent etre decoupes par comportement avant de rendre un fichier de production difficile a relire ;"
+
+[[phrase]]
+from = "generated, vendored, or machine-owned files must be isolated and excluded from human-review line limits."
+to = "les fichiers generes, vendores ou controles par machine doivent etre isoles et exclus des limites de lignes pour revue humaine."
+
+[[phrase]]
+from = "Existing large files are legacy debt. Do not block 1.6.0 on the current file sizes, but do not let them grow without a documented reason."
+to = "Les gros fichiers existants sont une dette legacy. Ne bloquez pas 1.6.0 sur les tailles actuelles, mais ne les laissez pas grossir sans raison documentee."
+
+[[phrase]]
+from = "1.6 Migration Gate"
+to = "Gate de migration 1.6"
+
+[[phrase]]
+from = "and the baseline exception inventory in"
+to = "et l'inventaire de baseline des exceptions dans"
+
+[[phrase]]
+from = ". The gate lists non-generated"
+to = ". Le gate liste les fichiers"
+
+[[phrase]]
+from = "files over 500 lines and verifies that legacy oversized files are tracked. The gate should fail only for:"
+to = "non generes de plus de 500 lignes et verifie que les fichiers legacy trop grands sont suivis. Le gate ne doit echouer que pour :"
+
+[[phrase]]
+from = "new non-generated"
+to = "nouveaux fichiers"
+
+[[phrase]]
+from = "files over 500 lines;"
+to = "non generes de plus de 500 lignes ;"
+
+[[phrase]]
+from = "files that exceed 500 lines after being split below the threshold;"
+to = "fichiers qui depassent 500 lignes apres avoir ete decoupes sous le seuil ;"
+
+[[phrase]]
+from = "legacy exception files that grow without an exception update."
+to = "fichiers d'exception legacy qui grossissent sans mise a jour de l'exception."
+
+[[phrase]]
+from = "Each legacy exception should record:"
+to = "Chaque exception legacy doit consigner :"
+
+[[phrase]]
+from = "By the end of the 1.6 line, the exception list should be materially smaller. After Pingora is gone and the root runtime is split, the gate can become a hard rule for all non-exempt files."
+to = "A la fin de la ligne 1.6, la liste d'exceptions doit etre nettement plus petite. Une fois Pingora retire et le runtime racine decoupe, le gate peut devenir une regle dure pour tous les fichiers non exemptes."
+
+[[phrase]]
+from = "Split Rules"
+to = "Regles de decoupage"
+
+[[phrase]]
+from = "Split by reason to change, not by arbitrary size alone."
+to = "Decoupez par raison de changement, pas seulement par taille arbitraire."
+
+[[phrase]]
+from = "Prefer modules such as:"
+to = "Preferez des modules comme :"
+
+[[phrase]]
+from = "Avoid mixing parser code, validation, I/O, policy decisions, state mutation, telemetry, and tests in one file. Pure logic should move into crates that can be unit-tested without a running server."
+to = "Evitez de melanger code de parsing, validation, I/O, decisions de policy, mutation d'etat, telemetrie et tests dans un seul fichier. La logique pure doit aller dans des crates qui peuvent etre testees unitairement sans serveur en cours d'execution."
+
+[[phrase]]
+from = "Security Rationale"
+to = "Rationale de securite"
+
+[[phrase]]
+from = "Small files and focused crates make pentest and code review more reliable:"
+to = "Les petits fichiers et les crates ciblees rendent le pentest et la revue de code plus fiables :"
+
+[[phrase]]
+from = "reviewers can reason about one trust boundary at a time;"
+to = "les reviewers peuvent raisonner sur une seule trust boundary a la fois ;"
+
+[[phrase]]
+from = "duplicated security controls are easier to spot;"
+to = "les controles de securite dupliques sont plus faciles a reperer ;"
+
+[[phrase]]
+from = "fuzz and fixture coverage can target pure logic;"
+to = "la couverture fuzz et fixture peut cibler la logique pure ;"
+
+[[phrase]]
+from = "adapters to external crates stay narrow;"
+to = "les adaptateurs vers les crates externes restent etroits ;"
+
+[[phrase]]
+from = "redaction, authority checks, and failure modes are local;"
+to = "la redaction, les controles d'autorite et les modes de defaillance restent locaux ;"
+
+[[phrase]]
+from = "future Wasm and HTTP/3 work starts from clean domain APIs."
+to = "les futurs travaux Wasm et HTTP/3 partent d'API de domaine propres."
+
+[[phrase]]
+from = "<li>future <code>fluxheim-wasm</code>, <code>fluxheim-http3</code>, and ecosystem crates</li>"
+to = "<li>futures crates <code>fluxheim-wasm</code>, <code>fluxheim-http3</code> et crates d'ecosysteme</li>"

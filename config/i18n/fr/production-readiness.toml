@@ -1,0 +1,414 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "certificate-operations line, and the"
+to = "ligne d'operations certificats, et la"
+
+[[phrase]]
+from = "gateway foundation. This page states what each released line supports and what operators should verify before using a build beyond local testing."
+to = "fondation gateway. Cette page indique ce que chaque ligne publiee supporte et ce que les operateurs doivent verifier avant d'utiliser un build au-dela des tests locaux."
+
+[[phrase]]
+from = "line is intentionally limited:"
+to = "ligne est volontairement limitee :"
+
+[[phrase]]
+from = "static file hosting from configured vhost roots;"
+to = "hebergement de fichiers statiques depuis les racines vhost configurees ;"
+
+[[phrase]]
+from = "vhost routing by exact and wildcard host names;"
+to = "routage vhost par noms d'hote exacts et wildcard ;"
+
+[[phrase]]
+from = "static certificate loading for user-managed certificates;"
+to = "chargement statique de certificats geres par l'utilisateur ;"
+
+[[phrase]]
+from = "secure default response header policy with configurable request and response header operations;"
+to = "policy de headers de reponse secure par defaut avec operations configurables sur les headers request et response ;"
+
+[[phrase]]
+from = "explicit request header, URI, and body limits;"
+to = "limites explicites de headers request, d'URI et de body ;"
+
+[[phrase]]
+from = "optional cleartext-to-HTTPS redirect;"
+to = "redirection cleartext-vers-HTTPS optionnelle ;"
+
+[[phrase]]
+from = "rootless Podman deployment paths and container examples;"
+to = "chemins de deploiement Podman rootless et exemples de conteneurs ;"
+
+[[phrase]]
+from = "local release gates for formatting, linting, tests, license policy, dependency advisories, core feature profiles, SBOM generation, reproducible build evidence, and localhost smoke checks."
+to = "release gates locaux pour formatage, linting, tests, policy de licence, advisories de dependances, profils de features core, generation SBOM, preuves de build reproductible et smoke checks localhost."
+
+[[phrase]]
+from = "line is the first gateway-ready release for representative real multi-site configs. In addition to the"
+to = "ligne est la premiere release prete gateway pour des configs multi-site reelles representatives. En plus du"
+
+[[phrase]]
+from = "behavior, it supports:"
+to = "comportement, elle supporte :"
+
+[[phrase]]
+from = "static TLS with one default certificate;"
+to = "TLS statique avec un certificat par defaut ;"
+
+[[phrase]]
+from = "route-level exact, prefix, and fallback matching;"
+to = "matching exact, prefix et fallback au niveau route ;"
+
+[[phrase]]
+from = "cleartext ACME challenge exception routes plus HTTPS redirect for everything else;"
+to = "routes d'exception challenge ACME cleartext plus redirection HTTPS pour tout le reste ;"
+
+[[phrase]]
+from = "redirect vhosts that preserve the request URI safely;"
+to = "vhosts de redirection qui preservent l'URI de requete en securite ;"
+
+[[phrase]]
+from = "per-route body limits, prefix stripping, and upstream connect/read/send timeouts;"
+to = "limites de body par route, stripping de prefixe et timeouts upstream connect/read/send ;"
+
+[[phrase]]
+from = "custom upstream error pages;"
+to = "pages d'erreur upstream personnalisees ;"
+
+[[phrase]]
+from = "static aliases and secure directory listing;"
+to = "alias statiques et listing de repertoire secure ;"
+
+[[phrase]]
+from = "crate-level direct unsafe prohibition with safe wrappers for OS calls and safe test wakers;"
+to = "interdiction unsafe directe au niveau crate avec wrappers safe pour appels OS et test wakers safe ;"
+
+[[phrase]]
+from = "release-profile abort-on-panic plus clippy enforcement that production code does not use"
+to = "profil release abort-on-panic plus enforcement clippy pour que le code production n'utilise pas"
+
+[[phrase]]
+from = "zeroizing admin token buffers and vetted constant-time comparison for authentication token verification;"
+to = "zeroizing des buffers de token admin et comparaison constant-time verifiee pour la verification des tokens d'authentification ;"
+
+[[phrase]]
+from = "native systemd support for manually compiled binaries, including a hardened service unit, documented install paths, runtime directory handling, config validation before start, graceful shutdown/reload behavior, no-new-privileges, no ambient capabilities, strict filesystem protection, limited address families, and a conservative syscall filter."
+to = "support systemd natif pour binaires compiles manuellement, avec unit de service hardenee, chemins d'installation documentes, gestion des repertoires runtime, validation de config avant start, comportement graceful shutdown/reload, no-new-privileges, pas de capabilities ambiantes, protection stricte du filesystem, familles d'adresses limitees et filtre syscall conservateur."
+
+[[phrase]]
+from = "Not Stable In 1.0"
+to = "Non stable en 1.0"
+
+[[phrase]]
+from = "These features may exist in code, documentation, or feature flags, but they are not part of the"
+to = "Ces features peuvent exister dans le code, la documentation ou les feature flags, mais elles ne font pas partie de la"
+
+[[phrase]]
+from = "ACME runtime issuance or automatic renewal;"
+to = "emission ACME runtime ou renouvellement automatique ;"
+
+[[phrase]]
+from = "load balancing and health-check policy;"
+to = "load balancing et policy de health-check ;"
+
+[[phrase]]
+from = "admin snapshot and rollback API;"
+to = "API admin de snapshot et rollback ;"
+
+[[phrase]]
+from = "remote logging pipelines;"
+to = "pipelines de logging distant ;"
+
+[[phrase]]
+from = "OpenTelemetry tracing;"
+to = "tracing OpenTelemetry ;"
+
+[[phrase]]
+from = "WAF, auth-request, image filters, media modules, or WASM extension points;"
+to = "WAF, auth-request, filtres image, modules media ou points d'extension WASM ;"
+
+[[phrase]]
+from = "in-process seccomp or Landlock sandboxing;"
+to = "sandboxing seccomp ou Landlock in-process ;"
+
+[[phrase]]
+from = "PHP, CGI, or any dynamic script execution;"
+to = "PHP, CGI ou toute execution de script dynamique ;"
+
+[[phrase]]
+from = "Cloudflare automation;"
+to = "automatisation Cloudflare ;"
+
+[[phrase]]
+from = "WireGuard/Sentinel Mesh or clustered state."
+to = "WireGuard/Sentinel Mesh ou etat clusterise."
+
+[[phrase]]
+from = "Treat these as design or incubator work until a later versioning-plan milestone promotes them. Some of these items have since been promoted in"
+to = "Traitez ces elements comme du design ou du travail incubateur jusqu'a ce qu'un jalon ulterieur du plan de version les promeuve. Certains ont depuis ete promus en"
+
+[[phrase]]
+from = "; use the sections below for the current support promise."
+to = "; utilisez les sections ci-dessous pour la promesse de support actuelle."
+
+[[phrase]]
+from = "Stable 1.1 Certificate Operations"
+to = "Stable 1.1 Operations certificats"
+
+[[phrase]]
+from = "line makes TLS and certificate operations practical for normal production deployments. In addition to the"
+to = "ligne rend TLS et les operations certificats pratiques pour les deploiements production normaux. En plus du"
+
+[[phrase]]
+from = "explicit safe TLS policy profiles;"
+to = "profils de policy TLS safe explicites ;"
+
+[[phrase]]
+from = "minimum TLS version config bounded to safe values;"
+to = "config de version TLS minimale bornee aux valeurs safe ;"
+
+[[phrase]]
+from = "ALPN policy, curve preferences, cipher-suite allow-lists, and per-backend TLS validation;"
+to = "policy ALPN, preferences de courbes, allow-lists de cipher suites et validation TLS par backend ;"
+
+[[phrase]]
+from = "structured HSTS policy;"
+to = "policy HSTS structuree ;"
+
+[[phrase]]
+from = "ACME runtime issuance for Let&#x27;s Encrypt, Actalis, and Google Trust Services;"
+to = "emission ACME runtime pour Let's Encrypt, Actalis et Google Trust Services ;"
+
+[[phrase]]
+from = "Actalis and Google Trust Services External Account Binding support;"
+to = "support External Account Binding pour Actalis et Google Trust Services ;"
+
+[[phrase]]
+from = "safe ACME storage and key/certificate permission validation;"
+to = "stockage ACME safe et validation des permissions cle/certificat ;"
+
+[[phrase]]
+from = "renewal scheduling with a configurable renew-before window;"
+to = "planification de renouvellement avec fenetre renew-before configurable ;"
+
+[[phrase]]
+from = "renewal failure behavior that keeps the previous valid certificate serving."
+to = "comportement d'echec de renouvellement qui garde le certificat valide precedent en service."
+
+[[phrase]]
+from = "promise unless they are explicitly promoted with tests and release evidence."
+to = "promesse sauf promotion explicite avec tests et preuves de release."
+
+[[phrase]]
+from = "Stable 1.2 Operations And Cache"
+to = "Stable 1.2 Operations et cache"
+
+[[phrase]]
+from = "strict host-routing mode that rejects missing, invalid, and unknown host headers instead of failing open to the default vhost;"
+to = "mode host-routing strict qui rejette les headers Host manquants, invalides et inconnus au lieu de fail open vers le vhost par defaut ;"
+
+[[phrase]]
+from = "authenticated admin health checks by default, with explicit loopback-only unauthenticated mode and optional empty"
+to = "health checks admin authentifies par defaut, avec mode unauthenticated loopback-only explicite et reponses vides optionnelles"
+
+[[phrase]]
+from = "responses for local probes;"
+to = "pour les probes locales ;"
+
+[[phrase]]
+from = "declaration until first-class admin TLS/mTLS lands;"
+to = "declaration jusqu'a l'arrivee d'un admin TLS/mTLS de premiere classe ;"
+
+[[phrase]]
+from = "Release evidence for the"
+to = "Les preuves de release pour la"
+
+[[phrase]]
+from = "Stable 1.3 Split Profiles"
+to = "Stable 1.3 Profils separes"
+
+[[phrase]]
+from = "support promise includes:"
+to = "promesse de support inclut :"
+
+[[phrase]]
+from = "focused profile aliases:"
+to = "alias de profil focalises :"
+
+[[phrase]]
+from = "Pingora-exit work."
+to = "travail de sortie Pingora actuel."
+
+[[phrase]]
+from = "support promise adds an opt-in"
+to = "promesse de support ajoute un opt-in"
+
+[[phrase]]
+from = ", matching the behavior WordPress expects behind HTTP/2 and container gateways."
+to = ", correspondant au comportement attendu par WordPress derriere HTTP/2 et les gateways conteneur."
+
+[[phrase]]
+from = "The same line also supports pending Fluxheim-managed ACME certificates during first issuance on reloadable SNI TLS backends. This lets operators add a new ACME vhost without taking existing HTTPS sites down: HTTP-01 can validate on port"
+to = "La meme ligne supporte aussi les certificats ACME pending geres par Fluxheim pendant la premiere emission sur backends TLS SNI rechargeables. Cela permet aux operateurs d'ajouter un nouveau vhost ACME sans couper les sites HTTPS existants : HTTP-01 peut valider sur le port"
+
+[[phrase]]
+from = ", and the background renewal worker reloads the SNI certificate set after the certificate files are installed. Static certificate paths remain fail-closed."
+to = ", et le worker de renouvellement en arriere-plan recharge le jeu de certificats SNI apres installation des fichiers certificats. Les chemins de certificats statiques restent fail-closed."
+
+[[phrase]]
+from = "support promise adds an OpenSSL FIPS/ISO-capable TLS build path for operators who need to validate a deployment against an externally validated OpenSSL 3 provider. This path is opt-in through"
+to = "promesse de support ajoute un chemin de build TLS OpenSSL compatible FIPS/ISO pour les operateurs qui doivent valider un deploiement contre un provider OpenSSL 3 valide externe. Ce chemin est opt-in via"
+
+[[phrase]]
+from = "or the ISO/IEC 19790 aliases"
+to = "ou les alias ISO/IEC 19790"
+
+[[phrase]]
+from = ". Fluxheim validates the TLS policy, loads the FIPS provider, enables OpenSSL default FIPS properties for the process-default library context, verifies those default properties, and exposes release evidence through"
+to = ". Fluxheim valide la policy TLS, charge le provider FIPS, active les proprietes FIPS par defaut d'OpenSSL pour le contexte library process-default, verifie ces proprietes par defaut et expose les preuves de release via"
+
+[[phrase]]
+from = "build toolchain including CMake, Go, and a C compiler. Treat it as backend evidence only, with the same non-TLS crypto caveats."
+to = "toolchain de build incluant CMake, Go et un compilateur C. Traitez-le uniquement comme preuve backend, avec les memes caveats crypto non-TLS."
+
+[[phrase]]
+from = "Operator Checks"
+to = "Controles operateur"
+
+[[phrase]]
+from = "For a release candidate, also run the deeper optional checks that fit the deployment:"
+to = "Pour un release candidate, executez aussi les checks optionnels plus profonds adaptes au deploiement :"
+
+[[phrase]]
+from = "For longer UDP beta soak while iterating on"
+to = "Pour un soak beta UDP plus long pendant l'iteration sur"
+
+[[phrase]]
+from = "Run the Podman smoke when container paths or image definitions change:"
+to = "Executez le smoke Podman lorsque les chemins conteneur ou les definitions d'image changent :"
+
+[[phrase]]
+from = "Keep the generated release evidence with the release notes:"
+to = "Conservez les preuves de release generees avec les notes de release :"
+
+[[phrase]]
+from = "Configuration Review"
+to = "Revue de configuration"
+
+[[phrase]]
+from = "Before starting the server:"
+to = "Avant de demarrer le serveur :"
+
+[[phrase]]
+from = "prefer split"
+to = "preferez des"
+
+[[phrase]]
+from = "files with one"
+to = "fichiers avec un"
+
+[[phrase]]
+from = "per file;"
+to = "par fichier ;"
+
+[[phrase]]
+from = "for proxy targets;"
+to = "pour les cibles proxy ;"
+
+[[phrase]]
+from = "Deployment Notes"
+to = "Notes de deploiement"
+
+[[phrase]]
+from = "The recommended container mode is rootless with host ports mapped to the container&#x27;s high internal listener ports. If a deployment deliberately runs the container as root for direct low-port binding, keep mounted config, content, certificate, cache, and runtime directories separate and permission them for the chosen runtime user."
+to = "Le mode conteneur recommande est rootless, avec les ports hote mappes vers les ports listener internes eleves du conteneur. Si un deploiement execute volontairement le conteneur en root pour binder directement des ports bas, gardez les repertoires montes de config, contenu, certificats, cache et runtime separes et appliquez les permissions pour l'utilisateur runtime choisi."
+
+[[phrase]]
+from = "The recommended native package mode binds public ports directly. The packaged default config listens on <code>80</code>, and the systemd unit grants only <code>CAP_NET_BIND_SERVICE</code> so the service can also bind <code>443</code> when TLS is enabled without running Fluxheim as root."
+to = "Le mode paquet natif recommande bind les ports publics directement. La config packagee par defaut ecoute sur <code>80</code>, et l'unit systemd n'accorde que <code>CAP_NET_BIND_SERVICE</code> pour que le service puisse aussi binder <code>443</code> quand TLS est active, sans executer Fluxheim en root."
+
+[[phrase]]
+from = "Fluxheim&#x27;s memory-safety baseline does not replace operational security checks. Continue running dependency audits, license checks, malformed request framing tests, TLS scans, and load smoke tests for every stable release branch."
+to = "La baseline memory-safety de Fluxheim ne remplace pas les checks de securite operationnelle. Continuez a executer les audits de dependances, checks de licence, tests de framing de requetes malformees, scans TLS et smoke tests de charge pour chaque branche de release stable."
+
+[[phrase]]
+from = "ACME runtime issuance for Let's Encrypt, Actalis, and Google Trust Services;"
+to = "Emission ACME runtime pour Let's Encrypt, Actalis et Google Trust Services ;"
+
+[[phrase]]
+from = "and continues to be carried through the current"
+to = "et continue d'etre porte dans le travail actuel"
+
+[[phrase]]
+from = "is the Pingora request/session integration layer. The first"
+to = "est la couche d'integration request/session Pingora. Les premieres"
+
+[[phrase]]
+from = ". The default UDP smoke stays short enough for local release evidence."
+to = ". Le smoke UDP par defaut reste assez court pour l'evidence de release locale."
+
+[[phrase]]
+from = "validate every config with"
+to = "validez chaque configuration avec"
+
+[[phrase]]
+from = "before service start;"
+to = "avant le demarrage du service ;"
+
+[[phrase]]
+from = "when diagnosing a mounted config without access to"
+to = "lors du diagnostic d'une configuration montee sans acces a"
+
+[[phrase]]
+from = "do not mix compatibility aliases such as"
+to = "ne melangez pas les alias de compatibilite comme"
+
+[[phrase]]
+from = "with preferred fields such as"
+to = "avec les champs preferes comme"
+
+[[phrase]]
+from = "audit POSIX extended ACLs on those same sensitive paths. Fluxheim rejects unsafe Unix mode bits and symlinks, but it does not yet parse extended ACL entries that can grant write access without setting"
+to = "auditez les ACL POSIX etendues sur ces memes chemins sensibles. Fluxheim rejette les bits de mode Unix dangereux et les symlinks, mais ne parse pas encore les entrees d'ACL etendue qui peuvent accorder l'acces en ecriture sans definir"
+
+[[phrase]]
+from = "run Fluxheim with a restrictive umask such as"
+to = "executez Fluxheim avec une umask restrictive comme"
+
+[[phrase]]
+from = "; Fluxheim sets private modes for its snapshot store, but a restrictive service umask remains useful defense in depth for operator-created paths and future state files;"
+to = "; Fluxheim definit des modes prives pour son snapshot store, mais une umask de service restrictive reste une defense en profondeur utile pour les chemins crees par l'operateur et les futurs fichiers d'etat ;"
+
+[[phrase]]
+from = "only when a trusted local TLS/mTLS terminator protects every remote hop to the admin plane;"
+to = "uniquement lorsqu'un terminateur TLS/mTLS local fiable protege chaque saut distant vers le plan admin ;"
+
+[[phrase]]
+from = "keep admin health authenticated unless a local-only supervisor needs an unauthenticated loopback probe;"
+to = "gardez l'admin health authentifie sauf si un superviseur local uniquement necessite une probe loopback non authentifiee ;"
+
+[[phrase]]
+from = "explicitly decide whether access logging may include raw host and path values."
+to = "decidez explicitement si l'access logging peut inclure les valeurs brutes de host et de chemin."
+
+[[phrase]]
+from = "<li>apex/<code>www</code> redirect vhosts that preserve the request URI safely;</li>"
+to = "<li>vhosts de redirection apex/<code>www</code> qui preservent l'URI de requete en securite ;</li>"
+
+[[phrase]]
+from = "<li>shared <code>ingress</code> and <code>tls</code> feature boundaries so TLS, ACME, proxy, cache, web, and future load-balancer modules can compose without every focused build compiling every application module;</li>"
+to = "<li>frontieres de features partagees <code>ingress</code> et <code>tls</code>, afin que les modules TLS, ACME, proxy, cache, web et futurs modules load-balancer puissent se composer sans que chaque build focalise compile chaque module applicatif ;</li>"
+
+[[phrase]]
+from = "<li>use <code>fluxheim-config-tester --config &lt;path&gt; --profile &lt;profile&gt; --no-runtime-paths</code> when diagnosing a mounted config without access to <code>/run/fluxheim</code>;</li>"
+to = "<li>utilisez <code>fluxheim-config-tester --config &lt;path&gt; --profile &lt;profile&gt; --no-runtime-paths</code> lors du diagnostic d'une configuration montee sans acces a <code>/run/fluxheim</code> ;</li>"
+
+[[phrase]]
+from = "<li>use <code>upstreams = [&quot;host:port&quot;]</code> for proxy targets;</li>"
+to = "<li>utilisez <code>upstreams = [&quot;host:port&quot;]</code> pour les cibles proxy ;</li>"
+
+[[phrase]]
+from = "<li>set <code>[admin.transport] mode = &quot;trusted_tls_terminator&quot;</code> only when a trusted local TLS/mTLS terminator protects every remote hop to the admin plane;</li>"
+to = "<li>definissez <code>[admin.transport] mode = &quot;trusted_tls_terminator&quot;</code> uniquement lorsqu'un terminateur TLS/mTLS local fiable protege chaque saut distant vers le plan admin ;</li>"

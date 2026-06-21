@@ -1,0 +1,278 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "# Download and extract the full build"
+to = "# Télécharger et extraire le build complet"
+
+[[phrase]]
+from = "# Move binary to system path"
+to = "# Déplacer le binaire dans le chemin système"
+
+[[phrase]]
+from = "# Validate your config before starting"
+to = "# Valider la configuration avant le démarrage"
+
+[[phrase]]
+from = "# Run with systemd (included unit file)"
+to = "# Exécuter avec systemd (fichier d'unité inclus)"
+
+[[phrase]]
+from = "# Pull from GHCR or Quay"
+to = "# Tirer depuis GHCR ou Quay"
+
+[[phrase]]
+from = "# Run rootless with your config mounted"
+to = "# Exécuter rootless avec la configuration montée"
+
+[[phrase]]
+from = "# Available image variants: full, load-balancer, cache, proxy, php"
+to = "# Variantes d'image disponibles : full, load-balancer, cache, proxy, php"
+
+[[phrase]]
+from = "# Clone and build the default profile"
+to = "# Cloner et compiler le profil par défaut"
+
+[[phrase]]
+from = "# Default build (proxy + web + cache + tls-rustls + security)"
+to = "# Build par défaut (proxy + web + cache + tls-rustls + security)"
+
+[[phrase]]
+from = "# Or build a focused profile"
+to = "# Ou compiler un profil ciblé"
+
+[[phrase]]
+from = "# Validate config and run"
+to = "# Valider la configuration et lancer"
+
+[[phrase]]
+from = "# 1. Download the full Linux build tarball"
+to = "# 1. Télécharger le tarball du build Linux complet"
+
+[[phrase]]
+from = "# Use aarch64-linux instead of x86_64-linux on ARM64 servers."
+to = "# Utiliser aarch64-linux au lieu de x86_64-linux sur les serveurs ARM64."
+
+[[phrase]]
+from = "# 2. Verify and extract"
+to = "# 2. Vérifier et extraire"
+
+[[phrase]]
+from = "# 3. Move binary and helper tools to system path"
+to = "# 3. Déplacer le binaire et les outils d'aide dans le chemin système"
+
+[[phrase]]
+from = "# ACME companion"
+to = "# outil compagnon ACME"
+
+[[phrase]]
+from = "# Config validator"
+to = "# validateur de configuration"
+
+[[phrase]]
+from = "# 4. Create config directory and add your config"
+to = "# 4. Créer le dossier de configuration et ajouter votre configuration"
+
+[[phrase]]
+from = "# 5. Validate config"
+to = "# 5. Valider la configuration"
+
+[[phrase]]
+from = "# 6. Run directly (or see Systemd tab for service setup)"
+to = "# 6. Lancer directement (ou voir l'onglet systemd pour le service)"
+
+[[phrase]]
+from = "# Pull GHCR images (full, load-balancer, cache, proxy, and PHP variants)"
+to = "# Tirer les images GHCR (variantes full, load-balancer, cache, proxy et PHP)"
+
+[[phrase]]
+from = "# full"
+to = "# full"
+
+[[phrase]]
+from = "# load balancer"
+to = "# load-balancer"
+
+[[phrase]]
+from = "# cache edge"
+to = "# cache edge"
+
+[[phrase]]
+from = "# proxy edge"
+to = "# proxy edge"
+
+[[phrase]]
+from = "# managed PHP-FPM"
+to = "# PHP-FPM géré"
+
+[[phrase]]
+from = "# Same build set is available on Quay"
+to = "# Le même jeu de builds est disponible sur Quay"
+
+[[phrase]]
+from = "# Run rootless — internal ports 8080 and 8443"
+to = "# Exécuter rootless — ports internes 8080 et 8443"
+
+[[phrase]]
+from = "# Check logs"
+to = "# Consulter les logs"
+
+[[phrase]]
+from = "# The tarball includes a hardened systemd unit"
+to = "# Le tarball inclut une unité systemd durcie"
+
+[[phrase]]
+from = "# Create the fluxheim system user"
+to = "# Créer l'utilisateur système fluxheim"
+
+[[phrase]]
+from = "# Set up directories"
+to = "# Préparer les dossiers"
+
+[[phrase]]
+from = "# Reload systemd and enable the service"
+to = "# Recharger systemd et activer le service"
+
+[[phrase]]
+from = "# Check status"
+to = "# Vérifier le statut"
+
+[[phrase]]
+from = "# Fluxheim ships with acme-init for guided certificate setup"
+to = "# Fluxheim fournit acme-init pour configurer les certificats guidés"
+
+[[phrase]]
+from = "# Let's Encrypt (HTTP-01)"
+to = "# Let's Encrypt (HTTP-01)"
+
+[[phrase]]
+from = "# Actalis (free EAB-capable issuer)"
+to = "# Actalis (émetteur gratuit compatible EAB)"
+
+[[phrase]]
+from = "# The companion tool fluxheim-acme handles renewal for"
+to = "# L'outil compagnon fluxheim-acme gère le renouvellement pour"
+
+[[phrase]]
+from = "# container and external service-manager deployments"
+to = "# les déploiements conteneur et gestionnaire de service externe"
+
+[[phrase]]
+from = "# Pull the full image from GHCR or Quay"
+to = "# Tirer l'image complète depuis GHCR ou Quay"
+
+[[phrase]]
+from = "# Run rootless — ports 8080 (HTTP) and 8443 (HTTPS)"
+to = "# Exécuter rootless — ports 8080 (HTTP) et 8443 (HTTPS)"
+
+[[phrase]]
+from = "# PHP-FPM build"
+to = "# Build PHP-FPM"
+
+[[phrase]]
+from = "# backup_upstreams = []"
+to = "# backup_upstreams = []"
+
+[[phrase]]
+from = "# max_connection_secs = 3600"
+to = "# max_connection_secs = 3600"
+
+[[phrase]]
+from = "# Zero-retention privacy build"
+to = "# Build confidentialité zero-retention"
+
+[[phrase]]
+from = "# issuer = \"letsencrypt\""
+to = "# issuer = \"letsencrypt\""
+
+[[phrase]]
+from = "# trigger renewal if due"
+to = "# déclencher le renouvellement si nécessaire"
+
+[[phrase]]
+from = "# Local key file"
+to = "# Fichier de clé local"
+
+[[phrase]]
+from = "# provider = \"openbao-transit\""
+to = "# provider = \"openbao-transit\""
+
+[[phrase]]
+from = "# mount = \"transit\""
+to = "# mount = \"transit\""
+
+[[phrase]]
+from = "# Follow logs"
+to = "# Suivre les logs"
+
+[[phrase]]
+from = "# Live config reload"
+to = "# Rechargement de configuration à chaud"
+
+[[phrase]]
+from = "# Debian / Ubuntu"
+to = "# Debian / Ubuntu"
+
+[[phrase]]
+from = "# openSUSE / SUSE"
+to = "# openSUSE / SUSE"
+
+[[phrase]]
+from = "# drop_new | block | spool"
+to = "# drop_new | block | spool"
+
+[[phrase]]
+from = "# request_slowlog_timeout_secs = 5"
+to = "# request_slowlog_timeout_secs = 5"
+
+[[phrase]]
+from = "load balancer build for Linux x86_64"
+to = "build load-balancer pour Linux x86_64"
+
+[[phrase]]
+from = "load balancer build for Linux ARM64"
+to = "build load-balancer pour Linux ARM64"
+
+[[phrase]]
+from = "Native TLS/listener preview and compatibility-boundary release with explicit "
+to = "Version d'aperçu TLS/écouteur natif et de frontière de compatibilité avec "
+
+[[phrase]]
+from = ", Pingora-free native web TLS proofs, "
+to = ", preuves TLS web natives sans Pingora, "
+
+[[phrase]]
+from = " owning rustls/OpenSSL SNI and certificate material, native HTTP/1 TLS listener previews, and native runtime cutover diagnostics."
+to = " responsable du SNI rustls/OpenSSL et du matériel de certificat, aperçus d'écouteurs TLS HTTP/1 natifs et diagnostics de bascule runtime native."
+
+[[phrase]]
+from = "PHP-FPM production line, managed php-fpm supervision, config tester and ACME companion binaries, FIPS/ISO validation tracks, focused cache/proxy profiles, and security hardening"
+to = "Ligne de production PHP-FPM, supervision php-fpm gérée, binaires de test de configuration et compagnon ACME, pistes de validation FIPS/ISO, profils cache/proxy ciblés et durcissement sécurité"
+
+[[phrase]]
+from = "Native HTTP/1 upstream/proxy foundation with bounded plain upstream forwarding, native proxy candidate inventory, proxy header parity, privacy-mode handling, and fail-closed eligibility."
+to = "Fondation upstream/proxy HTTP/1 native avec forwarding upstream simple borné, inventaire natif des candidats proxy, parité des headers proxy, gestion du mode confidentialité et éligibilité fail-closed."
+
+[[phrase]]
+from = "Enterprise load-balancer and runtime-ownership line: focused load-balancer binaries/images, runtime member and weight controls, managed affinity cookies, stream and HTTP boundary work, active and protocol-aware health checks, service discovery, background task ownership, cache crate boundaries, UDP beta guardrails, origin-protection budgets, ARM/macOS assets, and broad security hardening."
+to = "Ligne load-balancer entreprise et ownership runtime : binaires/images load-balancer ciblés, contrôles runtime des membres et des poids, cookies d'affinité gérés, travaux de frontière stream et HTTP, health checks actifs et conscients du protocole, service discovery, ownership des tâches d'arrière-plan, frontières du crate cache, garde-fous bêta UDP, budgets de protection origin, assets ARM/macOS et large durcissement sécurité."
+
+[[phrase]]
+from = "Proxy operations line with production proxy parity, richer route policy, traffic mirroring, dynamic upstream discovery, modular runtime/config split, Apple Silicon and Linux ARM64 release assets, GeoIP/Geo-Context, config-tester archives, and hardened TCP stream proxying"
+to = "Ligne d'exploitation proxy avec parité proxy de production, policy de route enrichie, miroir de trafic, découverte upstream dynamique, séparation runtime/config modulaire, assets de release Apple Silicon et Linux ARM64, GeoIP/Geo-Contexte, archives config-tester et proxy de flux TCP durci"
+
+[[phrase]]
+from = "Cache and observability baseline with route-scoped cache policy, memory/disk/tiered backends, encrypted disk cache, peer fill, range caching, Prometheus, and OpenTelemetry export"
+to = "Baseline cache et observabilité avec policy de cache par route, backends mémoire/disque/hiérarchisés, cache disque chiffré, peer fill, range caching, Prometheus et export OpenTelemetry"
+
+[[phrase]]
+from = "Certificate operations line with TLS policy profiles, multi-certificate rustls SNI, managed ACME issuance and renewal, EAB-capable issuers, file-backed TLS secrets, and renewal units"
+to = "Ligne d'exploitation des certificats avec profils de policy TLS, SNI rustls multi-certificats, émission et renouvellement ACME gérés, émetteurs compatibles EAB, secrets TLS adossés à des fichiers et unités de renouvellement"
+
+[[phrase]]
+from = "Gateway foundation with vhost routing, route-level static/proxy/redirect actions, static file serving, reverse proxying, rustls TLS, admin control-plane, secure headers, systemd packaging, and rootless containers"
+to = "Fondation gateway avec routage vhost, actions statiques/proxy/redirection au niveau route, service de fichiers statiques, reverse proxying, TLS rustls, control-plane admin, headers sécurisés, packaging systemd et conteneurs rootless"
+
+[[phrase]]
+from = "First public pre-release milestone before the stable 1.x gateway line"
+to = "Premier jalon public de pré-release avant la ligne gateway stable 1.x"

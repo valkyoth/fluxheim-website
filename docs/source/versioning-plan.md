@@ -2659,30 +2659,136 @@ Planned `1.6.x` sequence:
   pull Pingora through TLS feature forwarding. Do not claim this as the final
   runtime cutover; root proxy/admin/metrics/listener compatibility removal is
   a behavior change and belongs in the next slice.
-- `v1.6.20`: remove remaining Pingora runtime/listener/TLS adapter crates,
-  vendored Pingora patches, compatibility shims, and Pingora-specific docs from
-  normal builds. This is the final Pingora-free proof release: `cargo tree`,
-  release containers, RPM builds, source builds, and focused artifacts must all
-  prove no normal Fluxheim build compiles vendored Pingora code.
-- `v1.6.21`: stabilization/security-only release for the Pingora-free runtime
-  before adding new extensibility or protocol surface. This release should
-  prioritize pentest cleanup, performance regression checks, memory/FD leak
-  checks, long-running soak tests, runtime-baseline comparisons, and
-  documentation clarity.
-- `v1.6.22`: native load-balancer compatibility polish after Pingora is gone
-  from normal builds. Add a Fluxheim-owned nginx/Ketama-compatible consistent
+- `v1.6.20`: make the production runtime cutover contract explicit and keep the
+  remaining compatibility adapter behind measured blockers instead of forcing an
+  unsafe flip. This slice must keep the native TLS/listener work Pingora-free,
+  preserve the native HTTP/1 and HTTP/2 proof tests, record which production
+  services still require compatibility glue, and split any newly touched
+  runtime code toward the 500-line modularity target. Dependency policy targets
+  move to the final proof release only with matching release notes explaining
+  the remaining blockers.
+- `v1.6.21`: add and test the Fluxheim-owned Tokio background supervisor and
+  shutdown token that will replace Pingora background-service orchestration for
+  internal tasks. Certificate reload, ACME renewal, cache stale purge, cache
+  metrics, OTLP export, and load-balancer refresh tasks already implement the
+  Fluxheim task trait; keep the production Pingora adapter while the main
+  server shutdown source still comes from Pingora, and wire those tasks to the
+  native supervisor during the `1.6.22`-`1.6.24` runtime/listener cutover.
+- `v1.6.22`: move metrics/admin/ops HTTP serving onto Fluxheim-native HTTP
+  handlers. Admin must stay auth-first and should expose the same response
+  shape as the compatibility path. Release gates need localhost smoke coverage
+  for admin health/status, metrics scrape, and ops socket behavior.
+- `v1.6.23`: cut stream and UDP proxy service startup over to Fluxheim-native
+  listeners and shutdown handling. Keep the existing stream/UDP data paths but
+  remove Pingora service registration from those services. Soak tests should
+  cover stream byte limits, connection caps, downstream PROXY protocol, UDP
+  session expiry, passive health, and per-source rate limits.
+- `v1.6.24`: finish the native HTTP/2 downstream parity proof and make the
+  representative native-runtime cutover report blocker-free for the simple
+  HTTP/1 + HTTP/2 + admin + metrics + stream + UDP config. Keep the remaining
+  Pingora runtime/listener/TLS adapter crates in normal builds until the next
+  checkpoint so the final deletion is reviewed as a focused dependency-removal
+  change.
+- `v1.6.25`: harden the Pingora-exit evidence before final deletion. Add
+  per-proxy native HTTP/1 candidate rows to the runtime cutover report so
+  cache, web, PHP, auth, traffic mirror, rewrite, compression, and advanced
+  load-balancer blockers are visible per configured scope. Add the first native
+  HTTP/1 route-proxy execution primitive for ordinary exact, prefix, and
+  fallback proxy routes, including method filters, longest-prefix selection,
+  prefix rewrite/strip, query preservation, and safe-path validation. Re-scope
+  the dependency exception target to the final deletion release rather than
+  pretending the rich proxy path can be removed without finishing those parity
+  slices.
+- `v1.6.26`: move the remaining native policy execution closer to parity for
+  ordinary proxy configs. Add native route redirect actions with safe `{uri}`,
+  `{path}`, and `{query}` expansion, and enforce route-level request body
+  limits before forwarding. Apply route-level response header overlays for
+  supported native route-proxy responses. Keep request-header mutation,
+  response-header rewrites, access policy, forwarded-header handling, and
+  compression hooks targeted for follow-up slices with native request/response
+  tests.
+- `v1.6.27`: start moving rich proxy integrations onto native adapters by
+  landing route-level native static web serving. Reuse `fluxheim-web` for
+  ETags, conditional requests, ranges, `HEAD`, directory listings, and
+  symlink-safe path planning, with real native HTTP/1 listener tests. Also move
+  explicit route request-header unset/set/append mutations into the native route
+  proxy while keeping forwarded-client-IP ownership shortcuts on the
+  compatibility path. Add native default round-robin and static weighted
+  round-robin selection for multiple static upstreams while keeping
+  health-aware, persistence, priority-group, backup/drain, dynamic discovery,
+  and hash-based load-balancer policies on the compatibility path. Move
+  route-level response rewrite rules for `Location`, `Refresh`, and
+  `Set-Cookie` onto the native route response policy through
+  `fluxheim-headers`.
+  Keep cache lookup/fill/stale paths, PHP-FPM routing, auth-request, traffic
+  mirror, and compression targeted for the next compatibility-removal slices.
+- `v1.6.28`: continue the native rich-proxy parity work instead of forcing an
+  unsafe final deletion. Move route-level response compression onto the native
+  HTTP/1 route proxy through `fluxheim-compression`, with gzip/brotli/zstd
+  feature mapping and live native listener tests. Move `proxy.error_pages`
+  onto the native HTTP/1 proxy by serving configured static fallback pages
+  through `fluxheim-web` on 502/504 failures. Keep inherited global/vhost
+  compression, cache lookup/fill/stale, PHP-FPM, auth-request, traffic mirror,
+  forwarded-client-IP ownership shortcuts, dynamic discovery, health-aware
+  load-balancing, persistence, priority/backup/drain, and hash-based selection
+  on the compatibility path until each has native parity tests.
+- `v1.6.29`: finish the remaining native HTTP policy blockers that do not need
+  cache or PHP state: forwarded-client-IP ownership, auth-request subrequests,
+  traffic mirroring, inherited global/vhost compression policy, root/vhost
+  header policy, vhost access/rate/concurrency policy, vhost redirects,
+  ACME-challenge routing, vhost static-web dispatch, route access/rate/
+  concurrency/grpc flags, route rewrite-template handling, per-proxy
+  downstream timeout/min-send-rate policy, and advanced upstream transport
+  knobs that do not require cache, PHP, dynamic discovery, or load-balancer
+  state. Add live native listener tests for each path and keep unsupported
+  configs explicitly reported in the cutover inventory.
+- `v1.6.30`: move cache and PHP-FPM rich proxy integrations onto native
+  adapters. Cache work must cover lookup/fill/stale, Vary/Range/conditional
+  semantics, peer-fill guardrails, and purge visibility. PHP-FPM work must
+  cover SCRIPT_NAME/PATH_INFO safety, deny prefixes, spool limits, TCP/Unix
+  upstream policies, and custom PHP error pages. Keep the compatibility path
+  until fixture and smoke tests prove parity. Also make sure root/vhost cache
+  policy and route cache policy all report native-ready only after the native
+  cache adapter owns the full request/response/cache-key path.
+- `v1.6.31`: finish native load-balancer compatibility and remove the final
+  Pingora runtime/listener/TLS adapter crates from normal builds. This release
+  must close the remaining proxy gates that need runtime/load-balancer state:
+  dynamic discovery, health-aware selection, persistence, priority groups,
+  locality, backup/drain/disabled policy, max-in-flight, aliases/tags, static
+  weight parity, upstream PROXY protocol, websocket upgrade, upstream HTTP/2,
+  native TLS listener selection, native service supervision, admin/metrics/
+  stream/UDP service registration, and remaining Pingora HTTP/error/cache
+  boundary adapters. Add a Fluxheim-owned nginx/Ketama-compatible consistent
   hash selection mode for operators migrating from nginx or Pingora Ketama
   behavior. Keep the existing rendezvous consistent-hash and bounded-load
   consistent modes as the default Fluxheim algorithms, but document that the
   compatibility mode is for matching nginx-style request-to-backend mapping.
   Do not depend on `pingora-ketama`; implement and test the ring behavior in
-  Fluxheim with golden vectors and membership-change remapping tests.
+  Fluxheim with golden vectors and membership-change remapping tests. This is
+  the final Pingora-free proof release: `cargo tree`, release containers, RPM
+  builds, source builds, and focused artifacts must all prove no normal
+  Fluxheim build compiles vendored Pingora code.
+- `v1.6.32`: stabilization/security-only release for the Pingora-free runtime
+  before adding new extensibility or protocol surface. This release should
+  prioritize pentest cleanup, performance regression checks, memory/FD leak
+  checks, long-running soak tests, runtime-baseline comparisons, and
+  documentation clarity. It should also run the first-party secret-memory
+  migration from direct `zeroize` APIs to the Fluxheim `sanitization` crate
+  where practical, using crate-scoped patches and tests. Keep third-party
+  transitive `zeroize` use inside crates such as rustls/AWS-LC untouched, and
+  avoid mixing this secret-container migration into the runtime cutover slices.
 
 Stable exit criteria:
 
 - `cargo tree` for every supported official profile contains no Pingora crate.
 - Release containers, RPM builds, source builds, and focused artifacts compile
   without vendored Pingora code.
+- `fluxheim-config-tester --runtime-cutover` reports no blockers for the
+  representative config, and every real compatibility gate in
+  `NativeHttp1ProxyConfigError`, `root_policy_supported`,
+  `vhost_policy_supported`, `route_policy_supported`, and the native runtime
+  summary has either native support, a parity test, or a deliberately documented
+  removal/behavior-change note.
 - `1.6.0` baseline evidence exists before runtime cutovers begin, and later
   `1.6.x` runtime releases compare against it. Regressions in latency, memory,
   startup time, binary size, connection cost, cache hit path, TLS handshake
@@ -4276,7 +4382,10 @@ circular dependencies.
   in staged minor releases. Preserve current operator-facing behavior and make
   each release independently testable before deleting the old adapter. Do not
   carry unfinished structural crate splits into `1.7` unless they are unrelated
-  to the Pingora-free runtime boundary.
+  to the Pingora-free runtime boundary. After the final Pingora-free proof,
+  do a dedicated hardening cleanup that moves first-party secret buffers and
+  drop-clearing structs to `sanitization` containers/derives where practical,
+  rather than mixing that API migration into the runtime replacement work.
 - `v1.7.0`: shared Wasm extensibility runtime line. Stop at one sandboxed,
   typed, resource-limited extension runtime for operator policy normally solved
   with F5 iRules, nginx Lua/OpenResty, HAProxy Lua/SPOE, and VCL-like cache

@@ -1,0 +1,66 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+
+[[phrase]]
+from = "Runtime Parity Fixtures"
+to = "Fixtures de parite runtime"
+
+[[phrase]]
+from = "Pingora-exit baseline"
+to = "baseline de sortie Pingora"
+
+[[phrase]]
+from = "line replaces the current Pingora runtime in stages. Before any cutover, Fluxheim keeps an explicit inventory of fixtures and smoke scripts that define current behavior. This is not the whole test suite; it is the minimum release-gated parity surface that must stay visible while old and new runtime paths coexist."
+to = "remplace le runtime Pingora actuel par etapes. Avant tout cutover, Fluxheim conserve un inventaire explicite des fixtures et scripts de smoke qui definissent le comportement actuel. Ce n'est pas toute la suite de tests, mais la surface minimale de parite release-gated qui doit rester visible pendant que les anciens et nouveaux chemins runtime coexistent."
+
+[[phrase]]
+from = "The machine-readable inventory is:"
+to = "L'inventaire lisible par machine est :"
+
+[[phrase]]
+from = "The inventory is validated by:"
+to = "L'inventaire est valide par :"
+
+[[phrase]]
+from = "The gate checks that every listed script, config, directory, fixture, or document still exists. Script entries must remain executable. Later"
+to = "Le gate verifie que chaque script, configuration, repertoire, fixture ou document liste existe encore. Les entrees de script doivent rester executables. Les"
+
+[[phrase]]
+from = "cutover releases should add more entries before replacing a subsystem, not after discovering a parity gap."
+to = "publications de cutover ulterieures doivent ajouter plus d'entrees avant de remplacer un sous-systeme, pas apres la decouverte d'un ecart de parite."
+
+[[phrase]]
+from = "How To Use"
+to = "Utilisation"
+
+[[phrase]]
+from = "Add a fixture before changing a runtime boundary."
+to = "Ajouter une fixture avant de modifier une frontiere runtime."
+
+[[phrase]]
+from = "Keep fixtures focused on observable behavior, not implementation details."
+to = "Garder les fixtures concentrees sur le comportement observable, pas sur les details d'implementation."
+
+[[phrase]]
+from = "Prefer local deterministic scripts over external services unless the feature specifically needs a containerized dependency."
+to = "Preferer les scripts locaux deterministes aux services externes, sauf si la fonctionnalite a specifiquement besoin d'une dependance containerisee."
+
+[[phrase]]
+from = "Keep the inventory target column aligned with the"
+to = "Garder la colonne cible de l'inventaire alignee avec la"
+
+[[phrase]]
+from = "release where the fixture matters most."
+to = "publication ou la fixture compte le plus."
+
+[[phrase]]
+from = "Do not delete or rename an inventory entry without updating the release notes and explaining what replaces the coverage."
+to = "Ne pas supprimer ni renommer une entree d'inventaire sans mettre a jour les notes de publication et expliquer ce qui remplace la couverture."
+
+[[phrase]]
+from = "Relationship To Runtime Baseline"
+to = "Relation avec la baseline runtime"
+
+[[phrase]]
+from = "records build and dependency evidence. This document records behavior fixtures. Both are required: dependency removal without behavior parity is not a successful Pingora exit."
+to = "enregistre les preuves de build et de dependances. Ce document enregistre les fixtures de comportement. Les deux sont requis : supprimer des dependances sans parite de comportement n'est pas une sortie Pingora reussie."

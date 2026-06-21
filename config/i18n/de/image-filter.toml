@@ -1,0 +1,337 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Image Filter — Fluxheim Source Docs"
+to = "Bildfilter - Fluxheim-Source-Dokumentation"
+
+[[phrase]]
+from = "Image Filter"
+to = "Bildfilter"
+
+[[phrase]]
+from = "Status: future optional module."
+to = "Status: kuenftiges optionales Modul."
+
+[[phrase]]
+from = "Planned Cargo feature: image-filter."
+to = "Geplantes Cargo-Feature: image-filter."
+
+[[phrase]]
+from = "This module adds safe, bounded image validation and transformation at the edge. It is intended for small static sites, media-heavy origins, and cache-backed deployments that want predictable image variants without adding a separate image service."
+to = "Dieses Modul ergaenzt sichere, begrenzte Bildvalidierung und Transformation am Edge. Es ist fuer kleine statische Sites, medienlastige Origins und cachegestuetzte Deployments gedacht, die vorhersagbare Bildvarianten ohne separaten Bilddienst wollen."
+
+[[phrase]]
+from = "Design Goals"
+to = "Designziele"
+
+[[phrase]]
+from = "Keep image transformation code out of the default binary."
+to = "Bildtransformationscode aus dem Standard-Binary heraushalten."
+
+[[phrase]]
+from = "Enable per-vhost and per-route policies."
+to = "Policies pro Vhost und pro Route ermoeglichen."
+
+[[phrase]]
+from = "Support static files and proxied origin responses."
+to = "Statische Dateien und proxied Origin-Antworten unterstuetzen."
+
+[[phrase]]
+from = "Transform only explicitly allowed image content types."
+to = "Nur ausdruecklich erlaubte Bild-Content-Types transformieren."
+
+[[phrase]]
+from = "Bound input bytes, decoded pixels, output bytes, CPU time, and concurrency."
+to = "Eingabebytes, decodierte Pixel, Ausgabebytes, CPU-Zeit und Nebenlaeufigkeit begrenzen."
+
+[[phrase]]
+from = "Integrate with cache keys so transformed variants are isolated and purgeable."
+to = "In Cache-Keys integrieren, damit transformierte Varianten isoliert und loeschbar sind."
+
+[[phrase]]
+from = "Prefer memory-safe Rust codecs where practical."
+to = "Wo praktikabel speichersichere Rust-Codecs bevorzugen."
+
+[[phrase]]
+from = "Planned Transformations"
+to = "Geplante Transformationen"
+
+[[phrase]]
+from = "validate image type;"
+to = "Bildtyp validieren;"
+
+[[phrase]]
+from = "report image metadata as JSON: width, height, format, animation flag;"
+to = "Bildmetadaten als JSON melden: Breite, Hoehe, Format, Animationsflag;"
+
+[[phrase]]
+from = "resize while preserving aspect ratio;"
+to = "Groesse unter Beibehaltung des Seitenverhaeltnisses aendern;"
+
+[[phrase]]
+from = "crop to a target box;"
+to = "auf eine Zielbox zuschneiden;"
+
+[[phrase]]
+from = "rotate by "
+to = "drehen um "
+
+[[phrase]]
+from = " degrees;"
+to = " Grad;"
+
+[[phrase]]
+from = "strip metadata by default;"
+to = "Metadaten standardmaessig entfernen;"
+
+[[phrase]]
+from = "set JPEG/WebP/AVIF quality;"
+to = "JPEG-/WebP-/AVIF-Qualitaet setzen;"
+
+[[phrase]]
+from = "choose output format based on explicit config and "
+to = "Ausgabeformat anhand expliziter Konfiguration und "
+
+[[phrase]]
+from = " negotiation."
+to = "-Aushandlung waehlen."
+
+[[phrase]]
+from = "Future candidates:"
+to = "Kuenftige Kandidaten:"
+
+[[phrase]]
+from = "background fill for transparent input;"
+to = "Hintergrundfuellung fuer transparente Eingaben;"
+
+[[phrase]]
+from = "animated image policy: reject, preserve first frame, or preserve animation only when a reviewed codec supports it safely."
+to = "Policy fuer animierte Bilder: ablehnen, erstes Frame erhalten oder Animation nur erhalten, wenn ein gepruefter Codec sie sicher unterstuetzt."
+
+[[phrase]]
+from = "Format Policy"
+to = "Format-Policy"
+
+[[phrase]]
+from = "Input formats should be explicit:"
+to = "Eingabeformate sollen explizit sein:"
+
+[[phrase]]
+from = "GIF, with animation policy disabled by default;"
+to = "GIF, mit standardmaessig deaktivierter Animations-Policy;"
+
+[[phrase]]
+from = "AVIF after codec review."
+to = "AVIF nach Codec-Review."
+
+[[phrase]]
+from = "Output formats should be explicit:"
+to = "Ausgabeformate sollen explizit sein:"
+
+[[phrase]]
+from = "Resource Limits"
+to = "Ressourcenlimits"
+
+[[phrase]]
+from = "Image processing is dangerous without hard limits because small compressed files can decode into very large pixel buffers."
+to = "Bildverarbeitung ist ohne harte Limits gefaehrlich, weil kleine komprimierte Dateien zu sehr grossen Pixelpuffern decodieren koennen."
+
+[[phrase]]
+from = "Required limits:"
+to = "Erforderliche Limits:"
+
+[[phrase]]
+from = "per-vhost concurrent transform limit;"
+to = "Transformationslimit pro Vhost fuer Nebenlaeufigkeit;"
+
+[[phrase]]
+from = "global concurrent transform limit;"
+to = "globales Transformationslimit fuer Nebenlaeufigkeit;"
+
+[[phrase]]
+from = "transform timeout."
+to = "Transformations-Timeout."
+
+[[phrase]]
+from = "All limits must be enforced before decoding where possible and immediately after header parsing when dimensions are known. If dimensions are not known without a full decode, the request should use the stricter input-byte and timeout limits."
+to = "Alle Limits muessen wo moeglich vor dem Decoding und unmittelbar nach dem Header-Parsing erzwungen werden, wenn Dimensionen bekannt sind. Wenn Dimensionen ohne vollstaendiges Decoding nicht bekannt sind, soll die Anfrage die strengeren Eingabebyte- und Timeout-Limits nutzen."
+
+[[phrase]]
+from = "Cache Interaction"
+to = "Cache-Interaktion"
+
+[[phrase]]
+from = "Transformed images must use separate cache keys from original images."
+to = "Transformierte Bilder muessen andere Cache-Keys als Originalbilder verwenden."
+
+[[phrase]]
+from = "Variant key inputs:"
+to = "Eingaben fuer Varianten-Keys:"
+
+[[phrase]]
+from = "source cache key or source path;"
+to = "Source-Cache-Key oder Source-Pfad;"
+
+[[phrase]]
+from = "source ETag/Last-Modified when available;"
+to = "Source-ETag/Last-Modified, wenn verfuegbar;"
+
+[[phrase]]
+from = "transform policy name and version;"
+to = "Name und Version der Transformations-Policy;"
+
+[[phrase]]
+from = "requested dimensions;"
+to = "angeforderte Dimensionen;"
+
+[[phrase]]
+from = "crop mode;"
+to = "Zuschneidemodus;"
+
+[[phrase]]
+from = "output format;"
+to = "Ausgabeformat;"
+
+[[phrase]]
+from = "The module should support:"
+to = "Das Modul soll unterstuetzen:"
+
+[[phrase]]
+from = "cache transformed variants when cache is enabled;"
+to = "transformierte Varianten cachen, wenn Cache aktiviert ist;"
+
+[[phrase]]
+from = "purge original and variants together when an index exists;"
+to = "Original und Varianten gemeinsam loeschen, wenn ein Index existiert;"
+
+[[phrase]]
+from = "refuse disk cache in privacy-mode;"
+to = "Disk-Cache im Privacy-Mode verweigern;"
+
+[[phrase]]
+from = "never cache transformed output when request or response policy says Cache-Control: no-store."
+to = "transformierte Ausgabe nie cachen, wenn Request- oder Response-Policy Cache-Control: no-store sagt."
+
+[[phrase]]
+from = "Security Requirements"
+to = "Sicherheitsanforderungen"
+
+[[phrase]]
+from = "The module is disabled by default at compile time and runtime."
+to = "Das Modul ist zur Compile-Zeit und zur Laufzeit standardmaessig deaktiviert."
+
+[[phrase]]
+from = "Transform policy must be explicit per vhost or route."
+to = "Die Transformations-Policy muss pro Vhost oder Route explizit sein."
+
+[[phrase]]
+from = "Only configured content types and extensions are eligible."
+to = "Nur konfigurierte Content-Types und Erweiterungen sind zulaessig."
+
+[[phrase]]
+from = "Do not transform untrusted arbitrary binary responses."
+to = "Keine nicht vertrauenswuerdigen beliebigen Binaerantworten transformieren."
+
+[[phrase]]
+from = "Do not process images from admin, metrics, ACME, CGI, PHP, or legacy listeners."
+to = "Keine Bilder aus Admin-, Metrics-, ACME-, CGI-, PHP- oder Legacy-Listenern verarbeiten."
+
+[[phrase]]
+from = "Reject oversized metadata, malformed files, decoder errors, and unsupported formats with 415 Unsupported Media Type or a configured safe error."
+to = "Uebergrosse Metadaten, fehlerhafte Dateien, Decoderfehler und nicht unterstuetzte Formate mit 415 Unsupported Media Type oder einem konfigurierten sicheren Fehler ablehnen."
+
+[[phrase]]
+from = "Strip EXIF/GPS/comment metadata by default."
+to = "EXIF-/GPS-/Kommentar-Metadaten standardmaessig entfernen."
+
+[[phrase]]
+from = "Do not log raw image bytes or full source URLs with sensitive queries."
+to = "Keine rohen Bildbytes oder vollstaendigen Source-URLs mit sensiblen Queries loggen."
+
+[[phrase]]
+from = "Codec dependencies require license and advisory review before enabling the module in release builds."
+to = "Codec-Abhaengigkeiten brauchen Lizenz- und Advisory-Review, bevor das Modul in Release-Builds aktiviert wird."
+
+[[phrase]]
+from = "FFI-backed codecs must be behind separate feature flags and never included in default builds."
+to = "FFI-gestuetzte Codecs muessen hinter separaten Feature-Flags liegen und duerfen nie in Standard-Builds enthalten sein."
+
+[[phrase]]
+from = "Configuration Sketch"
+to = "Konfigurationsskizze"
+
+[[phrase]]
+from = "Test Plan"
+to = "Testplan"
+
+[[phrase]]
+from = "Reject unsupported formats."
+to = "Nicht unterstuetzte Formate ablehnen."
+
+[[phrase]]
+from = "Reject oversized input before decode."
+to = "Uebergrosse Eingaben vor dem Decoding ablehnen."
+
+[[phrase]]
+from = "Reject decode bombs through pixel limits."
+to = "Decode-Bomben ueber Pixellimits ablehnen."
+
+[[phrase]]
+from = "Validate resize, crop, and rotate output dimensions."
+to = "Ausgabedimensionen fuer Resize, Crop und Rotation validieren."
+
+[[phrase]]
+from = "Validate WebP negotiation and fallback behavior."
+to = "WebP-Aushandlung und Fallback-Verhalten validieren."
+
+[[phrase]]
+from = "Ensure transformed variants use distinct cache keys."
+to = "Sicherstellen, dass transformierte Varianten eigene Cache-Keys verwenden."
+
+[[phrase]]
+from = "Ensure metadata stripping removes EXIF/GPS data."
+to = "Sicherstellen, dass Metadata-Stripping EXIF-/GPS-Daten entfernt."
+
+[[phrase]]
+from = "Ensure malformed images return safe errors."
+to = "Sicherstellen, dass fehlerhafte Bilder sichere Fehler zurueckgeben."
+
+[[phrase]]
+from = "Ensure transform timeouts and concurrency limits work."
+to = "Sicherstellen, dass Transformations-Timeouts und Nebenlaeufigkeitslimits funktionieren."
+
+[[phrase]]
+from = "Ensure default builds do not include image-filter code."
+to = "Sicherstellen, dass Standard-Builds keinen image-filter-Code enthalten."
+
+[[phrase]]
+from = "Ensure privacy-mode rejects incompatible transform/cache combinations."
+to = "Sicherstellen, dass privacy-mode inkompatible Transformations-/Cache-Kombinationen ablehnt."
+
+[[phrase]]
+from = "rotate by"
+to = "rotieren um"
+
+[[phrase]]
+from = "degrees;"
+to = "Grad;"
+
+[[phrase]]
+from = "choose output format based on explicit config and"
+to = "Ausgabeformat anhand expliziter Config und"
+
+[[phrase]]
+from = "negotiation."
+to = "Aushandlung waehlen."
+
+[[phrase]]
+from = "Reject oversized metadata, malformed files, decoder errors, and unsupported formats with"
+to = "Uebergrosse Metadaten, fehlerhafte Dateien, Decoderfehler und nicht unterstuetzte Formate ablehnen mit"
+
+[[phrase]]
+from = "or a configured safe error."
+to = "oder einem konfigurierten sicheren Fehler."
+[[phrase]]
+from = "<li>Ensure <code>privacy-mode</code> rejects incompatible transform/cache combinations.</li>"
+to = "<li>Sicherstellen, dass <code>privacy-mode</code> inkompatible Transformations-/Cache-Kombinationen ablehnt.</li>"

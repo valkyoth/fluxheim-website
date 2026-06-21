@@ -1,0 +1,282 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Load Balancer Migration Notes"
+to = "Load-Balancer-Migrationshinweise"
+
+[[phrase]]
+from = "Fluxheim <code>1.5.x</code> focuses on HTTP/TCP edge load-balancer operations that map cleanly from HAProxy, nginx, Envoy, and F5 LTM-style pools. The validated starting fixture is <code>examples/load-balancer-enterprise.toml</code>"
+to = "Fluxheim <code>1.5.x</code> konzentriert sich auf HTTP/TCP-Edge-Load-Balancer-Betrieb, der sauber aus HAProxy-, nginx-, Envoy- und F5-LTM-artigen Pools abgebildet werden kann. Die validierte Start-Fixture ist <code>examples/load-balancer-enterprise.toml</code>"
+
+[[phrase]]
+from = ". For pull-based control-plane upstream lists, use"
+to = ". Fuer pull-basierte Control-Plane-Upstream-Listen verwende"
+
+[[phrase]]
+from = ". For local command-based monitors, use"
+to = ". Fuer lokale command-basierte Monitore verwende"
+
+[[phrase]]
+from = ". Exec monitor command paths and arguments are normal configuration data, so do not put credentials in argv; let the local helper read protected local secrets it owns. Runtime status and health-check backend summaries expose only the protocol, not the exec command path or arguments."
+to = ". Exec-Monitor-Befehlspfade und Argumente sind normale Konfigurationsdaten; lege daher keine Zugangsdaten in argv ab. Der lokale Helper soll geschuetzte lokale Secrets lesen, die ihm gehoeren. Runtime-Status und Health-Check-Backend-Zusammenfassungen zeigen nur das Protokoll, nicht den Exec-Befehlspfad oder seine Argumente."
+
+[[phrase]]
+from = "This is a migration guide for pool behavior, not a claim that Fluxheim clones every product module. UDP, GSLB/DNS steering, WAF policy, VPN/firewall appliance behavior, and iRules/Lua/Wasm scripting are tracked as separate roadmap lines."
+to = "Dies ist ein Migrationsleitfaden fuer Pool-Verhalten, keine Behauptung, dass Fluxheim jedes Produktmodul kopiert. UDP, GSLB/DNS-Steuerung, WAF-Policy, VPN-/Firewall-Appliance-Verhalten und iRules/Lua/Wasm-Scripting werden als separate Roadmap-Linien verfolgt."
+
+[[phrase]]
+from = "For active-active managed-cookie and persistence-state boundaries, see"
+to = "Fuer active-active Managed-Cookie- und Persistence-State-Grenzen siehe"
+
+[[phrase]]
+from = "Load Balancer HA Design Notes"
+to = "Load-Balancer-HA-Designhinweise"
+
+[[phrase]]
+from = "nginx Upstream"
+to = "nginx-Upstream"
+
+[[phrase]]
+from = "Typical nginx upstreams:"
+to = "Typische nginx-Upstreams:"
+
+[[phrase]]
+from = "Fluxheim equivalent:"
+to = "Fluxheim-Aequivalent:"
+
+[[phrase]]
+from = "Use <code>upstream_priority_groups</code> when nginx configs express preferred regions or manual failover tiers rather than simple backup-only behavior."
+to = "Verwende <code>upstream_priority_groups</code>, wenn nginx-Konfigurationen bevorzugte Regionen oder manuelle Failover-Stufen ausdruecken statt nur einfache Backup-Semantik."
+
+[[phrase]]
+from = "HAProxy Backend"
+to = "HAProxy-Backend"
+
+[[phrase]]
+from = "Typical HAProxy backend:"
+to = "Typisches HAProxy-Backend:"
+
+[[phrase]]
+from = "HAProxy stick-table patterns map only to Fluxheim&#x27;s bounded local persistence tables in the current load-balancer implementation. Multi-counter stick-table expressions remain future advanced ACL/stick-table work."
+to = "HAProxy-Stick-Table-Muster werden in der aktuellen Load-Balancer-Implementierung nur auf Fluxheims begrenzte lokale Persistenztabellen abgebildet. Multi-Counter-Stick-Table-Ausdruecke bleiben zukuenftige Advanced-ACL-/Stick-Table-Arbeit."
+
+[[phrase]]
+from = "F5 LTM Pool"
+to = "F5-LTM-Pool"
+
+[[phrase]]
+from = "F5 pools often combine monitors, priority-group activation, node/member administrative state, persistence, and manual drain/resume workflows."
+to = "F5-Pools kombinieren oft Monitore, Priority-Group-Aktivierung, administrativen Node-/Member-Status, Persistenz und manuelle Drain-/Resume-Workflows."
+
+[[phrase]]
+from = "Fluxheim maps those pieces as follows:"
+to = "Fluxheim bildet diese Teile wie folgt ab:"
+
+[[phrase]]
+from = "F5 / BIG-IP concept"
+to = "F5-/BIG-IP-Konzept"
+
+[[phrase]]
+from = "mapping"
+to = "Abbildung"
+
+[[phrase]]
+from = "Pool members"
+to = "Pool-Member"
+
+[[phrase]]
+from = "Member names"
+to = "Member-Namen"
+
+[[phrase]]
+from = "Member metadata / labels"
+to = "Member-Metadaten / Labels"
+
+[[phrase]]
+from = "Ratio / weight"
+to = "Ratio / Gewicht"
+
+[[phrase]]
+from = "Maglev hash persistence"
+to = "Maglev-Hash-Persistenz"
+
+[[phrase]]
+from = "for static pools"
+to = "fuer statische Pools"
+
+[[phrase]]
+from = "Bounded-load consistent hash"
+to = "Bounded-Load-Consistent-Hash"
+
+[[phrase]]
+from = "plus optional"
+to = "plus optional"
+
+[[phrase]]
+from = "Priority group activation"
+to = "Priority-Group-Aktivierung"
+
+[[phrase]]
+from = "Member connection limit"
+to = "Member-Verbindungslimit"
+
+[[phrase]]
+from = "Monitors"
+to = "Monitore"
+
+[[phrase]]
+from = "Passive outlier ejection"
+to = "Passive Outlier-Ejection"
+
+[[phrase]]
+from = "Slow ramp after recovery"
+to = "Langsames Hochfahren nach Recovery"
+
+[[phrase]]
+from = "Source-address persistence"
+to = "Source-Address-Persistenz"
+
+[[phrase]]
+from = "Manual drain/disable/force-down/resume"
+to = "Manuelles Drain/Disable/Force-Down/Resume"
+
+[[phrase]]
+from = "Runtime member weight shift"
+to = "Runtime-Member-Gewichtsverschiebung"
+
+[[phrase]]
+from = "for round-robin and least-* selectors"
+to = "fuer Round-Robin- und Least-*-Selektoren"
+
+[[phrase]]
+from = "Runtime static-pool member add/remove/update"
+to = "Runtime-Add/Remove/Update fuer statische Pool-Member"
+
+[[phrase]]
+from = "Saturation queue"
+to = "Saettigungs-Queue"
+
+[[phrase]]
+from = "Pool all-down response"
+to = "Pool-All-Down-Antwort"
+
+[[phrase]]
+from = "Example priority and locality policy:"
+to = "Beispiel fuer Priority- und Locality-Policy:"
+
+[[phrase]]
+from = "Priority groups express preferred/fallback tiers. Locality preference expresses same-zone or same-site preference with automatic fallback when no preferred locality is selectable."
+to = "Priority Groups druecken bevorzugte und Fallback-Stufen aus. Locality Preference beschreibt Same-Zone- oder Same-Site-Praeferenz mit automatischem Fallback, wenn keine bevorzugte Locality waehlbar ist."
+
+[[phrase]]
+from = "Runtime Operations"
+to = "Runtime-Operationen"
+
+[[phrase]]
+from = "Configured members can be moved in and out of selection without a config reload:"
+to = "Konfigurierte Member koennen ohne Config-Reload in die Auswahl hinein- und herausbewegt werden:"
+
+[[phrase]]
+from = "Supported states are"
+to = "Unterstuetzte States sind"
+
+[[phrase]]
+from = ". Runtime mutations are intentionally local to one Fluxheim process; they survive process restart only when"
+to = ". Runtime-Mutationen sind absichtlich lokal fuer einen Fluxheim-Prozess; sie ueberleben Prozessneustarts nur, wenn"
+
+[[phrase]]
+from = "is configured, and they do not sync across active-active nodes."
+to = "konfiguriert ist, und sie synchronisieren nicht ueber active-active Nodes hinweg."
+
+[[phrase]]
+from = "Configured member weights can be shifted at runtime for canary or traffic-ramp workflows when the pool uses"
+to = "Konfigurierte Member-Gewichte koennen zur Laufzeit fuer Canary- oder Traffic-Ramp-Workflows verschoben werden, wenn der Pool"
+
+[[phrase]]
+from = "Static upstream pools can add, remove, or update members at runtime:"
+to = "Statische Upstream-Pools koennen Member zur Laufzeit hinzufuegen, entfernen oder aktualisieren:"
+
+[[phrase]]
+from = "Use <code>weight=default</code>, <code>reset</code>, <code>clear</code>, or <code>configured</code> to clear the override. Hash, consistent-hash, bounded-load consistent, Maglev, and power-of-two selectors reject runtime weights in the current release because their ring/table or weighted-sampling semantics need a separate design."
+to = "Verwende <code>weight=default</code>, <code>reset</code>, <code>clear</code> oder <code>configured</code>, um den Override zu loeschen. Hash-, Consistent-Hash-, Bounded-Load-Consistent-, Maglev- und Power-of-Two-Selektoren lehnen Runtime-Gewichte in der aktuellen Release ab, weil ihre Ring-/Table- oder Weighted-Sampling-Semantik ein separates Design braucht."
+
+[[phrase]]
+from = "The load-balancer-only status view is available without parsing the full admin status body:"
+to = "Die reine Load-Balancer-Statusansicht ist verfuegbar, ohne den vollstaendigen Admin-Status-Body zu parsen:"
+
+[[phrase]]
+from = "Persistence tables can be cleared without a reload:"
+to = "Persistenztabellen koennen ohne Reload geleert werden:"
+
+[[phrase]]
+from = "Known Migration Boundaries"
+to = "Bekannte Migrationsgrenzen"
+
+[[phrase]]
+from = "The following are intentional current load-balancer boundaries. They are not defects in the shipped load-balancer behavior; they are architectural gaps tracked for future module lines."
+to = "Die folgenden Punkte sind absichtliche aktuelle Load-Balancer-Grenzen. Sie sind keine Defekte im ausgelieferten Load-Balancer-Verhalten, sondern architektonische Luecken, die fuer zukuenftige Modullinien verfolgt werden."
+
+[[phrase]]
+from = "Runtime add/remove/update-member operations are available for static upstream pools only. DNS/file/HTTP-discovery pools reject them because discovery refresh owns the live member set."
+to = "Runtime-Add/Remove/Update-Member-Operationen sind nur fuer statische Upstream-Pools verfuegbar. DNS-/File-/HTTP-Discovery-Pools lehnen sie ab, weil der Discovery-Refresh den Live-Member-Satz besitzt."
+
+[[phrase]]
+from = "Runtime weight changes are available for round-robin and least-* selectors. Hash/ring selectors need future table-rebuild semantics before runtime weights are accepted there."
+to = "Runtime-Gewichtsaenderungen sind fuer Round-Robin- und Least-*-Selektoren verfuegbar. Hash-/Ring-Selektoren brauchen zukuenftige Table-Rebuild-Semantik, bevor Runtime-Gewichte dort akzeptiert werden."
+
+[[phrase]]
+from = "Bounded-load consistent hashing is local to one Fluxheim process. It avoids selecting an over-bound hash target when another eligible ring candidate is available, but it does not coordinate load across multiple Fluxheim nodes."
+to = "Bounded-Load-Consistent-Hashing ist lokal fuer einen Fluxheim-Prozess. Es vermeidet die Auswahl eines ueberlasteten Hash-Ziels, wenn ein anderer geeigneter Ring-Kandidat verfuegbar ist, koordiniert Last aber nicht ueber mehrere Fluxheim-Nodes."
+
+[[phrase]]
+from = "UDP, GSLB/DNS steering, WAF, VPN/firewall appliance behavior, and scripted iRules/Lua/Wasm behavior are intentionally separate roadmap lines."
+to = "UDP, GSLB/DNS-Steuerung, WAF, VPN-/Firewall-Appliance-Verhalten und gescriptetes iRules/Lua/Wasm-Verhalten sind absichtlich separate Roadmap-Linien."
+
+[[phrase]]
+from = "<code>proxy.load_balance.queue</code> is opt-in. Defaults keep fail-fast behavior when no backend is selectable."
+to = "<code>proxy.load_balance.queue</code> ist opt-in. Die Defaults behalten Fail-Fast-Verhalten bei, wenn kein Backend waehlbar ist."
+
+[[phrase]]
+from = "when nginx configs express preferred regions or manual failover tiers rather than simple backup-only behavior."
+to = "wenn nginx-Konfigurationen bevorzugte Regionen oder manuelle Failover-Stufen statt einfachem Backup-only-Verhalten ausdruecken."
+
+[[phrase]]
+from = "to change the configured runtime weight, or with"
+to = "um das konfigurierte Runtime-Gewicht zu aendern, oder mit"
+
+[[phrase]]
+from = "after the member has drained to zero in-flight requests. These backend-set mutations are local in-memory changes in the current release. Runtime backend sets are capped at 256 members, and the zero in-flight check is a best-effort mutation-time gate; Fluxheim warns if a narrow race leaves a request completing against a removed or retargeted address. Runtime-added or retargeted members carry address and configured weight only; aliases, tags, backup membership, priority groups, locality metadata, and per-upstream caps remain static-config fields. DNS/file-discovery pools and Maglev selectors reject runtime backend-set mutation."
+to = "nachdem das Member auf null In-flight-Requests geleert wurde. Diese Backend-Set-Mutationen sind in der aktuellen Version lokale In-Memory-Aenderungen. Runtime-Backend-Sets sind auf 256 Members begrenzt, und die Null-In-flight-Pruefung ist ein Best-Effort-Gate zum Mutationszeitpunkt; Fluxheim warnt, wenn ein enges Race eine Anfrage gegen eine entfernte oder neu ausgerichtete Adresse abschliessen laesst. Zur Runtime hinzugefuegte oder neu ausgerichtete Members tragen nur Adresse und konfiguriertes Gewicht; Aliase, Tags, Backup-Mitgliedschaft, Priority-Groups, Locality-Metadaten und Per-Upstream-Caps bleiben Static-Config-Felder. DNS-/File-Discovery-Pools und Maglev-Selektoren lehnen Backend-Set-Mutationen zur Runtime ab."
+
+[[phrase]]
+from = "Load-balancer-managed cookie insertion is available through"
+to = "Load-Balancer-verwaltete Cookie-Einfuegung ist verfuegbar ueber"
+
+[[phrase]]
+from = "line. It is signed/opaque and local to one Fluxheim process, with daily local signing-key rotation and current or previous generation verification. Restart-persistent managed-cookie state, shared signing keys, and active-active cookie mirroring remain future HA work."
+to = "Zeile. Es ist signiert/opaque und lokal fuer einen Fluxheim-Prozess, mit taeglicher lokaler Signing-Key-Rotation und Verifikation der aktuellen oder vorherigen Generation. Restart-persistenter Managed-Cookie-State, gemeinsame Signing-Keys und Active-Active-Cookie-Mirroring bleiben zukuenftige HA-Arbeit."
+
+[[phrase]]
+from = "In dynamic DNS/file/HTTP-discovery pools, stale runtime"
+to = "In dynamischen DNS-/File-/HTTP-Discovery-Pools koennen veraltete Runtime-"
+
+[[phrase]]
+from = "overrides may be reclaimed when a member leaves the live discovery set. Runtime"
+to = "Overrides zurueckgefordert werden, wenn ein Member den Live-Discovery-Satz verlaesst. Runtime-"
+
+[[phrase]]
+from = "overrides are preserved across discovery churn until explicit admin resume/normal action."
+to = "Overrides bleiben ueber Discovery-Churn hinweg erhalten, bis eine explizite Admin-Resume/Normal-Aktion erfolgt."
+
+[[phrase]]
+from = "Maglev hashing is available for static"
+to = "Maglev-Hashing ist verfuegbar fuer statische"
+
+[[phrase]]
+from = ", but mutated backend sets, passive health, retry budgets, queue counters, and managed-cookie signing keys are not cluster-synced."
+to = ", aber mutierte Backend-Sets, passive Health, Retry-Budgets, Queue-Counter und Managed-Cookie-Signing-Keys werden nicht cluster-synchronisiert."
+
+[[phrase]]
+from = "native HTTP runtime cutover completes."
+to = "der native HTTP-Runtime-Cutover abgeschlossen ist."

@@ -1,0 +1,286 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Fluxheim uses two layers for reload safety:"
+to = "Fluxheim nutzt zwei Ebenen fuer sichere Reloads:"
+
+[[phrase]]
+from = "Runtime snapshots: immutable in-memory state behind <code>ArcSwap</code>."
+to = "Runtime-Snapshots: unveraenderlicher In-Memory-Zustand hinter <code>ArcSwap</code>."
+
+[[phrase]]
+from = "Durable snapshots: validated TOML configs stored on disk with a current pointer."
+to = "Dauerhafte Snapshots: validierte TOML-Konfigurationen auf Disk mit einem Current-Pointer."
+
+[[phrase]]
+from = "The runtime snapshot model means old requests can keep using the config they started with while new requests use the new config after an atomic pointer swap. The durable snapshot store gives operators an auditable rollback target and the admin API a current pointer to apply."
+to = "Das Runtime-Snapshot-Modell bedeutet, dass alte Requests die gestartete Konfiguration weiter nutzen koennen, waehrend neue Requests nach einem atomaren Pointer-Swap die neue Konfiguration verwenden. Der dauerhafte Snapshot-Store gibt Betreibern ein auditierbares Rollback-Ziel und der Admin-API einen anwendbaren Current-Pointer."
+
+[[phrase]]
+from = "Store Layout"
+to = "Store-Layout"
+
+[[phrase]]
+from = "Use an operator-chosen state directory, for example"
+to = "Verwende ein vom Betreiber gewaehltes State-Verzeichnis, zum Beispiel"
+
+[[phrase]]
+from = "<code>current</code> contains the active snapshot id. Fluxheim uses an atomically replaced pointer file instead of a symlink. A symlink swap is a good Linux-only design, but the pointer file keeps the store straightforward in rootless Podman, restricted volume mounts, and non-Unix development environments while still using write-temp-and-rename semantics."
+to = "<code>current</code> enthaelt die aktive Snapshot-ID. Fluxheim nutzt eine atomar ersetzte Pointer-Datei statt eines Symlinks. Ein Symlink-Swap ist ein gutes reines Linux-Design, aber die Pointer-Datei haelt den Store in rootless Podman, eingeschraenkten Volume-Mounts und Nicht-Unix-Entwicklungsumgebungen einfach und nutzt weiterhin Write-temp-and-rename-Semantik."
+
+[[phrase]]
+from = "Snapshot config files contain the validated effective config, written back as TOML. Metadata files contain the snapshot id, creation time, and optional operator message. Operator messages are trimmed and limited to 4096 bytes of non-control text before they are written or loaded. Generated snapshot ids contain Unix time plus a process-local sequence; they do not include the Fluxheim process id."
+to = "Snapshot-Konfigurationsdateien enthalten die validierte effektive Konfiguration, wieder als TOML geschrieben. Metadatendateien enthalten Snapshot-ID, Erstellungszeit und optionale Betreiber-Nachricht. Betreiber-Nachrichten werden getrimmt und vor dem Schreiben oder Laden auf 4096 Byte Nicht-Kontrolltext begrenzt. Generierte Snapshot-IDs enthalten Unix-Zeit plus eine prozesslokale Sequenz; sie enthalten nicht die Fluxheim-Prozess-ID."
+
+[[phrase]]
+from = "The store is deliberately conservative about filesystem indirection. Snapshot ids may only contain ASCII letters, digits, <code>_</code>, and <code>-</code>, and are limited to 128 bytes; the store root cannot contain <code>..</code> or sit below a symlinked parent directory; the store root and <code>configs</code> directory must be real directories; the <code>configs</code> directory must remain inside the snapshot store; and <code>current</code>, snapshot TOML files, and metadata TOML files are opened as regular files. Symlinked store roots, pointer, config, metadata, or <code>configs</code> paths are rejected so a rollback cannot be redirected to an operator-unapproved file. Atomic writes also require an already validated real parent directory and will not replace a symlinked destination. Snapshot reads are bounded: <code>current</code> is limited to 4 KiB and snapshot TOML/metadata reads are limited to 16 MiB. Snapshot stores are limited to 1024 snapshots; operators should export or prune old snapshots before that limit."
+to = "Der Store ist bei Dateisystem-Indirektion bewusst konservativ. Snapshot-IDs duerfen nur ASCII-Buchstaben, Ziffern, <code>_</code> und <code>-</code> enthalten und sind auf 128 Byte begrenzt; die Store-Root darf kein <code>..</code> enthalten und nicht unter einem symlinkten Parent-Verzeichnis liegen; die Store-Root und das <code>configs</code>-Verzeichnis muessen echte Verzeichnisse sein; das <code>configs</code>-Verzeichnis muss innerhalb des Snapshot-Stores bleiben; und <code>current</code>, Snapshot-TOML-Dateien und Metadaten-TOML-Dateien werden als regulaere Dateien geoeffnet. Symlinkte Store-Roots, Pointer, Konfigurationen, Metadaten oder <code>configs</code>-Pfade werden abgelehnt, damit ein Rollback nicht auf eine vom Betreiber nicht freigegebene Datei umgeleitet werden kann. Atomare Writes erfordern ausserdem ein bereits validiertes echtes Parent-Verzeichnis und ersetzen kein symlinktes Ziel. Snapshot-Reads sind begrenzt: <code>current</code> ist auf 4 KiB begrenzt und Snapshot-TOML-/Metadaten-Reads sind auf 16 MiB begrenzt. Snapshot-Stores sind auf 1024 Snapshots begrenzt; Betreiber sollten alte Snapshots vor diesem Limit exportieren oder bereinigen."
+
+[[phrase]]
+from = "The store is deliberately conservative about filesystem indirection. Snapshot ids may only contain ASCII letters, digits,"
+to = "Der Store ist bei Dateisystem-Indirektion bewusst konservativ. Snapshot-IDs duerfen nur ASCII-Buchstaben, Ziffern,"
+
+[[phrase]]
+from = ", and are limited to 128 bytes; the store root cannot contain"
+to = "enthalten und sind auf 128 Byte begrenzt; die Store-Root darf nicht enthalten:"
+
+[[phrase]]
+from = "or sit below a symlinked parent directory; the store root and"
+to = "oder unter einem symlinkten Parent-Verzeichnis liegen; die Store-Root und"
+
+[[phrase]]
+from = "directory must be real directories; the"
+to = "Verzeichnis muessen echte Verzeichnisse sein; das"
+
+[[phrase]]
+from = "directory must remain inside the snapshot store; and"
+to = "Verzeichnis muss innerhalb des Snapshot-Stores bleiben; und"
+
+[[phrase]]
+from = ", snapshot TOML files, and metadata TOML files are opened as regular files. Symlinked store roots, pointer, config, metadata, or"
+to = ", Snapshot-TOML-Dateien und Metadaten-TOML-Dateien werden als regulaere Dateien geoeffnet. Symlinkte Store-Roots, Pointer, Konfigurationen, Metadaten oder"
+
+[[phrase]]
+from = "paths are rejected so a rollback cannot be redirected to an operator-unapproved file. Atomic writes also require an already validated real parent directory and will not replace a symlinked destination. Snapshot reads are bounded:"
+to = "Pfade werden abgelehnt, damit ein Rollback nicht auf eine vom Betreiber nicht freigegebene Datei umgeleitet werden kann. Atomare Writes erfordern ausserdem ein bereits validiertes echtes Parent-Verzeichnis und ersetzen kein symlinktes Ziel. Snapshot-Reads sind begrenzt:"
+
+[[phrase]]
+from = "is limited to 4 KiB and snapshot TOML/metadata reads are limited to 16 MiB. Snapshot stores are limited to 1024 snapshots; operators should export or prune old snapshots before that limit."
+to = "ist auf 4 KiB begrenzt und Snapshot-TOML-/Metadaten-Reads sind auf 16 MiB begrenzt. Snapshot-Stores sind auf 1024 Snapshots begrenzt; Betreiber sollten alte Snapshots vor diesem Limit exportieren oder bereinigen."
+
+[[phrase]]
+from = "On Unix, Fluxheim normalizes the snapshot store root and"
+to = "Unter Unix normalisiert Fluxheim die Snapshot-Store-Root und"
+
+[[phrase]]
+from = "On Unix, Fluxheim normalizes the snapshot store root and <code>configs</code> directory to mode <code>0700</code>, and writes <code>current</code>, config snapshots, and metadata snapshots as mode <code>0600</code>. Operators should still run the service with a restrictive umask such as <code>0077</code> or <code>0027</code> as defense in depth for any future state files."
+to = "Unter Unix normalisiert Fluxheim die Snapshot-Store-Root und das <code>configs</code>-Verzeichnis auf Modus <code>0700</code> und schreibt <code>current</code>, Konfigurations-Snapshots und Metadaten-Snapshots mit Modus <code>0600</code>. Betreiber sollten den Dienst trotzdem mit einer restriktiven umask wie <code>0077</code> oder <code>0027</code> als Defense-in-depth fuer kuenftige State-Dateien ausfuehren."
+
+[[phrase]]
+from = ", config snapshots, and metadata snapshots as mode"
+to = ", Konfigurations-Snapshots und Metadaten-Snapshots mit Modus"
+
+[[phrase]]
+from = ". Operators should still run the service with a restrictive umask such as"
+to = ". Betreiber sollten den Dienst trotzdem mit einer restriktiven umask wie"
+
+[[phrase]]
+from = "as defense in depth for any future state files."
+to = "als Defense-in-depth fuer kuenftige State-Dateien ausfuehren."
+
+[[phrase]]
+from = "Create a snapshot from a config:"
+to = "Snapshot aus einer Konfiguration erstellen:"
+
+[[phrase]]
+from = "List snapshots:"
+to = "Snapshots auflisten:"
+
+[[phrase]]
+from = "Move the current pointer back to the previous snapshot:"
+to = "Den Current-Pointer auf den vorherigen Snapshot zuruecksetzen:"
+
+[[phrase]]
+from = "Move to a specific snapshot:"
+to = "Zu einem bestimmten Snapshot wechseln:"
+
+[[phrase]]
+from = "Rollback updates the durable current pointer by default. Before applying a rollback to a live process, classify the change:"
+to = "Rollback aktualisiert standardmaessig den dauerhaften Current-Pointer. Bevor ein Rollback auf einen Live-Prozess angewendet wird, klassifiziere die Aenderung:"
+
+[[phrase]]
+from = "The admin reload endpoint performs this classification before it swaps runtime proxy state."
+to = "Der Admin-Reload-Endpunkt fuehrt diese Klassifizierung aus, bevor er den Runtime-Proxy-State tauscht."
+
+[[phrase]]
+from = "Admin API Shape"
+to = "Form der Admin-API"
+
+[[phrase]]
+from = "Fluxheim reserves a separate admin control plane for live operations:"
+to = "Fluxheim reserviert eine separate Admin-Control-Plane fuer Live-Operationen:"
+
+[[phrase]]
+from = "The initial listener must be private by default. Remote exposure now requires"
+to = "Der initiale Listener muss standardmaessig privat sein. Remote-Exposition erfordert jetzt"
+
+[[phrase]]
+from = ", which is an explicit operator declaration that TLS or mTLS is terminated by a trusted local sidecar, reverse proxy, or load balancer before traffic reaches the plain admin listener. First-class admin TLS/mTLS is still tracked as future work; do not expose the admin listener over cleartext networks."
+to = ". Das ist eine explizite Betreiber-Erklaerung, dass TLS oder mTLS von einem vertrauenswuerdigen lokalen Sidecar, Reverse Proxy oder Load Balancer terminiert wird, bevor Traffic den unverschluesselten Admin-Listener erreicht. First-class Admin-TLS/mTLS bleibt als kuenftige Arbeit verfolgt; exponiere den Admin-Listener nicht ueber Cleartext-Netzwerke."
+
+[[phrase]]
+from = "Implemented endpoints:"
+to = "Implementierte Endpunkte:"
+
+[[phrase]]
+from = "All admin endpoints, including"
+to = "Alle Admin-Endpunkte, einschliesslich"
+
+[[phrase]]
+from = "still requires the bearer token on the Unix ops socket because snapshot IDs and messages expose deployment change history."
+to = "erfordert weiterhin den Bearer-Token auf dem Unix-Ops-Socket, weil Snapshot-IDs und Nachrichten die Deployment-Aenderungshistorie offenlegen."
+
+[[phrase]]
+from = "Create a snapshot over HTTP:"
+to = "Snapshot ueber HTTP erstellen:"
+
+[[phrase]]
+from = "Move the durable current pointer back to the previous snapshot:"
+to = "Den dauerhaften Current-Pointer auf den vorherigen Snapshot zuruecksetzen:"
+
+[[phrase]]
+from = "Move the durable current pointer to a specific snapshot:"
+to = "Den dauerhaften Current-Pointer auf einen bestimmten Snapshot setzen:"
+
+[[phrase]]
+from = "Live-apply the previous snapshot when it is snapshot-safe:"
+to = "Den vorherigen Snapshot live anwenden, wenn er snapshot-safe ist:"
+
+[[phrase]]
+from = "Live rollback validates the target before changing the durable current pointer. If the target requires a process upgrade, Fluxheim returns"
+to = "Live-Rollback validiert das Ziel, bevor der dauerhafte Current-Pointer geaendert wird. Wenn das Ziel ein Prozess-Upgrade erfordert, gibt Fluxheim"
+
+[[phrase]]
+from = "and leaves the pointer on the current snapshot."
+to = "zurueck und laesst den Pointer auf dem aktuellen Snapshot."
+
+[[phrase]]
+from = "Apply the durable current snapshot to the running proxy if the reload classifier marks it"
+to = "Den dauerhaften aktuellen Snapshot auf den laufenden Proxy anwenden, wenn der Reload-Classifier ihn als"
+
+[[phrase]]
+from = "The reload endpoint returns"
+to = "Der Reload-Endpunkt gibt"
+
+[[phrase]]
+from = "when the current snapshot requires a process upgrade, such as listener, TLS backend/mode, admin service, or metrics service, or startup-owned load-balancer service changes. Existing requests keep their old runtime snapshot; new requests use the freshly swapped proxy snapshot."
+to = "zurueck, wenn der aktuelle Snapshot ein Prozess-Upgrade erfordert, etwa bei Listener, TLS-Backend/-Modus, Admin-Service, Metrics-Service oder startup-eigenen Load-Balancer-Service-Aenderungen. Bestehende Requests behalten ihren alten Runtime-Snapshot; neue Requests nutzen den frisch getauschten Proxy-Snapshot."
+
+[[phrase]]
+from = "Load-balancer service changes include adding or removing vhost/route pools and changing static pool members, file/DNS/HTTP discovery sources, discovery refresh intervals, or HTTP discovery bearer-token files. These refresh loops are registered at process startup, so use the normal supervisor/process-upgrade path for those changes."
+to = "Load-Balancer-Service-Aenderungen umfassen das Hinzufuegen oder Entfernen von vhost-/Routen-Pools und das Aendern statischer Pool-Mitglieder, File-/DNS-/HTTP-Discovery-Quellen, Discovery-Refresh-Intervalle oder HTTP-Discovery-Bearer-Token-Dateien. Diese Refresh-Loops werden beim Prozessstart registriert, daher nutze fuer solche Aenderungen den normalen Supervisor-/Prozess-Upgrade-Pfad."
+
+[[phrase]]
+from = "Self-Healing Guard"
+to = "Self-Healing-Guard"
+
+[[phrase]]
+from = ", a successful live reload enters a pending validation state."
+to = "aktiviert ist, geht ein erfolgreicher Live-Reload in einen ausstehenden Validierungszustand."
+
+[[phrase]]
+from = "<code>runtime_snapshot</code>"
+to = "<code>runtime_snapshot</code>"
+
+[[phrase]]
+from = "<code>known_good_snapshot</code>"
+to = "<code>known_good_snapshot</code>"
+
+[[phrase]]
+from = "<code>pending_validation</code>"
+to = "<code>pending_validation</code>"
+
+[[phrase]]
+from = "<code>load_balancer</code> when compiled with the load-balancer feature, including read-only vhost/route pool and backend runtime state"
+to = "<code>load_balancer</code>, wenn mit dem Load-Balancer-Feature kompiliert, inklusive Read-only-vhost-/Routen-Pool und Backend-Runtime-State"
+
+[[phrase]]
+from = "Confirm the candidate after local health checks succeed:"
+to = "Den Kandidaten bestaetigen, nachdem lokale Health-Checks erfolgreich sind:"
+
+[[phrase]]
+from = "Force rollback to the previous known-good snapshot after local health checks fail:"
+to = "Rollback auf den vorherigen Known-good-Snapshot erzwingen, nachdem lokale Health-Checks fehlschlagen:"
+
+[[phrase]]
+from = "The fail endpoint validates the previous snapshot and applies it with the same snapshot-safe reload gate. It also moves the durable current pointer back only after the running proxy accepts the rollback."
+to = "Der Fail-Endpunkt validiert den vorherigen Snapshot und wendet ihn mit demselben snapshot-safe Reload-Gate an. Er verschiebt den dauerhaften Current-Pointer erst zurueck, nachdem der laufende Proxy das Rollback akzeptiert."
+
+[[phrase]]
+from = "Report health-check results from a local watchdog:"
+to = "Health-Check-Ergebnisse von einem lokalen Watchdog melden:"
+
+[[phrase]]
+from = "Successful reports confirm the pending snapshot once"
+to = "Erfolgreiche Reports bestaetigen den ausstehenden Snapshot, sobald"
+
+[[phrase]]
+from = "is reached. Failed reports roll back when the observed error rate exceeds"
+to = "erreicht ist. Fehlgeschlagene Reports rollen zurueck, wenn die beobachtete Fehlerrate"
+
+[[phrase]]
+from = "Pending validation fails closed. If the validation window expires before a confirm request, the Pingora self-healing watchdog attempts the same known-good rollback without waiting for operator traffic. Admin requests also enforce the deadline as a secondary guard."
+to = "Ausstehende Validierung faellt geschlossen aus. Wenn das Validierungsfenster vor einem Confirm-Request ablaeuft, versucht der Pingora-Self-Healing-Watchdog dasselbe Known-good-Rollback, ohne auf Betreiber-Traffic zu warten. Admin-Requests erzwingen die Deadline ebenfalls als sekundaeren Guard."
+
+[[phrase]]
+from = "Public proxy traffic does not confirm or roll back pending snapshots. This keeps unauthenticated data-plane clients from influencing admin reload state. Only authenticated admin self-healing actions, local watchdog expiry, and explicit operator-driven health reports can advance pending validation."
+to = "Oeffentlicher Proxy-Traffic bestaetigt keine ausstehenden Snapshots und rollt sie nicht zurueck. Dadurch koennen unauthentifizierte Data-Plane-Clients den Admin-Reload-State nicht beeinflussen. Nur authentifizierte Admin-Self-Healing-Aktionen, lokaler Watchdog-Ablauf und explizite betreibergetriebene Health-Reports koennen die ausstehende Validierung voranbringen."
+
+[[phrase]]
+from = "The self-healing path uses these state transitions:"
+to = "Der Self-Healing-Pfad nutzt diese Zustandsuebergaenge:"
+
+[[phrase]]
+from = "Mark the pre-reload snapshot as known-good."
+to = "Den Pre-Reload-Snapshot als known-good markieren."
+
+[[phrase]]
+from = "Validate and apply a snapshot-safe reload through"
+to = "Einen snapshot-safe Reload validieren und anwenden ueber"
+
+[[phrase]]
+from = "Watch a configurable health window with the background watchdog."
+to = "Ein konfigurierbares Health-Fenster mit dem Background-Watchdog ueberwachen."
+
+[[phrase]]
+from = "Treat clear failures as broken, for example local health-check failure, startup-owned service failure, or an authenticated failure report from the local watchdog."
+to = "Klare Fehler als broken behandeln, zum Beispiel lokalen Health-Check-Fehler, startup-eigenen Service-Fehler oder einen authentifizierten Failure-Report vom lokalen Watchdog."
+
+[[phrase]]
+from = "Automatically swap back to the previous known-good runtime snapshot when the new snapshot is unhealthy."
+to = "Automatisch zum vorherigen Known-good-Runtime-Snapshot zuruecktauschen, wenn der neue Snapshot unhealthy ist."
+
+[[phrase]]
+from = "Leave process-upgrade-only changes to the supervisor/Pingora upgrade path."
+to = "Process-upgrade-only-Aenderungen dem Supervisor-/Pingora-Upgrade-Pfad ueberlassen."
+
+[[phrase]]
+from = "The first implementation should be conservative. It should prefer keeping the old known-good config over guessing that a risky new config is healthy."
+to = "Die erste Implementierung sollte konservativ sein. Sie sollte die alte Known-good-Konfiguration lieber behalten, statt zu raten, dass eine riskante neue Konfiguration gesund ist."
+
+[[phrase]]
+from = "directory to mode"
+to = "Verzeichnis auf Modus"
+
+[[phrase]]
+from = "by default. For local-only watchdogs, set"
+to = "standardmaessig. Fuer lokale Watchdogs setze"
+
+[[phrase]]
+from = "loopback; use"
+to = "Loopback; verwende"
+
+[[phrase]]
+from = "probe response. When"
+to = "Probe-Response. Wenn"

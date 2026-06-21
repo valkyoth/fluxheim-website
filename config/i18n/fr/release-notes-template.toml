@@ -1,0 +1,131 @@
+locale_id = "fr-FR"
+html_lang = "fr-FR"
+[[phrase]]
+from = "Release Notes Template — Fluxheim Source Docs"
+to = "Modele de notes de publication - documentation source Fluxheim"
+[[phrase]]
+from = "Release Notes Template"
+to = "Modele de notes de publication"
+[[phrase]]
+from = "Fluxheim Release Notes Template"
+to = "Modele de notes de publication Fluxheim"
+[[phrase]]
+from = "Use this template for stable tags. Keep it factual and include the local release-gate report path or copied summary."
+to = "Utilisez ce modele pour les tags stables. Restez factuel et incluez le chemin du rapport local de release gate ou un resume copie."
+[[phrase]]
+from = "Release date:"
+to = "Date de publication :"
+[[phrase]]
+from = "Git tag:"
+to = "Tag Git :"
+[[phrase]]
+from = "Git commit:"
+to = "Commit Git :"
+[[phrase]]
+from = "License: EUPL-1.2"
+to = "Licence : EUPL-1.2"
+[[phrase]]
+from = "Stable modules:"
+to = "Modules stables :"
+[[phrase]]
+from = "Experimental modules:"
+to = "Modules experimentaux :"
+[[phrase]]
+from = "Default Cargo features:"
+to = "Fonctionnalites Cargo par defaut :"
+[[phrase]]
+from = "Container variants:"
+to = "Variantes de conteneur :"
+[[phrase]]
+from = "Security And Stability Gate"
+to = "Gate de securite et de stabilite"
+[[phrase]]
+from = "Gate command:"
+to = "Commande du gate :"
+[[phrase]]
+from = "Gate report directory:"
+to = "Repertoire du rapport de gate :"
+[[phrase]]
+from = "TLS scan result:"
+to = "Resultat du scan TLS :"
+[[phrase]]
+from = "Load smoke result:"
+to = "Resultat du smoke de charge :"
+[[phrase]]
+from = "Request-framing smoke result:"
+to = "Resultat du smoke de framing des requetes :"
+[[phrase]]
+from = "Fuzz target compile result:"
+to = "Resultat de compilation des cibles de fuzz :"
+[[phrase]]
+from = "Podman smoke result:"
+to = "Resultat du smoke Podman :"
+[[phrase]]
+from = "SBOM generation result:"
+to = "Resultat de generation SBOM :"
+[[phrase]]
+from = "Reproducible build result:"
+to = "Resultat du build reproductible :"
+[[phrase]]
+from = "Reviewed Advisory Exceptions"
+to = "Exceptions d'avis revues"
+[[phrase]]
+from = "List every accepted dependency advisory and why it is acceptable for this release. Include whether the dependency is direct or transitive."
+to = "Listez chaque avis de dependance accepte et pourquoi il est acceptable pour cette publication. Indiquez si la dependance est directe ou transitive."
+[[phrase]]
+from = "Breaking Changes"
+to = "Changements incompatibles"
+[[phrase]]
+from = "Upgrade Notes"
+to = "Notes de mise a niveau"
+[[phrase]]
+from = "Known Limitations"
+to = "Limitations connues"
+[[phrase]]
+from = "Container Images"
+to = "Images conteneur"
+[[phrase]]
+from = "GitHub Container Registry:"
+to = "GitHub Container Registry :"
+[[phrase]]
+from = "Docker Hub:"
+to = "Docker Hub :"
+[[phrase]]
+from = "Runtime user:"
+to = "Utilisateur runtime :"
+[[phrase]]
+from = "Default config path:"
+to = "Chemin de configuration par defaut :"
+[[phrase]]
+from = "Static site path:"
+to = "Chemin du site statique :"
+[[phrase]]
+from = "Cache path:"
+to = "Chemin du cache :"
+[[phrase]]
+from = "State path:"
+to = "Chemin d'etat :"
+[[phrase]]
+from = "Checksums And Signatures"
+to = "Sommes de controle et signatures"
+[[phrase]]
+from = "Source archive checksum:"
+to = "Somme de controle de l'archive source :"
+[[phrase]]
+from = "Binary checksums:"
+to = "Sommes de controle des binaires :"
+[[phrase]]
+from = "when published"
+to = "lorsque publie"
+[[phrase]]
+from = "SBOM checksums:"
+to = "Sommes de controle SBOM :"
+[[phrase]]
+from = "Reproducible build hash:"
+to = "Hash du build reproductible :"
+[[phrase]]
+from = "Container digests:"
+to = "Digests des conteneurs :"
+[[phrase]]
+from = "Tag signature:"
+to = "Signature du tag :"

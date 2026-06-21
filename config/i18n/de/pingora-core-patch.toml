@@ -1,0 +1,330 @@
+locale_id = "de-DE"
+html_lang = "de-DE"
+
+[[phrase]]
+from = "Pingora Core Patch"
+to = "Pingora-Core-Patch"
+
+[[phrase]]
+from = "Pingora Patches"
+to = "Pingora-Patches"
+
+[[phrase]]
+from = "Fluxheim vendors"
+to = "Fluxheim vendort"
+
+[[phrase]]
+from = "for a small set of narrow proxy/TLS compatibility fixes required by the default"
+to = "fuer eine kleine Menge enger Proxy-/TLS-Kompatibilitaetsfixes, die vom Standard-"
+
+[[phrase]]
+from = "build and the"
+to = "Build und der"
+
+[[phrase]]
+from = "production proxy parity line."
+to = "Produktions-Proxy-Paritaetslinie benoetigt werden."
+
+[[phrase]]
+from = "Rustls Listener Certificate Resolver"
+to = "Rustls-Listener-Zertifikatresolver"
+
+[[phrase]]
+from = "field used by the rustls listener when building"
+to = "Feld, das vom rustls-Listener beim Bauen von"
+
+[[phrase]]
+from = "The patch keeps Pingora's existing single-certificate path unchanged. It only allows Fluxheim to pass a rustls"
+to = "Der Patch laesst Pingoras bestehenden Single-Certificate-Pfad unveraendert. Er erlaubt Fluxheim nur, eine rustls-"
+
+[[phrase]]
+from = "implementation so per-vhost certificates can be selected by SNI in the default build."
+to = "Implementierung zu uebergeben, damit Zertifikate pro Vhost im Standard-Build per SNI ausgewaehlt werden koennen."
+
+[[phrase]]
+from = "As of Fluxheim"
+to = "Seit Fluxheim"
+
+[[phrase]]
+from = ", the resolver implementation itself lives in"
+to = "liegt die Resolver-Implementierung selbst in"
+
+[[phrase]]
+from = ": Fluxheim owns wildcard/exact SNI lookup, the reloadable certificate table, PEM certificate/private-key parsing, and TLS-ALPN challenge certificate loading. The vendored Pingora patch is now only the temporary listener acceptor hook that lets the compatibility runtime pass that resolver into rustls. This keeps Pingora's"
+to = ": Fluxheim besitzt Wildcard-/Exact-SNI-Lookup, die reloadbare Zertifikatstabelle, PEM-Zertifikat-/Private-Key-Parsing und TLS-ALPN-Challenge-Zertifikatsladung. Der vendorte Pingora-Patch ist jetzt nur noch der temporaere Listener-Acceptor-Hook, der die Compatibility-Runtime diesen Resolver an rustls uebergeben laesst. Das isoliert Pingoras"
+
+[[phrase]]
+from = "panic behavior isolated until the native downstream listener replaces the compatibility acceptor."
+to = "Panic-Verhalten, bis der native Downstream-Listener den Compatibility-Acceptor ersetzt."
+
+[[phrase]]
+from = "also owns the native rustls downstream"
+to = "besitzt auch den nativen rustls-Downstream-"
+
+[[phrase]]
+from = "builder. That builder applies Fluxheim TLS policy and returns typed errors for protocol, cipher, group, client-auth, and FIPS reporting failures. Until the native listener is wired into production profiles, the compatibility runtime still mirrors the same policy into Pingora's"
+to = "Builder. Dieser Builder wendet die Fluxheim-TLS-Policy an und gibt typisierte Fehler fuer Protokoll-, Cipher-, Group-, Client-Auth- und FIPS-Reporting-Fehler zurueck. Bis der native Listener in Produktionsprofile verdrahtet ist, spiegelt die Compatibility-Runtime dieselbe Policy weiterhin in Pingoras"
+
+[[phrase]]
+from = "For OpenSSL-only builds,"
+to = "Fuer OpenSSL-only-Builds besitzt"
+
+[[phrase]]
+from = "owns the native downstream"
+to = "den nativen Downstream-"
+
+[[phrase]]
+from = "builder for the fallback-certificate listener path. It applies certificate/key loading, ALPN, cipher, curve, minimum protocol, and client-auth CA policy with typed errors. It also owns OpenSSL SNI certificate storage, reload, pending managed-certificate handling, and certificate application. The remaining Pingora layer is a thin"
+to = "Builder fuer den Fallback-Certificate-Listener-Pfad. Er wendet Certificate-/Key-Loading, ALPN, Cipher, Curve, Minimum-Protocol und Client-Auth-CA-Policy mit typisierten Fehlern an. Er besitzt auch OpenSSL-SNI-Zertifikatsspeicher, Reload, Pending-Managed-Certificate-Handling und Zertifikatsanwendung. Die verbleibende Pingora-Schicht ist ein duenner"
+
+[[phrase]]
+from = "adapter until production listener cutover."
+to = "Adapter bis zum Produktions-Listener-Cutover."
+
+[[phrase]]
+from = "has a native rustls HTTP/1 listener preview that accepts a ready"
+to = "hat eine native rustls-HTTP/1-Listener-Preview, die eine fertige"
+
+[[phrase]]
+from = ", bounds the TLS handshake, and then hands the stream to the same native HTTP/1 parser/handler path used by plain listeners. OpenSSL-only builds also have a matching native HTTP/1 listener preview that accepts an"
+to = "akzeptiert, den TLS-Handshake begrenzt und den Stream dann an denselben nativen HTTP/1-Parser-/Handler-Pfad uebergibt, der von Plain-Listenern genutzt wird. OpenSSL-only-Builds haben auch eine passende native HTTP/1-Listener-Preview, die einen"
+
+[[phrase]]
+from = ", bounds the handshake, and uses the same native parser/handler. These are the intended replacement paths for the compatibility listener patch once the runtime cutover wires them into official profiles."
+to = "akzeptiert, den Handshake begrenzt und denselben nativen Parser/Handler nutzt. Das sind die vorgesehenen Ersatzpfade fuer den Compatibility-Listener-Patch, sobald der Runtime-Cutover sie in offizielle Profile verdrahtet."
+
+[[phrase]]
+from = "Rustls Upstream Verification Policy"
+to = "Rustls-Upstream-Verifikationspolicy"
+
+[[phrase]]
+from = "Fluxheim also patches the rustls upstream connector so per-peer"
+to = "Fluxheim patcht auch den rustls-Upstream-Connector, damit Pro-Peer-"
+
+[[phrase]]
+from = "policies apply even when no other setting forced Pingora to clone the rustls client config. In Pingora 0.8, the dangerous verifier path was only installed when a cloned config already existed for ALPN or upstream mTLS. Fluxheim exposes explicit upstream TLS verification controls, so the connector must clone the config and install the custom verifier whenever verification is disabled or SNI is absent."
+to = "Policies auch gelten, wenn keine andere Einstellung Pingora gezwungen hat, die rustls-Client-Config zu klonen. In Pingora 0.8 wurde der gefaehrliche Verifier-Pfad nur installiert, wenn bereits eine geklonte Config fuer ALPN oder Upstream-mTLS existierte. Fluxheim stellt explizite Upstream-TLS-Verifikationscontrols bereit, daher muss der Connector die Config klonen und den Custom-Verifier installieren, wenn Verifikation deaktiviert oder SNI nicht vorhanden ist."
+
+[[phrase]]
+from = "This is a temporary compatibility patch, not a long-term fork. Keep it small, easy to audit, and limited to the rustls certificate resolver and upstream verification-policy gaps."
+to = "Dies ist ein temporaerer Compatibility-Patch, kein langfristiger Fork. Halte ihn klein, leicht auditierbar und auf die Luecken bei rustls-Zertifikatresolver und Upstream-Verifikationspolicy begrenzt."
+
+[[phrase]]
+from = "Listener PROXY Protocol Receive"
+to = "Listener-PROXY-Protokoll-Empfang"
+
+[[phrase]]
+from = "Fluxheim also patches Pingora listeners with an opt-in PROXY protocol receive hook that runs after the TCP accept and before downstream TLS or HTTP parsing. The patch adds:"
+to = "Fluxheim patcht Pingora-Listener auch mit einem opt-in PROXY-Protokoll-Receive-Hook, der nach dem TCP-Accept und vor Downstream-TLS- oder HTTP-Parsing laeuft. Der Patch fuegt hinzu:"
+
+[[phrase]]
+from = "bounded v1 line parsing with the HAProxy 108-byte limit and bounded v2 payload parsing;"
+to = "begrenztes v1-Line-Parsing mit dem HAProxy-108-Byte-Limit und begrenztes v2-Payload-Parsing;"
+
+[[phrase]]
+from = "mandatory direct-peer trust checks before parsing;"
+to = "verpflichtende Direct-Peer-Trust-Pruefungen vor dem Parsing;"
+
+[[phrase]]
+from = "socket-digest peer-address replacement only after a trusted, valid v1/v2 header."
+to = "Socket-Digest-Peer-Address-Replacement nur nach einem vertrauenswuerdigen, gueltigen v1-/v2-Header."
+
+[[phrase]]
+from = "This is needed because Fluxheim must restore client identity before TLS and HTTP handling when it sits behind a trusted load balancer that speaks PROXY protocol. The v2 parser currently supports TCP4/TCP6 plus LOCAL/UNSPEC frames and skips bounded TLV payloads; TLV interpretation is intentionally not included."
+to = "Das ist noetig, weil Fluxheim die Client-Identitaet vor TLS- und HTTP-Handling wiederherstellen muss, wenn es hinter einem vertrauenswuerdigen Load Balancer sitzt, der PROXY-Protokoll spricht. Der v2-Parser unterstuetzt aktuell TCP4/TCP6 plus LOCAL-/UNSPEC-Frames und ueberspringt begrenzte TLV-Payloads; TLV-Interpretation ist absichtlich nicht enthalten."
+
+[[phrase]]
+from = "Removal Criteria"
+to = "Entfernungskriterien"
+
+[[phrase]]
+from = "when an upstream Pingora release exposes equivalent rustls server certificate resolver support and applies per-peer rustls upstream verification policy without requiring ALPN or mTLS to clone the client config first, and exposes an equivalent pre-TLS listener PROXY protocol receive hook with trusted peer enforcement."
+to = "wenn ein Upstream-Pingora-Release aequivalenten rustls-Server-Certificate-Resolver-Support bereitstellt, Pro-Peer-rustls-Upstream-Verifikationspolicy anwendet, ohne zuerst ALPN oder mTLS zum Klonen der Client-Config zu benoetigen, und einen aequivalenten Pre-TLS-Listener-PROXY-Protokoll-Receive-Hook mit Trusted-Peer-Enforcement bereitstellt."
+
+[[phrase]]
+from = "Before removing the patch, verify:"
+to = "Vor dem Entfernen des Patches pruefen:"
+
+[[phrase]]
+from = "the smoke assertion that"
+to = "die Smoke-Assertion, dass"
+
+[[phrase]]
+from = "certificate via SNI"
+to = "Zertifikat per SNI erhaelt"
+
+[[phrase]]
+from = "a rustls upstream with"
+to = "ein rustls-Upstream mit"
+
+[[phrase]]
+from = "can connect to a self-signed or otherwise untrusted test origin without requiring unrelated ALPN or mTLS settings"
+to = "kann sich mit einem selbstsignierten oder anderweitig nicht vertrauenswuerdigen Test-Origin verbinden, ohne nicht verwandte ALPN- oder mTLS-Einstellungen zu benoetigen"
+
+[[phrase]]
+from = "validates against that per-peer CA bundle rather than the process default root store"
+to = "validiert gegen dieses Pro-Peer-CA-Bundle statt gegen den Prozess-Default-Root-Store"
+
+[[phrase]]
+from = "listeners configured with"
+to = "Listener, die mit"
+
+[[phrase]]
+from = "reject untrusted direct peers and restore the PROXY source address before TLS/HTTP handling"
+to = "konfiguriert sind, lehnen nicht vertrauenswuerdige Direct Peers ab und stellen die PROXY-Quelladresse vor TLS-/HTTP-Handling wieder her"
+
+[[phrase]]
+from = "Upstream Candidate"
+to = "Upstream-Kandidat"
+
+[[phrase]]
+from = "These patches are small enough to propose upstream. The cleaner upstream shape would be:"
+to = "Diese Patches sind klein genug, um sie upstream vorzuschlagen. Die sauberere Upstream-Form waere:"
+
+[[phrase]]
+from = "re-export the needed rustls server certificate resolver types from"
+to = "die benoetigten rustls-Server-Certificate-Resolver-Typen aus"
+
+[[phrase]]
+from = "or add the direct rustls dependency in"
+to = "re-exportieren oder die direkte rustls-Abhaengigkeit in"
+
+[[phrase]]
+from = "for the rustls listener;"
+to = "fuer den rustls-Listener;"
+
+[[phrase]]
+from = "preserve the existing"
+to = "das bestehende"
+
+[[phrase]]
+from = "behavior for single-certificate listeners;"
+to = "Verhalten fuer Single-Certificate-Listener bewahren;"
+
+[[phrase]]
+from = "keep ALPN handling through the existing"
+to = "ALPN-Handling ueber die bestehenden"
+
+[[phrase]]
+from = "in the rustls connector, compute per-peer verification mode independently and clone the client config when a custom verifier is needed."
+to = "im rustls-Connector den Pro-Peer-Verifikationsmodus unabhaengig berechnen und die Client-Config klonen, wenn ein Custom-Verifier benoetigt wird."
+
+[[phrase]]
+from = "in the rustls connector, honor"
+to = "im rustls-Connector"
+
+[[phrase]]
+from = "when constructing the per-peer root store for both normal verification and custom verifier modes."
+to = "beim Erstellen des Pro-Peer-Root-Stores sowohl fuer normale Verifikation als auch fuer Custom-Verifier-Modi beachten."
+
+[[phrase]]
+from = "expose a pre-TLS listener hook for PROXY protocol v1/v2 receive, or native listener support that can enforce trusted direct peers before overriding the socket digest client address, with bounded v2 TLV handling."
+to = "einen Pre-TLS-Listener-Hook fuer PROXY-Protokoll-v1-/v2-Empfang oder nativen Listener-Support bereitstellen, der vertrauenswuerdige Direct Peers erzwingen kann, bevor die Socket-Digest-Client-Adresse ueberschrieben wird, mit begrenztem v2-TLV-Handling."
+
+[[phrase]]
+from = "Fluxheim should keep the vendored patch narrow and avoid unrelated edits to vendored Pingora source."
+to = "Fluxheim sollte den vendorten Patch eng halten und nicht verwandte Edits am vendorten Pingora-Source vermeiden."
+
+[[phrase]]
+from = "Pingora OpenSSL Patch"
+to = "Pingora-OpenSSL-Patch"
+
+[[phrase]]
+from = "for one dependency-policy change: the crates.io package forces"
+to = "fuer eine Dependency-Policy-Aenderung: Das crates.io-Paket erzwingt"
+
+[[phrase]]
+from = "path must be able to link against the operator-installed OpenSSL 3 FIPS provider, so the local patch removes only the"
+to = "Pfad muss gegen den vom Operator installierten OpenSSL-3-FIPS-Provider linken koennen, daher entfernt der lokale Patch nur das"
+
+[[phrase]]
+from = "OpenSSL dependency."
+to = "OpenSSL-Abhaengigkeit."
+
+[[phrase]]
+from = "This patch does not change Pingora's OpenSSL API or runtime behavior. It only lets normal Cargo/OpenSSL discovery use the system OpenSSL selected by the operator. Remove"
+to = "Dieser Patch aendert weder Pingoras OpenSSL-API noch Runtime-Verhalten. Er laesst nur normale Cargo-/OpenSSL-Erkennung das vom Operator ausgewaehlte System-OpenSSL verwenden. Entferne"
+
+[[phrase]]
+from = "entry when upstream makes OpenSSL vendoring optional or no longer enables it by default."
+to = "Eintrag, wenn Upstream OpenSSL-Vendoring optional macht oder nicht mehr standardmaessig aktiviert."
+
+[[phrase]]
+from = "Proposed PR Steps"
+to = "Vorgeschlagene PR-Schritte"
+
+[[phrase]]
+from = "Fork the upstream Pingora repository and create a focused branch, for example"
+to = "Forke das Upstream-Pingora-Repository und erstelle einen fokussierten Branch, zum Beispiel"
+
+[[phrase]]
+from = "Apply only the rustls listener API change:"
+to = "Wende nur die rustls-Listener-API-Aenderung an:"
+
+[[phrase]]
+from = "add a resolver field to the rustls listener"
+to = "ein Resolver-Feld zum rustls-Listener-"
+
+[[phrase]]
+from = "or use Fluxheim's native listener resolver directly once Pingora is removed;"
+to = "hinzufuegen oder Fluxheims nativen Listener-Resolver direkt nutzen, sobald Pingora entfernt ist;"
+
+[[phrase]]
+from = "use the resolver when present and keep the existing"
+to = "den Resolver nutzt, wenn vorhanden, und den bestehenden"
+
+[[phrase]]
+from = "single-certificate path unchanged."
+to = "Single-Certificate-Pfad unveraendert laesst."
+
+[[phrase]]
+from = "Prefer the smallest public API surface the upstream maintainers will accept. If"
+to = "Bevorzuge die kleinste oeffentliche API-Flaeche, die die Upstream-Maintainer akzeptieren. Wenn"
+
+[[phrase]]
+from = "can re-export the needed rustls resolver types, that is cleaner than adding a broad direct dependency."
+to = "die benoetigten rustls-Resolver-Typen re-exportieren kann, ist das sauberer als eine breite direkte Abhaengigkeit hinzuzufuegen."
+
+[[phrase]]
+from = "Add or update an upstream test/example if the repository has a listener TLS test harness that can verify the resolver path without opening a real public socket."
+to = "Fuege einen Upstream-Test oder ein Beispiel hinzu oder aktualisiere es, wenn das Repository ein Listener-TLS-Test-Harness hat, das den Resolver-Pfad ohne oeffentlichen Socket verifizieren kann."
+
+[[phrase]]
+from = "Run the upstream formatting and test commands documented by Pingora."
+to = "Fuehre die von Pingora dokumentierten Upstream-Formatierungs- und Testbefehle aus."
+
+[[phrase]]
+from = "Open the PR with a narrow description: rustls listeners need a server certificate resolver hook so applications can select certificates by SNI while keeping the existing single-certificate API."
+to = "Oeffne den PR mit enger Beschreibung: rustls-Listener brauchen einen Server-Certificate-Resolver-Hook, damit Anwendungen Zertifikate per SNI auswaehlen koennen, waehrend die bestehende Single-Certificate-API erhalten bleibt."
+
+[[phrase]]
+from = "Link Fluxheim's local patch as a real downstream use case, but do not include Fluxheim-specific config, docs, or behavior in the upstream PR."
+to = "Verlinke Fluxheims lokalen Patch als realen Downstream-Use-Case, aber nimm keine Fluxheim-spezifische Konfiguration, Dokumentation oder Verhalten in den Upstream-PR auf."
+
+[[phrase]]
+from = "Fluxheim also vendors"
+to = "Fluxheim vendort auch"
+
+[[phrase]]
+from = ". Fluxheim's"
+to = ". Fluxheims"
+
+[[phrase]]
+from = "<p>Remove <code>vendor/pingora-core</code> and the <code>[patch.crates-io]</code> entry in <code>Cargo.toml</code> when an upstream Pingora release exposes equivalent rustls server certificate resolver support and applies per-peer rustls upstream verification policy without requiring ALPN or mTLS to clone the client config first, and exposes an equivalent pre-TLS listener PROXY protocol receive hook with trusted peer enforcement.</p>"
+to = "<p><code>vendor/pingora-core</code> und den <code>[patch.crates-io]</code>-Eintrag in <code>Cargo.toml</code> entfernen, wenn ein Upstream-Pingora-Release gleichwertigen rustls-Server-Certificate-Resolver-Support bereitstellt, Per-Peer-rustls-Upstream-Verifikationspolicy anwendet, ohne zuerst ALPN oder mTLS zum Klonen der Client-Config zu verlangen, und einen gleichwertigen Pre-TLS-Listener-PROXY-Protokoll-Empfangshook mit Trusted-Peer-Erzwingung bereitstellt.</p>"
+
+[[phrase]]
+from = " receives the <code>app.test</code> certificate via SNI"
+to = " das <code>app.test</code>-Zertifikat via SNI erhaelt"
+
+[[phrase]]
+from = "<li>add <code>TlsSettings::with_cert_resolver(Arc&lt;dyn ResolvesServerCert&gt;)</code> for the rustls listener;</li>"
+to = "<li><code>TlsSettings::with_cert_resolver(Arc&lt;dyn ResolvesServerCert&gt;)</code> fuer den rustls-Listener hinzufuegen;</li>"
+
+[[phrase]]
+from = "<li>add <code>TlsSettings::with_cert_resolver(...)</code> or use Fluxheim&#x27;s native listener resolver directly once Pingora is removed;</li>"
+to = "<li><code>TlsSettings::with_cert_resolver(...)</code> hinzufuegen oder Fluxheims nativen Listener-Resolver direkt nutzen, sobald Pingora entfernt ist;</li>"
+
+[[phrase]]
+from = "<li>make <code>build()</code> use the resolver when present and keep the existing <code>intermediate(cert, key)</code> single-certificate path unchanged.</li>"
+to = "<li><code>build()</code> den Resolver nutzen lassen, wenn vorhanden, und den bestehenden <code>intermediate(cert, key)</code>-Single-Certificate-Pfad unveraendert lassen.</li>"
