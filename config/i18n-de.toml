@@ -194,10 +194,6 @@ from = "Security"
 to = "Sicherheit"
 
 [[phrase]]
-from = "Language"
-to = "Sprache"
-
-[[phrase]]
 from = "Fluxheim Core"
 to = "Fluxheim-Kern"
 
@@ -340,10 +336,6 @@ to = "Empfohlen"
 [[phrase]]
 from = "Full Production Build"
 to = "Vollständiger Produktions-Build"
-
-[[phrase]]
-from = "Latest Stable"
-to = "Neueste stabile Version"
 
 [[phrase]]
 from = "Rootless-first containers"
