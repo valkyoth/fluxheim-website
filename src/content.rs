@@ -1,4 +1,4 @@
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 use serde::Deserialize;
 
@@ -130,6 +130,28 @@ impl Site {
             return Err("at least one locale is required".to_owned());
         }
 
+        let mut locale_ids = BTreeSet::new();
+        for locale in &self.locales {
+            if locale.locale_id.trim().is_empty()
+                || locale.html_lang.trim().is_empty()
+                || locale.url_prefix.trim().is_empty()
+                || locale.display_name.trim().is_empty()
+            {
+                return Err("locale fields must not be empty".to_owned());
+            }
+
+            if !locale_ids.insert(&locale.locale_id) {
+                return Err(format!("duplicate locale id {}", locale.locale_id));
+            }
+
+            if locale.url_prefix != locale.url_prefix.to_lowercase()
+                || locale.url_prefix.contains('/')
+                || locale.url_prefix.contains(char::is_whitespace)
+            {
+                return Err(format!("invalid locale prefix {}", locale.url_prefix));
+            }
+        }
+
         if self.locale(&self.config.default_locale).is_none() {
             return Err("default locale is missing from locale config".to_owned());
         }
@@ -146,6 +168,8 @@ mod tests {
     fn loads_configured_locales() {
         let site = Site::load().expect("site content loads");
         assert!(site.locale("en-EU").is_some());
+        assert!(site.locale("en-GB").is_some());
+        assert!(site.locale("en-US").is_some());
         assert!(site.locale("de-DE").is_some());
         assert!(site.locale("fr-FR").is_some());
     }
@@ -154,6 +178,8 @@ mod tests {
     fn splits_default_and_localized_routes() {
         let site = Site::load().expect("site content loads");
         assert_eq!(site.split_path("download").0.locale_id, "en-EU");
+        assert_eq!(site.split_path("en-gb/download").0.locale_id, "en-GB");
+        assert_eq!(site.split_path("en-us/download").0.locale_id, "en-US");
         assert_eq!(site.split_path("de/download").0.locale_id, "de-DE");
         assert_eq!(site.split_path("fr/docs/cache").0.locale_id, "fr-FR");
     }
@@ -162,7 +188,10 @@ mod tests {
     fn builds_language_links_for_same_page() {
         let site = Site::load().expect("site content loads");
         let links = site.language_links("de-DE", "download");
+        assert_eq!(links.len(), site.locales().count());
         assert!(links.iter().any(|link| link.href == "/download"));
+        assert!(links.iter().any(|link| link.href == "/en-gb/download"));
+        assert!(links.iter().any(|link| link.href == "/en-us/download"));
         assert!(links.iter().any(|link| link.href == "/de/download"));
         assert!(links.iter().any(|link| link.href == "/fr/download"));
     }

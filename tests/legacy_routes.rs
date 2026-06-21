@@ -2,9 +2,9 @@ use std::sync::Arc;
 
 use axum::body::{Body, to_bytes};
 use axum::http::{Request, StatusCode};
-use fluxheim_website::content::Site;
+use fluxheim_website::content::{Locale, Site};
 use fluxheim_website::http_app::build_router;
-use fluxheim_website::legacy::{LOCALE_PREFIXES, legacy_html_paths, slug_for_path};
+use fluxheim_website::legacy::{legacy_html_paths, slug_for_path};
 use tower::ServiceExt;
 
 const SOURCE_FLUXHEIM_VERSION: &str = "1.6.28";
@@ -19,15 +19,22 @@ async fn all_legacy_html_pages_are_served_for_each_locale_prefix() {
         let source = std::fs::read_to_string(&path).expect("read legacy html");
         let title = extract_title(&source).expect("legacy html title");
 
-        for prefix in LOCALE_PREFIXES {
-            let uri = localized_uri(prefix, &slug);
+        for locale in site.locales() {
+            let uri = localized_uri(&site, locale, &slug);
             let body = get_body(app.clone(), &uri).await;
-            if prefix == "en-eu" {
+            if locale.locale_id.starts_with("en-") {
                 assert!(
                     body.contains(&title),
                     "{uri} did not preserve title {title:?}"
                 );
-                assert_preserves_source_html(&source, &body, &uri, &site.config.fluxheim_version);
+                if locale.locale_id == site.config.default_locale {
+                    assert_preserves_source_html(
+                        &source,
+                        &body,
+                        &uri,
+                        &site.config.fluxheim_version,
+                    );
+                }
             } else {
                 assert!(
                     body.contains("Fluxheim"),
@@ -59,17 +66,13 @@ async fn get_body(app: axum::Router, uri: &str) -> String {
     String::from_utf8(body.to_vec()).expect("utf8 body")
 }
 
-fn localized_uri(prefix: &str, slug: &str) -> String {
-    if prefix == "en-eu" {
-        if slug.is_empty() {
-            "/".to_owned()
-        } else {
-            format!("/{slug}")
-        }
-    } else if slug.is_empty() {
-        format!("/{prefix}/")
+fn localized_uri(site: &Site, locale: &Locale, slug: &str) -> String {
+    if locale.locale_id == site.config.default_locale && slug.is_empty() {
+        "/".to_owned()
+    } else if locale.locale_id == site.config.default_locale {
+        format!("/{slug}")
     } else {
-        format!("/{prefix}/{slug}")
+        site.path_for(locale, slug)
     }
 }
 

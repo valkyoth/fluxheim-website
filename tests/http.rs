@@ -39,6 +39,8 @@ async fn renders_default_english_home() {
     assert!(body.contains("Edge Server"));
     assert!(body.contains("Download v1.6.28"));
     assert!(body.contains("English (EU)"));
+    assert!(body.contains("English (UK)"));
+    assert!(body.contains("English (US)"));
     assert!(body.contains("Rootless Containers"));
 }
 
@@ -56,6 +58,22 @@ async fn locale_prefixes_preserve_legacy_pages() {
         fr_body.contains("Systemd &amp; conteneurs") || fr_body.contains("Systemd & conteneurs")
     );
     assert!(fr_body.contains("Podman Quadlet"));
+}
+
+#[tokio::test]
+async fn english_variant_prefixes_preserve_english_content() {
+    let (gb_status, _headers, gb_body) = request("/en-gb/download").await;
+    assert_eq!(gb_status, StatusCode::OK);
+    assert!(gb_body.contains(r#"<html lang="en-GB""#));
+    assert!(gb_body.contains("Download v1.6.28"));
+    assert!(gb_body.contains("Pre-built Linux binaries"));
+    assert!(gb_body.contains(r#"<a href="/en-gb/download" aria-current="true">English (UK)</a>"#));
+
+    let (us_status, _headers, us_body) = request("/en-us/docs").await;
+    assert_eq!(us_status, StatusCode::OK);
+    assert!(us_body.contains(r#"<html lang="en-US""#));
+    assert!(us_body.contains("Documentation"));
+    assert!(us_body.contains(r#"<a href="/en-us/docs" aria-current="true">English (US)</a>"#));
 }
 
 #[tokio::test]
@@ -225,6 +243,8 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains("Dokumentation"));
     assert!(de_body.contains(r#"<a href="/docs">English (EU)</a>"#));
+    assert!(de_body.contains(r#"<a href="/en-gb/docs">English (UK)</a>"#));
+    assert!(de_body.contains(r#"<a href="/en-us/docs">English (US)</a>"#));
     assert!(de_body.contains(r#"<a href="/de/docs" aria-current="true">Deutsch</a>"#));
 }
 
@@ -275,6 +295,8 @@ async fn legacy_fluxheim_config_is_served() {
 async fn language_selector_targets_same_page() {
     let (_status, _headers, body) = request("/de/download").await;
     assert!(body.contains(r#"<a href="/download""#));
+    assert!(body.contains(r#"<a href="/en-gb/download""#));
+    assert!(body.contains(r#"<a href="/en-us/download""#));
     assert!(body.contains(r#"<a href="/de/download" aria-current="true""#));
     assert!(body.contains(r#"<a href="/fr/download""#));
     assert!(body.contains("<summary>Sprache</summary>"));

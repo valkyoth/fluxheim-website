@@ -5,6 +5,18 @@ url_prefix = "en-eu"
 display_name = "English (EU)"
 
 [[locales]]
+locale_id = "en-GB"
+html_lang = "en-GB"
+url_prefix = "en-gb"
+display_name = "English (UK)"
+
+[[locales]]
+locale_id = "en-US"
+html_lang = "en-US"
+url_prefix = "en-us"
+display_name = "English (US)"
+
+[[locales]]
 locale_id = "de-DE"
 html_lang = "de-DE"
 url_prefix = "de"

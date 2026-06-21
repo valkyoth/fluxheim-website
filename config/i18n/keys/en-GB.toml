@@ -1,0 +1,18 @@
+locale_id = "en-GB"
+
+[language]
+selector_label = "Language"
+english_eu = "English (EU)"
+english_uk = "English (UK)"
+english_us = "English (US)"
+german = "Deutsch"
+french = "Français"
+
+[nav]
+docs = "Docs"
+download = "Download"
+changelog = "Changelog"
+
+[release]
+latest_stable = "Latest Stable"
+download_version = "Download v{version}"

@@ -1,0 +1,18 @@
+locale_id = "fr-FR"
+
+[language]
+selector_label = "Langue"
+english_eu = "English (EU)"
+english_uk = "English (UK)"
+english_us = "English (US)"
+german = "Deutsch"
+french = "Français"
+
+[nav]
+docs = "Documentation"
+download = "Télécharger"
+changelog = "Journal des changements"
+
+[release]
+latest_stable = "Dernière version stable"
+download_version = "Télécharger v{version}"

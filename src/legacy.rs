@@ -2,6 +2,7 @@ use std::path::{Component, Path, PathBuf};
 
 use crate::content::{Locale, Site};
 use crate::i18n;
+use crate::i18n_keys;
 
 const SOURCE_FLUXHEIM_VERSION: &str = "1.6.28";
 
@@ -17,15 +18,14 @@ pub struct StaticArtifact {
     pub content_type: &'static str,
 }
 
-pub const LOCALE_PREFIXES: [&str; 3] = ["en-eu", "de", "fr"];
-
 pub fn render(site: &Site, request_path: &str) -> Option<LegacyPage> {
     let clean = request_path.trim_matches('/');
     let (locale, slug) = site.split_path(clean);
     let file_path = html_path_for_locale(site, locale, slug)?;
     let mut html = std::fs::read_to_string(&file_path).ok()?;
-    html = i18n::translate_html(locale, html);
     html = apply_version(site, html);
+    html = i18n_keys::apply_shared_keys(locale, html, &site.config.fluxheim_version);
+    html = i18n::translate_html(locale, html);
     html = inject_language_selector(site, locale, slug, html);
 
     Some(LegacyPage {
@@ -234,11 +234,7 @@ fn inject_language_selector(
 }
 
 fn language_selector(site: &Site, active_locale: &Locale, slug: &str) -> String {
-    let label = match active_locale.locale_id.as_str() {
-        "de-DE" => "Sprache",
-        "fr-FR" => "Langue",
-        _ => "Language",
-    };
+    let label = i18n_keys::language_selector_label(active_locale);
     let mut html = String::from(
         r#"<style>
 .fh-language-switcher{position:fixed;right:1rem;bottom:1rem;z-index:60;font-family:Inter,ui-sans-serif,system-ui,sans-serif}
@@ -265,10 +261,12 @@ fn language_selector(site: &Site, active_locale: &Locale, slug: &str) -> String 
         } else {
             ""
         };
+        let display_name =
+            i18n_keys::language_display_name(active_locale, &link.locale_id, &link.display_name);
         html.push_str(&format!(
             r#"  <a href="{}"{}>{}</a>
 "#,
-            link.href, active, link.display_name
+            link.href, active, display_name
         ));
     }
 

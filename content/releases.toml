@@ -1,0 +1,61 @@
+latest = "1.6.28"
+
+[[release]]
+version = "1.6.28"
+date = "2026-06-21"
+title = "Native rich-proxy parity"
+summary = "Route-level native compression and proxy error-page fallback pages backed by fluxheim-web."
+
+[[release]]
+version = "1.6.27"
+date = "2026-06-21"
+title = "Native route static web"
+summary = "Route static web actions, request-header mutation, response rewrites, and static upstream weights."
+
+[[release]]
+version = "1.6.26"
+date = "2026-06-21"
+title = "Native route transforms"
+summary = "Route redirects, body limits, and response header overlays moved into native route handling."
+
+[[release]]
+version = "1.6.25"
+date = "2026-06-21"
+title = "Native route proxy candidate"
+summary = "HTTP/1 route proxy candidate with exact, prefix, and fallback route matching evidence."
+
+[[release]]
+version = "1.6.24"
+date = "2026-06-21"
+title = "HTTP/2 downstream parity"
+summary = "Native HTTP/2 downstream parity proof and blocker-free simple runtime cutover evidence."
+
+[[release]]
+version = "1.6.23"
+date = "2026-06-21"
+title = "Native stream task boundaries"
+summary = "Stream and UDP service startup cut over to native task boundaries."
+
+[[release]]
+version = "1.6.22"
+date = "2026-06-21"
+title = "Native admin metrics"
+summary = "Native admin and metrics serving slice for runtime observability."
+
+[[release]]
+version = "1.6.21"
+date = "2026-06-21"
+title = "Native background supervisor"
+summary = "Native background supervisor work for managed runtime tasks."
+
+[[release]]
+version = "1.6.20"
+date = "2026-06-21"
+title = "Native runtime cutover evidence"
+summary = "Native runtime cutover evidence and fluxheim-config-tester runtime-cutover checks."
+
+[[release]]
+version = "1.6.19"
+date = "2026-06-19"
+title = "Pingora compatibility boundary"
+summary = "Native TLS/listener preview and explicit pingora-compat compatibility boundary release."

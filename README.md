@@ -18,8 +18,13 @@ English (EU) is the default locale and renders at the root paths:
 - `/download`
 - `/docs`
 
-German and French render through stable locale prefixes:
+English (UK), English (US), German, and French render through stable locale
+prefixes:
 
+- `/en-gb/`
+- `/en-gb/download`
+- `/en-us/`
+- `/en-us/download`
 - `/de/`
 - `/de/download`
 - `/fr/`
@@ -28,10 +33,13 @@ German and French render through stable locale prefixes:
 The application also accepts `/en-eu/...` as an explicit English (EU) prefix,
 while generated links prefer the default root paths.
 
-German and French are localized through phrase maps in `config/i18n-de.toml`
-and `config/i18n-fr.toml`, plus page-specific bundles under `config/i18n/`.
-The legacy HTML files remain the structural source of truth, so updating the
-site does not require editing cloned HTML trees.
+English (UK) and English (US) are currently pass-through English variants with
+their own `html lang` values. German and French are localized through phrase
+maps in `config/i18n-de.toml` and `config/i18n-fr.toml`, plus page-specific
+bundles under `config/i18n/`. The legacy HTML files remain the structural source
+of truth, so updating the site does not require editing cloned HTML trees.
+Stable key files under `config/i18n/keys/` currently drive shared selector text
+and establish the migration path away from raw phrase replacement.
 
 Legacy static artifacts under `docs/source/`, such as Markdown and TSV files,
 are still served directly through the same locale-prefixed paths.
@@ -105,6 +113,14 @@ Run the full local gate:
 
 ```bash
 scripts/checks.sh
+```
+
+Compare the website release metadata with a local Fluxheim checkout before a
+version update:
+
+```bash
+scripts/plan_fluxheim_update.py --fluxheim ../fluxheim
+scripts/check_fluxheim_source.py --fluxheim ../fluxheim
 ```
 
 Run a local smoke test:
