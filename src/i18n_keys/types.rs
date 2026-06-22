@@ -13,6 +13,7 @@ pub(super) struct KeyFile {
     pub(super) docs_index: BTreeMap<String, String>,
     pub(super) common: BTreeMap<String, String>,
     pub(super) download: BTreeMap<String, String>,
+    pub(super) changelog: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

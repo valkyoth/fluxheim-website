@@ -1,7 +1,7 @@
 use super::{KeyFile, home, versioned};
 
 pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version: &str) -> String {
-    html.replace(
+    let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
         &keys.shell.home_title,
     )
@@ -178,8 +178,15 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     .replace_home_marker("Rootless Containers", home(keys, "tag_rootless_containers"))
     .replace_map(&source.docs_index, &keys.docs_index)
     .replace_map(&source.common, &keys.common)
-    .replace_map(&source.download, &keys.download)
-    .replace(
+    .replace_map(&source.download, &keys.download);
+
+    let html = if html.contains("Changelog — Fluxheim") {
+        html.replace_map_everywhere(&source.changelog, &keys.changelog)
+    } else {
+        html
+    };
+
+    html.replace(
         ">Download v1.6.28<",
         &format!(">{}<", versioned(&keys.release.download_version, version)),
     )
@@ -200,6 +207,11 @@ trait HtmlTextReplace {
     fn replace_home_marker(self, from: &str, to: &str) -> String;
     fn replace_attr_value(self, from: &str, to: &str) -> String;
     fn replace_map(
+        self,
+        source: &std::collections::BTreeMap<String, String>,
+        target: &std::collections::BTreeMap<String, String>,
+    ) -> String;
+    fn replace_map_everywhere(
         self,
         source: &std::collections::BTreeMap<String, String>,
         target: &std::collections::BTreeMap<String, String>,
@@ -233,6 +245,25 @@ impl HtmlTextReplace for String {
             if source.len() >= 40 {
                 output = output.replace(source, replacement);
             }
+        }
+
+        output
+    }
+
+    fn replace_map_everywhere(
+        self,
+        source: &std::collections::BTreeMap<String, String>,
+        target: &std::collections::BTreeMap<String, String>,
+    ) -> String {
+        let mut output = self;
+        let mut entries: Vec<_> = source.iter().collect();
+        entries.sort_by_key(|(_, source)| std::cmp::Reverse(source.len()));
+
+        for (key, source) in entries {
+            let replacement = target
+                .get(key)
+                .unwrap_or_else(|| panic!("target i18n key exists: {key}"));
+            output = output.replace(source, replacement);
         }
 
         output

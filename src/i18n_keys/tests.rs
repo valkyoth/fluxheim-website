@@ -114,3 +114,24 @@ fn applies_stable_download_keys_for_release_page_copy() {
     assert!(translated.contains(">Cache-Profil</span>"));
     assert!(translated.contains("Native HTTP/1.1-Upstream-Pooling-Version"));
 }
+
+#[test]
+fn applies_stable_changelog_keys_only_on_changelog_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Changelog — Fluxheim</title>",
+        "Released June 19, 2026",
+        "Adds explicit <code>pingora-compat</code> ",
+        "feature gating for the remaining compatibility runtime boundary",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, "Released June 19, 2026".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<title>Änderungen — Fluxheim</title>"));
+    assert!(translated.contains("Veröffentlicht am 19. Juni 2026"));
+    assert!(translated.contains("Fügt explizites <code>pingora-compat</code> Feature-Gating"));
+    assert_eq!(unrelated, "Released June 19, 2026");
+}
