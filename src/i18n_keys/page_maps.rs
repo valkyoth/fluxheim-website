@@ -184,11 +184,17 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.pingora_core_patch,
         &keys.pingora_core_patch,
     );
-    replace_marker_map(
+    let html = replace_marker_map(
         html,
         "Supply Chain Security — Fluxheim Source Docs",
         &source.supply_chain_security,
         &keys.supply_chain_security,
+    );
+    replace_marker_map(
+        html,
+        "Compression — Fluxheim Source Docs",
+        &source.compression,
+        &keys.compression,
     )
 }
 

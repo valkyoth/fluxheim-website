@@ -274,3 +274,24 @@ fn applies_stable_supply_chain_security_keys_only_on_source_page() {
     assert!(translated.contains("Akzeptierte Einschraenkungen"));
     assert!(unrelated.contains(">Current Controls<"));
 }
+
+#[test]
+fn applies_stable_compression_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Compression — Fluxheim Source Docs</title>",
+        "Goals",
+        "Privacy And Security",
+        "Cache Integration",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Goals<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Ziele"));
+    assert!(translated.contains("Datenschutz und Sicherheit"));
+    assert!(translated.contains("Cache-Integration"));
+    assert!(unrelated.contains(">Goals<"));
+}
