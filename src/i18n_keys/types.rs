@@ -50,6 +50,7 @@ pub(super) struct KeyFile {
     pub(super) production_readiness: BTreeMap<String, String>,
     pub(super) cache_backends: BTreeMap<String, String>,
     pub(super) waf_architecture: BTreeMap<String, String>,
+    pub(super) image_filter: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

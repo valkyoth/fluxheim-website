@@ -414,3 +414,30 @@ fn applies_stable_waf_architecture_keys_only_on_source_page() {
     );
     assert!(unrelated.contains(">WAF audit logs should include:<"));
 }
+
+#[test]
+fn applies_stable_image_filter_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Image Filter — Fluxheim Source Docs</title>",
+        "Image Filter",
+        "This module adds safe, bounded image validation and transformation at the edge. It is intended for small static sites, media-heavy origins, and cache-backed deployments that want predictable image variants without adding a separate image service.",
+        "Security Requirements",
+        "<li>rotate by <code>90</code>, <code>180</code>, or <code>270</code> degrees;</li>",
+        "<li>cache transformed variants when <code>cache</code> is enabled;</li>",
+        "<li>never cache transformed output when request or response policy says <code>Cache-Control: no-store</code>.</li>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Security Requirements<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Bildfilter"));
+    assert!(translated.contains("sichere, begrenzte Bildvalidierung"));
+    assert!(translated.contains("Sicherheitsanforderungen"));
+    assert!(translated.contains("oder <code>270</code> Grad"));
+    assert!(translated.contains("wenn <code>cache</code> aktiviert ist"));
+    assert!(translated.contains("<code>Cache-Control: no-store</code> sagt"));
+    assert!(unrelated.contains(">Security Requirements<"));
+}

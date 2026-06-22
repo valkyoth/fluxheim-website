@@ -220,11 +220,17 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.cache_backends,
         &keys.cache_backends,
     );
-    replace_marker_map(
+    let html = replace_marker_map(
         html,
         "WAF Architecture — Fluxheim Source Docs",
         &source.waf_architecture,
         &keys.waf_architecture,
+    );
+    replace_marker_map(
+        html,
+        "Image Filter — Fluxheim Source Docs",
+        &source.image_filter,
+        &keys.image_filter,
     )
 }
 
