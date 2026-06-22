@@ -441,3 +441,27 @@ fn applies_stable_image_filter_keys_only_on_source_page() {
     assert!(translated.contains("<code>Cache-Control: no-store</code> sagt"));
     assert!(unrelated.contains(">Security Requirements<"));
 }
+
+#[test]
+fn applies_stable_cloudflare_origin_support_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let fr = site.locale("fr-FR").expect("French locale");
+    let html = concat!(
+        "<title>Cloudflare Origin Support — Fluxheim Source Docs</title>",
+        "Cloudflare support is a feasible future optional module, but it should be split into phases. Fluxheim should first treat Cloudflare as a trusted proxy only after the direct peer is verified. Certificate automation and Authenticated Origin Pulls are valuable, but they involve credentials, TLS reload behavior, and security-sensitive trust decisions.",
+        "<p>If none of those conditions succeeds, Fluxheim must treat <code>CF-Connecting-IP</code>, <code>CF-Ray</code>, <code>CF-IPCountry</code>, and related headers as untrusted remote input.</p>",
+        "<li>record <code>last_success</code>, <code>last_failure</code>, and active range count in metrics and admin status;</li>",
+        "<p>Use <code>ArcSwap</code> or equivalent atomic state so new requests see the fresh range set without interrupting active requests.</p>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(fr, html, "1.6.28");
+    let unrelated = apply_shared_keys(fr, ">Origin CA Automation<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Prise en charge de Cloudflare Origin"));
+    assert!(translated.contains("futur module optionnel realisable"));
+    assert!(translated.contains("entrees distantes non fiables"));
+    assert!(translated.contains("nombre de plages actives dans les metriques"));
+    assert!(translated.contains("Utiliser <code>ArcSwap</code>"));
+    assert!(unrelated.contains(">Origin CA Automation<"));
+}
