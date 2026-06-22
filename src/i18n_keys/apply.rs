@@ -5,6 +5,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     let is_changelog_page = html.contains("Changelog — Fluxheim");
     let is_runtime_parity_fixtures_page =
         html.contains("Runtime Parity Fixtures — Fluxheim Source Docs");
+    let is_geoip_page = html.contains("GeoIP / Geo-Context — Fluxheim Source Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -207,6 +208,12 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
             &source.runtime_parity_fixtures,
             &keys.runtime_parity_fixtures,
         )
+    } else {
+        html
+    };
+
+    let html = if is_geoip_page {
+        html.replace_map_everywhere(&source.geoip, &keys.geoip)
     } else {
         html
     };

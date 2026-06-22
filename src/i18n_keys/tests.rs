@@ -159,3 +159,26 @@ fn applies_stable_runtime_parity_keys_only_on_source_page() {
     assert!(translated.contains("Das maschinenlesbare Inventar ist:"));
     assert_eq!(unrelated, ">Runtime Parity Fixtures<");
 }
+
+#[test]
+fn applies_stable_geoip_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>GeoIP / Geo-Context — Fluxheim Source Docs</title>",
+        "<h2>Local Databases</h2>",
+        "Fluxheim <code>1.4.5</code> adds a bounded optional <code>geoip</code> ",
+        "feature. It is a local Geo-Context foundation for access policy, ",
+        "not a dynamic downloader or programmable geo engine.",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Local Databases<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h2>Lokale Datenbanken</h2>"));
+    assert!(
+        translated.contains("fuegt ein begrenztes optionales <code>geoip</code> Feature hinzu")
+    );
+    assert_eq!(unrelated, ">Local Databases<");
+}

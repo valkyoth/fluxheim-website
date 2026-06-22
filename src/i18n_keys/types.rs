@@ -16,6 +16,7 @@ pub(super) struct KeyFile {
     pub(super) changelog: BTreeMap<String, String>,
     pub(super) release_updates: BTreeMap<String, String>,
     pub(super) runtime_parity_fixtures: BTreeMap<String, String>,
+    pub(super) geoip: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
