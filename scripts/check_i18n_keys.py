@@ -49,13 +49,21 @@ def load_key_file(path: Path, locale_id: str, errors: list[str]) -> dict[str, An
     if not path.is_file():
         errors.append(f"missing key file {path.relative_to(ROOT)}")
         return {}
-    data = load_toml(path)
+    data = load_key_bundle(path)
     if data.get("locale_id") != locale_id:
         errors.append(f"{path.relative_to(ROOT)} locale_id must be {locale_id}")
     for key, value in flatten(data).items():
         if key != "locale_id" and (not isinstance(value, str) or not value.strip()):
             errors.append(f"{path.relative_to(ROOT)} key {key} must be non-empty text")
     return data
+
+
+def load_key_bundle(path: Path) -> dict[str, Any]:
+    parts = [path.read_text(encoding="utf-8")]
+    part_dir = path.with_suffix("")
+    if part_dir.is_dir():
+        parts.extend(part.read_text(encoding="utf-8") for part in sorted(part_dir.glob("*.toml")))
+    return tomllib.loads("\n".join(parts))
 
 
 def flatten(data: dict[str, Any], prefix: str = "") -> dict[str, Any]:

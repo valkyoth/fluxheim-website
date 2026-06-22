@@ -7,12 +7,52 @@ use crate::content::Locale;
 
 use types::KeyFile;
 
-const KEY_TOML_FILES: &[&str] = &[
-    include_str!("../../config/i18n/keys/en-EU.toml"),
-    include_str!("../../config/i18n/keys/en-GB.toml"),
-    include_str!("../../config/i18n/keys/en-US.toml"),
-    include_str!("../../config/i18n/keys/de-DE.toml"),
-    include_str!("../../config/i18n/keys/fr-FR.toml"),
+struct KeyTomlFile {
+    root: &'static str,
+    parts: &'static [&'static str],
+}
+
+const KEY_TOML_FILES: &[KeyTomlFile] = &[
+    KeyTomlFile {
+        root: include_str!("../../config/i18n/keys/en-EU.toml"),
+        parts: &[
+            include_str!("../../config/i18n/keys/en-EU/10-home-docs-common.toml"),
+            include_str!("../../config/i18n/keys/en-EU/20-download-changelog.toml"),
+            include_str!("../../config/i18n/keys/en-EU/30-page-groups.toml"),
+        ],
+    },
+    KeyTomlFile {
+        root: include_str!("../../config/i18n/keys/en-GB.toml"),
+        parts: &[
+            include_str!("../../config/i18n/keys/en-GB/10-home-docs-common.toml"),
+            include_str!("../../config/i18n/keys/en-GB/20-download-changelog.toml"),
+            include_str!("../../config/i18n/keys/en-GB/30-page-groups.toml"),
+        ],
+    },
+    KeyTomlFile {
+        root: include_str!("../../config/i18n/keys/en-US.toml"),
+        parts: &[
+            include_str!("../../config/i18n/keys/en-US/10-home-docs-common.toml"),
+            include_str!("../../config/i18n/keys/en-US/20-download-changelog.toml"),
+            include_str!("../../config/i18n/keys/en-US/30-page-groups.toml"),
+        ],
+    },
+    KeyTomlFile {
+        root: include_str!("../../config/i18n/keys/de-DE.toml"),
+        parts: &[
+            include_str!("../../config/i18n/keys/de-DE/10-home-docs-common.toml"),
+            include_str!("../../config/i18n/keys/de-DE/20-download-changelog.toml"),
+            include_str!("../../config/i18n/keys/de-DE/30-page-groups.toml"),
+        ],
+    },
+    KeyTomlFile {
+        root: include_str!("../../config/i18n/keys/fr-FR.toml"),
+        parts: &[
+            include_str!("../../config/i18n/keys/fr-FR/10-home-docs-common.toml"),
+            include_str!("../../config/i18n/keys/fr-FR/20-download-changelog.toml"),
+            include_str!("../../config/i18n/keys/fr-FR/30-page-groups.toml"),
+        ],
+    },
 ];
 
 pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String {
@@ -65,7 +105,12 @@ fn key_files() -> &'static [KeyFile] {
         KEY_TOML_FILES
             .iter()
             .map(|file| {
-                toml::from_str::<KeyFile>(file)
+                let mut toml = file.root.to_owned();
+                for part in file.parts {
+                    toml.push('\n');
+                    toml.push_str(part);
+                }
+                toml::from_str::<KeyFile>(&toml)
                     .unwrap_or_else(|error| panic!("valid i18n key TOML: {error}"))
             })
             .collect()

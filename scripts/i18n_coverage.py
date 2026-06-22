@@ -150,7 +150,8 @@ def load_phrases(locale: str) -> list[str]:
 
 
 def stable_key_sources() -> list[str]:
-    data = tomllib.loads((ROOT / "config/i18n/keys/en-EU.toml").read_text(encoding="utf-8"))
+    source = ROOT / "config/i18n/keys/en-EU.toml"
+    data = tomllib.loads("\n".join(stable_key_parts(source)))
     phrases: list[str] = []
     for value in flatten_strings(data):
         if "{version}" in value:
@@ -158,6 +159,14 @@ def stable_key_sources() -> list[str]:
         phrases.append(value)
         phrases.extend(visible_parts(value))
     return phrases
+
+
+def stable_key_parts(path: Path) -> list[str]:
+    parts = [path.read_text(encoding="utf-8")]
+    part_dir = path.with_suffix("")
+    if part_dir.is_dir():
+        parts.extend(part.read_text(encoding="utf-8") for part in sorted(part_dir.glob("*.toml")))
+    return parts
 
 
 def flatten_strings(value: object) -> list[str]:
