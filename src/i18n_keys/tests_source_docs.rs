@@ -232,3 +232,24 @@ fn applies_stable_config_snapshots_keys_only_on_source_page() {
     assert!(translated.contains("Form der Admin-API"));
     assert!(unrelated.contains(">Store Layout<"));
 }
+
+#[test]
+fn applies_stable_pingora_core_patch_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Pingora Core Patch — Fluxheim Source Docs</title>",
+        "Pingora Core Patch",
+        "Pingora Patches",
+        "Removal Criteria",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Pingora Patches<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Pingora-Core-Patch"));
+    assert!(translated.contains("Pingora-Patches"));
+    assert!(translated.contains("Entfernungskriterien"));
+    assert!(unrelated.contains(">Pingora Patches<"));
+}

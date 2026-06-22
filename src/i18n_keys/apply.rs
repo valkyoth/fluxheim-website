@@ -35,6 +35,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     let is_systemd_deployment_page = html.contains("systemd Deployment — Fluxheim Source Docs");
     let is_config_snapshots_page =
         html.contains("Config Snapshots And Rollback — Fluxheim Source Docs");
+    let is_pingora_core_patch_page = html.contains("Pingora Core Patch — Fluxheim Source Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -368,6 +369,12 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
         is_config_snapshots_page,
         &source.config_snapshots,
         &keys.config_snapshots,
+    );
+    let html = replace_page_map(
+        html,
+        is_pingora_core_patch_page,
+        &source.pingora_core_patch,
+        &keys.pingora_core_patch,
     );
 
     html.replace(
