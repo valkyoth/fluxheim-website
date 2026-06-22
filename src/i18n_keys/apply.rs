@@ -21,6 +21,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     let is_owasp_baseline_page = html.contains("OWASP Top 10 2025 Baseline — Fluxheim Source Docs");
     let is_macos_development_page =
         html.contains("macOS Development Support — Fluxheim Source Docs");
+    let is_gateway_recipes_page = html.contains("Gateway Recipes — Fluxheim Source Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -298,6 +299,12 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
 
     let html = if is_macos_development_page {
         html.replace_map_everywhere(&source.macos_development, &keys.macos_development)
+    } else {
+        html
+    };
+
+    let html = if is_gateway_recipes_page {
+        html.replace_map_everywhere(&source.gateway_recipes, &keys.gateway_recipes)
     } else {
         html
     };

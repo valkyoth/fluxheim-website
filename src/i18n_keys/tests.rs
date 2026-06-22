@@ -413,3 +413,24 @@ fn applies_stable_macos_development_keys_only_on_source_page() {
     assert!(translated.contains("<th>Empfohlener macOS-Dev-Pfad</th>"));
     assert_eq!(unrelated, ">Local Runtime Paths<");
 }
+
+#[test]
+fn applies_stable_gateway_recipes_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Gateway Recipes — Fluxheim Source Docs</title>",
+        "<h1>Gateway Recipes</h1>",
+        "<h2>Shared Server Baseline</h2>",
+        "<h2>Browser Login Probe For WordPress</h2>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Gateway Recipes<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h1>Gateway-Rezepte</h1>"));
+    assert!(translated.contains("<h2>Gemeinsame Server-Basisline</h2>"));
+    assert!(translated.contains("<h2>Browser-Login-Probe fuer WordPress</h2>"));
+    assert_eq!(unrelated, ">Gateway Recipes<");
+}
