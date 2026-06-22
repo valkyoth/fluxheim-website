@@ -356,3 +356,21 @@ series = "<span class=\"px-2 py-0.5 text-xs bg-gray-700 text-gray-400 rounded-fu
 [release_updates]
 fallback_pages_backed_by = "fallback pages backed by"
 moves = "Moves"
+
+[runtime_parity_fixtures]
+runtime_parity_fixtures = "Runtime Parity Fixtures"
+pingora_exit_baseline = "Pingora-exit baseline"
+line_replaces_the_current_pingora_runtime_in_stages = "line replaces the current Pingora runtime in stages. Before any cutover, Fluxheim keeps an explicit inventory of fixtures and smoke scripts that define current behavior. This is not the whole test suite; it is the minimum release-gated parity surface that must stay visible while old and new runtime paths coexist."
+the_machine_readable_inventory_is = "The machine-readable inventory is:"
+the_inventory_is_validated_by = "The inventory is validated by:"
+the_gate_checks_that_every_listed_script_config = "The gate checks that every listed script, config, directory, fixture, or document still exists. Script entries must remain executable. Later"
+cutover_releases_should_add_more_entries_before_replacing = "cutover releases should add more entries before replacing a subsystem, not after discovering a parity gap."
+how_to_use = "How To Use"
+add_a_fixture_before_changing_a_runtime_boundary = "Add a fixture before changing a runtime boundary."
+keep_fixtures_focused_on_observable_behavior_not_implementation = "Keep fixtures focused on observable behavior, not implementation details."
+prefer_local_deterministic_scripts_over_external_services_unless = "Prefer local deterministic scripts over external services unless the feature specifically needs a containerized dependency."
+keep_the_inventory_target_column_aligned_with_the = "Keep the inventory target column aligned with the"
+release_where_the_fixture_matters_most = "release where the fixture matters most."
+do_not_delete_or_rename_an_inventory_entry = "Do not delete or rename an inventory entry without updating the release notes and explaining what replaces the coverage."
+relationship_to_runtime_baseline = "Relationship To Runtime Baseline"
+records_build_and_dependency_evidence_this_document_records = "records build and dependency evidence. This document records behavior fixtures. Both are required: dependency removal without behavior parity is not a successful Pingora exit."

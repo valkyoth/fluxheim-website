@@ -356,3 +356,21 @@ series = "<span class=\"px-2 py-0.5 text-xs bg-gray-700 text-gray-400 rounded-fu
 [release_updates]
 fallback_pages_backed_by = "pages de fallback appuyées par"
 moves = "Déplace"
+
+[runtime_parity_fixtures]
+runtime_parity_fixtures = "Fixtures de parite runtime"
+pingora_exit_baseline = "baseline de sortie Pingora"
+line_replaces_the_current_pingora_runtime_in_stages = "remplace le runtime Pingora actuel par etapes. Avant tout cutover, Fluxheim conserve un inventaire explicite des fixtures et scripts de smoke qui definissent le comportement actuel. Ce n'est pas toute la suite de tests, mais la surface minimale de parite release-gated qui doit rester visible pendant que les anciens et nouveaux chemins runtime coexistent."
+the_machine_readable_inventory_is = "L'inventaire lisible par machine est :"
+the_inventory_is_validated_by = "L'inventaire est valide par :"
+the_gate_checks_that_every_listed_script_config = "Le gate verifie que chaque script, configuration, repertoire, fixture ou document liste existe encore. Les entrees de script doivent rester executables. Les"
+cutover_releases_should_add_more_entries_before_replacing = "publications de cutover ulterieures doivent ajouter plus d'entrees avant de remplacer un sous-systeme, pas apres la decouverte d'un ecart de parite."
+how_to_use = "Utilisation"
+add_a_fixture_before_changing_a_runtime_boundary = "Ajouter une fixture avant de modifier une frontiere runtime."
+keep_fixtures_focused_on_observable_behavior_not_implementation = "Garder les fixtures concentrees sur le comportement observable, pas sur les details d'implementation."
+prefer_local_deterministic_scripts_over_external_services_unless = "Preferer les scripts locaux deterministes aux services externes, sauf si la fonctionnalite a specifiquement besoin d'une dependance containerisee."
+keep_the_inventory_target_column_aligned_with_the = "Garder la colonne cible de l'inventaire alignee avec la"
+release_where_the_fixture_matters_most = "publication ou la fixture compte le plus."
+do_not_delete_or_rename_an_inventory_entry = "Ne pas supprimer ni renommer une entree d'inventaire sans mettre a jour les notes de publication et expliquer ce qui remplace la couverture."
+relationship_to_runtime_baseline = "Relation avec la baseline runtime"
+records_build_and_dependency_evidence_this_document_records = "enregistre les preuves de build et de dependances. Ce document enregistre les fixtures de comportement. Les deux sont requis : supprimer des dependances sans parite de comportement n'est pas une sortie Pingora reussie."

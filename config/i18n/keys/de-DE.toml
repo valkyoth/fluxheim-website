@@ -356,3 +356,21 @@ series = "<span class=\"px-2 py-0.5 text-xs bg-gray-700 text-gray-400 rounded-fu
 [release_updates]
 fallback_pages_backed_by = "Fallback-Seiten, gestützt durch"
 moves = "Verschiebt"
+
+[runtime_parity_fixtures]
+runtime_parity_fixtures = "Runtime-Parity-Fixtures"
+pingora_exit_baseline = "Pingora-Exit-Baseline"
+line_replaces_the_current_pingora_runtime_in_stages = "Linie ersetzt die aktuelle Pingora-Runtime schrittweise. Vor jedem Cutover fuehrt Fluxheim ein explizites Inventar von Fixtures und Smoke-Skripten, die das aktuelle Verhalten definieren. Das ist nicht die gesamte Testsuite, sondern die minimale release-gated Paritaetsflaeche, die sichtbar bleiben muss, waehrend alte und neue Runtime-Pfade nebeneinander existieren."
+the_machine_readable_inventory_is = "Das maschinenlesbare Inventar ist:"
+the_inventory_is_validated_by = "Das Inventar wird validiert durch:"
+the_gate_checks_that_every_listed_script_config = "Das Gate prueft, dass jedes aufgefuehrte Skript, jede Konfiguration, jedes Verzeichnis, jedes Fixture oder jedes Dokument noch existiert. Skript-Eintraege muessen ausfuehrbar bleiben. Spaetere"
+cutover_releases_should_add_more_entries_before_replacing = "Cutover-Releases sollten weitere Eintraege hinzufuegen, bevor ein Subsystem ersetzt wird, nicht erst nach dem Entdecken einer Paritaetsluecke."
+how_to_use = "Verwendung"
+add_a_fixture_before_changing_a_runtime_boundary = "Fuege ein Fixture hinzu, bevor eine Runtime-Grenze geaendert wird."
+keep_fixtures_focused_on_observable_behavior_not_implementation = "Halte Fixtures auf beobachtbares Verhalten fokussiert, nicht auf Implementierungsdetails."
+prefer_local_deterministic_scripts_over_external_services_unless = "Bevorzuge lokale deterministische Skripte gegenueber externen Diensten, sofern das Feature nicht ausdruecklich eine containerisierte Abhaengigkeit benoetigt."
+keep_the_inventory_target_column_aligned_with_the = "Halte die Target-Spalte des Inventars ausgerichtet auf das"
+release_where_the_fixture_matters_most = "Release, in dem das Fixture am wichtigsten ist."
+do_not_delete_or_rename_an_inventory_entry = "Loesche oder benenne keinen Inventareintrag um, ohne die Release Notes zu aktualisieren und zu erklaeren, was die Abdeckung ersetzt."
+relationship_to_runtime_baseline = "Beziehung zur Runtime-Baseline"
+records_build_and_dependency_evidence_this_document_records = "zeichnet Build- und Dependency-Nachweise auf. Dieses Dokument zeichnet Behavior-Fixtures auf. Beides ist erforderlich: Dependency-Entfernung ohne Verhaltensparitaet ist kein erfolgreicher Pingora-Exit."

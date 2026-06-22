@@ -3,6 +3,8 @@ use super::{KeyFile, home, versioned};
 pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version: &str) -> String {
     let is_download_page = html.contains("Download — Fluxheim");
     let is_changelog_page = html.contains("Changelog — Fluxheim");
+    let is_runtime_parity_fixtures_page =
+        html.contains("Runtime Parity Fixtures — Fluxheim Source Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -196,6 +198,15 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
 
     let html = if is_download_page || is_changelog_page {
         html.replace_map_everywhere(&source.release_updates, &keys.release_updates)
+    } else {
+        html
+    };
+
+    let html = if is_runtime_parity_fixtures_page {
+        html.replace_map_everywhere(
+            &source.runtime_parity_fixtures,
+            &keys.runtime_parity_fixtures,
+        )
     } else {
         html
     };
