@@ -308,3 +308,25 @@ fn applies_stable_modularity_policy_keys_only_on_source_page() {
     assert!(translated.contains("Neue oder neu aufgeteilte Rust-Implementierungsdateien"));
     assert_eq!(unrelated, ">Modularity Policy<>Core Rule<");
 }
+
+#[test]
+fn applies_stable_observability_keys_only_on_docs_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Observability — Fluxheim Docs</title>",
+        "<h2>Prometheus Metrics</h2>",
+        "<h2>What gets traced</h2>",
+        "Fluxheim supports Prometheus metrics, OpenTelemetry metrics and traces, ",
+        "and structured logging. All observability features are opt-in at compile time.",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Prometheus Metrics<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h2>Prometheus-Metriken</h2>"));
+    assert!(translated.contains("<h2>Was getraced wird</h2>"));
+    assert!(translated.contains("Fluxheim unterstützt Prometheus-Metriken"));
+    assert_eq!(unrelated, ">Prometheus Metrics<");
+}
