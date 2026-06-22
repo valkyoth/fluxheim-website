@@ -20,6 +20,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-EU/20-download-changelog.toml"),
             include_str!("../../config/i18n/keys/en-EU/30-page-groups.toml"),
             include_str!("../../config/i18n/keys/en-EU/40-security-docs.toml"),
+            include_str!("../../config/i18n/keys/en-EU/50-platform-recipes.toml"),
         ],
     },
     KeyTomlFile {
@@ -29,6 +30,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-GB/20-download-changelog.toml"),
             include_str!("../../config/i18n/keys/en-GB/30-page-groups.toml"),
             include_str!("../../config/i18n/keys/en-GB/40-security-docs.toml"),
+            include_str!("../../config/i18n/keys/en-GB/50-platform-recipes.toml"),
         ],
     },
     KeyTomlFile {
@@ -38,6 +40,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-US/20-download-changelog.toml"),
             include_str!("../../config/i18n/keys/en-US/30-page-groups.toml"),
             include_str!("../../config/i18n/keys/en-US/40-security-docs.toml"),
+            include_str!("../../config/i18n/keys/en-US/50-platform-recipes.toml"),
         ],
     },
     KeyTomlFile {
@@ -47,6 +50,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/de-DE/20-download-changelog.toml"),
             include_str!("../../config/i18n/keys/de-DE/30-page-groups.toml"),
             include_str!("../../config/i18n/keys/de-DE/40-security-docs.toml"),
+            include_str!("../../config/i18n/keys/de-DE/50-platform-recipes.toml"),
         ],
     },
     KeyTomlFile {
@@ -56,6 +60,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/fr-FR/20-download-changelog.toml"),
             include_str!("../../config/i18n/keys/fr-FR/30-page-groups.toml"),
             include_str!("../../config/i18n/keys/fr-FR/40-security-docs.toml"),
+            include_str!("../../config/i18n/keys/fr-FR/50-platform-recipes.toml"),
         ],
     },
 ];

@@ -22,6 +22,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     let is_macos_development_page =
         html.contains("macOS Development Support — Fluxheim Source Docs");
     let is_gateway_recipes_page = html.contains("Gateway Recipes — Fluxheim Source Docs");
+    let is_deployment_page = html.contains("Systemd & Containers — Fluxheim Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -305,6 +306,12 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
 
     let html = if is_gateway_recipes_page {
         html.replace_map_everywhere(&source.gateway_recipes, &keys.gateway_recipes)
+    } else {
+        html
+    };
+
+    let html = if is_deployment_page {
+        html.replace_map_everywhere(&source.deployment, &keys.deployment)
     } else {
         html
     };

@@ -29,6 +29,7 @@ pub(super) struct KeyFile {
     pub(super) owasp_baseline: BTreeMap<String, String>,
     pub(super) macos_development: BTreeMap<String, String>,
     pub(super) gateway_recipes: BTreeMap<String, String>,
+    pub(super) deployment: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

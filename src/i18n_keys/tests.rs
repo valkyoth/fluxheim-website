@@ -434,3 +434,24 @@ fn applies_stable_gateway_recipes_keys_only_on_source_page() {
     assert!(translated.contains("<h2>Browser-Login-Probe fuer WordPress</h2>"));
     assert_eq!(unrelated, ">Gateway Recipes<");
 }
+
+#[test]
+fn applies_stable_deployment_keys_only_on_docs_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Systemd & Containers — Fluxheim Docs</title>",
+        "<h1>Systemd & Containers</h1>",
+        "<h2>Rootless Podman Containers</h2>",
+        "<h2>Production Readiness Checklist</h2>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Rootless Podman Containers<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h1>Systemd & Container</h1>"));
+    assert!(translated.contains("<h2>Rootless Podman-Container</h2>"));
+    assert!(translated.contains("<h2>Checkliste für Produktionsreife</h2>"));
+    assert_eq!(unrelated, ">Rootless Podman Containers<");
+}
