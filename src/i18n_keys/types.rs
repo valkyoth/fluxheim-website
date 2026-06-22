@@ -39,6 +39,7 @@ pub(super) struct KeyFile {
     pub(super) build_and_podman_final: BTreeMap<String, String>,
     pub(super) build_and_podman_builds: BTreeMap<String, String>,
     pub(super) cache_encryption: BTreeMap<String, String>,
+    pub(super) perl_cgi_support: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

@@ -171,3 +171,24 @@ fn applies_stable_cache_encryption_keys_only_on_source_page() {
     assert!(translated.contains("Eine minimale OpenBao-Policy"));
     assert!(unrelated.contains(">Cache Encryption<"));
 }
+
+#[test]
+fn applies_stable_perl_cgi_support_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Perl CGI Support — Fluxheim Source Docs</title>",
+        "Perl CGI Support",
+        "Current Recommendation",
+        "Planned feature flags:",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Perl CGI Support<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Perl-CGI-Unterstuetzung"));
+    assert!(translated.contains("Aktuelle Empfehlung"));
+    assert!(translated.contains("Geplante Feature-Flags:"));
+    assert!(unrelated.contains(">Perl CGI Support<"));
+}
