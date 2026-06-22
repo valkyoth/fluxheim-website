@@ -35,6 +35,7 @@ pub(super) struct KeyFile {
     pub(super) fluxheim_ecosystem_idea: BTreeMap<String, String>,
     pub(super) github_setup: BTreeMap<String, String>,
     pub(super) build_and_podman_runtime: BTreeMap<String, String>,
+    pub(super) build_and_podman_final: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

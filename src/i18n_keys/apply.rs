@@ -359,6 +359,12 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
         html
     };
 
+    let html = if is_build_and_podman_page {
+        html.replace_map_everywhere(&source.build_and_podman_final, &keys.build_and_podman_final)
+    } else {
+        html
+    };
+
     html.replace(
         ">Download v1.6.28<",
         &format!(">{}<", versioned(&keys.release.download_version, version)),
