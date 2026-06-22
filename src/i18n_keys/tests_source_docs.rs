@@ -192,3 +192,24 @@ fn applies_stable_perl_cgi_support_keys_only_on_source_page() {
     assert!(translated.contains("Geplante Feature-Flags:"));
     assert!(unrelated.contains(">Perl CGI Support<"));
 }
+
+#[test]
+fn applies_stable_systemd_deployment_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>systemd Deployment — Fluxheim Source Docs</title>",
+        "systemd Deployment",
+        "Manual Binary Install",
+        "TLS And Content Paths",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">systemd Deployment<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("systemd-Deployment"));
+    assert!(translated.contains("Manuelle Binary-Installation"));
+    assert!(translated.contains("TLS- und Content-Pfade"));
+    assert!(unrelated.contains(">systemd Deployment<"));
+}
