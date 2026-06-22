@@ -178,6 +178,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     .replace_home_marker("Rootless Containers", home(keys, "tag_rootless_containers"))
     .replace_map(&source.docs_index, &keys.docs_index)
     .replace_map(&source.common, &keys.common)
+    .replace_map(&source.download, &keys.download)
     .replace(
         ">Download v1.6.28<",
         &format!(">{}<", versioned(&keys.release.download_version, version)),

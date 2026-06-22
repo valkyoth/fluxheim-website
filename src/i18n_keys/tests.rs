@@ -94,3 +94,23 @@ fn applies_stable_common_keys_for_text_and_attributes() {
     assert!(translated.contains(r#"alt="Fluxheim-Architekturübersicht""#));
     assert!(translated.contains("Ohne root ausführen."));
 }
+
+#[test]
+fn applies_stable_download_keys_for_release_page_copy() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        ">Cache Edge Build<",
+        "<span class=\"text-xs font-bold uppercase tracking-widest text-amber-400\">Cache</span>",
+        "Native HTTP/1.1 upstream pooling release with bounded keepalive reuse, ",
+        "pool-size config, upstream idle timeout handling, conservative no-reuse guards, ",
+        "and real socket reuse/expiry tests.",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+
+    assert!(translated.contains(">Cache-Edge-Build<"));
+    assert!(translated.contains(">Cache-Profil</span>"));
+    assert!(translated.contains("Native HTTP/1.1-Upstream-Pooling-Version"));
+}

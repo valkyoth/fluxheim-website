@@ -51,6 +51,7 @@ async fn locale_prefixes_preserve_legacy_pages() {
     assert!(de_body.contains("Systemd-Dienst"));
     assert!(de_body.contains("Cache-Edge-Build"));
     assert!(de_body.contains("Herunterladen v1.6.28"));
+    assert!(de_body.contains("Native HTTP/1.1-Upstream-Pooling-Version"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/deployment").await;
     assert_eq!(fr_status, StatusCode::OK);
