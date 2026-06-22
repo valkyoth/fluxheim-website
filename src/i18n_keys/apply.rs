@@ -24,6 +24,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     let is_gateway_recipes_page = html.contains("Gateway Recipes — Fluxheim Source Docs");
     let is_deployment_page = html.contains("Systemd & Containers — Fluxheim Docs");
     let is_secure_links_page = html.contains("Secure Links — Fluxheim Source Docs");
+    let is_vhost_config_page = html.contains("Vhost Config Guide — Fluxheim Source Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -319,6 +320,12 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
 
     let html = if is_secure_links_page {
         html.replace_map_everywhere(&source.secure_links, &keys.secure_links)
+    } else {
+        html
+    };
+
+    let html = if is_vhost_config_page {
+        html.replace_map_everywhere(&source.vhost_config, &keys.vhost_config)
     } else {
         html
     };
