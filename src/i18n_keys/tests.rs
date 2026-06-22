@@ -74,3 +74,23 @@ fn applies_stable_home_keys_before_phrase_maps() {
     assert!(translated.contains("builds ciblés et modulaires"));
     assert!(translated.contains("runtime edge natif Rust"));
 }
+
+#[test]
+fn applies_stable_common_keys_for_text_and_attributes() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        ">Full Production Build<>Recommended<",
+        r#"<img alt="Fluxheim architecture overview">"#,
+        "Run without root. Internal ports 8080/8443 by default. ",
+        "Explicit runtime images for different operational policies.",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+
+    assert!(translated.contains(">Vollständiger Produktions-Build<"));
+    assert!(translated.contains(">Empfohlen<"));
+    assert!(translated.contains(r#"alt="Fluxheim-Architekturübersicht""#));
+    assert!(translated.contains("Ohne root ausführen."));
+}

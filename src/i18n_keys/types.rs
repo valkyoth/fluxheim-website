@@ -11,6 +11,7 @@ pub(super) struct KeyFile {
     pub(super) footer: FooterKeys,
     pub(super) home: BTreeMap<String, String>,
     pub(super) docs_index: BTreeMap<String, String>,
+    pub(super) common: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

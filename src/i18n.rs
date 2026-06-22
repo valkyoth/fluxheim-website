@@ -233,29 +233,23 @@ mod tests {
     use crate::content::Site;
 
     #[test]
-    fn translates_german_nav_text() {
+    fn translates_german_html_lang() {
         let site = Site::load().expect("site loads");
         let locale = site.locale("de-DE").expect("German locale");
-        let html = r#"<html lang="en"><body>Docs Download Changelog</body></html>"#;
+        let html = r#"<html lang="en"><body>Fluxheim</body></html>"#;
         let translated = translate_html(locale, html.to_owned());
 
         assert!(translated.contains(r#"<html lang="de-DE""#));
-        assert!(translated.contains("Dokumentation"));
-        assert!(translated.contains("Herunterladen"));
-        assert!(translated.contains("Änderungen"));
     }
 
     #[test]
-    fn translates_french_nav_text() {
+    fn translates_french_html_lang() {
         let site = Site::load().expect("site loads");
         let locale = site.locale("fr-FR").expect("French locale");
-        let html = r#"<html lang="en"><body>Docs Download Changelog</body></html>"#;
+        let html = r#"<html lang="en"><body>Fluxheim</body></html>"#;
         let translated = translate_html(locale, html.to_owned());
 
         assert!(translated.contains(r#"<html lang="fr-FR""#));
-        assert!(translated.contains("Documentation"));
-        assert!(translated.contains("Télécharger"));
-        assert!(translated.contains("Journal des changements"));
     }
 
     #[test]

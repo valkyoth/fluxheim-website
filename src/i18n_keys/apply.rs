@@ -177,6 +177,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     .replace_home_marker("macOS Dev", home(keys, "tag_macos_dev"))
     .replace_home_marker("Rootless Containers", home(keys, "tag_rootless_containers"))
     .replace_map(&source.docs_index, &keys.docs_index)
+    .replace_map(&source.common, &keys.common)
     .replace(
         ">Download v1.6.28<",
         &format!(">{}<", versioned(&keys.release.download_version, version)),
@@ -196,6 +197,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
 
 trait HtmlTextReplace {
     fn replace_home_marker(self, from: &str, to: &str) -> String;
+    fn replace_attr_value(self, from: &str, to: &str) -> String;
     fn replace_map(
         self,
         source: &std::collections::BTreeMap<String, String>,
@@ -206,6 +208,10 @@ trait HtmlTextReplace {
 impl HtmlTextReplace for String {
     fn replace_home_marker(self, from: &str, to: &str) -> String {
         self.replace(&format!(">{from}<"), &format!(">{to}<"))
+    }
+
+    fn replace_attr_value(self, from: &str, to: &str) -> String {
+        self.replace(&format!("=\"{from}\""), &format!("=\"{to}\""))
     }
 
     fn replace_map(
@@ -222,6 +228,7 @@ impl HtmlTextReplace for String {
                 .get(key)
                 .unwrap_or_else(|| panic!("target i18n key exists: {key}"));
             output = output.replace_home_marker(source, replacement);
+            output = output.replace_attr_value(source, replacement);
             if source.len() >= 40 {
                 output = output.replace(source, replacement);
             }
