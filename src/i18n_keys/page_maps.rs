@@ -208,11 +208,17 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.runtime_facts_and_policy_proofs,
         &keys.runtime_facts_and_policy_proofs,
     );
-    replace_marker_map(
+    let html = replace_marker_map(
         html,
         "Production Readiness — Fluxheim Source Docs",
         &source.production_readiness,
         &keys.production_readiness,
+    );
+    replace_marker_map(
+        html,
+        "Cache Backends — Fluxheim Source Docs",
+        &source.cache_backends,
+        &keys.cache_backends,
     )
 }
 

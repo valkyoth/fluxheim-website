@@ -48,6 +48,7 @@ pub(super) struct KeyFile {
     pub(super) load_balancer_migration: BTreeMap<String, String>,
     pub(super) runtime_facts_and_policy_proofs: BTreeMap<String, String>,
     pub(super) production_readiness: BTreeMap<String, String>,
+    pub(super) cache_backends: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

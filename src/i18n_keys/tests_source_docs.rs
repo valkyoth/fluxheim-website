@@ -358,3 +358,28 @@ fn applies_stable_production_readiness_keys_only_on_source_page() {
     assert!(translated.contains("Deployment-Hinweise"));
     assert!(unrelated.contains(">Operator Checks<"));
 }
+
+#[test]
+fn applies_stable_cache_backends_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Cache Backends — Fluxheim Source Docs</title>",
+        "Cache Backends",
+        "Fluxheim&#x27;s cache configuration is intentionally byte-budgeted even when a backend crate is count-based. Operators should be able to say &quot;use 1 GiB of RAM&quot; or &quot;use this 10 GiB disk directory&quot; globally or per vhost without knowing the internal cache implementation.",
+        "Memory Cache Evaluation",
+        "Disk eviction maintains an ordered LRU view inside the runtime disk-object index.",
+        "Admissions that need space walk only the oldest entries needed to free the target byte count instead of cloning and sorting the full disk inventory on every eviction cycle.",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Memory Cache Evaluation<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Cache-Backends"));
+    assert!(translated.contains("Fluxheims Cache-Konfiguration"));
+    assert!(translated.contains("Bewertung des Memory-Caches"));
+    assert!(translated.contains("Disk-Eviction haelt eine geordnete LRU-Sicht"));
+    assert!(translated.contains("die Speicherplatz benoetigen"));
+    assert!(unrelated.contains(">Memory Cache Evaluation<"));
+}

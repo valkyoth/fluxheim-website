@@ -41,6 +41,9 @@ impl HtmlTextReplace for String {
             output = output.replace_attr_value(source, replacement);
             if source.len() >= 40 {
                 output = output.replace(source, replacement);
+                if source != replacement {
+                    output = output.replace(&html_escaped(source), replacement);
+                }
             }
         }
 
@@ -61,8 +64,20 @@ impl HtmlTextReplace for String {
                 .get(key)
                 .unwrap_or_else(|| panic!("target i18n key exists: {key}"));
             output = output.replace(source, replacement);
+            if source != replacement {
+                output = output.replace(&html_escaped(source), replacement);
+            }
         }
 
         output
     }
+}
+
+fn html_escaped(source: &str) -> String {
+    source
+        .replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
+        .replace('"', "&quot;")
+        .replace('\'', "&#x27;")
 }
