@@ -20,7 +20,7 @@ pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String
         return html;
     };
 
-    apply::apply_keys(keys, html, version)
+    apply::apply_keys(keys, source_keys(), html, version)
 }
 
 pub fn language_selector_label(locale: &Locale) -> &str {
@@ -70,6 +70,13 @@ fn key_files() -> &'static [KeyFile] {
             })
             .collect()
     })
+}
+
+fn source_keys() -> &'static KeyFile {
+    key_files()
+        .iter()
+        .find(|keys| keys.locale_id == "en-EU")
+        .expect("en-EU i18n keys exist")
 }
 
 #[cfg(test)]

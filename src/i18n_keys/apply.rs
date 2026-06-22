@@ -1,6 +1,6 @@
 use super::{KeyFile, home, versioned};
 
-pub(super) fn apply_keys(keys: &KeyFile, html: String, version: &str) -> String {
+pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version: &str) -> String {
     html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
         &keys.shell.home_title,
@@ -176,6 +176,7 @@ pub(super) fn apply_keys(keys: &KeyFile, html: String, version: &str) -> String 
     .replace_home_marker("Fluxheim Core", home(keys, "tag_fluxheim_core"))
     .replace_home_marker("macOS Dev", home(keys, "tag_macos_dev"))
     .replace_home_marker("Rootless Containers", home(keys, "tag_rootless_containers"))
+    .replace_map(&source.docs_index, &keys.docs_index)
     .replace(
         ">Download v1.6.28<",
         &format!(">{}<", versioned(&keys.release.download_version, version)),
@@ -195,10 +196,37 @@ pub(super) fn apply_keys(keys: &KeyFile, html: String, version: &str) -> String 
 
 trait HtmlTextReplace {
     fn replace_home_marker(self, from: &str, to: &str) -> String;
+    fn replace_map(
+        self,
+        source: &std::collections::BTreeMap<String, String>,
+        target: &std::collections::BTreeMap<String, String>,
+    ) -> String;
 }
 
 impl HtmlTextReplace for String {
     fn replace_home_marker(self, from: &str, to: &str) -> String {
         self.replace(&format!(">{from}<"), &format!(">{to}<"))
+    }
+
+    fn replace_map(
+        self,
+        source: &std::collections::BTreeMap<String, String>,
+        target: &std::collections::BTreeMap<String, String>,
+    ) -> String {
+        let mut output = self;
+        let mut entries: Vec<_> = source.iter().collect();
+        entries.sort_by_key(|(_, source)| std::cmp::Reverse(source.len()));
+
+        for (key, source) in entries {
+            let replacement = target
+                .get(key)
+                .unwrap_or_else(|| panic!("target i18n key exists: {key}"));
+            output = output.replace_home_marker(source, replacement);
+            if source.len() >= 40 {
+                output = output.replace(source, replacement);
+            }
+        }
+
+        output
     }
 }
