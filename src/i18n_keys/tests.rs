@@ -222,3 +222,26 @@ fn applies_stable_getting_started_keys_only_on_docs_page() {
     assert!(translated.contains("Starte Fluxheim in unter fünf Minuten"));
     assert_eq!(unrelated, ">Prerequisites<>Profile<");
 }
+
+#[test]
+fn applies_stable_cache_keys_only_on_cache_docs_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Cache System — Fluxheim Docs</title>",
+        "<h2>Enabling Cache</h2>",
+        "<h3>Memory Cache</h3>",
+        "Fluxheim's cache system supports memory, disk, tiered, and encrypted backends ",
+        "with route-scoped policies, cache locks, stale serving, distributed peer fill, ",
+        "and range caching.",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Enabling Cache<>Memory Cache<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h2>Cache aktivieren</h2>"));
+    assert!(translated.contains("<h3>Memory-Cache</h3>"));
+    assert!(translated.contains("Fluxheims Cache-System unterstützt"));
+    assert_eq!(unrelated, ">Enabling Cache<>Memory Cache<");
+}

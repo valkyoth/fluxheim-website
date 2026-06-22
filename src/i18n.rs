@@ -256,9 +256,9 @@ mod tests {
     fn translates_page_specific_bundle_text() {
         let site = Site::load().expect("site loads");
         let locale = site.locale("de-DE").expect("German locale");
-        let html = r#"<html lang="en"><body>Enabling Cache</body></html>"#;
+        let html = r#"<html lang="en"><body>Fluxheim is configured via a single TOML file. Use</body></html>"#;
         let translated = translate_html(locale, html.to_owned());
 
-        assert!(translated.contains("Cache aktivieren"));
+        assert!(translated.contains("Fluxheim wird über eine einzelne TOML-Datei konfiguriert"));
     }
 }
