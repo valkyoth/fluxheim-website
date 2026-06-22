@@ -22,6 +22,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-EU/40-security-docs.toml"),
             include_str!("../../config/i18n/keys/en-EU/50-platform-recipes.toml"),
             include_str!("../../config/i18n/keys/en-EU/60-source-docs.toml"),
+            include_str!("../../config/i18n/keys/en-EU/70-source-docs-extra.toml"),
         ],
     },
     KeyTomlFile {
@@ -33,6 +34,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-GB/40-security-docs.toml"),
             include_str!("../../config/i18n/keys/en-GB/50-platform-recipes.toml"),
             include_str!("../../config/i18n/keys/en-GB/60-source-docs.toml"),
+            include_str!("../../config/i18n/keys/en-GB/70-source-docs-extra.toml"),
         ],
     },
     KeyTomlFile {
@@ -44,6 +46,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-US/40-security-docs.toml"),
             include_str!("../../config/i18n/keys/en-US/50-platform-recipes.toml"),
             include_str!("../../config/i18n/keys/en-US/60-source-docs.toml"),
+            include_str!("../../config/i18n/keys/en-US/70-source-docs-extra.toml"),
         ],
     },
     KeyTomlFile {
@@ -55,6 +58,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/de-DE/40-security-docs.toml"),
             include_str!("../../config/i18n/keys/de-DE/50-platform-recipes.toml"),
             include_str!("../../config/i18n/keys/de-DE/60-source-docs.toml"),
+            include_str!("../../config/i18n/keys/de-DE/70-source-docs-extra.toml"),
         ],
     },
     KeyTomlFile {
@@ -66,6 +70,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/fr-FR/40-security-docs.toml"),
             include_str!("../../config/i18n/keys/fr-FR/50-platform-recipes.toml"),
             include_str!("../../config/i18n/keys/fr-FR/60-source-docs.toml"),
+            include_str!("../../config/i18n/keys/fr-FR/70-source-docs-extra.toml"),
         ],
     },
 ];

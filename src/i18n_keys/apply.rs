@@ -30,6 +30,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     let is_github_setup_page = html.contains("GitHub Repository Setup — Fluxheim Source Docs");
     let is_build_and_podman_page =
         html.contains("Build And Rootless Podman — Fluxheim Source Docs");
+    let is_cache_encryption_page = html.contains("Cache Encryption — Fluxheim Source Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -376,6 +377,12 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
 
     let html = if is_build_and_podman_page {
         html.replace_map_everywhere(&source.build_and_podman, &keys.build_and_podman)
+    } else {
+        html
+    };
+
+    let html = if is_cache_encryption_page {
+        html.replace_map_everywhere(&source.cache_encryption, &keys.cache_encryption)
     } else {
         html
     };

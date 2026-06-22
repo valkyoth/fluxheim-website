@@ -150,3 +150,24 @@ fn applies_stable_build_and_podman_keys_only_on_source_page() {
     assert!(translated.contains("Fluxheim liefert mehrere Runtime-Containerfiles"));
     assert!(unrelated.contains(">Container Variants<"));
 }
+
+#[test]
+fn applies_stable_cache_encryption_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Cache Encryption — Fluxheim Source Docs</title>",
+        "Cache Encryption",
+        "What Gets Encrypted",
+        "A minimal OpenBao policy for one cache key is:",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Cache Encryption<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Cache-Verschluesselung"));
+    assert!(translated.contains("Was verschluesselt wird"));
+    assert!(translated.contains("Eine minimale OpenBao-Policy"));
+    assert!(unrelated.contains(">Cache Encryption<"));
+}
