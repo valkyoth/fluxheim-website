@@ -182,3 +182,22 @@ fn applies_stable_geoip_keys_only_on_source_page() {
     );
     assert_eq!(unrelated, ">Local Databases<");
 }
+
+#[test]
+fn applies_stable_load_balancer_ha_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Load Balancer HA Design Notes — Fluxheim Source Docs</title>",
+        "<h1>Load Balancer HA Design Notes</h1>",
+        "Current 1.5.3 Behavior",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Load Balancer HA Design Notes<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h1>Load-Balancer-HA-Designhinweise</h1>"));
+    assert!(translated.contains("Aktuelles 1.5.3-Verhalten"));
+    assert_eq!(unrelated, ">Load Balancer HA Design Notes<");
+}
