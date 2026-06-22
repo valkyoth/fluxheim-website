@@ -210,182 +210,143 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     .replace_map(&source.docs_index, &keys.docs_index)
     .replace_map(&source.common, &keys.common);
 
-    let html = if is_download_page {
-        html.replace_map_everywhere(&source.download, &keys.download)
-    } else {
-        html
-    };
-
-    let html = if is_changelog_page {
-        html.replace_map_everywhere(&source.changelog, &keys.changelog)
-    } else {
-        html
-    };
-
-    let html = if is_download_page || is_changelog_page {
-        html.replace_map_everywhere(&source.release_updates, &keys.release_updates)
-    } else {
-        html
-    };
-
-    let html = if is_runtime_parity_fixtures_page {
-        html.replace_map_everywhere(
-            &source.runtime_parity_fixtures,
-            &keys.runtime_parity_fixtures,
-        )
-    } else {
-        html
-    };
-
-    let html = if is_geoip_page {
-        html.replace_map_everywhere(&source.geoip, &keys.geoip)
-    } else {
-        html
-    };
-
-    let html = if is_load_balancer_ha_page {
-        html.replace_map_everywhere(&source.load_balancer_ha, &keys.load_balancer_ha)
-    } else {
-        html
-    };
-
-    let html = if is_getting_started_page {
-        html.replace_map_everywhere(&source.getting_started, &keys.getting_started)
-    } else {
-        html
-    };
-
-    let html = if is_cache_page {
-        html.replace_map_everywhere(&source.cache, &keys.cache)
-    } else {
-        html
-    };
-
-    let html = if is_extraction_dependency_graph_page {
-        html.replace_map_everywhere(
-            &source.extraction_dependency_graph,
-            &keys.extraction_dependency_graph,
-        )
-    } else {
-        html
-    };
-
-    let html = if is_runtime_baseline_page {
-        html.replace_map_everywhere(&source.runtime_baseline, &keys.runtime_baseline)
-    } else {
-        html
-    };
-
-    let html = if is_modularity_policy_page {
-        html.replace_map_everywhere(&source.modularity_policy, &keys.modularity_policy)
-    } else {
-        html
-    };
-
-    let html = if is_observability_page {
-        html.replace_map_everywhere(&source.observability, &keys.observability)
-    } else {
-        html
-    };
-
-    let html = if is_release_notes_template_page {
-        html.replace_map_everywhere(&source.release_notes_template, &keys.release_notes_template)
-    } else {
-        html
-    };
-
-    let html = if is_tls_acme_page {
-        html.replace_map_everywhere(&source.tls_acme, &keys.tls_acme)
-    } else {
-        html
-    };
-
-    let html = if is_owasp_baseline_page {
-        html.replace_map_everywhere(&source.owasp_baseline, &keys.owasp_baseline)
-    } else {
-        html
-    };
-
-    let html = if is_macos_development_page {
-        html.replace_map_everywhere(&source.macos_development, &keys.macos_development)
-    } else {
-        html
-    };
-
-    let html = if is_gateway_recipes_page {
-        html.replace_map_everywhere(&source.gateway_recipes, &keys.gateway_recipes)
-    } else {
-        html
-    };
-
-    let html = if is_deployment_page {
-        html.replace_map_everywhere(&source.deployment, &keys.deployment)
-    } else {
-        html
-    };
-
-    let html = if is_secure_links_page {
-        html.replace_map_everywhere(&source.secure_links, &keys.secure_links)
-    } else {
-        html
-    };
-
-    let html = if is_vhost_config_page {
-        html.replace_map_everywhere(&source.vhost_config, &keys.vhost_config)
-    } else {
-        html
-    };
-
-    let html = if is_fluxheim_ecosystem_idea_page {
-        html.replace_map_everywhere(
-            &source.fluxheim_ecosystem_idea,
-            &keys.fluxheim_ecosystem_idea,
-        )
-    } else {
-        html
-    };
-
-    let html = if is_github_setup_page {
-        html.replace_map_everywhere(&source.github_setup, &keys.github_setup)
-    } else {
-        html
-    };
-
-    let html = if is_build_and_podman_page {
-        html.replace_map_everywhere(
-            &source.build_and_podman_runtime,
-            &keys.build_and_podman_runtime,
-        )
-    } else {
-        html
-    };
-
-    let html = if is_build_and_podman_page {
-        html.replace_map_everywhere(&source.build_and_podman_final, &keys.build_and_podman_final)
-    } else {
-        html
-    };
-
-    let html = if is_build_and_podman_page {
-        html.replace_map_everywhere(
-            &source.build_and_podman_builds,
-            &keys.build_and_podman_builds,
-        )
-    } else {
-        html
-    };
-
-    let html = if is_build_and_podman_page {
-        html.replace_map_everywhere(&source.build_and_podman, &keys.build_and_podman)
-    } else {
-        html
-    };
-
-    let html = if is_cache_encryption_page {
-        html.replace_map_everywhere(&source.cache_encryption, &keys.cache_encryption)
-    } else {
-        html
-    };
+    let html = replace_page_map(html, is_download_page, &source.download, &keys.download);
+    let html = replace_page_map(html, is_changelog_page, &source.changelog, &keys.changelog);
+    let html = replace_page_map(
+        html,
+        is_download_page || is_changelog_page,
+        &source.release_updates,
+        &keys.release_updates,
+    );
+    let html = replace_page_map(
+        html,
+        is_runtime_parity_fixtures_page,
+        &source.runtime_parity_fixtures,
+        &keys.runtime_parity_fixtures,
+    );
+    let html = replace_page_map(html, is_geoip_page, &source.geoip, &keys.geoip);
+    let html = replace_page_map(
+        html,
+        is_load_balancer_ha_page,
+        &source.load_balancer_ha,
+        &keys.load_balancer_ha,
+    );
+    let html = replace_page_map(
+        html,
+        is_getting_started_page,
+        &source.getting_started,
+        &keys.getting_started,
+    );
+    let html = replace_page_map(html, is_cache_page, &source.cache, &keys.cache);
+    let html = replace_page_map(
+        html,
+        is_extraction_dependency_graph_page,
+        &source.extraction_dependency_graph,
+        &keys.extraction_dependency_graph,
+    );
+    let html = replace_page_map(
+        html,
+        is_runtime_baseline_page,
+        &source.runtime_baseline,
+        &keys.runtime_baseline,
+    );
+    let html = replace_page_map(
+        html,
+        is_modularity_policy_page,
+        &source.modularity_policy,
+        &keys.modularity_policy,
+    );
+    let html = replace_page_map(
+        html,
+        is_observability_page,
+        &source.observability,
+        &keys.observability,
+    );
+    let html = replace_page_map(
+        html,
+        is_release_notes_template_page,
+        &source.release_notes_template,
+        &keys.release_notes_template,
+    );
+    let html = replace_page_map(html, is_tls_acme_page, &source.tls_acme, &keys.tls_acme);
+    let html = replace_page_map(
+        html,
+        is_owasp_baseline_page,
+        &source.owasp_baseline,
+        &keys.owasp_baseline,
+    );
+    let html = replace_page_map(
+        html,
+        is_macos_development_page,
+        &source.macos_development,
+        &keys.macos_development,
+    );
+    let html = replace_page_map(
+        html,
+        is_gateway_recipes_page,
+        &source.gateway_recipes,
+        &keys.gateway_recipes,
+    );
+    let html = replace_page_map(
+        html,
+        is_deployment_page,
+        &source.deployment,
+        &keys.deployment,
+    );
+    let html = replace_page_map(
+        html,
+        is_secure_links_page,
+        &source.secure_links,
+        &keys.secure_links,
+    );
+    let html = replace_page_map(
+        html,
+        is_vhost_config_page,
+        &source.vhost_config,
+        &keys.vhost_config,
+    );
+    let html = replace_page_map(
+        html,
+        is_fluxheim_ecosystem_idea_page,
+        &source.fluxheim_ecosystem_idea,
+        &keys.fluxheim_ecosystem_idea,
+    );
+    let html = replace_page_map(
+        html,
+        is_github_setup_page,
+        &source.github_setup,
+        &keys.github_setup,
+    );
+    let html = replace_page_map(
+        html,
+        is_build_and_podman_page,
+        &source.build_and_podman_runtime,
+        &keys.build_and_podman_runtime,
+    );
+    let html = replace_page_map(
+        html,
+        is_build_and_podman_page,
+        &source.build_and_podman_final,
+        &keys.build_and_podman_final,
+    );
+    let html = replace_page_map(
+        html,
+        is_build_and_podman_page,
+        &source.build_and_podman_builds,
+        &keys.build_and_podman_builds,
+    );
+    let html = replace_page_map(
+        html,
+        is_build_and_podman_page,
+        &source.build_and_podman,
+        &keys.build_and_podman,
+    );
+    let html = replace_page_map(
+        html,
+        is_cache_encryption_page,
+        &source.cache_encryption,
+        &keys.cache_encryption,
+    );
 
     html.replace(
         ">Download v1.6.28<",
@@ -402,6 +363,19 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     .replace(">Changelog<", &format!(">{}<", keys.nav.changelog))
     .replace(">Download<", &format!(">{}<", keys.nav.download))
     .replace(">Docs<", &format!(">{}<", keys.nav.docs))
+}
+
+fn replace_page_map(
+    html: String,
+    is_page: bool,
+    source: &std::collections::BTreeMap<String, String>,
+    keys: &std::collections::BTreeMap<String, String>,
+) -> String {
+    if is_page {
+        html.replace_map_everywhere(source, keys)
+    } else {
+        html
+    }
 }
 
 trait HtmlTextReplace {
