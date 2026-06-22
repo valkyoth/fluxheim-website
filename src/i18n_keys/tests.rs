@@ -372,3 +372,23 @@ fn applies_stable_tls_acme_keys_only_on_docs_page() {
     assert!(translated.contains("vollständiger verwalteter ACME-Unterstützung"));
     assert_eq!(unrelated, ">ACME Challenge Methods<");
 }
+
+#[test]
+fn applies_stable_owasp_baseline_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>OWASP Top 10 2025 Baseline — Fluxheim Source Docs</title>",
+        "<h1>OWASP Top 10 2025 Baseline</h1>",
+        "<td>A01 Broken Access Control</td>",
+        "<h2>Maintenance Rule</h2>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">A01 Broken Access Control<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<td>A01 Fehlerhafte Zugriffskontrolle</td>"));
+    assert!(translated.contains("<h2>Wartungsregel</h2>"));
+    assert_eq!(unrelated, ">A01 Broken Access Control<");
+}

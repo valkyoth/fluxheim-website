@@ -18,6 +18,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     let is_release_notes_template_page =
         html.contains("Release Notes Template — Fluxheim Source Docs");
     let is_tls_acme_page = html.contains("TLS & ACME — Fluxheim Docs");
+    let is_owasp_baseline_page = html.contains("OWASP Top 10 2025 Baseline — Fluxheim Source Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -283,6 +284,12 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
 
     let html = if is_tls_acme_page {
         html.replace_map_everywhere(&source.tls_acme, &keys.tls_acme)
+    } else {
+        html
+    };
+
+    let html = if is_owasp_baseline_page {
+        html.replace_map_everywhere(&source.owasp_baseline, &keys.owasp_baseline)
     } else {
         html
     };
