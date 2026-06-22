@@ -45,6 +45,7 @@ pub(super) struct KeyFile {
     pub(super) pingora_core_patch: BTreeMap<String, String>,
     pub(super) supply_chain_security: BTreeMap<String, String>,
     pub(super) compression: BTreeMap<String, String>,
+    pub(super) load_balancer_migration: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

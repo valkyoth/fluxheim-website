@@ -190,11 +190,17 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.supply_chain_security,
         &keys.supply_chain_security,
     );
-    replace_marker_map(
+    let html = replace_marker_map(
         html,
         "Compression — Fluxheim Source Docs",
         &source.compression,
         &keys.compression,
+    );
+    replace_marker_map(
+        html,
+        "Load Balancer Migration Notes — Fluxheim Source Docs",
+        &source.load_balancer_migration,
+        &keys.load_balancer_migration,
     )
 }
 

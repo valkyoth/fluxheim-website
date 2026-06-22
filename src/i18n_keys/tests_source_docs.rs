@@ -295,3 +295,24 @@ fn applies_stable_compression_keys_only_on_source_page() {
     assert!(translated.contains("Cache-Integration"));
     assert!(unrelated.contains(">Goals<"));
 }
+
+#[test]
+fn applies_stable_load_balancer_migration_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Load Balancer Migration Notes — Fluxheim Source Docs</title>",
+        "Load Balancer Migration Notes",
+        "Runtime Operations",
+        "Known Migration Boundaries",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Runtime Operations<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Load-Balancer-Migrationshinweise"));
+    assert!(translated.contains("Runtime-Operationen"));
+    assert!(translated.contains("Bekannte Migrationsgrenzen"));
+    assert!(unrelated.contains(">Runtime Operations<"));
+}
