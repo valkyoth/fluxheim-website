@@ -245,3 +245,24 @@ fn applies_stable_cache_keys_only_on_cache_docs_page() {
     assert!(translated.contains("Fluxheims Cache-System unterstützt"));
     assert_eq!(unrelated, ">Enabling Cache<>Memory Cache<");
 }
+
+#[test]
+fn applies_stable_extraction_dependency_graph_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Extraction Dependency Graph — Fluxheim Source Docs</title>",
+        "<h1>Extraction Dependency Graph</h1>",
+        "<h2>Dependency Direction</h2>",
+        "Target dependency direction:",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Extraction Dependency Graph<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h1>Extraktions-Abhaengigkeitsgraph</h1>"));
+    assert!(translated.contains("<h2>Abhaengigkeitsrichtung</h2>"));
+    assert!(translated.contains("Zielrichtung der Abhaengigkeiten:"));
+    assert_eq!(unrelated, ">Extraction Dependency Graph<");
+}

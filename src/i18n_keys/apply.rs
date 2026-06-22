@@ -10,6 +10,8 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
         html.contains("Load Balancer HA Design Notes — Fluxheim Source Docs");
     let is_getting_started_page = html.contains("Installation & Quick Start — Fluxheim Docs");
     let is_cache_page = html.contains("Cache System — Fluxheim Docs");
+    let is_extraction_dependency_graph_page =
+        html.contains("Extraction Dependency Graph — Fluxheim Source Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -236,6 +238,15 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
 
     let html = if is_cache_page {
         html.replace_map_everywhere(&source.cache, &keys.cache)
+    } else {
+        html
+    };
+
+    let html = if is_extraction_dependency_graph_page {
+        html.replace_map_everywhere(
+            &source.extraction_dependency_graph,
+            &keys.extraction_dependency_graph,
+        )
     } else {
         html
     };

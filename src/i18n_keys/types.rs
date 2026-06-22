@@ -20,6 +20,7 @@ pub(super) struct KeyFile {
     pub(super) load_balancer_ha: BTreeMap<String, String>,
     pub(super) getting_started: BTreeMap<String, String>,
     pub(super) cache: BTreeMap<String, String>,
+    pub(super) extraction_dependency_graph: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
