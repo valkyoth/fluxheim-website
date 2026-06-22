@@ -266,3 +266,24 @@ fn applies_stable_extraction_dependency_graph_keys_only_on_source_page() {
     assert!(translated.contains("Zielrichtung der Abhaengigkeiten:"));
     assert_eq!(unrelated, ">Extraction Dependency Graph<");
 }
+
+#[test]
+fn applies_stable_runtime_baseline_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Runtime Baseline — Fluxheim Source Docs</title>",
+        "<h2>Release Evidence</h2>",
+        "<h2>Pingora Dependency Exceptions</h2>",
+        "Release gates write baseline output to:",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Release Evidence<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h2>Release-Nachweise</h2>"));
+    assert!(translated.contains("<h2>Pingora-Dependency-Ausnahmen</h2>"));
+    assert!(translated.contains("Release-Gates schreiben Baseline-Ausgaben nach:"));
+    assert_eq!(unrelated, ">Release Evidence<");
+}

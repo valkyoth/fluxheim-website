@@ -12,6 +12,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     let is_cache_page = html.contains("Cache System — Fluxheim Docs");
     let is_extraction_dependency_graph_page =
         html.contains("Extraction Dependency Graph — Fluxheim Source Docs");
+    let is_runtime_baseline_page = html.contains("Runtime Baseline — Fluxheim Source Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -247,6 +248,12 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
             &source.extraction_dependency_graph,
             &keys.extraction_dependency_graph,
         )
+    } else {
+        html
+    };
+
+    let html = if is_runtime_baseline_page {
+        html.replace_map_everywhere(&source.runtime_baseline, &keys.runtime_baseline)
     } else {
         html
     };
