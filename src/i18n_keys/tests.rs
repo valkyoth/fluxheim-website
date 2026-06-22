@@ -330,3 +330,24 @@ fn applies_stable_observability_keys_only_on_docs_page() {
     assert!(translated.contains("Fluxheim unterstützt Prometheus-Metriken"));
     assert_eq!(unrelated, ">Prometheus Metrics<");
 }
+
+#[test]
+fn applies_stable_release_notes_template_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Release Notes Template — Fluxheim Source Docs</title>",
+        "<h1>Fluxheim Release Notes Template</h1>",
+        "<h2>Security And Stability Gate</h2>",
+        "Gate command:",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Release Notes Template<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h1>Fluxheim-Release-Hinweise-Vorlage</h1>"));
+    assert!(translated.contains("<h2>Sicherheits- und Stabilitäts-Gate</h2>"));
+    assert!(translated.contains("Gate-Befehl:"));
+    assert_eq!(unrelated, ">Release Notes Template<");
+}
