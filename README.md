@@ -34,12 +34,13 @@ The application also accepts `/en-eu/...` as an explicit English (EU) prefix,
 while generated links prefer the default root paths.
 
 English (UK) and English (US) are currently pass-through English variants with
-their own `html lang` values. German and French are localized through phrase
-maps in `config/i18n-de.toml` and `config/i18n-fr.toml`, plus page-specific
-bundles under `config/i18n/`. The legacy HTML files remain the structural source
-of truth, so updating the site does not require editing cloned HTML trees.
-Stable key files under `config/i18n/keys/` currently drive shared selector text
-and establish the migration path away from raw phrase replacement.
+their own `html lang` values. Shared locale text is keyed under
+`config/i18n/keys/`; German and French page-body content still uses
+page-specific bundles under `config/i18n/de/` and `config/i18n/fr/`. The root
+`config/i18n-de.toml` and `config/i18n-fr.toml` files now only keep locale
+metadata and an empty phrase list for compatibility. The legacy HTML files
+remain the structural source of truth, so updating the site does not require
+editing cloned HTML trees.
 
 Legacy static artifacts under `docs/source/`, such as Markdown and TSV files,
 are still served directly through the same locale-prefixed paths.
@@ -52,8 +53,9 @@ fluxheim-website/
 ├── src/                  # Axum app, legacy routing, locale loading, tests helpers
 ├── content/              # Reserved for future 1:1 content extraction
 ├── config/               # Shared project metadata, including Fluxheim version
-│   ├── i18n-de.toml      # German runtime phrase translations
-│   └── i18n-fr.toml      # French runtime phrase translations
+│   ├── i18n-de.toml      # German locale metadata and compatibility phrase list
+│   └── i18n-fr.toml      # French locale metadata and compatibility phrase list
+├── config/i18n/keys/     # Stable shared locale keys for all configured locales
 ├── config/i18n/          # Page-specific locale phrase bundles
 ├── conf/                 # Preserved Fluxheim example configuration
 ├── localized/            # Optional 1:1 localized HTML overrides
@@ -77,17 +79,31 @@ release text, and localized pages while preserving the original HTML source.
 
 ## Translation Updates
 
-Add or adjust translated text in the locale phrase maps:
+Add or adjust shared site text in the stable key files:
+
+```toml
+[common]
+download = "Herunterladen"
+```
+
+Every configured locale must contain the same stable key set. Validate that with:
+
+```bash
+scripts/check_i18n_keys.py
+```
+
+Page-specific body copy that has not yet moved to stable keys remains in locale
+phrase bundles:
 
 ```toml
 [[phrase]]
-from = "Download"
-to = "Herunterladen"
+from = "Cache Edge Build"
+to = "Cache-Edge-Build"
 ```
 
-Phrases are applied longest-first at render time. Keep `from` values exact so
-the tests can prove that the current HTML source still matches the translation
-inventory.
+Phrase bundles are applied longest-first at render time. Keep `from` values
+exact so the tests can prove that the current HTML source still matches the
+translation inventory.
 
 Measure translation coverage for the main public pages:
 
@@ -96,8 +112,8 @@ scripts/i18n_coverage.py --locale de
 scripts/i18n_coverage.py --locale fr
 ```
 
-`scripts/checks.sh` currently enforces at least 86.6% coverage for each locale on
-the tracked main-page set. Raise that threshold as phrase maps are expanded.
+`scripts/checks.sh` enforces 100% visible-phrase coverage for German and French
+on the tracked public-page set.
 
 ## Running Locally
 
@@ -169,8 +185,8 @@ Security is part of the default development path:
 - `cargo-deny` policy lives in `deny.toml`.
 - Locale routing uses fixed configured locale prefixes.
 - Legacy page paths are normalized and reject traversal.
-- Runtime translation uses fixed TOML phrase maps; no user-controlled template
-  or file path is evaluated.
+- Runtime translation uses fixed TOML stable keys and phrase bundles; no
+  user-controlled template or file path is evaluated.
 - Security headers are applied by the Axum router.
 - Runtime container uses a non-root user.
 - Secret-shaped future runtime values should use the `sanitization` crate.

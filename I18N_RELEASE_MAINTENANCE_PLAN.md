@@ -39,9 +39,12 @@ and language additions predictable, testable, and low-churn.
 - Enforce complete or intentionally inherited keys per locale.
 
 Initial key files now live under `config/i18n/keys/` and are validated by
-`scripts/check_i18n_keys.py`. They intentionally start with shared shell,
-language-selector, navigation, and release labels before the larger page-body
-conversion. The language selector is the first runtime user of these keys.
+`scripts/check_i18n_keys.py`. They now cover shared language-selector, shell,
+navigation, release, footer, homepage, documentation-index, and common label
+copy. The root German and French phrase files have been drained to locale
+metadata plus an empty compatibility phrase list; remaining untranslated
+maintenance work is page-bundle migration under `config/i18n/de/` and
+`config/i18n/fr/`.
 
 `content/releases.toml` is also loaded by typed Rust code in `src/releases.rs`.
 The current tests validate ordering, the latest version, release-note presence,
@@ -56,6 +59,8 @@ that need attention.
 
 - Replace repeated release-table HTML with generated output from release data.
 - Move shared layout strings to stable keys.
+- Split stable keys by section before any locale key file approaches the
+  500-line project limit.
 - Keep legacy page HTML layout, CSS, URLs, and visible design unchanged.
 
 ### Phase 5: European Language Expansion

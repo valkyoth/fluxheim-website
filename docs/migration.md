@@ -17,14 +17,29 @@ The `tests/legacy_routes.rs` suite exists to prevent accidental visual or
 content drift. A structured-content migration must strengthen those checks, not
 weaken them.
 
-Routine localization should use phrase maps:
+Routine shared localization should use stable keys:
 
 ```text
-config/i18n-de.toml
-config/i18n-fr.toml
+config/i18n/keys/en-EU.toml
+config/i18n/keys/en-GB.toml
+config/i18n/keys/en-US.toml
+config/i18n/keys/de-DE.toml
+config/i18n/keys/fr-FR.toml
+```
+
+Every stable key must exist for every configured locale. Use
+`scripts/check_i18n_keys.py` before committing key changes.
+
+Page-specific body copy that has not yet moved to stable keys should stay in
+page bundles:
+
+```text
 config/i18n/de/*.toml
 config/i18n/fr/*.toml
 ```
+
+The root `config/i18n-de.toml` and `config/i18n-fr.toml` files are retained only
+for locale metadata and an empty compatibility phrase list.
 
 Localized 1:1 page overrides are still supported only for exceptional cases
 where a locale genuinely needs different markup:
