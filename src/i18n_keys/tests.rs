@@ -392,3 +392,24 @@ fn applies_stable_owasp_baseline_keys_only_on_source_page() {
     assert!(translated.contains("<h2>Wartungsregel</h2>"));
     assert_eq!(unrelated, ">A01 Broken Access Control<");
 }
+
+#[test]
+fn applies_stable_macos_development_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>macOS Development Support — Fluxheim Source Docs</title>",
+        "<h1>macOS Development Support</h1>",
+        "<h2>Local Runtime Paths</h2>",
+        "<th>Recommended macOS dev path</th>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Local Runtime Paths<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h1>macOS-Entwicklungsunterstützung</h1>"));
+    assert!(translated.contains("<h2>Lokale Runtime-Pfade</h2>"));
+    assert!(translated.contains("<th>Empfohlener macOS-Dev-Pfad</th>"));
+    assert_eq!(unrelated, ">Local Runtime Paths<");
+}

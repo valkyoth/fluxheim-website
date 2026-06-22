@@ -19,6 +19,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-EU/10-home-docs-common.toml"),
             include_str!("../../config/i18n/keys/en-EU/20-download-changelog.toml"),
             include_str!("../../config/i18n/keys/en-EU/30-page-groups.toml"),
+            include_str!("../../config/i18n/keys/en-EU/40-security-docs.toml"),
         ],
     },
     KeyTomlFile {
@@ -27,6 +28,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-GB/10-home-docs-common.toml"),
             include_str!("../../config/i18n/keys/en-GB/20-download-changelog.toml"),
             include_str!("../../config/i18n/keys/en-GB/30-page-groups.toml"),
+            include_str!("../../config/i18n/keys/en-GB/40-security-docs.toml"),
         ],
     },
     KeyTomlFile {
@@ -35,6 +37,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-US/10-home-docs-common.toml"),
             include_str!("../../config/i18n/keys/en-US/20-download-changelog.toml"),
             include_str!("../../config/i18n/keys/en-US/30-page-groups.toml"),
+            include_str!("../../config/i18n/keys/en-US/40-security-docs.toml"),
         ],
     },
     KeyTomlFile {
@@ -43,6 +46,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/de-DE/10-home-docs-common.toml"),
             include_str!("../../config/i18n/keys/de-DE/20-download-changelog.toml"),
             include_str!("../../config/i18n/keys/de-DE/30-page-groups.toml"),
+            include_str!("../../config/i18n/keys/de-DE/40-security-docs.toml"),
         ],
     },
     KeyTomlFile {
@@ -51,6 +55,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/fr-FR/10-home-docs-common.toml"),
             include_str!("../../config/i18n/keys/fr-FR/20-download-changelog.toml"),
             include_str!("../../config/i18n/keys/fr-FR/30-page-groups.toml"),
+            include_str!("../../config/i18n/keys/fr-FR/40-security-docs.toml"),
         ],
     },
 ];
