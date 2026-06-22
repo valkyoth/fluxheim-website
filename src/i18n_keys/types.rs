@@ -30,6 +30,7 @@ pub(super) struct KeyFile {
     pub(super) macos_development: BTreeMap<String, String>,
     pub(super) gateway_recipes: BTreeMap<String, String>,
     pub(super) deployment: BTreeMap<String, String>,
+    pub(super) secure_links: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

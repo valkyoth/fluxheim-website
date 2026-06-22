@@ -455,3 +455,23 @@ fn applies_stable_deployment_keys_only_on_docs_page() {
     assert!(translated.contains("<h2>Checkliste für Produktionsreife</h2>"));
     assert_eq!(unrelated, ">Rootless Podman Containers<");
 }
+
+#[test]
+fn applies_stable_secure_links_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Secure Links — Fluxheim Source Docs</title>",
+        "<h1>Secure Links</h1>",
+        "<h2>Cryptography</h2>",
+        "Secure-link claims should be typed and bounded:",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Cryptography<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h2>Kryptografie</h2>"));
+    assert!(translated.contains("Secure-Link-Claims sollten typisiert"));
+    assert_eq!(unrelated, ">Cryptography<");
+}
