@@ -1,4 +1,5 @@
 use serde::Deserialize;
+use std::collections::BTreeMap;
 use std::sync::OnceLock;
 
 use crate::content::Locale;
@@ -19,7 +20,7 @@ struct KeyFile {
     release: ReleaseKeys,
     shell: ShellKeys,
     footer: FooterKeys,
-    home: HomeKeys,
+    home: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -72,36 +73,6 @@ struct FooterKeys {
     built_with: String,
 }
 
-#[derive(Debug, Clone, Deserialize)]
-struct HomeKeys {
-    meta_description: String,
-    meta_description_secure: String,
-    meta_description_short: String,
-    hero_memory_safe: String,
-    hero_edge_server: String,
-    hero_built_in_rust: String,
-    hero_line_one: String,
-    hero_line_two: String,
-    hero_line_three: String,
-    tag_fluxheim_core: String,
-    tag_macos_dev: String,
-    tag_rootless_containers: String,
-    features_heading: String,
-    features_intro: String,
-    memory_safe_by_design: String,
-    memory_safe_by_design_text: String,
-    fluxheim_http_core: String,
-    fluxheim_http_core_text: String,
-    load_balancer_control_plane: String,
-    load_balancer_control_plane_text: String,
-    modular_build_profiles: String,
-    modular_build_profiles_text: String,
-    tls_managed_acme: String,
-    tls_managed_acme_text: String,
-    advanced_cache_system: String,
-    advanced_cache_system_text: String,
-}
-
 pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String {
     let Some(keys) = locale_keys(&locale.locale_id) else {
         return html;
@@ -149,98 +120,198 @@ pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String
     )
     .replace(
         "Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.",
-        &keys.home.meta_description,
+        home(keys, "meta_description"),
     )
     .replace(
         "Fluxheim is a high-performance, modular web server, reverse proxy and caching server. Written in Rust. Secure by default.",
-        &keys.home.meta_description_secure,
+        home(keys, "meta_description_secure"),
     )
     .replace(
         "A memory-safe edge server and reverse proxy built in Rust.",
-        &keys.home.meta_description_short,
+        home(keys, "meta_description_short"),
     )
     .replace(
         "Written in Rust with a pinned stable toolchain. No buffer overflows, no use-after-free, no data races by construction.",
-        &keys.home.memory_safe_by_design_text,
+        home(keys, "memory_safe_by_design_text"),
     )
     .replace(
         "A Rust-native edge runtime with connection pooling, upstream retries, active health checks, HTTP/2, WebSocket upgrades, and gRPC pass-through.",
-        &keys.home.fluxheim_http_core_text,
+        home(keys, "fluxheim_http_core_text"),
     )
     .replace(
         "Focused 1.5 load-balancer binary and image with advanced selection, local persistence, health/ejection policy, bounded queueing, and runtime member controls.",
-        &keys.home.load_balancer_control_plane_text,
+        home(keys, "load_balancer_control_plane_text"),
     )
     .replace(
         "Compile only what you need. Focused profiles for static site, cache edge, reverse proxy, load balancing, TCP stream proxying, PHP-FPM, GeoIP, traffic mirroring, and compression-enabled production bundles.",
-        &keys.home.modular_build_profiles_text,
+        home(keys, "modular_build_profiles_text"),
     )
     .replace(
         "rustls-first with supported OpenSSL and FIPS/ISO proof build paths, client certificate auth, upstream mTLS, automatic ACME issuance, and multi-cert SNI.",
-        &keys.home.tls_managed_acme_text,
+        home(keys, "tls_managed_acme_text"),
     )
     .replace(
         "Memory, disk, tiered, and encrypted cache backends with cache-safe gzip, Zstandard, and Brotli compression plus range caching for large objects.",
-        &keys.home.advanced_cache_system_text,
+        home(keys, "advanced_cache_system_text"),
+    )
+    .replace(
+        "Rootless Podman images for Wolfi, Alpine, SUSE Micro, and Debian. Systemd/RPM for native deployments. Zero external assets on startup.",
+        home(keys, "container_native_text"),
+    )
+    .replace(
+        "Opt-in Prometheus metrics listener, OTLP metrics export, trace context propagation, and OTLP trace export for full observability.",
+        home(keys, "prometheus_opentelemetry_text"),
+    )
+    .replace(
+        "Optional local MMDB lookups for country and ASN policy using MaxMind GeoIP2/GeoLite2 or CIRCL Geo Open datasets. No remote lookup or downloader in the request path.",
+        home(keys, "geo_context_text"),
+    )
+    .replace(
+        "Raw L4 TCP services with dedicated stream routes, true idle/lifetime/byte caps, upstream TLS/mTLS controls, weighted/drain/backup policy, and route-local PROXY protocol.",
+        home(keys, "tcp_stream_proxy_text"),
+    )
+    .replace(
+        "Opt-in PHP-FPM FastCGI bridge for WordPress-style front-controller applications. Strict script resolution and bounded request handling.",
+        home(keys, "php_fpm_support_text"),
+    )
+    .replace(
+        "Trusted-proxy-aware ACLs, rate limits, auth subrequests, traffic mirroring, regex rewrites, bounded queues, strict config validation, and hardened request handling.",
+        home(keys, "edge_policy_controls_text"),
+    )
+    .replace(
+        "Built for operators who want a modern, auditable stack without hidden legacy behaviour.",
+        home(keys, "why_fluxheim_text"),
+    )
+    .replace(
+        "Config validation is strict. Ambiguous or insecure options are rejected, not silently accepted.",
+        home(keys, "no_hidden_fallback_text"),
+    )
+    .replace(
+        "Reproducible builds. Every dependency is pinned.",
+        home(keys, "checked_cargo_lock_text"),
+    )
+    .replace(
+        "A glance at what Fluxheim looks like in a production deployment.",
+        home(keys, "overview_text"),
+    )
+    .replace(
+        "Full TOML config reference with examples.",
+        home(keys, "full_toml_reference"),
+    )
+    .replace(
+        "All modules, build profiles, and TLS backends.",
+        home(keys, "all_modules"),
     )
     .replace(
         "Fluxheim ships as focused, modular builds — use only what your deployment needs.",
-        &keys.home.features_intro,
+        home(keys, "features_intro"),
     )
     .replace(
         "Modular reverse proxy, cache, load balancer, and static host written",
-        &keys.home.hero_line_one,
+        home(keys, "hero_line_one"),
     )
     .replace(
         "in Rust. Secure by default with TLS, ACME, compression, edge policy,",
-        &keys.home.hero_line_two,
+        home(keys, "hero_line_two"),
     )
     .replace(
         "dynamic upstream discovery, and safe traffic mirroring built in.",
-        &keys.home.hero_line_three,
+        home(keys, "hero_line_three"),
     )
     .replace(
         ">Everything You Need at the Edge<",
-        &format!(">{}<", keys.home.features_heading),
+        &format!(">{}<", home(keys, "features_heading")),
     )
     .replace(
         ">Memory-Safe by Design<",
-        &format!(">{}<", keys.home.memory_safe_by_design),
+        &format!(">{}<", home(keys, "memory_safe_by_design")),
     )
     .replace(
         ">Fluxheim HTTP Core<",
-        &format!(">{}<", keys.home.fluxheim_http_core),
+        &format!(">{}<", home(keys, "fluxheim_http_core")),
     )
     .replace(
         ">Load Balancer Control Plane<",
-        &format!(">{}<", keys.home.load_balancer_control_plane),
+        &format!(">{}<", home(keys, "load_balancer_control_plane")),
     )
     .replace(
         ">Modular Build Profiles<",
-        &format!(">{}<", keys.home.modular_build_profiles),
+        &format!(">{}<", home(keys, "modular_build_profiles")),
     )
     .replace(
         ">TLS & Managed ACME<",
-        &format!(">{}<", keys.home.tls_managed_acme),
+        &format!(">{}<", home(keys, "tls_managed_acme")),
     )
     .replace(
         ">Advanced Cache System<",
-        &format!(">{}<", keys.home.advanced_cache_system),
+        &format!(">{}<", home(keys, "advanced_cache_system")),
     )
-    .replace(">Memory-Safe<", &format!(">{}<", keys.home.hero_memory_safe))
-    .replace(">Edge Server<", &format!(">{}<", keys.home.hero_edge_server))
+    .replace(
+        ">Container Native<",
+        &format!(">{}<", home(keys, "container_native")),
+    )
+    .replace(
+        ">Prometheus & OpenTelemetry<",
+        &format!(">{}<", home(keys, "prometheus_opentelemetry")),
+    )
+    .replace(
+        ">TCP Stream Proxy<",
+        &format!(">{}<", home(keys, "tcp_stream_proxy")),
+    )
+    .replace(
+        ">PHP-FPM Support<",
+        &format!(">{}<", home(keys, "php_fpm_support")),
+    )
+    .replace(
+        ">Edge Policy Controls<",
+        &format!(">{}<", home(keys, "edge_policy_controls")),
+    )
+    .replace(
+        ">Get Running in Minutes<",
+        &format!(">{}<", home(keys, "quick_start_heading")),
+    )
+    .replace(">From Source<", &format!(">{}<", home(keys, "from_source")))
+    .replace(
+        ">Full installation guide →<",
+        &format!(">{}<", home(keys, "full_installation_guide")),
+    )
+    .replace(
+        ">Why Fluxheim?<",
+        &format!(">{}<", home(keys, "why_fluxheim")),
+    )
+    .replace(
+        ">No hidden legacy protocol fallback<",
+        &format!(">{}<", home(keys, "no_hidden_fallback")),
+    )
+    .replace(
+        ">Checked-in Cargo.lock<",
+        &format!(">{}<", home(keys, "checked_cargo_lock")),
+    )
+    .replace(">Overview<", &format!(">{}<", home(keys, "overview")))
+    .replace(">Get Started<", &format!(">{}<", home(keys, "get_started")))
+    .replace(">Read guide →<", &format!(">{}<", home(keys, "read_guide")))
+    .replace(
+        ">Browse reference →<",
+        &format!(">{}<", home(keys, "browse_reference")),
+    )
+    .replace(
+        ">See all features →<",
+        &format!(">{}<", home(keys, "see_all_features")),
+    )
+    .replace(">Memory-Safe<", &format!(">{}<", home(keys, "hero_memory_safe")))
+    .replace(">Edge Server<", &format!(">{}<", home(keys, "hero_edge_server")))
     .replace(
         ">Built in Rust<",
-        &format!(">{}<", keys.home.hero_built_in_rust),
+        &format!(">{}<", home(keys, "hero_built_in_rust")),
     )
     .replace(
         ">Fluxheim Core<",
-        &format!(">{}<", keys.home.tag_fluxheim_core),
+        &format!(">{}<", home(keys, "tag_fluxheim_core")),
     )
-    .replace(">macOS Dev<", &format!(">{}<", keys.home.tag_macos_dev))
+    .replace(">macOS Dev<", &format!(">{}<", home(keys, "tag_macos_dev")))
     .replace(
         ">Rootless Containers<",
-        &format!(">{}<", keys.home.tag_rootless_containers),
+        &format!(">{}<", home(keys, "tag_rootless_containers")),
     )
     .replace(
         ">Download v1.6.28<",
@@ -286,6 +357,13 @@ fn locale_keys(locale_id: &str) -> Option<&'static KeyFile> {
 
 fn versioned(template: &str, version: &str) -> String {
     template.replace("{version}", version)
+}
+
+fn home<'a>(keys: &'a KeyFile, name: &str) -> &'a str {
+    keys.home
+        .get(name)
+        .map(String::as_str)
+        .unwrap_or_else(|| panic!("home i18n key exists: {name}"))
 }
 
 fn key_files() -> &'static [KeyFile] {
