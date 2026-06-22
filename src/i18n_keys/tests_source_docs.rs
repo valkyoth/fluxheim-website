@@ -129,3 +129,24 @@ fn applies_stable_build_and_podman_builds_keys_only_on_source_page() {
     assert!(translated.contains("vollstaendige Produktions-Image-Profil"));
     assert!(unrelated.contains("For FIPS/ISO-capable OpenSSL"));
 }
+
+#[test]
+fn applies_stable_build_and_podman_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Build And Rootless Podman — Fluxheim Source Docs</title>",
+        "Container Variants",
+        "Codex And Rootless Podman",
+        "Fluxheim ships multiple runtime Containerfiles so operators can choose the base OS that fits their security and operations model.",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Container Variants<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Container-Varianten"));
+    assert!(translated.contains("Codex und Rootless Podman"));
+    assert!(translated.contains("Fluxheim liefert mehrere Runtime-Containerfiles"));
+    assert!(unrelated.contains(">Container Variants<"));
+}
