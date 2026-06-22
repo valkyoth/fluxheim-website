@@ -25,6 +25,7 @@ pub(super) struct KeyFile {
     pub(super) modularity_policy: BTreeMap<String, String>,
     pub(super) observability: BTreeMap<String, String>,
     pub(super) release_notes_template: BTreeMap<String, String>,
+    pub(super) tls_acme: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

@@ -351,3 +351,24 @@ fn applies_stable_release_notes_template_keys_only_on_source_page() {
     assert!(translated.contains("Gate-Befehl:"));
     assert_eq!(unrelated, ">Release Notes Template<");
 }
+
+#[test]
+fn applies_stable_tls_acme_keys_only_on_docs_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>TLS & ACME — Fluxheim Docs</title>",
+        "<h2>TLS Backends</h2>",
+        "<h3>ACME Challenge Methods</h3>",
+        "Fluxheim ships with rustls as the default TLS backend and full managed ACME support for automatic certificate issuance and renewal.",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">ACME Challenge Methods<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h2>TLS-Backends</h2>"));
+    assert!(translated.contains("<h3>ACME-Challenge-Methoden</h3>"));
+    assert!(translated.contains("vollständiger verwalteter ACME-Unterstützung"));
+    assert_eq!(unrelated, ">ACME Challenge Methods<");
+}
