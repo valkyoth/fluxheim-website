@@ -253,3 +253,24 @@ fn applies_stable_pingora_core_patch_keys_only_on_source_page() {
     assert!(translated.contains("Entfernungskriterien"));
     assert!(unrelated.contains(">Pingora Patches<"));
 }
+
+#[test]
+fn applies_stable_supply_chain_security_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Supply Chain Security — Fluxheim Source Docs</title>",
+        "Current Controls",
+        "Build Scripts And Procedural Macros",
+        "Accepted Limitations",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Current Controls<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Aktuelle Kontrollen"));
+    assert!(translated.contains("Build-Scripts und prozedurale Makros"));
+    assert!(translated.contains("Akzeptierte Einschraenkungen"));
+    assert!(unrelated.contains(">Current Controls<"));
+}

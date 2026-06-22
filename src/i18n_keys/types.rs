@@ -43,6 +43,7 @@ pub(super) struct KeyFile {
     pub(super) systemd_deployment: BTreeMap<String, String>,
     pub(super) config_snapshots: BTreeMap<String, String>,
     pub(super) pingora_core_patch: BTreeMap<String, String>,
+    pub(super) supply_chain_security: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
