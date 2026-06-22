@@ -106,3 +106,26 @@ fn applies_stable_build_and_podman_final_keys_only_on_source_page() {
     assert!(translated.contains("Veroeffentlichte Images verwenden"));
     assert!(unrelated.contains("For HTTP-01 ACME"));
 }
+
+#[test]
+fn applies_stable_build_and_podman_builds_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Build And Rootless Podman — Fluxheim Source Docs</title>",
+        "For FIPS/ISO-capable OpenSSL testing, build with",
+        "By default, the bundled Containerfiles compile the full production image profile:",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(
+        de,
+        "For FIPS/ISO-capable OpenSSL testing, build with".to_owned(),
+        "1.6.28",
+    );
+
+    assert!(translated.contains("Fuer FIPS-/ISO-faehige OpenSSL-Tests"));
+    assert!(translated.contains("vollstaendige Produktions-Image-Profil"));
+    assert!(unrelated.contains("For FIPS/ISO-capable OpenSSL"));
+}
