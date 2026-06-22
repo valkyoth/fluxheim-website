@@ -20,3 +20,24 @@ fn applies_stable_vhost_config_keys_only_on_source_page() {
     assert!(translated.contains("<h2>Häufige Fehler</h2>"));
     assert!(unrelated.contains(">Common Mistakes<"));
 }
+
+#[test]
+fn applies_stable_fluxheim_ecosystem_idea_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Fluxheim Ecosystem Idea — Fluxheim Source Docs</title>",
+        "<h1>Fluxheim Ecosystem Idea</h1>",
+        "<h2>Proposed Shape</h2>",
+        "The useful direction is a set of separate crates and projects that can integrate with Fluxheim while keeping each product boundary reviewable.",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Proposed Shape<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h1>Fluxheim-Ecosystem-Idee</h1>"));
+    assert!(translated.contains("<h2>Vorgeschlagene Form</h2>"));
+    assert!(translated.contains("Fluxheim integrieren koennen"));
+    assert!(unrelated.contains(">Proposed Shape<"));
+}
