@@ -26,6 +26,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-EU/60-source-docs.toml"),
             include_str!("../../config/i18n/keys/en-EU/70-source-docs-extra.toml"),
             include_str!("../../config/i18n/keys/en-EU/80-source-docs-next.toml"),
+            include_str!("../../config/i18n/keys/en-EU/90-source-docs-more.toml"),
         ],
     },
     KeyTomlFile {
@@ -39,6 +40,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-GB/60-source-docs.toml"),
             include_str!("../../config/i18n/keys/en-GB/70-source-docs-extra.toml"),
             include_str!("../../config/i18n/keys/en-GB/80-source-docs-next.toml"),
+            include_str!("../../config/i18n/keys/en-GB/90-source-docs-more.toml"),
         ],
     },
     KeyTomlFile {
@@ -52,6 +54,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-US/60-source-docs.toml"),
             include_str!("../../config/i18n/keys/en-US/70-source-docs-extra.toml"),
             include_str!("../../config/i18n/keys/en-US/80-source-docs-next.toml"),
+            include_str!("../../config/i18n/keys/en-US/90-source-docs-more.toml"),
         ],
     },
     KeyTomlFile {
@@ -65,6 +68,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/de-DE/60-source-docs.toml"),
             include_str!("../../config/i18n/keys/de-DE/70-source-docs-extra.toml"),
             include_str!("../../config/i18n/keys/de-DE/80-source-docs-next.toml"),
+            include_str!("../../config/i18n/keys/de-DE/90-source-docs-more.toml"),
         ],
     },
     KeyTomlFile {
@@ -78,6 +82,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/fr-FR/60-source-docs.toml"),
             include_str!("../../config/i18n/keys/fr-FR/70-source-docs-extra.toml"),
             include_str!("../../config/i18n/keys/fr-FR/80-source-docs-next.toml"),
+            include_str!("../../config/i18n/keys/fr-FR/90-source-docs-more.toml"),
         ],
     },
 ];

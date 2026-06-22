@@ -383,3 +383,34 @@ fn applies_stable_cache_backends_keys_only_on_source_page() {
     assert!(translated.contains("die Speicherplatz benoetigen"));
     assert!(unrelated.contains(">Memory Cache Evaluation<"));
 }
+
+#[test]
+fn applies_stable_waf_architecture_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let fr = site.locale("fr-FR").expect("French locale");
+    let html = concat!(
+        "<title>WAF Architecture — Fluxheim Source Docs</title>",
+        "WAF Architecture",
+        "Fluxheim WAF support is future optional security functionality. It must not be compiled into default builds. The normal secure default remains a small edge proxy/static server focused on strict protocol handling, TLS, cache, logging, and metrics.",
+        "Feature Flags",
+        "WAF audit logs should include:",
+        "<p>Unknown or invalid hosts must map to fixed buckets such as <code>unknown</code> or <code>invalid_host</code>.</p>",
+        "WAF engine failure follows",
+        "<li>WAF engine failure follows <code>fail_closed</code> or <code>fail_open</code> exactly.</li>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(fr, html, "1.6.28");
+    let unrelated = apply_shared_keys(fr, ">WAF audit logs should include:<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Architecture WAF"));
+    assert!(translated.contains("Le support WAF de Fluxheim"));
+    assert!(translated.contains("Feature flags"));
+    assert!(translated.contains("Les logs d'audit WAF doivent inclure"));
+    assert!(translated.contains("fixes comme <code>unknown</code> ou <code>invalid_host</code>"));
+    assert!(translated.contains("L'echec du moteur WAF suit"));
+    assert!(
+        translated.contains("suit exactement <code>fail_closed</code> ou <code>fail_open</code>")
+    );
+    assert!(unrelated.contains(">WAF audit logs should include:<"));
+}
