@@ -2,84 +2,8 @@ locale_id = "fr-FR"
 html_lang = "fr-FR"
 
 [[phrase]]
-from = "Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust."
-to = "Fluxheim est un serveur web modulaire hautes performances, reverse proxy et serveur de cache écrit en Rust."
-
-[[phrase]]
-from = "Fluxheim is a high-performance, modular web server, reverse proxy and caching server. Written in Rust. Secure by default."
-to = "Fluxheim est un serveur web modulaire hautes performances, reverse proxy et serveur de cache. Écrit en Rust. Sécurisé par défaut."
-
-[[phrase]]
-from = "A memory-safe edge server and reverse proxy built in Rust."
-to = "Un serveur edge et reverse proxy sûr pour la mémoire, écrit en Rust."
-
-[[phrase]]
-from = "Memory-Safe"
-to = "Sûr pour la mémoire"
-
-[[phrase]]
-from = "Edge Server"
-to = "Serveur edge"
-
-[[phrase]]
-from = "Built in Rust"
-to = "écrit en Rust"
-
-[[phrase]]
-from = "Modular reverse proxy, cache, load balancer, and static host written"
-to = "Reverse proxy modulaire, cache, équilibreur de charge et hébergeur statique,"
-
-[[phrase]]
-from = "in Rust. Secure by default with TLS, ACME, compression, edge policy,"
-to = "écrit en Rust. Sécurisé par défaut avec TLS, ACME, compression, politiques edge,"
-
-[[phrase]]
-from = "dynamic upstream discovery, and safe traffic mirroring built in."
-to = "découverte dynamique des upstreams et miroir de trafic sûr intégrés."
-
-[[phrase]]
-from = "Everything You Need at the Edge"
-to = "Tout ce qu'il faut à l'edge"
-
-[[phrase]]
-from = "Fluxheim ships as focused, modular builds — use only what your deployment needs."
-to = "Fluxheim est livré sous forme de builds ciblés et modulaires — n'utilisez que ce dont votre déploiement a besoin."
-
-[[phrase]]
-from = "Memory-Safe by Design"
-to = "Sûr pour la mémoire par conception"
-
-[[phrase]]
-from = "Written in Rust with a pinned stable toolchain. No buffer overflows, no use-after-free, no data races by construction."
-to = "Écrit en Rust avec une toolchain stable verrouillée. Pas de dépassement de tampon, pas de use-after-free, pas de data race par construction."
-
-[[phrase]]
-from = "Fluxheim HTTP Core"
-to = "Noyau HTTP Fluxheim"
-
-[[phrase]]
-from = "A Rust-native edge runtime with connection pooling, upstream retries, active health checks, HTTP/2, WebSocket upgrades, and gRPC pass-through."
-to = "Un runtime edge natif Rust avec pool de connexions, reprises upstream, contrôles de santé actifs, HTTP/2, mises à niveau WebSocket et passage gRPC."
-
-[[phrase]]
-from = "Load Balancer Control Plane"
-to = "Plan de contrôle de l'équilibreur de charge"
-
-[[phrase]]
-from = "Modular Build Profiles"
-to = "Profils de build modulaires"
-
-[[phrase]]
-from = "TLS & Managed ACME"
-to = "TLS & ACME géré"
-
-[[phrase]]
 from = "Download v"
 to = "Télécharger v"
-
-[[phrase]]
-from = "Rootless Containers"
-to = "Conteneurs rootless"
 
 [[phrase]]
 from = "Docs"
@@ -192,34 +116,6 @@ to = "Développement macOS"
 [[phrase]]
 from = "Security"
 to = "Sécurité"
-
-[[phrase]]
-from = "Fluxheim Core"
-to = "Noyau Fluxheim"
-
-[[phrase]]
-from = "macOS Dev"
-to = "Dév macOS"
-
-[[phrase]]
-from = "Focused 1.5 load-balancer binary and image with advanced selection, local persistence, health/ejection policy, bounded queueing, and runtime member controls."
-to = "Binaire et image load-balancer 1.5 ciblés avec sélection avancée, persistance locale, politiques de santé/éjection, files bornées et contrôles de membres à l'exécution."
-
-[[phrase]]
-from = "Compile only what you need. Focused profiles for static site, cache edge, reverse proxy, load balancing, TCP stream proxying, PHP-FPM, GeoIP, traffic mirroring, and compression-enabled production bundles."
-to = "Compilez seulement ce dont vous avez besoin. Profils ciblés pour site statique, cache edge, reverse proxy, équilibrage de charge, proxy de flux TCP, PHP-FPM, GeoIP, miroir de trafic et bundles de production avec compression."
-
-[[phrase]]
-from = "rustls-first with supported OpenSSL and FIPS/ISO proof build paths, client certificate auth, upstream mTLS, automatic ACME issuance, and multi-cert SNI."
-to = "rustls d'abord, avec chemins de build OpenSSL et FIPS/ISO pris en charge, authentification par certificat client, mTLS upstream, émission ACME automatique et SNI multi-certificats."
-
-[[phrase]]
-from = "Advanced Cache System"
-to = "Système de cache avancé"
-
-[[phrase]]
-from = "Memory, disk, tiered, and encrypted cache backends with cache-safe gzip, Zstandard, and Brotli compression plus range caching for large objects."
-to = "Backends de cache mémoire, disque, hiérarchisés et chiffrés avec compression gzip, Zstandard et Brotli compatible cache, plus cache par plages pour les grands objets."
 
 [[phrase]]
 from = "Container Native"

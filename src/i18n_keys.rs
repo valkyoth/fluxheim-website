@@ -19,6 +19,7 @@ struct KeyFile {
     release: ReleaseKeys,
     shell: ShellKeys,
     footer: FooterKeys,
+    home: HomeKeys,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -71,6 +72,36 @@ struct FooterKeys {
     built_with: String,
 }
 
+#[derive(Debug, Clone, Deserialize)]
+struct HomeKeys {
+    meta_description: String,
+    meta_description_secure: String,
+    meta_description_short: String,
+    hero_memory_safe: String,
+    hero_edge_server: String,
+    hero_built_in_rust: String,
+    hero_line_one: String,
+    hero_line_two: String,
+    hero_line_three: String,
+    tag_fluxheim_core: String,
+    tag_macos_dev: String,
+    tag_rootless_containers: String,
+    features_heading: String,
+    features_intro: String,
+    memory_safe_by_design: String,
+    memory_safe_by_design_text: String,
+    fluxheim_http_core: String,
+    fluxheim_http_core_text: String,
+    load_balancer_control_plane: String,
+    load_balancer_control_plane_text: String,
+    modular_build_profiles: String,
+    modular_build_profiles_text: String,
+    tls_managed_acme: String,
+    tls_managed_acme_text: String,
+    advanced_cache_system: String,
+    advanced_cache_system_text: String,
+}
+
 pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String {
     let Some(keys) = locale_keys(&locale.locale_id) else {
         return html;
@@ -115,6 +146,101 @@ pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String
     .replace(
         "Built with Rust · Powered by Fluxheim",
         &keys.footer.built_with,
+    )
+    .replace(
+        "Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.",
+        &keys.home.meta_description,
+    )
+    .replace(
+        "Fluxheim is a high-performance, modular web server, reverse proxy and caching server. Written in Rust. Secure by default.",
+        &keys.home.meta_description_secure,
+    )
+    .replace(
+        "A memory-safe edge server and reverse proxy built in Rust.",
+        &keys.home.meta_description_short,
+    )
+    .replace(
+        "Written in Rust with a pinned stable toolchain. No buffer overflows, no use-after-free, no data races by construction.",
+        &keys.home.memory_safe_by_design_text,
+    )
+    .replace(
+        "A Rust-native edge runtime with connection pooling, upstream retries, active health checks, HTTP/2, WebSocket upgrades, and gRPC pass-through.",
+        &keys.home.fluxheim_http_core_text,
+    )
+    .replace(
+        "Focused 1.5 load-balancer binary and image with advanced selection, local persistence, health/ejection policy, bounded queueing, and runtime member controls.",
+        &keys.home.load_balancer_control_plane_text,
+    )
+    .replace(
+        "Compile only what you need. Focused profiles for static site, cache edge, reverse proxy, load balancing, TCP stream proxying, PHP-FPM, GeoIP, traffic mirroring, and compression-enabled production bundles.",
+        &keys.home.modular_build_profiles_text,
+    )
+    .replace(
+        "rustls-first with supported OpenSSL and FIPS/ISO proof build paths, client certificate auth, upstream mTLS, automatic ACME issuance, and multi-cert SNI.",
+        &keys.home.tls_managed_acme_text,
+    )
+    .replace(
+        "Memory, disk, tiered, and encrypted cache backends with cache-safe gzip, Zstandard, and Brotli compression plus range caching for large objects.",
+        &keys.home.advanced_cache_system_text,
+    )
+    .replace(
+        "Fluxheim ships as focused, modular builds — use only what your deployment needs.",
+        &keys.home.features_intro,
+    )
+    .replace(
+        "Modular reverse proxy, cache, load balancer, and static host written",
+        &keys.home.hero_line_one,
+    )
+    .replace(
+        "in Rust. Secure by default with TLS, ACME, compression, edge policy,",
+        &keys.home.hero_line_two,
+    )
+    .replace(
+        "dynamic upstream discovery, and safe traffic mirroring built in.",
+        &keys.home.hero_line_three,
+    )
+    .replace(
+        ">Everything You Need at the Edge<",
+        &format!(">{}<", keys.home.features_heading),
+    )
+    .replace(
+        ">Memory-Safe by Design<",
+        &format!(">{}<", keys.home.memory_safe_by_design),
+    )
+    .replace(
+        ">Fluxheim HTTP Core<",
+        &format!(">{}<", keys.home.fluxheim_http_core),
+    )
+    .replace(
+        ">Load Balancer Control Plane<",
+        &format!(">{}<", keys.home.load_balancer_control_plane),
+    )
+    .replace(
+        ">Modular Build Profiles<",
+        &format!(">{}<", keys.home.modular_build_profiles),
+    )
+    .replace(
+        ">TLS & Managed ACME<",
+        &format!(">{}<", keys.home.tls_managed_acme),
+    )
+    .replace(
+        ">Advanced Cache System<",
+        &format!(">{}<", keys.home.advanced_cache_system),
+    )
+    .replace(">Memory-Safe<", &format!(">{}<", keys.home.hero_memory_safe))
+    .replace(">Edge Server<", &format!(">{}<", keys.home.hero_edge_server))
+    .replace(
+        ">Built in Rust<",
+        &format!(">{}<", keys.home.hero_built_in_rust),
+    )
+    .replace(
+        ">Fluxheim Core<",
+        &format!(">{}<", keys.home.tag_fluxheim_core),
+    )
+    .replace(">macOS Dev<", &format!(">{}<", keys.home.tag_macos_dev))
+    .replace(
+        ">Rootless Containers<",
+        &format!(">{}<", keys.home.tag_rootless_containers),
     )
     .replace(
         ">Download v1.6.28<",
@@ -233,5 +359,24 @@ mod tests {
         assert!(translated.contains(">Auf GitHub ansehen<"));
         assert!(translated.contains(">Projekt<"));
         assert!(translated.contains(">EUPL-1.2-Lizenz<"));
+    }
+
+    #[test]
+    fn applies_stable_home_keys_before_phrase_maps() {
+        let site = Site::load().expect("site loads");
+        let fr = site.locale("fr-FR").expect("French locale");
+        let html = concat!(
+            ">Memory-Safe by Design<>Memory-Safe<",
+            "Fluxheim ships as focused, modular builds — use only what your deployment needs.",
+            "A Rust-native edge runtime with connection pooling, upstream retries, active health checks, HTTP/2, WebSocket upgrades, and gRPC pass-through.",
+        )
+        .to_owned();
+
+        let translated = apply_shared_keys(fr, html, "1.6.28");
+
+        assert!(translated.contains(">Sûr pour la mémoire par conception<"));
+        assert!(translated.contains(">Sûr pour la mémoire<"));
+        assert!(translated.contains("builds ciblés et modulaires"));
+        assert!(translated.contains("runtime edge natif Rust"));
     }
 }
