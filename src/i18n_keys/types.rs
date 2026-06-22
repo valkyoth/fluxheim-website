@@ -33,6 +33,7 @@ pub(super) struct KeyFile {
     pub(super) secure_links: BTreeMap<String, String>,
     pub(super) vhost_config: BTreeMap<String, String>,
     pub(super) fluxheim_ecosystem_idea: BTreeMap<String, String>,
+    pub(super) github_setup: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

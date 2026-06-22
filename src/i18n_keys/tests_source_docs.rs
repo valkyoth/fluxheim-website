@@ -41,3 +41,24 @@ fn applies_stable_fluxheim_ecosystem_idea_keys_only_on_source_page() {
     assert!(translated.contains("Fluxheim integrieren koennen"));
     assert!(unrelated.contains(">Proposed Shape<"));
 }
+
+#[test]
+fn applies_stable_github_setup_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>GitHub Repository Setup — Fluxheim Source Docs</title>",
+        "<h1>GitHub Repository Setup</h1>",
+        "<h2>Recommended Safe Path</h2>",
+        "Use this when the remote has files you do not want to accidentally overwrite.",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Recommended Safe Path<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h1>GitHub-Repository-Einrichtung</h1>"));
+    assert!(translated.contains("<h2>Empfohlener sicherer Weg</h2>"));
+    assert!(translated.contains("nicht versehentlich ueberschreiben"));
+    assert!(unrelated.contains(">Recommended Safe Path<"));
+}
