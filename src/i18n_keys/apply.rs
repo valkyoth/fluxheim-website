@@ -8,6 +8,7 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     let is_geoip_page = html.contains("GeoIP / Geo-Context — Fluxheim Source Docs");
     let is_load_balancer_ha_page =
         html.contains("Load Balancer HA Design Notes — Fluxheim Source Docs");
+    let is_getting_started_page = html.contains("Installation & Quick Start — Fluxheim Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -222,6 +223,12 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
 
     let html = if is_load_balancer_ha_page {
         html.replace_map_everywhere(&source.load_balancer_ha, &keys.load_balancer_ha)
+    } else {
+        html
+    };
+
+    let html = if is_getting_started_page {
+        html.replace_map_everywhere(&source.getting_started, &keys.getting_started)
     } else {
         html
     };

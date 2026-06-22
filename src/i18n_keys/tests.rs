@@ -201,3 +201,24 @@ fn applies_stable_load_balancer_ha_keys_only_on_source_page() {
     assert!(translated.contains("Aktuelles 1.5.3-Verhalten"));
     assert_eq!(unrelated, ">Load Balancer HA Design Notes<");
 }
+
+#[test]
+fn applies_stable_getting_started_keys_only_on_docs_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Installation & Quick Start — Fluxheim Docs</title>",
+        "<h2>Prerequisites</h2>",
+        "<th>Profile</th>",
+        "Get Fluxheim running in under five minutes — from tarball, container, or source.",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Prerequisites<>Profile<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h2>Voraussetzungen</h2>"));
+    assert!(translated.contains("<th>Profil</th>"));
+    assert!(translated.contains("Starte Fluxheim in unter fünf Minuten"));
+    assert_eq!(unrelated, ">Prerequisites<>Profile<");
+}
