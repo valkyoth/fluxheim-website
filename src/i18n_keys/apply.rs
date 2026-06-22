@@ -28,6 +28,8 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     let is_fluxheim_ecosystem_idea_page =
         html.contains("Fluxheim Ecosystem Idea — Fluxheim Source Docs");
     let is_github_setup_page = html.contains("GitHub Repository Setup — Fluxheim Source Docs");
+    let is_build_and_podman_page =
+        html.contains("Build And Rootless Podman — Fluxheim Source Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -344,6 +346,15 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
 
     let html = if is_github_setup_page {
         html.replace_map_everywhere(&source.github_setup, &keys.github_setup)
+    } else {
+        html
+    };
+
+    let html = if is_build_and_podman_page {
+        html.replace_map_everywhere(
+            &source.build_and_podman_runtime,
+            &keys.build_and_podman_runtime,
+        )
     } else {
         html
     };
