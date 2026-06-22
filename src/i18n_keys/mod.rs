@@ -1,4 +1,6 @@
 mod apply;
+mod page_maps;
+mod text_replace;
 mod types;
 
 use std::sync::OnceLock;
