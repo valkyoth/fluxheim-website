@@ -22,6 +22,7 @@ pub(super) struct KeyFile {
     pub(super) cache: BTreeMap<String, String>,
     pub(super) extraction_dependency_graph: BTreeMap<String, String>,
     pub(super) runtime_baseline: BTreeMap<String, String>,
+    pub(super) modularity_policy: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

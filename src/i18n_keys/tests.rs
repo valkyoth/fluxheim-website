@@ -287,3 +287,24 @@ fn applies_stable_runtime_baseline_keys_only_on_source_page() {
     assert!(translated.contains("Release-Gates schreiben Baseline-Ausgaben nach:"));
     assert_eq!(unrelated, ">Release Evidence<");
 }
+
+#[test]
+fn applies_stable_modularity_policy_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Modularity Policy — Fluxheim Source Docs</title>",
+        "<h1>Fluxheim Modularity Policy</h1>",
+        "<h2>Core Rule</h2>",
+        "New or newly split Rust implementation files should follow:",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Modularity Policy<>Core Rule<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("<h1>Fluxheim-Modularitaets-Policy</h1>"));
+    assert!(translated.contains("<h2>Kernregel</h2>"));
+    assert!(translated.contains("Neue oder neu aufgeteilte Rust-Implementierungsdateien"));
+    assert_eq!(unrelated, ">Modularity Policy<>Core Rule<");
+}
