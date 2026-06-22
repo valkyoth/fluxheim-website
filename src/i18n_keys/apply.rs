@@ -33,6 +33,8 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     let is_cache_encryption_page = html.contains("Cache Encryption — Fluxheim Source Docs");
     let is_perl_cgi_support_page = html.contains("Perl CGI Support — Fluxheim Source Docs");
     let is_systemd_deployment_page = html.contains("systemd Deployment — Fluxheim Source Docs");
+    let is_config_snapshots_page =
+        html.contains("Config Snapshots And Rollback — Fluxheim Source Docs");
 
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
@@ -360,6 +362,12 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
         is_systemd_deployment_page,
         &source.systemd_deployment,
         &keys.systemd_deployment,
+    );
+    let html = replace_page_map(
+        html,
+        is_config_snapshots_page,
+        &source.config_snapshots,
+        &keys.config_snapshots,
     );
 
     html.replace(

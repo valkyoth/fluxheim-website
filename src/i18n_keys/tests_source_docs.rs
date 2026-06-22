@@ -213,3 +213,22 @@ fn applies_stable_systemd_deployment_keys_only_on_source_page() {
     assert!(translated.contains("TLS- und Content-Pfade"));
     assert!(unrelated.contains(">systemd Deployment<"));
 }
+
+#[test]
+fn applies_stable_config_snapshots_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Config Snapshots And Rollback — Fluxheim Source Docs</title>",
+        "Store Layout",
+        "Admin API Shape",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Store Layout<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Store-Layout"));
+    assert!(translated.contains("Form der Admin-API"));
+    assert!(unrelated.contains(">Store Layout<"));
+}
