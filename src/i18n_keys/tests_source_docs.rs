@@ -316,3 +316,24 @@ fn applies_stable_load_balancer_migration_keys_only_on_source_page() {
     assert!(translated.contains("Bekannte Migrationsgrenzen"));
     assert!(unrelated.contains(">Runtime Operations<"));
 }
+
+#[test]
+fn applies_stable_runtime_facts_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Runtime Facts And Policy Proofs — Fluxheim Source Docs</title>",
+        "Runtime Facts And Policy Proofs",
+        "Non-Goals",
+        "Security Rules",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Security Rules<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Runtime Facts und Policy Proofs"));
+    assert!(translated.contains("Nicht-Ziele"));
+    assert!(translated.contains("Sicherheit-Regeln"));
+    assert!(unrelated.contains(">Security Rules<"));
+}

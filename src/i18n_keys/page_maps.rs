@@ -196,11 +196,17 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.compression,
         &keys.compression,
     );
-    replace_marker_map(
+    let html = replace_marker_map(
         html,
         "Load Balancer Migration Notes — Fluxheim Source Docs",
         &source.load_balancer_migration,
         &keys.load_balancer_migration,
+    );
+    replace_marker_map(
+        html,
+        "Runtime Facts And Policy Proofs — Fluxheim Source Docs",
+        &source.runtime_facts_and_policy_proofs,
+        &keys.runtime_facts_and_policy_proofs,
     )
 }
 
