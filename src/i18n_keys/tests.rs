@@ -100,11 +100,13 @@ fn applies_stable_download_keys_for_release_page_copy() {
     let site = Site::load().expect("site loads");
     let de = site.locale("de-DE").expect("German locale");
     let html = concat!(
+        "<title>Download — Fluxheim</title>",
         ">Cache Edge Build<",
         "<span class=\"text-xs font-bold uppercase tracking-widest text-amber-400\">Cache</span>",
         "Native HTTP/1.1 upstream pooling release with bounded keepalive reuse, ",
         "pool-size config, upstream idle timeout handling, conservative no-reuse guards, ",
         "and real socket reuse/expiry tests.",
+        "proxy.error_pages</code> fallback pages backed by <code>fluxheim-web",
     )
     .to_owned();
 
@@ -113,6 +115,7 @@ fn applies_stable_download_keys_for_release_page_copy() {
     assert!(translated.contains(">Cache-Edge-Build<"));
     assert!(translated.contains(">Cache-Profil</span>"));
     assert!(translated.contains("Native HTTP/1.1-Upstream-Pooling-Version"));
+    assert!(translated.contains("proxy.error_pages</code> Fallback-Seiten, gestützt durch"));
 }
 
 #[test]
@@ -122,6 +125,7 @@ fn applies_stable_changelog_keys_only_on_changelog_page() {
     let html = concat!(
         "<title>Changelog — Fluxheim</title>",
         "Released June 19, 2026",
+        "Moves route-level native response compression",
         "Adds explicit <code>pingora-compat</code> ",
         "feature gating for the remaining compatibility runtime boundary",
     )
@@ -132,6 +136,7 @@ fn applies_stable_changelog_keys_only_on_changelog_page() {
 
     assert!(translated.contains("<title>Änderungen — Fluxheim</title>"));
     assert!(translated.contains("Veröffentlicht am 19. Juni 2026"));
+    assert!(translated.contains("Verschiebt route-level native response compression"));
     assert!(translated.contains("Fügt explizites <code>pingora-compat</code> Feature-Gating"));
     assert_eq!(unrelated, "Released June 19, 2026");
 }

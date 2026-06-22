@@ -352,3 +352,7 @@ plus_adds_tests_and_release_gates_that_enforce = "<li class=\"flex gap-2\"><span
 plus_started_the_1_6_x_pingora_exit = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>A demarre la ligne de fondation de sortie de Pingora <code class=\"text-cyan-400 text-xs\">1.6.x</code> tout en conservant le comportement runtime inchange</li>"
 plus_new_profile_php_build_profile_proxy_plus = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>Nouveau profil de build <code class=\"text-cyan-400 text-xs\">profile-php</code> — <code class=\"text-cyan-400 text-xs\">proxy + web + php-fpm + tls-rustls + security</code></li>"
 series = "<span class=\"px-2 py-0.5 text-xs bg-gray-700 text-gray-400 rounded-full\">Serie</span>"
+
+[release_updates]
+fallback_pages_backed_by = "pages de fallback appuyées par"
+moves = "Déplace"

@@ -1,6 +1,9 @@
 use super::{KeyFile, home, versioned};
 
 pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version: &str) -> String {
+    let is_download_page = html.contains("Download — Fluxheim");
+    let is_changelog_page = html.contains("Changelog — Fluxheim");
+
     let html = html.replace(
         "Fluxheim — Memory-Safe Edge Server Built in Rust",
         &keys.shell.home_title,
@@ -177,11 +180,22 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     .replace_home_marker("macOS Dev", home(keys, "tag_macos_dev"))
     .replace_home_marker("Rootless Containers", home(keys, "tag_rootless_containers"))
     .replace_map(&source.docs_index, &keys.docs_index)
-    .replace_map(&source.common, &keys.common)
-    .replace_map(&source.download, &keys.download);
+    .replace_map(&source.common, &keys.common);
 
-    let html = if html.contains("Changelog — Fluxheim") {
+    let html = if is_download_page {
+        html.replace_map_everywhere(&source.download, &keys.download)
+    } else {
+        html
+    };
+
+    let html = if is_changelog_page {
         html.replace_map_everywhere(&source.changelog, &keys.changelog)
+    } else {
+        html
+    };
+
+    let html = if is_download_page || is_changelog_page {
+        html.replace_map_everywhere(&source.release_updates, &keys.release_updates)
     } else {
         html
     };
