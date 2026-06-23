@@ -11,6 +11,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 KEY_ROOT = ROOT / "config/i18n/keys"
 SOURCE_LOCALE = "en-EU"
+LEGACY_LOCALES = ("de", "fr")
 
 
 def main() -> int:
@@ -35,6 +36,8 @@ def main() -> int:
         locale_id = path.stem
         if locale_id not in locale_ids:
             errors.append(f"{path.relative_to(ROOT)} is not configured in config/locales.toml")
+
+    check_legacy_phrase_bundles_are_empty(errors)
 
     if errors:
         for error in errors:
@@ -79,6 +82,19 @@ def flatten(data: dict[str, Any], prefix: str = "") -> dict[str, Any]:
 
 def load_toml(path: Path) -> dict[str, Any]:
     return tomllib.loads(path.read_text(encoding="utf-8"))
+
+
+def check_legacy_phrase_bundles_are_empty(errors: list[str]) -> None:
+    for locale in LEGACY_LOCALES:
+        paths = [ROOT / f"config/i18n-{locale}.toml"]
+        paths.extend(sorted((ROOT / "config/i18n" / locale).glob("*.toml")))
+        for path in paths:
+            data = load_toml(path)
+            phrases = data.get("phrase", [])
+            if phrases:
+                errors.append(
+                    f"{path.relative_to(ROOT)} still contains legacy phrase entries"
+                )
 
 
 if __name__ == "__main__":

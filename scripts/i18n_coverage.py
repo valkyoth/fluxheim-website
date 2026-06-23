@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Report visible legacy HTML phrases missing from runtime i18n maps."""
+"""Report visible HTML phrases missing from stable i18n key coverage."""
 
 from __future__ import annotations
 
@@ -136,15 +136,7 @@ class VisibleTextParser(HTMLParser):
 
 
 def load_phrases(locale: str) -> list[str]:
-    paths = [ROOT / f"config/i18n-{locale}.toml"]
-    paths.extend(sorted((ROOT / "config/i18n" / locale).glob("*.toml")))
     phrases: list[str] = stable_key_sources()
-    for path in paths:
-        data = tomllib.loads(path.read_text(encoding="utf-8"))
-        for phrase in data["phrase"]:
-            source = phrase["from"]
-            phrases.append(source)
-            phrases.extend(visible_parts(source))
     phrases.sort(key=len, reverse=True)
     return phrases
 
