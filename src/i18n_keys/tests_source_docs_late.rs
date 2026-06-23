@@ -415,3 +415,28 @@ fn applies_stable_release_checklist_keys_only_on_source_page() {
     assert!(translated.contains("Dependency-, Lizenz- und Advisory-Gates"));
     assert!(unrelated.contains(">Version And Toolchain<"));
 }
+
+#[test]
+fn applies_stable_modularity_exceptions_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let fr = site.locale("fr-FR").expect("French locale");
+    let html = concat!(
+        "<title>Modularity Exceptions — Fluxheim Source Docs</title>",
+        "<h1>Fluxheim Modularity Exceptions</h1>",
+        "<p>Status: baseline inventory for the 1.6 line</p>",
+        "<p>This file records legacy non-generated Rust files above the 500-line target in</p>",
+        "<h2>Legacy Exceptions</h2>",
+        "<th>Split target</th>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(fr, html, "1.6.28");
+    let unrelated = apply_shared_keys(fr, ">Legacy Exceptions<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Exceptions de modularite"));
+    assert!(translated.contains("inventaire de baseline"));
+    assert!(translated.contains("500 lignes"));
+    assert!(translated.contains("Exceptions legacy"));
+    assert!(translated.contains("Cible de decoupage"));
+    assert!(unrelated.contains(">Legacy Exceptions<"));
+}

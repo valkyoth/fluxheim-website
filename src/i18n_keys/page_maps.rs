@@ -340,6 +340,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.release_checklist_source,
         &keys.release_checklist_source,
     );
+    let html = replace_marker_map(
+        html,
+        "Modularity Exceptions — Fluxheim Source Docs",
+        &source.modularity_exceptions_source,
+        &keys.modularity_exceptions_source,
+    );
     replace_marker_map(
         html,
         "Zero-Retention Privacy Mode — Fluxheim Source Docs",
