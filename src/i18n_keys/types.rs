@@ -54,6 +54,7 @@ pub(super) struct KeyFile {
     pub(super) cloudflare_origin_support: BTreeMap<String, String>,
     pub(super) certificate_renewal: BTreeMap<String, String>,
     pub(super) logging_architecture: BTreeMap<String, String>,
+    pub(super) legacy_static_http: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

@@ -48,3 +48,26 @@ fn applies_stable_logging_architecture_keys_only_on_source_page() {
     assert!(translated.contains("<code>drop_new</code>- und <code>block</code>-Policies"));
     assert!(unrelated.contains(">Logging Architecture<"));
 }
+
+#[test]
+fn applies_stable_legacy_static_http_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let fr = site.locale("fr-FR").expect("French locale");
+    let html = concat!(
+        "<title>Legacy Static HTTP Support — Fluxheim Source Docs</title>",
+        "<h1 id=\"legacy-static-http-support\">Legacy Static HTTP Support</h1>",
+        "<p>Legacy HTTP support is a future experimental compatibility feature for isolated devices that cannot speak modern HTTP. It must never be part of Fluxheim&#x27;s default binary and must never run on normal proxy, cache, admin, PHP, CGI, or TLS listener paths.</p>",
+        "<h2 id=\"http-1-0-static-mode\">HTTP/1.0 Static Mode</h2>",
+        "<li>HTTP/1.0 requests must never reach proxy/cache/admin/PHP/CGI paths.</li>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(fr, html, "1.6.28");
+    let unrelated = apply_shared_keys(fr, ">Legacy Static HTTP Support<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Support HTTP statique legacy"));
+    assert!(translated.contains("fonctionnalite experimentale de compatibilite"));
+    assert!(translated.contains("Mode statique HTTP/1.0"));
+    assert!(translated.contains("ne doivent jamais atteindre"));
+    assert!(unrelated.contains(">Legacy Static HTTP Support<"));
+}

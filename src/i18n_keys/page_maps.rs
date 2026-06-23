@@ -244,11 +244,17 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.certificate_renewal,
         &keys.certificate_renewal,
     );
-    replace_marker_map(
+    let html = replace_marker_map(
         html,
         "Logging Architecture — Fluxheim Source Docs",
         &source.logging_architecture,
         &keys.logging_architecture,
+    );
+    replace_marker_map(
+        html,
+        "Legacy Static HTTP Support — Fluxheim Source Docs",
+        &source.legacy_static_http,
+        &keys.legacy_static_http,
     )
 }
 
