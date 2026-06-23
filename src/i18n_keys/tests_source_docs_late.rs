@@ -297,3 +297,28 @@ fn applies_stable_source_features_keys_only_on_source_page() {
     assert!(!translated.contains("FIPS/ISO-capable TLS is not limited"));
     assert!(unrelated.contains(">Stable Core Features<"));
 }
+
+#[test]
+fn applies_stable_crypto_rpc_edge_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let fr = site.locale("fr-FR").expect("French locale");
+    let html = concat!(
+        "<title>Crypto RPC Edge — Fluxheim Source Docs</title>",
+        "<h1>Crypto RPC Edge</h1>",
+        "<p>Status: future optional module family.</p>",
+        "<p>The crypto RPC edge track is a future Fluxheim module family for running blockchain-aware RPC gateways in front of local nodes or hosted-compatible upstreams. It should be designed as focused compile-time modules, not as part of the default web/proxy build.</p>",
+        "<h2>Why Ethereum First</h2>",
+        "<h2>Compile-Time Shape</h2>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(fr, html, "1.6.28");
+    let unrelated = apply_shared_keys(fr, ">Why Ethereum First<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Edge RPC crypto"));
+    assert!(translated.contains("Statut: future famille de modules optionnelle."));
+    assert!(translated.contains("passerelles RPC conscientes de la blockchain"));
+    assert!(translated.contains("Pourquoi Ethereum d'abord"));
+    assert!(translated.contains("Forme compile-time"));
+    assert!(unrelated.contains(">Why Ethereum First<"));
+}

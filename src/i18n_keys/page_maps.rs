@@ -316,6 +316,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.sentinel_mesh,
         &keys.sentinel_mesh,
     );
+    let html = replace_marker_map(
+        html,
+        "Crypto RPC Edge — Fluxheim Source Docs",
+        &source.crypto_rpc_edge_source,
+        &keys.crypto_rpc_edge_source,
+    );
     replace_marker_map(
         html,
         "Zero-Retention Privacy Mode — Fluxheim Source Docs",
