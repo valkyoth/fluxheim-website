@@ -235,22 +235,32 @@ fn inject_language_selector(
 
 fn language_selector(site: &Site, active_locale: &Locale, slug: &str) -> String {
     let label = i18n_keys::language_selector_label(active_locale);
+    let active_display_name = i18n_keys::language_display_name(
+        active_locale,
+        &active_locale.locale_id,
+        &active_locale.display_name,
+    );
     let mut html = String::from(
         r#"<style>
 .fh-language-switcher{position:fixed;right:1rem;bottom:1rem;z-index:60;font-family:Inter,ui-sans-serif,system-ui,sans-serif}
-.fh-language-switcher summary{list-style:none;cursor:pointer;border:1px solid rgb(55 65 81);border-radius:.5rem;background:rgba(17,24,39,.94);color:rgb(229 231 235);padding:.55rem .75rem;font-size:.8125rem;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.28)}
+.fh-language-switcher summary{display:inline-flex;align-items:center;gap:.45rem;list-style:none;cursor:pointer;border:1px solid rgb(55 65 81);border-radius:.5rem;background:rgba(17,24,39,.94);color:rgb(229 231 235);padding:.55rem .75rem;font-size:.8125rem;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.28)}
 .fh-language-switcher summary::-webkit-details-marker{display:none}
-.fh-language-switcher div{position:absolute;right:0;bottom:2.7rem;min-width:10rem;border:1px solid rgb(55 65 81);border-radius:.5rem;background:rgba(17,24,39,.98);padding:.35rem;box-shadow:0 10px 30px rgba(0,0,0,.35)}
-.fh-language-switcher a{display:block;border-radius:.375rem;padding:.5rem .65rem;color:rgb(209 213 219);font-size:.8125rem;text-decoration:none;white-space:nowrap}
+.fh-language-switcher div{position:absolute;right:0;bottom:2.7rem;min-width:11.5rem;border:1px solid rgb(55 65 81);border-radius:.5rem;background:rgba(17,24,39,.98);padding:.35rem;box-shadow:0 10px 30px rgba(0,0,0,.35)}
+.fh-language-switcher a{display:flex;align-items:center;gap:.45rem;border-radius:.375rem;padding:.5rem .65rem;color:rgb(209 213 219);font-size:.8125rem;text-decoration:none;white-space:nowrap}
 .fh-language-switcher a:hover{background:rgb(31 41 55);color:white}
 .fh-language-switcher a[aria-current=true]{background:rgb(34 211 238);color:rgb(3 7 18);font-weight:800}
+.fh-language-flag{display:inline-flex;width:1.25em;justify-content:center;font-size:1rem;line-height:1}
 </style>
 <details class="fh-language-switcher">
-  <summary>"#,
+  <summary aria-label=""#,
     );
-    html.push_str(label);
+    html.push_str(&html_escape(label));
+    html.push_str(r#""><span class="fh-language-flag" aria-hidden="true">"#);
+    html.push_str(language_flag(&active_locale.locale_id));
+    html.push_str(r#"</span><span>"#);
+    html.push_str(&html_escape(&active_display_name));
     html.push_str(
-        r#"</summary>
+        r#"</span></summary>
   <div>
 "#,
     );
@@ -264,9 +274,12 @@ fn language_selector(site: &Site, active_locale: &Locale, slug: &str) -> String 
         let display_name =
             i18n_keys::language_display_name(active_locale, &link.locale_id, &link.display_name);
         html.push_str(&format!(
-            r#"  <a href="{}"{}>{}</a>
+            r#"  <a href="{}"{}><span class="fh-language-flag" aria-hidden="true">{}</span><span>{}</span></a>
 "#,
-            link.href, active, display_name
+            html_escape(&link.href),
+            active,
+            language_flag(&link.locale_id),
+            html_escape(&display_name)
         ));
     }
 
@@ -274,9 +287,37 @@ fn language_selector(site: &Site, active_locale: &Locale, slug: &str) -> String 
     html
 }
 
+fn html_escape(value: &str) -> String {
+    let mut escaped = String::with_capacity(value.len());
+    for character in value.chars() {
+        match character {
+            '&' => escaped.push_str("&amp;"),
+            '"' => escaped.push_str("&quot;"),
+            '\'' => escaped.push_str("&#39;"),
+            '<' => escaped.push_str("&lt;"),
+            '>' => escaped.push_str("&gt;"),
+            _ => escaped.push(character),
+        }
+    }
+    escaped
+}
+
+fn language_flag(locale_id: &str) -> &'static str {
+    match locale_id {
+        "en-EU" => "🇪🇺",
+        "en-GB" => "🇬🇧",
+        "en-US" => "🇺🇸",
+        "de-DE" => "🇩🇪",
+        "fr-FR" => "🇫🇷",
+        _ => "",
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::{html_path, legacy_html_paths, render, render_static_artifact, slug_for_path};
+    use super::{
+        html_path, language_flag, legacy_html_paths, render, render_static_artifact, slug_for_path,
+    };
     use crate::content::Site;
     use std::fs;
     use std::path::Path;
@@ -287,7 +328,19 @@ mod tests {
         let page = render(&site, "/de/docs/deployment").expect("legacy page");
         assert!(page.html.contains("Systemd & Container"));
         assert!(page.html.contains("fh-language-switcher"));
-        assert!(page.html.contains("<summary>Sprache</summary>"));
+        assert!(page.html.contains(r#"<summary aria-label="Sprache">"#));
+        assert!(page.html.contains("🇩🇪"));
+        assert!(page.html.contains("<span>Deutsch</span>"));
+    }
+
+    #[test]
+    fn maps_language_flags() {
+        assert_eq!(language_flag("en-EU"), "🇪🇺");
+        assert_eq!(language_flag("en-GB"), "🇬🇧");
+        assert_eq!(language_flag("en-US"), "🇺🇸");
+        assert_eq!(language_flag("de-DE"), "🇩🇪");
+        assert_eq!(language_flag("fr-FR"), "🇫🇷");
+        assert_eq!(language_flag("unknown"), "");
     }
 
     #[test]

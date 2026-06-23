@@ -68,13 +68,17 @@ async fn english_variant_prefixes_preserve_english_content() {
     assert!(gb_body.contains(r#"<html lang="en-GB""#));
     assert!(gb_body.contains("Download v1.6.28"));
     assert!(gb_body.contains("Pre-built Linux binaries"));
-    assert!(gb_body.contains(r#"<a href="/en-gb/download" aria-current="true">English (UK)</a>"#));
+    assert!(gb_body.contains(r#"<a href="/en-gb/download" aria-current="true">"#));
+    assert!(gb_body.contains("🇬🇧"));
+    assert!(gb_body.contains("<span>English (UK)</span>"));
 
     let (us_status, _headers, us_body) = request("/en-us/docs").await;
     assert_eq!(us_status, StatusCode::OK);
     assert!(us_body.contains(r#"<html lang="en-US""#));
     assert!(us_body.contains("Documentation"));
-    assert!(us_body.contains(r#"<a href="/en-us/docs" aria-current="true">English (US)</a>"#));
+    assert!(us_body.contains(r#"<a href="/en-us/docs" aria-current="true">"#));
+    assert!(us_body.contains("🇺🇸"));
+    assert!(us_body.contains("<span>English (US)</span>"));
 }
 
 #[tokio::test]
@@ -243,10 +247,16 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     let (de_status, _headers, de_body) = request("/de/docs").await;
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains("Dokumentation"));
-    assert!(de_body.contains(r#"<a href="/docs">English (EU)</a>"#));
-    assert!(de_body.contains(r#"<a href="/en-gb/docs">English (UK)</a>"#));
-    assert!(de_body.contains(r#"<a href="/en-us/docs">English (US)</a>"#));
-    assert!(de_body.contains(r#"<a href="/de/docs" aria-current="true">Deutsch</a>"#));
+    assert!(de_body.contains(r#"<a href="/docs">"#));
+    assert!(de_body.contains(r#"<a href="/en-gb/docs">"#));
+    assert!(de_body.contains(r#"<a href="/en-us/docs">"#));
+    assert!(de_body.contains(r#"<a href="/de/docs" aria-current="true">"#));
+    assert!(de_body.contains("🇪🇺"));
+    assert!(de_body.contains("🇩🇪"));
+    assert!(de_body.contains("🇫🇷"));
+    assert!(de_body.contains("<span>English (EU)</span>"));
+    assert!(de_body.contains("<span>Deutsch</span>"));
+    assert!(de_body.contains("<span>Français</span>"));
 }
 
 #[tokio::test]
@@ -254,7 +264,8 @@ async fn html_suffix_routes_still_work_with_locale_prefixes() {
     let (status, _headers, body) = request("/de/download.html").await;
     assert_eq!(status, StatusCode::OK);
     assert!(body.contains("Systemd-Dienst"));
-    assert!(body.contains(r#"<a href="/download.html">English (EU)</a>"#));
+    assert!(body.contains(r#"<a href="/download.html">"#));
+    assert!(body.contains("<span>English (EU)</span>"));
 }
 
 #[tokio::test]
@@ -300,7 +311,8 @@ async fn language_selector_targets_same_page() {
     assert!(body.contains(r#"<a href="/en-us/download""#));
     assert!(body.contains(r#"<a href="/de/download" aria-current="true""#));
     assert!(body.contains(r#"<a href="/fr/download""#));
-    assert!(body.contains("<summary>Sprache</summary>"));
+    assert!(body.contains(r#"<summary aria-label="Sprache">"#));
+    assert!(body.contains("<span>Deutsch</span>"));
 }
 
 #[tokio::test]

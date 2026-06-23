@@ -19,6 +19,29 @@ fn reads_stable_language_keys() {
 }
 
 #[test]
+fn language_menu_names_are_autonyms_in_every_locale() {
+    let site = Site::load().expect("site loads");
+    let expected_names = [
+        ("en-EU", "English (EU)"),
+        ("en-GB", "English (UK)"),
+        ("en-US", "English (US)"),
+        ("de-DE", "Deutsch"),
+        ("fr-FR", "Français"),
+    ];
+
+    for active_locale in site.locales() {
+        for (locale_id, expected_name) in expected_names {
+            assert_eq!(
+                language_display_name(active_locale, locale_id, "fallback"),
+                expected_name,
+                "{} should show {locale_id} as its autonym",
+                active_locale.locale_id
+            );
+        }
+    }
+}
+
+#[test]
 fn applies_stable_shared_keys_before_phrase_maps() {
     let site = Site::load().expect("site loads");
     let de = site.locale("de-DE").expect("German locale");

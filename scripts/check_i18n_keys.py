@@ -54,6 +54,7 @@ def main() -> int:
     source = load_key_file(source_path, SOURCE_LOCALE, errors)
     source_keys = set(flatten(source).keys())
     source_parts = key_part_names(SOURCE_LOCALE)
+    source_language_names = source.get("language", {}).get("names", {})
     intentional_identical = load_intentional_identical(locale_ids, source_keys, errors)
 
     for locale_id in locale_ids:
@@ -100,6 +101,14 @@ def main() -> int:
             if not names.get(configured_locale_id):
                 errors.append(
                     f"{path.relative_to(ROOT)} missing language.names.{configured_locale_id}"
+                )
+                continue
+            if names.get(configured_locale_id) != source_language_names.get(
+                configured_locale_id
+            ):
+                errors.append(
+                    f"{path.relative_to(ROOT)} language.names.{configured_locale_id} "
+                    f"must stay autonym {source_language_names.get(configured_locale_id)!r}"
                 )
 
     for path in sorted(KEY_ROOT.glob("*.toml")):
