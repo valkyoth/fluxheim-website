@@ -71,6 +71,7 @@ pub(super) struct KeyFile {
     pub(super) versioning_plan_source: BTreeMap<String, String>,
     pub(super) release_checklist_source: BTreeMap<String, String>,
     pub(super) modularity_exceptions_source: BTreeMap<String, String>,
+    pub(super) release_runbook_source: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

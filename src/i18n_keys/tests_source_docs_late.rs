@@ -440,3 +440,26 @@ fn applies_stable_modularity_exceptions_keys_only_on_source_page() {
     assert!(translated.contains("Cible de decoupage"));
     assert!(unrelated.contains(">Legacy Exceptions<"));
 }
+
+#[test]
+fn applies_stable_release_runbook_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Release Runbook — Fluxheim Source Docs</title>",
+        "<h1>Release Runbook</h1>",
+        "<p>This is the maintainer procedure for publishing a Fluxheim release. It is the step-by-step operational companion to the broader release checklist.</p>",
+        "<h2>1. Preflight</h2>",
+        "<h2>5. Draft The GitHub Release</h2>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">5. Draft The GitHub Release<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Release-Runbook"));
+    assert!(translated.contains("Maintainer-Verfahren"));
+    assert!(translated.contains("1. Preflight"));
+    assert!(translated.contains("5. GitHub-Release entwerfen"));
+    assert!(unrelated.contains(">5. Draft The GitHub Release<"));
+}
