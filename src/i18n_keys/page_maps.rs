@@ -256,11 +256,17 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.legacy_static_http,
         &keys.legacy_static_http,
     );
-    replace_marker_map(
+    let html = replace_marker_map(
         html,
         "Metrics Architecture — Fluxheim Source Docs",
         &source.metrics_architecture,
         &keys.metrics_architecture,
+    );
+    replace_marker_map(
+        html,
+        "External Authorization Request — Fluxheim Source Docs",
+        &source.auth_request_source,
+        &keys.auth_request_source,
     )
 }
 

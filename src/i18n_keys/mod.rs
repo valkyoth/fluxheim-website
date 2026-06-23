@@ -28,6 +28,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-EU/80-source-docs-next.toml"),
             include_str!("../../config/i18n/keys/en-EU/90-source-docs-more.toml"),
             include_str!("../../config/i18n/keys/en-EU/100-source-docs-late.toml"),
+            include_str!("../../config/i18n/keys/en-EU/110-source-docs-final.toml"),
         ],
     },
     KeyTomlFile {
@@ -43,6 +44,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-GB/80-source-docs-next.toml"),
             include_str!("../../config/i18n/keys/en-GB/90-source-docs-more.toml"),
             include_str!("../../config/i18n/keys/en-GB/100-source-docs-late.toml"),
+            include_str!("../../config/i18n/keys/en-GB/110-source-docs-final.toml"),
         ],
     },
     KeyTomlFile {
@@ -58,6 +60,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-US/80-source-docs-next.toml"),
             include_str!("../../config/i18n/keys/en-US/90-source-docs-more.toml"),
             include_str!("../../config/i18n/keys/en-US/100-source-docs-late.toml"),
+            include_str!("../../config/i18n/keys/en-US/110-source-docs-final.toml"),
         ],
     },
     KeyTomlFile {
@@ -73,6 +76,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/de-DE/80-source-docs-next.toml"),
             include_str!("../../config/i18n/keys/de-DE/90-source-docs-more.toml"),
             include_str!("../../config/i18n/keys/de-DE/100-source-docs-late.toml"),
+            include_str!("../../config/i18n/keys/de-DE/110-source-docs-final.toml"),
         ],
     },
     KeyTomlFile {
@@ -88,6 +92,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/fr-FR/80-source-docs-next.toml"),
             include_str!("../../config/i18n/keys/fr-FR/90-source-docs-more.toml"),
             include_str!("../../config/i18n/keys/fr-FR/100-source-docs-late.toml"),
+            include_str!("../../config/i18n/keys/fr-FR/110-source-docs-final.toml"),
         ],
     },
 ];

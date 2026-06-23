@@ -94,3 +94,28 @@ fn applies_stable_metrics_architecture_keys_only_on_source_page() {
     assert!(translated.contains("OTLP-Metrics-Exporter-Versuche"));
     assert!(unrelated.contains(">Metrics Architecture<"));
 }
+
+#[test]
+fn applies_stable_auth_request_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>External Authorization Request — Fluxheim Source Docs</title>",
+        "<h1 id=\"external-authorization-request\">External Authorization Request</h1>",
+        "<p>Status: future optional module.</p>",
+        "<p>This module lets Fluxheim ask a configured authorization service whether a client request should continue. It is designed for deployments that already have a policy service, session service, identity gateway, or internal access decision API and want Fluxheim to enforce the decision before proxying or serving static content.</p>",
+        "<h2 id=\"decision-contract\">Decision Contract</h2>",
+        "<li>Auth backend TLS verification must be enabled by default.</li>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">External Authorization Request<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Externe Autorisierungsanfrage"));
+    assert!(translated.contains("kuenftiges optionales Modul"));
+    assert!(translated.contains("konfigurierten Autorisierungsdienst"));
+    assert!(translated.contains("Entscheidungsvertrag"));
+    assert!(translated.contains("TLS-Verifikation fuer das Auth-Backend"));
+    assert!(unrelated.contains(">External Authorization Request<"));
+}
