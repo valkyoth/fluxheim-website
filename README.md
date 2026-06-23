@@ -109,14 +109,15 @@ Do not reintroduce legacy phrase bundles such as `config/i18n-de.toml` or
 `config/i18n/de/*.toml`. `scripts/check_i18n_keys.py` fails if those removed
 runtime translation files come back.
 
-Measure translation coverage for the main public pages:
+Measure source-page coverage against the English (EU) stable keys:
 
 ```bash
 scripts/i18n_coverage.py --all-configured
 ```
 
-`scripts/checks.sh` enforces 100% visible-phrase coverage for every configured
-non-English locale on the tracked public-page set.
+`scripts/checks.sh` enforces 100% source visible-phrase coverage while
+`scripts/check_i18n_keys.py` keeps every configured locale aligned to that same
+stable key shape.
 
 ## Running Locally
 

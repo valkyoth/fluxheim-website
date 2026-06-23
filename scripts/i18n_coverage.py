@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Report visible HTML phrases missing from stable i18n key coverage."""
+"""Report visible source HTML phrases missing from stable i18n key coverage."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+SOURCE_LOCALE = "en-EU"
 SKIP_TAGS = {"script", "style", "svg", "path"}
 IGNORED_EXACT = {
     "Fluxheim",
@@ -75,14 +76,14 @@ class VisibleTextParser(HTMLParser):
         self.values.append(data)
 
 
-def load_phrases() -> list[str]:
-    phrases: list[str] = stable_key_sources()
+def load_source_phrases() -> list[str]:
+    phrases: list[str] = stable_key_sources(SOURCE_LOCALE)
     phrases.sort(key=len, reverse=True)
     return phrases
 
 
-def stable_key_sources() -> list[str]:
-    source = ROOT / "config/i18n/keys/en-EU.toml"
+def stable_key_sources(locale: str) -> list[str]:
+    source = ROOT / f"config/i18n/keys/{locale}.toml"
     data = tomllib.loads("\n".join(stable_key_parts(source)))
     phrases: list[str] = []
     for value in flatten_strings(data):
@@ -171,11 +172,14 @@ def main() -> int:
     args = parser.parse_args()
 
     locales = selected_locales(args)
-    translated = load_phrases()
+    source_phrases = load_source_phrases()
     failed = False
 
     for locale in locales:
-        if report_coverage(locale, translated, args.pages, args.summary_only, args.fail_under):
+        stable_key_sources(locale)
+        if report_coverage(
+            locale, source_phrases, args.pages, args.summary_only, args.fail_under
+        ):
             failed = True
 
     return 1 if failed else 0
@@ -202,7 +206,7 @@ def configured_translation_locales() -> list[str]:
 
 def report_coverage(
     locale: str,
-    translated: list[str],
+    source_phrases: list[str],
     pages: list[str],
     summary_only: bool,
     fail_under: float,
@@ -214,12 +218,15 @@ def report_coverage(
         path = ROOT / page
         for phrase in page_phrases(path):
             total += 1
-            if not is_covered(phrase, translated):
+            if not is_covered(phrase, source_phrases):
                 missing.append((page, phrase))
 
     covered = total - len(missing)
     coverage = 100.0 if total == 0 else covered * 100.0 / total
-    print(f"{locale}: {covered}/{total} visible phrases covered ({coverage:.1f}%)")
+    print(
+        f"{locale}: {covered}/{total} source visible phrases covered "
+        f"by {SOURCE_LOCALE} keys ({coverage:.1f}%)"
+    )
 
     if not summary_only:
         for page, phrase in missing[:80]:
