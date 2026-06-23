@@ -12,6 +12,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 KEY_ROOT = ROOT / "config/i18n/keys"
 SOURCE_LOCALE = "en-EU"
+MAX_UNTRANSLATED_PERCENT = 20.0
 LEGACY_PHRASE_PATHS = (
     ROOT / "config/i18n-de.toml",
     ROOT / "config/i18n-fr.toml",
@@ -52,7 +53,7 @@ def main() -> int:
         for extra in sorted(keys - source_keys):
             errors.append(f"{path.relative_to(ROOT)} has extra key {extra}")
         if not args.allow_untranslated_locales:
-            check_locale_has_translation_delta(locale_id, source, data, path, errors)
+            check_locale_translation_progress(locale_id, source, data, path, errors)
         names = data.get("language", {}).get("names", {})
         for configured_locale_id in locale_ids:
             if not names.get(configured_locale_id):
@@ -133,7 +134,7 @@ def load_toml(path: Path) -> dict[str, Any]:
     return tomllib.loads(path.read_text(encoding="utf-8"))
 
 
-def check_locale_has_translation_delta(
+def check_locale_translation_progress(
     locale_id: str,
     source: dict[str, Any],
     data: dict[str, Any],
@@ -145,9 +146,15 @@ def check_locale_has_translation_delta(
     source_flat = comparable_translation_values(flatten(source))
     data_flat = comparable_translation_values(flatten(data))
     comparable_keys = sorted(set(source_flat) & set(data_flat))
-    if comparable_keys and all(data_flat[key] == source_flat[key] for key in comparable_keys):
+    if not comparable_keys:
+        return
+    untranslated = [key for key in comparable_keys if data_flat[key] == source_flat[key]]
+    untranslated_percent = len(untranslated) * 100.0 / len(comparable_keys)
+    if untranslated_percent > MAX_UNTRANSLATED_PERCENT:
         errors.append(
-            f"{path.relative_to(ROOT)} appears untranslated; all text values match {SOURCE_LOCALE}"
+            f"{path.relative_to(ROOT)} appears under-translated; "
+            f"{len(untranslated)}/{len(comparable_keys)} comparable text values "
+            f"({untranslated_percent:.1f}%) still match {SOURCE_LOCALE}"
         )
 
 
