@@ -17,7 +17,11 @@ scripts/scaffold_i18n_locale.py \
   --html-lang it-IT \
   --url-prefix it \
   --display-name Italiano >/dev/null
-scripts/check_i18n_keys.py --root "$tmp_i18n_root"
+scripts/check_i18n_keys.py --root "$tmp_i18n_root" --allow-untranslated-locales
+if scripts/check_i18n_keys.py --root "$tmp_i18n_root" >/dev/null 2>&1; then
+  echo "untranslated scaffold locale unexpectedly passed i18n validation" >&2
+  exit 1
+fi
 scripts/check_release_data.py
 if [ -d ../fluxheim ]; then
   scripts/plan_fluxheim_update.py --fluxheim ../fluxheim >/dev/null

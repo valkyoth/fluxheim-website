@@ -25,6 +25,7 @@ LEGACY_PHRASE_DIRS = (
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=str(ROOT), help=argparse.SUPPRESS)
+    parser.add_argument("--allow-untranslated-locales", action="store_true")
     args = parser.parse_args()
     configure_root(Path(args.root).resolve())
 
@@ -50,6 +51,8 @@ def main() -> int:
             errors.append(f"{path.relative_to(ROOT)} missing key {missing}")
         for extra in sorted(keys - source_keys):
             errors.append(f"{path.relative_to(ROOT)} has extra key {extra}")
+        if not args.allow_untranslated_locales:
+            check_locale_has_translation_delta(locale_id, source, data, path, errors)
         names = data.get("language", {}).get("names", {})
         for configured_locale_id in locale_ids:
             if not names.get(configured_locale_id):
@@ -128,6 +131,35 @@ def flatten(data: dict[str, Any], prefix: str = "") -> dict[str, Any]:
 
 def load_toml(path: Path) -> dict[str, Any]:
     return tomllib.loads(path.read_text(encoding="utf-8"))
+
+
+def check_locale_has_translation_delta(
+    locale_id: str,
+    source: dict[str, Any],
+    data: dict[str, Any],
+    path: Path,
+    errors: list[str],
+) -> None:
+    if locale_id == SOURCE_LOCALE or locale_id.startswith("en-"):
+        return
+    source_flat = comparable_translation_values(flatten(source))
+    data_flat = comparable_translation_values(flatten(data))
+    comparable_keys = sorted(set(source_flat) & set(data_flat))
+    if comparable_keys and all(data_flat[key] == source_flat[key] for key in comparable_keys):
+        errors.append(
+            f"{path.relative_to(ROOT)} appears untranslated; all text values match {SOURCE_LOCALE}"
+        )
+
+
+def comparable_translation_values(flat: dict[str, Any]) -> dict[str, str]:
+    skipped_prefixes = ("language.names.",)
+    return {
+        key: value
+        for key, value in flat.items()
+        if key != "locale_id"
+        and not key.startswith(skipped_prefixes)
+        and isinstance(value, str)
+    }
 
 
 def check_legacy_phrase_bundles_are_absent(errors: list[str]) -> None:
