@@ -196,3 +196,28 @@ fn applies_stable_wasm_extensibility_keys_only_on_source_page() {
     assert!(translated.contains("Host-Calls"));
     assert!(unrelated.contains(">WASM Extensibility<"));
 }
+
+#[test]
+fn applies_stable_opentelemetry_tracing_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>OpenTelemetry Tracing — Fluxheim Source Docs</title>",
+        "<h1 id=\"opentelemetry-tracing\">OpenTelemetry Tracing</h1>",
+        "<p>Tracing is different from metrics and logs. Metrics show aggregate behavior, logs record events, and traces explain the path of a specific request through Fluxheim and its upstream services.</p>",
+        "<h2 id=\"design-goals\">Design Goals</h2>",
+        "<li>Keep OpenTelemetry code out of default builds.</li>",
+        "<li>Use W3C Trace Context propagation.</li>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">OpenTelemetry Tracing<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("OpenTelemetry-Tracing"));
+    assert!(translated.contains("Tracing unterscheidet sich"));
+    assert!(translated.contains("Designziele"));
+    assert!(translated.contains("OpenTelemetry-Code"));
+    assert!(translated.contains("W3C-Trace-Context-Propagation"));
+    assert!(unrelated.contains(">OpenTelemetry Tracing<"));
+}

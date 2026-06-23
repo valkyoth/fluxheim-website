@@ -62,6 +62,7 @@ pub(super) struct KeyFile {
     pub(super) programmable_media_edge: BTreeMap<String, String>,
     pub(super) zero_retention_privacy_mode: BTreeMap<String, String>,
     pub(super) wasm_extensibility: BTreeMap<String, String>,
+    pub(super) opentelemetry_tracing: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

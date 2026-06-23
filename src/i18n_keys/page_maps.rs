@@ -292,6 +292,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.wasm_extensibility,
         &keys.wasm_extensibility,
     );
+    let html = replace_marker_map(
+        html,
+        "OpenTelemetry Tracing — Fluxheim Source Docs",
+        &source.opentelemetry_tracing,
+        &keys.opentelemetry_tracing,
+    );
     replace_marker_map(
         html,
         "Zero-Retention Privacy Mode — Fluxheim Source Docs",
