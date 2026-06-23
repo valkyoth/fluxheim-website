@@ -22,9 +22,9 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.release_updates,
         &keys.release_updates,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_key_map(
         html,
-        "Runtime Parity Fixtures — Fluxheim Source Docs",
+        "runtime_parity_fixtures",
         &source.runtime_parity_fixtures,
         &keys.runtime_parity_fixtures,
     );
@@ -34,9 +34,9 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.geoip,
         &keys.geoip,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_key_map(
         html,
-        "Load Balancer HA Design Notes — Fluxheim Source Docs",
+        "load_balancer_ha_design_notes",
         &source.load_balancer_ha,
         &keys.load_balancer_ha,
     );
@@ -46,9 +46,9 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.getting_started,
         &keys.getting_started,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Config Reference — Fluxheim Docs",
+        "config_reference_fluxheim_docs",
         &source.configuration_page,
         &keys.configuration_page,
     );
@@ -58,9 +58,9 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.advanced_page,
         &keys.advanced_page,
     );
-    let html = replace_marker_map(
+    let html = replace_docs_key_map(
         html,
-        "Feature Matrix — Fluxheim Docs",
+        "features_001_feature_matrix",
         &source.features_page,
         &keys.features_page,
     );
@@ -70,9 +70,9 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.cache,
         &keys.cache,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Extraction Dependency Graph — Fluxheim Source Docs",
+        "extraction_dependency_graph_fluxheim_source_docs",
         &source.extraction_dependency_graph,
         &keys.extraction_dependency_graph,
     );
@@ -82,9 +82,9 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.runtime_baseline,
         &keys.runtime_baseline,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Modularity Policy — Fluxheim Source Docs",
+        "modularity_policy_fluxheim_source_docs",
         &source.modularity_policy,
         &keys.modularity_policy,
     );
@@ -94,63 +94,63 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.observability,
         &keys.observability,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Release Notes Template — Fluxheim Source Docs",
+        "release_notes_template_fluxheim_source_docs",
         &source.release_notes_template,
         &keys.release_notes_template,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "TLS & ACME — Fluxheim Docs",
+        "tls_acme_fluxheim_docs",
         &source.tls_acme,
         &keys.tls_acme,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "OWASP Top 10 2025 Baseline — Fluxheim Source Docs",
+        "owasp_top_10_2025_baseline_fluxheim_source_docs",
         &source.owasp_baseline,
         &keys.owasp_baseline,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "macOS Development Support — Fluxheim Source Docs",
+        "macos_development_support_fluxheim_source_docs",
         &source.macos_development,
         &keys.macos_development,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Gateway Recipes — Fluxheim Source Docs",
+        "gateway_recipes_fluxheim_source_docs",
         &source.gateway_recipes,
         &keys.gateway_recipes,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Systemd & Containers — Fluxheim Docs",
+        "systemd_containers_fluxheim_docs",
         &source.deployment,
         &keys.deployment,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Secure Links — Fluxheim Source Docs",
+        "secure_links_fluxheim_source_docs",
         &source.secure_links,
         &keys.secure_links,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Vhost Config Guide — Fluxheim Source Docs",
+        "vhost_config_guide_fluxheim_source_docs",
         &source.vhost_config,
         &keys.vhost_config,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Fluxheim Ecosystem Idea — Fluxheim Source Docs",
+        "fluxheim_ecosystem_idea_fluxheim_source_docs",
         &source.fluxheim_ecosystem_idea,
         &keys.fluxheim_ecosystem_idea,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_key_map(
         html,
-        "GitHub Repository Setup — Fluxheim Source Docs",
+        "github_repository_setup",
         &source.github_setup,
         &keys.github_setup,
     );
@@ -178,219 +178,215 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.build_and_podman,
         &keys.build_and_podman,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_key_map(
         html,
-        "Cache Encryption — Fluxheim Source Docs",
+        "cache_encryption",
         &source.cache_encryption,
         &keys.cache_encryption,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_key_map(
         html,
-        "Perl CGI Support — Fluxheim Source Docs",
+        "perl_cgi_support",
         &source.perl_cgi_support,
         &keys.perl_cgi_support,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_key_map(
         html,
-        "systemd Deployment — Fluxheim Source Docs",
+        "systemd_deployment",
         &source.systemd_deployment,
         &keys.systemd_deployment,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_key_map(
         html,
-        "Config Snapshots And Rollback — Fluxheim Source Docs",
+        "config_snapshots_and_rollback",
         &source.config_snapshots,
         &keys.config_snapshots,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_key_map(
         html,
-        "Pingora Core Patch — Fluxheim Source Docs",
+        "pingora_core_patch",
         &source.pingora_core_patch,
         &keys.pingora_core_patch,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_key_map(
         html,
-        "Supply Chain Security — Fluxheim Source Docs",
+        "supply_chain_security",
         &source.supply_chain_security,
         &keys.supply_chain_security,
     );
-    let html = replace_marker_map(
+    let html =
+        replace_source_doc_key_map(html, "compression", &source.compression, &keys.compression);
+    let html = replace_source_doc_key_map(
         html,
-        "Compression — Fluxheim Source Docs",
-        &source.compression,
-        &keys.compression,
-    );
-    let html = replace_marker_map(
-        html,
-        "Load Balancer Migration Notes — Fluxheim Source Docs",
+        "load_balancer_migration_notes",
         &source.load_balancer_migration,
         &keys.load_balancer_migration,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Runtime Facts And Policy Proofs — Fluxheim Source Docs",
+        "runtime_facts_and_policy_proofs_fluxheim_source_docs",
         &source.runtime_facts_and_policy_proofs,
         &keys.runtime_facts_and_policy_proofs,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_key_map(
         html,
-        "Production Readiness — Fluxheim Source Docs",
+        "production_readiness",
         &source.production_readiness,
         &keys.production_readiness,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Cache Backends — Fluxheim Source Docs",
+        "cache_backends_fluxheim_source_docs",
         &source.cache_backends,
         &keys.cache_backends,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "WAF Architecture — Fluxheim Source Docs",
+        "waf_architecture_fluxheim_source_docs",
         &source.waf_architecture,
         &keys.waf_architecture,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Image Filter — Fluxheim Source Docs",
+        "image_filter_fluxheim_source_docs",
         &source.image_filter,
         &keys.image_filter,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Feature Matrix — Fluxheim Source Docs",
+        "feature_matrix_fluxheim_source_docs",
         &source.source_features,
         &keys.source_features,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Cloudflare Origin Support — Fluxheim Source Docs",
+        "cloudflare_origin_support_fluxheim_source_docs",
         &source.cloudflare_origin_support,
         &keys.cloudflare_origin_support,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Certificate Renewal And Reload — Fluxheim Source Docs",
+        "certificate_renewal_and_reload_fluxheim_source_docs",
         &source.certificate_renewal,
         &keys.certificate_renewal,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Logging Architecture — Fluxheim Source Docs",
+        "logging_architecture_fluxheim_source_docs",
         &source.logging_architecture,
         &keys.logging_architecture,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Legacy Static HTTP Support — Fluxheim Source Docs",
+        "legacy_static_http_support_fluxheim_source_docs",
         &source.legacy_static_http,
         &keys.legacy_static_http,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Metrics Architecture — Fluxheim Source Docs",
+        "metrics_architecture_fluxheim_source_docs",
         &source.metrics_architecture,
         &keys.metrics_architecture,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "PHP Runtime Support — Fluxheim Source Docs",
+        "php_runtime_support_fluxheim_source_docs",
         &source.php_runtime_support_source,
         &keys.php_runtime_support_source,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "External Authorization Request — Fluxheim Source Docs",
+        "external_authorization_request_fluxheim_source_docs",
         &source.auth_request_source,
         &keys.auth_request_source,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Programmable Media Edge — Fluxheim Source Docs",
+        "programmable_media_edge_fluxheim_source_docs",
         &source.programmable_media_edge,
         &keys.programmable_media_edge,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_key_map(
         html,
-        "WASM Extensibility — Fluxheim Source Docs",
+        "wasm_extensibility",
         &source.wasm_extensibility,
         &keys.wasm_extensibility,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "OpenTelemetry Tracing — Fluxheim Source Docs",
+        "opentelemetry_tracing_fluxheim_source_docs",
         &source.opentelemetry_tracing,
         &keys.opentelemetry_tracing,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "PHP-FPM Application Recipes — Fluxheim Source Docs",
+        "php_fpm_application_recipes_fluxheim_source_docs",
         &source.php_fpm_app_recipes,
         &keys.php_fpm_app_recipes,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Sentinel Mesh — Fluxheim Source Docs",
+        "sentinel_mesh_fluxheim_source_docs",
         &source.sentinel_mesh,
         &keys.sentinel_mesh,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Crypto RPC Edge — Fluxheim Source Docs",
+        "crypto_rpc_edge_fluxheim_source_docs",
         &source.crypto_rpc_edge_source,
         &keys.crypto_rpc_edge_source,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "FIPS-Capable Deployment — Fluxheim Source Docs",
+        "fips_capable_deployment_fluxheim_source_docs",
         &source.fips_source,
         &keys.fips_source,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Versioning Plan — Fluxheim Source Docs",
+        "versioning_plan_fluxheim_source_docs",
         &source.versioning_plan_source,
         &keys.versioning_plan_source,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Release Checklist — Fluxheim Source Docs",
+        "release_checklist_fluxheim_source_docs",
         &source.release_checklist_source,
         &keys.release_checklist_source,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Modularity Exceptions — Fluxheim Source Docs",
+        "modularity_exceptions_fluxheim_source_docs",
         &source.modularity_exceptions_source,
         &keys.modularity_exceptions_source,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Release Runbook — Fluxheim Source Docs",
+        "release_runbook_fluxheim_source_docs",
         &source.release_runbook_source,
         &keys.release_runbook_source,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Compliance Evidence Template — Fluxheim Source Docs",
+        "compliance_evidence_template_fluxheim_source_docs",
         &source.compliance_evidence_template_source,
         &keys.compliance_evidence_template_source,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Common Criteria Roadmap — Fluxheim Source Docs",
+        "common_criteria_roadmap_fluxheim_source_docs",
         &source.common_criteria_roadmap_source,
         &keys.common_criteria_roadmap_source,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Config Reference — Fluxheim Source Docs",
+        "config_ref_001_config_reference_fluxheim_source_docs",
         &source.config_reference_source,
         &keys.config_reference_source,
     );
-    replace_marker_map(
+    replace_marker_key_map(
         html,
-        "Zero-Retention Privacy Mode — Fluxheim Source Docs",
+        "zero_retention_privacy_mode_fluxheim_source_docs",
         &source.zero_retention_privacy_mode,
         &keys.zero_retention_privacy_mode,
     )
@@ -406,6 +402,38 @@ fn replace_marker_map(
     replace_page_map(html, is_page, source, keys)
 }
 
+fn replace_marker_key_map(
+    html: String,
+    marker_key: &str,
+    source: &BTreeMap<String, String>,
+    keys: &BTreeMap<String, String>,
+) -> String {
+    let marker = source
+        .get(marker_key)
+        .unwrap_or_else(|| panic!("source marker i18n key exists: {marker_key}"));
+    replace_marker_map(html, marker, source, keys)
+}
+
+fn replace_docs_key_map(
+    html: String,
+    marker_key: &str,
+    source: &BTreeMap<String, String>,
+    keys: &BTreeMap<String, String>,
+) -> String {
+    let marker = title_marker(source, marker_key, "Fluxheim Docs");
+    replace_marker_map(html, &marker, source, keys)
+}
+
+fn replace_source_doc_key_map(
+    html: String,
+    marker_key: &str,
+    source: &BTreeMap<String, String>,
+    keys: &BTreeMap<String, String>,
+) -> String {
+    let marker = title_marker(source, marker_key, "Fluxheim Source Docs");
+    replace_marker_map(html, &marker, source, keys)
+}
+
 fn replace_page_map(
     html: String,
     is_page: bool,
@@ -417,4 +445,11 @@ fn replace_page_map(
     } else {
         html
     }
+}
+
+fn title_marker(source: &BTreeMap<String, String>, marker_key: &str, suffix: &str) -> String {
+    let title = source
+        .get(marker_key)
+        .unwrap_or_else(|| panic!("source title i18n key exists: {marker_key}"));
+    format!("{title} — {suffix}")
 }
