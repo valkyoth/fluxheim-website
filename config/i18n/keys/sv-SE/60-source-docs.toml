@@ -1,6 +1,6 @@
 [vhost_config]
-vhost_config_guide_fluxheim_source_docs = "Vhost Config Guide — Fluxheim Source Docs"
-vhost_config_guide = "Vhost Config Guide"
+vhost_config_guide_fluxheim_source_docs = "Vhost-konfigurationsguide — Fluxheim källdokument"
+vhost_config_guide = "Vhost-konfigurationsguide"
 fluxheim_uses_toml_array_of_tables_syntax_for_virtual_hosts = "Fluxheim använder TOML array-of-tables-syntax för virtuella värdar:"
 the_important_rule_is = "Den viktiga regeln är:"
 starts_a_new_vhost = "startar en ny vhost."
@@ -396,7 +396,7 @@ freebsd_support_should_be_treated_as_a_native_build_target_instead = "FreeBSD-st
 publishing_images = "Publicera bilder"
 optional_docker_hub_repository_secrets = "Valfria Docker Hub-förvarshemligheter:"
 optional_quay_repository_secrets_and_variables = "Valfria Quay-förvarshemligheter och variabler:"
-config_tester_release_asset = "Config Tester Release Asset"
+config_tester_release_asset = "Release-artefakt för config-testare"
 the_tester_is_built_as_a_release_asset_and_is_not_installed_into_normal_rpms_or_runtime_images_by_de = "Testaren är byggd som en releasetillgång och är inte installerad i normala RPM eller körtidsbilder som standard."
 volume_mapping = "Volymkartläggning"
 fluxheim_containers_use_a_small_set_of_stable_paths_mount_host_directories_to_these_paths_instead_of = "Fluxheim-behållare använder en liten uppsättning stabila vägar. Montera värdkataloger på dessa vägar istället för att skriva inuti bildlagret."

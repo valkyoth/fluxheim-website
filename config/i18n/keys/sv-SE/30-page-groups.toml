@@ -44,7 +44,7 @@ is_compiled_and_a_lookup_succeeds_structured_access = "kompileras och en uppslag
 geoip_metrics_and_trace_attributes_remain_bounded_follow = "GeoIP mätvärden och spårningsattribut förblir begränsat uppföljningsarbete; lägg inte till etiketter med hög kardinalitet från stad, latitud/longitud eller rådatabasfält."
 
 [load_balancer_ha]
-load_balancer_ha_design_notes = "Load Balancer HA Design Notes"
+load_balancer_ha_design_notes = "Designanteckningar för HA-lastbalansering"
 ships_managed_affinity_cookies_for_one_process_this = "skickar hanterade affinitetscookies för en process. Detta dokument registrerar den aktiva aktiva HA-designgränsen för senare"
 work_so_operators_can_separate_shipped_behavior_from = "fungerar så att operatörer kan skilja transporterat beteende från planerat klusterbeteende."
 current_1_5_3_behavior = "Aktuellt 1.5.3 Beteende"
@@ -219,7 +219,7 @@ pingora_surface_policy = "Pingora Ytpolicy"
 deliberately_records_pingora_dependencies_instead_of_failing_on = "registrerar medvetet Pingora-beroenden istället för att misslyckas med dem. Finalen"
 proof_profiles_those_are_not_production_static_site = "bevisprofiler. Det är inte produktionsprofiler för statiska webbplatser ännu, utan deras"
 dependency_trees_should_already_emit_no_rows_in = "beroendeträd bör redan inte avge några rader in"
-thead_tr_th_file_th_th_purpose_th = "<thead><tr><th>File</th><th>Purpose</th></tr></thead>"
+thead_tr_th_file_th_th_purpose_th = "<thead><tr><th>Fil</th><th>Syfte</th></tr></thead>"
 p_that_gate_fails_when_a_pingora_crate = "<p>Den grinden misslyckas när en Pingora-låda finns utan undantag, när ett undantag är inaktuellt eller när den aktuella Fluxheim-versionen har nått undantagets <code>removal_target</code>. <code>cargo test</code> kör också <code>tests/pingora_dependency_policy.rs</code>, som kontrollerar samma borttagningsmål mot <code>Cargo.lock</code> så att deadline-avdriften är synlig utanför release-grinden. Underhållare kan testa en kommande release-bump innan de redigerar <code>Cargo.toml</code> med: </p>"
 p_later_code_1_6_x_code_releases = "<p> Senare <code>1.6.x</code>-utgåvor bör jämföras med denna baslinje enligt följande: </p>"
 
@@ -308,9 +308,9 @@ bounded_request_spans_for_otlp_export_when = "Begränsade begäran omfång för 
 fluxheim_emits_structured_logs_log_level_format_target_2 = "Fluxheim avger strukturerade loggar. Loggnivå, format, mål och åtkomstloggfält kontrolleras av"
 
 [release_notes_template]
-release_notes_template_fluxheim_source_docs = "Release Notes Mall — Fluxheim Källdokument"
-release_notes_template = "Mall för Release Notes"
-fluxheim_release_notes_template = "Mall för Fluxheim Release Notes"
+release_notes_template_fluxheim_source_docs = "Mall för utgåvenotiser — Fluxheim källdokument"
+release_notes_template = "Mall för utgåvenotiser"
+fluxheim_release_notes_template = "Mall för Fluxheim-utgåvenotiser"
 use_this_template_for_stable_tags_keep_it = "Använd den här mallen för stabila taggar. Håll det sakligt och inkludera den lokala release-gate-rapportsökvägen eller den kopierade sammanfattningen."
 release_date = "Releasedatum:"
 git_tag = "Git-tagg:"
@@ -353,8 +353,8 @@ container_digests = "Behållarsammanslutningar:"
 tag_signature = "Tag signatur:"
 
 [deployment]
-systemd_containers_fluxheim_docs = "Systemd & Containers — Fluxheim Docs"
-systemd_containers = "Systemd & Containers"
+systemd_containers_fluxheim_docs = "systemd och containrar — Fluxheim dokumentation"
+systemd_containers = "systemd och containrar"
 fluxheim_ships_with_a_hardened_systemd_unit_rpm = "Fluxheim levereras med en härdad systemd-enhet, RPM-förpackning och rotlösa Podman-behållarbilder för Wolfi, Alpine, SUSE Micro och Debian."
 the_tarball_includes_a_pre_configured_hardened_systemd = "Tarballen innehåller en förkonfigurerad härdad systemd-enhet. Enheten kör Fluxheim med"
 to_allow_ports_80_443_without_root_and_a = "(för att tillåta portar 80/443 utan root) och en dedikerad systemanvändare."
