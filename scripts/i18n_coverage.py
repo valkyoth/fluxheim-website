@@ -12,19 +12,6 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ROOT_PAGES = ["index.html", "download.html", "changelog.html"]
-DOC_PAGES = [
-    "advanced.html",
-    "cache.html",
-    "configuration.html",
-    "deployment.html",
-    "features.html",
-    "getting-started.html",
-    "index.html",
-    "observability.html",
-    "reference.html",
-    "tls-acme.html",
-]
 SKIP_TAGS = {"script", "style", "svg", "path"}
 IGNORED_EXACT = {
     "Fluxheim",
@@ -216,10 +203,12 @@ def is_covered(phrase: str, translated: list[str]) -> bool:
 
 
 def default_pages() -> list[str]:
-    pages = ROOT_PAGES + [f"docs/{page}" for page in DOC_PAGES]
-    source_pages = sorted((ROOT / "docs/source").glob("*.html"))
-    pages.extend(str(path.relative_to(ROOT)) for path in source_pages)
-    return pages
+    html_paths = [
+        *ROOT.glob("*.html"),
+        *(ROOT / "docs").glob("*.html"),
+        *(ROOT / "docs/source").glob("*.html"),
+    ]
+    return [str(path.relative_to(ROOT)) for path in sorted(html_paths)]
 
 
 if __name__ == "__main__":
