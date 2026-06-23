@@ -85,6 +85,12 @@ Every configured locale must contain the same stable key set. Validate that with
 scripts/check_i18n_keys.py
 ```
 
+To see non-English translation progress against English (EU), run:
+
+```bash
+scripts/check_i18n_keys.py --progress
+```
+
 When adding a locale, add it to `config/locales.toml`, create matching
 `config/i18n/keys/{locale}.toml` and `config/i18n/keys/{locale}/` files from
 English (EU), and add every configured locale display name under

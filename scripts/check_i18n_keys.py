@@ -27,12 +27,14 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", default=str(ROOT), help=argparse.SUPPRESS)
     parser.add_argument("--allow-untranslated-locales", action="store_true")
+    parser.add_argument("--progress", action="store_true")
     args = parser.parse_args()
     configure_root(Path(args.root).resolve())
 
     locales = load_toml(ROOT / "config/locales.toml")["locales"]
     locale_ids = [locale["locale_id"] for locale in locales]
     errors: list[str] = []
+    progress: list[str] = []
 
     source_path = KEY_ROOT / f"{SOURCE_LOCALE}.toml"
     source = load_key_file(source_path, SOURCE_LOCALE, errors)
@@ -52,8 +54,16 @@ def main() -> int:
             errors.append(f"{path.relative_to(ROOT)} missing key {missing}")
         for extra in sorted(keys - source_keys):
             errors.append(f"{path.relative_to(ROOT)} has extra key {extra}")
-        if not args.allow_untranslated_locales:
-            check_locale_translation_progress(locale_id, source, data, path, errors)
+        report = check_locale_translation_progress(
+            locale_id,
+            source,
+            data,
+            path,
+            errors,
+            enforce=not args.allow_untranslated_locales,
+        )
+        if report:
+            progress.append(report)
         names = data.get("language", {}).get("names", {})
         for configured_locale_id in locale_ids:
             if not names.get(configured_locale_id):
@@ -74,6 +84,9 @@ def main() -> int:
         return 1
 
     print(f"i18n-keys ok: {len(locale_ids)} locales, {len(source_keys)} keys")
+    if args.progress:
+        for report in progress:
+            print(report)
     return 0
 
 
@@ -140,22 +153,29 @@ def check_locale_translation_progress(
     data: dict[str, Any],
     path: Path,
     errors: list[str],
-) -> None:
+    *,
+    enforce: bool,
+) -> str | None:
     if locale_id == SOURCE_LOCALE or locale_id.startswith("en-"):
-        return
+        return None
     source_flat = comparable_translation_values(flatten(source))
     data_flat = comparable_translation_values(flatten(data))
     comparable_keys = sorted(set(source_flat) & set(data_flat))
     if not comparable_keys:
-        return
+        return None
     untranslated = [key for key in comparable_keys if data_flat[key] == source_flat[key]]
     untranslated_percent = len(untranslated) * 100.0 / len(comparable_keys)
-    if untranslated_percent > MAX_UNTRANSLATED_PERCENT:
+    translated_percent = 100.0 - untranslated_percent
+    if enforce and untranslated_percent > MAX_UNTRANSLATED_PERCENT:
         errors.append(
             f"{path.relative_to(ROOT)} appears under-translated; "
             f"{len(untranslated)}/{len(comparable_keys)} comparable text values "
             f"({untranslated_percent:.1f}%) still match {SOURCE_LOCALE}"
         )
+    return (
+        f"{locale_id}: {translated_percent:.1f}% translated "
+        f"({len(comparable_keys) - len(untranslated)}/{len(comparable_keys)} changed)"
+    )
 
 
 def comparable_translation_values(flat: dict[str, Any]) -> dict[str, str]:
