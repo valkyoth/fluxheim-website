@@ -52,6 +52,7 @@ pub(super) struct KeyFile {
     pub(super) waf_architecture: BTreeMap<String, String>,
     pub(super) image_filter: BTreeMap<String, String>,
     pub(super) cloudflare_origin_support: BTreeMap<String, String>,
+    pub(super) certificate_renewal: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
