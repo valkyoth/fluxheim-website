@@ -334,6 +334,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.versioning_plan_source,
         &keys.versioning_plan_source,
     );
+    let html = replace_marker_map(
+        html,
+        "Release Checklist — Fluxheim Source Docs",
+        &source.release_checklist_source,
+        &keys.release_checklist_source,
+    );
     replace_marker_map(
         html,
         "Zero-Retention Privacy Mode — Fluxheim Source Docs",

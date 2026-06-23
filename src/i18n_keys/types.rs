@@ -69,6 +69,7 @@ pub(super) struct KeyFile {
     pub(super) crypto_rpc_edge_source: BTreeMap<String, String>,
     pub(super) fips_source: BTreeMap<String, String>,
     pub(super) versioning_plan_source: BTreeMap<String, String>,
+    pub(super) release_checklist_source: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

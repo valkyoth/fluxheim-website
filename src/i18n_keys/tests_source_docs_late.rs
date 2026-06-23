@@ -392,3 +392,26 @@ fn applies_stable_php_runtime_support_keys_only_on_source_page() {
     assert!(translated.contains("Release-Reihenfolge"));
     assert!(unrelated.contains(">Implemented feature flags:<"));
 }
+
+#[test]
+fn applies_stable_release_checklist_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Release Checklist — Fluxheim Source Docs</title>",
+        "<h1>Release Checklist</h1>",
+        "<p>Use this checklist before publishing a Fluxheim release, changing dependency versions, changing TLS/cache/proxy behavior, or building an image for other people to run.</p>",
+        "<h2>Version And Toolchain</h2>",
+        "<h2>Dependency, License, And Advisory Gates</h2>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Version And Toolchain<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Release-Checkliste"));
+    assert!(translated.contains("Fluxheim-Release veröffentlichst"));
+    assert!(translated.contains("Version und Toolchain"));
+    assert!(translated.contains("Dependency-, Lizenz- und Advisory-Gates"));
+    assert!(unrelated.contains(">Version And Toolchain<"));
+}
