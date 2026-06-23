@@ -206,4 +206,7 @@ mod tests_source_docs;
 mod tests_source_docs_late;
 
 #[cfg(test)]
+mod tests_source_docs_tail;
+
+#[cfg(test)]
 mod tests_reference;

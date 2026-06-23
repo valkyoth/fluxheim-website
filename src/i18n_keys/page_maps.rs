@@ -352,6 +352,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.release_runbook_source,
         &keys.release_runbook_source,
     );
+    let html = replace_marker_map(
+        html,
+        "Compliance Evidence Template — Fluxheim Source Docs",
+        &source.compliance_evidence_template_source,
+        &keys.compliance_evidence_template_source,
+    );
     replace_marker_map(
         html,
         "Zero-Retention Privacy Mode — Fluxheim Source Docs",
