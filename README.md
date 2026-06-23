@@ -100,6 +100,7 @@ scripts/scaffold_i18n_locale.py \
 
 The new locale starts with English (EU) key values so translation can proceed
 directly in TOML while `scripts/check_i18n_keys.py` keeps the shape complete.
+The Rust build generates the runtime key registry from `config/locales.toml`.
 
 Do not reintroduce legacy phrase bundles such as `config/i18n-de.toml` or
 `config/i18n/de/*.toml`. `scripts/check_i18n_keys.py` fails if those removed

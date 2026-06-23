@@ -14,55 +14,7 @@ struct KeyTomlFile {
     parts: &'static [&'static str],
 }
 
-macro_rules! key_part {
-    ($locale:literal, $file:literal) => {
-        include_str!(concat!("../../config/i18n/keys/", $locale, "/", $file))
-    };
-}
-
-macro_rules! key_toml_parts {
-    ($locale:literal) => {
-        &[
-            key_part!($locale, "10-home-docs-common.toml"),
-            key_part!($locale, "20-download-changelog.toml"),
-            key_part!($locale, "30-page-groups.toml"),
-            key_part!($locale, "40-security-docs.toml"),
-            key_part!($locale, "50-platform-recipes.toml"),
-            key_part!($locale, "60-source-docs.toml"),
-            key_part!($locale, "70-source-docs-extra.toml"),
-            key_part!($locale, "80-source-docs-next.toml"),
-            key_part!($locale, "90-source-docs-more.toml"),
-            key_part!($locale, "100-source-docs-late.toml"),
-            key_part!($locale, "110-source-docs-final.toml"),
-            key_part!($locale, "120-reference.toml"),
-            key_part!($locale, "130-source-docs-tail.toml"),
-            key_part!($locale, "140-source-docs-tail.toml"),
-            key_part!($locale, "150-source-docs-tail.toml"),
-            key_part!($locale, "160-source-docs-tail.toml"),
-            key_part!($locale, "170-source-docs-tail.toml"),
-            key_part!($locale, "180-docs-pages.toml"),
-            key_part!($locale, "190-code-comments.toml"),
-            key_part!($locale, "200-source-config-reference.toml"),
-        ]
-    };
-}
-
-macro_rules! key_toml_file {
-    ($locale:literal) => {
-        KeyTomlFile {
-            root: include_str!(concat!("../../config/i18n/keys/", $locale, ".toml")),
-            parts: key_toml_parts!($locale),
-        }
-    };
-}
-
-const KEY_TOML_FILES: &[KeyTomlFile] = &[
-    key_toml_file!("en-EU"),
-    key_toml_file!("en-GB"),
-    key_toml_file!("en-US"),
-    key_toml_file!("de-DE"),
-    key_toml_file!("fr-FR"),
-];
+include!(concat!(env!("OUT_DIR"), "/i18n_key_files.rs"));
 
 pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String {
     let Some(keys) = locale_keys(&locale.locale_id) else {
