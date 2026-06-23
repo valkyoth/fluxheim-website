@@ -221,3 +221,26 @@ fn applies_stable_opentelemetry_tracing_keys_only_on_source_page() {
     assert!(translated.contains("W3C-Trace-Context-Propagation"));
     assert!(unrelated.contains(">OpenTelemetry Tracing<"));
 }
+
+#[test]
+fn applies_stable_php_fpm_app_recipes_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>PHP-FPM Application Recipes — Fluxheim Source Docs</title>",
+        "<h1 id=\"php-fpm-application-recipes\">PHP-FPM Application Recipes</h1>",
+        "<h2 id=\"supported-php-fpm-functionality\">Supported PHP-FPM Functionality</h2>",
+        "<p>FastCGI and backend connectivity:</p>",
+        "<p>CGI/FastCGI request construction:</p>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">PHP-FPM Application Recipes<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("PHP-FPM-Anwendungsrezepte"));
+    assert!(translated.contains("Unterstuetzte PHP-FPM-Funktionalitaet"));
+    assert!(translated.contains("FastCGI- und Backend-Konnektivitaet"));
+    assert!(translated.contains("CGI-/FastCGI-Anfragekonstruktion"));
+    assert!(unrelated.contains(">PHP-FPM Application Recipes<"));
+}

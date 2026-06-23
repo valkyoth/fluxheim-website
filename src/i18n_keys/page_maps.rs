@@ -298,6 +298,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.opentelemetry_tracing,
         &keys.opentelemetry_tracing,
     );
+    let html = replace_marker_map(
+        html,
+        "PHP-FPM Application Recipes — Fluxheim Source Docs",
+        &source.php_fpm_app_recipes,
+        &keys.php_fpm_app_recipes,
+    );
     replace_marker_map(
         html,
         "Zero-Retention Privacy Mode — Fluxheim Source Docs",

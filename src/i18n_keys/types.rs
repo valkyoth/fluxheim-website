@@ -63,6 +63,7 @@ pub(super) struct KeyFile {
     pub(super) zero_retention_privacy_mode: BTreeMap<String, String>,
     pub(super) wasm_extensibility: BTreeMap<String, String>,
     pub(super) opentelemetry_tracing: BTreeMap<String, String>,
+    pub(super) php_fpm_app_recipes: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
