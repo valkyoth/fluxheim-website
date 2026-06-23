@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import sys
 import tomllib
+import argparse
 from pathlib import Path
 from typing import Any
 
@@ -22,6 +23,11 @@ LEGACY_PHRASE_DIRS = (
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--root", default=str(ROOT), help=argparse.SUPPRESS)
+    args = parser.parse_args()
+    configure_root(Path(args.root).resolve())
+
     locales = load_toml(ROOT / "config/locales.toml")["locales"]
     locale_ids = [locale["locale_id"] for locale in locales]
     errors: list[str] = []
@@ -65,6 +71,20 @@ def main() -> int:
 
     print(f"i18n-keys ok: {len(locale_ids)} locales, {len(source_keys)} keys")
     return 0
+
+
+def configure_root(root: Path) -> None:
+    global ROOT, KEY_ROOT, LEGACY_PHRASE_PATHS, LEGACY_PHRASE_DIRS
+    ROOT = root
+    KEY_ROOT = ROOT / "config/i18n/keys"
+    LEGACY_PHRASE_PATHS = (
+        ROOT / "config/i18n-de.toml",
+        ROOT / "config/i18n-fr.toml",
+    )
+    LEGACY_PHRASE_DIRS = (
+        ROOT / "config/i18n/de",
+        ROOT / "config/i18n/fr",
+    )
 
 
 def load_key_file(path: Path, locale_id: str, errors: list[str]) -> dict[str, Any]:

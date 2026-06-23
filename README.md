@@ -88,7 +88,18 @@ scripts/check_i18n_keys.py
 When adding a locale, add it to `config/locales.toml`, create matching
 `config/i18n/keys/{locale}.toml` and `config/i18n/keys/{locale}/` files from
 English (EU), and add every configured locale display name under
-`[language.names]`.
+`[language.names]`. The scaffold script handles the mechanical part:
+
+```bash
+scripts/scaffold_i18n_locale.py \
+  --locale-id it-IT \
+  --html-lang it-IT \
+  --url-prefix it \
+  --display-name Italiano
+```
+
+The new locale starts with English (EU) key values so translation can proceed
+directly in TOML while `scripts/check_i18n_keys.py` keeps the shape complete.
 
 Do not reintroduce legacy phrase bundles such as `config/i18n-de.toml` or
 `config/i18n/de/*.toml`. `scripts/check_i18n_keys.py` fails if those removed
