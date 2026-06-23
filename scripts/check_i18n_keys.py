@@ -28,6 +28,8 @@ def main() -> int:
     parser.add_argument("--root", default=str(ROOT), help=argparse.SUPPRESS)
     parser.add_argument("--allow-untranslated-locales", action="store_true")
     parser.add_argument("--progress", action="store_true")
+    parser.add_argument("--list-untranslated", metavar="LOCALE")
+    parser.add_argument("--untranslated-limit", type=int, default=80)
     args = parser.parse_args()
     configure_root(Path(args.root).resolve())
 
@@ -35,6 +37,12 @@ def main() -> int:
     locale_ids = [locale["locale_id"] for locale in locales]
     errors: list[str] = []
     progress: list[str] = []
+    untranslated: list[tuple[str, str]] = []
+
+    if args.untranslated_limit < 0:
+        errors.append("--untranslated-limit must be zero or greater")
+    if args.list_untranslated and args.list_untranslated not in locale_ids:
+        errors.append(f"{args.list_untranslated} is not configured in config/locales.toml")
 
     source_path = KEY_ROOT / f"{SOURCE_LOCALE}.toml"
     source = load_key_file(source_path, SOURCE_LOCALE, errors)
@@ -64,6 +72,8 @@ def main() -> int:
         )
         if report:
             progress.append(report)
+        if args.list_untranslated == locale_id:
+            untranslated = untranslated_keys(locale_id, source, data)
         names = data.get("language", {}).get("names", {})
         for configured_locale_id in locale_ids:
             if not names.get(configured_locale_id):
@@ -87,6 +97,8 @@ def main() -> int:
     if args.progress:
         for report in progress:
             print(report)
+    if args.list_untranslated:
+        print_untranslated_keys(args.list_untranslated, untranslated, args.untranslated_limit)
     return 0
 
 
@@ -187,6 +199,39 @@ def comparable_translation_values(flat: dict[str, Any]) -> dict[str, str]:
         and not key.startswith(skipped_prefixes)
         and isinstance(value, str)
     }
+
+
+def untranslated_keys(
+    locale_id: str,
+    source: dict[str, Any],
+    data: dict[str, Any],
+) -> list[tuple[str, str]]:
+    if locale_id == SOURCE_LOCALE or locale_id.startswith("en-"):
+        return []
+    source_flat = comparable_translation_values(flatten(source))
+    data_flat = comparable_translation_values(flatten(data))
+    keys = sorted(set(source_flat) & set(data_flat))
+    return [(key, source_flat[key]) for key in keys if data_flat[key] == source_flat[key]]
+
+
+def print_untranslated_keys(
+    locale_id: str,
+    untranslated: list[tuple[str, str]],
+    limit: int,
+) -> None:
+    shown = untranslated if limit == 0 else untranslated[:limit]
+    print(f"{locale_id}: {len(untranslated)} keys still match {SOURCE_LOCALE}")
+    for key, value in shown:
+        print(f"{key}: {preview(value)}")
+    if limit and len(untranslated) > limit:
+        print(f"... {len(untranslated) - limit} more; rerun with --untranslated-limit 0")
+
+
+def preview(value: str) -> str:
+    collapsed = " ".join(value.split())
+    if len(collapsed) <= 120:
+        return collapsed
+    return f"{collapsed[:117]}..."
 
 
 def check_legacy_phrase_bundles_are_absent(errors: list[str]) -> None:

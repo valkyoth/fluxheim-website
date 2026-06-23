@@ -91,6 +91,13 @@ To see non-English translation progress against English (EU), run:
 scripts/check_i18n_keys.py --progress
 ```
 
+To list stable keys that still match English for one locale, run:
+
+```bash
+scripts/check_i18n_keys.py --list-untranslated de-DE
+scripts/check_i18n_keys.py --list-untranslated fr-FR --untranslated-limit 0
+```
+
 When adding a locale, add it to `config/locales.toml`, create matching
 `config/i18n/keys/{locale}.toml` and `config/i18n/keys/{locale}/` files from
 English (EU), and add every configured locale display name under
