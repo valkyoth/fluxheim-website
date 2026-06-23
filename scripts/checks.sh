@@ -9,7 +9,7 @@ scripts/check_i18n_keys.py
 scripts/check_english_variants.py
 i18n_progress="$(scripts/check_i18n_keys.py --progress)"
 case "$i18n_progress" in
-  *"de-DE:"*"fr-FR:"*) ;;
+  *"de-DE:"*"fr-FR:"*"sv-SE:"*) ;;
   *)
     echo "i18n progress report missing configured non-English locales" >&2
     exit 1
@@ -17,7 +17,7 @@ case "$i18n_progress" in
 esac
 i18n_untranslated="$(scripts/check_i18n_keys.py --list-untranslated all --untranslated-limit 1 --include-intentional)"
 case "$i18n_untranslated" in
-  *"config/i18n/keys/de-DE/"*"config/i18n/keys/fr-FR/"*) ;;
+  *"config/i18n/keys/de-DE/"*"config/i18n/keys/fr-FR/"*"config/i18n/keys/sv-SE/"*) ;;
   *)
     echo "i18n untranslated report missing locale edit paths" >&2
     exit 1
@@ -31,7 +31,7 @@ i18n_untranslated_tsv="$(
     --include-intentional
 )"
 case "$i18n_untranslated_tsv" in
-  *"de-DE	"*"config/i18n/keys/de-DE/"*"fr-FR	"*"config/i18n/keys/fr-FR/"*) ;;
+  *"de-DE	"*"config/i18n/keys/de-DE/"*"fr-FR	"*"config/i18n/keys/fr-FR/"*"sv-SE	"*"config/i18n/keys/sv-SE/"*) ;;
   *)
     echo "i18n untranslated TSV report missing locale edit rows" >&2
     exit 1

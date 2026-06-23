@@ -6,10 +6,12 @@ fn reads_stable_language_keys() {
     let site = Site::load().expect("site loads");
     let de = site.locale("de-DE").expect("German locale");
     let fr = site.locale("fr-FR").expect("French locale");
+    let sv = site.locale("sv-SE").expect("Swedish locale");
     let us = site.locale("en-US").expect("US English locale");
 
     assert_eq!(language_selector_label(de), "Sprache");
     assert_eq!(language_selector_label(fr), "Langue");
+    assert_eq!(language_selector_label(sv), "Språk");
     assert_eq!(language_selector_label(us), "Language");
     assert_eq!(
         language_display_name(de, "en-US", "fallback"),
@@ -27,6 +29,7 @@ fn language_menu_names_are_autonyms_in_every_locale() {
         ("en-US", "English (US)"),
         ("de-DE", "Deutsch"),
         ("fr-FR", "Français"),
+        ("sv-SE", "Svenska"),
     ];
 
     for active_locale in site.locales() {

@@ -1,0 +1,44 @@
+locale_id = "sv-SE"
+
+[language]
+selector_label = "Språk"
+
+[language.names]
+en-EU = "English (EU)"
+en-GB = "English (UK)"
+en-US = "English (US)"
+de-DE = "Deutsch"
+fr-FR = "Français"
+sv-SE = "Svenska"
+
+[nav]
+docs = "Dokument"
+download = "Ladda ner"
+changelog = "Ändringslogg"
+
+[release]
+latest_stable = "Senaste stabila"
+latest_stable_release = "Senaste stabila utgåvan"
+download_version = "Ladda ner v{version}"
+
+[shell]
+home_title = "Fluxheim — minnessäker edge-server byggd i Rust"
+view_on_github = "Visa på GitHub"
+quick_start = "Snabbstart"
+switch_color_theme = "Byt färgtema"
+links = "Länkar"
+github_repository = "GitHub-repository"
+issues = "Ärenden"
+menu = "Meny"
+
+[footer]
+tagline = "Minnessäker edge-server inbyggd i Rust. Licensierad under EUPL-1.2."
+project = "Projekt"
+releases = "Utgåvor"
+roadmap = "Färdkarta"
+community = "Gemenskap"
+discussions = "Diskussioner"
+eupl_license = "EUPL-1.2-licens"
+valkyoth_org = "Valkyoth Org"
+copyright_prefix = "© 2026 Valkyoth. Distribueras under"
+built_with = "Byggd med Rust · Drivs av Fluxheim"

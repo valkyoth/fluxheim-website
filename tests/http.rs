@@ -72,6 +72,7 @@ async fn renders_default_english_home() {
     assert!(body.contains("English (EU)"));
     assert!(body.contains("English (UK)"));
     assert!(body.contains("English (US)"));
+    assert!(body.contains("Svenska"));
     assert!(body.contains("Rootless Containers"));
 }
 
@@ -90,6 +91,12 @@ async fn locale_prefixes_preserve_legacy_pages() {
         fr_body.contains("Systemd &amp; conteneurs") || fr_body.contains("Systemd & conteneurs")
     );
     assert!(fr_body.contains("Podman Quadlet"));
+
+    let (sv_status, _headers, sv_body) = request("/sv/download").await;
+    assert_eq!(sv_status, StatusCode::OK);
+    assert!(sv_body.contains(r#"<html lang="sv-SE""#));
+    assert!(sv_body.contains("Ladda ner v1.6.28"));
+    assert!(sv_body.contains("🇸🇪"));
 }
 
 #[tokio::test]
@@ -125,6 +132,12 @@ async fn locale_prefixes_apply_runtime_translations() {
     assert!(fr_body.contains(r#"<html lang="fr-FR""#));
     assert!(fr_body.contains("Sûr pour la mémoire"));
     assert!(fr_body.contains("Télécharger v1.6.28"));
+
+    let (sv_status, _headers, sv_body) = request("/sv/").await;
+    assert_eq!(sv_status, StatusCode::OK);
+    assert!(sv_body.contains(r#"<html lang="sv-SE""#));
+    assert!(sv_body.contains("Minnessäker"));
+    assert!(sv_body.contains("Ladda ner v1.6.28"));
 }
 
 #[tokio::test]

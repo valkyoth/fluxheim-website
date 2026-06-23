@@ -27,3 +27,9 @@ locale_id = "fr-FR"
 html_lang = "fr-FR"
 url_prefix = "fr"
 display_name = "Français"
+
+[[locales]]
+locale_id = "sv-SE"
+html_lang = "sv-SE"
+url_prefix = "sv"
+display_name = "Svenska"

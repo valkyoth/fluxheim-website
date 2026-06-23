@@ -31,8 +31,10 @@ wait_for "${JAEGER_URL}/" "jaeger"
 curl -fsS "${BASE_URL}/" >/dev/null
 curl -fsS "${BASE_URL}/en-gb/index.html" >/dev/null
 curl -fsS "${BASE_URL}/en-us/index.html" >/dev/null
+curl -fsS "${BASE_URL}/sv/" >/dev/null
 curl -fsS "${BASE_URL}/en-gb/assets/css/theme.css?v=20260519" >/dev/null
 curl -fsS "${BASE_URL}/en-us/assets/css/theme.css?v=20260519" >/dev/null
+curl -fsS "${BASE_URL}/sv/assets/css/theme.css?v=20260519" >/dev/null
 curl -fsS "${BASE_URL}/de/docs" >/dev/null
 curl -fsS "${BASE_URL}/fr/download" >/dev/null
 curl -fsS "${BASE_URL}/privacy" >/dev/null
