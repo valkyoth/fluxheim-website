@@ -10,6 +10,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
 
     let html = replace_page_map(html, is_download_page, &source.download, &keys.download);
     let html = replace_page_map(html, is_changelog_page, &source.changelog, &keys.changelog);
+    let html = replace_marker_map(
+        html,
+        "Source Reference — Fluxheim Docs",
+        &source.reference,
+        &keys.reference,
+    );
     let html = replace_page_map(
         html,
         is_download_page || is_changelog_page,
@@ -261,6 +267,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         "Metrics Architecture — Fluxheim Source Docs",
         &source.metrics_architecture,
         &keys.metrics_architecture,
+    );
+    let html = replace_marker_map(
+        html,
+        "PHP Runtime Support — Fluxheim Source Docs",
+        &source.php_runtime_support,
+        &keys.php_runtime_support,
     );
     let html = replace_marker_map(
         html,

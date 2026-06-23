@@ -207,6 +207,7 @@ keep_private_keys_mode = "Gardez le mode des cles privees"
 or_stricter_and_owned_by_the_runtime_user_when_fluxheim_reads_them_directly = "ou plus strict et avec ownership par l'utilisateur runtime lorsque Fluxheim les lit directement :"
 
 [config_snapshots]
+config_snapshots_and_rollback = "Snapshots de configuration et rollback"
 fluxheim_uses_two_layers_for_reload_safety = "Fluxheim utilise deux couches pour securiser les reloads :"
 runtime_snapshots_immutable_in_memory_state_behind_arcswap = "Snapshots runtime : etat memoire immutable derriere <code>ArcSwap</code>."
 durable_snapshots_validated_toml_configs_stored_on_disk_with_a_current_pointer = "Snapshots durables : configs TOML validees stockees sur disque avec un pointeur courant."
@@ -364,6 +365,7 @@ add_tlssettings_with_cert_resolver_or_use_fluxheim_x27_s_native_listener_resolve
 make_build_use_the_resolver_when_present_and_keep_the_existing_intermediate_cert_key_single_certific = "<li>faire utiliser le resolver par <code>build()</code> lorsqu'il est present et garder le chemin single-certificate existant <code>intermediate(cert, key)</code> inchange.</li>"
 
 [supply_chain_security]
+supply_chain_security = "Sécurité supply chain"
 rust_supply_chain_security = "Securite supply-chain Rust"
 fluxheim_treats_the_rust_dependency_graph_as_part_of_the_trusted_computing_base_rust_s_memory_safety = "Fluxheim traite le graphe de dependances Rust comme une partie de la trusted computing base. La securite memoire de Rust reduit des classes de bugs runtime, mais elle ne protege pas contre une crate compromise, un build script malveillant, une macro procedurale, une dependance native empoisonnee ou une prise de controle de compte maintainer."
 this_document_defines_the_current_supply_chain_controls_and_the_hardening_roadmap_for_fluxheim_relea = "Ce document definit les controles supply-chain actuels et la roadmap de durcissement pour le travail de release Fluxheim."

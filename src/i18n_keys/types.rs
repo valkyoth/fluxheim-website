@@ -12,6 +12,7 @@ pub(super) struct KeyFile {
     pub(super) home: BTreeMap<String, String>,
     pub(super) docs_index: BTreeMap<String, String>,
     pub(super) common: BTreeMap<String, String>,
+    pub(super) reference: BTreeMap<String, String>,
     pub(super) download: BTreeMap<String, String>,
     pub(super) changelog: BTreeMap<String, String>,
     pub(super) release_updates: BTreeMap<String, String>,
@@ -56,6 +57,7 @@ pub(super) struct KeyFile {
     pub(super) logging_architecture: BTreeMap<String, String>,
     pub(super) legacy_static_http: BTreeMap<String, String>,
     pub(super) metrics_architecture: BTreeMap<String, String>,
+    pub(super) php_runtime_support: BTreeMap<String, String>,
     pub(super) auth_request_source: BTreeMap<String, String>,
     pub(super) programmable_media_edge: BTreeMap<String, String>,
 }

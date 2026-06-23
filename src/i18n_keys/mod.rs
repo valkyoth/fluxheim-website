@@ -29,6 +29,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-EU/90-source-docs-more.toml"),
             include_str!("../../config/i18n/keys/en-EU/100-source-docs-late.toml"),
             include_str!("../../config/i18n/keys/en-EU/110-source-docs-final.toml"),
+            include_str!("../../config/i18n/keys/en-EU/120-reference.toml"),
         ],
     },
     KeyTomlFile {
@@ -45,6 +46,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-GB/90-source-docs-more.toml"),
             include_str!("../../config/i18n/keys/en-GB/100-source-docs-late.toml"),
             include_str!("../../config/i18n/keys/en-GB/110-source-docs-final.toml"),
+            include_str!("../../config/i18n/keys/en-GB/120-reference.toml"),
         ],
     },
     KeyTomlFile {
@@ -61,6 +63,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-US/90-source-docs-more.toml"),
             include_str!("../../config/i18n/keys/en-US/100-source-docs-late.toml"),
             include_str!("../../config/i18n/keys/en-US/110-source-docs-final.toml"),
+            include_str!("../../config/i18n/keys/en-US/120-reference.toml"),
         ],
     },
     KeyTomlFile {
@@ -77,6 +80,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/de-DE/90-source-docs-more.toml"),
             include_str!("../../config/i18n/keys/de-DE/100-source-docs-late.toml"),
             include_str!("../../config/i18n/keys/de-DE/110-source-docs-final.toml"),
+            include_str!("../../config/i18n/keys/de-DE/120-reference.toml"),
         ],
     },
     KeyTomlFile {
@@ -93,6 +97,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/fr-FR/90-source-docs-more.toml"),
             include_str!("../../config/i18n/keys/fr-FR/100-source-docs-late.toml"),
             include_str!("../../config/i18n/keys/fr-FR/110-source-docs-final.toml"),
+            include_str!("../../config/i18n/keys/fr-FR/120-reference.toml"),
         ],
     },
 ];
@@ -174,3 +179,6 @@ mod tests_source_docs;
 
 #[cfg(test)]
 mod tests_source_docs_late;
+
+#[cfg(test)]
+mod tests_reference;

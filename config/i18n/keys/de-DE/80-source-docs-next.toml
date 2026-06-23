@@ -229,6 +229,7 @@ which_facts_are_safe_to_export = "welche Facts koennen sicher exportiert werden?
 that_makes_fluxheim_more_self_aware_and_makes_pentest_review_more_local_without_turning_the_proxy_in = "Das macht Fluxheim selbstbewusster und Pentest-Review lokaler, ohne den Proxy in eine Datenbank zu verwandeln."
 
 [production_readiness]
+production_readiness = "Produktionsreife"
 certificate_operations_line_and_the = "Zertifikatsbetriebs-Linie und der"
 gateway_foundation_this_page_states_what_each_released_line_supports_and_what_operators_should_verif = "Gateway-Grundlage. Diese Seite beschreibt, was jede veroeffentlichte Linie unterstuetzt und was Betreiber pruefen sollten, bevor sie einen Build ausserhalb lokaler Tests nutzen."
 line_is_intentionally_limited = "Linie ist absichtlich begrenzt:"
