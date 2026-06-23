@@ -54,6 +54,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
     );
     let html = replace_marker_map(
         html,
+        "Advanced — Fluxheim Docs",
+        &source.advanced_page,
+        &keys.advanced_page,
+    );
+    let html = replace_marker_map(
+        html,
         "Cache System — Fluxheim Docs",
         &source.cache,
         &keys.cache,

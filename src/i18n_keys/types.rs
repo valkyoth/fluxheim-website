@@ -75,6 +75,7 @@ pub(super) struct KeyFile {
     pub(super) compliance_evidence_template_source: BTreeMap<String, String>,
     pub(super) common_criteria_roadmap_source: BTreeMap<String, String>,
     pub(super) configuration_page: BTreeMap<String, String>,
+    pub(super) advanced_page: BTreeMap<String, String>,
     pub(super) code_comments: BTreeMap<String, String>,
 }
 
