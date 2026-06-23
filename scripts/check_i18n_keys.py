@@ -37,11 +37,12 @@ def main() -> int:
     locale_ids = [locale["locale_id"] for locale in locales]
     errors: list[str] = []
     progress: list[str] = []
-    untranslated: list[tuple[Path, str, str]] = []
+    untranslated_reports: dict[str, list[tuple[Path, str, str]]] = {}
+    untranslated_locale_ids = selected_untranslated_locale_ids(args.list_untranslated, locale_ids)
 
     if args.untranslated_limit < 0:
         errors.append("--untranslated-limit must be zero or greater")
-    if args.list_untranslated and args.list_untranslated not in locale_ids:
+    if args.list_untranslated and not untranslated_locale_ids:
         errors.append(f"{args.list_untranslated} is not configured in config/locales.toml")
 
     source_path = KEY_ROOT / f"{SOURCE_LOCALE}.toml"
@@ -72,8 +73,8 @@ def main() -> int:
         )
         if report:
             progress.append(report)
-        if args.list_untranslated == locale_id:
-            untranslated = untranslated_keys(locale_id, source, data)
+        if locale_id in untranslated_locale_ids:
+            untranslated_reports[locale_id] = untranslated_keys(locale_id, source, data)
         names = data.get("language", {}).get("names", {})
         for configured_locale_id in locale_ids:
             if not names.get(configured_locale_id):
@@ -98,7 +99,12 @@ def main() -> int:
         for report in progress:
             print(report)
     if args.list_untranslated:
-        print_untranslated_keys(args.list_untranslated, untranslated, args.untranslated_limit)
+        for locale_id in untranslated_locale_ids:
+            print_untranslated_keys(
+                locale_id,
+                untranslated_reports.get(locale_id, []),
+                args.untranslated_limit,
+            )
     return 0
 
 
@@ -114,6 +120,23 @@ def configure_root(root: Path) -> None:
         ROOT / "config/i18n/de",
         ROOT / "config/i18n/fr",
     )
+
+
+def selected_untranslated_locale_ids(
+    selected: str | None,
+    locale_ids: list[str],
+) -> list[str]:
+    if not selected:
+        return []
+    if selected == "all":
+        return [
+            locale_id
+            for locale_id in locale_ids
+            if locale_id != SOURCE_LOCALE and not locale_id.startswith("en-")
+        ]
+    if selected in locale_ids:
+        return [selected]
+    return []
 
 
 def load_key_file(path: Path, locale_id: str, errors: list[str]) -> dict[str, Any]:
