@@ -60,6 +60,7 @@ pub(super) struct KeyFile {
     pub(super) php_runtime_support: BTreeMap<String, String>,
     pub(super) auth_request_source: BTreeMap<String, String>,
     pub(super) programmable_media_edge: BTreeMap<String, String>,
+    pub(super) zero_retention_privacy_mode: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

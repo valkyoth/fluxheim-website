@@ -146,3 +146,28 @@ fn applies_stable_programmable_media_edge_keys_only_on_source_page() {
     assert!(translated.contains("standardmaessig nicht aktivieren"));
     assert!(unrelated.contains(">Programmable Media Edge<"));
 }
+
+#[test]
+fn applies_stable_zero_retention_privacy_mode_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Zero-Retention Privacy Mode — Fluxheim Source Docs</title>",
+        "<h1 id=\"zero-retention-privacy-mode\">Zero-Retention Privacy Mode</h1>",
+        "<p>Zero-retention privacy mode is a future compile-time build profile for users who want Fluxheim to serve static files and reverse-proxy requests without persisting request logs, client IPs, request metadata, or per-client telemetry.</p>",
+        "<h2 id=\"honest-boundary\">Honest Boundary</h2>",
+        "<li>no Fluxheim request metrics;</li>",
+        "<li>Invalid feature combinations fail at compile time.</li>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Zero-Retention Privacy Mode<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Zero-Retention-Privacy-Modus"));
+    assert!(translated.contains("kuenftiges Compile-Time-Build-Profil"));
+    assert!(translated.contains("Ehrliche Grenze"));
+    assert!(translated.contains("keine Fluxheim-Request-Metriken"));
+    assert!(translated.contains("Feature-Kombinationen"));
+    assert!(unrelated.contains(">Zero-Retention Privacy Mode<"));
+}

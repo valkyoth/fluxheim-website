@@ -280,11 +280,17 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.auth_request_source,
         &keys.auth_request_source,
     );
-    replace_marker_map(
+    let html = replace_marker_map(
         html,
         "Programmable Media Edge — Fluxheim Source Docs",
         &source.programmable_media_edge,
         &keys.programmable_media_edge,
+    );
+    replace_marker_map(
+        html,
+        "Zero-Retention Privacy Mode — Fluxheim Source Docs",
+        &source.zero_retention_privacy_mode,
+        &keys.zero_retention_privacy_mode,
     )
 }
 
