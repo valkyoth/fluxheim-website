@@ -84,7 +84,10 @@ def load_source_phrases() -> list[str]:
 
 def stable_key_sources(locale: str) -> list[str]:
     source = ROOT / f"config/i18n/keys/{locale}.toml"
-    data = tomllib.loads("\n".join(stable_key_parts(source)))
+    try:
+        data = tomllib.loads("\n".join(stable_key_parts(source)))
+    except tomllib.TOMLDecodeError as error:
+        raise SystemExit(f"invalid i18n key TOML for {locale}: {error}") from error
     phrases: list[str] = []
     for value in flatten_strings(data):
         if "{version}" in value:
@@ -95,10 +98,13 @@ def stable_key_sources(locale: str) -> list[str]:
 
 
 def stable_key_parts(path: Path) -> list[str]:
+    if not path.is_file():
+        raise SystemExit(f"missing i18n key file: {path.relative_to(ROOT)}")
     parts = [path.read_text(encoding="utf-8")]
     part_dir = path.with_suffix("")
-    if part_dir.is_dir():
-        parts.extend(part.read_text(encoding="utf-8") for part in sorted(part_dir.glob("*.toml")))
+    if not part_dir.is_dir():
+        raise SystemExit(f"missing i18n key part directory: {part_dir.relative_to(ROOT)}")
+    parts.extend(part.read_text(encoding="utf-8") for part in sorted(part_dir.glob("*.toml")))
     return parts
 
 
