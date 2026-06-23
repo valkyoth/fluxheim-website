@@ -84,11 +84,7 @@ pub(super) struct KeyFile {
 #[derive(Debug, Clone, Deserialize)]
 pub(super) struct LanguageKeys {
     pub(super) selector_label: String,
-    pub(super) english_eu: String,
-    pub(super) english_uk: String,
-    pub(super) english_us: String,
-    pub(super) german: String,
-    pub(super) french: String,
+    pub(super) names: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

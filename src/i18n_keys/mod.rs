@@ -14,132 +14,54 @@ struct KeyTomlFile {
     parts: &'static [&'static str],
 }
 
+macro_rules! key_part {
+    ($locale:literal, $file:literal) => {
+        include_str!(concat!("../../config/i18n/keys/", $locale, "/", $file))
+    };
+}
+
+macro_rules! key_toml_parts {
+    ($locale:literal) => {
+        &[
+            key_part!($locale, "10-home-docs-common.toml"),
+            key_part!($locale, "20-download-changelog.toml"),
+            key_part!($locale, "30-page-groups.toml"),
+            key_part!($locale, "40-security-docs.toml"),
+            key_part!($locale, "50-platform-recipes.toml"),
+            key_part!($locale, "60-source-docs.toml"),
+            key_part!($locale, "70-source-docs-extra.toml"),
+            key_part!($locale, "80-source-docs-next.toml"),
+            key_part!($locale, "90-source-docs-more.toml"),
+            key_part!($locale, "100-source-docs-late.toml"),
+            key_part!($locale, "110-source-docs-final.toml"),
+            key_part!($locale, "120-reference.toml"),
+            key_part!($locale, "130-source-docs-tail.toml"),
+            key_part!($locale, "140-source-docs-tail.toml"),
+            key_part!($locale, "150-source-docs-tail.toml"),
+            key_part!($locale, "160-source-docs-tail.toml"),
+            key_part!($locale, "170-source-docs-tail.toml"),
+            key_part!($locale, "180-docs-pages.toml"),
+            key_part!($locale, "190-code-comments.toml"),
+            key_part!($locale, "200-source-config-reference.toml"),
+        ]
+    };
+}
+
+macro_rules! key_toml_file {
+    ($locale:literal) => {
+        KeyTomlFile {
+            root: include_str!(concat!("../../config/i18n/keys/", $locale, ".toml")),
+            parts: key_toml_parts!($locale),
+        }
+    };
+}
+
 const KEY_TOML_FILES: &[KeyTomlFile] = &[
-    KeyTomlFile {
-        root: include_str!("../../config/i18n/keys/en-EU.toml"),
-        parts: &[
-            include_str!("../../config/i18n/keys/en-EU/10-home-docs-common.toml"),
-            include_str!("../../config/i18n/keys/en-EU/20-download-changelog.toml"),
-            include_str!("../../config/i18n/keys/en-EU/30-page-groups.toml"),
-            include_str!("../../config/i18n/keys/en-EU/40-security-docs.toml"),
-            include_str!("../../config/i18n/keys/en-EU/50-platform-recipes.toml"),
-            include_str!("../../config/i18n/keys/en-EU/60-source-docs.toml"),
-            include_str!("../../config/i18n/keys/en-EU/70-source-docs-extra.toml"),
-            include_str!("../../config/i18n/keys/en-EU/80-source-docs-next.toml"),
-            include_str!("../../config/i18n/keys/en-EU/90-source-docs-more.toml"),
-            include_str!("../../config/i18n/keys/en-EU/100-source-docs-late.toml"),
-            include_str!("../../config/i18n/keys/en-EU/110-source-docs-final.toml"),
-            include_str!("../../config/i18n/keys/en-EU/120-reference.toml"),
-            include_str!("../../config/i18n/keys/en-EU/130-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-EU/140-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-EU/150-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-EU/160-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-EU/170-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-EU/180-docs-pages.toml"),
-            include_str!("../../config/i18n/keys/en-EU/190-code-comments.toml"),
-            include_str!("../../config/i18n/keys/en-EU/200-source-config-reference.toml"),
-        ],
-    },
-    KeyTomlFile {
-        root: include_str!("../../config/i18n/keys/en-GB.toml"),
-        parts: &[
-            include_str!("../../config/i18n/keys/en-GB/10-home-docs-common.toml"),
-            include_str!("../../config/i18n/keys/en-GB/20-download-changelog.toml"),
-            include_str!("../../config/i18n/keys/en-GB/30-page-groups.toml"),
-            include_str!("../../config/i18n/keys/en-GB/40-security-docs.toml"),
-            include_str!("../../config/i18n/keys/en-GB/50-platform-recipes.toml"),
-            include_str!("../../config/i18n/keys/en-GB/60-source-docs.toml"),
-            include_str!("../../config/i18n/keys/en-GB/70-source-docs-extra.toml"),
-            include_str!("../../config/i18n/keys/en-GB/80-source-docs-next.toml"),
-            include_str!("../../config/i18n/keys/en-GB/90-source-docs-more.toml"),
-            include_str!("../../config/i18n/keys/en-GB/100-source-docs-late.toml"),
-            include_str!("../../config/i18n/keys/en-GB/110-source-docs-final.toml"),
-            include_str!("../../config/i18n/keys/en-GB/120-reference.toml"),
-            include_str!("../../config/i18n/keys/en-GB/130-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-GB/140-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-GB/150-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-GB/160-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-GB/170-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-GB/180-docs-pages.toml"),
-            include_str!("../../config/i18n/keys/en-GB/190-code-comments.toml"),
-            include_str!("../../config/i18n/keys/en-GB/200-source-config-reference.toml"),
-        ],
-    },
-    KeyTomlFile {
-        root: include_str!("../../config/i18n/keys/en-US.toml"),
-        parts: &[
-            include_str!("../../config/i18n/keys/en-US/10-home-docs-common.toml"),
-            include_str!("../../config/i18n/keys/en-US/20-download-changelog.toml"),
-            include_str!("../../config/i18n/keys/en-US/30-page-groups.toml"),
-            include_str!("../../config/i18n/keys/en-US/40-security-docs.toml"),
-            include_str!("../../config/i18n/keys/en-US/50-platform-recipes.toml"),
-            include_str!("../../config/i18n/keys/en-US/60-source-docs.toml"),
-            include_str!("../../config/i18n/keys/en-US/70-source-docs-extra.toml"),
-            include_str!("../../config/i18n/keys/en-US/80-source-docs-next.toml"),
-            include_str!("../../config/i18n/keys/en-US/90-source-docs-more.toml"),
-            include_str!("../../config/i18n/keys/en-US/100-source-docs-late.toml"),
-            include_str!("../../config/i18n/keys/en-US/110-source-docs-final.toml"),
-            include_str!("../../config/i18n/keys/en-US/120-reference.toml"),
-            include_str!("../../config/i18n/keys/en-US/130-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-US/140-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-US/150-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-US/160-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-US/170-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/en-US/180-docs-pages.toml"),
-            include_str!("../../config/i18n/keys/en-US/190-code-comments.toml"),
-            include_str!("../../config/i18n/keys/en-US/200-source-config-reference.toml"),
-        ],
-    },
-    KeyTomlFile {
-        root: include_str!("../../config/i18n/keys/de-DE.toml"),
-        parts: &[
-            include_str!("../../config/i18n/keys/de-DE/10-home-docs-common.toml"),
-            include_str!("../../config/i18n/keys/de-DE/20-download-changelog.toml"),
-            include_str!("../../config/i18n/keys/de-DE/30-page-groups.toml"),
-            include_str!("../../config/i18n/keys/de-DE/40-security-docs.toml"),
-            include_str!("../../config/i18n/keys/de-DE/50-platform-recipes.toml"),
-            include_str!("../../config/i18n/keys/de-DE/60-source-docs.toml"),
-            include_str!("../../config/i18n/keys/de-DE/70-source-docs-extra.toml"),
-            include_str!("../../config/i18n/keys/de-DE/80-source-docs-next.toml"),
-            include_str!("../../config/i18n/keys/de-DE/90-source-docs-more.toml"),
-            include_str!("../../config/i18n/keys/de-DE/100-source-docs-late.toml"),
-            include_str!("../../config/i18n/keys/de-DE/110-source-docs-final.toml"),
-            include_str!("../../config/i18n/keys/de-DE/120-reference.toml"),
-            include_str!("../../config/i18n/keys/de-DE/130-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/de-DE/140-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/de-DE/150-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/de-DE/160-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/de-DE/170-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/de-DE/180-docs-pages.toml"),
-            include_str!("../../config/i18n/keys/de-DE/190-code-comments.toml"),
-            include_str!("../../config/i18n/keys/de-DE/200-source-config-reference.toml"),
-        ],
-    },
-    KeyTomlFile {
-        root: include_str!("../../config/i18n/keys/fr-FR.toml"),
-        parts: &[
-            include_str!("../../config/i18n/keys/fr-FR/10-home-docs-common.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/20-download-changelog.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/30-page-groups.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/40-security-docs.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/50-platform-recipes.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/60-source-docs.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/70-source-docs-extra.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/80-source-docs-next.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/90-source-docs-more.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/100-source-docs-late.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/110-source-docs-final.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/120-reference.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/130-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/140-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/150-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/160-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/170-source-docs-tail.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/180-docs-pages.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/190-code-comments.toml"),
-            include_str!("../../config/i18n/keys/fr-FR/200-source-config-reference.toml"),
-        ],
-    },
+    key_toml_file!("en-EU"),
+    key_toml_file!("en-GB"),
+    key_toml_file!("en-US"),
+    key_toml_file!("de-DE"),
+    key_toml_file!("fr-FR"),
 ];
 
 pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String {
@@ -161,14 +83,11 @@ pub fn language_display_name(active_locale: &Locale, locale_id: &str, fallback: 
         return fallback.to_owned();
     };
 
-    match locale_id {
-        "en-EU" => keys.language.english_eu.clone(),
-        "en-GB" => keys.language.english_uk.clone(),
-        "en-US" => keys.language.english_us.clone(),
-        "de-DE" => keys.language.german.clone(),
-        "fr-FR" => keys.language.french.clone(),
-        _ => fallback.to_owned(),
-    }
+    keys.language
+        .names
+        .get(locale_id)
+        .cloned()
+        .unwrap_or_else(|| fallback.to_owned())
 }
 
 fn locale_keys(locale_id: &str) -> Option<&'static KeyFile> {

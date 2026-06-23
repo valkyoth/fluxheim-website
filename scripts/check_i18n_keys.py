@@ -29,15 +29,27 @@ def main() -> int:
     source_path = KEY_ROOT / f"{SOURCE_LOCALE}.toml"
     source = load_key_file(source_path, SOURCE_LOCALE, errors)
     source_keys = set(flatten(source).keys())
+    source_parts = key_part_names(SOURCE_LOCALE)
 
     for locale_id in locale_ids:
         path = KEY_ROOT / f"{locale_id}.toml"
         data = load_key_file(path, locale_id, errors)
         keys = set(flatten(data).keys())
+        parts = key_part_names(locale_id)
+        for missing in sorted(source_parts - parts):
+            errors.append(f"{path.relative_to(ROOT)} missing part file {missing}")
+        for extra in sorted(parts - source_parts):
+            errors.append(f"{path.relative_to(ROOT)} has extra part file {extra}")
         for missing in sorted(source_keys - keys):
             errors.append(f"{path.relative_to(ROOT)} missing key {missing}")
         for extra in sorted(keys - source_keys):
             errors.append(f"{path.relative_to(ROOT)} has extra key {extra}")
+        names = data.get("language", {}).get("names", {})
+        for configured_locale_id in locale_ids:
+            if not names.get(configured_locale_id):
+                errors.append(
+                    f"{path.relative_to(ROOT)} missing language.names.{configured_locale_id}"
+                )
 
     for path in sorted(KEY_ROOT.glob("*.toml")):
         locale_id = path.stem
@@ -74,6 +86,13 @@ def load_key_bundle(path: Path) -> dict[str, Any]:
     if part_dir.is_dir():
         parts.extend(part.read_text(encoding="utf-8") for part in sorted(part_dir.glob("*.toml")))
     return tomllib.loads("\n".join(parts))
+
+
+def key_part_names(locale_id: str) -> set[str]:
+    part_dir = KEY_ROOT / locale_id
+    if not part_dir.is_dir():
+        return set()
+    return {path.name for path in part_dir.glob("*.toml")}
 
 
 def flatten(data: dict[str, Any], prefix: str = "") -> dict[str, Any]:
