@@ -466,7 +466,3 @@ latency_buckets_export_expected_counts = "<li>Latenz-Buckets exportieren erwarte
 metrics_update_path_does_not_require_a_global_mutex = "<li>Der Metrik-Update-Pfad benötigt keinen globalen Mutex.</li>"
 push_exporter_failure_does_not_block_request_handling = "<li>Ein Push-Exporter-Fehler blockiert die Request-Verarbeitung nicht.</li>"
 exporter_health_metrics_update_on_failure_and_recovery = "<li>Exporter-Health-Metriken aktualisieren sich bei Fehlern und Recovery.</li>"
-
-[php_runtime_support]
-php_runtime_support = "PHP-Runtime-Unterstützung"
-implemented_feature_flags = "Implementierte Feature-Flags:"

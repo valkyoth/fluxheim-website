@@ -277,8 +277,8 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
     let html = replace_marker_map(
         html,
         "PHP Runtime Support — Fluxheim Source Docs",
-        &source.php_runtime_support,
-        &keys.php_runtime_support,
+        &source.php_runtime_support_source,
+        &keys.php_runtime_support_source,
     );
     let html = replace_marker_map(
         html,

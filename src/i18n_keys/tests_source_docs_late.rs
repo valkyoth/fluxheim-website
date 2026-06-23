@@ -370,3 +370,25 @@ fn applies_stable_versioning_plan_keys_only_on_source_page() {
     assert!(translated.contains("Echelle de release"));
     assert!(unrelated.contains(">Release Ladder<"));
 }
+
+#[test]
+fn applies_stable_php_runtime_support_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>PHP Runtime Support — Fluxheim Source Docs</title>",
+        "<h1>PHP Runtime Support</h1>",
+        "<p>Implemented feature flags:</p>",
+        "<p>Release order:</p>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Implemented feature flags:<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("PHP-Runtime-Unterstützung"));
+    assert!(translated.contains("PHP-Runtime-Unterstützung - Fluxheim-Source-Dokumentation"));
+    assert!(translated.contains("Implementierte Feature-Flags"));
+    assert!(translated.contains("Release-Reihenfolge"));
+    assert!(unrelated.contains(">Implemented feature flags:<"));
+}

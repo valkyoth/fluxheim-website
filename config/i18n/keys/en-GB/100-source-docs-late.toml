@@ -466,7 +466,3 @@ latency_buckets_export_expected_counts = "<li>Latency buckets export expected co
 metrics_update_path_does_not_require_a_global_mutex = "<li>Metrics update path does not require a global mutex.</li>"
 push_exporter_failure_does_not_block_request_handling = "<li>Push exporter failure does not block request handling.</li>"
 exporter_health_metrics_update_on_failure_and_recovery = "<li>Exporter health metrics update on failure and recovery.</li>"
-
-[php_runtime_support]
-php_runtime_support = "PHP Runtime Support"
-implemented_feature_flags = "Implemented feature flags:"

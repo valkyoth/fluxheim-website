@@ -58,7 +58,7 @@ pub(super) struct KeyFile {
     pub(super) logging_architecture: BTreeMap<String, String>,
     pub(super) legacy_static_http: BTreeMap<String, String>,
     pub(super) metrics_architecture: BTreeMap<String, String>,
-    pub(super) php_runtime_support: BTreeMap<String, String>,
+    pub(super) php_runtime_support_source: BTreeMap<String, String>,
     pub(super) auth_request_source: BTreeMap<String, String>,
     pub(super) programmable_media_edge: BTreeMap<String, String>,
     pub(super) zero_retention_privacy_mode: BTreeMap<String, String>,
