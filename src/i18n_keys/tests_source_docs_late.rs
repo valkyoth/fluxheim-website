@@ -25,3 +25,26 @@ fn applies_stable_certificate_renewal_keys_only_on_source_page() {
     assert!(translated.contains("<code>tls.acme.renewal.renew_after</code>, wenn gesetzt"));
     assert!(unrelated.contains(">Certificate Renewal And Reload<"));
 }
+
+#[test]
+fn applies_stable_logging_architecture_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Logging Architecture — Fluxheim Source Docs</title>",
+        "<h1 id=\"logging-architecture\">Logging Architecture</h1>",
+        "<p>Fluxheim logging should be structured, asynchronous, and explicit about the tradeoff between request latency and durability. Logging must never hide security-relevant events, and remote logging failure must not break normal traffic.</p>",
+        "<li>Add access/security/audit event schema and request ids.</li>",
+        "<li>Add bounded dispatcher queue with <code>drop_new</code> and <code>block</code> policies.</li>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Logging Architecture<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Logging-Architektur"));
+    assert!(translated.contains("Fluxheim-Logging sollte strukturiert"));
+    assert!(translated.contains("Zugriffs-/Security-/Audit-Event-Schema"));
+    assert!(translated.contains("<code>drop_new</code>- und <code>block</code>-Policies"));
+    assert!(unrelated.contains(">Logging Architecture<"));
+}

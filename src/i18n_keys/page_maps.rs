@@ -238,11 +238,17 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.cloudflare_origin_support,
         &keys.cloudflare_origin_support,
     );
-    replace_marker_map(
+    let html = replace_marker_map(
         html,
         "Certificate Renewal And Reload — Fluxheim Source Docs",
         &source.certificate_renewal,
         &keys.certificate_renewal,
+    );
+    replace_marker_map(
+        html,
+        "Logging Architecture — Fluxheim Source Docs",
+        &source.logging_architecture,
+        &keys.logging_architecture,
     )
 }
 
