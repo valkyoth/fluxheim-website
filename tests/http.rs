@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use axum::body::{Body, to_bytes};
-use axum::http::{Request, StatusCode};
+use axum::http::{Request, StatusCode, header};
 use fluxheim_website::content::Site;
 use fluxheim_website::http_app::build_router;
 use tower::ServiceExt;
@@ -14,6 +14,37 @@ async fn request(path: &str) -> (StatusCode, http::HeaderMap, String) {
             Request::builder()
                 .uri(path)
                 .body(Body::empty())
+                .expect("request builds"),
+        )
+        .await
+        .expect("response");
+    let status = response.status();
+    let headers = response.headers().clone();
+    let body = to_bytes(response.into_body(), 1024 * 1024)
+        .await
+        .expect("body bytes");
+
+    (
+        status,
+        headers,
+        String::from_utf8(body.to_vec()).expect("utf8 body"),
+    )
+}
+
+async fn request_with_body(
+    method: http::Method,
+    path: &str,
+    body: impl Into<Body>,
+) -> (StatusCode, http::HeaderMap, String) {
+    let site = Arc::new(Site::load().expect("site content loads"));
+    let app = build_router(site);
+    let response = app
+        .oneshot(
+            Request::builder()
+                .method(method)
+                .uri(path)
+                .header(header::CONTENT_TYPE, "application/json")
+                .body(body.into())
                 .expect("request builds"),
         )
         .await
@@ -313,6 +344,109 @@ async fn language_selector_targets_same_page() {
     assert!(body.contains(r#"<a href="/fr/download""#));
     assert!(body.contains(r#"<summary aria-label="Sprache">"#));
     assert!(body.contains("<span>Deutsch</span>"));
+}
+
+#[tokio::test]
+async fn github_outbound_redirects_only_known_targets() {
+    let (status, headers, _body) = request("/out/github/repo?locale=de-DE").await;
+    assert_eq!(status, StatusCode::TEMPORARY_REDIRECT);
+    assert_eq!(
+        headers[header::LOCATION],
+        "https://github.com/valkyoth/fluxheim"
+    );
+
+    let (unknown_status, _headers, body) = request("/out/github/raw-private-target").await;
+    assert_eq!(unknown_status, StatusCode::NOT_FOUND);
+    assert!(body.contains("Unknown outbound target"));
+}
+
+#[tokio::test]
+async fn download_outbound_redirects_only_known_artifacts() {
+    let artifact = "fluxheim-1.6.28-full-x86_64-linux.tar.gz";
+    let (status, headers, _body) = request(&format!("/out/download/{artifact}?locale=en-EU")).await;
+    assert_eq!(status, StatusCode::TEMPORARY_REDIRECT);
+    assert_eq!(
+        headers[header::LOCATION],
+        format!("https://github.com/valkyoth/fluxheim/releases/download/v1.6.28/{artifact}")
+    );
+
+    let (unknown_status, _headers, body) =
+        request("/out/download/fluxheim-1.6.28-private-token.tar.gz").await;
+    assert_eq!(unknown_status, StatusCode::NOT_FOUND);
+    assert!(body.contains("Unknown download artifact"));
+}
+
+#[tokio::test]
+async fn page_visible_accepts_bounded_events() {
+    let valid = r#"{"locale":"fr-FR","route":"/docs/cache","section":"docs","seconds":42}"#;
+    let (status, _headers, body) =
+        request_with_body(http::Method::POST, "/telemetry/page-visible", valid).await;
+    assert_eq!(status, StatusCode::ACCEPTED);
+    assert_eq!(body, "ok");
+
+    let invalid = r#"{"locale":"fr-FR","route":"/private/raw","section":"docs","seconds":42}"#;
+    let (invalid_status, _headers, invalid_body) =
+        request_with_body(http::Method::POST, "/telemetry/page-visible", invalid).await;
+    assert_eq!(invalid_status, StatusCode::BAD_REQUEST);
+    assert!(invalid_body.contains("invalid page-visible event"));
+}
+
+#[tokio::test]
+async fn telemetry_click_accepts_only_bounded_events() {
+    let github = r#"{"kind":"github","locale":"en-EU","target":"repo"}"#;
+    let (status, _headers, body) =
+        request_with_body(http::Method::POST, "/telemetry/click", github).await;
+    assert_eq!(status, StatusCode::ACCEPTED);
+    assert_eq!(body, "ok");
+
+    let artifact = "fluxheim-1.6.28-full-x86_64-linux.tar.gz";
+    let download = format!(r#"{{"kind":"download","locale":"de-DE","artifact":"{artifact}"}}"#);
+    let (download_status, _headers, download_body) =
+        request_with_body(http::Method::POST, "/telemetry/click", download).await;
+    assert_eq!(download_status, StatusCode::ACCEPTED);
+    assert_eq!(download_body, "ok");
+
+    let invalid = r#"{"kind":"download","locale":"de-DE","artifact":"fluxheim-private.tar.gz"}"#;
+    let (invalid_status, _headers, invalid_body) =
+        request_with_body(http::Method::POST, "/telemetry/click", invalid).await;
+    assert_eq!(invalid_status, StatusCode::BAD_REQUEST);
+    assert!(invalid_body.contains("invalid click event"));
+}
+
+#[tokio::test]
+async fn legal_pages_render_and_translate() {
+    let (privacy_status, _headers, privacy_body) = request("/privacy").await;
+    assert_eq!(privacy_status, StatusCode::OK);
+    assert!(privacy_body.contains("Privacy Policy"));
+    assert!(privacy_body.contains("raw IP addresses"));
+    assert!(privacy_body.contains(r#"<a href="/cookies">Cookies</a>"#));
+    assert!(privacy_body.contains("navigator.sendBeacon"));
+
+    let (de_status, _headers, de_body) = request("/de/privacy").await;
+    assert_eq!(de_status, StatusCode::OK);
+    assert!(de_body.contains("Datenschutzerklärung"));
+    assert!(de_body.contains("Was wir nicht erfassen"));
+    assert!(de_body.contains(r#"<a href="/de/cookies">Cookies</a>"#));
+
+    let (fr_status, _headers, fr_body) = request("/fr/gdpr").await;
+    assert_eq!(fr_status, StatusCode::OK);
+    assert!(fr_body.contains("Informations RGPD"));
+    assert!(fr_body.contains("Minimisation des données"));
+    assert!(fr_body.contains(r#"<a href="/fr/privacy">Politique de confidentialité</a>"#));
+}
+
+#[tokio::test]
+async fn rendered_pages_keep_links_and_inject_click_beacon() {
+    let (status, _headers, body) = request("/download").await;
+    assert_eq!(status, StatusCode::OK);
+    assert!(body.contains(r#"href="https://github.com/valkyoth/fluxheim""#));
+    assert!(
+        body.contains(
+            r#"href="https://github.com/valkyoth/fluxheim/releases/download/v1.6.28/fluxheim-1.6.28-full-x86_64-linux.tar.gz""#
+        )
+    );
+    assert!(body.contains("navigator.sendBeacon"));
+    assert!(body.contains("/telemetry/click"));
 }
 
 #[tokio::test]

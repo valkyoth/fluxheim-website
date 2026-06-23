@@ -42,6 +42,13 @@ pub fn language_display_name(active_locale: &Locale, locale_id: &str, fallback: 
         .unwrap_or_else(|| fallback.to_owned())
 }
 
+pub fn common_text(locale: &Locale, key: &str, fallback: &str) -> String {
+    locale_keys(&locale.locale_id)
+        .and_then(|keys| keys.common.get(key))
+        .cloned()
+        .unwrap_or_else(|| fallback.to_owned())
+}
+
 fn locale_keys(locale_id: &str) -> Option<&'static KeyFile> {
     key_files().iter().find(|keys| keys.locale_id == locale_id)
 }

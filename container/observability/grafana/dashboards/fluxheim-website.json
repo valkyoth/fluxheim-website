@@ -1,0 +1,68 @@
+{
+  "uid": "fluxheim-website",
+  "title": "Fluxheim Website",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "time": {"from": "now-6h", "to": "now"},
+  "tags": ["fluxheim", "website", "opentelemetry"],
+  "panels": [
+    {
+      "id": 1,
+      "type": "timeseries",
+      "title": "Visits",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+      "targets": [{"datasource": {"type": "prometheus", "uid": "Prometheus"}, "expr": "sum(rate(fluxheim_website_page_views_total[5m]))", "legendFormat": "views/s"}]
+    },
+    {
+      "id": 2,
+      "type": "barchart",
+      "title": "Visits by Locale",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+      "targets": [{"datasource": {"type": "prometheus", "uid": "Prometheus"}, "expr": "sum by (locale) (increase(fluxheim_website_page_views_total[6h]))", "legendFormat": "{{locale}}"}]
+    },
+    {
+      "id": 3,
+      "type": "barchart",
+      "title": "Visits by Section",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+      "targets": [{"datasource": {"type": "prometheus", "uid": "Prometheus"}, "expr": "sum by (section) (increase(fluxheim_website_page_views_total[6h]))", "legendFormat": "{{section}}"}]
+    },
+    {
+      "id": 4,
+      "type": "table",
+      "title": "Top Routes",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+      "targets": [{"datasource": {"type": "prometheus", "uid": "Prometheus"}, "expr": "topk(10, sum by (route, locale) (increase(fluxheim_website_page_views_total[6h])))", "format": "table", "instant": true}]
+    },
+    {
+      "id": 5,
+      "type": "timeseries",
+      "title": "Request p90",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16},
+      "targets": [{"datasource": {"type": "prometheus", "uid": "Prometheus"}, "expr": "histogram_quantile(0.90, sum(rate(fluxheim_website_request_duration_seconds_bucket[5m])) by (le))", "legendFormat": "p90"}]
+    },
+    {
+      "id": 6,
+      "type": "timeseries",
+      "title": "Page Visible Seconds p90",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16},
+      "targets": [{"datasource": {"type": "prometheus", "uid": "Prometheus"}, "expr": "histogram_quantile(0.90, sum(rate(fluxheim_website_page_visible_seconds_bucket[5m])) by (le))", "legendFormat": "p90"}]
+    },
+    {
+      "id": 7,
+      "type": "barchart",
+      "title": "Download Clicks",
+      "gridPos": {"h": 8, "w": 12, "x": 0, "y": 24},
+      "targets": [{"datasource": {"type": "prometheus", "uid": "Prometheus"}, "expr": "sum by (artifact) (increase(fluxheim_website_download_clicks_total[6h]))", "legendFormat": "{{artifact}}"}]
+    },
+    {
+      "id": 8,
+      "type": "barchart",
+      "title": "GitHub Clicks",
+      "gridPos": {"h": 8, "w": 12, "x": 12, "y": 24},
+      "targets": [{"datasource": {"type": "prometheus", "uid": "Prometheus"}, "expr": "sum by (target) (increase(fluxheim_website_outbound_clicks_total[6h]))", "legendFormat": "{{target}}"}]
+    }
+  ]
+}

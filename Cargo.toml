@@ -8,14 +8,19 @@ publish = false
 description = "Localized Rust website for Fluxheim."
 
 [dependencies]
-axum = { version = "0.8.9", default-features = false, features = ["http1", "original-uri", "tokio", "tracing"] }
+axum = { version = "0.8.9", default-features = false, features = ["http1", "json", "original-uri", "query", "tokio", "tracing"] }
 http = "1.4.2"
+opentelemetry = { version = "0.32.0", default-features = false, features = ["metrics", "trace"] }
+opentelemetry-otlp = { version = "0.32.0", default-features = false, features = ["http-proto", "metrics", "reqwest-blocking-client", "trace"] }
+opentelemetry_sdk = { version = "0.32.1", default-features = false, features = ["metrics", "rt-tokio", "trace"] }
 sanitization = { version = "1.1.0", features = ["alloc"] }
 serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.150"
 tokio = { version = "1.52.3", features = ["macros", "net", "rt-multi-thread", "signal"] }
 toml = "1.1.2"
 tower-http = { version = "0.7.0", features = ["fs", "set-header", "trace"] }
 tracing = "0.1.44"
+tracing-opentelemetry = { version = "0.33.0", default-features = false }
 tracing-subscriber = { version = "0.3.23", features = ["env-filter", "fmt"] }
 
 [dev-dependencies]

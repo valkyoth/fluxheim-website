@@ -1,8 +1,11 @@
+pub mod app_state;
 pub mod content;
 pub mod http_app;
 pub mod i18n;
 pub mod i18n_keys;
 pub mod legacy;
+pub mod observability;
+pub mod page_enhancements;
 pub mod releases;
 pub mod routes;
 pub mod secrets;

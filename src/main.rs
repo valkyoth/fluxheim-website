@@ -2,15 +2,20 @@ use std::net::SocketAddr;
 use std::sync::Arc;
 
 use fluxheim_website::content::Site;
-use fluxheim_website::http_app::build_router;
+use fluxheim_website::http_app::build_router_with_observability;
+use fluxheim_website::observability::TelemetryGuard;
+use opentelemetry::trace::TracerProvider as _;
 use tracing_subscriber::EnvFilter;
+use tracing_subscriber::prelude::*;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    init_tracing();
+    let site = Site::load()?;
+    let (observability, telemetry_guard) =
+        fluxheim_website::observability::Observability::from_env(&site.config.fluxheim_version);
+    init_tracing(&telemetry_guard);
 
-    let site = Arc::new(Site::load()?);
-    let app = build_router(site);
+    let app = build_router_with_observability(Arc::new(site), observability);
     let addr = SocketAddr::from(([0, 0, 0, 0], 8080));
     let listener = tokio::net::TcpListener::bind(addr).await?;
 
@@ -18,17 +23,28 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     axum::serve(listener, app)
         .with_graceful_shutdown(shutdown_signal())
         .await?;
+    telemetry_guard.shutdown();
     Ok(())
 }
 
-fn init_tracing() {
+fn init_tracing(telemetry_guard: &TelemetryGuard) {
     let filter = EnvFilter::try_from_default_env()
         .unwrap_or_else(|_| EnvFilter::new("fluxheim_website=info,tower_http=info"));
 
-    tracing_subscriber::fmt()
-        .with_env_filter(filter)
-        .with_target(false)
-        .init();
+    let fmt_layer = tracing_subscriber::fmt::layer().with_target(false);
+    if let Some(provider) = telemetry_guard.tracer_provider() {
+        let tracer = provider.tracer("fluxheim-website");
+        tracing_subscriber::registry()
+            .with(filter)
+            .with(fmt_layer)
+            .with(tracing_opentelemetry::layer().with_tracer(tracer))
+            .init();
+    } else {
+        tracing_subscriber::registry()
+            .with(filter)
+            .with(fmt_layer)
+            .init();
+    }
 }
 
 async fn shutdown_signal() {

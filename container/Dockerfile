@@ -21,7 +21,7 @@ RUN addgroup -S fluxheim && \
 WORKDIR /srv/fluxheim-website
 
 COPY --from=builder /build/target/release/fluxheim-website /usr/local/bin/fluxheim-website
-COPY --chown=fluxheim:fluxheim index.html download.html changelog.html ./
+COPY --chown=fluxheim:fluxheim index.html download.html changelog.html cookies.html privacy.html gdpr.html ./
 COPY --chown=fluxheim:fluxheim assets/ assets/
 COPY --chown=fluxheim:fluxheim conf/ conf/
 COPY --chown=fluxheim:fluxheim docs/ docs/

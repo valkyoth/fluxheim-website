@@ -1,0 +1,85 @@
+name: fluxheim_website_observability
+
+volumes:
+  prometheus-data:
+  grafana-data:
+
+services:
+  fluxheim-website:
+    build:
+      context: ../..
+      dockerfile: container/Dockerfile
+    image: fluxheim-website:1.6.28-observability
+    container_name: fluxheim-website-observability
+    restart: unless-stopped
+    stop_signal: SIGTERM
+    stop_grace_period: 15s
+    environment:
+      FLUXHEIM_OTEL_ENABLED: "true"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://otel-collector:4318"
+      OTEL_EXPORTER_OTLP_PROTOCOL: "http/protobuf"
+      OTEL_METRIC_EXPORT_INTERVAL: "5000"
+      RUST_LOG: "fluxheim_website=info,tower_http=info"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - otel-collector
+
+  otel-collector:
+    image: docker.io/otel/opentelemetry-collector-contrib:latest
+    container_name: fluxheim-website-otel
+    restart: unless-stopped
+    command: ["--config=/etc/otelcol/config.yml"]
+    volumes:
+      - ./otel-collector.yml:/etc/otelcol/config.yml:ro,Z
+    ports:
+      - "4317:4317"
+      - "4318:4318"
+      - "9464:9464"
+    depends_on:
+      - jaeger
+
+  prometheus:
+    image: docker.io/prom/prometheus:latest
+    container_name: fluxheim-website-prometheus
+    restart: unless-stopped
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.enable-lifecycle"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z
+      - prometheus-data:/prometheus
+    ports:
+      - "9090:9090"
+    depends_on:
+      - otel-collector
+
+  jaeger:
+    image: docker.io/jaegertracing/all-in-one:latest
+    container_name: fluxheim-website-jaeger
+    restart: unless-stopped
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"
+
+  grafana:
+    image: docker.io/grafana/grafana-oss:latest
+    container_name: fluxheim-website-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: "admin"
+      GF_SECURITY_ADMIN_PASSWORD: "admin"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro,Z
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro,Z
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+      - jaeger

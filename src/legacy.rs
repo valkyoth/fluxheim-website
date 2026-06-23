@@ -3,6 +3,7 @@ use std::path::{Component, Path, PathBuf};
 use crate::content::{Locale, Site};
 use crate::i18n;
 use crate::i18n_keys;
+use crate::page_enhancements;
 
 const SOURCE_FLUXHEIM_VERSION: &str = "1.6.28";
 
@@ -26,6 +27,7 @@ pub fn render(site: &Site, request_path: &str) -> Option<LegacyPage> {
     html = apply_version(site, html);
     html = i18n_keys::apply_shared_keys(locale, html, &site.config.fluxheim_version);
     html = i18n::translate_html(locale, html);
+    html = page_enhancements::enhance(site, locale, slug, html);
     html = inject_language_selector(site, locale, slug, html);
 
     Some(LegacyPage {
@@ -76,6 +78,9 @@ pub fn legacy_html_paths() -> Vec<PathBuf> {
         PathBuf::from("index.html"),
         PathBuf::from("download.html"),
         PathBuf::from("changelog.html"),
+        PathBuf::from("cookies.html"),
+        PathBuf::from("privacy.html"),
+        PathBuf::from("gdpr.html"),
     ];
     collect_html_paths(Path::new("docs"), &mut paths);
     paths.sort();
@@ -140,7 +145,14 @@ fn is_allowed_html(path: &Path) -> bool {
     path.starts_with("docs")
         || matches!(
             path.to_str(),
-            Some("index.html" | "download.html" | "changelog.html")
+            Some(
+                "index.html"
+                    | "download.html"
+                    | "changelog.html"
+                    | "cookies.html"
+                    | "privacy.html"
+                    | "gdpr.html"
+            )
         )
 }
 
