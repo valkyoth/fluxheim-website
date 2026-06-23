@@ -35,6 +35,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-EU/150-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-EU/160-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-EU/170-source-docs-tail.toml"),
+            include_str!("../../config/i18n/keys/en-EU/180-docs-pages.toml"),
         ],
     },
     KeyTomlFile {
@@ -57,6 +58,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-GB/150-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-GB/160-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-GB/170-source-docs-tail.toml"),
+            include_str!("../../config/i18n/keys/en-GB/180-docs-pages.toml"),
         ],
     },
     KeyTomlFile {
@@ -79,6 +81,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-US/150-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-US/160-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-US/170-source-docs-tail.toml"),
+            include_str!("../../config/i18n/keys/en-US/180-docs-pages.toml"),
         ],
     },
     KeyTomlFile {
@@ -101,6 +104,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/de-DE/150-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/de-DE/160-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/de-DE/170-source-docs-tail.toml"),
+            include_str!("../../config/i18n/keys/de-DE/180-docs-pages.toml"),
         ],
     },
     KeyTomlFile {
@@ -123,6 +127,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/fr-FR/150-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/fr-FR/160-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/fr-FR/170-source-docs-tail.toml"),
+            include_str!("../../config/i18n/keys/fr-FR/180-docs-pages.toml"),
         ],
     },
 ];
@@ -207,6 +212,9 @@ mod tests_source_docs_late;
 
 #[cfg(test)]
 mod tests_source_docs_tail;
+
+#[cfg(test)]
+mod tests_docs_pages;
 
 #[cfg(test)]
 mod tests_reference;
