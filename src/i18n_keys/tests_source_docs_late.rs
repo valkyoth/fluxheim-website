@@ -119,3 +119,30 @@ fn applies_stable_auth_request_keys_only_on_source_page() {
     assert!(translated.contains("TLS-Verifikation fuer das Auth-Backend"));
     assert!(unrelated.contains(">External Authorization Request<"));
 }
+
+#[test]
+fn applies_stable_programmable_media_edge_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Programmable Media Edge — Fluxheim Source Docs</title>",
+        "<h1 id=\"programmable-media-edge\">Programmable Media Edge</h1>",
+        "<p>Status: far-future optional module family.</p>",
+        "<li>Integrate with <code>auth-request</code>, identity-aware routing, cache, metrics, and privacy profiles only through explicit policy.</li>",
+        "<li>isolate cache keys by vhost, route, asset ID, representation, byte range, media sequence, encryption key ID, and policy version;</li>",
+        "<h2 id=\"security-requirements\">Security Requirements</h2>",
+        "<li>Do not enable in <code>privacy-mode</code> by default.</li>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Programmable Media Edge<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Programmierbarer Media-Edge"));
+    assert!(translated.contains("optionale Modulfamilie"));
+    assert!(translated.contains("Nur ueber explizite Policy"));
+    assert!(translated.contains("Cache-Schluessel nach Vhost"));
+    assert!(translated.contains("Sicherheitsanforderungen"));
+    assert!(translated.contains("standardmaessig nicht aktivieren"));
+    assert!(unrelated.contains(">Programmable Media Edge<"));
+}
