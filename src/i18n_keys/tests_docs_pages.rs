@@ -57,3 +57,33 @@ fn applies_stable_advanced_keys_only_on_advanced_page() {
     assert!(fr_html.contains("Disponible depuis v1.3.1"));
     assert_eq!(unrelated, ">Advanced Features<");
 }
+
+#[test]
+fn applies_stable_features_keys_only_on_features_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let fr = site.locale("fr-FR").expect("French locale");
+    let html = concat!(
+        "<title>Feature Matrix — Fluxheim Docs</title>",
+        "<h1>Feature Matrix</h1>",
+        "All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.6.28.",
+        "<h2>Individual Features</h2>",
+        "Select features individually with <code>--features</code>",
+        "<h2>Build Profile Aliases</h2>",
+    )
+    .to_owned();
+
+    let de_html = apply_shared_keys(de, html.clone(), "1.6.28");
+    let fr_html = apply_shared_keys(fr, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Individual Features<".to_owned(), "1.6.28");
+
+    assert!(de_html.contains("<h1>Funktionsmatrix</h1>"));
+    assert!(de_html.contains("Alle Cargo-Features"));
+    assert!(de_html.contains("<h2>Einzelne Features</h2>"));
+    assert!(de_html.contains("Wähle Features einzeln"));
+    assert!(fr_html.contains("<h1>Matrice des fonctionnalités</h1>"));
+    assert!(fr_html.contains("Toutes les fonctionnalités Cargo"));
+    assert!(fr_html.contains("<h2>Fonctionnalités individuelles</h2>"));
+    assert!(fr_html.contains("Sélectionnez les fonctionnalités individuellement"));
+    assert_eq!(unrelated, ">Individual Features<");
+}

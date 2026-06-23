@@ -60,6 +60,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
     );
     let html = replace_marker_map(
         html,
+        "Feature Matrix — Fluxheim Docs",
+        &source.features_page,
+        &keys.features_page,
+    );
+    let html = replace_marker_map(
+        html,
         "Cache System — Fluxheim Docs",
         &source.cache,
         &keys.cache,
