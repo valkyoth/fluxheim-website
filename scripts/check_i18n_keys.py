@@ -29,6 +29,7 @@ def main() -> int:
     parser.add_argument("--allow-untranslated-locales", action="store_true")
     parser.add_argument("--progress", action="store_true")
     parser.add_argument("--list-untranslated", metavar="LOCALE")
+    parser.add_argument("--untranslated-format", choices=("text", "tsv"), default="text")
     parser.add_argument("--untranslated-limit", type=int, default=80)
     args = parser.parse_args()
     configure_root(Path(args.root).resolve())
@@ -42,6 +43,8 @@ def main() -> int:
 
     if args.untranslated_limit < 0:
         errors.append("--untranslated-limit must be zero or greater")
+    if args.progress and machine_untranslated_output(args):
+        errors.append("--progress cannot be combined with --untranslated-format tsv")
     if args.list_untranslated and not untranslated_locale_ids:
         errors.append(f"{args.list_untranslated} is not configured in config/locales.toml")
 
@@ -94,7 +97,8 @@ def main() -> int:
             print(f"i18n-key error: {error}", file=sys.stderr)
         return 1
 
-    print(f"i18n-keys ok: {len(locale_ids)} locales, {len(source_keys)} keys")
+    if not machine_untranslated_output(args):
+        print(f"i18n-keys ok: {len(locale_ids)} locales, {len(source_keys)} keys")
     if args.progress:
         for report in progress:
             print(report)
@@ -104,6 +108,7 @@ def main() -> int:
                 locale_id,
                 untranslated_reports.get(locale_id, []),
                 args.untranslated_limit,
+                args.untranslated_format,
             )
     return 0
 
@@ -137,6 +142,10 @@ def selected_untranslated_locale_ids(
     if selected in locale_ids:
         return [selected]
     return []
+
+
+def machine_untranslated_output(args: argparse.Namespace) -> bool:
+    return bool(args.list_untranslated and args.untranslated_format == "tsv")
 
 
 def load_key_file(path: Path, locale_id: str, errors: list[str]) -> dict[str, Any]:
@@ -259,8 +268,22 @@ def print_untranslated_keys(
     locale_id: str,
     untranslated: list[tuple[Path, str, str]],
     limit: int,
+    output_format: str,
 ) -> None:
     shown = untranslated if limit == 0 else untranslated[:limit]
+    if output_format == "tsv":
+        for path, key, value in shown:
+            print(
+                "\t".join(
+                    (
+                        locale_id,
+                        str(path.relative_to(ROOT)),
+                        key,
+                        tsv_field(value),
+                    )
+                )
+            )
+        return
     print(f"{locale_id}: {len(untranslated)} keys still match {SOURCE_LOCALE}")
     for path, key, value in shown:
         print(f"{path.relative_to(ROOT)} {key}: {preview(value)}")
@@ -273,6 +296,10 @@ def preview(value: str) -> str:
     if len(collapsed) <= 120:
         return collapsed
     return f"{collapsed[:117]}..."
+
+
+def tsv_field(value: str) -> str:
+    return " ".join(value.split())
 
 
 def check_legacy_phrase_bundles_are_absent(errors: list[str]) -> None:

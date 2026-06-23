@@ -22,6 +22,19 @@ case "$i18n_untranslated" in
     exit 1
     ;;
 esac
+i18n_untranslated_tsv="$(
+  scripts/check_i18n_keys.py \
+    --list-untranslated all \
+    --untranslated-limit 1 \
+    --untranslated-format tsv
+)"
+case "$i18n_untranslated_tsv" in
+  *"de-DE	"*"config/i18n/keys/de-DE/"*"fr-FR	"*"config/i18n/keys/fr-FR/"*) ;;
+  *)
+    echo "i18n untranslated TSV report missing locale edit rows" >&2
+    exit 1
+    ;;
+esac
 tmp_i18n_root="$(mktemp -d /tmp/fluxheim-i18n-scaffold.XXXXXX)"
 trap 'rm -rf "$tmp_i18n_root"' EXIT
 mkdir -p "$tmp_i18n_root/config/i18n"

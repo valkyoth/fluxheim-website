@@ -97,6 +97,7 @@ to edit, run:
 ```bash
 scripts/check_i18n_keys.py --list-untranslated de-DE
 scripts/check_i18n_keys.py --list-untranslated all --untranslated-limit 20
+scripts/check_i18n_keys.py --list-untranslated all --untranslated-format tsv
 scripts/check_i18n_keys.py --list-untranslated fr-FR --untranslated-limit 0
 ```
 
