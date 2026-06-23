@@ -9,7 +9,7 @@ When migrating a page to structured content, follow this order:
 1. Keep the original HTML route working.
 2. Move one repeated area into a template partial.
 3. Add or update a test that proves the served page is still identical to the
-   legacy HTML except for centralized version replacement, runtime phrase
+   legacy HTML except for centralized version replacement, stable-key
    translation, locale metadata, and the injected bottom language selector.
 4. Only then remove duplicated HTML from that page.
 
@@ -30,16 +30,9 @@ config/i18n/keys/fr-FR.toml
 Every stable key must exist for every configured locale. Use
 `scripts/check_i18n_keys.py` before committing key changes.
 
-Page-specific body copy that has not yet moved to stable keys should stay in
-page bundles:
-
-```text
-config/i18n/de/*.toml
-config/i18n/fr/*.toml
-```
-
-The root `config/i18n-de.toml` and `config/i18n-fr.toml` files are retained only
-for locale metadata and an empty compatibility phrase list.
+Do not add new page phrase bundles such as `config/i18n/de/*.toml` or
+`config/i18n/fr/*.toml`. Add or update stable keys under
+`config/i18n/keys/{locale}/` instead.
 
 Localized 1:1 page overrides are still supported only for exceptional cases
 where a locale genuinely needs different markup:
@@ -51,4 +44,4 @@ localized/fr/download.html
 ```
 
 If a localized file is missing, the app uses the English legacy file and applies
-the configured runtime phrase map.
+the configured stable keys.

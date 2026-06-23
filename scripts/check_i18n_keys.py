@@ -11,7 +11,14 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 KEY_ROOT = ROOT / "config/i18n/keys"
 SOURCE_LOCALE = "en-EU"
-LEGACY_LOCALES = ("de", "fr")
+LEGACY_PHRASE_PATHS = (
+    ROOT / "config/i18n-de.toml",
+    ROOT / "config/i18n-fr.toml",
+)
+LEGACY_PHRASE_DIRS = (
+    ROOT / "config/i18n/de",
+    ROOT / "config/i18n/fr",
+)
 
 
 def main() -> int:
@@ -37,7 +44,7 @@ def main() -> int:
         if locale_id not in locale_ids:
             errors.append(f"{path.relative_to(ROOT)} is not configured in config/locales.toml")
 
-    check_legacy_phrase_bundles_are_empty(errors)
+    check_legacy_phrase_bundles_are_absent(errors)
 
     if errors:
         for error in errors:
@@ -84,17 +91,13 @@ def load_toml(path: Path) -> dict[str, Any]:
     return tomllib.loads(path.read_text(encoding="utf-8"))
 
 
-def check_legacy_phrase_bundles_are_empty(errors: list[str]) -> None:
-    for locale in LEGACY_LOCALES:
-        paths = [ROOT / f"config/i18n-{locale}.toml"]
-        paths.extend(sorted((ROOT / "config/i18n" / locale).glob("*.toml")))
-        for path in paths:
-            data = load_toml(path)
-            phrases = data.get("phrase", [])
-            if phrases:
-                errors.append(
-                    f"{path.relative_to(ROOT)} still contains legacy phrase entries"
-                )
+def check_legacy_phrase_bundles_are_absent(errors: list[str]) -> None:
+    for path in LEGACY_PHRASE_PATHS:
+        if path.exists():
+            errors.append(f"{path.relative_to(ROOT)} is a removed legacy phrase bundle")
+    for directory in LEGACY_PHRASE_DIRS:
+        for path in sorted(directory.glob("*.toml")):
+            errors.append(f"{path.relative_to(ROOT)} is a removed legacy phrase bundle")
 
 
 if __name__ == "__main__":

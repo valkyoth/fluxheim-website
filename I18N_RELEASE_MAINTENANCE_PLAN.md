@@ -12,7 +12,7 @@ and language additions predictable, testable, and low-churn.
 - Locale routes preserve the current page.
 - Release data is centralized so a new Fluxheim release does not require manual
   edits across repeated HTML sections.
-- Translations move from raw phrase replacement toward stable content keys.
+- Translations are maintained through stable content keys.
 - Tests fail when release data, locale coverage, or language routes drift.
 
 ## Recommended Phases
@@ -33,18 +33,17 @@ and language additions predictable, testable, and low-churn.
 
 ### Phase 3: Stable Translation Keys
 
-- Add canonical English source keys under `config/i18n/en-EU/`.
-- Convert German and French phrase bundles to keyed translations.
-- Support locale fallback to English (EU).
-- Enforce complete or intentionally inherited keys per locale.
+- Add canonical English source keys under `config/i18n/keys/en-EU/`.
+- Keep German and French translated through keyed translations.
+- Keep English (EU), English (UK), and English (US) complete as pass-through
+  English key sets until variant wording is intentionally changed.
+- Enforce complete keys per locale.
 
 Initial key files now live under `config/i18n/keys/` and are validated by
-`scripts/check_i18n_keys.py`. They now cover shared language-selector, shell,
-navigation, release, footer, homepage, documentation-index, and common label
-copy. The root German and French phrase files have been drained to locale
-metadata plus an empty compatibility phrase list; remaining untranslated
-maintenance work is page-bundle migration under `config/i18n/de/` and
-`config/i18n/fr/`.
+`scripts/check_i18n_keys.py`. They cover shared language-selector, shell,
+navigation, release, footer, homepage, documentation-index, documentation pages,
+source documentation, code comments, and common label copy. Legacy phrase
+bundles have been removed; future translation work should add stable keys only.
 
 `content/releases.toml` is also loaded by typed Rust code in `src/releases.rs`.
 The current tests validate ordering, the latest version, release-note presence,

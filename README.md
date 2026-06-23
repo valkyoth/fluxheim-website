@@ -34,13 +34,9 @@ The application also accepts `/en-eu/...` as an explicit English (EU) prefix,
 while generated links prefer the default root paths.
 
 English (UK) and English (US) are currently pass-through English variants with
-their own `html lang` values. Shared locale text is keyed under
-`config/i18n/keys/`; German and French page-body content still uses
-page-specific bundles under `config/i18n/de/` and `config/i18n/fr/`. The root
-`config/i18n-de.toml` and `config/i18n-fr.toml` files now only keep locale
-metadata and an empty phrase list for compatibility. The legacy HTML files
-remain the structural source of truth, so updating the site does not require
-editing cloned HTML trees.
+their own `html lang` values. All locale text is keyed under
+`config/i18n/keys/`. The legacy HTML files remain the structural source of
+truth, so updating the site does not require editing cloned HTML trees.
 
 Legacy static artifacts under `docs/source/`, such as Markdown and TSV files,
 are still served directly through the same locale-prefixed paths.
@@ -53,10 +49,7 @@ fluxheim-website/
 ├── src/                  # Axum app, legacy routing, locale loading, tests helpers
 ├── content/              # Reserved for future 1:1 content extraction
 ├── config/               # Shared project metadata, including Fluxheim version
-│   ├── i18n-de.toml      # German locale metadata and compatibility phrase list
-│   └── i18n-fr.toml      # French locale metadata and compatibility phrase list
 ├── config/i18n/keys/     # Stable shared locale keys for all configured locales
-├── config/i18n/          # Page-specific locale phrase bundles
 ├── conf/                 # Preserved Fluxheim example configuration
 ├── localized/            # Optional 1:1 localized HTML overrides
 ├── assets/               # Vendored CSS, JavaScript, and images
@@ -92,18 +85,9 @@ Every configured locale must contain the same stable key set. Validate that with
 scripts/check_i18n_keys.py
 ```
 
-Page-specific body copy that has not yet moved to stable keys remains in locale
-phrase bundles:
-
-```toml
-[[phrase]]
-from = "Cache Edge Build"
-to = "Cache-Edge-Build"
-```
-
-Phrase bundles are applied longest-first at render time. Keep `from` values
-exact so the tests can prove that the current HTML source still matches the
-translation inventory.
+Do not reintroduce legacy phrase bundles such as `config/i18n-de.toml` or
+`config/i18n/de/*.toml`. `scripts/check_i18n_keys.py` fails if those removed
+runtime translation files come back.
 
 Measure translation coverage for the main public pages:
 
@@ -185,8 +169,8 @@ Security is part of the default development path:
 - `cargo-deny` policy lives in `deny.toml`.
 - Locale routing uses fixed configured locale prefixes.
 - Legacy page paths are normalized and reject traversal.
-- Runtime translation uses fixed TOML stable keys and phrase bundles; no
-  user-controlled template or file path is evaluated.
+- Runtime translation uses fixed TOML stable keys; no user-controlled template
+  or file path is evaluated.
 - Security headers are applied by the Axum router.
 - Runtime container uses a non-root user.
 - Secret-shaped future runtime values should use the `sanitization` crate.

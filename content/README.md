@@ -5,11 +5,11 @@ structured TOML or Markdown-backed content.
 
 Do not add simplified replacement pages here. Any extracted content must render
 to the same legacy HTML output, except for centralized version replacement,
-runtime phrase translation, and the injected bottom language selector.
+stable-key translation, and the injected bottom language selector.
 
-German and French phrase maps live in `config/i18n-de.toml`,
-`config/i18n-fr.toml`, and page-specific bundles under `config/i18n/`; do not
-clone complete HTML pages for routine translation work.
+Locale text lives in stable TOML key bundles under `config/i18n/keys/`; do not
+clone complete HTML pages or reintroduce legacy phrase maps for routine
+translation work.
 
 `content/releases.toml` is the first structured release inventory. Keep it in
 sync with `config/site.toml`, `download.html`, `changelog.html`, and
