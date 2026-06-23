@@ -170,7 +170,7 @@ fetches = "Recupere"
 verifies = "Verifie"
 diagnostics_load_the = "les diagnostics chargent le"
 through_an_explicit = "via une requete explicite"
-initial = "Initial"
+initial = "Initial / demarrage"
 fips_required_mode_quoted = "\"mode requis FIPS\""
 approved_mode_quoted = "\"mode approuve\""
 

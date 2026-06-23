@@ -4,8 +4,9 @@ set -eu
 cargo +1.96.0 fmt --all --check
 cargo +1.96.0 clippy --all-targets -- -D warnings
 cargo +1.96.0 test
-python3 -m py_compile scripts/check_i18n_keys.py scripts/i18n_coverage.py scripts/scaffold_i18n_locale.py
+python3 -m py_compile scripts/check_i18n_keys.py scripts/i18n_coverage.py scripts/scaffold_i18n_locale.py scripts/check_english_variants.py
 scripts/check_i18n_keys.py
+scripts/check_english_variants.py
 i18n_progress="$(scripts/check_i18n_keys.py --progress)"
 case "$i18n_progress" in
   *"de-DE:"*"fr-FR:"*) ;;
@@ -14,7 +15,7 @@ case "$i18n_progress" in
     exit 1
     ;;
 esac
-i18n_untranslated="$(scripts/check_i18n_keys.py --list-untranslated all --untranslated-limit 1)"
+i18n_untranslated="$(scripts/check_i18n_keys.py --list-untranslated all --untranslated-limit 1 --include-intentional)"
 case "$i18n_untranslated" in
   *"config/i18n/keys/de-DE/"*"config/i18n/keys/fr-FR/"*) ;;
   *)
@@ -26,7 +27,8 @@ i18n_untranslated_tsv="$(
   scripts/check_i18n_keys.py \
     --list-untranslated all \
     --untranslated-limit 1 \
-    --untranslated-format tsv
+    --untranslated-format tsv \
+    --include-intentional
 )"
 case "$i18n_untranslated_tsv" in
   *"de-DE	"*"config/i18n/keys/de-DE/"*"fr-FR	"*"config/i18n/keys/fr-FR/"*) ;;

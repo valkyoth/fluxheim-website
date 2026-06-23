@@ -11,6 +11,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 KEY_ROOT = ROOT / "config/i18n/keys"
+INTENTIONAL_IDENTICAL_PATH = ROOT / "config/i18n/intentional-identical.toml"
 SOURCE_LOCALE = "en-EU"
 MAX_UNTRANSLATED_PERCENT = 20.0
 LEGACY_PHRASE_PATHS = (
@@ -31,6 +32,7 @@ def main() -> int:
     parser.add_argument("--list-untranslated", metavar="LOCALE")
     parser.add_argument("--untranslated-format", choices=("text", "tsv"), default="text")
     parser.add_argument("--untranslated-limit", type=int, default=80)
+    parser.add_argument("--include-intentional", action="store_true")
     args = parser.parse_args()
     configure_root(Path(args.root).resolve())
 
@@ -52,10 +54,18 @@ def main() -> int:
     source = load_key_file(source_path, SOURCE_LOCALE, errors)
     source_keys = set(flatten(source).keys())
     source_parts = key_part_names(SOURCE_LOCALE)
+    intentional_identical = load_intentional_identical(locale_ids, source_keys, errors)
 
     for locale_id in locale_ids:
         path = KEY_ROOT / f"{locale_id}.toml"
         data = load_key_file(path, locale_id, errors)
+        check_intentional_identical_entries(
+            locale_id,
+            source,
+            data,
+            intentional_identical.get(locale_id, set()),
+            errors,
+        )
         keys = set(flatten(data).keys())
         parts = key_part_names(locale_id)
         for missing in sorted(source_parts - parts):
@@ -73,11 +83,18 @@ def main() -> int:
             path,
             errors,
             enforce=not args.allow_untranslated_locales,
+            intentional_identical=intentional_identical.get(locale_id, set()),
         )
         if report:
             progress.append(report)
         if locale_id in untranslated_locale_ids:
-            untranslated_reports[locale_id] = untranslated_keys(locale_id, source, data)
+            untranslated_reports[locale_id] = untranslated_keys(
+                locale_id,
+                source,
+                data,
+                intentional_identical.get(locale_id, set()),
+                include_intentional=args.include_intentional,
+            )
         names = data.get("language", {}).get("names", {})
         for configured_locale_id in locale_ids:
             if not names.get(configured_locale_id):
@@ -114,9 +131,10 @@ def main() -> int:
 
 
 def configure_root(root: Path) -> None:
-    global ROOT, KEY_ROOT, LEGACY_PHRASE_PATHS, LEGACY_PHRASE_DIRS
+    global ROOT, KEY_ROOT, INTENTIONAL_IDENTICAL_PATH, LEGACY_PHRASE_PATHS, LEGACY_PHRASE_DIRS
     ROOT = root
     KEY_ROOT = ROOT / "config/i18n/keys"
+    INTENTIONAL_IDENTICAL_PATH = ROOT / "config/i18n/intentional-identical.toml"
     LEGACY_PHRASE_PATHS = (
         ROOT / "config/i18n-de.toml",
         ROOT / "config/i18n-fr.toml",
@@ -204,6 +222,62 @@ def load_toml(path: Path) -> dict[str, Any]:
     return tomllib.loads(path.read_text(encoding="utf-8"))
 
 
+def load_intentional_identical(
+    locale_ids: list[str],
+    source_keys: set[str],
+    errors: list[str],
+) -> dict[str, set[str]]:
+    if not INTENTIONAL_IDENTICAL_PATH.exists():
+        return {}
+    data = load_toml(INTENTIONAL_IDENTICAL_PATH)
+    allowed: dict[str, set[str]] = {}
+    configured = set(locale_ids)
+    for locale_id, table in data.items():
+        if locale_id not in configured:
+            errors.append(
+                f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} has unconfigured locale {locale_id}"
+            )
+            continue
+        keys = table.get("keys") if isinstance(table, dict) else None
+        if not isinstance(keys, list):
+            errors.append(
+                f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} {locale_id}.keys must be an array"
+            )
+            continue
+        locale_keys: set[str] = set()
+        for key in keys:
+            if not isinstance(key, str) or not key:
+                errors.append(
+                    f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} {locale_id}.keys contains a non-text key"
+                )
+                continue
+            if key not in source_keys:
+                errors.append(
+                    f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} {locale_id}.{key} is not an i18n key"
+                )
+            locale_keys.add(key)
+        allowed[locale_id] = locale_keys
+    return allowed
+
+
+def check_intentional_identical_entries(
+    locale_id: str,
+    source: dict[str, Any],
+    data: dict[str, Any],
+    intentional_identical: set[str],
+    errors: list[str],
+) -> None:
+    if not intentional_identical:
+        return
+    source_flat = flatten(source)
+    data_flat = flatten(data)
+    for key in sorted(intentional_identical):
+        if key in data_flat and data_flat[key] != source_flat.get(key):
+            errors.append(
+                f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} {locale_id}.{key} is no longer source-identical"
+            )
+
+
 def check_locale_translation_progress(
     locale_id: str,
     source: dict[str, Any],
@@ -212,12 +286,13 @@ def check_locale_translation_progress(
     errors: list[str],
     *,
     enforce: bool,
+    intentional_identical: set[str],
 ) -> str | None:
     if locale_id == SOURCE_LOCALE or locale_id.startswith("en-"):
         return None
     source_flat = comparable_translation_values(flatten(source))
     data_flat = comparable_translation_values(flatten(data))
-    comparable_keys = sorted(set(source_flat) & set(data_flat))
+    comparable_keys = sorted((set(source_flat) & set(data_flat)) - intentional_identical)
     if not comparable_keys:
         return None
     untranslated = [key for key in comparable_keys if data_flat[key] == source_flat[key]]
@@ -250,16 +325,21 @@ def untranslated_keys(
     locale_id: str,
     source: dict[str, Any],
     data: dict[str, Any],
+    intentional_identical: set[str],
+    *,
+    include_intentional: bool,
 ) -> list[tuple[Path, str, str]]:
     if locale_id == SOURCE_LOCALE or locale_id.startswith("en-"):
         return []
     source_flat = comparable_translation_values(flatten(source))
     data_flat = comparable_translation_values(flatten(data))
     locations = key_locations(locale_id)
-    keys = sorted(set(source_flat) & set(data_flat))
+    keys = set(source_flat) & set(data_flat)
+    if not include_intentional:
+        keys -= intentional_identical
     return [
         (locations.get(key, KEY_ROOT / f"{locale_id}.toml"), key, source_flat[key])
-        for key in keys
+        for key in sorted(keys)
         if data_flat[key] == source_flat[key]
     ]
 

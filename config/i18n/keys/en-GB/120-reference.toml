@@ -42,7 +42,7 @@ encrypted_cache_object_scope_local_key_provider_openbao_transit_provider_verific
 geoip_geo_context = "GeoIP / Geo-Context"
 local_mmdb_country_asn_context_maxmind_and_circl_provider_labels_route_policy_hooks_logging_fields_p = "Local MMDB country/ASN context, MaxMind and CIRCL provider labels, route policy hooks, logging fields, privacy boundaries, and database update operations."
 metrics_architecture = "Metrics Architecture"
-feature_flags_cardinality_rules_hot_path_design_metrics_catalog_export_and_config_shape = "Feature flags, cardinality rules, hot path design, metrics catalog, export, and config shape."
+feature_flags_cardinality_rules_hot_path_design_metrics_catalog_export_and_config_shape = "Feature flags, cardinality rules, hot path design, metrics catalogue, export, and config shape."
 php_runtime_support = "PHP Runtime Support"
 php_fpm_application_recipes = "PHP-FPM Application Recipes"
 future_and_architecture_tracks = "Future And Architecture Tracks"
