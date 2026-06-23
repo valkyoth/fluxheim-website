@@ -244,3 +244,30 @@ fn applies_stable_php_fpm_app_recipes_keys_only_on_source_page() {
     assert!(translated.contains("CGI-/FastCGI-Anfragekonstruktion"));
     assert!(unrelated.contains(">PHP-FPM Application Recipes<"));
 }
+
+#[test]
+fn applies_stable_sentinel_mesh_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Sentinel Mesh — Fluxheim Source Docs</title>",
+        "<h1 id=\"sentinel-mesh-smart-wireguard-load-balancing\">Sentinel Mesh: Smart WireGuard Load Balancing</h1>",
+        "<p>Sentinel Mesh is a future Fluxheim architecture for a self-healing smart load balancer. It combines Pingora&#x27;s proxy and load-balancing hooks with a private WireGuard transport and real-time backend telemetry. The goal is to route by observed health and load instead of only round-robin or static weights.</p>",
+        "<h2 id=\"high-level-architecture\">High-Level Architecture</h2>",
+        "<h2 id=\"wireguard-transport-options\">WireGuard Transport Options</h2>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(
+        de,
+        ">Sentinel Mesh: Smart WireGuard Load Balancing<".to_owned(),
+        "1.6.28",
+    );
+
+    assert!(translated.contains("Smartes WireGuard-Load-Balancing"));
+    assert!(translated.contains("selbstheilenden smarten Load Balancer"));
+    assert!(translated.contains("High-Level-Architektur"));
+    assert!(translated.contains("WireGuard-Transportoptionen"));
+    assert!(unrelated.contains(">Sentinel Mesh: Smart WireGuard Load Balancing<"));
+}

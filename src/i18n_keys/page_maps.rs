@@ -304,6 +304,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.php_fpm_app_recipes,
         &keys.php_fpm_app_recipes,
     );
+    let html = replace_marker_map(
+        html,
+        "Sentinel Mesh — Fluxheim Source Docs",
+        &source.sentinel_mesh,
+        &keys.sentinel_mesh,
+    );
     replace_marker_map(
         html,
         "Zero-Retention Privacy Mode — Fluxheim Source Docs",

@@ -64,6 +64,7 @@ pub(super) struct KeyFile {
     pub(super) wasm_extensibility: BTreeMap<String, String>,
     pub(super) opentelemetry_tracing: BTreeMap<String, String>,
     pub(super) php_fpm_app_recipes: BTreeMap<String, String>,
+    pub(super) sentinel_mesh: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
