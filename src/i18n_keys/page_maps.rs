@@ -358,6 +358,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.compliance_evidence_template_source,
         &keys.compliance_evidence_template_source,
     );
+    let html = replace_marker_map(
+        html,
+        "Common Criteria Roadmap — Fluxheim Source Docs",
+        &source.common_criteria_roadmap_source,
+        &keys.common_criteria_roadmap_source,
+    );
     replace_marker_map(
         html,
         "Zero-Retention Privacy Mode — Fluxheim Source Docs",
