@@ -466,3 +466,5 @@ and_a_request_carrying_that_inbound_marker_cannot_launch_another_outbound_peer_f
 when_available = "lorsque disponible,"
 header_policy_lets_operators_set_append_and_unset_browser_cdn_facing_headers_such_as = "La header policy permet aux operateurs de definir, append et unset des headers destines navigateur/CDN comme"
 values_still_reject = "valeurs rejettent toujours"
+still_obeys = "respecte toujours"
+a_root_local = "Un fichier local a la racine"

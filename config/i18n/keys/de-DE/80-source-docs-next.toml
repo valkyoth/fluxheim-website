@@ -466,3 +466,5 @@ and_a_request_carrying_that_inbound_marker_cannot_launch_another_outbound_peer_f
 when_available = "wenn verfuegbar,"
 header_policy_lets_operators_set_append_and_unset_browser_cdn_facing_headers_such_as = "Header-Policy erlaubt Operatoren, Browser-/CDN-seitige Header wie"
 values_still_reject = "Werte lehnen weiterhin ab"
+still_obeys = "beachtet weiterhin"
+a_root_local = "Eine root-lokale"

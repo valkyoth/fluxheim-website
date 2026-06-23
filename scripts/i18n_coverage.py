@@ -12,65 +12,18 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_PAGES = [
+ROOT_PAGES = ["index.html", "download.html", "changelog.html"]
+DOC_PAGES = [
+    "advanced.html",
+    "cache.html",
+    "configuration.html",
+    "deployment.html",
+    "features.html",
+    "getting-started.html",
     "index.html",
-    "download.html",
-    "changelog.html",
-    "docs/index.html",
-    "docs/getting-started.html",
-    "docs/configuration.html",
-    "docs/features.html",
-    "docs/tls-acme.html",
-    "docs/cache.html",
-    "docs/observability.html",
-    "docs/deployment.html",
-    "docs/advanced.html",
-    "docs/reference.html",
-    "docs/source/build-and-podman.html",
-    "docs/source/systemd.html",
-    "docs/source/production-readiness.html",
-    "docs/source/compression.html",
-    "docs/source/vhost-config.html",
-    "docs/source/config-snapshots.html",
-    "docs/source/supply-chain-security.html",
-    "docs/source/github-setup.html",
-    "docs/source/geoip.html",
-    "docs/source/macos-development.html",
-    "docs/source/logging-architecture.html",
-    "docs/source/metrics-architecture.html",
-    "docs/source/legacy-static-http.html",
-    "docs/source/auth-request.html",
-    "docs/source/secure-links.html",
-    "docs/source/release-checklist.html",
-    "docs/source/release-notes-template.html",
-    "docs/source/release-runbook.html",
-    "docs/source/compliance-evidence-template.html",
-    "docs/source/runtime-baseline.html",
-    "docs/source/cloudflare-origin-support.html",
-    "docs/source/cache-encryption.html",
-    "docs/source/runtime-parity-fixtures.html",
-    "docs/source/pingora-core-patch.html",
-    "docs/source/owasp-top10-2025-baseline.html",
-    "docs/source/extraction-dependency-graph.html",
-    "docs/source/modularity-policy.html",
-    "docs/source/modularity-exceptions.html",
-    "docs/source/load-balancer-migration.html",
-    "docs/source/load-balancer-ha.html",
-    "docs/source/fluxheim-ecosystem-idea.html",
-    "docs/source/runtime-facts-and-policy-proofs.html",
-    "docs/source/perl-cgi-support.html",
-    "docs/source/wasm-extensibility.html",
-    "docs/source/image-filter.html",
-    "docs/source/features.html",
-    "docs/source/common-criteria-roadmap.html",
-    "docs/source/gateway-recipes.html",
-    "docs/source/opentelemetry-tracing.html",
-    "docs/source/php-fpm-app-recipes.html",
-    "docs/source/php-runtime-support.html",
-    "docs/source/sentinel-mesh.html",
-    "docs/source/programmable-media-edge.html",
-    "docs/source/waf-architecture.html",
-    "docs/source/zero-retention-privacy-mode.html",
+    "observability.html",
+    "reference.html",
+    "tls-acme.html",
 ]
 SKIP_TAGS = {"script", "style", "svg", "path"}
 IGNORED_EXACT = {
@@ -226,7 +179,7 @@ def main() -> int:
     parser.add_argument("--locale", choices=["de", "fr"], required=True)
     parser.add_argument("--fail-under", type=float, default=0.0)
     parser.add_argument("--summary-only", action="store_true")
-    parser.add_argument("pages", nargs="*", default=DEFAULT_PAGES)
+    parser.add_argument("pages", nargs="*", default=default_pages())
     args = parser.parse_args()
 
     translated = load_phrases(args.locale)
@@ -260,6 +213,13 @@ def is_covered(phrase: str, translated: list[str]) -> bool:
     for source in translated:
         changed = changed.replace(source, "")
     return changed != phrase
+
+
+def default_pages() -> list[str]:
+    pages = ROOT_PAGES + [f"docs/{page}" for page in DOC_PAGES]
+    source_pages = sorted((ROOT / "docs/source").glob("*.html"))
+    pages.extend(str(path.relative_to(ROOT)) for path in source_pages)
+    return pages
 
 
 if __name__ == "__main__":
