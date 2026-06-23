@@ -79,10 +79,19 @@ fn source_keys() -> &'static KeyFile {
 mod tests;
 
 #[cfg(test)]
+mod tests_shared;
+
+#[cfg(test)]
 mod tests_source_docs;
 
 #[cfg(test)]
+mod tests_source_docs_build;
+
+#[cfg(test)]
 mod tests_source_docs_late;
+
+#[cfg(test)]
+mod tests_source_docs_ops;
 
 #[cfg(test)]
 mod tests_source_docs_tail;
