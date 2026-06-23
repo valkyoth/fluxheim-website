@@ -22,8 +22,7 @@ scripts/check_release_data.py
 if [ -d ../fluxheim ]; then
   scripts/plan_fluxheim_update.py --fluxheim ../fluxheim >/dev/null
 fi
-scripts/i18n_coverage.py --locale de --summary-only --fail-under 100
-scripts/i18n_coverage.py --locale fr --summary-only --fail-under 100
+scripts/i18n_coverage.py --all-configured --summary-only --fail-under 100
 
 if cargo deny --version >/dev/null 2>&1; then
   cargo deny check

@@ -109,12 +109,11 @@ runtime translation files come back.
 Measure translation coverage for the main public pages:
 
 ```bash
-scripts/i18n_coverage.py --locale de
-scripts/i18n_coverage.py --locale fr
+scripts/i18n_coverage.py --all-configured
 ```
 
-`scripts/checks.sh` enforces 100% visible-phrase coverage for German and French
-on the tracked public-page set.
+`scripts/checks.sh` enforces 100% visible-phrase coverage for every configured
+non-English locale on the tracked public-page set.
 
 ## Running Locally
 

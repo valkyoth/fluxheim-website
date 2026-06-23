@@ -75,7 +75,7 @@ class VisibleTextParser(HTMLParser):
         self.values.append(data)
 
 
-def load_phrases(locale: str) -> list[str]:
+def load_phrases() -> list[str]:
     phrases: list[str] = stable_key_sources()
     phrases.sort(key=len, reverse=True)
     return phrases
@@ -163,17 +163,54 @@ def should_ignore(text: str) -> bool:
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--locale", choices=["de", "fr"], required=True)
+    parser.add_argument("--locale", action="append")
+    parser.add_argument("--all-configured", action="store_true")
     parser.add_argument("--fail-under", type=float, default=0.0)
     parser.add_argument("--summary-only", action="store_true")
     parser.add_argument("pages", nargs="*", default=default_pages())
     args = parser.parse_args()
 
-    translated = load_phrases(args.locale)
+    locales = selected_locales(args)
+    translated = load_phrases()
+    failed = False
+
+    for locale in locales:
+        if report_coverage(locale, translated, args.pages, args.summary_only, args.fail_under):
+            failed = True
+
+    return 1 if failed else 0
+
+
+def selected_locales(args: argparse.Namespace) -> list[str]:
+    if args.all_configured:
+        if args.locale:
+            raise SystemExit("--locale cannot be combined with --all-configured")
+        return configured_translation_locales()
+    if not args.locale:
+        raise SystemExit("one of --locale or --all-configured is required")
+    return args.locale
+
+
+def configured_translation_locales() -> list[str]:
+    data = tomllib.loads((ROOT / "config/locales.toml").read_text(encoding="utf-8"))
+    return [
+        locale["locale_id"]
+        for locale in data["locales"]
+        if not locale["locale_id"].startswith("en-")
+    ]
+
+
+def report_coverage(
+    locale: str,
+    translated: list[str],
+    pages: list[str],
+    summary_only: bool,
+    fail_under: float,
+) -> bool:
     total = 0
     missing: list[tuple[str, str]] = []
 
-    for page in args.pages:
+    for page in pages:
         path = ROOT / page
         for phrase in page_phrases(path):
             total += 1
@@ -182,17 +219,15 @@ def main() -> int:
 
     covered = total - len(missing)
     coverage = 100.0 if total == 0 else covered * 100.0 / total
-    print(f"{args.locale}: {covered}/{total} visible phrases covered ({coverage:.1f}%)")
+    print(f"{locale}: {covered}/{total} visible phrases covered ({coverage:.1f}%)")
 
-    if not args.summary_only:
+    if not summary_only:
         for page, phrase in missing[:80]:
             print(f"{page}: {phrase}")
         if len(missing) > 80:
             print(f"... {len(missing) - 80} more missing phrases")
 
-    if coverage < args.fail_under:
-        return 1
-    return 0
+    return coverage < fail_under
 
 
 def is_covered(phrase: str, translated: list[str]) -> bool:
