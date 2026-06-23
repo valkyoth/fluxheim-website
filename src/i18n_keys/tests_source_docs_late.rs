@@ -347,3 +347,26 @@ fn applies_stable_fips_keys_only_on_source_page() {
     assert!(translated.contains("Compliance-Grenze"));
     assert!(unrelated.contains(">Compliance Boundary<"));
 }
+
+#[test]
+fn applies_stable_versioning_plan_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let fr = site.locale("fr-FR").expect("French locale");
+    let html = concat!(
+        "<title>Versioning Plan — Fluxheim Source Docs</title>",
+        "<h1>Versioning Plan</h1>",
+        "<p>Fluxheim should use SemVer, but with a conservative interpretation: a feature is not considered stable just because it compiles. A feature becomes stable only after it has docs, config validation, tests, release checks, and a clear security boundary.</p>",
+        "<h2>Versioning Rules</h2>",
+        "<h2>Release Ladder</h2>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(fr, html, "1.6.28");
+    let unrelated = apply_shared_keys(fr, ">Release Ladder<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Plan de versioning"));
+    assert!(translated.contains("Fluxheim doit utiliser SemVer"));
+    assert!(translated.contains("Regles de versioning"));
+    assert!(translated.contains("Echelle de release"));
+    assert!(unrelated.contains(">Release Ladder<"));
+}
