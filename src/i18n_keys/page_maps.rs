@@ -240,6 +240,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
     );
     let html = replace_marker_map(
         html,
+        "Feature Matrix — Fluxheim Source Docs",
+        &source.source_features,
+        &keys.source_features,
+    );
+    let html = replace_marker_map(
+        html,
         "Cloudflare Origin Support — Fluxheim Source Docs",
         &source.cloudflare_origin_support,
         &keys.cloudflare_origin_support,

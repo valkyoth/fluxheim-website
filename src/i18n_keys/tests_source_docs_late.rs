@@ -271,3 +271,29 @@ fn applies_stable_sentinel_mesh_keys_only_on_source_page() {
     assert!(translated.contains("WireGuard-Transportoptionen"));
     assert!(unrelated.contains(">Sentinel Mesh: Smart WireGuard Load Balancing<"));
 }
+
+#[test]
+fn applies_stable_source_features_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Feature Matrix — Fluxheim Source Docs</title>",
+        "<h1>Feature Matrix</h1>",
+        "<p>Fluxheim uses Cargo features for compile-time module selection. The default binary is intentionally useful but conservative:</p>",
+        "<h2>Stable Core Features</h2>",
+        "<h2>Profile Aliases</h2>",
+        "<p>Those profile aliases are deliberately narrow proof builds. FIPS/ISO-capable TLS is not limited to those aliases: custom builds can combine <code>tls-openssl-fips</code> or <code>tls-rustls-fips</code> with cache, static web serving, reverse proxying, or PHP-FPM. Do not add a FIPS-capable TLS backend to an existing profile alias that already enables <code>tls-rustls</code>, because Cargo features are additive and Fluxheim supports only one Pingora TLS backend per binary. Select the raw modules instead:</p>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Stable Core Features<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Funktionsmatrix"));
+    assert!(translated.contains("Fluxheim nutzt Cargo-Features"));
+    assert!(translated.contains("Stabile Core-Features"));
+    assert!(translated.contains("Profil-Aliasse"));
+    assert!(translated.contains("FIPS-/ISO-faehiges TLS ist nicht auf diese Aliasse beschraenkt"));
+    assert!(!translated.contains("FIPS/ISO-capable TLS is not limited"));
+    assert!(unrelated.contains(">Stable Core Features<"));
+}
