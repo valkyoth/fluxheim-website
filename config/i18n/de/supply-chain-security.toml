@@ -1,10 +1,3 @@
 locale_id = "de-DE"
 html_lang = "de-DE"
-
-[[phrase]]
-from = "Rust Supply-Chain Security"
-to = "Rust-Supply-Chain-Sicherheit"
-
-[[phrase]]
-from = ", release notes,"
-to = ", Release Notes,"
+phrase = []

@@ -260,8 +260,10 @@ fn applies_stable_supply_chain_security_keys_only_on_source_page() {
     let de = site.locale("de-DE").expect("German locale");
     let html = concat!(
         "<title>Supply Chain Security — Fluxheim Source Docs</title>",
+        "<h1 id=\"rust-supply-chain-security\">Rust Supply-Chain Security</h1>",
         "Current Controls",
         "Build Scripts And Procedural Macros",
+        "Update <code>SECURITY.md</code>, release notes, <code>deny.toml</code>, or <code>.cargo/audit.toml</code> when an advisory exception or license exception changes.",
         "Accepted Limitations",
     )
     .to_owned();
@@ -269,8 +271,10 @@ fn applies_stable_supply_chain_security_keys_only_on_source_page() {
     let translated = apply_shared_keys(de, html, "1.6.28");
     let unrelated = apply_shared_keys(de, ">Current Controls<".to_owned(), "1.6.28");
 
+    assert!(translated.contains("Rust-Supply-Chain-Sicherheit"));
     assert!(translated.contains("Aktuelle Kontrollen"));
     assert!(translated.contains("Build-Scripts und prozedurale Makros"));
+    assert!(translated.contains("Release Notes"));
     assert!(translated.contains("Akzeptierte Einschraenkungen"));
     assert!(unrelated.contains(">Current Controls<"));
 }
