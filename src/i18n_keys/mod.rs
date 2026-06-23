@@ -50,13 +50,6 @@ fn versioned(template: &str, version: &str) -> String {
     template.replace("{version}", version)
 }
 
-fn home<'a>(keys: &'a KeyFile, name: &str) -> &'a str {
-    keys.home
-        .get(name)
-        .map(String::as_str)
-        .unwrap_or_else(|| panic!("home i18n key exists: {name}"))
-}
-
 fn key_files() -> &'static [KeyFile] {
     static KEY_FILES: OnceLock<Vec<KeyFile>> = OnceLock::new();
     KEY_FILES.get_or_init(|| {

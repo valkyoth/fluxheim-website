@@ -1,184 +1,51 @@
-use super::{KeyFile, home, page_maps::apply_page_maps, text_replace::HtmlTextReplace, versioned};
+use super::{KeyFile, page_maps::apply_page_maps, text_replace::HtmlTextReplace, versioned};
 
 pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version: &str) -> String {
-    let html = html.replace(
-        "Fluxheim — Memory-Safe Edge Server Built in Rust",
-        &keys.shell.home_title,
-    )
-    .replace("Latest Stable Release", &keys.release.latest_stable_release)
-    .replace("Switch color theme", &keys.shell.switch_color_theme)
-    .replace(
-        ">View on GitHub<",
-        &format!(">{}<", keys.shell.view_on_github),
-    )
-    .replace(">Quick Start<", &format!(">{}<", keys.shell.quick_start))
-    .replace(">Links<", &format!(">{}<", keys.shell.links))
-    .replace(
-        ">GitHub Repository<",
-        &format!(">{}<", keys.shell.github_repository),
-    )
-    .replace(">Issues<", &format!(">{}<", keys.shell.issues))
-    .replace(">Menu<", &format!(">{}<", keys.shell.menu))
-    .replace(
-        "Memory-safe edge server built in Rust. Licensed under EUPL-1.2.",
-        &keys.footer.tagline,
-    )
-    .replace(">Project<", &format!(">{}<", keys.footer.project))
-    .replace(">Releases<", &format!(">{}<", keys.footer.releases))
-    .replace(">Roadmap<", &format!(">{}<", keys.footer.roadmap))
-    .replace(">Community<", &format!(">{}<", keys.footer.community))
-    .replace(">Discussions<", &format!(">{}<", keys.footer.discussions))
-    .replace(
-        ">EUPL-1.2 License<",
-        &format!(">{}<", keys.footer.eupl_license),
-    )
-    .replace(">Valkyoth Org<", &format!(">{}<", keys.footer.valkyoth_org))
-    .replace(
-        "© 2026 Valkyoth. Distributed under the",
-        &keys.footer.copyright_prefix,
-    )
-    .replace(
-        "Built with Rust · Powered by Fluxheim",
-        &keys.footer.built_with,
-    )
-    .replace(
-        "Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.",
-        home(keys, "meta_description"),
-    )
-    .replace(
-        "Fluxheim is a high-performance, modular web server, reverse proxy and caching server. Written in Rust. Secure by default.",
-        home(keys, "meta_description_secure"),
-    )
-    .replace(
-        "A memory-safe edge server and reverse proxy built in Rust.",
-        home(keys, "meta_description_short"),
-    )
-    .replace(
-        "Written in Rust with a pinned stable toolchain. No buffer overflows, no use-after-free, no data races by construction.",
-        home(keys, "memory_safe_by_design_text"),
-    )
-    .replace(
-        "A Rust-native edge runtime with connection pooling, upstream retries, active health checks, HTTP/2, WebSocket upgrades, and gRPC pass-through.",
-        home(keys, "fluxheim_http_core_text"),
-    )
-    .replace(
-        "Focused 1.5 load-balancer binary and image with advanced selection, local persistence, health/ejection policy, bounded queueing, and runtime member controls.",
-        home(keys, "load_balancer_control_plane_text"),
-    )
-    .replace(
-        "Compile only what you need. Focused profiles for static site, cache edge, reverse proxy, load balancing, TCP stream proxying, PHP-FPM, GeoIP, traffic mirroring, and compression-enabled production bundles.",
-        home(keys, "modular_build_profiles_text"),
-    )
-    .replace(
-        "rustls-first with supported OpenSSL and FIPS/ISO proof build paths, client certificate auth, upstream mTLS, automatic ACME issuance, and multi-cert SNI.",
-        home(keys, "tls_managed_acme_text"),
-    )
-    .replace(
-        "Memory, disk, tiered, and encrypted cache backends with cache-safe gzip, Zstandard, and Brotli compression plus range caching for large objects.",
-        home(keys, "advanced_cache_system_text"),
-    )
-    .replace(
-        "Rootless Podman images for Wolfi, Alpine, SUSE Micro, and Debian. Systemd/RPM for native deployments. Zero external assets on startup.",
-        home(keys, "container_native_text"),
-    )
-    .replace(
-        "Opt-in Prometheus metrics listener, OTLP metrics export, trace context propagation, and OTLP trace export for full observability.",
-        home(keys, "prometheus_opentelemetry_text"),
-    )
-    .replace(
-        "Optional local MMDB lookups for country and ASN policy using MaxMind GeoIP2/GeoLite2 or CIRCL Geo Open datasets. No remote lookup or downloader in the request path.",
-        home(keys, "geo_context_text"),
-    )
-    .replace(
-        "Raw L4 TCP services with dedicated stream routes, true idle/lifetime/byte caps, upstream TLS/mTLS controls, weighted/drain/backup policy, and route-local PROXY protocol.",
-        home(keys, "tcp_stream_proxy_text"),
-    )
-    .replace(
-        "Opt-in PHP-FPM FastCGI bridge for WordPress-style front-controller applications. Strict script resolution and bounded request handling.",
-        home(keys, "php_fpm_support_text"),
-    )
-    .replace(
-        "Trusted-proxy-aware ACLs, rate limits, auth subrequests, traffic mirroring, regex rewrites, bounded queues, strict config validation, and hardened request handling.",
-        home(keys, "edge_policy_controls_text"),
-    )
-    .replace(
-        "Built for operators who want a modern, auditable stack without hidden legacy behaviour.",
-        home(keys, "why_fluxheim_text"),
-    )
-    .replace(
-        "Config validation is strict. Ambiguous or insecure options are rejected, not silently accepted.",
-        home(keys, "no_hidden_fallback_text"),
-    )
-    .replace(
-        "Reproducible builds. Every dependency is pinned.",
-        home(keys, "checked_cargo_lock_text"),
-    )
-    .replace(
-        "A glance at what Fluxheim looks like in a production deployment.",
-        home(keys, "overview_text"),
-    )
-    .replace(
-        "Full TOML config reference with examples.",
-        home(keys, "full_toml_reference"),
-    )
-    .replace(
-        "All modules, build profiles, and TLS backends.",
-        home(keys, "all_modules"),
-    )
-    .replace(
-        "Fluxheim ships as focused, modular builds — use only what your deployment needs.",
-        home(keys, "features_intro"),
-    )
-    .replace(
-        "Modular reverse proxy, cache, load balancer, and static host written",
-        home(keys, "hero_line_one"),
-    )
-    .replace(
-        "in Rust. Secure by default with TLS, ACME, compression, edge policy,",
-        home(keys, "hero_line_two"),
-    )
-    .replace(
-        "dynamic upstream discovery, and safe traffic mirroring built in.",
-        home(keys, "hero_line_three"),
-    )
-    .replace_home_marker("Everything You Need at the Edge", home(keys, "features_heading"))
-    .replace_home_marker("Memory-Safe by Design", home(keys, "memory_safe_by_design"))
-    .replace_home_marker("Fluxheim HTTP Core", home(keys, "fluxheim_http_core"))
-    .replace_home_marker(
-        "Load Balancer Control Plane",
-        home(keys, "load_balancer_control_plane"),
-    )
-    .replace_home_marker("Modular Build Profiles", home(keys, "modular_build_profiles"))
-    .replace_home_marker("TLS & Managed ACME", home(keys, "tls_managed_acme"))
-    .replace_home_marker("Advanced Cache System", home(keys, "advanced_cache_system"))
-    .replace_home_marker("Container Native", home(keys, "container_native"))
-    .replace_home_marker(
-        "Prometheus & OpenTelemetry",
-        home(keys, "prometheus_opentelemetry"),
-    )
-    .replace_home_marker("TCP Stream Proxy", home(keys, "tcp_stream_proxy"))
-    .replace_home_marker("PHP-FPM Support", home(keys, "php_fpm_support"))
-    .replace_home_marker("Edge Policy Controls", home(keys, "edge_policy_controls"))
-    .replace_home_marker("Get Running in Minutes", home(keys, "quick_start_heading"))
-    .replace_home_marker("From Source", home(keys, "from_source"))
-    .replace_home_marker("Full installation guide →", home(keys, "full_installation_guide"))
-    .replace_home_marker("Why Fluxheim?", home(keys, "why_fluxheim"))
-    .replace_home_marker("No hidden legacy protocol fallback", home(keys, "no_hidden_fallback"))
-    .replace_home_marker("Checked-in Cargo.lock", home(keys, "checked_cargo_lock"))
-    .replace_home_marker("Overview", home(keys, "overview"))
-    .replace_home_marker("Get Started", home(keys, "get_started"))
-    .replace_home_marker("Read guide →", home(keys, "read_guide"))
-    .replace_home_marker("Browse reference →", home(keys, "browse_reference"))
-    .replace_home_marker("See all features →", home(keys, "see_all_features"))
-    .replace_home_marker("Memory-Safe", home(keys, "hero_memory_safe"))
-    .replace_home_marker("Edge Server", home(keys, "hero_edge_server"))
-    .replace_home_marker("Built in Rust", home(keys, "hero_built_in_rust"))
-    .replace_home_marker("Fluxheim Core", home(keys, "tag_fluxheim_core"))
-    .replace_home_marker("macOS Dev", home(keys, "tag_macos_dev"))
-    .replace_home_marker("Rootless Containers", home(keys, "tag_rootless_containers"))
-    .replace_map(&source.docs_index, &keys.docs_index)
-    .replace_map(&source.common, &keys.common)
-    .replace_map_everywhere(&source.code_comments, &keys.code_comments);
+    let html = html
+        .replace(
+            "Fluxheim — Memory-Safe Edge Server Built in Rust",
+            &keys.shell.home_title,
+        )
+        .replace("Latest Stable Release", &keys.release.latest_stable_release)
+        .replace("Switch color theme", &keys.shell.switch_color_theme)
+        .replace(
+            ">View on GitHub<",
+            &format!(">{}<", keys.shell.view_on_github),
+        )
+        .replace(">Quick Start<", &format!(">{}<", keys.shell.quick_start))
+        .replace(">Links<", &format!(">{}<", keys.shell.links))
+        .replace(
+            ">GitHub Repository<",
+            &format!(">{}<", keys.shell.github_repository),
+        )
+        .replace(">Issues<", &format!(">{}<", keys.shell.issues))
+        .replace(">Menu<", &format!(">{}<", keys.shell.menu))
+        .replace(
+            "Memory-safe edge server built in Rust. Licensed under EUPL-1.2.",
+            &keys.footer.tagline,
+        )
+        .replace(">Project<", &format!(">{}<", keys.footer.project))
+        .replace(">Releases<", &format!(">{}<", keys.footer.releases))
+        .replace(">Roadmap<", &format!(">{}<", keys.footer.roadmap))
+        .replace(">Community<", &format!(">{}<", keys.footer.community))
+        .replace(">Discussions<", &format!(">{}<", keys.footer.discussions))
+        .replace(
+            ">EUPL-1.2 License<",
+            &format!(">{}<", keys.footer.eupl_license),
+        )
+        .replace(">Valkyoth Org<", &format!(">{}<", keys.footer.valkyoth_org))
+        .replace(
+            "© 2026 Valkyoth. Distributed under the",
+            &keys.footer.copyright_prefix,
+        )
+        .replace(
+            "Built with Rust · Powered by Fluxheim",
+            &keys.footer.built_with,
+        )
+        .replace_map(&source.home, &keys.home)
+        .replace_map(&source.docs_index, &keys.docs_index)
+        .replace_map(&source.common, &keys.common)
+        .replace_map_everywhere(&source.code_comments, &keys.code_comments);
 
     let html = apply_page_maps(html, keys, source);
 

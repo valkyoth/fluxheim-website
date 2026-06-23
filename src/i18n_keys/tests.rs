@@ -61,6 +61,7 @@ fn applies_stable_home_keys_before_phrase_maps() {
     let site = Site::load().expect("site loads");
     let fr = site.locale("fr-FR").expect("French locale");
     let html = concat!(
+        r#"<meta name="description" content="A memory-safe edge server and reverse proxy built in Rust.">"#,
         ">Memory-Safe by Design<>Memory-Safe<",
         "Fluxheim ships as focused, modular builds — use only what your deployment needs.",
         "A Rust-native edge runtime with connection pooling, upstream retries, active health checks, HTTP/2, WebSocket upgrades, and gRPC pass-through.",
@@ -71,6 +72,7 @@ fn applies_stable_home_keys_before_phrase_maps() {
 
     assert!(translated.contains(">Sûr pour la mémoire par conception<"));
     assert!(translated.contains(">Sûr pour la mémoire<"));
+    assert!(translated.contains("Un serveur edge et reverse proxy sûr pour la mémoire"));
     assert!(translated.contains("builds ciblés et modulaires"));
     assert!(translated.contains("runtime edge natif Rust"));
 }
