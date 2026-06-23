@@ -37,7 +37,7 @@ def main() -> int:
     locale_ids = [locale["locale_id"] for locale in locales]
     errors: list[str] = []
     progress: list[str] = []
-    untranslated: list[tuple[str, str]] = []
+    untranslated: list[tuple[Path, str, str]] = []
 
     if args.untranslated_limit < 0:
         errors.append("--untranslated-limit must be zero or greater")
@@ -137,6 +137,19 @@ def load_key_bundle(path: Path) -> dict[str, Any]:
     return tomllib.loads("\n".join(parts))
 
 
+def key_locations(locale_id: str) -> dict[str, Path]:
+    locations: dict[str, Path] = {}
+    root_path = KEY_ROOT / f"{locale_id}.toml"
+    for key in flatten(load_toml(root_path)):
+        locations[key] = root_path
+    part_dir = KEY_ROOT / locale_id
+    if part_dir.is_dir():
+        for part in sorted(part_dir.glob("*.toml")):
+            for key in flatten(load_toml(part)):
+                locations[key] = part
+    return locations
+
+
 def key_part_names(locale_id: str) -> set[str]:
     part_dir = KEY_ROOT / locale_id
     if not part_dir.is_dir():
@@ -205,24 +218,29 @@ def untranslated_keys(
     locale_id: str,
     source: dict[str, Any],
     data: dict[str, Any],
-) -> list[tuple[str, str]]:
+) -> list[tuple[Path, str, str]]:
     if locale_id == SOURCE_LOCALE or locale_id.startswith("en-"):
         return []
     source_flat = comparable_translation_values(flatten(source))
     data_flat = comparable_translation_values(flatten(data))
+    locations = key_locations(locale_id)
     keys = sorted(set(source_flat) & set(data_flat))
-    return [(key, source_flat[key]) for key in keys if data_flat[key] == source_flat[key]]
+    return [
+        (locations.get(key, KEY_ROOT / f"{locale_id}.toml"), key, source_flat[key])
+        for key in keys
+        if data_flat[key] == source_flat[key]
+    ]
 
 
 def print_untranslated_keys(
     locale_id: str,
-    untranslated: list[tuple[str, str]],
+    untranslated: list[tuple[Path, str, str]],
     limit: int,
 ) -> None:
     shown = untranslated if limit == 0 else untranslated[:limit]
     print(f"{locale_id}: {len(untranslated)} keys still match {SOURCE_LOCALE}")
-    for key, value in shown:
-        print(f"{key}: {preview(value)}")
+    for path, key, value in shown:
+        print(f"{path.relative_to(ROOT)} {key}: {preview(value)}")
     if limit and len(untranslated) > limit:
         print(f"... {len(untranslated) - limit} more; rerun with --untranslated-limit 0")
 

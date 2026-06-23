@@ -91,7 +91,8 @@ To see non-English translation progress against English (EU), run:
 scripts/check_i18n_keys.py --progress
 ```
 
-To list stable keys that still match English for one locale, run:
+To list stable keys that still match English for one locale, with the TOML file
+to edit, run:
 
 ```bash
 scripts/check_i18n_keys.py --list-untranslated de-DE
