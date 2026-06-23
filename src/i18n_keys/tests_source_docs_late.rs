@@ -171,3 +171,28 @@ fn applies_stable_zero_retention_privacy_mode_keys_only_on_source_page() {
     assert!(translated.contains("Feature-Kombinationen"));
     assert!(unrelated.contains(">Zero-Retention Privacy Mode<"));
 }
+
+#[test]
+fn applies_stable_wasm_extensibility_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>WASM Extensibility — Fluxheim Source Docs</title>",
+        "<h1 id=\"wasm-extensibility\">WASM Extensibility</h1>",
+        "<p>WASM extensibility gives Fluxheim a sandboxed way to run operator-provided logic without compiling that logic into the Fluxheim binary. It should be treated as a major extension boundary, not as a small scripting feature.</p>",
+        "<h2 id=\"design-goals\">Design Goals</h2>",
+        "<li>Keep WASM runtime code out of default builds.</li>",
+        "<li>Make all host calls explicit, small, and auditable.</li>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">WASM Extensibility<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("WASM-Erweiterbarkeit"));
+    assert!(translated.contains("sandboxed Weg"));
+    assert!(translated.contains("Designziele"));
+    assert!(translated.contains("WASM-Runtime-Code"));
+    assert!(translated.contains("Host-Calls"));
+    assert!(unrelated.contains(">WASM Extensibility<"));
+}

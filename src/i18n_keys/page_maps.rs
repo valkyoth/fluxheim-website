@@ -286,6 +286,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.programmable_media_edge,
         &keys.programmable_media_edge,
     );
+    let html = replace_marker_map(
+        html,
+        "WASM Extensibility — Fluxheim Source Docs",
+        &source.wasm_extensibility,
+        &keys.wasm_extensibility,
+    );
     replace_marker_map(
         html,
         "Zero-Retention Privacy Mode — Fluxheim Source Docs",
