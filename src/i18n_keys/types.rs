@@ -55,6 +55,7 @@ pub(super) struct KeyFile {
     pub(super) certificate_renewal: BTreeMap<String, String>,
     pub(super) logging_architecture: BTreeMap<String, String>,
     pub(super) legacy_static_http: BTreeMap<String, String>,
+    pub(super) metrics_architecture: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

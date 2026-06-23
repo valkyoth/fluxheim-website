@@ -71,3 +71,26 @@ fn applies_stable_legacy_static_http_keys_only_on_source_page() {
     assert!(translated.contains("ne doivent jamais atteindre"));
     assert!(unrelated.contains(">Legacy Static HTTP Support<"));
 }
+
+#[test]
+fn applies_stable_metrics_architecture_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>Metrics Architecture — Fluxheim Source Docs</title>",
+        "<h1 id=\"metrics-architecture\">Metrics Architecture</h1>",
+        "<p>Fluxheim metrics capture aggregate health and performance. Logs explain what happened for an individual event; metrics answer questions such as request rate, error rate, p95/p99 latency, cache efficiency, and upstream health.</p>",
+        "<h2 id=\"cardinality-rules\">Cardinality Rules</h2>",
+        "<li>implemented now for OTLP metrics exporter attempts: <code>fluxheim_metrics_otlp_exports_total{outcome}</code> with bounded <code>success</code>, <code>failure</code>, or <code>other</code> outcomes.</li>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Metrics Architecture<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("Metriken-Architektur"));
+    assert!(translated.contains("aggregierte Health- und Performance-Daten"));
+    assert!(translated.contains("Kardinalitätsregeln"));
+    assert!(translated.contains("OTLP-Metrics-Exporter-Versuche"));
+    assert!(unrelated.contains(">Metrics Architecture<"));
+}
