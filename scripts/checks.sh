@@ -6,6 +6,22 @@ cargo +1.96.0 clippy --all-targets -- -D warnings
 cargo +1.96.0 test
 python3 -m py_compile scripts/check_i18n_keys.py scripts/i18n_coverage.py scripts/scaffold_i18n_locale.py
 scripts/check_i18n_keys.py
+i18n_progress="$(scripts/check_i18n_keys.py --progress)"
+case "$i18n_progress" in
+  *"de-DE:"*"fr-FR:"*) ;;
+  *)
+    echo "i18n progress report missing configured non-English locales" >&2
+    exit 1
+    ;;
+esac
+i18n_untranslated="$(scripts/check_i18n_keys.py --list-untranslated all --untranslated-limit 1)"
+case "$i18n_untranslated" in
+  *"config/i18n/keys/de-DE/"*"config/i18n/keys/fr-FR/"*) ;;
+  *)
+    echo "i18n untranslated report missing locale edit paths" >&2
+    exit 1
+    ;;
+esac
 tmp_i18n_root="$(mktemp -d /tmp/fluxheim-i18n-scaffold.XXXXXX)"
 trap 'rm -rf "$tmp_i18n_root"' EXIT
 mkdir -p "$tmp_i18n_root/config/i18n"
@@ -18,6 +34,20 @@ scripts/scaffold_i18n_locale.py \
   --url-prefix it \
   --display-name Italiano >/dev/null
 scripts/check_i18n_keys.py --root "$tmp_i18n_root" --allow-untranslated-locales
+i18n_scaffold_untranslated="$(
+  scripts/check_i18n_keys.py \
+    --root "$tmp_i18n_root" \
+    --allow-untranslated-locales \
+    --list-untranslated all \
+    --untranslated-limit 1
+)"
+case "$i18n_scaffold_untranslated" in
+  *"it-IT:"*"config/i18n/keys/it-IT/"*) ;;
+  *)
+    echo "i18n scaffold untranslated report missing new locale edit path" >&2
+    exit 1
+    ;;
+esac
 if scripts/check_i18n_keys.py --root "$tmp_i18n_root" >/dev/null 2>&1; then
   echo "untranslated scaffold locale unexpectedly passed i18n validation" >&2
   exit 1
