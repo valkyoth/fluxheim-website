@@ -253,12 +253,12 @@ mod tests {
     }
 
     #[test]
-    fn translates_legacy_bundle_text() {
+    fn leaves_unmatched_text_unchanged_when_legacy_bundles_are_empty() {
         let site = Site::load().expect("site loads");
         let locale = site.locale("de-DE").expect("German locale");
-        let html = r#"<html lang="en"><body>Fluxheim config is TOML. Unknown fields are rejected, so misspelled settings fail during</body></html>"#;
+        let html = r#"<html lang="en"><body>Unmatched runtime text</body></html>"#;
         let translated = translate_html(locale, html.to_owned());
 
-        assert!(translated.contains("Fluxheim-Konfiguration ist TOML"));
+        assert!(translated.contains("Unmatched runtime text"));
     }
 }

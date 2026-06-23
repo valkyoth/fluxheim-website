@@ -47,3 +47,32 @@ fn applies_stable_common_criteria_roadmap_keys_only_on_source_page() {
     assert!(translated.contains("Definition des Sicherheitsproblems"));
     assert!(unrelated.contains(">Security Problem Definition<"));
 }
+
+#[test]
+fn applies_stable_config_reference_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let fr = site.locale("fr-FR").expect("French locale");
+    let html = concat!(
+        "<title>Config Reference — Fluxheim Source Docs</title>",
+        "<h1>Config Reference</h1>",
+        "Fluxheim config is TOML. Unknown fields are rejected, so misspelled settings fail during",
+        "<h2>TCP Stream Proxy</h2>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(fr, html, "1.6.28");
+    let unrelated = apply_shared_keys(
+        fr,
+        "Fluxheim config is TOML. Unknown fields are rejected, so misspelled settings fail during"
+            .to_owned(),
+        "1.6.28",
+    );
+
+    assert!(translated.contains("Reference de configuration"));
+    assert!(translated.contains("La configuration Fluxheim est en TOML"));
+    assert!(translated.contains("Proxy de flux TCP"));
+    assert_eq!(
+        unrelated,
+        "Fluxheim config is TOML. Unknown fields are rejected, so misspelled settings fail during"
+    );
+}

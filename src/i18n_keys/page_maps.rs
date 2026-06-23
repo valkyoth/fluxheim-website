@@ -382,6 +382,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.common_criteria_roadmap_source,
         &keys.common_criteria_roadmap_source,
     );
+    let html = replace_marker_map(
+        html,
+        "Config Reference — Fluxheim Source Docs",
+        &source.config_reference_source,
+        &keys.config_reference_source,
+    );
     replace_marker_map(
         html,
         "Zero-Retention Privacy Mode — Fluxheim Source Docs",
