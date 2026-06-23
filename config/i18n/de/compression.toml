@@ -1,14 +1,3 @@
 locale_id = "de-DE"
 html_lang = "de-DE"
-
-[[phrase]]
-from = "Compression"
-to = "Komprimierung"
-
-[[phrase]]
-from = "Cargo features:"
-to = "Cargo-Features:"
-
-[[phrase]]
-from = "Test Plan"
-to = "Testplan"
+phrase = []

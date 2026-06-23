@@ -285,18 +285,24 @@ fn applies_stable_compression_keys_only_on_source_page() {
     let de = site.locale("de-DE").expect("German locale");
     let html = concat!(
         "<title>Compression — Fluxheim Source Docs</title>",
+        "<h1 id=\"compression\">Compression</h1>",
+        "Cargo features:",
         "Goals",
         "Privacy And Security",
         "Cache Integration",
+        "Test Plan",
     )
     .to_owned();
 
     let translated = apply_shared_keys(de, html, "1.6.28");
     let unrelated = apply_shared_keys(de, ">Goals<".to_owned(), "1.6.28");
 
+    assert!(translated.contains("Komprimierung"));
+    assert!(translated.contains("Cargo-Features:"));
     assert!(translated.contains("Ziele"));
     assert!(translated.contains("Datenschutz und Sicherheit"));
     assert!(translated.contains("Cache-Integration"));
+    assert!(translated.contains("Testplan"));
     assert!(unrelated.contains(">Goals<"));
 }
 
