@@ -91,9 +91,9 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.extraction_dependency_graph,
         &keys.extraction_dependency_graph,
     );
-    let html = replace_marker_map(
+    let html = replace_marker_key_map(
         html,
-        "Runtime Baseline — Fluxheim Source Docs",
+        "runtime_baseline_fluxheim_source_docs",
         &source.runtime_baseline,
         &keys.runtime_baseline,
     );

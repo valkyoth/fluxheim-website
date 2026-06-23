@@ -184,6 +184,7 @@ broad_proxy_lifecycle_bug_keep_it_in_the = "bug large de lifecycle proxy : le ga
 http_cutover_queue_unless_it_is_a_release = "du cutover HTTP sauf s'il s'agit d'un fix de securite bloquant la release."
 
 [runtime_baseline]
+runtime_baseline_fluxheim_source_docs = "Baseline runtime — documentation source Fluxheim"
 pingora_exit_baseline = "baseline de sortie Pingora"
 line_removes_pingora_from_the_normal_build_graph = "retire Pingora du graphe de build normal. Ce travail doit etre mesurable avant de devenir comportemental. La baseline runtime enregistre ce que l'implementation actuelle build, ce dont elle depend et ce qu'elle coute avant la livraison du runtime de remplacement."
 release_evidence = "Preuves de release"
