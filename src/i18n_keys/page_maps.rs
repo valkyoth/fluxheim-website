@@ -3,16 +3,27 @@ use std::collections::BTreeMap;
 use super::{KeyFile, text_replace::HtmlTextReplace};
 
 pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) -> String {
-    let is_download_page = html.contains("Download — Fluxheim");
-    let is_changelog_page = html.contains("Changelog — Fluxheim");
-    let is_build_and_podman_page =
-        html.contains("Build And Rootless Podman — Fluxheim Source Docs");
+    let download_marker = format!("{} — Fluxheim", source.nav.download);
+    let build_and_podman_marker = title_marker(
+        &source.reference,
+        "build_and_rootless_podman",
+        "Fluxheim Source Docs",
+    );
+    let is_download_page = html.contains(&download_marker);
+    let is_changelog_page = html.contains(
+        source
+            .changelog
+            .get("changelog_fluxheim")
+            .expect("changelog page title i18n key exists"),
+    );
+    let is_build_and_podman_page = html.contains(&build_and_podman_marker);
 
     let html = replace_page_map(html, is_download_page, &source.download, &keys.download);
     let html = replace_page_map(html, is_changelog_page, &source.changelog, &keys.changelog);
-    let html = replace_marker_map(
+    let html = replace_docs_marker_from_key_map(
         html,
-        "Source Reference — Fluxheim Docs",
+        "source_reference",
+        &source.docs_index,
         &source.reference,
         &keys.reference,
     );
@@ -28,9 +39,10 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.runtime_parity_fixtures,
         &keys.runtime_parity_fixtures,
     );
-    let html = replace_marker_map(
+    let html = replace_source_doc_marker_from_key_map(
         html,
-        "GeoIP / Geo-Context — Fluxheim Source Docs",
+        "geoip_geo_context",
+        &source.reference,
         &source.geoip,
         &keys.geoip,
     );
@@ -40,9 +52,10 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.load_balancer_ha,
         &keys.load_balancer_ha,
     );
-    let html = replace_marker_map(
+    let html = replace_docs_marker_from_key_map(
         html,
-        "Installation & Quick Start — Fluxheim Docs",
+        "installation_quick_start",
+        &source.docs_index,
         &source.getting_started,
         &keys.getting_started,
     );
@@ -52,9 +65,10 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.configuration_page,
         &keys.configuration_page,
     );
-    let html = replace_marker_map(
+    let html = replace_docs_marker_from_key_map(
         html,
-        "Advanced — Fluxheim Docs",
+        "advanced",
+        &source.docs_index,
         &source.advanced_page,
         &keys.advanced_page,
     );
@@ -64,9 +78,10 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.features_page,
         &keys.features_page,
     );
-    let html = replace_marker_map(
+    let html = replace_docs_marker_from_key_map(
         html,
-        "Cache System — Fluxheim Docs",
+        "cache_system",
+        &source.docs_index,
         &source.cache,
         &keys.cache,
     );
@@ -88,9 +103,10 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.modularity_policy,
         &keys.modularity_policy,
     );
-    let html = replace_marker_map(
+    let html = replace_docs_marker_from_key_map(
         html,
-        "Observability — Fluxheim Docs",
+        "observability",
+        &source.docs_index,
         &source.observability,
         &keys.observability,
     );
@@ -412,6 +428,28 @@ fn replace_marker_key_map(
         .get(marker_key)
         .unwrap_or_else(|| panic!("source marker i18n key exists: {marker_key}"));
     replace_marker_map(html, marker, source, keys)
+}
+
+fn replace_docs_marker_from_key_map(
+    html: String,
+    marker_key: &str,
+    marker_source: &BTreeMap<String, String>,
+    source: &BTreeMap<String, String>,
+    keys: &BTreeMap<String, String>,
+) -> String {
+    let marker = title_marker(marker_source, marker_key, "Fluxheim Docs");
+    replace_marker_map(html, &marker, source, keys)
+}
+
+fn replace_source_doc_marker_from_key_map(
+    html: String,
+    marker_key: &str,
+    marker_source: &BTreeMap<String, String>,
+    source: &BTreeMap<String, String>,
+    keys: &BTreeMap<String, String>,
+) -> String {
+    let marker = title_marker(marker_source, marker_key, "Fluxheim Source Docs");
+    replace_marker_map(html, &marker, source, keys)
 }
 
 fn replace_docs_key_map(
