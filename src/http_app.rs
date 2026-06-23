@@ -36,16 +36,22 @@ pub fn build_router(site: Arc<Site>) -> Router {
 
 pub fn build_router_with_observability(site: Arc<Site>, observability: Observability) -> Router {
     let state = Arc::new(AppState::new((*site).clone(), observability));
-    Router::new()
+    let mut router = Router::new()
         .route("/healthz", get(healthz))
         .route("/out/github/{target}", get(github_outbound))
         .route("/out/download/{artifact}", get(download_outbound))
         .route("/telemetry/page-visible", post(page_visible))
         .route("/telemetry/click", post(telemetry_click))
-        .nest_service("/assets", ServeDir::new("assets"))
-        .nest_service("/de/assets", ServeDir::new("assets"))
-        .nest_service("/fr/assets", ServeDir::new("assets"))
-        .nest_service("/en-eu/assets", ServeDir::new("assets"))
+        .nest_service("/assets", ServeDir::new("assets"));
+
+    for locale in site.locales() {
+        router = router.nest_service(
+            format!("/{}/assets", locale.url_prefix).as_str(),
+            ServeDir::new("assets"),
+        );
+    }
+
+    router
         .fallback(render_page)
         .with_state(state.clone())
         .layer(middleware::from_fn_with_state(state, observe_request))

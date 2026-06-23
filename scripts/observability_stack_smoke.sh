@@ -8,7 +8,7 @@ PROM_URL="${PROM_URL:-http://127.0.0.1:9090}"
 GRAFANA_URL="${GRAFANA_URL:-http://127.0.0.1:3000}"
 JAEGER_URL="${JAEGER_URL:-http://127.0.0.1:16686}"
 
-podman compose -f "${COMPOSE_FILE}" up -d --build
+podman compose -f "${COMPOSE_FILE}" up -d --build --force-recreate
 
 wait_for() {
   local url="$1"
@@ -29,6 +29,10 @@ wait_for "${GRAFANA_URL}/api/health" "grafana"
 wait_for "${JAEGER_URL}/" "jaeger"
 
 curl -fsS "${BASE_URL}/" >/dev/null
+curl -fsS "${BASE_URL}/en-gb/index.html" >/dev/null
+curl -fsS "${BASE_URL}/en-us/index.html" >/dev/null
+curl -fsS "${BASE_URL}/en-gb/assets/css/theme.css?v=20260519" >/dev/null
+curl -fsS "${BASE_URL}/en-us/assets/css/theme.css?v=20260519" >/dev/null
 curl -fsS "${BASE_URL}/de/docs" >/dev/null
 curl -fsS "${BASE_URL}/fr/download" >/dev/null
 curl -fsS "${BASE_URL}/privacy" >/dev/null

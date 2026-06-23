@@ -75,6 +75,22 @@ async fn english_variant_selector_links_mark_the_selected_locale() {
     }
 }
 
+#[tokio::test]
+async fn locale_prefixed_asset_paths_resolve_for_english_variants() {
+    for path in [
+        "/assets/css/theme.css?v=20260519",
+        "/en-eu/assets/css/theme.css?v=20260519",
+        "/en-gb/assets/css/theme.css?v=20260519",
+        "/en-us/assets/css/theme.css?v=20260519",
+        "/de/assets/css/theme.css?v=20260519",
+        "/fr/assets/css/theme.css?v=20260519",
+    ] {
+        let (status, body) = get(path).await;
+        assert_eq!(status, StatusCode::OK, "{path} should resolve");
+        assert!(body.contains("--fh-bg"), "{path} should serve theme CSS");
+    }
+}
+
 fn language_selector_links(body: &str) -> Vec<String> {
     let Some((_before, selector)) = body.split_once(r#"<details class="fh-language-switcher">"#)
     else {
