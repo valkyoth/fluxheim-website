@@ -67,6 +67,7 @@ pub(super) struct KeyFile {
     pub(super) php_fpm_app_recipes: BTreeMap<String, String>,
     pub(super) sentinel_mesh: BTreeMap<String, String>,
     pub(super) crypto_rpc_edge_source: BTreeMap<String, String>,
+    pub(super) fips_source: BTreeMap<String, String>,
 }
 
 #[derive(Debug, Clone, Deserialize)]

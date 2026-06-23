@@ -322,3 +322,28 @@ fn applies_stable_crypto_rpc_edge_keys_only_on_source_page() {
     assert!(translated.contains("Forme compile-time"));
     assert!(unrelated.contains(">Why Ethereum First<"));
 }
+
+#[test]
+fn applies_stable_fips_keys_only_on_source_page() {
+    let site = Site::load().expect("site loads");
+    let de = site.locale("de-DE").expect("German locale");
+    let html = concat!(
+        "<title>FIPS-Capable Deployment — Fluxheim Source Docs</title>",
+        "<h1>FIPS / ISO-Capable Deployments</h1>",
+        "<p>This document defines Fluxheim's FIPS 140-3 and ISO/IEC 19790 direction. It is intentionally strict about language: Fluxheim can provide FIPS/ISO-capable builds and fail-closed configuration enforcement, but Fluxheim itself is not a validated cryptographic module.</p>",
+        "<p>Current release line:</p>",
+        "<h2>Official References</h2>",
+        "<h2>Compliance Boundary</h2>",
+    )
+    .to_owned();
+
+    let translated = apply_shared_keys(de, html, "1.6.28");
+    let unrelated = apply_shared_keys(de, ">Compliance Boundary<".to_owned(), "1.6.28");
+
+    assert!(translated.contains("FIPS-/ISO-faehige Deployments"));
+    assert!(translated.contains("Fluxheims FIPS-140-3- und ISO/IEC-19790-Richtung"));
+    assert!(translated.contains("Aktuelle Release-Linie:"));
+    assert!(translated.contains("Offizielle Referenzen"));
+    assert!(translated.contains("Compliance-Grenze"));
+    assert!(unrelated.contains(">Compliance Boundary<"));
+}

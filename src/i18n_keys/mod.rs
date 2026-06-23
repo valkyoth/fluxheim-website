@@ -32,6 +32,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-EU/120-reference.toml"),
             include_str!("../../config/i18n/keys/en-EU/130-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-EU/140-source-docs-tail.toml"),
+            include_str!("../../config/i18n/keys/en-EU/150-source-docs-tail.toml"),
         ],
     },
     KeyTomlFile {
@@ -51,6 +52,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-GB/120-reference.toml"),
             include_str!("../../config/i18n/keys/en-GB/130-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-GB/140-source-docs-tail.toml"),
+            include_str!("../../config/i18n/keys/en-GB/150-source-docs-tail.toml"),
         ],
     },
     KeyTomlFile {
@@ -70,6 +72,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-US/120-reference.toml"),
             include_str!("../../config/i18n/keys/en-US/130-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-US/140-source-docs-tail.toml"),
+            include_str!("../../config/i18n/keys/en-US/150-source-docs-tail.toml"),
         ],
     },
     KeyTomlFile {
@@ -89,6 +92,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/de-DE/120-reference.toml"),
             include_str!("../../config/i18n/keys/de-DE/130-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/de-DE/140-source-docs-tail.toml"),
+            include_str!("../../config/i18n/keys/de-DE/150-source-docs-tail.toml"),
         ],
     },
     KeyTomlFile {
@@ -108,6 +112,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/fr-FR/120-reference.toml"),
             include_str!("../../config/i18n/keys/fr-FR/130-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/fr-FR/140-source-docs-tail.toml"),
+            include_str!("../../config/i18n/keys/fr-FR/150-source-docs-tail.toml"),
         ],
     },
 ];

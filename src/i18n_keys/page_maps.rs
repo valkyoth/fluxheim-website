@@ -322,6 +322,12 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &source.crypto_rpc_edge_source,
         &keys.crypto_rpc_edge_source,
     );
+    let html = replace_marker_map(
+        html,
+        "FIPS-Capable Deployment — Fluxheim Source Docs",
+        &source.fips_source,
+        &keys.fips_source,
+    );
     replace_marker_map(
         html,
         "Zero-Retention Privacy Mode — Fluxheim Source Docs",
