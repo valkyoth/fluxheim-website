@@ -36,6 +36,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-EU/160-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-EU/170-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-EU/180-docs-pages.toml"),
+            include_str!("../../config/i18n/keys/en-EU/190-code-comments.toml"),
         ],
     },
     KeyTomlFile {
@@ -59,6 +60,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-GB/160-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-GB/170-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-GB/180-docs-pages.toml"),
+            include_str!("../../config/i18n/keys/en-GB/190-code-comments.toml"),
         ],
     },
     KeyTomlFile {
@@ -82,6 +84,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/en-US/160-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-US/170-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/en-US/180-docs-pages.toml"),
+            include_str!("../../config/i18n/keys/en-US/190-code-comments.toml"),
         ],
     },
     KeyTomlFile {
@@ -105,6 +108,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/de-DE/160-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/de-DE/170-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/de-DE/180-docs-pages.toml"),
+            include_str!("../../config/i18n/keys/de-DE/190-code-comments.toml"),
         ],
     },
     KeyTomlFile {
@@ -128,6 +132,7 @@ const KEY_TOML_FILES: &[KeyTomlFile] = &[
             include_str!("../../config/i18n/keys/fr-FR/160-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/fr-FR/170-source-docs-tail.toml"),
             include_str!("../../config/i18n/keys/fr-FR/180-docs-pages.toml"),
+            include_str!("../../config/i18n/keys/fr-FR/190-code-comments.toml"),
         ],
     },
 ];
@@ -215,6 +220,9 @@ mod tests_source_docs_tail;
 
 #[cfg(test)]
 mod tests_docs_pages;
+
+#[cfg(test)]
+mod tests_code_comments;
 
 #[cfg(test)]
 mod tests_reference;

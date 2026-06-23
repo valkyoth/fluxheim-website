@@ -177,7 +177,8 @@ pub(super) fn apply_keys(keys: &KeyFile, source: &KeyFile, html: String, version
     .replace_home_marker("macOS Dev", home(keys, "tag_macos_dev"))
     .replace_home_marker("Rootless Containers", home(keys, "tag_rootless_containers"))
     .replace_map(&source.docs_index, &keys.docs_index)
-    .replace_map(&source.common, &keys.common);
+    .replace_map(&source.common, &keys.common)
+    .replace_map_everywhere(&source.code_comments, &keys.code_comments);
 
     let html = apply_page_maps(html, keys, source);
 
