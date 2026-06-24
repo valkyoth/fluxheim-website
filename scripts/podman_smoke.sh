@@ -44,6 +44,7 @@ curl -fsS "${base}/bg/" | grep -q "Изтегли v1.6.30"
 curl -fsS "${base}/ro/" | grep -q "Descarcă v1.6.30"
 curl -fsS "${base}/pl/" | grep -q "Pobierz v1.6.30"
 curl -fsS "${base}/ru/" | grep -q "Скачать v1.6.30"
+curl -fsS "${base}/ja/" | grep -q "ダウンロード v1.6.30"
 curl -fsS "${base}/de/download" | grep -q "Systemd-Dienst"
 
 curl -fsS "${base}/de/docs" | grep -q "Anleitungen"
@@ -76,6 +77,7 @@ curl -fsS "${base}/bg/docs/features" | grep -q "Обичайни build-и"
 curl -fsS "${base}/ro/docs/features" | grep -q "Build-uri uzuale"
 curl -fsS "${base}/pl/docs/features" | grep -q "Typowe buildy"
 curl -fsS "${base}/ru/docs/features" | grep -q "Типовые сборки"
+curl -fsS "${base}/ja/docs/features" | grep -q "一般的なビルド"
 
 curl -fsS "${base}/de/docs/source/systemd.md" | grep -q "# systemd Deployment"
 curl -fsS "${base}/de/conf/fluxheim.toml" | grep -q 'hosts = \["fluxheim.eu"\]'

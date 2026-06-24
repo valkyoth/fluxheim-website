@@ -153,3 +153,9 @@ locale_id = "ru-RU"
 html_lang = "ru-RU"
 url_prefix = "ru"
 display_name = "Русский"
+
+[[locales]]
+locale_id = "ja-JP"
+html_lang = "ja-JP"
+url_prefix = "ja"
+display_name = "日本語"
