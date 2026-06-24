@@ -33,6 +33,7 @@ curl -fsS "${base}/es/" | grep -q "Descargar v1.6.30"
 curl -fsS "${base}/pt/" | grep -q "Transferir v1.6.30"
 curl -fsS "${base}/et/" | grep -q "Laadi alla v1.6.30"
 curl -fsS "${base}/lv/" | grep -q "Lejupielādēt v1.6.30"
+curl -fsS "${base}/el/" | grep -q "Λήψη v1.6.30"
 curl -fsS "${base}/de/download" | grep -q "Systemd-Dienst"
 
 curl -fsS "${base}/de/docs" | grep -q "Anleitungen"
@@ -54,6 +55,7 @@ curl -fsS "${base}/es/docs/features" | grep -q "Builds comunes"
 curl -fsS "${base}/pt/docs/features" | grep -q "Builds comuns"
 curl -fsS "${base}/et/docs/features" | grep -q "Tavalised buildid"
 curl -fsS "${base}/lv/docs/features" | grep -q "Biežākie buildi"
+curl -fsS "${base}/el/docs/features" | grep -q "Συνηθισμένα builds"
 
 curl -fsS "${base}/de/docs/source/systemd.md" | grep -q "# systemd Deployment"
 curl -fsS "${base}/de/conf/fluxheim.toml" | grep -q 'hosts = \["fluxheim.eu"\]'

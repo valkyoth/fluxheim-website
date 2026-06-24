@@ -87,3 +87,9 @@ locale_id = "lv-LV"
 html_lang = "lv-LV"
 url_prefix = "lv"
 display_name = "Latviešu"
+
+[[locales]]
+locale_id = "el-GR"
+html_lang = "el-GR"
+url_prefix = "el"
+display_name = "Ελληνικά"

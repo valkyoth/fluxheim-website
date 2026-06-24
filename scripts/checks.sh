@@ -9,7 +9,7 @@ scripts/check_i18n_keys.py
 scripts/check_english_variants.py
 i18n_progress="$(scripts/check_i18n_keys.py --progress)"
 case "$i18n_progress" in
-  *"de-DE:"*"fr-FR:"*"sv-SE:"*"nb-NO:"*"nl-NL:"*"fi-FI:"*"is-IS:"*"da-DK:"*"es-ES:"*"pt-PT:"*"et-EE:"*"lv-LV:"*) ;;
+  *"de-DE:"*"fr-FR:"*"sv-SE:"*"nb-NO:"*"nl-NL:"*"fi-FI:"*"is-IS:"*"da-DK:"*"es-ES:"*"pt-PT:"*"et-EE:"*"lv-LV:"*"el-GR:"*) ;;
   *)
     echo "i18n progress report missing configured non-English locales" >&2
     exit 1
