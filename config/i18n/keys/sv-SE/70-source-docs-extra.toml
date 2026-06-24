@@ -236,7 +236,7 @@ move_the_current_pointer_back_to_the_previous_snapshot = "Flytta den aktuella pe
 move_to_a_specific_snapshot = "Flytta till en specifik ögonblicksbild:"
 rollback_updates_the_durable_current_pointer_by_default_before_applying_a_rollback_to_a_live_process = "Återställning uppdaterar den hållbara aktuella pekaren som standard. Innan du tillämpar en återställning på en liveprocess, klassificera ändringen:"
 the_admin_reload_endpoint_performs_this_classification_before_it_swaps_runtime_proxy_state = "Admin-återladdningsslutpunkten utför denna klassificering innan den byter tillstånd för runtime-proxy."
-admin_api_shape = "Admin API Shape"
+admin_api_shape = "Admin-API-form"
 fluxheim_reserves_a_separate_admin_control_plane_for_live_operations = "Fluxheim reserverar ett separat administratörskontrollplan för direktdrift:"
 the_initial_listener_must_be_private_by_default_remote_exposure_now_requires = "Den första lyssnaren måste vara privat som standard. Fjärrexponering kräver nu"
 which_is_an_explicit_operator_declaration_that_tls_or_mtls_is_terminated_by_a_trusted_local_sidecar = ", vilket är en explicit operatörsdeklaration att TLS eller mTLS avslutas av en betrodd lokal sidovagn, omvänd proxy eller lastbalanserare innan trafik når den vanliga administratörslyssnaren. Förstklassig admin TLS/mTLS spåras fortfarande som framtida arbete; exponera inte admin-lyssnaren över klartextnätverk."
@@ -365,8 +365,8 @@ add_tlssettings_with_cert_resolver_or_use_fluxheim_x27_s_native_listener_resolve
 make_build_use_the_resolver_when_present_and_keep_the_existing_intermediate_cert_key_single_certific = "<li> gör att <code>build()</code> använder resolvern när den finns och behåller den befintliga <code>intermediate(cert, key)</code> enkelcertifikatsökvägen oförändrad.</li>"
 
 [supply_chain_security]
-supply_chain_security = "Supply Chain Security"
-rust_supply_chain_security = "Rust Supply-Chain Security"
+supply_chain_security = "Supply chain-säkerhet"
+rust_supply_chain_security = "Rust supply chain-säkerhet"
 fluxheim_treats_the_rust_dependency_graph_as_part_of_the_trusted_computing_base_rust_s_memory_safety = "Fluxheim behandlar Rust-beroendegrafen som en del av den betrodda beräkningsbasen. Rusts minnessäkerhet minskar klasser av runtime-buggar, men den skyddar inte mot en komprometterad låda, ett skadligt byggskript, ett procedurmässigt makro, ett förgiftat ursprungligt beroende eller ett övertagande av ett underhållskonto."
 this_document_defines_the_current_supply_chain_controls_and_the_hardening_roadmap_for_fluxheim_relea = "Det här dokumentet definierar de nuvarande kontrollerna i försörjningskedjan och den hårdnande färdplanen för Fluxheim-releasearbete."
 current_controls = "Aktuella kontroller"
@@ -376,7 +376,7 @@ keeps_rustsec_advisory_exceptions_explicit_and_versioned = "håller RustSec råd
 github_ci_runs_formatting_clippy_tests_codeql = "GitHub CI kör formatering, clippy, tester, CodeQL,"
 owasp_baseline_checks_feature_builds_and_smoke_tests = ", OWASP baslinjekontroller, funktionsbyggen och röktester."
 stable_releases_generate_spdx_and_cyclonedx_sboms_from_the_tagged_source_tree = "Stabila utgåvor genererar SPDX och CycloneDX SBOM från det taggade källträdet."
-stable_releases_record_source_archive_checksums_binary_checksums_sbom_checksums_signed_tag_verificat = "Stable släpper arkivkontrollsummor för rekordkällor, binära kontrollsummor, SBOM-kontrollsummor, signerad taggverifiering, behållaresammandrag och reproducerbara byggbevis."
+stable_releases_record_source_archive_checksums_binary_checksums_sbom_checksums_signed_tag_verificat = "Stabila utgåvor registrerar kontrollsummor för källarkiv, binära kontrollsummor, SBOM-kontrollsummor, signerad taggverifiering, container-digests och reproducerbara byggbevis."
 build_scripts_and_procedural_macros = "Bygg skript och procedurmakron"
 cargo_build_scripts_and_procedural_macros_execute_code_on_the_build_host_treat_them_like_native_buil = "Cargo byggskript och procedurmakron exekverar kod på byggvärden. Behandla dem som inbyggda byggverktyg, inte som passiva källfiler."
 fluxheim_does_not_rely_on_a_global_disable_every_dependency_build_script_switch_cargo_supports_overr = "Fluxheim förlitar sig inte på en global \"inaktivera varje beroendebyggskript\"-växel. Cargo stöder åsidosättande av vissa byggskript för"
