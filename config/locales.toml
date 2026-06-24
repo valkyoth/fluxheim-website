@@ -141,3 +141,9 @@ locale_id = "ro-RO"
 html_lang = "ro-RO"
 url_prefix = "ro"
 display_name = "Română"
+
+[[locales]]
+locale_id = "pl-PL"
+html_lang = "pl-PL"
+url_prefix = "pl"
+display_name = "Polski"
