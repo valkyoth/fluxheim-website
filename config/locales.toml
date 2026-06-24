@@ -123,3 +123,9 @@ locale_id = "bs-BA"
 html_lang = "bs-BA"
 url_prefix = "bs"
 display_name = "Bosanski"
+
+[[locales]]
+locale_id = "bg-BG"
+html_lang = "bg-BG"
+url_prefix = "bg"
+display_name = "Български"
