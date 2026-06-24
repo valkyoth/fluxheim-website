@@ -83,7 +83,9 @@ async fn locale_prefixes_preserve_legacy_pages() {
     assert!(de_body.contains("Systemd-Dienst"));
     assert!(de_body.contains("Cache-Edge-Build"));
     assert!(de_body.contains("Herunterladen v1.6.30"));
-    assert!(de_body.contains("Native Upstream-HTTP/2-Version"));
+    assert!(de_body.contains("v1.6.0 – v1.6.30"));
+    assert!(de_body.contains("Native-Runtime-Cutover-Reihe"));
+    assert!(de_body.contains("Alle auf GitHub"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/deployment").await;
     assert_eq!(fr_status, StatusCode::OK);

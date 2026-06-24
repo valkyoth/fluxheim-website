@@ -9,10 +9,11 @@ fn applies_stable_download_keys_for_release_page_copy() {
         "<title>Download — Fluxheim</title>",
         ">Cache Edge Build<",
         "<span class=\"text-xs font-bold uppercase tracking-widest text-amber-400\">Cache</span>",
-        "Released June 23, 2026",
-        "Native upstream HTTP/2 release with plaintext h2c/prior-knowledge origins, ",
-        "TLS ALPN HTTP/2 origins, pooled native upstream H2, bounded H2 policy timeouts, ",
-        "and explicit h2c Upgrade fallback.",
+        "Latest series",
+        "Native-runtime cutover line: Pingora-exit foundations, Fluxheim-owned HTTP/1 ",
+        "and HTTP/2 paths, native TLS/listener previews, route proxy/static-web parity, ",
+        "compression and error pages, forwarded-header policy, auth-request, traffic mirroring, ",
+        "rate limits, gRPC validation, pooled upstream HTTP/2, and hardened runtime evidence.",
         "proxy.error_pages</code> fallback pages backed by <code>fluxheim-web",
     )
     .to_owned();
@@ -21,9 +22,9 @@ fn applies_stable_download_keys_for_release_page_copy() {
 
     assert!(translated.contains(">Cache-Edge-Build<"));
     assert!(translated.contains(">Cache-Profil</span>"));
-    assert!(translated.contains("Veröffentlicht am 23. Juni 2026"));
-    assert!(translated.contains("Native Upstream-HTTP/2-Version"));
-    assert!(translated.contains("gepooltem nativem Upstream-H2"));
+    assert!(translated.contains("Neueste Reihe"));
+    assert!(translated.contains("Native-Runtime-Cutover-Reihe"));
+    assert!(translated.contains("Fluxheim-eigene HTTP/1- und HTTP/2-Pfade"));
     assert!(translated.contains("proxy.error_pages</code> Fallback-Seiten, gestützt durch"));
 }
 

@@ -54,7 +54,7 @@ def main() -> int:
     for version in versions:
         needle = f"v{version}"
         for name, body in rendered.items():
-            if needle not in body:
+            if not page_mentions_version(name, body, version, latest):
                 errors.append(f"{name} does not mention {needle}")
 
     if errors:
@@ -83,6 +83,31 @@ def validate_release(row: dict[str, object], errors: list[str]) -> None:
     title = f"# Fluxheim {version} Release Notes"
     if title not in read(notes):
         errors.append(f"{notes.relative_to(ROOT)} missing title {title!r}")
+
+
+def page_mentions_version(
+    name: str, body: str, version: object, latest: object
+) -> bool:
+    if not isinstance(version, str):
+        return False
+
+    if f"v{version}" in body:
+        return True
+
+    if name != "download.html" or not isinstance(latest, str):
+        return False
+
+    collapsed_range = f"v1.6.0 – v{latest}"
+    if collapsed_range not in body:
+        return False
+
+    major, minor, patch = version_tuple(version)
+    latest_major, latest_minor, latest_patch = version_tuple(latest)
+    return (
+        (major, minor) == (1, 6)
+        and (latest_major, latest_minor) == (1, 6)
+        and 0 <= patch <= latest_patch
+    )
 
 
 def version_tuple(version: object) -> tuple[int, int, int]:
