@@ -105,3 +105,9 @@ locale_id = "lt-LT"
 html_lang = "lt-LT"
 url_prefix = "lt"
 display_name = "Lietuvių"
+
+[[locales]]
+locale_id = "hr-HR"
+html_lang = "hr-HR"
+url_prefix = "hr"
+display_name = "Hrvatski"
