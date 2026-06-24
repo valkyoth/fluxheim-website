@@ -452,7 +452,7 @@ def render(page: str, title: str, intro: str, body: str) -> str:
 </head>
 <body class="bg-gray-950 text-gray-100 antialiased">
 {site_header}
-  <div class="flex min-h-[calc(100vh-4rem)] pt-16">
+  <div class="flex pt-16">
     <aside class="hidden md:block sticky top-16 h-[calc(100vh-4rem)] w-64 lg:w-72 flex-none border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Guides</h3><ul class="space-y-0.5">{nav}</ul></div>
