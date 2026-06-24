@@ -127,7 +127,7 @@ because_shared_http_cache_can_persist_response_bodies_paths_query_strings_2 = "e
 [wasm_extensibility]
 wasm_extensibility = "WASM Utökningsbarhet"
 optional_module_family_after_the = "valfri modulfamilj efter"
-pingora_exit_runtime_line = "Pingora-exit runtime line."
+pingora_exit_runtime_line = "Pingora-exit runtime-linje."
 planned_cargo_features = "Planerade Cargo-funktioner:"
 latest_crate_candidates_checked_on_2026_05_05 = "De senaste boxkandidaterna kontrollerade på 2026-05-05:"
 wasm_extensibility_gives_fluxheim_a_sandboxed_way_to_run_operator_provided_logic_without_compiling_t = "WASM-utvidgbarheten ger Fluxheim ett sandlådeformat sätt att köra logik som tillhandahålls av operatören utan att kompilera den logiken i Fluxheim-binären. Det bör behandlas som en stor förlängningsgräns, inte som en liten skriptfunktion."
@@ -253,7 +253,7 @@ this_gives_operators_log_backend_correlation_even_before_fluxheim_exports_full_t
 stage_2_internal_spans = "Steg 2: Interna spann"
 after_propagation_is_stable_fluxheim_should_create_spans_around_key_request_operations = "Efter att spridningen är stabil bör Fluxheim skapa intervall kring nyckelbegäran."
 planned_spans = "Planerade spann:"
-root_request_span = ": root request span;"
+root_request_span = ": root request-span;"
 host_sni_routing_and_policy_selection = ": värd/SNI routing och policyval;"
 request_limits_header_policy_and_security_checks = ": begärandegränser, rubrikpolicy och säkerhetskontroller;"
 future_external_authorization_probe = ": framtida extern auktoriseringssond;"

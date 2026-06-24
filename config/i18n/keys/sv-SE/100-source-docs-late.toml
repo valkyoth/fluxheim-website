@@ -176,7 +176,7 @@ cache_status_when_cache_participates = "<li>cache_status, när cachen deltar</li
 tls_when_known = "<li>tls, när känd</li>"
 legacy_protocol_when_future_legacy_static_listeners_are_used = "<li>legacy_protocol, när framtida äldre statiska lyssnare används</li>"
 audit_security_events_should_include_action_outcome_fields_and_avoid_raw_secret_values = "<p>Revisions-/säkerhetshändelser bör inkludera åtgärds-/resultatfält och undvika råa hemliga värden.</p>"
-pipeline = "<h2 id=\"pipeline\">Pipeline</h2>"
+pipeline = "<h2 id=\"pipeline\">Loggningspipeline</h2>"
 the_desired_pipeline_has_three_stages = "<p>Den önskade pipelinen har tre steg: </p>"
 capture_request_path_emits_tracing_events_with_structured_fields = "<li>Fångst: begäranssökvägen avger <code>tracing</code>-händelser med strukturerade fält.</li>"
 buffer_events_enter_a_bounded_async_queue = "<li>Buffert: händelser går in i en avgränsad asynkron kö.</li>"
