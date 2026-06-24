@@ -69,3 +69,9 @@ locale_id = "es-ES"
 html_lang = "es-ES"
 url_prefix = "es"
 display_name = "Español"
+
+[[locales]]
+locale_id = "pt-PT"
+html_lang = "pt-PT"
+url_prefix = "pt"
+display_name = "Português"

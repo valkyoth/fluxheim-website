@@ -16,6 +16,7 @@ fi-FI = "Suomi"
 is-IS = "Íslenska"
 da-DK = "Dansk"
 es-ES = "Español"
+pt-PT = "Português"
 
 [nav]
 docs = "Dokumentasjon"
