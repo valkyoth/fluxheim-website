@@ -15,6 +15,7 @@ nl-NL = "Nederlands"
 fi-FI = "Suomi"
 is-IS = "Íslenska"
 da-DK = "Dansk"
+es-ES = "Español"
 
 [nav]
 docs = "Docs"

@@ -63,3 +63,9 @@ locale_id = "da-DK"
 html_lang = "da-DK"
 url_prefix = "da"
 display_name = "Dansk"
+
+[[locales]]
+locale_id = "es-ES"
+html_lang = "es-ES"
+url_prefix = "es"
+display_name = "Español"

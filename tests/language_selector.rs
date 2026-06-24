@@ -41,6 +41,7 @@ async fn every_rendered_language_selector_link_resolves() {
         "/fi/docs",
         "/is/docs",
         "/da/docs",
+        "/es/docs",
         "/en-gb/download",
         "/en-us/docs/cache",
     ];
@@ -50,7 +51,7 @@ async fn every_rendered_language_selector_link_resolves() {
         assert_eq!(status, StatusCode::OK, "{page} should render");
 
         let links = language_selector_links(&body);
-        assert_eq!(links.len(), 11, "{page} should render all language links");
+        assert_eq!(links.len(), 12, "{page} should render all language links");
 
         for href in links {
             let (link_status, link_body) = get(&href).await;
@@ -96,6 +97,7 @@ async fn locale_prefixed_asset_paths_resolve_for_english_variants() {
         "/fi/assets/css/theme.css?v=20260519",
         "/is/assets/css/theme.css?v=20260519",
         "/da/assets/css/theme.css?v=20260519",
+        "/es/assets/css/theme.css?v=20260519",
     ] {
         let (status, body) = get(path).await;
         assert_eq!(status, StatusCode::OK, "{path} should resolve");

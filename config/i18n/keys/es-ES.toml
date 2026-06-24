@@ -1,0 +1,50 @@
+locale_id = "es-ES"
+
+[language]
+selector_label = "Idioma"
+
+[language.names]
+en-EU = "English (EU)"
+en-GB = "English (UK)"
+en-US = "English (US)"
+de-DE = "Deutsch"
+fr-FR = "Français"
+sv-SE = "Svenska"
+nb-NO = "Norsk"
+nl-NL = "Nederlands"
+fi-FI = "Suomi"
+is-IS = "Íslenska"
+da-DK = "Dansk"
+es-ES = "Español"
+
+[nav]
+docs = "Documentación"
+download = "Descargar"
+changelog = "Registro de cambios"
+
+[release]
+latest_stable = "Última estable"
+latest_stable_release = "Última versión estable"
+download_version = "Descargar v{version}"
+
+[shell]
+home_title = "Fluxheim - servidor edge seguro para memoria construido en Rust"
+view_on_github = "Ver en GitHub"
+quick_start = "Inicio rápido"
+switch_color_theme = "Cambiar tema de color"
+links = "Enlaces"
+github_repository = "Repositorio de GitHub"
+issues = "Incidencias"
+menu = "Menú"
+
+[footer]
+tagline = "Servidor edge seguro para memoria construido en Rust. Licenciado bajo EUPL-1.2."
+project = "Proyecto"
+releases = "Versiones"
+roadmap = "Hoja de ruta"
+community = "Comunidad"
+discussions = "Debates"
+eupl_license = "Licencia EUPL-1.2"
+valkyoth_org = "Organización Valkyoth"
+copyright_prefix = "© 2026 Valkyoth. Distribuido bajo"
+built_with = "Construido con Rust · Impulsado por Fluxheim"
