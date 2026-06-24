@@ -7,6 +7,17 @@ cargo +1.96.0 test
 python3 -m py_compile scripts/check_i18n_keys.py scripts/i18n_coverage.py scripts/scaffold_i18n_locale.py scripts/check_english_variants.py
 scripts/check_i18n_keys.py
 scripts/check_english_variants.py
+for locale in ja-JP ko-KR; do
+  unchanged="$(scripts/check_i18n_keys.py --list-untranslated "$locale" --include-intentional --untranslated-limit 1)"
+  case "$unchanged" in
+    *"$locale: 0 keys still match en-EU"*) ;;
+    *)
+      echo "$locale still has copied English key values" >&2
+      echo "$unchanged" >&2
+      exit 1
+      ;;
+  esac
+done
 i18n_progress="$(scripts/check_i18n_keys.py --progress)"
 case "$i18n_progress" in
   *"de-DE:"*"fr-FR:"*"sv-SE:"*"nb-NO:"*"nl-NL:"*"fi-FI:"*"is-IS:"*"da-DK:"*"es-ES:"*"pt-PT:"*"et-EE:"*"lv-LV:"*"el-GR:"*"it-IT:"*"lt-LT:"*"hr-HR:"*"cs-CZ:"*"bs-BA:"*"bg-BG:"*"de-CH:"*"ro-RO:"*"pl-PL:"*"ru-RU:"*"ja-JP:"*"ko-KR:"*"hu-HU:"*) ;;

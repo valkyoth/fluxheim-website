@@ -423,7 +423,7 @@ async fn locale_prefixes_apply_runtime_translations() {
     let (ja_status, _headers, ja_body) = request("/ja/").await;
     assert_eq!(ja_status, StatusCode::OK);
     assert!(ja_body.contains(r#"<html lang="ja-JP""#));
-    assert!(ja_body.contains("Memory-Safe"));
+    assert!(ja_body.contains("メモリ安全"));
     assert!(ja_body.contains("ダウンロード v1.6.30"));
 
     let (ko_status, _headers, ko_body) = request("/ko/").await;
