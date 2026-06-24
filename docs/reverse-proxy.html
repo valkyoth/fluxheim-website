@@ -84,7 +84,7 @@
     </div>
   </nav>
   <div class="flex pt-16">
-    <aside class="hidden md:block sticky top-16 h-[calc(100vh-4rem)] w-64 lg:w-72 flex-none border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
+    <aside class="hidden md:block fixed top-16 left-0 max-h-[calc(100vh-4rem)] w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
       <nav class="p-6 space-y-7">
         <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Guides</h3><ul class="space-y-0.5"><li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="index.html">Start</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="getting-started.html">Install</a></li>
@@ -104,7 +104,7 @@
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deep Reference</h3><a href="https://github.com/valkyoth/fluxheim/tree/main/docs" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Full docs on GitHub</a></div>
       </nav>
     </aside>
-    <main class="flex-1 min-w-0">
+    <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Reverse Proxy</span></div>
         <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">Reverse Proxy</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Put Fluxheim in front of an application server. Fluxheim handles TLS, headers, limits, and upstream selection.</p></header>
