@@ -81,7 +81,7 @@ tr_td_class_key_hosts_td_td_class_type_string_td_td_class_desc_list_of_code_clas
 absolute_path_to_the_document_root_directory = "Absolut sökväg till dokumentets rotkatalog."
 tr_td_class_key_index_files_td_td_class_type_string_td_td_class_desc_list_of_filenames_to_serve_as_directory_i = "<tr><td class=\"key\">index_files</td><td class=\"type\">string[]</td><td class=\"desc\">Lista över filnamn som ska fungera som katalogindex. Till exempel. <code class=\"section-ref\">[\"index.html\"]</code>.</td></tr>"
 deny_requests_for_files_or_directories_starting_with = "Neka förfrågningar om filer eller kataloger som börjar med"
-response_header = "svarshuvud."
+response_header = "svarsrubrik."
 enable_managed_acme_certificate_issuance_and_renewal_for_this_vhost = "Aktivera hanterade ACME-certifikatutfärdande och förnyelse för denna vhost."
 path_to_pem_certificate_file_for_static_bought_certs = "Sökväg till PEM certifikatfil för statiska/köpta certifikat."
 path_to_pem_private_key_file = "Sökväg till PEM privat nyckelfil."
