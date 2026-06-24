@@ -67,6 +67,18 @@ async fn every_rendered_language_selector_link_resolves() {
 
         let links = language_selector_links(&body);
         assert_eq!(links.len(), 27, "{page} should render all language links");
+        assert!(
+            body.contains(r#"<input class="fh-language-search" type="search""#),
+            "{page} should render the language search input"
+        );
+        assert!(
+            body.contains(r#"<div class="fh-language-list">"#),
+            "{page} should render the scrollable language list"
+        );
+        assert!(
+            body.contains(r#"document.querySelectorAll(".fh-language-switcher")"#),
+            "{page} should render the language filter script"
+        );
 
         for href in links {
             let (link_status, link_body) = get(&href).await;

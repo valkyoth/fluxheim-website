@@ -3,6 +3,7 @@ pub mod content;
 pub mod http_app;
 pub mod i18n;
 pub mod i18n_keys;
+pub mod language_selector;
 pub mod legacy;
 pub mod observability;
 pub mod page_enhancements;
