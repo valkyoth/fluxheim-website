@@ -1,0 +1,22 @@
+<section class="grid md:grid-cols-2 gap-4">
+  {cards}
+</section>
+<section class="guide-section">
+  <h2>Good first path</h2>
+  <ol class="steps">
+    <li>Install Fluxheim from a release tarball or container image.</li>
+    <li>Pick one job: static site, reverse proxy, cache, load balancer, or PHP-FPM.</li>
+    <li>Validate the TOML config before you restart the service.</li>
+  </ol>
+</section>
+<section class="guide-section">
+  <h2>How to use these docs</h2>
+  <p>The website docs show the stable operational shape: what each module does, which options matter first, and a small config you can adapt. The GitHub reference keeps the exhaustive field-by-field detail.</p>
+  <table><thead><tr><th>Need</th><th>Start with</th></tr></thead><tbody>
+    <tr><td>Serve files or docs</td><td>Static Sites</td></tr>
+    <tr><td>Put Fluxheim before an app</td><td>Reverse Proxy</td></tr>
+    <tr><td>Reduce origin traffic</td><td>Cache</td></tr>
+    <tr><td>Run PHP or WordPress</td><td>PHP-FPM or WordPress</td></tr>
+    <tr><td>Pick a binary profile</td><td>Builds & Features</td></tr>
+  </tbody></table>
+</section>

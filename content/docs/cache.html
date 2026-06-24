@@ -1,0 +1,60 @@
+<section class="guide-section">
+  <h2>Proxy cache example</h2>
+  <pre><code>[cache]
+enabled = true
+default_ttl_secs = 300
+max_object_bytes = "32MiB"
+status_header = "X-Cache-Status"
+
+[cache.memory]
+enabled = true
+max_size_bytes = "256MiB"
+
+[cache.disk]
+enabled = true
+path = "/var/cache/fluxheim/site"
+max_size_bytes = "10GiB"</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Cache backends</h2>
+  <table><thead><tr><th>Backend</th><th>Use it when</th></tr></thead><tbody>
+    <tr><td><code>memory</code></td><td>You need the fastest cache and can keep objects in RAM.</td></tr>
+    <tr><td><code>disk</code></td><td>You need cache capacity that survives process restarts.</td></tr>
+    <tr><td><code>tiered</code></td><td>You want memory for hot objects and disk for larger capacity.</td></tr>
+    <tr><td><code>storage-bin</code></td><td>You expect high churn and want bounded disk allocation.</td></tr>
+    <tr><td><code>encrypted disk</code></td><td>You need cache-at-rest protection for disk objects.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Route cache policy</h2>
+  <pre><code>[[vhosts.routes]]
+name = "assets"
+path_prefix = "/assets/"
+action = "proxy"
+
+[vhosts.routes.proxy]
+upstreams = ["127.0.0.1:3000"]
+
+[vhosts.routes.cache]
+enabled = true
+status_ttls = { "200" = 3600, "404" = 60 }
+content_types = ["text/css", "application/javascript", "image/*"]
+extensions = ["css", "js", "png", "webp", "svg"]
+include_query = false
+stale_while_revalidate_secs = 30
+stale_if_error_secs = 120</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Advanced cache controls</h2>
+  <table><thead><tr><th>Control</th><th>Purpose</th></tr></thead><tbody>
+    <tr><td><code>lock</code></td><td>Collapse concurrent misses so one request fills the cache.</td></tr>
+    <tr><td><code>range.slice</code></td><td>Cache fixed byte slices for large files and resumable downloads.</td></tr>
+    <tr><td><code>peer_fill</code></td><td>Let one edge fill from another edge before using origin.</td></tr>
+    <tr><td><code>origin_protection</code></td><td>Limit concurrent origin fills during high pressure.</td></tr>
+    <tr><td><code>cache_purger</code></td><td>Clean stale disk entries in bounded batches.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Use cache carefully</h2>
+  <ul class="checks"><li>Do not cache private user pages unless the route is explicitly safe.</li><li>Keep cache keys bounded and predictable.</li><li>Use purge or short TTLs when content changes often.</li><li>Bypass on cookies, authorization, preview headers, and unsafe query strings.</li></ul>
+</section>

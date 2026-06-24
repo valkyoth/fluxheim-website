@@ -1,0 +1,38 @@
+<section class="guide-section">
+  <h2>Managed certificates</h2>
+  <pre><code>[[vhosts]]
+name = "site"
+hosts = ["example.com"]
+
+[vhosts.tls]
+acme = true
+email = "admin@example.com"
+storage = "/var/lib/fluxheim/acme"</code></pre>
+</section>
+<section class="guide-section">
+  <h2>TLS choices</h2>
+  <table><thead><tr><th>Choice</th><th>Use it when</th></tr></thead><tbody>
+    <tr><td><code>rustls</code></td><td>You want the normal memory-safe TLS path.</td></tr>
+    <tr><td><code>openssl</code></td><td>You need an OpenSSL provider boundary.</td></tr>
+    <tr><td><code>modern</code></td><td>Only modern TLS clients must connect.</td></tr>
+    <tr><td><code>intermediate</code></td><td>You want the default production compatibility profile.</td></tr>
+    <tr><td><code>compat</code></td><td>You must keep TLS 1.2 compatibility explicit.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Static certificate example</h2>
+  <pre><code>[server]
+tls_listen = ["0.0.0.0:8443"]
+
+[[vhosts]]
+name = "site"
+hosts = ["example.com"]
+
+[vhosts.tls]
+cert_path = "/etc/fluxheim/tls/fullchain.pem"
+key_path = "/etc/fluxheim/tls/privkey.pem"</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Before enabling ACME</h2>
+  <ul class="checks"><li>Make sure public DNS points to this server.</li><li>Allow HTTP-01 or TLS-ALPN-01 challenge traffic.</li><li>Mount ACME state as persistent writable storage.</li><li>Use externally issued certificates for strict FIPS or ISO-required boundaries.</li></ul>
+</section>

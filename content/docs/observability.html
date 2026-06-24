@@ -1,0 +1,27 @@
+<section class="guide-section">
+  <h2>Prometheus metrics</h2>
+  <pre><code>[metrics]
+enabled = true
+listen = "127.0.0.1:9100"</code></pre>
+</section>
+<section class="guide-section">
+  <h2>OTLP export</h2>
+  <pre><code>[observability.otlp]
+enabled = true
+endpoint = "http://127.0.0.1:4317"</code></pre>
+  <p>Keep labels low-cardinality: route group, language, status class, download artifact, and GitHub target are useful. Raw IP addresses and user identifiers are not.</p>
+</section>
+<section class="guide-section">
+  <h2>What to dashboard</h2>
+  <table><thead><tr><th>Signal</th><th>Why it matters</th></tr></thead><tbody>
+    <tr><td>Requests by route</td><td>Shows which public pages and docs are being used.</td></tr>
+    <tr><td>Requests by locale</td><td>Shows which languages need the most care.</td></tr>
+    <tr><td>Status classes</td><td>Shows errors without tracking individual users.</td></tr>
+    <tr><td>Download clicks</td><td>Shows which release artifacts are useful.</td></tr>
+    <tr><td>GitHub clicks</td><td>Shows which external project links matter.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Privacy boundary</h2>
+  <ul class="checks"><li>Use aggregate counters and histograms instead of raw request logs.</li><li>Do not label metrics with IP addresses, user agents, or full URLs.</li><li>Keep Prometheus and OTLP listeners on loopback or an internal network.</li><li>Make tracking behavior visible on the privacy and cookies pages.</li></ul>
+</section>

@@ -108,7 +108,6 @@
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Reverse Proxy</span></div>
         <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">Reverse Proxy</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Put Fluxheim in front of an application server. Fluxheim handles TLS, headers, limits, and upstream selection.</p></header>
-
 <section class="guide-section">
   <h2>Basic proxy</h2>
   <pre class="language-toml"><code class="language-toml">[[vhosts]]
@@ -118,11 +117,35 @@ hosts = ["app.example.com"]
 [[vhosts.routes]]
 path_prefix = "/"
 action = "proxy"
-upstreams = ["http://127.0.0.1:3000"]</code></pre>
+upstreams = ["127.0.0.1:3000"]</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Route choices</h2>
+  <table><thead><tr><th>Feature</th><th>Use it when</th></tr></thead><tbody>
+    <tr><td><code>path_exact</code></td><td>One URL needs a precise route.</td></tr>
+    <tr><td><code>path_prefix</code></td><td>A whole URL subtree goes to one backend.</td></tr>
+    <tr><td><code>strip_prefix</code></td><td>The backend should not see the public prefix.</td></tr>
+    <tr><td><code>rewrite_prefix</code></td><td>The backend expects a different internal prefix.</td></tr>
+    <tr><td><code>methods</code></td><td>A route should only accept selected HTTP methods.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Path rewrite example</h2>
+  <pre class="language-toml"><code class="language-toml">[[vhosts.routes]]
+name = "api"
+path_prefix = "/api/"
+strip_prefix = "/api/"
+rewrite_prefix = "/internal/"
+
+[vhosts.routes.proxy]
+upstreams = ["10.0.0.20:8080"]
+connect_timeout_secs = 5
+read_timeout_secs = 30
+send_timeout_secs = 30</code></pre>
 </section>
 <section class="guide-section">
   <h2>Production notes</h2>
-  <ul class="checks"><li>Keep the application on loopback or a private network.</li><li>Set request body limits before exposing uploads.</li><li>Use trusted proxy settings only for networks you control.</li></ul>
+  <ul class="checks"><li>Keep the application on loopback or a private network.</li><li>Set request body limits before exposing uploads.</li><li>Use trusted proxy settings only for networks you control.</li><li>Prefer explicit routes over one large fallback when different paths need different safety rules.</li></ul>
 </section>
 
       </div>

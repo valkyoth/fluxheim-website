@@ -1,0 +1,40 @@
+<section class="guide-section">
+  <h2>Install a release binary</h2>
+  <pre><code>curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.6.30/fluxheim-1.6.30-full-x86_64-linux.tar.gz -o fluxheim.tar.gz
+tar -xzf fluxheim.tar.gz
+sudo install -m 0755 fluxheim /usr/local/bin/fluxheim</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Minimal static site</h2>
+  <pre><code>[server]
+listen = ["0.0.0.0:8080"]
+default_vhost = "site"
+
+[[vhosts]]
+name = "site"
+hosts = ["example.com"]
+
+[vhosts.web]
+root = "/srv/example"
+index_files = ["index.html"]
+deny_dotfiles = true</code></pre>
+</section>
+<section class="guide-section">
+  <h2>What the first config does</h2>
+  <table><thead><tr><th>Option</th><th>Purpose</th></tr></thead><tbody>
+    <tr><td><code>server.listen</code></td><td>Controls the plain HTTP socket Fluxheim opens.</td></tr>
+    <tr><td><code>server.default_vhost</code></td><td>Selects the fallback site when no host matches.</td></tr>
+    <tr><td><code>vhosts.hosts</code></td><td>Lists the hostnames accepted by the site.</td></tr>
+    <tr><td><code>vhosts.web.root</code></td><td>Points at the directory served to visitors.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Check and start</h2>
+  <pre><code>fluxheim --config /etc/fluxheim/fluxheim.toml --check-config
+fluxheim --config /etc/fluxheim/fluxheim.toml</code></pre>
+  <p>Use the config check in deployment scripts. It catches unknown fields, unsafe paths, invalid listeners, and feature/config mismatches before traffic moves.</p>
+</section>
+<section class="guide-section">
+  <h2>Next useful choices</h2>
+  <ul class="checks"><li>Add TLS only after DNS points at the host.</li><li>Add cache only for routes that are safe to share between visitors.</li><li>Add metrics only when the listener is private or behind a trusted proxy.</li></ul>
+</section>

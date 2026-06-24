@@ -1,0 +1,36 @@
+<section class="guide-section">
+  <h2>Two upstreams</h2>
+  <pre><code>[[vhosts.routes]]
+name = "app"
+path_prefix = "/"
+action = "proxy"
+
+[vhosts.routes.proxy]
+upstreams = [
+  "10.0.0.11:8080",
+  "10.0.0.12:8080",
+]
+upstream_weights = [100, 50]
+upstream_aliases = ["app-a", "app-b"]</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Balancing controls</h2>
+  <table><thead><tr><th>Control</th><th>Use it when</th></tr></thead><tbody>
+    <tr><td><code>upstream_weights</code></td><td>Backends should receive different traffic shares.</td></tr>
+    <tr><td><code>backup_upstreams</code></td><td>Some backends should be used only when primary choices fail.</td></tr>
+    <tr><td><code>drain_upstreams</code></td><td>A backend should finish existing work but receive no new traffic.</td></tr>
+    <tr><td><code>disabled_upstreams</code></td><td>A backend must be kept out of rotation.</td></tr>
+    <tr><td><code>upstream_max_in_flight</code></td><td>A backend needs a local concurrency cap.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Dynamic upstream file</h2>
+  <pre><code>[vhosts.routes.proxy]
+upstreams_file = "/run/fluxheim/backends/app.txt"
+upstreams_file_refresh_secs = 5</code></pre>
+  <p>Use static upstreams when you need weights, aliases, backup, drain, or disabled state. File and DNS refreshed pools intentionally keep the contract smaller.</p>
+</section>
+<section class="guide-section">
+  <h2>What it gives you</h2>
+  <ul class="checks"><li>Focused load-balancer release images are available.</li><li>Health checks can keep broken backends out of rotation.</li><li>Drain and force-down operations help with maintenance windows.</li><li>Managed-cookie affinity is available when sessions need a stable backend.</li></ul>
+</section>

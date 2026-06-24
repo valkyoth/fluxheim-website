@@ -108,7 +108,6 @@
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Fluxheim Docs</span></div>
         <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">Fluxheim Docs</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Choose what you want to run. Each guide starts with a working example, then links to the full source docs on GitHub when you need every detail.</p></header>
-
 <section class="grid md:grid-cols-2 gap-4">
   <a class="doc-card" href="getting-started.html"><span>Install</span><strong>Get Fluxheim Running</strong><p>Use this page when you want a local server quickly. It keeps the config small and checks it before serving traffic.</p></a>
 <a class="doc-card" href="static-sites.html"><span>Static Sites</span><strong>Static Sites</strong><p>Serve HTML, CSS, images, and downloads directly from disk. This is the simplest Fluxheim mode.</p></a>
@@ -130,6 +129,17 @@
     <li>Pick one job: static site, reverse proxy, cache, load balancer, or PHP-FPM.</li>
     <li>Validate the TOML config before you restart the service.</li>
   </ol>
+</section>
+<section class="guide-section">
+  <h2>How to use these docs</h2>
+  <p>The website docs show the stable operational shape: what each module does, which options matter first, and a small config you can adapt. The GitHub reference keeps the exhaustive field-by-field detail.</p>
+  <table><thead><tr><th>Need</th><th>Start with</th></tr></thead><tbody>
+    <tr><td>Serve files or docs</td><td>Static Sites</td></tr>
+    <tr><td>Put Fluxheim before an app</td><td>Reverse Proxy</td></tr>
+    <tr><td>Reduce origin traffic</td><td>Cache</td></tr>
+    <tr><td>Run PHP or WordPress</td><td>PHP-FPM or WordPress</td></tr>
+    <tr><td>Pick a binary profile</td><td>Builds & Features</td></tr>
+  </tbody></table>
 </section>
 
       </div>

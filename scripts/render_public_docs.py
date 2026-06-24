@@ -8,6 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 ROOT_PAGES = {"index.html", "download.html", "changelog.html", "cookies.html", "privacy.html", "gdpr.html"}
+DOCS_CONTENT = ROOT / "content/docs"
 
 NAV = [
     ("index.html", "Start"),
@@ -27,318 +28,80 @@ NAV = [
     ("reference.html", "Full Reference"),
 ]
 
-PAGES = {
+PAGE_META = {
     "index.html": (
         "Fluxheim Docs",
         "Choose what you want to run. Each guide starts with a working example, then links to the full source docs on GitHub when you need every detail.",
-        """
-<section class="grid md:grid-cols-2 gap-4">
-  {cards}
-</section>
-<section class="guide-section">
-  <h2>Good first path</h2>
-  <ol class="steps">
-    <li>Install Fluxheim from a release tarball or container image.</li>
-    <li>Pick one job: static site, reverse proxy, cache, load balancer, or PHP-FPM.</li>
-    <li>Validate the TOML config before you restart the service.</li>
-  </ol>
-</section>
-""",
     ),
     "getting-started.html": (
         "Get Fluxheim Running",
         "Use this page when you want a local server quickly. It keeps the config small and checks it before serving traffic.",
-        """
-<section class="guide-section">
-  <h2>Install a release binary</h2>
-  <pre><code>curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.6.30/fluxheim-1.6.30-full-x86_64-linux.tar.gz -o fluxheim.tar.gz
-tar -xzf fluxheim.tar.gz
-sudo install -m 0755 fluxheim /usr/local/bin/fluxheim</code></pre>
-</section>
-<section class="guide-section">
-  <h2>Minimal static site</h2>
-  <pre><code>[server]
-listen = ["0.0.0.0:8080"]
-default_vhost = "site"
-
-[[vhosts]]
-name = "site"
-hosts = ["example.com"]
-
-[vhosts.web]
-root = "/srv/example"
-index_files = ["index.html"]</code></pre>
-</section>
-<section class="guide-section">
-  <h2>Check and start</h2>
-  <pre><code>fluxheim --config /etc/fluxheim/fluxheim.toml --check-config
-fluxheim --config /etc/fluxheim/fluxheim.toml</code></pre>
-</section>
-""",
     ),
     "static-sites.html": (
         "Static Sites",
         "Serve HTML, CSS, images, and downloads directly from disk. This is the simplest Fluxheim mode.",
-        """
-<section class="guide-section">
-  <h2>When to use it</h2>
-  <p>Use static hosting for documentation, product pages, downloads, and sites that do not need application code on each request.</p>
-  <ul class="checks"><li>ETag and conditional requests reduce repeat traffic.</li><li>Byte ranges work for larger files.</li><li>Dotfiles should stay denied for public roots.</li></ul>
-</section>
-<section class="guide-section">
-  <h2>Example</h2>
-  <pre><code>[[vhosts]]
-name = "docs"
-hosts = ["docs.example.com"]
-
-[vhosts.web]
-root = "/srv/docs"
-index_files = ["index.html"]
-deny_dotfiles = true</code></pre>
-</section>
-""",
     ),
     "reverse-proxy.html": (
         "Reverse Proxy",
         "Put Fluxheim in front of an application server. Fluxheim handles TLS, headers, limits, and upstream selection.",
-        """
-<section class="guide-section">
-  <h2>Basic proxy</h2>
-  <pre><code>[[vhosts]]
-name = "app"
-hosts = ["app.example.com"]
-
-[[vhosts.routes]]
-path_prefix = "/"
-action = "proxy"
-upstreams = ["http://127.0.0.1:3000"]</code></pre>
-</section>
-<section class="guide-section">
-  <h2>Production notes</h2>
-  <ul class="checks"><li>Keep the application on loopback or a private network.</li><li>Set request body limits before exposing uploads.</li><li>Use trusted proxy settings only for networks you control.</li></ul>
-</section>
-""",
     ),
     "tls-acme.html": (
         "TLS & ACME",
         "Fluxheim can serve TLS with static certificates or manage ACME certificates for you.",
-        """
-<section class="guide-section">
-  <h2>Managed certificates</h2>
-  <pre><code>[[vhosts]]
-name = "site"
-hosts = ["example.com"]
-
-[vhosts.tls]
-acme = true
-email = "admin@example.com"
-storage = "/var/lib/fluxheim/acme"</code></pre>
-</section>
-<section class="guide-section">
-  <h2>Before enabling ACME</h2>
-  <ul class="checks"><li>Make sure public DNS points to this server.</li><li>Allow HTTP-01 or TLS-ALPN-01 challenge traffic.</li><li>Mount ACME state as persistent writable storage.</li></ul>
-</section>
-""",
     ),
     "cache.html": (
         "Cache",
         "Use cache when Fluxheim sits in front of an origin and repeated responses should be served faster.",
-        """
-<section class="guide-section">
-  <h2>Proxy cache example</h2>
-  <pre><code>[vhosts.cache]
-enabled = true
-backend = "disk"
-path = "/var/cache/fluxheim/site"
-
-[[vhosts.routes]]
-path_prefix = "/assets/"
-action = "proxy"
-upstreams = ["http://127.0.0.1:3000"]
-cache_ttl_secs = 3600</code></pre>
-</section>
-<section class="guide-section">
-  <h2>Use cache carefully</h2>
-  <ul class="checks"><li>Do not cache private user pages unless the route is explicitly safe.</li><li>Keep cache keys bounded and predictable.</li><li>Use purge or short TTLs when content changes often.</li></ul>
-</section>
-""",
     ),
     "load-balancer.html": (
         "Load Balancer",
         "Run several upstreams behind one public endpoint. Start simple, then add health checks and runtime controls.",
-        """
-<section class="guide-section">
-  <h2>Two upstreams</h2>
-  <pre><code>[[vhosts.routes]]
-path_prefix = "/"
-action = "proxy"
-upstreams = [
-  "http://10.0.0.11:8080",
-  "http://10.0.0.12:8080",
-]</code></pre>
-</section>
-<section class="guide-section">
-  <h2>What it gives you</h2>
-  <ul class="checks"><li>Focused load-balancer release images are available.</li><li>Health checks can keep broken backends out of rotation.</li><li>Drain and force-down operations help with maintenance windows.</li></ul>
-</section>
-""",
     ),
     "php-fpm.html": (
         "PHP-FPM",
         "Use PHP-FPM for PHP apps while Fluxheim serves static assets and forwards PHP requests safely.",
-        """
-<section class="guide-section">
-  <h2>External PHP-FPM pool</h2>
-  <pre><code>[vhosts.php]
-enabled = true
-root = "/srv/app/public"
-index = "index.php"
-socket = "/run/php-fpm/app.sock"</code></pre>
-</section>
-<section class="guide-section">
-  <h2>Managed PHP-FPM</h2>
-  <p>Managed mode lets Fluxheim start a private php-fpm master for the vhost. Use it when you want Fluxheim to own the socket and generated pool files.</p>
-  <ul class="checks"><li>Keep PHP files inside the configured root.</li><li>Serve static assets directly when possible.</li><li>Never expose PHP source when PHP execution fails.</li></ul>
-</section>
-""",
     ),
     "wordpress.html": (
         "WordPress",
         "A practical PHP-FPM recipe for a normal WordPress front controller.",
-        """
-<section class="guide-section">
-  <h2>WordPress vhost</h2>
-  <pre><code>[[vhosts]]
-name = "wordpress"
-hosts = ["blog.example.com"]
-
-[vhosts.web]
-root = "/srv/wordpress"
-index_files = ["index.php", "index.html"]
-deny_dotfiles = true
-
-[vhosts.php]
-enabled = true
-root = "/srv/wordpress"
-index = "index.php"
-socket = "/run/php-fpm/wordpress.sock"</code></pre>
-</section>
-<section class="guide-section">
-  <h2>Common checks</h2>
-  <ul class="checks"><li>Make sure the PHP-FPM user can read WordPress files.</li><li>Keep uploads writable only where WordPress needs writes.</li><li>Put cache in front of public assets, not wp-admin.</li></ul>
-</section>
-""",
     ),
     "observability.html": (
         "Observability",
         "Use Prometheus and OpenTelemetry to see aggregate traffic, errors, downloads, and page usage without tracking individual visitors.",
-        """
-<section class="guide-section">
-  <h2>Prometheus metrics</h2>
-  <pre><code>[metrics]
-enabled = true
-listen = "127.0.0.1:9100"</code></pre>
-</section>
-<section class="guide-section">
-  <h2>OTLP export</h2>
-  <pre><code>[observability.otlp]
-enabled = true
-endpoint = "http://127.0.0.1:4317"</code></pre>
-  <p>Keep labels low-cardinality: route group, language, status class, download artifact, and GitHub target are useful. Raw IP addresses and user identifiers are not.</p>
-</section>
-""",
     ),
     "features.html": (
         "Builds & Features",
         "Fluxheim is compiled with feature sets. Pick the smallest build that contains what your deployment needs.",
-        """
-<section class="guide-section">
-  <h2>Common builds</h2>
-  <table><thead><tr><th>Build</th><th>Use it for</th></tr></thead><tbody>
-    <tr><td>full</td><td>General production server with web, proxy, cache, TLS, ACME, PHP-FPM, metrics, and tracing.</td></tr>
-    <tr><td>proxy</td><td>Reverse proxy without local static hosting or cache.</td></tr>
-    <tr><td>cache</td><td>Cache edge in front of another origin.</td></tr>
-    <tr><td>load-balancer</td><td>Focused upstream balancing and health checks.</td></tr>
-    <tr><td>php</td><td>Static web plus PHP-FPM applications such as WordPress.</td></tr>
-  </tbody></table>
-</section>
-<section class="guide-section">
-  <h2>Things that cannot go together</h2>
-  <ul class="checks"><li>Pick exactly one TLS backend.</li><li>Privacy builds do not include cache, metrics, tracing, or OTLP export.</li><li>Focused edge images intentionally omit modules outside their job.</li></ul>
-</section>
-""",
     ),
     "configuration.html": (
         "Configuration Basics",
         "Fluxheim uses TOML. Unknown fields are rejected, so spelling mistakes fail before restart.",
-        """
-<section class="guide-section">
-  <h2>Main shape</h2>
-  <pre><code>[server]
-listen = ["0.0.0.0:8080"]
-default_vhost = "site"
-
-[[vhosts]]
-name = "site"
-hosts = ["example.com"]</code></pre>
-</section>
-<section class="guide-section">
-  <h2>Safe habits</h2>
-  <ul class="checks"><li>Run <code>fluxheim --check-config</code> before reloads.</li><li>Use one vhost per site or application boundary.</li><li>Keep secrets in files, environment, or container secrets, not in public docs.</li></ul>
-</section>
-""",
     ),
     "deployment.html": (
         "Systemd & Containers",
         "Use systemd for native hosts or rootless containers for isolated deployments.",
-        """
-<section class="guide-section">
-  <h2>Rootless Podman</h2>
-  <pre><code>podman run --name fluxheim --replace \\
-  -p 8080:8080 \\
-  -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro \\
-  ghcr.io/valkyoth/fluxheim:v1.6.30</code></pre>
-</section>
-<section class="guide-section">
-  <h2>Production checklist</h2>
-  <ul class="checks"><li>Pin release versions or image digests.</li><li>Mount config and content read-only.</li><li>Keep ACME and cache state on persistent volumes.</li></ul>
-</section>
-""",
     ),
     "advanced.html": (
         "Future Modules",
         "Some modules are planned or experimental. Keep them separate from production basics until they are stable.",
-        """
-<section class="guide-section">
-  <h2>WAF</h2>
-  <p>The WAF track is for rule-based request filtering, logging, and challenge/block responses. It should become its own clear page when it is production-ready.</p>
-</section>
-<section class="guide-section">
-  <h2>WASM extensions</h2>
-  <p>WASM extensions are planned for bounded operator logic. They must stay sandboxed, explicit, and disabled in default builds until the boundary is proven.</p>
-</section>
-""",
     ),
     "reference.html": (
         "Full Reference",
         "The website keeps short guides here. Full design notes, release runbooks, and source-level documents live in GitHub.",
-        """
-<section class="guide-section">
-  <h2>Where the deep docs live</h2>
-  <p>Use the GitHub repository when you need complete generated source documentation, release evidence, architecture tracks, and internal planning notes.</p>
-  <p><a class="action" href="https://github.com/valkyoth/fluxheim/tree/main/docs">Open full docs on GitHub</a></p>
-</section>
-""",
     ),
 }
 
 
 def card(page: str, label: str) -> str:
-    title, intro, _body = PAGES[page]
+    title, intro = PAGE_META[page]
     return (
         f'<a class="doc-card" href="{page}">'
         f'<span>{label}</span><strong>{title}</strong><p>{intro}</p></a>'
     )
+
+
+def page_body(page: str) -> str:
+    return (DOCS_CONTENT / page).read_text(encoding="utf-8")
 
 
 def code_language(code: str) -> str:
@@ -408,7 +171,7 @@ def render(page: str, title: str, intro: str, body: str) -> str:
         for href, label in NAV
     )
     cards = "\n".join(card(href, label) for href, label in NAV[1:13])
-    body = colorize_code_blocks(body.format(cards=cards))
+    body = colorize_code_blocks(body.replace("{cards}", cards))
     site_header = shared_header()
     site_footer = shared_footer()
     return f"""<!DOCTYPE html>
@@ -486,8 +249,8 @@ def nav_class(current: str, href: str) -> str:
 
 def main() -> int:
     docs = ROOT / "docs"
-    for page, (title, intro, body) in PAGES.items():
-        (docs / page).write_text(render(page, title, intro, body), encoding="utf-8")
+    for page, (title, intro) in PAGE_META.items():
+        (docs / page).write_text(render(page, title, intro, page_body(page)), encoding="utf-8")
     return 0
 
 

@@ -108,7 +108,6 @@
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">WordPress</span></div>
         <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">WordPress</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">A practical PHP-FPM recipe for a normal WordPress front controller.</p></header>
-
 <section class="guide-section">
   <h2>WordPress vhost</h2>
   <pre class="language-toml"><code class="language-toml">[[vhosts]]
@@ -124,11 +123,38 @@ deny_dotfiles = true
 enabled = true
 root = "/srv/wordpress"
 index = "index.php"
+preset = "wordpress"
+try_files = "wordpress"
+deny_path_prefixes = ["/wp-content/uploads/"]
+
+[vhosts.php.fpm]
+mode = "external"
 socket = "/run/php-fpm/wordpress.sock"</code></pre>
 </section>
 <section class="guide-section">
+  <h2>WordPress cache route</h2>
+  <pre class="language-toml"><code class="language-toml">[[vhosts.routes]]
+name = "wp-assets"
+path_prefix = "/wp-content/"
+action = "proxy"
+
+[vhosts.routes.proxy]
+upstreams = ["127.0.0.1:9000"]
+
+[vhosts.routes.cache]
+enabled = true
+preset = "wordpress"
+status_ttls = { "200" = 3600, "404" = 60 }
+extensions = ["css", "js", "png", "jpg", "webp", "svg"]
+bypass_cookie_name_prefixes = ["wordpress_logged_in_", "wordpress_sec_"]</code></pre>
+</section>
+<section class="guide-section">
   <h2>Common checks</h2>
-  <ul class="checks"><li>Make sure the PHP-FPM user can read WordPress files.</li><li>Keep uploads writable only where WordPress needs writes.</li><li>Put cache in front of public assets, not wp-admin.</li></ul>
+  <ul class="checks"><li>Make sure the PHP-FPM user can read WordPress files.</li><li>Keep uploads writable only where WordPress needs writes.</li><li>Put cache in front of public assets, not wp-admin.</li><li>Keep login, preview, cron, XML-RPC, and admin paths out of shared cache.</li><li>Use the WordPress preset as a baseline, then add site-specific bypasses.</li></ul>
+</section>
+<section class="guide-section">
+  <h2>Good fit</h2>
+  <p>This setup is for a normal WordPress front controller where Fluxheim serves safe static files, blocks PHP in upload paths, and forwards dynamic requests to PHP-FPM.</p>
 </section>
 
       </div>

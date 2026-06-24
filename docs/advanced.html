@@ -108,14 +108,27 @@
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Future Modules</span></div>
         <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">Future Modules</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Some modules are planned or experimental. Keep them separate from production basics until they are stable.</p></header>
-
 <section class="guide-section">
   <h2>WAF</h2>
   <p>The WAF track is for rule-based request filtering, logging, and challenge/block responses. It should become its own clear page when it is production-ready.</p>
+  <table><thead><tr><th>Planned area</th><th>Expected use</th></tr></thead><tbody>
+    <tr><td>Rules</td><td>Block or challenge suspicious requests before they reach an app.</td></tr>
+    <tr><td>Signals</td><td>Record bounded security events without storing sensitive payloads.</td></tr>
+    <tr><td>Exceptions</td><td>Allow controlled bypasses for known safe application paths.</td></tr>
+  </tbody></table>
 </section>
 <section class="guide-section">
   <h2>WASM extensions</h2>
   <p>WASM extensions are planned for bounded operator logic. They must stay sandboxed, explicit, and disabled in default builds until the boundary is proven.</p>
+  <table><thead><tr><th>Rule</th><th>Reason</th></tr></thead><tbody>
+    <tr><td>Disabled by default</td><td>Production builds should not run operator code unless explicitly enabled.</td></tr>
+    <tr><td>Bounded inputs</td><td>Extensions should receive only the request data they need.</td></tr>
+    <tr><td>No secret access by default</td><td>Extension code should not become a shortcut around the secret boundary.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Not production defaults</h2>
+  <p>Future modules are documented so operators can see the direction, but they should not be treated like stable features until release notes say they are ready.</p>
 </section>
 
       </div>

@@ -108,19 +108,42 @@
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">PHP-FPM</span></div>
         <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">PHP-FPM</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Use PHP-FPM for PHP apps while Fluxheim serves static assets and forwards PHP requests safely.</p></header>
-
 <section class="guide-section">
   <h2>External PHP-FPM pool</h2>
   <pre class="language-toml"><code class="language-toml">[vhosts.php]
 enabled = true
 root = "/srv/app/public"
 index = "index.php"
+
+[vhosts.php.fpm]
+mode = "external"
 socket = "/run/php-fpm/app.sock"</code></pre>
 </section>
 <section class="guide-section">
+  <h2>Endpoint choices</h2>
+  <table><thead><tr><th>Mode</th><th>Use it when</th></tr></thead><tbody>
+    <tr><td><code>socket</code></td><td>Fluxheim and PHP-FPM run on the same host.</td></tr>
+    <tr><td><code>tcp</code></td><td>PHP-FPM runs in another container or host.</td></tr>
+    <tr><td><code>tcp_upstreams</code></td><td>You want simple safe-method failover across PHP-FPM pools.</td></tr>
+    <tr><td><code>managed</code></td><td>Fluxheim should start and supervise a private PHP-FPM master.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
   <h2>Managed PHP-FPM</h2>
+  <pre class="language-toml"><code class="language-toml">[vhosts.php.fpm]
+mode = "managed"
+php_fpm_binary = "/usr/sbin/php-fpm"
+socket_dir = "/run/fluxheim/php"
+workers = 4
+process_manager = "dynamic"
+start_servers = 2
+min_spare_servers = 1
+max_spare_servers = 4</code></pre>
   <p>Managed mode lets Fluxheim start a private php-fpm master for the vhost. Use it when you want Fluxheim to own the socket and generated pool files.</p>
-  <ul class="checks"><li>Keep PHP files inside the configured root.</li><li>Serve static assets directly when possible.</li><li>Never expose PHP source when PHP execution fails.</li></ul>
+</section>
+<section class="guide-section">
+  <h2>PHP safety controls</h2>
+  <ul class="checks"><li>Keep PHP files inside the configured root.</li><li>Serve static assets directly when possible.</li><li>Never expose PHP source when PHP execution fails.</li><li>Deny PHP execution in upload directories.</li><li>Use request and response byte limits for untrusted applications.</li></ul>
 </section>
 
       </div>

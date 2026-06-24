@@ -108,7 +108,6 @@
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Configuration Basics</span></div>
         <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">Configuration Basics</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Fluxheim uses TOML. Unknown fields are rejected, so spelling mistakes fail before restart.</p></header>
-
 <section class="guide-section">
   <h2>Main shape</h2>
   <pre class="language-toml"><code class="language-toml">[server]
@@ -120,8 +119,30 @@ name = "site"
 hosts = ["example.com"]</code></pre>
 </section>
 <section class="guide-section">
+  <h2>How config is organized</h2>
+  <table><thead><tr><th>Area</th><th>What belongs there</th></tr></thead><tbody>
+    <tr><td><code>server</code></td><td>Listeners, global limits, trusted proxy handling, and redirects.</td></tr>
+    <tr><td><code>tls</code></td><td>Global TLS backend and compatibility policy.</td></tr>
+    <tr><td><code>cache</code></td><td>Process-wide cache defaults and storage tiers.</td></tr>
+    <tr><td><code>vhosts</code></td><td>Hostnames, routes, web roots, proxy settings, PHP, TLS, and access policy.</td></tr>
+    <tr><td><code>metrics</code></td><td>Prometheus and export listeners for operational visibility.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Route shape</h2>
+  <pre class="language-toml"><code class="language-toml">[[vhosts.routes]]
+name = "app"
+path_prefix = "/app/"
+methods = ["GET", "HEAD", "POST"]
+max_request_body_bytes = "16MiB"
+
+[vhosts.routes.proxy]
+upstreams = ["127.0.0.1:3000"]</code></pre>
+  <p>A route has one matcher and one action. Exact paths win first, then longest prefixes, then regex routes when regex support is enabled, then one fallback route.</p>
+</section>
+<section class="guide-section">
   <h2>Safe habits</h2>
-  <ul class="checks"><li>Run <code>fluxheim --check-config</code> before reloads.</li><li>Use one vhost per site or application boundary.</li><li>Keep secrets in files, environment, or container secrets, not in public docs.</li></ul>
+  <ul class="checks"><li>Run <code>fluxheim --check-config</code> before reloads.</li><li>Use one vhost per site or application boundary.</li><li>Keep secrets in files, environment, or container secrets, not in public docs.</li><li>Use route-level limits for uploads and expensive application paths.</li><li>Keep admin and metrics listeners private.</li></ul>
 </section>
 
       </div>

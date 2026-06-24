@@ -1,0 +1,39 @@
+<section class="guide-section">
+  <h2>Basic proxy</h2>
+  <pre><code>[[vhosts]]
+name = "app"
+hosts = ["app.example.com"]
+
+[[vhosts.routes]]
+path_prefix = "/"
+action = "proxy"
+upstreams = ["127.0.0.1:3000"]</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Route choices</h2>
+  <table><thead><tr><th>Feature</th><th>Use it when</th></tr></thead><tbody>
+    <tr><td><code>path_exact</code></td><td>One URL needs a precise route.</td></tr>
+    <tr><td><code>path_prefix</code></td><td>A whole URL subtree goes to one backend.</td></tr>
+    <tr><td><code>strip_prefix</code></td><td>The backend should not see the public prefix.</td></tr>
+    <tr><td><code>rewrite_prefix</code></td><td>The backend expects a different internal prefix.</td></tr>
+    <tr><td><code>methods</code></td><td>A route should only accept selected HTTP methods.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Path rewrite example</h2>
+  <pre><code>[[vhosts.routes]]
+name = "api"
+path_prefix = "/api/"
+strip_prefix = "/api/"
+rewrite_prefix = "/internal/"
+
+[vhosts.routes.proxy]
+upstreams = ["10.0.0.20:8080"]
+connect_timeout_secs = 5
+read_timeout_secs = 30
+send_timeout_secs = 30</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Production notes</h2>
+  <ul class="checks"><li>Keep the application on loopback or a private network.</li><li>Set request body limits before exposing uploads.</li><li>Use trusted proxy settings only for networks you control.</li><li>Prefer explicit routes over one large fallback when different paths need different safety rules.</li></ul>
+</section>

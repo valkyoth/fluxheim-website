@@ -108,7 +108,6 @@
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Get Fluxheim Running</span></div>
         <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">Get Fluxheim Running</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Use this page when you want a local server quickly. It keeps the config small and checks it before serving traffic.</p></header>
-
 <section class="guide-section">
   <h2>Install a release binary</h2>
   <pre class="language-bash"><code class="language-bash">curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.6.30/fluxheim-1.6.30-full-x86_64-linux.tar.gz -o fluxheim.tar.gz
@@ -127,12 +126,27 @@ hosts = ["example.com"]
 
 [vhosts.web]
 root = "/srv/example"
-index_files = ["index.html"]</code></pre>
+index_files = ["index.html"]
+deny_dotfiles = true</code></pre>
+</section>
+<section class="guide-section">
+  <h2>What the first config does</h2>
+  <table><thead><tr><th>Option</th><th>Purpose</th></tr></thead><tbody>
+    <tr><td><code>server.listen</code></td><td>Controls the plain HTTP socket Fluxheim opens.</td></tr>
+    <tr><td><code>server.default_vhost</code></td><td>Selects the fallback site when no host matches.</td></tr>
+    <tr><td><code>vhosts.hosts</code></td><td>Lists the hostnames accepted by the site.</td></tr>
+    <tr><td><code>vhosts.web.root</code></td><td>Points at the directory served to visitors.</td></tr>
+  </tbody></table>
 </section>
 <section class="guide-section">
   <h2>Check and start</h2>
   <pre class="language-bash"><code class="language-bash">fluxheim --config /etc/fluxheim/fluxheim.toml --check-config
 fluxheim --config /etc/fluxheim/fluxheim.toml</code></pre>
+  <p>Use the config check in deployment scripts. It catches unknown fields, unsafe paths, invalid listeners, and feature/config mismatches before traffic moves.</p>
+</section>
+<section class="guide-section">
+  <h2>Next useful choices</h2>
+  <ul class="checks"><li>Add TLS only after DNS points at the host.</li><li>Add cache only for routes that are safe to share between visitors.</li><li>Add metrics only when the listener is private or behind a trusted proxy.</li></ul>
 </section>
 
       </div>

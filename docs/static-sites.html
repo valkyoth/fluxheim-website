@@ -108,14 +108,13 @@
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Static Sites</span></div>
         <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">Static Sites</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Serve HTML, CSS, images, and downloads directly from disk. This is the simplest Fluxheim mode.</p></header>
-
 <section class="guide-section">
   <h2>When to use it</h2>
   <p>Use static hosting for documentation, product pages, downloads, and sites that do not need application code on each request.</p>
   <ul class="checks"><li>ETag and conditional requests reduce repeat traffic.</li><li>Byte ranges work for larger files.</li><li>Dotfiles should stay denied for public roots.</li></ul>
 </section>
 <section class="guide-section">
-  <h2>Example</h2>
+  <h2>Static site example</h2>
   <pre class="language-toml"><code class="language-toml">[[vhosts]]
 name = "docs"
 hosts = ["docs.example.com"]
@@ -124,6 +123,30 @@ hosts = ["docs.example.com"]
 root = "/srv/docs"
 index_files = ["index.html"]
 deny_dotfiles = true</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Main options</h2>
+  <table><thead><tr><th>Option</th><th>Use it when</th></tr></thead><tbody>
+    <tr><td><code>root</code></td><td>You want a bounded filesystem root for public files.</td></tr>
+    <tr><td><code>index_files</code></td><td>A directory should resolve to an index file.</td></tr>
+    <tr><td><code>deny_dotfiles</code></td><td>Hidden files must never become public by accident.</td></tr>
+    <tr><td><code>directory_listing</code></td><td>You intentionally publish repository-style file indexes.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Repository listing example</h2>
+  <pre class="language-toml"><code class="language-toml">[[vhosts.routes]]
+name = "repo"
+path_prefix = "/repo/"
+
+[vhosts.routes.web]
+root = "/srv/repository/public"
+index_files = ["index.html"]
+
+[vhosts.routes.web.directory_listing]
+enabled = true
+exact_size = false</code></pre>
+  <p>Directory listings stay private-cache by default, skip symlink entries, and still prefer index files when they exist.</p>
 </section>
 
       </div>

@@ -1,0 +1,22 @@
+<section class="guide-section">
+  <h2>WAF</h2>
+  <p>The WAF track is for rule-based request filtering, logging, and challenge/block responses. It should become its own clear page when it is production-ready.</p>
+  <table><thead><tr><th>Planned area</th><th>Expected use</th></tr></thead><tbody>
+    <tr><td>Rules</td><td>Block or challenge suspicious requests before they reach an app.</td></tr>
+    <tr><td>Signals</td><td>Record bounded security events without storing sensitive payloads.</td></tr>
+    <tr><td>Exceptions</td><td>Allow controlled bypasses for known safe application paths.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>WASM extensions</h2>
+  <p>WASM extensions are planned for bounded operator logic. They must stay sandboxed, explicit, and disabled in default builds until the boundary is proven.</p>
+  <table><thead><tr><th>Rule</th><th>Reason</th></tr></thead><tbody>
+    <tr><td>Disabled by default</td><td>Production builds should not run operator code unless explicitly enabled.</td></tr>
+    <tr><td>Bounded inputs</td><td>Extensions should receive only the request data they need.</td></tr>
+    <tr><td>No secret access by default</td><td>Extension code should not become a shortcut around the secret boundary.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Not production defaults</h2>
+  <p>Future modules are documented so operators can see the direction, but they should not be treated like stable features until release notes say they are ready.</p>
+</section>

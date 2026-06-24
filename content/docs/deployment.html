@@ -1,0 +1,30 @@
+<section class="guide-section">
+  <h2>Rootless Podman</h2>
+  <pre><code>podman run --name fluxheim --replace \
+  -p 8080:8080 \
+  -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro \
+  -v ./site:/srv/site:ro \
+  -v fluxheim-cache:/var/cache/fluxheim \
+  ghcr.io/valkyoth/fluxheim:v1.6.30</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Container mounts</h2>
+  <table><thead><tr><th>Mount</th><th>Recommended mode</th></tr></thead><tbody>
+    <tr><td>Config</td><td>Read-only bind mount.</td></tr>
+    <tr><td>Static content</td><td>Read-only bind mount.</td></tr>
+    <tr><td>ACME state</td><td>Persistent writable volume.</td></tr>
+    <tr><td>Disk cache</td><td>Persistent writable volume sized for the cache policy.</td></tr>
+    <tr><td>Secrets</td><td>Container secret or credentials directory, not a public file.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Systemd flow</h2>
+  <pre><code>fluxheim --config /etc/fluxheim/fluxheim.toml --check-config
+sudo systemctl restart fluxheim
+sudo systemctl status fluxheim
+journalctl -u fluxheim -n 100 --no-pager</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Production checklist</h2>
+  <ul class="checks"><li>Pin release versions or image digests.</li><li>Mount config and content read-only.</li><li>Keep ACME and cache state on persistent volumes.</li><li>Validate config against the profile you plan to run.</li><li>Keep health checks and rollback commands ready before changing traffic.</li></ul>
+</section>

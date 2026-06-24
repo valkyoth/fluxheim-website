@@ -108,7 +108,6 @@
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Builds & Features</span></div>
         <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">Builds & Features</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Fluxheim is compiled with feature sets. Pick the smallest build that contains what your deployment needs.</p></header>
-
 <section class="guide-section">
   <h2>Common builds</h2>
   <table><thead><tr><th>Build</th><th>Use it for</th></tr></thead><tbody>
@@ -120,8 +119,26 @@
   </tbody></table>
 </section>
 <section class="guide-section">
+  <h2>Profile examples</h2>
+  <pre class="language-toml"><code class="language-toml">cargo build --release --no-default-features --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp
+cargo build --release --no-default-features --features profile-cache-edge,acme-client
+cargo build --release --no-default-features --features profile-proxy-edge,acme-client
+cargo build --release --no-default-features --features profile-web-server,php-fpm,acme-client
+cargo build --release --no-default-features --features profile-load-balancer-edge,acme-client</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Feature families</h2>
+  <table><thead><tr><th>Family</th><th>What it adds</th></tr></thead><tbody>
+    <tr><td><code>web</code></td><td>Static file serving and local web routes.</td></tr>
+    <tr><td><code>proxy</code></td><td>Reverse proxy routes and upstream handling.</td></tr>
+    <tr><td><code>cache</code></td><td>Shared cache policy, memory and disk tiers, purge, and cache tooling.</td></tr>
+    <tr><td><code>php-fpm</code></td><td>FastCGI bridge and optional managed PHP-FPM supervision.</td></tr>
+    <tr><td><code>metrics</code></td><td>Prometheus metrics and optional OTLP metrics export.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
   <h2>Things that cannot go together</h2>
-  <ul class="checks"><li>Pick exactly one TLS backend.</li><li>Privacy builds do not include cache, metrics, tracing, or OTLP export.</li><li>Focused edge images intentionally omit modules outside their job.</li></ul>
+  <ul class="checks"><li>Pick exactly one TLS backend.</li><li>Privacy builds do not include cache, metrics, tracing, or OTLP export.</li><li>Focused edge images intentionally omit modules outside their job.</li><li>Run the feature validator before packaging custom feature strings.</li></ul>
 </section>
 
       </div>
