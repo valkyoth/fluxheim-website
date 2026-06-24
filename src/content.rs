@@ -190,6 +190,7 @@ mod tests {
         assert!(site.locale("cs-CZ").is_some());
         assert!(site.locale("bs-BA").is_some());
         assert!(site.locale("bg-BG").is_some());
+        assert!(site.locale("ro-RO").is_some());
     }
 
     #[test]
@@ -218,6 +219,7 @@ mod tests {
         assert_eq!(site.split_path("cs/docs/cache").0.locale_id, "cs-CZ");
         assert_eq!(site.split_path("bs/docs/cache").0.locale_id, "bs-BA");
         assert_eq!(site.split_path("bg/docs/cache").0.locale_id, "bg-BG");
+        assert_eq!(site.split_path("ro/docs/cache").0.locale_id, "ro-RO");
     }
 
     #[test]
@@ -248,5 +250,6 @@ mod tests {
         assert!(links.iter().any(|link| link.href == "/cs/download"));
         assert!(links.iter().any(|link| link.href == "/bs/download"));
         assert!(links.iter().any(|link| link.href == "/bg/download"));
+        assert!(links.iter().any(|link| link.href == "/ro/download"));
     }
 }

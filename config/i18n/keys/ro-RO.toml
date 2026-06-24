@@ -1,0 +1,62 @@
+locale_id = "ro-RO"
+
+[language]
+selector_label = "Limbă"
+
+[language.names]
+en-EU = "English (EU)"
+en-GB = "English (UK)"
+en-US = "English (US)"
+de-DE = "Deutsch"
+fr-FR = "Français"
+sv-SE = "Svenska"
+nb-NO = "Norsk"
+nl-NL = "Nederlands"
+fi-FI = "Suomi"
+is-IS = "Íslenska"
+da-DK = "Dansk"
+es-ES = "Español"
+pt-PT = "Português"
+et-EE = "Eesti"
+lv-LV = "Latviešu"
+el-GR = "Ελληνικά"
+it-IT = "Italiano"
+lt-LT = "Lietuvių"
+hr-HR = "Hrvatski"
+cs-CZ = "Čeština"
+bs-BA = "Bosanski"
+bg-BG = "Български"
+de-CH = "Deutsch (Schweiz)"
+ro-RO = "Română"
+
+[nav]
+docs = "Documentație"
+download = "Descărcare"
+changelog = "Jurnal de modificări"
+
+[release]
+latest_stable = "Cea mai nouă versiune stabilă"
+latest_stable_release = "Cea mai nouă ediție stabilă"
+download_version = "Descarcă v{version}"
+
+[shell]
+home_title = "Fluxheim - server edge memory-safe scris în Rust"
+view_on_github = "Vezi pe GitHub"
+quick_start = "Pornire rapidă"
+switch_color_theme = "Schimbă tema de culori"
+links = "Linkuri"
+github_repository = "Repository GitHub"
+issues = "Probleme"
+menu = "Meniu"
+
+[footer]
+tagline = "Server edge memory-safe scris în Rust. Licențiat sub EUPL-1.2."
+project = "Proiect"
+releases = "Versiuni"
+roadmap = "Plan de dezvoltare"
+community = "Comunitate"
+discussions = "Discuții"
+eupl_license = "Licență EUPL-1.2"
+valkyoth_org = "Organizația Valkyoth"
+copyright_prefix = "© 2026 Valkyoth. Distribuit sub licența"
+built_with = "Construit cu Rust · Rulat de Fluxheim"

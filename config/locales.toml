@@ -135,3 +135,9 @@ locale_id = "de-CH"
 html_lang = "de-CH"
 url_prefix = "ch"
 display_name = "Deutsch (Schweiz)"
+
+[[locales]]
+locale_id = "ro-RO"
+html_lang = "ro-RO"
+url_prefix = "ro"
+display_name = "Română"

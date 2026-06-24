@@ -27,6 +27,7 @@ cs-CZ = "Čeština"
 bs-BA = "Bosanski"
 bg-BG = "Български"
 de-CH = "Deutsch (Schweiz)"
+ro-RO = "Română"
 
 [nav]
 docs = "Dokumentatsioon"
