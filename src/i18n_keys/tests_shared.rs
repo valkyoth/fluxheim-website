@@ -17,6 +17,7 @@ fn reads_stable_language_keys() {
     let et = site.locale("et-EE").expect("Estonian locale");
     let lv = site.locale("lv-LV").expect("Latvian locale");
     let el = site.locale("el-GR").expect("Greek locale");
+    let it = site.locale("it-IT").expect("Italian locale");
     let us = site.locale("en-US").expect("US English locale");
 
     assert_eq!(language_selector_label(de), "Sprache");
@@ -32,6 +33,7 @@ fn reads_stable_language_keys() {
     assert_eq!(language_selector_label(et), "Keel");
     assert_eq!(language_selector_label(lv), "Valoda");
     assert_eq!(language_selector_label(el), "Γλώσσα");
+    assert_eq!(language_selector_label(it), "Lingua");
     assert_eq!(language_selector_label(us), "Language");
     assert_eq!(
         language_display_name(de, "en-US", "fallback"),
@@ -60,6 +62,7 @@ fn language_menu_names_are_autonyms_in_every_locale() {
         ("et-EE", "Eesti"),
         ("lv-LV", "Latviešu"),
         ("el-GR", "Ελληνικά"),
+        ("it-IT", "Italiano"),
     ];
 
     for active_locale in site.locales() {

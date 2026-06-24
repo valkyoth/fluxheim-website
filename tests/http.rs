@@ -83,6 +83,7 @@ async fn renders_default_english_home() {
     assert!(body.contains("Eesti"));
     assert!(body.contains("Latviešu"));
     assert!(body.contains("Ελληνικά"));
+    assert!(body.contains("Italiano"));
     assert!(body.contains("Rootless Containers"));
 }
 
@@ -169,6 +170,12 @@ async fn locale_prefixes_preserve_legacy_pages() {
     assert!(el_body.contains(r#"<html lang="el-GR""#));
     assert!(el_body.contains("Λήψη v1.6.30"));
     assert!(el_body.contains("🇬🇷"));
+
+    let (it_status, _headers, it_body) = request("/it/download").await;
+    assert_eq!(it_status, StatusCode::OK);
+    assert!(it_body.contains(r#"<html lang="it-IT""#));
+    assert!(it_body.contains("Scarica v1.6.30"));
+    assert!(it_body.contains("🇮🇹"));
 }
 
 #[tokio::test]
@@ -270,6 +277,12 @@ async fn locale_prefixes_apply_runtime_translations() {
     assert!(el_body.contains(r#"<html lang="el-GR""#));
     assert!(el_body.contains("Memory-safe"));
     assert!(el_body.contains("Λήψη v1.6.30"));
+
+    let (it_status, _headers, it_body) = request("/it/").await;
+    assert_eq!(it_status, StatusCode::OK);
+    assert!(it_body.contains(r#"<html lang="it-IT""#));
+    assert!(it_body.contains("Memory-safe"));
+    assert!(it_body.contains("Scarica v1.6.30"));
 }
 
 #[tokio::test]
@@ -439,6 +452,7 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     assert!(de_body.contains(r#"<a href="/et/docs">"#));
     assert!(de_body.contains(r#"<a href="/lv/docs">"#));
     assert!(de_body.contains(r#"<a href="/el/docs">"#));
+    assert!(de_body.contains(r#"<a href="/it/docs">"#));
     assert!(de_body.contains("🇪🇺"));
     assert!(de_body.contains("🇩🇪"));
     assert!(de_body.contains("🇫🇷"));
@@ -452,6 +466,7 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     assert!(de_body.contains("🇪🇪"));
     assert!(de_body.contains("🇱🇻"));
     assert!(de_body.contains("🇬🇷"));
+    assert!(de_body.contains("🇮🇹"));
     assert!(de_body.contains("<span>English (EU)</span>"));
     assert!(de_body.contains("<span>Deutsch</span>"));
     assert!(de_body.contains("<span>Français</span>"));
@@ -465,6 +480,7 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     assert!(de_body.contains("<span>Eesti</span>"));
     assert!(de_body.contains("<span>Latviešu</span>"));
     assert!(de_body.contains("<span>Ελληνικά</span>"));
+    assert!(de_body.contains("<span>Italiano</span>"));
 }
 
 #[tokio::test]
@@ -529,6 +545,7 @@ async fn language_selector_targets_same_page() {
     assert!(body.contains(r#"<a href="/et/download""#));
     assert!(body.contains(r#"<a href="/lv/download""#));
     assert!(body.contains(r#"<a href="/el/download""#));
+    assert!(body.contains(r#"<a href="/it/download""#));
     assert!(body.contains(r#"<summary aria-label="Sprache">"#));
     assert!(body.contains("<span>Deutsch</span>"));
     assert!(body.contains("<span>Nederlands</span>"));
@@ -540,6 +557,7 @@ async fn language_selector_targets_same_page() {
     assert!(body.contains("<span>Eesti</span>"));
     assert!(body.contains("<span>Latviešu</span>"));
     assert!(body.contains("<span>Ελληνικά</span>"));
+    assert!(body.contains("<span>Italiano</span>"));
 }
 
 #[tokio::test]

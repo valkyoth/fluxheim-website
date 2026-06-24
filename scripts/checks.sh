@@ -9,7 +9,7 @@ scripts/check_i18n_keys.py
 scripts/check_english_variants.py
 i18n_progress="$(scripts/check_i18n_keys.py --progress)"
 case "$i18n_progress" in
-  *"de-DE:"*"fr-FR:"*"sv-SE:"*"nb-NO:"*"nl-NL:"*"fi-FI:"*"is-IS:"*"da-DK:"*"es-ES:"*"pt-PT:"*"et-EE:"*"lv-LV:"*"el-GR:"*) ;;
+  *"de-DE:"*"fr-FR:"*"sv-SE:"*"nb-NO:"*"nl-NL:"*"fi-FI:"*"is-IS:"*"da-DK:"*"es-ES:"*"pt-PT:"*"et-EE:"*"lv-LV:"*"el-GR:"*"it-IT:"*) ;;
   *)
     echo "i18n progress report missing configured non-English locales" >&2
     exit 1
@@ -44,10 +44,10 @@ cp -a config/i18n/keys "$tmp_i18n_root/config/i18n/"
 cp config/locales.toml "$tmp_i18n_root/config/locales.toml"
 scripts/scaffold_i18n_locale.py \
   --root "$tmp_i18n_root" \
-  --locale-id it-IT \
-  --html-lang it-IT \
-  --url-prefix it \
-  --display-name Italiano >/dev/null
+  --locale-id pl-PL \
+  --html-lang pl-PL \
+  --url-prefix pl \
+  --display-name Polski >/dev/null
 scripts/check_i18n_keys.py --root "$tmp_i18n_root" --allow-untranslated-locales
 i18n_scaffold_untranslated="$(
   scripts/check_i18n_keys.py \
@@ -57,7 +57,7 @@ i18n_scaffold_untranslated="$(
     --untranslated-limit 1
 )"
 case "$i18n_scaffold_untranslated" in
-  *"it-IT:"*"config/i18n/keys/it-IT/"*) ;;
+  *"pl-PL:"*"config/i18n/keys/pl-PL/"*) ;;
   *)
     echo "i18n scaffold untranslated report missing new locale edit path" >&2
     exit 1

@@ -93,3 +93,9 @@ locale_id = "el-GR"
 html_lang = "el-GR"
 url_prefix = "el"
 display_name = "Ελληνικά"
+
+[[locales]]
+locale_id = "it-IT"
+html_lang = "it-IT"
+url_prefix = "it"
+display_name = "Italiano"
