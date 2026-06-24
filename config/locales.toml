@@ -75,3 +75,9 @@ locale_id = "pt-PT"
 html_lang = "pt-PT"
 url_prefix = "pt"
 display_name = "Português"
+
+[[locales]]
+locale_id = "et-EE"
+html_lang = "et-EE"
+url_prefix = "et"
+display_name = "Eesti"
