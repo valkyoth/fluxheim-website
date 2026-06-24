@@ -57,3 +57,9 @@ locale_id = "is-IS"
 html_lang = "is-IS"
 url_prefix = "is"
 display_name = "Íslenska"
+
+[[locales]]
+locale_id = "da-DK"
+html_lang = "da-DK"
+url_prefix = "da"
+display_name = "Dansk"
