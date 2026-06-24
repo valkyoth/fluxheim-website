@@ -147,3 +147,9 @@ locale_id = "pl-PL"
 html_lang = "pl-PL"
 url_prefix = "pl"
 display_name = "Polski"
+
+[[locales]]
+locale_id = "ru-RU"
+html_lang = "ru-RU"
+url_prefix = "ru"
+display_name = "Русский"

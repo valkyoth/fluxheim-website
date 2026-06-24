@@ -26,6 +26,7 @@ fn reads_stable_language_keys() {
     let bg = site.locale("bg-BG").expect("Bulgarian locale");
     let ro = site.locale("ro-RO").expect("Romanian locale");
     let pl = site.locale("pl-PL").expect("Polish locale");
+    let ru = site.locale("ru-RU").expect("Russian locale");
     let us = site.locale("en-US").expect("US English locale");
 
     assert_eq!(language_selector_label(de), "Sprache");
@@ -50,6 +51,7 @@ fn reads_stable_language_keys() {
     assert_eq!(language_selector_label(bg), "Език");
     assert_eq!(language_selector_label(ro), "Limbă");
     assert_eq!(language_selector_label(pl), "Język");
+    assert_eq!(language_selector_label(ru), "Язык");
     assert_eq!(language_selector_label(us), "Language");
     assert_eq!(
         language_display_name(de, "en-US", "fallback"),
@@ -87,6 +89,7 @@ fn language_menu_names_are_autonyms_in_every_locale() {
         ("bg-BG", "Български"),
         ("ro-RO", "Română"),
         ("pl-PL", "Polski"),
+        ("ru-RU", "Русский"),
     ];
 
     for active_locale in site.locales() {

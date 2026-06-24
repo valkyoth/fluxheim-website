@@ -1,0 +1,64 @@
+locale_id = "ru-RU"
+
+[language]
+selector_label = "Язык"
+
+[language.names]
+en-EU = "English (EU)"
+en-GB = "English (UK)"
+en-US = "English (US)"
+de-DE = "Deutsch"
+fr-FR = "Français"
+sv-SE = "Svenska"
+nb-NO = "Norsk"
+nl-NL = "Nederlands"
+fi-FI = "Suomi"
+is-IS = "Íslenska"
+da-DK = "Dansk"
+es-ES = "Español"
+pt-PT = "Português"
+et-EE = "Eesti"
+lv-LV = "Latviešu"
+el-GR = "Ελληνικά"
+it-IT = "Italiano"
+lt-LT = "Lietuvių"
+hr-HR = "Hrvatski"
+cs-CZ = "Čeština"
+bs-BA = "Bosanski"
+bg-BG = "Български"
+de-CH = "Deutsch (Schweiz)"
+ro-RO = "Română"
+pl-PL = "Polski"
+ru-RU = "Русский"
+
+[nav]
+docs = "Документация"
+download = "Скачать"
+changelog = "Журнал изменений"
+
+[release]
+latest_stable = "Последняя стабильная"
+latest_stable_release = "Последний стабильный выпуск"
+download_version = "Скачать v{version}"
+
+[shell]
+home_title = "Fluxheim - memory-safe edge-сервер, написанный на Rust"
+view_on_github = "Открыть на GitHub"
+quick_start = "Быстрый старт"
+switch_color_theme = "Переключить цветовую тему"
+links = "Ссылки"
+github_repository = "Репозиторий GitHub"
+issues = "Задачи"
+menu = "Меню"
+
+[footer]
+tagline = "Memory-safe edge-сервер, написанный на Rust. Лицензия EUPL-1.2."
+project = "Проект"
+releases = "Выпуски"
+roadmap = "План развития"
+community = "Сообщество"
+discussions = "Обсуждения"
+eupl_license = "Лицензия EUPL-1.2"
+valkyoth_org = "Организация Valkyoth"
+copyright_prefix = "© 2026 Valkyoth. Распространяется по лицензии"
+built_with = "Создано на Rust · Работает на Fluxheim"
