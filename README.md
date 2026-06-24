@@ -177,6 +177,14 @@ Build and run with Podman Compose:
 podman compose -f container/podman-compose.yml up --build
 ```
 
+OTLP export is runtime-controlled. The regular compose file defaults it to
+disabled; the observability stack defaults it to enabled:
+
+```bash
+FLUXHEIM_OTLP=enabled podman compose -f container/podman-compose.yml up --build
+FLUXHEIM_OTLP=disabled podman compose -f container/observability/podman-compose.yml up --build
+```
+
 Or build manually:
 
 ```bash

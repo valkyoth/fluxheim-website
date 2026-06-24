@@ -53,7 +53,7 @@ impl Observability {
     }
 
     pub fn from_env(service_version: &str) -> (Self, TelemetryGuard) {
-        if !env_flag("FLUXHEIM_OTEL_ENABLED") {
+        if !otlp_enabled_from_env() {
             return (Self::disabled(), TelemetryGuard::default());
         }
 
@@ -293,11 +293,29 @@ fn request_attributes(labels: &RequestLabels, status_class: &'static str) -> Vec
     ]
 }
 
-fn env_flag(name: &str) -> bool {
-    matches!(
-        env::var(name).ok().as_deref(),
-        Some("1" | "true" | "TRUE" | "yes" | "YES" | "on" | "ON")
-    )
+fn otlp_enabled_from_env() -> bool {
+    otlp_enabled_from_vars(|name| env::var(name).ok())
+}
+
+fn otlp_enabled_from_vars(mut value_for: impl FnMut(&str) -> Option<String>) -> bool {
+    for name in [
+        "FLUXHEIM_OTLP",
+        "FLUXHEIM_OTLP_ENABLED",
+        "FLUXHEIM_OTEL_ENABLED",
+    ] {
+        if let Some(value) = value_for(name).and_then(|value| parse_env_switch(&value)) {
+            return value;
+        }
+    }
+    false
+}
+
+fn parse_env_switch(value: &str) -> Option<bool> {
+    match value.trim().to_ascii_lowercase().as_str() {
+        "1" | "true" | "yes" | "on" | "enabled" | "enable" => Some(true),
+        "0" | "false" | "no" | "off" | "disabled" | "disable" => Some(false),
+        _ => None,
+    }
 }
 
 fn status_class(status: http::StatusCode) -> &'static str {
@@ -350,8 +368,11 @@ fn is_allowed_section(section: &str) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::{Observability, VisiblePageEvent, normalize_route, section_for_slug};
+    use super::{
+        Observability, VisiblePageEvent, normalize_route, otlp_enabled_from_vars, section_for_slug,
+    };
     use crate::content::Site;
+    use std::collections::BTreeMap;
 
     #[test]
     fn normalizes_routes_without_query_or_raw_unknown_paths() {
@@ -398,5 +419,36 @@ mod tests {
             seconds: 1,
         };
         assert!(Observability::validate_visible_event(&site, invalid).is_none());
+    }
+
+    #[test]
+    fn otlp_runtime_switch_accepts_enabled_disabled_values() {
+        assert!(otlp_enabled(&[("FLUXHEIM_OTLP", "enabled")]));
+        assert!(otlp_enabled(&[("FLUXHEIM_OTLP_ENABLED", "true")]));
+        assert!(otlp_enabled(&[("FLUXHEIM_OTEL_ENABLED", "1")]));
+        assert!(!otlp_enabled(&[("FLUXHEIM_OTLP", "disabled")]));
+        assert!(!otlp_enabled(&[("FLUXHEIM_OTLP_ENABLED", "off")]));
+        assert!(!otlp_enabled(&[("FLUXHEIM_OTLP", "maybe")]));
+        assert!(!otlp_enabled(&[]));
+    }
+
+    #[test]
+    fn otlp_runtime_switch_prefers_new_name_over_legacy_alias() {
+        assert!(!otlp_enabled(&[
+            ("FLUXHEIM_OTLP", "disabled"),
+            ("FLUXHEIM_OTEL_ENABLED", "true"),
+        ]));
+        assert!(otlp_enabled(&[
+            ("FLUXHEIM_OTLP", "enabled"),
+            ("FLUXHEIM_OTEL_ENABLED", "false"),
+        ]));
+    }
+
+    fn otlp_enabled(vars: &[(&str, &str)]) -> bool {
+        let vars = vars
+            .iter()
+            .map(|(name, value)| ((*name).to_owned(), (*value).to_owned()))
+            .collect::<BTreeMap<_, _>>();
+        otlp_enabled_from_vars(|name| vars.get(name).cloned())
     }
 }
