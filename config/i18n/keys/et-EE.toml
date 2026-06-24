@@ -23,6 +23,7 @@ el-GR = "Ελληνικά"
 it-IT = "Italiano"
 lt-LT = "Lietuvių"
 hr-HR = "Hrvatski"
+cs-CZ = "Čeština"
 
 [nav]
 docs = "Dokumentatsioon"

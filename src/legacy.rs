@@ -339,6 +339,7 @@ fn language_flag(locale_id: &str) -> &'static str {
         "it-IT" => "🇮🇹",
         "lt-LT" => "🇱🇹",
         "hr-HR" => "🇭🇷",
+        "cs-CZ" => "🇨🇿",
         _ => "",
     }
 }
@@ -384,6 +385,7 @@ mod tests {
         assert_eq!(language_flag("it-IT"), "🇮🇹");
         assert_eq!(language_flag("lt-LT"), "🇱🇹");
         assert_eq!(language_flag("hr-HR"), "🇭🇷");
+        assert_eq!(language_flag("cs-CZ"), "🇨🇿");
         assert_eq!(language_flag("unknown"), "");
     }
 

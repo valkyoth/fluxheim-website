@@ -111,3 +111,9 @@ locale_id = "hr-HR"
 html_lang = "hr-HR"
 url_prefix = "hr"
 display_name = "Hrvatski"
+
+[[locales]]
+locale_id = "cs-CZ"
+html_lang = "cs-CZ"
+url_prefix = "cs"
+display_name = "Čeština"
