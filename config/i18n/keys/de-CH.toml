@@ -1,4 +1,4 @@
-locale_id = "de-DE"
+locale_id = "de-CH"
 
 [language]
 selector_label = "Sprache"
@@ -43,7 +43,7 @@ home_title = "Fluxheim — Speichersicherer Edge-Server in Rust"
 view_on_github = "Auf GitHub ansehen"
 quick_start = "Schnellstart"
 switch_color_theme = "Farbschema wechseln"
-links = "Links"
+links = "Verweise"
 github_repository = "GitHub-Repository"
 issues = "Tickets"
 menu = "Menü"

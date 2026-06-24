@@ -129,3 +129,9 @@ locale_id = "bg-BG"
 html_lang = "bg-BG"
 url_prefix = "bg"
 display_name = "Български"
+
+[[locales]]
+locale_id = "de-CH"
+html_lang = "de-CH"
+url_prefix = "ch"
+display_name = "Deutsch (Schweiz)"

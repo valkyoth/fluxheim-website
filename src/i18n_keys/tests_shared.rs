@@ -5,6 +5,7 @@ use crate::content::Site;
 fn reads_stable_language_keys() {
     let site = Site::load().expect("site loads");
     let de = site.locale("de-DE").expect("German locale");
+    let ch = site.locale("de-CH").expect("Swiss German locale");
     let fr = site.locale("fr-FR").expect("French locale");
     let sv = site.locale("sv-SE").expect("Swedish locale");
     let nb = site.locale("nb-NO").expect("Norwegian locale");
@@ -26,6 +27,7 @@ fn reads_stable_language_keys() {
     let us = site.locale("en-US").expect("US English locale");
 
     assert_eq!(language_selector_label(de), "Sprache");
+    assert_eq!(language_selector_label(ch), "Sprache");
     assert_eq!(language_selector_label(fr), "Langue");
     assert_eq!(language_selector_label(sv), "Språk");
     assert_eq!(language_selector_label(nb), "Språk");
@@ -60,6 +62,7 @@ fn language_menu_names_are_autonyms_in_every_locale() {
         ("en-GB", "English (UK)"),
         ("en-US", "English (US)"),
         ("de-DE", "Deutsch"),
+        ("de-CH", "Deutsch (Schweiz)"),
         ("fr-FR", "Français"),
         ("sv-SE", "Svenska"),
         ("nb-NO", "Norsk"),

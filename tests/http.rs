@@ -72,6 +72,7 @@ async fn renders_default_english_home() {
     assert!(body.contains("English (EU)"));
     assert!(body.contains("English (UK)"));
     assert!(body.contains("English (US)"));
+    assert!(body.contains("Deutsch (Schweiz)"));
     assert!(body.contains("Svenska"));
     assert!(body.contains("Norsk"));
     assert!(body.contains("Nederlands"));
@@ -102,6 +103,12 @@ async fn locale_prefixes_preserve_legacy_pages() {
     assert!(de_body.contains("v1.6.0 – v1.6.30"));
     assert!(de_body.contains("Native-Runtime-Cutover-Reihe"));
     assert!(de_body.contains("Alle auf GitHub"));
+
+    let (ch_status, _headers, ch_body) = request("/ch/download").await;
+    assert_eq!(ch_status, StatusCode::OK);
+    assert!(ch_body.contains(r#"<html lang="de-CH""#));
+    assert!(ch_body.contains("Herunterladen v1.6.30"));
+    assert!(ch_body.contains("🇨🇭"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/deployment").await;
     assert_eq!(fr_status, StatusCode::OK);
@@ -343,6 +350,12 @@ async fn locale_prefixes_apply_runtime_translations() {
     assert!(bs_body.contains("memorijski siguran") || bs_body.contains("Memorijski siguran"));
     assert!(bs_body.contains("Preuzmi v1.6.30"));
 
+    let (ch_status, _headers, ch_body) = request("/ch/").await;
+    assert_eq!(ch_status, StatusCode::OK);
+    assert!(ch_body.contains(r#"<html lang="de-CH""#));
+    assert!(ch_body.contains("Speichersicher"));
+    assert!(ch_body.contains("Herunterladen v1.6.30"));
+
     let (bg_status, _headers, bg_body) = request("/bg/").await;
     assert_eq!(bg_status, StatusCode::OK);
     assert!(bg_body.contains(r#"<html lang="bg-BG""#));
@@ -507,6 +520,7 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     assert!(de_body.contains(r#"<a href="/en-gb/docs">"#));
     assert!(de_body.contains(r#"<a href="/en-us/docs">"#));
     assert!(de_body.contains(r#"<a href="/de/docs" aria-current="true">"#));
+    assert!(de_body.contains(r#"<a href="/ch/docs">"#));
     assert!(de_body.contains(r#"<a href="/no/docs">"#));
     assert!(de_body.contains(r#"<a href="/nl/docs">"#));
     assert!(de_body.contains(r#"<a href="/fi/docs">"#));
@@ -525,6 +539,7 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     assert!(de_body.contains(r#"<a href="/bg/docs">"#));
     assert!(de_body.contains("🇪🇺"));
     assert!(de_body.contains("🇩🇪"));
+    assert!(de_body.contains("🇨🇭"));
     assert!(de_body.contains("🇫🇷"));
     assert!(de_body.contains("🇳🇴"));
     assert!(de_body.contains("🇳🇱"));
@@ -544,6 +559,7 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     assert!(de_body.contains("🇧🇬"));
     assert!(de_body.contains("<span>English (EU)</span>"));
     assert!(de_body.contains("<span>Deutsch</span>"));
+    assert!(de_body.contains("<span>Deutsch (Schweiz)</span>"));
     assert!(de_body.contains("<span>Français</span>"));
     assert!(de_body.contains("<span>Norsk</span>"));
     assert!(de_body.contains("<span>Nederlands</span>"));
@@ -614,6 +630,7 @@ async fn language_selector_targets_same_page() {
     assert!(body.contains(r#"<a href="/en-gb/download""#));
     assert!(body.contains(r#"<a href="/en-us/download""#));
     assert!(body.contains(r#"<a href="/de/download" aria-current="true""#));
+    assert!(body.contains(r#"<a href="/ch/download""#));
     assert!(body.contains(r#"<a href="/fr/download""#));
     assert!(body.contains(r#"<a href="/no/download""#));
     assert!(body.contains(r#"<a href="/nl/download""#));
@@ -633,6 +650,7 @@ async fn language_selector_targets_same_page() {
     assert!(body.contains(r#"<a href="/bg/download""#));
     assert!(body.contains(r#"<summary aria-label="Sprache">"#));
     assert!(body.contains("<span>Deutsch</span>"));
+    assert!(body.contains("<span>Deutsch (Schweiz)</span>"));
     assert!(body.contains("<span>Nederlands</span>"));
     assert!(body.contains("<span>Suomi</span>"));
     assert!(body.contains("<span>Íslenska</span>"));
