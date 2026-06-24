@@ -172,6 +172,10 @@ fn applies_stable_common_keys_for_text_and_attributes() {
         r#"<img alt="Fluxheim architecture overview">"#,
         "Run without root. Internal ports 8080/8443 by default. ",
         "Explicit runtime images for different operational policies.",
+        ">Translation notice<",
+        "Website translations are AI-assisted and maintained on a best-effort basis. ",
+        "Corrections and improved translations are welcome in the ",
+        r#"<a href="https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys" class="text-cyan-300 hover:text-cyan-200 underline underline-offset-4">Fluxheim website i18n keys</a>."#,
     )
     .to_owned();
 
@@ -181,4 +185,6 @@ fn applies_stable_common_keys_for_text_and_attributes() {
     assert!(translated.contains(">Empfohlen<"));
     assert!(translated.contains(r#"alt="Fluxheim-Architekturübersicht""#));
     assert!(translated.contains("Ohne root ausführen."));
+    assert!(translated.contains(">Hinweis zu Übersetzungen<"));
+    assert!(translated.contains("i18n-Keys der Fluxheim-Website"));
 }

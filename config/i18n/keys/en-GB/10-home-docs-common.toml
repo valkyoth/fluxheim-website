@@ -139,3 +139,5 @@ gdpr_minimisation_text = "Metrics use bounded labels such as locale, normalised 
 github_redirect_privacy_text = "GitHub outbound clicks are counted in aggregate before redirecting the browser to GitHub. GitHub then processes the request under GitHub's own terms and privacy policy."
 your_rights = "Your rights"
 gdpr_rights_text = "Because the website avoids user identifiers and stores only aggregate telemetry, we normally cannot identify a specific visitor inside the metrics. Privacy or GDPR questions can be opened through the Fluxheim GitHub project."
+translation_notice = "Translation notice"
+translation_notice_text = "Website translations are AI-assisted and maintained on a best-effort basis. Corrections and improved translations are welcome in the <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Fluxheim website i18n keys</a>."

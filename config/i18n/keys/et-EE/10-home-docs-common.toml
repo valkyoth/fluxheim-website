@@ -139,3 +139,5 @@ gdpr_minimisation_text = "Meetriika kasutab piiratud labeleid nagu locale, norma
 github_redirect_privacy_text = "GitHubi väljuvad klikid loetakse agregeeritult enne brauseri GitHubi suunamist. GitHub töötleb seejärel requesti oma tingimuste ja privaatsuspoliitika järgi."
 your_rights = "Teie õigused"
 gdpr_rights_text = "Kuna veebisait väldib kasutajaidentifikaatoreid ja salvestab ainult agregeeritud telemetryt, ei saa me tavaliselt meetrikast konkreetset külastajat tuvastada. Privaatsuse või GDPR küsimusi saab avada Fluxheimi GitHubi projekti kaudu."
+translation_notice = "Tõlgete teade"
+translation_notice_text = "Veebisaidi tõlked on AI-abiga ja neid hooldatakse parima pingutuse põhimõttel. Parandused ja paremad tõlked on teretulnud <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Fluxheimi veebisaidi i18n-võtmetes</a>."

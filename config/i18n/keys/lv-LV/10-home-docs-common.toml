@@ -139,3 +139,5 @@ gdpr_minimisation_text = "Metrics izmanto ierobežotas label vērtības, piemēr
 github_redirect_privacy_text = "GitHub ārējo saišu klikšķi tiek skaitīti apkopoti pirms pārlūka pāradresācijas uz GitHub. Pēc tam GitHub apstrādā request saskaņā ar saviem noteikumiem un privātuma politiku."
 your_rights = "Tavas tiesības"
 gdpr_rights_text = "Tā kā vietne izvairās no lietotāju identifikatoriem un glabā tikai apkopotu telemetry, parasti mēs nevaram identificēt konkrētu apmeklētāju metrics datos. Privātuma vai GDPR jautājumus var atvērt Fluxheim GitHub projektā."
+translation_notice = "Paziņojums par tulkojumiem"
+translation_notice_text = "Vietnes tulkojumi ir veidoti ar AI palīdzību un tiek uzturēti pēc labākajām iespējām. Labojumi un uzlaboti tulkojumi ir gaidīti <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Fluxheim vietnes i18n atslēgās</a>."

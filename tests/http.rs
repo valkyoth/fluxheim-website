@@ -795,18 +795,26 @@ async fn legal_pages_render_and_translate() {
     assert_eq!(privacy_status, StatusCode::OK);
     assert!(privacy_body.contains("Privacy Policy"));
     assert!(privacy_body.contains("raw IP addresses"));
+    assert!(privacy_body.contains("Website translations are AI-assisted"));
+    assert!(privacy_body.contains(
+        r#"href="https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys""#
+    ));
     assert!(privacy_body.contains(r#"<a href="/cookies">Cookies</a>"#));
     assert!(privacy_body.contains("navigator.sendBeacon"));
 
     let (de_status, _headers, de_body) = request("/de/privacy").await;
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains("Datenschutzerklärung"));
+    assert!(de_body.contains("Hinweis zu Übersetzungen"));
+    assert!(de_body.contains("i18n-Keys der Fluxheim-Website"));
     assert!(de_body.contains("Was wir nicht erfassen"));
     assert!(de_body.contains(r#"<a href="/de/cookies">Cookies</a>"#));
 
     let (fr_status, _headers, fr_body) = request("/fr/gdpr").await;
     assert_eq!(fr_status, StatusCode::OK);
     assert!(fr_body.contains("Informations RGPD"));
+    assert!(fr_body.contains("Avis sur les traductions"));
+    assert!(fr_body.contains("clés i18n du site Fluxheim"));
     assert!(fr_body.contains("Minimisation des données"));
     assert!(fr_body.contains(r#"<a href="/fr/privacy">Politique de confidentialité</a>"#));
 }
