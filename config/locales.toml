@@ -51,3 +51,9 @@ locale_id = "fi-FI"
 html_lang = "fi-FI"
 url_prefix = "fi"
 display_name = "Suomi"
+
+[[locales]]
+locale_id = "is-IS"
+html_lang = "is-IS"
+url_prefix = "is"
+display_name = "Íslenska"

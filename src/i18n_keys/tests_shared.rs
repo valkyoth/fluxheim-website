@@ -10,6 +10,7 @@ fn reads_stable_language_keys() {
     let nb = site.locale("nb-NO").expect("Norwegian locale");
     let nl = site.locale("nl-NL").expect("Dutch locale");
     let fi = site.locale("fi-FI").expect("Finnish locale");
+    let is = site.locale("is-IS").expect("Icelandic locale");
     let us = site.locale("en-US").expect("US English locale");
 
     assert_eq!(language_selector_label(de), "Sprache");
@@ -18,6 +19,7 @@ fn reads_stable_language_keys() {
     assert_eq!(language_selector_label(nb), "Språk");
     assert_eq!(language_selector_label(nl), "Taal");
     assert_eq!(language_selector_label(fi), "Kieli");
+    assert_eq!(language_selector_label(is), "Tungumál");
     assert_eq!(language_selector_label(us), "Language");
     assert_eq!(
         language_display_name(de, "en-US", "fallback"),
@@ -39,6 +41,7 @@ fn language_menu_names_are_autonyms_in_every_locale() {
         ("nb-NO", "Norsk"),
         ("nl-NL", "Nederlands"),
         ("fi-FI", "Suomi"),
+        ("is-IS", "Íslenska"),
     ];
 
     for active_locale in site.locales() {
