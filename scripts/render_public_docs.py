@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -292,9 +293,9 @@ hosts = ["example.com"]</code></pre>
         """
 <section class="guide-section">
   <h2>Rootless Podman</h2>
-  <pre><code>podman run --name fluxheim --replace \
-  -p 8080:8080 \
-  -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro \
+  <pre><code>podman run --name fluxheim --replace \\
+  -p 8080:8080 \\
+  -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro \\
   ghcr.io/valkyoth/fluxheim:v1.6.30</code></pre>
 </section>
 <section class="guide-section">
@@ -339,13 +340,33 @@ def card(page: str, label: str) -> str:
     )
 
 
+def code_language(code: str) -> str:
+    first_line = code.lstrip().splitlines()[0] if code.strip() else ""
+    shell_prefixes = ("curl ", "tar ", "sudo ", "fluxheim ", "podman ")
+    if first_line.startswith(shell_prefixes):
+        return "bash"
+    return "toml"
+
+
+def colorize_code_blocks(body: str) -> str:
+    def replace(match: re.Match[str]) -> str:
+        code = match.group(1)
+        language = code_language(code)
+        return (
+            f'<pre class="language-{language}">'
+            f'<code class="language-{language}">{code}</code></pre>'
+        )
+
+    return re.sub(r"<pre><code>(.*?)</code></pre>", replace, body, flags=re.DOTALL)
+
+
 def render(page: str, title: str, intro: str, body: str) -> str:
     nav = "\n".join(
         f'<li><a class="{nav_class(page, href)}" href="{href}">{label}</a></li>'
         for href, label in NAV
     )
     cards = "\n".join(card(href, label) for href, label in NAV[1:13])
-    body = body.format(cards=cards)
+    body = colorize_code_blocks(body.format(cards=cards))
     return f"""<!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -360,7 +381,12 @@ def render(page: str, title: str, intro: str, body: str) -> str:
   <script src="../assets/js/tailwind.js"></script>
   <style>
     body {{ background-color: var(--fh-bg); }}
-    pre {{ background:#0d1117; border:1px solid #21262d; border-radius:10px; padding:1rem; overflow:auto; color:#d1d5db; font-size:.82rem; line-height:1.65; }}
+    pre[class*="language-"] {{ background:#0d1117; border:1px solid #21262d; border-radius:10px; padding:1rem; overflow:auto; color:#d1d5db; font-size:.82rem; line-height:1.65; white-space:pre; word-break:normal; overflow-wrap:normal; }}
+    code[class*="language-"] {{ display:block; width:max-content; min-width:100%; white-space:pre; word-break:normal; overflow-wrap:normal; }}
+    :not(pre) > code {{ color:#67e8f9; background:rgba(6,182,212,.08); border:1px solid rgba(6,182,212,.15); border-radius:6px; padding:.08rem .28rem; }}
+    .token.key, .token.keyword {{ color:#79c0ff; }}
+    .token.string {{ color:#a5d6ff; }}
+    .token.comment {{ color:#8b949e; }}
     table {{ width:100%; border-collapse:collapse; overflow:hidden; border-radius:10px; }}
     th,td {{ border:1px solid #1f2937; padding:.75rem; text-align:left; vertical-align:top; }}
     th {{ color:#9ca3af; background:rgba(17,24,39,.75); }}
@@ -408,6 +434,9 @@ def render(page: str, title: str, intro: str, body: str) -> str:
       </div>
     </main>
   </div>
+  <script src="../assets/js/prism.min.js"></script>
+  <script src="../assets/js/prism-bash.min.js"></script>
+  <script src="../assets/js/prism-toml.min.js"></script>
   <script src="../assets/js/alpine.min.js" defer></script>
 </body>
 </html>

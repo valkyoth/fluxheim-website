@@ -12,7 +12,12 @@
   <script src="../assets/js/tailwind.js"></script>
   <style>
     body { background-color: var(--fh-bg); }
-    pre { background:#0d1117; border:1px solid #21262d; border-radius:10px; padding:1rem; overflow:auto; color:#d1d5db; font-size:.82rem; line-height:1.65; }
+    pre[class*="language-"] { background:#0d1117; border:1px solid #21262d; border-radius:10px; padding:1rem; overflow:auto; color:#d1d5db; font-size:.82rem; line-height:1.65; white-space:pre; word-break:normal; overflow-wrap:normal; }
+    code[class*="language-"] { display:block; width:max-content; min-width:100%; white-space:pre; word-break:normal; overflow-wrap:normal; }
+    :not(pre) > code { color:#67e8f9; background:rgba(6,182,212,.08); border:1px solid rgba(6,182,212,.15); border-radius:6px; padding:.08rem .28rem; }
+    .token.key, .token.keyword { color:#79c0ff; }
+    .token.string { color:#a5d6ff; }
+    .token.comment { color:#8b949e; }
     table { width:100%; border-collapse:collapse; overflow:hidden; border-radius:10px; }
     th,td { border:1px solid #1f2937; padding:.75rem; text-align:left; vertical-align:top; }
     th { color:#9ca3af; background:rgba(17,24,39,.75); }
@@ -73,13 +78,13 @@
 
 <section class="guide-section">
   <h2>Install a release binary</h2>
-  <pre><code>curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.6.30/fluxheim-1.6.30-full-x86_64-linux.tar.gz -o fluxheim.tar.gz
+  <pre class="language-bash"><code class="language-bash">curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.6.30/fluxheim-1.6.30-full-x86_64-linux.tar.gz -o fluxheim.tar.gz
 tar -xzf fluxheim.tar.gz
 sudo install -m 0755 fluxheim /usr/local/bin/fluxheim</code></pre>
 </section>
 <section class="guide-section">
   <h2>Minimal static site</h2>
-  <pre><code>[server]
+  <pre class="language-toml"><code class="language-toml">[server]
 listen = ["0.0.0.0:8080"]
 default_vhost = "site"
 
@@ -93,13 +98,16 @@ index_files = ["index.html"]</code></pre>
 </section>
 <section class="guide-section">
   <h2>Check and start</h2>
-  <pre><code>fluxheim --config /etc/fluxheim/fluxheim.toml --check-config
+  <pre class="language-bash"><code class="language-bash">fluxheim --config /etc/fluxheim/fluxheim.toml --check-config
 fluxheim --config /etc/fluxheim/fluxheim.toml</code></pre>
 </section>
 
       </div>
     </main>
   </div>
+  <script src="../assets/js/prism.min.js"></script>
+  <script src="../assets/js/prism-bash.min.js"></script>
+  <script src="../assets/js/prism-toml.min.js"></script>
   <script src="../assets/js/alpine.min.js" defer></script>
 </body>
 </html>
