@@ -135,7 +135,7 @@ unknown_host_values_do_not_create_metric_labels = "Okända värdvärden skapar i
 snapshot_reload_swaps_waf_rules_atomically = "Snapshot reload byter WAF-regler atomärt."
 waf_engine_failure_follows = "WAF motorfel följer"
 full_waf_engine_failure_follows = "<li>WAF motorfel följer exakt <code>fail_closed</code> eller <code>fail_open</code>.</li>"
-li_action_li = "<li>action</li>"
+li_action_li = "<li>åtgärd</li>"
 
 [image_filter]
 image_filter_fluxheim_source_docs = "Bildfilter — Fluxheim källdokument"

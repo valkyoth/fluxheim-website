@@ -236,9 +236,9 @@ def load_intentional_identical(
     source_keys: set[str],
     errors: list[str],
 ) -> dict[str, set[str]]:
-    if not INTENTIONAL_IDENTICAL_PATH.exists():
+    data = load_intentional_identical_data(errors)
+    if not data:
         return {}
-    data = load_toml(INTENTIONAL_IDENTICAL_PATH)
     allowed: dict[str, set[str]] = {}
     configured = set(locale_ids)
     for locale_id, table in data.items():
@@ -267,6 +267,22 @@ def load_intentional_identical(
             locale_keys.add(key)
         allowed[locale_id] = locale_keys
     return allowed
+
+
+def load_intentional_identical_data(errors: list[str]) -> dict[str, Any]:
+    parts: list[str] = []
+    if INTENTIONAL_IDENTICAL_PATH.exists():
+        parts.append(INTENTIONAL_IDENTICAL_PATH.read_text(encoding="utf-8"))
+    part_dir = INTENTIONAL_IDENTICAL_PATH.with_suffix("")
+    if part_dir.is_dir():
+        parts.extend(part.read_text(encoding="utf-8") for part in sorted(part_dir.glob("*.toml")))
+    if not parts:
+        return {}
+    try:
+        return tomllib.loads("\n".join(parts))
+    except tomllib.TOMLDecodeError as error:
+        errors.append(f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} is invalid: {error}")
+        return {}
 
 
 def check_intentional_identical_entries(
