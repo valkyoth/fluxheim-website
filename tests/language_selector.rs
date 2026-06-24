@@ -76,6 +76,10 @@ async fn every_rendered_language_selector_link_resolves() {
             "{page} should render the scrollable language list"
         );
         assert!(
+            body.contains(r#".fh-language-switcher a[hidden]{display:none!important}"#),
+            "{page} should hide filtered language links"
+        );
+        assert!(
             body.contains(r#"document.querySelectorAll(".fh-language-switcher")"#),
             "{page} should render the language filter script"
         );

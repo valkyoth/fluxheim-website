@@ -33,6 +33,7 @@ fn render(site: &Site, active_locale: &Locale, slug: &str) -> String {
 .fh-language-search:focus{border-color:rgb(34 211 238);box-shadow:0 0 0 3px rgba(34,211,238,.16)}
 .fh-language-list{display:grid;gap:.2rem;max-height:min(17rem,42vh);overflow-y:auto;overscroll-behavior:contain;padding-right:.2rem;scrollbar-width:thin}
 .fh-language-switcher a{display:flex;align-items:center;gap:.45rem;border-radius:.45rem;padding:.42rem .55rem;color:rgb(209 213 219);font-size:.8125rem;text-decoration:none;white-space:nowrap}
+.fh-language-switcher a[hidden]{display:none!important}
 .fh-language-switcher a:hover{background:rgb(31 41 55);color:white}
 .fh-language-switcher a[aria-current=true]{background:rgb(34 211 238);color:rgb(3 7 18);font-weight:800}
 .fh-language-flag{display:inline-flex;width:1.25em;justify-content:center;font-size:1rem;line-height:1}
