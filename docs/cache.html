@@ -38,15 +38,48 @@
   </style>
 </head>
 <body class="bg-gray-950 text-gray-100 antialiased">
-  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
-    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <a href="../index.html" class="flex items-center gap-3"><img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto"><span class="font-bold text-white text-lg">Fluxheim</span></a>
-      <div class="hidden md:flex items-center gap-6">
-        <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
-        <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
-        <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
-        <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-        <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.30</a>
+  <nav x-data="{ open: false }" class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo -->
+        <a href="../index.html" class="flex items-center gap-3">
+          <img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
+          <span class="font-bold text-white text-lg tracking-tight">Fluxheim</span>
+        </a>
+        <!-- Desktop links -->
+        <div class="hidden md:flex items-center gap-6">
+          <a href="index.html" class="text-sm font-medium text-cyan-400 transition-colors">Docs</a>
+          <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
+          <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Changelog</a>
+          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener"
+             class="flex items-center gap-1.5 text-sm font-medium text-gray-400 hover:text-white transition-colors">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            GitHub
+          </a>
+          <a href="../download.html"
+             class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
+            Download v1.6.30
+          </a>
+        </div>
+        <!-- Mobile toggle -->
+        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
+          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors">
+          <svg x-show="!open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg x-show="open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </div>
+    <!-- Mobile menu -->
+    <div x-show="open" x-transition class="md:hidden border-t border-gray-800/70 bg-gray-950">
+      <div class="px-4 py-3 space-y-1">
+        <a href="index.html" class="block px-3 py-2 text-sm rounded-lg text-cyan-400 bg-cyan-500/10">Docs</a>
+        <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
+        <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
+        <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.6.30</a>
       </div>
     </div>
   </nav>
@@ -74,7 +107,7 @@
     <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Cache</span></div>
-        <header class="mb-10"><div class="inline-flex items-center gap-2 px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/25 rounded-full mb-4"><span class="text-cyan-400 text-xs font-semibold">v1.6.30</span></div><h1 class="text-4xl font-black text-white mb-4">Cache</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Use cache when Fluxheim sits in front of an origin and repeated responses should be served faster.</p></header>
+        <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">Cache</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Use cache when Fluxheim sits in front of an origin and repeated responses should be served faster.</p></header>
 
 <section class="guide-section">
   <h2>Proxy cache example</h2>
@@ -95,6 +128,69 @@ cache_ttl_secs = 3600</code></pre>
 </section>
 
       </div>
+  <footer class="border-t border-gray-800/50 py-14 mt-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <!-- Brand -->
+        <div class="lg:col-span-1">
+          <div class="flex items-center gap-3 mb-4">
+            <img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-7 w-auto">
+            <span class="font-bold text-white">Fluxheim</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed">Memory-safe edge server built in Rust. Licensed under EUPL-1.2.</p>
+          <div class="flex gap-3 mt-4">
+            <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener"
+               class="p-2 text-gray-500 hover:text-white bg-gray-800/50 hover:bg-gray-800 rounded-lg transition-colors">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Documentation -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm">Documentation</h4>
+          <ul class="space-y-2.5">
+            <li><a href="getting-started.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Getting Started</a></li>
+            <li><a href="configuration.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Config Reference</a></li>
+            <li><a href="features.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Feature Matrix</a></li>
+            <li><a href="deployment.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Deployment</a></li>
+            <li><a href="cache.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Cache System</a></li>
+            <li><a href="tls-acme.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">TLS & ACME</a></li>
+            <li><a href="observability.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Observability</a></li>
+            <li><a href="advanced.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Advanced</a></li>
+          </ul>
+        </div>
+
+        <!-- Project -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm">Project</h4>
+          <ul class="space-y-2.5">
+            <li><a href="../download.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Download</a></li>
+            <li><a href="../changelog.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Changelog</a></li>
+            <li><a href="https://github.com/valkyoth/fluxheim/releases" target="_blank" rel="noopener" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Releases</a></li>
+            <li><a href="https://github.com/valkyoth/fluxheim/blob/main/ROADMAP.md" target="_blank" rel="noopener" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Roadmap</a></li>
+            <li><a href="https://github.com/valkyoth/fluxheim/blob/main/SECURITY.md" target="_blank" rel="noopener" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Security</a></li>
+          </ul>
+        </div>
+
+        <!-- Community -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-sm">Community</h4>
+          <ul class="space-y-2.5">
+            <li><a href="https://github.com/valkyoth/fluxheim/discussions" target="_blank" rel="noopener" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Discussions</a></li>
+            <li><a href="https://github.com/valkyoth/fluxheim/issues" target="_blank" rel="noopener" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Issues</a></li>
+            <li><a href="https://github.com/valkyoth/fluxheim/blob/main/LICENSE" target="_blank" rel="noopener" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">EUPL-1.2 License</a></li>
+            <li><a href="https://github.com/valkyoth" target="_blank" rel="noopener" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Valkyoth Org</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800/50 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-gray-600 text-sm">© 2026 Valkyoth. Distributed under the <a href="https://github.com/valkyoth/fluxheim/blob/main/LICENSE" class="text-gray-500 hover:text-gray-400 underline">EUPL-1.2</a>.</p>
+        <p class="text-gray-700 text-sm">Built with Rust · Powered by Fluxheim</p>
+      </div>
+    </div>
+  </footer>
     </main>
   </div>
   <script src="../assets/js/prism.min.js"></script>

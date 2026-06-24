@@ -7,6 +7,7 @@ import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+ROOT_PAGES = {"index.html", "download.html", "changelog.html", "cookies.html", "privacy.html", "gdpr.html"}
 
 NAV = [
     ("index.html", "Start"),
@@ -360,6 +361,47 @@ def colorize_code_blocks(body: str) -> str:
     return re.sub(r"<pre><code>(.*?)</code></pre>", replace, body, flags=re.DOTALL)
 
 
+def docs_relative_fragment(fragment: str) -> str:
+    def replace_attr(match: re.Match[str]) -> str:
+        attr, target = match.groups()
+        if target.startswith(("https://", "http://", "#", "mailto:", "tel:")):
+            return match.group(0)
+        if target.startswith("assets/"):
+            target = f"../{target}"
+        elif target.startswith("docs/"):
+            target = target.removeprefix("docs/")
+        elif target in ROOT_PAGES:
+            target = f"../{target}"
+        return f'{attr}="{target}"'
+
+    return re.sub(r'(href|src)="([^"]+)"', replace_attr, fragment)
+
+
+def homepage_fragment(start: str, end: str, include_end: bool = False) -> str:
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+    start_at = html.index(start)
+    end_at = html.index(end, start_at)
+    if include_end:
+        end_at += len(end)
+    return docs_relative_fragment(html[start_at:end_at])
+
+
+def shared_header() -> str:
+    header = homepage_fragment('  <nav x-data', '\n  </nav>', include_end=True)
+    header = header.replace(
+        'href="index.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Docs',
+        'href="index.html" class="text-sm font-medium text-cyan-400 transition-colors">Docs',
+    )
+    return header.replace(
+        'href="index.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Docs',
+        'href="index.html" class="block px-3 py-2 text-sm rounded-lg text-cyan-400 bg-cyan-500/10">Docs',
+    )
+
+
+def shared_footer() -> str:
+    return homepage_fragment('  <footer class="border-t border-gray-800/50 py-14 mt-4">', '\n\n  <script src="assets/js/alpine.min.js"')
+
+
 def render(page: str, title: str, intro: str, body: str) -> str:
     nav = "\n".join(
         f'<li><a class="{nav_class(page, href)}" href="{href}">{label}</a></li>'
@@ -367,6 +409,8 @@ def render(page: str, title: str, intro: str, body: str) -> str:
     )
     cards = "\n".join(card(href, label) for href, label in NAV[1:13])
     body = colorize_code_blocks(body.format(cards=cards))
+    site_header = shared_header()
+    site_footer = shared_footer()
     return f"""<!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -407,18 +451,7 @@ def render(page: str, title: str, intro: str, body: str) -> str:
   </style>
 </head>
 <body class="bg-gray-950 text-gray-100 antialiased">
-  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
-    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <a href="../index.html" class="flex items-center gap-3"><img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto"><span class="font-bold text-white text-lg">Fluxheim</span></a>
-      <div class="hidden md:flex items-center gap-6">
-        <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
-        <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
-        <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
-        <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-        <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.30</a>
-      </div>
-    </div>
-  </nav>
+{site_header}
   <div class="flex min-h-screen pt-16">
     <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
       <nav class="p-6 space-y-7">
@@ -429,9 +462,10 @@ def render(page: str, title: str, intro: str, body: str) -> str:
     <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">{title}</span></div>
-        <header class="mb-10"><div class="inline-flex items-center gap-2 px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/25 rounded-full mb-4"><span class="text-cyan-400 text-xs font-semibold">v1.6.30</span></div><h1 class="text-4xl font-black text-white mb-4">{title}</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">{intro}</p></header>
+        <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">{title}</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">{intro}</p></header>
 {body}
       </div>
+{site_footer}
     </main>
   </div>
   <script src="../assets/js/prism.min.js"></script>
