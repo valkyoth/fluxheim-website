@@ -68,7 +68,7 @@ async fn renders_default_english_home() {
     assert_eq!(status, StatusCode::OK);
     assert!(body.contains("Memory-Safe"));
     assert!(body.contains("Edge Server"));
-    assert!(body.contains("Download v1.6.28"));
+    assert!(body.contains("Download v1.6.30"));
     assert!(body.contains("English (EU)"));
     assert!(body.contains("English (UK)"));
     assert!(body.contains("English (US)"));
@@ -82,8 +82,8 @@ async fn locale_prefixes_preserve_legacy_pages() {
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains("Systemd-Dienst"));
     assert!(de_body.contains("Cache-Edge-Build"));
-    assert!(de_body.contains("Herunterladen v1.6.28"));
-    assert!(de_body.contains("Native HTTP/1.1-Upstream-Pooling-Version"));
+    assert!(de_body.contains("Herunterladen v1.6.30"));
+    assert!(de_body.contains("Native Upstream-HTTP/2-Version"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/deployment").await;
     assert_eq!(fr_status, StatusCode::OK);
@@ -95,7 +95,7 @@ async fn locale_prefixes_preserve_legacy_pages() {
     let (sv_status, _headers, sv_body) = request("/sv/download").await;
     assert_eq!(sv_status, StatusCode::OK);
     assert!(sv_body.contains(r#"<html lang="sv-SE""#));
-    assert!(sv_body.contains("Ladda ner v1.6.28"));
+    assert!(sv_body.contains("Ladda ner v1.6.30"));
     assert!(sv_body.contains("🇸🇪"));
 }
 
@@ -104,7 +104,7 @@ async fn english_variant_prefixes_preserve_english_content() {
     let (gb_status, _headers, gb_body) = request("/en-gb/download").await;
     assert_eq!(gb_status, StatusCode::OK);
     assert!(gb_body.contains(r#"<html lang="en-GB""#));
-    assert!(gb_body.contains("Download v1.6.28"));
+    assert!(gb_body.contains("Download v1.6.30"));
     assert!(gb_body.contains("Pre-built Linux binaries"));
     assert!(gb_body.contains(r#"<a href="/en-gb/download" aria-current="true">"#));
     assert!(gb_body.contains("🇬🇧"));
@@ -125,19 +125,19 @@ async fn locale_prefixes_apply_runtime_translations() {
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains(r#"<html lang="de-DE""#));
     assert!(de_body.contains("Speichersicher"));
-    assert!(de_body.contains("Herunterladen v1.6.28"));
+    assert!(de_body.contains("Herunterladen v1.6.30"));
 
     let (fr_status, _headers, fr_body) = request("/fr/").await;
     assert_eq!(fr_status, StatusCode::OK);
     assert!(fr_body.contains(r#"<html lang="fr-FR""#));
     assert!(fr_body.contains("Sûr pour la mémoire"));
-    assert!(fr_body.contains("Télécharger v1.6.28"));
+    assert!(fr_body.contains("Télécharger v1.6.30"));
 
     let (sv_status, _headers, sv_body) = request("/sv/").await;
     assert_eq!(sv_status, StatusCode::OK);
     assert!(sv_body.contains(r#"<html lang="sv-SE""#));
     assert!(sv_body.contains("Minnessäker"));
-    assert!(sv_body.contains("Ladda ner v1.6.28"));
+    assert!(sv_body.contains("Ladda ner v1.6.30"));
 }
 
 #[tokio::test]
@@ -375,16 +375,16 @@ async fn github_outbound_redirects_only_known_targets() {
 
 #[tokio::test]
 async fn download_outbound_redirects_only_known_artifacts() {
-    let artifact = "fluxheim-1.6.28-full-x86_64-linux.tar.gz";
+    let artifact = "fluxheim-1.6.30-full-x86_64-linux.tar.gz";
     let (status, headers, _body) = request(&format!("/out/download/{artifact}?locale=en-EU")).await;
     assert_eq!(status, StatusCode::TEMPORARY_REDIRECT);
     assert_eq!(
         headers[header::LOCATION],
-        format!("https://github.com/valkyoth/fluxheim/releases/download/v1.6.28/{artifact}")
+        format!("https://github.com/valkyoth/fluxheim/releases/download/v1.6.30/{artifact}")
     );
 
     let (unknown_status, _headers, body) =
-        request("/out/download/fluxheim-1.6.28-private-token.tar.gz").await;
+        request("/out/download/fluxheim-1.6.30-private-token.tar.gz").await;
     assert_eq!(unknown_status, StatusCode::NOT_FOUND);
     assert!(body.contains("Unknown download artifact"));
 }
@@ -412,7 +412,7 @@ async fn telemetry_click_accepts_only_bounded_events() {
     assert_eq!(status, StatusCode::ACCEPTED);
     assert_eq!(body, "ok");
 
-    let artifact = "fluxheim-1.6.28-full-x86_64-linux.tar.gz";
+    let artifact = "fluxheim-1.6.30-full-x86_64-linux.tar.gz";
     let download = format!(r#"{{"kind":"download","locale":"de-DE","artifact":"{artifact}"}}"#);
     let (download_status, _headers, download_body) =
         request_with_body(http::Method::POST, "/telemetry/click", download).await;
@@ -455,7 +455,7 @@ async fn rendered_pages_keep_links_and_inject_click_beacon() {
     assert!(body.contains(r#"href="https://github.com/valkyoth/fluxheim""#));
     assert!(
         body.contains(
-            r#"href="https://github.com/valkyoth/fluxheim/releases/download/v1.6.28/fluxheim-1.6.28-full-x86_64-linux.tar.gz""#
+            r#"href="https://github.com/valkyoth/fluxheim/releases/download/v1.6.30/fluxheim-1.6.30-full-x86_64-linux.tar.gz""#
         )
     );
     assert!(body.contains("navigator.sendBeacon"));

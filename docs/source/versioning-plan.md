@@ -2458,6 +2458,12 @@ Replacement rules for 1.6:
 
 Planned `1.6.x` sequence:
 
+The remaining `1.6.x` entries are implementation checkpoints, not mandatory
+public tags. To keep external pentest and release costs sustainable, continue
+committing checkpoint work through the final Pingora-removal proof, then publish
+the combined Pingora-exit result as the next `1.6.29` release and keep `1.6.30`
+available for the stabilization/security-only follow-up.
+
 - `v1.6.0`: Pingora-exit foundation. Freeze current HTTP/proxy/cache/LB
   behavior into golden tests, migration fixtures, smoke scripts, packet-level
   HTTP fixtures, cache fixtures, TLS fixtures, and release gates. Add
@@ -2732,17 +2738,72 @@ Planned `1.6.x` sequence:
   forwarded-client-IP ownership shortcuts, dynamic discovery, health-aware
   load-balancing, persistence, priority/backup/drain, and hash-based selection
   on the compatibility path until each has native parity tests.
-- `v1.6.29`: finish the remaining native HTTP policy blockers that do not need
-  cache or PHP state: forwarded-client-IP ownership, auth-request subrequests,
-  traffic mirroring, inherited global/vhost compression policy, root/vhost
-  header policy, vhost access/rate/concurrency policy, vhost redirects,
-  ACME-challenge routing, vhost static-web dispatch, route access/rate/
-  concurrency/grpc flags, route rewrite-template handling, per-proxy
-  downstream timeout/min-send-rate policy, and advanced upstream transport
-  knobs that do not require cache, PHP, dynamic discovery, or load-balancer
-  state. Add live native listener tests for each path and keep unsupported
-  configs explicitly reported in the cutover inventory.
-- `v1.6.30`: move cache and PHP-FPM rich proxy integrations onto native
+- `v1.6.29`: move inherited global/vhost compression and root/vhost/route
+  header policy onto the native HTTP/1 proxy and route proxy. Prove plain proxy
+  compression, inherited route compression, request-header mutation,
+  response-header mutation, standard response security headers, and safe
+  forwarded-header ownership modes with live native listener tests. Support
+  `X-Forwarded-For = off`, `X-Forwarded-For = replace`, `X-Real-IP`,
+  `X-Forwarded-Host`, `X-Forwarded-Proto`, RFC `Forwarded`, and trusted-chain
+  `X-Forwarded-For = append` on the native path. Move vhost redirect fallback
+  routes and explicit ACME HTTP-01 upstream challenge routes into native
+  route-proxy construction and the cutover inventory, preserving the
+  compatibility route order. Move regex route matching and path-only
+  `rewrite_template` capture expansion onto the native route proxy with live
+  tests for safe capture encoding and unsafe rewritten-path rejection. Move
+  IP/CIDR vhost and route access allow/deny policy onto the native route proxy
+  with live tests for direct-peer denial and trusted forwarded-chain client
+  restoration. Move vhost and route concurrency limits onto the native route
+  proxy, including immediate reject and bounded queue timeout behavior. Move
+  vhost and route local rate limiting onto the native route proxy, including
+  token-bucket rejection and delay-mode admission. Move per-proxy downstream
+  response write timeout, total response timeout, and minimum send-rate policy
+  onto native HTTP/1 proxy responses. Move
+  `proxy.upstream_total_connection_timeout_secs` onto native upstream
+  establishment. Move `proxy.upstream_tcp_recv_buffer_bytes` and
+  `proxy.upstream_dscp` plus the upstream TCP keepalive triple onto native
+  upstream socket creation, and move `proxy.upstream_tcp_user_timeout_ms` on
+  targets that expose `TCP_USER_TIMEOUT`. Move
+  `proxy.downstream_read_timeout_secs` onto native HTTP/1 request-body parsing
+  after route/proxy selection. Move route-scoped `[vhosts.routes.grpc]`
+  request validation onto the native route proxy. Add native request-context
+  slots for TLS client identity and Geo context, populate TLS identity from
+  native rustls/OpenSSL listener handshakes, let handlers attach Geo context,
+  and teach the native route-proxy access evaluator to consume those typed
+  facts so cert/Geo access policy no longer blocks the native HTTP/1 cutover
+  inventory.
+  Move safe-method traffic mirroring onto the native HTTP/1 proxy when the
+  `traffic-mirror` feature is compiled. Move `proxy.auth_request` onto the
+  native HTTP/1 proxy when the `auth-request` server feature is compiled.
+  Finish the remaining native HTTP policy blockers that do not need cache, PHP,
+  dynamic discovery, or load-balancer state: wire runtime TLS client identity
+  into native request context for vhost and route certificate access policy,
+  wire Geo country/ASN context into native request context for vhost and route
+  Geo access policy, move managed local ACME HTTP-01 challenge serving onto the
+  native path, and either implement upstream TCP Fast Open safely or document it
+  as an explicitly unsupported native blocker. Add live native listener tests
+  for each path and keep cache, PHP-FPM, dynamic discovery, load-balancer state,
+  upstream TCP Fast Open, and upstream HTTP/2 explicitly reported as
+  compatibility blockers until they have native parity tests.
+- `v1.6.30`: move plaintext native upstream HTTP/2 forwarding into the native
+  HTTP/1 proxy path. Support `proxy.upstream_http_version = "http2"` for h2c/
+  prior-knowledge origins, map `proxy.read_timeout_secs`,
+  `proxy.send_timeout_secs`, and `proxy.upstream_h2_max_streams` onto the native
+  H2 policy, keep a Tokio connection-driver task per pooled h2 connection,
+  reserve stream capacity with `proxy.upstream_h2_max_streams`, fail closed on
+  invalid programmatic stream limits, bound the H2 handshake, invalidate stale
+  pooled handles on h2 errors, and retry safe methods once after a pre-response
+  pooled-handle failure. Add live proxy tests proving downstream HTTP/1 requests
+  forward to in-process plaintext and TLS/ALPN H2 origins, reuse one upstream H2
+  connection, emit configured H2 keepalive pings, reconnect after upstream
+  GOAWAY, preserve static ordered and weighted upstream selection while using
+  H2 transport, negotiate TLS `http1-and-http2` fallback through ALPN, and add
+  an explicitly disabled-by-default `proxy.upstream_h2c_upgrade` compatibility
+  mode for plaintext `http1-and-http2` origins that support HTTP/1.1 h2c
+  Upgrade. Keep advanced health-aware/dynamic load-balancer state on the
+  `v1.6.32` native load-balancer cutover instead of mixing it into this
+  upstream transport slice.
+- `v1.6.31`: move cache and PHP-FPM rich proxy integrations onto native
   adapters. Cache work must cover lookup/fill/stale, Vary/Range/conditional
   semantics, peer-fill guardrails, and purge visibility. PHP-FPM work must
   cover SCRIPT_NAME/PATH_INFO safety, deny prefixes, spool limits, TCP/Unix
@@ -2750,14 +2811,14 @@ Planned `1.6.x` sequence:
   until fixture and smoke tests prove parity. Also make sure root/vhost cache
   policy and route cache policy all report native-ready only after the native
   cache adapter owns the full request/response/cache-key path.
-- `v1.6.31`: finish native load-balancer compatibility and remove the final
+- `v1.6.32`: finish native load-balancer compatibility and remove the final
   Pingora runtime/listener/TLS adapter crates from normal builds. This release
   must close the remaining proxy gates that need runtime/load-balancer state:
   dynamic discovery, health-aware selection, persistence, priority groups,
   locality, backup/drain/disabled policy, max-in-flight, aliases/tags, static
-  weight parity, upstream PROXY protocol, websocket upgrade, upstream HTTP/2,
-  native TLS listener selection, native service supervision, admin/metrics/
-  stream/UDP service registration, and remaining Pingora HTTP/error/cache
+  weight parity, upstream PROXY protocol, websocket upgrade, native TLS
+  listener selection, native service supervision, admin/metrics/stream/UDP
+  service registration, and remaining Pingora HTTP/error/cache
   boundary adapters. Add a Fluxheim-owned nginx/Ketama-compatible consistent
   hash selection mode for operators migrating from nginx or Pingora Ketama
   behavior. Keep the existing rendezvous consistent-hash and bounded-load
@@ -2768,7 +2829,7 @@ Planned `1.6.x` sequence:
   the final Pingora-free proof release: `cargo tree`, release containers, RPM
   builds, source builds, and focused artifacts must all prove no normal
   Fluxheim build compiles vendored Pingora code.
-- `v1.6.32`: stabilization/security-only release for the Pingora-free runtime
+- `v1.6.33`: stabilization/security-only release for the Pingora-free runtime
   before adding new extensibility or protocol surface. This release should
   prioritize pentest cleanup, performance regression checks, memory/FD leak
   checks, long-running soak tests, runtime-baseline comparisons, and

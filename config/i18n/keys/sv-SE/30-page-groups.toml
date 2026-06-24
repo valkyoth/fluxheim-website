@@ -1,7 +1,3 @@
-[release_updates]
-fallback_pages_backed_by = "reservsidor som backas upp av"
-moves = "Flyttar"
-
 [runtime_parity_fixtures]
 runtime_parity_fixtures = "Körtidsparitetsfixturer"
 pingora_exit_baseline = "Pingora-exit baslinje"

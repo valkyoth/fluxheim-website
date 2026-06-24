@@ -909,6 +909,12 @@ client-IP forwarding remains stripped. IPv4-mapped IPv6 socket addresses such as
 rate-limit, and GeoIP decisions, so IPv4 CIDR rules apply consistently on
 dual-stack listeners.
 
+Warning: setting `strip_inbound_client_ip_headers = false` together with
+`x_forwarded_host = false` or `x_forwarded_proto = false` allows
+client-supplied `X-Forwarded-Host` or `X-Forwarded-Proto` values to reach the
+upstream unchanged. Only use that combination when the upstream validates those
+headers independently.
+
 Request header values can use a small safe dynamic template set:
 
 - `{host}`: original request `Host` header.
@@ -1044,6 +1050,7 @@ upstream_client_cert_path = "/etc/fluxheim/upstreams/client-chain.pem"
 upstream_client_key_path = "/etc/fluxheim/upstreams/client-key.pem"
 upstream_proxy_protocol = "off"
 upstream_http_version = "http1"
+# upstream_h2c_upgrade = false
 websocket = false
 
 [proxy.auth_request]
@@ -1253,10 +1260,29 @@ cannot produce a same-family TCP4/TCP6 source and destination pair, it sends
 that require HTTP/2, including gRPC-style upstreams, or to `http1-and-http2`
 to allow HTTP/2 with HTTP/1.1 fallback where the selected TLS/backend connector
 can negotiate it. For plaintext origins, `http2` means h2c; use it only when
-the origin is known to accept cleartext HTTP/2. `upstream_h2_max_streams`
-limits concurrent streams per upstream HTTP/2 connection and must be between
-1 and 1024. `upstream_h2_ping_interval_secs` enables upstream HTTP/2 keepalive
-pings. Both h2 settings require `upstream_http_version` to allow HTTP/2.
+the origin is known to accept cleartext HTTP/2 prior knowledge.
+`upstream_h2c_upgrade` defaults to `false` and is only valid for plaintext
+`upstream_http_version = "http1-and-http2"` origins. When explicitly enabled,
+Fluxheim first sends a bounded HTTP/1.1 `OPTIONS *` h2c Upgrade probe and uses
+HTTP/2 only if the origin answers `101 Switching Protocols` with `Upgrade:
+h2c`; otherwise it opens a fresh HTTP/1.1 connection. This compatibility mode
+is not enabled by default because cleartext origins have no ALPN negotiation
+point and h2c Upgrade support is not consistently implemented by upstream
+servers. `upstream_h2_max_streams` limits concurrent streams per upstream
+HTTP/2 connection and must be between 1 and 1024. A value of `1` intentionally
+serializes the native upstream H2 pool, including cold connection setup, so
+latency-sensitive deployments should use a larger value unless the origin
+requires single-stream behavior. `upstream_h2_ping_interval_secs` enables
+upstream HTTP/2 keepalive pings. Both h2 settings require
+`upstream_http_version` to allow HTTP/2.
+During the 1.6 native preview, the native HTTP/1 proxy path supports
+h2c/prior-knowledge upstreams and TLS ALPN-negotiated upstream HTTP/2 for
+`upstream_http_version = "http2"`, including `upstream_h2_max_streams` and
+`upstream_h2_ping_interval_secs`. For TLS upstreams,
+`upstream_http_version = "http1-and-http2"` advertises both `h2` and
+`http/1.1`, then sends the upstream request with the protocol selected by ALPN.
+Plaintext `http1-and-http2` remains HTTP/1.1-only unless
+`upstream_h2c_upgrade = true` is explicitly configured.
 For explicit gRPC routes, set route-scoped `[vhosts.routes.grpc] enabled =
 true`; Fluxheim then requires the route proxy to allow upstream HTTP/2, rejects
 non-`POST` requests, accepts only `application/grpc` or `application/grpc+*`
@@ -1274,7 +1300,10 @@ Linux `TCP_USER_TIMEOUT` through the same keepalive setting and is ignored by
 non-Linux kernels. `upstream_tcp_recv_buffer_bytes` requests a receive-buffer
 size for new upstream sockets, capped at 256MiB. `upstream_dscp` accepts a DSCP
 value from 0 through 63. `upstream_tcp_fast_open` enables upstream TCP Fast Open
-where the platform and kernel allow it.
+where the platform and kernel allow it on the compatibility runtime. During the
+1.6 native-runtime cutover preview it remains an explicit native HTTP/1
+transport-policy blocker until Fluxheim has a safe native socket path with
+parity tests.
 `upstream_weights` is optional and, when set, must contain one positive weight
 for each `upstreams` entry. It enables weighted selection in `load-balancer`
 builds. Each weight must be at most 1000 and the total configured weight must
@@ -2917,7 +2946,10 @@ empty. `mode = "delay"` reserves future tokens and sleeps the request up to
 `max_delay_ms`; if the backlog would exceed that bounded delay budget, Fluxheim
 rejects instead of queueing indefinitely. If `burst` is omitted or zero,
 Fluxheim uses `requests_per_second` as the burst. State is bounded by
-`table_max_entries` and stale entries are pruned after `entry_ttl_secs`. Vhost
+`table_max_entries` and stale entries are pruned after `entry_ttl_secs`. The
+native HTTP/1 runtime shards the local rate-limit table so prune work only
+blocks one shard at a time, but very large `table_max_entries` values can still
+increase per-shard prune CPU under many-identity floods. Vhost
 limits are checked before route limits. If Fluxheim cannot determine an
 effective client IP, the request uses one shared anonymous bucket for that
 vhost or route; do not rely on anonymous-IP rate limiting as the only

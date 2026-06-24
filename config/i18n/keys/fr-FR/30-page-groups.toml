@@ -1,7 +1,3 @@
-[release_updates]
-fallback_pages_backed_by = "pages de fallback appuyées par"
-moves = "Déplace"
-
 [runtime_parity_fixtures]
 runtime_parity_fixtures = "Fixtures de parite runtime"
 pingora_exit_baseline = "baseline de sortie Pingora"

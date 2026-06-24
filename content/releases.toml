@@ -1,4 +1,16 @@
-latest = "1.6.28"
+latest = "1.6.30"
+
+[[release]]
+version = "1.6.30"
+date = "2026-06-23"
+title = "Native upstream HTTP/2"
+summary = "Plaintext h2c, TLS ALPN HTTP/2 origins, pooled native upstream H2, H2 policy timeouts, and explicit h2c upgrade fallback."
+
+[[release]]
+version = "1.6.29"
+date = "2026-06-23"
+title = "Native proxy policy inheritance"
+summary = "Inherited compression, header-policy behavior, safe forwarded headers, access policy, rate limits, auth-request, traffic mirroring, and gRPC validation on the native HTTP/1 proxy path."
 
 [[release]]
 version = "1.6.28"

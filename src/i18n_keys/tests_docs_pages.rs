@@ -66,7 +66,7 @@ fn applies_stable_features_keys_only_on_features_page() {
     let html = concat!(
         "<title>Feature Matrix — Fluxheim Docs</title>",
         "<h1>Feature Matrix</h1>",
-        "All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.6.28.",
+        "All Cargo features, build profile aliases, and TLS backend options for Fluxheim v1.6.30.",
         "<h2>Individual Features</h2>",
         "Select features individually with <code>--features</code>",
         "<h2>Build Profile Aliases</h2>",

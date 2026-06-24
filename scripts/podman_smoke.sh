@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-image="fluxheim-website:1.6.28"
+image="fluxheim-website:1.6.30"
 name="fluxheim-website-smoke"
 base="http://127.0.0.1:8080"
 
@@ -21,8 +21,8 @@ curl -fsS "${base}/healthz" | grep -q "ok"
 curl -fsS "${base}/" | grep -q "Memory-safe edge server"
 curl -fsS "${base}/en-gb/" | grep -q 'html lang="en-GB"'
 curl -fsS "${base}/en-us/" | grep -q 'html lang="en-US"'
-curl -fsS "${base}/de/" | grep -q "Herunterladen v1.6.28"
-curl -fsS "${base}/fr/" | grep -q "Télécharger v1.6.28"
+curl -fsS "${base}/de/" | grep -q "Herunterladen v1.6.30"
+curl -fsS "${base}/fr/" | grep -q "Télécharger v1.6.30"
 curl -fsS "${base}/de/download" | grep -q "Systemd-Dienst"
 curl -fsS "${base}/de/docs" | grep -q "Statisches Website-Hosting"
 curl -fsS "${base}/de/docs/configuration" | grep -q "Schlüssel"

@@ -9,18 +9,21 @@ fn applies_stable_download_keys_for_release_page_copy() {
         "<title>Download — Fluxheim</title>",
         ">Cache Edge Build<",
         "<span class=\"text-xs font-bold uppercase tracking-widest text-amber-400\">Cache</span>",
-        "Native HTTP/1.1 upstream pooling release with bounded keepalive reuse, ",
-        "pool-size config, upstream idle timeout handling, conservative no-reuse guards, ",
-        "and real socket reuse/expiry tests.",
+        "Released June 23, 2026",
+        "Native upstream HTTP/2 release with plaintext h2c/prior-knowledge origins, ",
+        "TLS ALPN HTTP/2 origins, pooled native upstream H2, bounded H2 policy timeouts, ",
+        "and explicit h2c Upgrade fallback.",
         "proxy.error_pages</code> fallback pages backed by <code>fluxheim-web",
     )
     .to_owned();
 
-    let translated = apply_shared_keys(de, html, "1.6.28");
+    let translated = apply_shared_keys(de, html, "1.6.30");
 
     assert!(translated.contains(">Cache-Edge-Build<"));
     assert!(translated.contains(">Cache-Profil</span>"));
-    assert!(translated.contains("Native HTTP/1.1-Upstream-Pooling-Version"));
+    assert!(translated.contains("Veröffentlicht am 23. Juni 2026"));
+    assert!(translated.contains("Native Upstream-HTTP/2-Version"));
+    assert!(translated.contains("gepooltem nativem Upstream-H2"));
     assert!(translated.contains("proxy.error_pages</code> Fallback-Seiten, gestützt durch"));
 }
 
@@ -30,21 +33,25 @@ fn applies_stable_changelog_keys_only_on_changelog_page() {
     let de = site.locale("de-DE").expect("German locale");
     let html = concat!(
         "<title>Changelog — Fluxheim</title>",
-        "Released June 19, 2026",
-        "Moves route-level native response compression",
-        "Adds explicit <code>pingora-compat</code> ",
-        "feature gating for the remaining compatibility runtime boundary",
+        "Released June 23, 2026",
+        "Moves plaintext upstream HTTP/2 forwarding into the native HTTP/1 proxy path ",
+        "for h2c/prior-knowledge origins",
+        "Adds pooled native upstream H2 connections with bounded stream capacity ",
+        "and safe-method retry after pre-response pooled-handle failure",
+        "Adds explicit, disabled-by-default h2c Upgrade fallback for plaintext ",
+        "<code class=\"text-cyan-400 text-xs\">http1-and-http2</code> origins",
     )
     .to_owned();
 
-    let translated = apply_shared_keys(de, html, "1.6.28");
-    let unrelated = apply_shared_keys(de, "Released June 19, 2026".to_owned(), "1.6.28");
+    let translated = apply_shared_keys(de, html, "1.6.30");
+    let unrelated = apply_shared_keys(de, "Released June 23, 2026".to_owned(), "1.6.30");
 
     assert!(translated.contains("<title>Änderungen — Fluxheim</title>"));
-    assert!(translated.contains("Veröffentlicht am 19. Juni 2026"));
-    assert!(translated.contains("Verschiebt route-level native response compression"));
-    assert!(translated.contains("Fügt explizites <code>pingora-compat</code> Feature-Gating"));
-    assert_eq!(unrelated, "Released June 19, 2026");
+    assert!(translated.contains("Veröffentlicht am 23. Juni 2026"));
+    assert!(translated.contains("Verschiebt Plaintext-Upstream-HTTP/2-Forwarding"));
+    assert!(translated.contains("gepoolte native Upstream-H2-Verbindungen"));
+    assert!(translated.contains("standardmäßig deaktivierten h2c-Upgrade-Fallback"));
+    assert_eq!(unrelated, "Released June 23, 2026");
 }
 
 #[test]
