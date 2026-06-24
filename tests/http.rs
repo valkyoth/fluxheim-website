@@ -92,7 +92,7 @@ async fn locale_prefixes_preserve_legacy_pages() {
     assert!(
         fr_body.contains("Systemd &amp; conteneurs") || fr_body.contains("Systemd & conteneurs")
     );
-    assert!(fr_body.contains("Podman Quadlet"));
+    assert!(fr_body.contains("Checklist de production"));
 
     let (sv_status, _headers, sv_body) = request("/sv/download").await;
     assert_eq!(sv_status, StatusCode::OK);
@@ -115,7 +115,7 @@ async fn english_variant_prefixes_preserve_english_content() {
     let (us_status, _headers, us_body) = request("/en-us/docs").await;
     assert_eq!(us_status, StatusCode::OK);
     assert!(us_body.contains(r#"<html lang="en-US""#));
-    assert!(us_body.contains("Documentation"));
+    assert!(us_body.contains("Fluxheim Docs"));
     assert!(us_body.contains(r#"<a href="/en-us/docs" aria-current="true">"#));
     assert!(us_body.contains("🇺🇸"));
     assert!(us_body.contains("<span>English (US)</span>"));
@@ -159,136 +159,138 @@ async fn changelog_uses_page_specific_translations() {
 async fn docs_index_uses_page_specific_translations() {
     let (de_status, _headers, de_body) = request("/de/docs").await;
     assert_eq!(de_status, StatusCode::OK);
-    assert!(de_body.contains("Statisches Website-Hosting mit MIME-Erkennung"));
+    assert!(de_body.contains("Anleitungen"));
+    assert!(de_body.contains("Statische Sites"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs").await;
     assert_eq!(fr_status, StatusCode::OK);
-    assert!(fr_body.contains("Hébergement de site statique avec détection MIME"));
+    assert!(fr_body.contains("Sites statiques"));
+    assert!(fr_body.contains("Bon premier parcours"));
 }
 
 #[tokio::test]
 async fn getting_started_uses_page_specific_translations() {
     let (de_status, _headers, de_body) = request("/de/docs/getting-started").await;
     assert_eq!(de_status, StatusCode::OK);
-    assert!(de_body.contains("Voraussetzungen"));
-    assert!(de_body.contains("Deine erste Konfiguration"));
+    assert!(de_body.contains("Anleitungen"));
+    assert!(de_body.contains("Installation"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/getting-started").await;
     assert_eq!(fr_status, StatusCode::OK);
-    assert!(fr_body.contains("Prérequis"));
-    assert!(fr_body.contains("Votre première configuration"));
+    assert!(fr_body.contains("Guides"));
+    assert!(fr_body.contains("Installation"));
 }
 
 #[tokio::test]
 async fn configuration_uses_page_specific_translations() {
     let (de_status, _headers, de_body) = request("/de/docs/configuration").await;
     assert_eq!(de_status, StatusCode::OK);
-    assert!(de_body.contains("Fluxheim wird über eine einzelne TOML-Datei konfiguriert"));
-    assert!(de_body.contains("Schlüssel"));
+    assert!(de_body.contains("Konfiguration"));
+    assert!(de_body.contains("Sichere Gewohnheiten"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/configuration").await;
     assert_eq!(fr_status, StatusCode::OK);
-    assert!(fr_body.contains("Fluxheim se configure via un seul fichier TOML"));
-    assert!(fr_body.contains("Clé"));
+    assert!(fr_body.contains("Configuration"));
+    assert!(fr_body.contains("Bonnes habitudes sûres"));
 }
 
 #[tokio::test]
 async fn features_uses_page_specific_translations() {
     let (de_status, _headers, de_body) = request("/de/docs/features").await;
     assert_eq!(de_status, StatusCode::OK);
-    assert!(de_body.contains("Alle Cargo-Features"));
-    assert!(de_body.contains("Build-Profil-Aliasse"));
+    assert!(de_body.contains("Häufige Builds"));
+    assert!(de_body.contains("Zukünftige Module"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/features").await;
     assert_eq!(fr_status, StatusCode::OK);
-    assert!(fr_body.contains("Toutes les fonctionnalités Cargo"));
-    assert!(fr_body.contains("Alias de profil de build"));
+    assert!(fr_body.contains("Builds courants"));
+    assert!(fr_body.contains("Modules futurs"));
 }
 
 #[tokio::test]
 async fn deployment_uses_page_specific_translations() {
     let (de_status, _headers, de_body) = request("/de/docs/deployment").await;
     assert_eq!(de_status, StatusCode::OK);
-    assert!(de_body.contains("rootless Podman-Container"));
-    assert!(de_body.contains("Checkliste für Produktionsreife"));
+    assert!(de_body.contains("Rootless Podman"));
+    assert!(de_body.contains("Produktions-Checkliste"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/deployment").await;
     assert_eq!(fr_status, StatusCode::OK);
-    assert!(fr_body.contains("Conteneurs Podman rootless"));
-    assert!(fr_body.contains("Checklist de préparation production"));
+    assert!(fr_body.contains("Podman rootless"));
+    assert!(fr_body.contains("Checklist de production"));
 }
 
 #[tokio::test]
 async fn tls_acme_uses_page_specific_translations() {
     let (de_status, _headers, de_body) = request("/de/docs/tls-acme").await;
     assert_eq!(de_status, StatusCode::OK);
-    assert!(de_body.contains("TLS-Backends"));
-    assert!(de_body.contains("ACME-Challenge-Methoden"));
+    assert!(de_body.contains("Verwaltete Zertifikate"));
+    assert!(de_body.contains("Detailreferenz"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/tls-acme").await;
     assert_eq!(fr_status, StatusCode::OK);
-    assert!(fr_body.contains("Backends TLS"));
-    assert!(fr_body.contains("Méthodes de challenge ACME"));
+    assert!(fr_body.contains("Certificats gérés"));
+    assert!(fr_body.contains("Référence détaillée"));
 }
 
 #[tokio::test]
 async fn cache_uses_page_specific_translations() {
     let (de_status, _headers, de_body) = request("/de/docs/cache").await;
     assert_eq!(de_status, StatusCode::OK);
-    assert!(de_body.contains("Cache-Backends"));
-    assert!(de_body.contains("Cache-Operationen"));
+    assert!(de_body.contains("Anleitungen"));
+    assert!(de_body.contains("Detailreferenz"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/cache").await;
     assert_eq!(fr_status, StatusCode::OK);
-    assert!(fr_body.contains("Backends de cache"));
-    assert!(fr_body.contains("Opérations de cache"));
+    assert!(fr_body.contains("Guides"));
+    assert!(fr_body.contains("Référence détaillée"));
 }
 
 #[tokio::test]
 async fn observability_uses_page_specific_translations() {
     let (de_status, _headers, de_body) = request("/de/docs/observability").await;
     assert_eq!(de_status, StatusCode::OK);
-    assert!(de_body.contains("Prometheus-Metriken"));
-    assert!(de_body.contains("Was getraced wird"));
+    assert!(de_body.contains("Anleitungen"));
+    assert!(de_body.contains("Detailreferenz"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/observability").await;
     assert_eq!(fr_status, StatusCode::OK);
-    assert!(fr_body.contains("Métriques Prometheus"));
-    assert!(fr_body.contains("Ce qui est tracé"));
+    assert!(fr_body.contains("Guides"));
+    assert!(fr_body.contains("Référence détaillée"));
 }
 
 #[tokio::test]
 async fn advanced_uses_page_specific_translations() {
     let (de_status, _headers, de_body) = request("/de/docs/advanced").await;
     assert_eq!(de_status, StatusCode::OK);
-    assert!(de_body.contains("Fortgeschrittene Funktionen"));
-    assert!(de_body.contains("Zero-Retention-Privacy-Modus"));
+    assert!(de_body.contains("Zukünftige Module"));
+    assert!(de_body.contains("WASM-Erweiterungen"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/advanced").await;
     assert_eq!(fr_status, StatusCode::OK);
-    assert!(fr_body.contains("Fonctionnalités avancées"));
-    assert!(fr_body.contains("Mode privacy sans rétention"));
+    assert!(fr_body.contains("Modules futurs"));
+    assert!(fr_body.contains("Extensions WASM"));
 }
 
 #[tokio::test]
 async fn reference_uses_page_specific_translations() {
     let (de_status, _headers, de_body) = request("/de/docs/reference").await;
     assert_eq!(de_status, StatusCode::OK);
-    assert!(de_body.contains("Betrieb und Deployment"));
-    assert!(de_body.contains("Repository- und Release-Vorlagen"));
+    assert!(de_body.contains("Vollständige Referenz"));
+    assert!(de_body.contains("Wo die Detaildokumentation liegt"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/reference").await;
     assert_eq!(fr_status, StatusCode::OK);
-    assert!(fr_body.contains("Opérations et déploiement"));
-    assert!(fr_body.contains("Modèles repository et release"));
+    assert!(fr_body.contains("Référence complète"));
+    assert!(fr_body.contains("Où se trouve la documentation détaillée"));
 }
 
 #[tokio::test]
 async fn clean_directory_routes_use_legacy_index_pages() {
     let (status, _headers, body) = request("/docs").await;
     assert_eq!(status, StatusCode::OK);
-    assert!(body.contains("Documentation"));
-    assert!(body.contains("docs/index.html") || body.contains("Getting Started"));
+    assert!(body.contains("Fluxheim Docs"));
+    assert!(body.contains("getting-started.html") || body.contains("Get Fluxheim Running"));
 
     let (de_status, _headers, de_body) = request("/de/docs").await;
     assert_eq!(de_status, StatusCode::OK);

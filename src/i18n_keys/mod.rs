@@ -89,21 +89,6 @@ mod tests;
 mod tests_shared;
 
 #[cfg(test)]
-mod tests_source_docs;
-
-#[cfg(test)]
-mod tests_source_docs_build;
-
-#[cfg(test)]
-mod tests_source_docs_late;
-
-#[cfg(test)]
-mod tests_source_docs_ops;
-
-#[cfg(test)]
-mod tests_source_docs_tail;
-
-#[cfg(test)]
 mod tests_docs_pages;
 
 #[cfg(test)]

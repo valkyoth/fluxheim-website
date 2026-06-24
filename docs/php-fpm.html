@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="../assets/img/fluxheim-logo.webp" type="image/webp">
-  <title>Future Modules - Fluxheim Docs</title>
-  <meta name="description" content="Some modules are planned or experimental. Keep them separate from production basics until they are stable.">
+  <title>PHP-FPM - Fluxheim Docs</title>
+  <meta name="description" content="Use PHP-FPM for PHP apps while Fluxheim serves static assets and forwards PHP requests safely.">
   <link rel="stylesheet" href="../assets/css/prism-dark.min.css">
   <link rel="stylesheet" href="../assets/css/theme.css?v=20260519">
   <script src="../assets/js/theme.js?v=20260519"></script>
@@ -55,29 +55,34 @@
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="tls-acme.html">TLS & ACME</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="cache.html">Cache</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="load-balancer.html">Load Balancer</a></li>
-<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="php-fpm.html">PHP-FPM</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors active pl-4" href="php-fpm.html">PHP-FPM</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="wordpress.html">WordPress</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="observability.html">Observability</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="features.html">Builds & Features</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="configuration.html">Configuration</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="deployment.html">Systemd & Containers</a></li>
-<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors active pl-4" href="advanced.html">Future Modules</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="advanced.html">Future Modules</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="reference.html">Full Reference</a></li></ul></div>
         <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deep Reference</h3><a href="https://github.com/valkyoth/fluxheim/tree/main/docs" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Full docs on GitHub</a></div>
       </nav>
     </aside>
     <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
-        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Future Modules</span></div>
-        <header class="mb-10"><div class="inline-flex items-center gap-2 px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/25 rounded-full mb-4"><span class="text-cyan-400 text-xs font-semibold">v1.6.30</span></div><h1 class="text-4xl font-black text-white mb-4">Future Modules</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Some modules are planned or experimental. Keep them separate from production basics until they are stable.</p></header>
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">PHP-FPM</span></div>
+        <header class="mb-10"><div class="inline-flex items-center gap-2 px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/25 rounded-full mb-4"><span class="text-cyan-400 text-xs font-semibold">v1.6.30</span></div><h1 class="text-4xl font-black text-white mb-4">PHP-FPM</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Use PHP-FPM for PHP apps while Fluxheim serves static assets and forwards PHP requests safely.</p></header>
 
 <section class="guide-section">
-  <h2>WAF</h2>
-  <p>The WAF track is for rule-based request filtering, logging, and challenge/block responses. It should become its own clear page when it is production-ready.</p>
+  <h2>External PHP-FPM pool</h2>
+  <pre><code>[vhosts.php]
+enabled = true
+root = "/srv/app/public"
+index = "index.php"
+socket = "/run/php-fpm/app.sock"</code></pre>
 </section>
 <section class="guide-section">
-  <h2>WASM extensions</h2>
-  <p>WASM extensions are planned for bounded operator logic. They must stay sandboxed, explicit, and disabled in default builds until the boundary is proven.</p>
+  <h2>Managed PHP-FPM</h2>
+  <p>Managed mode lets Fluxheim start a private php-fpm master for the vhost. Use it when you want Fluxheim to own the socket and generated pool files.</p>
+  <ul class="checks"><li>Keep PHP files inside the configured root.</li><li>Serve static assets directly when possible.</li><li>Never expose PHP source when PHP execution fails.</li></ul>
 </section>
 
       </div>

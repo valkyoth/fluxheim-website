@@ -6,24 +6,19 @@ fn applies_stable_reference_keys_only_on_reference_page() {
     let site = Site::load().expect("site loads");
     let de = site.locale("de-DE").expect("German locale");
     let html = concat!(
-        "<title>Source Reference — Fluxheim Docs</title>",
-        "The complete upstream Markdown documentation from Fluxheim main is vendored here so the website exposes the full operator, architecture, and roadmap reference set.",
-        "source files",
-        "Operations And Deployment",
-        "Build And Rootless Podman",
-        "Repository And Release Templates",
-        "Runtime Compatibility Patch",
+        "<title>Full Reference - Fluxheim Docs</title>",
+        "<h3>Guides</h3>",
+        "<a>Full Reference</a>",
+        "<h2>Where the deep docs live</h2>",
+        "<a>Full docs on GitHub</a>",
     )
     .to_owned();
 
-    let translated = apply_shared_keys(de, html, "1.6.28");
-    let unrelated = apply_shared_keys(de, ">Operations And Deployment<".to_owned(), "1.6.28");
+    let translated = apply_shared_keys(de, html, "1.6.30");
+    let unrelated = apply_shared_keys(de, ">Full Reference<".to_owned(), "1.6.30");
 
-    assert!(translated.contains("vollständige Upstream-Markdown-Dokumentation"));
-    assert!(translated.contains("Source-Dateien"));
-    assert!(translated.contains("Betrieb und Deployment"));
-    assert!(translated.contains("Build und Rootless Podman"));
-    assert!(translated.contains("Repository- und Release-Vorlagen"));
-    assert!(translated.contains("Runtime-Kompatibilitäts-Patch"));
-    assert!(unrelated.contains(">Operations And Deployment<"));
+    assert!(translated.contains("<h3>Anleitungen</h3>"));
+    assert!(translated.contains(">Vollständige Referenz<"));
+    assert!(translated.contains("<h2>Wo die Detaildokumentation liegt</h2>"));
+    assert_eq!(unrelated, ">Full Reference<");
 }

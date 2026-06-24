@@ -4,529 +4,91 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="../assets/img/fluxheim-logo.webp" type="image/webp">
-  <title>Config Reference — Fluxheim Docs</title>
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Fluxheim">
-  <meta property="og:title" content="Fluxheim">
-  <meta property="og:description" content="Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.">
-  <meta property="og:url" content="https://fluxheim.eu/">
-  <meta property="og:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
-  <meta property="og:image:secure_url" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Fluxheim logo">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Fluxheim">
-  <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust.">
-  <meta name="twitter:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <title>Configuration Basics - Fluxheim Docs</title>
+  <meta name="description" content="Fluxheim uses TOML. Unknown fields are rejected, so spelling mistakes fail before restart.">
   <link rel="stylesheet" href="../assets/css/prism-dark.min.css">
   <link rel="stylesheet" href="../assets/css/theme.css?v=20260519">
   <script src="../assets/js/theme.js?v=20260519"></script>
   <script src="../assets/js/tailwind.js"></script>
   <style>
     body { background-color: var(--fh-bg); }
-    .code-win { background: #0d1117; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; }
-    .code-win pre[class*="language-"] { margin: 0; padding: 1.2rem; background: transparent; font-size: 0.8rem; line-height: 1.7; }
-    .prose h2 { font-size: 1.5rem; font-weight: 700; color: white; margin: 2.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid #1f2937; }
-    .prose h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
-    .prose h3 { font-size: 1.1rem; font-weight: 600; color: #e5e7eb; margin: 1.75rem 0 0.75rem; }
-    .prose p { color: #9ca3af; line-height: 1.75; margin-bottom: 1rem; }
-    .prose ul { margin: 0.75rem 0 1rem 1.25rem; list-style: disc; }
-    .prose ul li { color: #9ca3af; margin-bottom: 0.35rem; }
-    .prose code { background: #1f2937; color: #22d3ee; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82em; }
-    .prose a { color: #22d3ee; }
-    .key-table { width: 100%; border-collapse: collapse; }
-    .key-table th { text-align: left; padding: 0.6rem 1rem; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; background: #111827; border-bottom: 1px solid #1f2937; }
-    .key-table td { padding: 0.65rem 1rem; font-size: 0.85rem; border-bottom: 1px solid #111827; vertical-align: top; }
-    .key-table tr:last-child td { border-bottom: none; }
-    .key-table .key { font-family: ui-monospace, monospace; color: #22d3ee; white-space: nowrap; }
-    .key-table .type { color: #a78bfa; font-family: ui-monospace, monospace; font-size: 0.78rem; }
-    .key-table .desc { color: #9ca3af; }
-    .key-table .default { font-family: ui-monospace, monospace; color: #6b7280; font-size: 0.78rem; }
-    .section-ref { display: inline-block; padding: 0.15rem 0.6rem; background: #1f2937; border: 1px solid #374151; border-radius: 6px; font-family: ui-monospace, monospace; font-size: 0.8rem; color: #9ca3af; }
+    pre { background:#0d1117; border:1px solid #21262d; border-radius:10px; padding:1rem; overflow:auto; color:#d1d5db; font-size:.82rem; line-height:1.65; }
+    table { width:100%; border-collapse:collapse; overflow:hidden; border-radius:10px; }
+    th,td { border:1px solid #1f2937; padding:.75rem; text-align:left; vertical-align:top; }
+    th { color:#9ca3af; background:rgba(17,24,39,.75); }
+    .sidebar-link.active { background:rgba(6,182,212,.08); color:#22d3ee; border-left:2px solid #22d3ee; }
+    .guide-section { margin-top:2rem; padding-top:2rem; border-top:1px solid #1f2937; }
+    .guide-section:first-of-type { margin-top:0; padding-top:0; border-top:0; }
+    .guide-section h2 { color:white; font-size:1.35rem; font-weight:800; margin-bottom:1rem; }
+    .guide-section p { color:#9ca3af; line-height:1.75; margin-bottom:1rem; }
+    .checks { display:grid; gap:.65rem; color:#d1d5db; }
+    .checks li { padding-left:.25rem; }
+    .steps { display:grid; gap:.75rem; color:#d1d5db; list-style:decimal; padding-left:1.25rem; }
+    .doc-card { display:block; border:1px solid #1f2937; border-radius:8px; background:rgba(17,24,39,.52); padding:1rem; transition:border-color 120ms ease, background-color 120ms ease; }
+    .doc-card:hover { border-color:rgba(6,182,212,.45); background:rgba(17,24,39,.82); }
+    .doc-card span { color:#22d3ee; font-size:.75rem; font-weight:800; text-transform:uppercase; letter-spacing:.04em; }
+    .doc-card strong { display:block; color:white; margin-top:.25rem; }
+    .doc-card p { color:#9ca3af; font-size:.875rem; margin-top:.45rem; line-height:1.6; }
+    .action { display:inline-flex; color:#020617; background:#22d3ee; padding:.6rem .85rem; border-radius:8px; font-weight:800; }
   </style>
 </head>
 <body class="bg-gray-950 text-gray-100 antialiased">
-
-  <nav x-data="{ open: false }" class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
-    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between h-16">
-        <a href="../index.html" class="flex items-center gap-3">
-          <img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
-          <span class="font-bold text-white text-lg">Fluxheim</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6">
-          <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
-          <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Download</a>
-          <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">Changelog</a>
-          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white transition-colors">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.30</a>
-        </div>
-        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
-          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-        </button>
-        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-800">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center gap-3"><img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto"><span class="font-bold text-white text-lg">Fluxheim</span></a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+        <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+        <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+        <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+        <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.30</a>
       </div>
     </div>
   </nav>
-
-  <div class="flex min-h-screen pt-16" x-data="{ mobileSidebar: false }">
-    <div x-show="mobileSidebar" @click="mobileSidebar = false" x-transition.opacity class="fixed inset-0 z-30 bg-gray-950/70 backdrop-blur-sm md:hidden"></div>
-
+  <div class="flex min-h-screen pt-16">
     <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
       <nav class="p-6 space-y-7">
-        <div>
-          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3>
-          <ul class="space-y-0.5">
-            <li><a href="index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Introduction</a></li>
-            <li><a href="getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Installation & Quick Start</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3>
-          <ul class="space-y-0.5">
-            <li><a href="configuration.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Config Reference</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3>
-          <ul class="space-y-0.5">
-            <li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Feature Matrix</a></li>
-            <li><a href="source/load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Load Balancer Migration</a></li>
-            <li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">TLS & ACME</a></li>
-            <li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Cache System</a></li>
-            <li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Observability</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3>
-          <ul class="space-y-0.5">
-            <li><a href="deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Systemd & Containers</a></li>
-          </ul>
-        </div>
-        <div>
-          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3>
-          <ul class="space-y-0.5">
-            <li><a href="advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">PHP-FPM, WAF & More</a></li>
-            <li><a href="reference.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Source Reference</a></li>
-          </ul>
-        </div>
-        <div class="border-t border-gray-800/60 pt-5">
-          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3>
-          <ul class="space-y-0.5">
-            <li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">GitHub Repository</a></li>
-            <li><a href="../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Changelog</a></li>
-            <li><a href="../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Download</a></li>
-          </ul>
-        </div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Guides</h3><ul class="space-y-0.5"><li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="index.html">Start</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="getting-started.html">Install</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="static-sites.html">Static Sites</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="reverse-proxy.html">Reverse Proxy</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="tls-acme.html">TLS & ACME</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="cache.html">Cache</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="load-balancer.html">Load Balancer</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="php-fpm.html">PHP-FPM</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="wordpress.html">WordPress</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="observability.html">Observability</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="features.html">Builds & Features</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors active pl-4" href="configuration.html">Configuration</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="deployment.html">Systemd & Containers</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="advanced.html">Future Modules</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="reference.html">Full Reference</a></li></ul></div>
+        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deep Reference</h3><a href="https://github.com/valkyoth/fluxheim/tree/main/docs" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Full docs on GitHub</a></div>
       </nav>
     </aside>
-
     <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
-      <div class="md:hidden px-4 py-3 border-b border-gray-800/60">
-        <button @click="mobileSidebar = true" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-          Menu
-        </button>
-      </div>
-
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Configuration Basics</span></div>
+        <header class="mb-10"><div class="inline-flex items-center gap-2 px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/25 rounded-full mb-4"><span class="text-cyan-400 text-xs font-semibold">v1.6.30</span></div><h1 class="text-4xl font-black text-white mb-4">Configuration Basics</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Fluxheim uses TOML. Unknown fields are rejected, so spelling mistakes fail before restart.</p></header>
 
-        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
-          <a href="../index.html" class="hover:text-gray-300">Fluxheim</a>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          <a href="index.html" class="hover:text-gray-300">Docs</a>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          <span class="text-gray-400">Config Reference</span>
-        </div>
-
-        <h1 class="text-4xl font-black text-white mb-4">Config Reference</h1>
-        <p class="text-gray-400 text-lg mb-10">Fluxheim is configured via a single TOML file. Use <code class="bg-gray-800 text-cyan-400 px-1.5 py-0.5 rounded text-base">--check-config</code> to validate before restarting.</p>
-
-        <div class="prose">
-
-          <h2>Full Example</h2>
-          <div class="not-prose">
-            <div class="code-win my-5">
-              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">/etc/fluxheim/fluxheim.toml</span></div>
-<pre class="language-toml"><code class="language-toml">[server]
-listen = ["0.0.0.0:80"]
-tls_listen = ["0.0.0.0:443"]
+<section class="guide-section">
+  <h2>Main shape</h2>
+  <pre><code>[server]
+listen = ["0.0.0.0:8080"]
 default_vhost = "site"
-
-[admin]
-enabled = true
-listen = "127.0.0.1:9090"
-require_loopback = true
-token_file = "/run/secrets/fluxheim-admin-token"
-
-[headers.response]
-enabled = true
-x_content_type_options = "nosniff"
-x_frame_options = "DENY"
-referrer_policy = "no-referrer"
-
-[tls.acme]
-enabled = true
-storage = "/var/lib/fluxheim/acme"
-contact_email = "admin@example.com"
-default_issuer = "letsencrypt"
 
 [[vhosts]]
 name = "site"
-hosts = ["example.com", "www.example.com"]
-
-[vhosts.tls]
-enabled = true
-
-[vhosts.tls.acme]
-enabled = true
-
-[vhosts.web]
-root = "/srv/sites/example/public"
-index_files = ["index.html"]
-deny_dotfiles = true
-cache_control = "public, max-age=3600"
-
-[[vhosts.routes]]
-name = "api"
-path_prefix = "/api"
-[vhosts.routes.proxy]
-upstreams = ["127.0.0.1:3000"]
-
-[[vhosts.routes]]
-name = "old"
-path_prefix = "/old"
-[vhosts.routes.redirect]
-to = "/new"
-status = 301
-
-[vhosts.cache]
-enabled = true
-
-[vhosts.cache.memory]
-enabled = true
-max_size_bytes = "256MiB"</code></pre>
-            </div>
-          </div>
-
-          <h2>[server]</h2>
-          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
-            <table class="key-table">
-              <thead><tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-              <tbody>
-                <tr><td class="key">listen</td><td class="type">string[]</td><td class="default">["127.0.0.1:8080"]</td><td class="desc">Cleartext listener addresses. Each entry is <code class="section-ref">host:port</code>.</td></tr>
-                <tr><td class="key">tls_listen</td><td class="type">string[]</td><td class="default">[]</td><td class="desc">Explicit TLS listener addresses. Fluxheim does not infer TLS from port numbers.</td></tr>
-                <tr><td class="key">default_vhost</td><td class="type">string</td><td class="default">—</td><td class="desc">Name of the vhost to use when no Host header matches. Required.</td></tr>
-                <tr><td class="key">trusted_proxies</td><td class="type">string[]</td><td class="default">[]</td><td class="desc">Trusted direct peers for recursive client-IP restoration.</td></tr>
-                <tr><td class="key">[server.https_redirect].enabled</td><td class="type">bool</td><td class="default">false</td><td class="desc">Enable global HTTP to HTTPS redirect with safe Host validation.</td></tr>
-                <tr><td class="key">[server.host_routing].strict</td><td class="type">bool</td><td class="default">false</td><td class="desc">Reject missing, invalid, or unknown host identity instead of falling back to the default vhost.</td></tr>
-                <tr><td class="key">[server.limits].max_request_body_bytes</td><td class="type">string</td><td class="default">"16MiB"</td><td class="desc">Maximum request body size.</td></tr>
-                <tr><td class="key">[server.process].threads</td><td class="type">integer</td><td class="default">1</td><td class="desc">Runtime worker thread count. Process settings require a process upgrade.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h2>[admin]</h2>
-          <p>The admin control-plane provides health, status, purge, and config-reload endpoints. It requires bearer-token authentication on non-loopback listeners.</p>
-          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
-            <table class="key-table">
-              <thead><tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-              <tbody>
-                <tr><td class="key">enabled</td><td class="type">bool</td><td class="default">false</td><td class="desc">Enable the admin listener.</td></tr>
-                <tr><td class="key">listen</td><td class="type">string</td><td class="default">"127.0.0.1:9090"</td><td class="desc">Admin listener address. Keep loopback where possible.</td></tr>
-                <tr><td class="key">require_loopback</td><td class="type">bool</td><td class="default">true</td><td class="desc">Require the admin listener to stay loopback-only.</td></tr>
-                <tr><td class="key">token_env</td><td class="type">string</td><td class="default">—</td><td class="desc">Environment variable containing the bearer token.</td></tr>
-                <tr><td class="key">token_file</td><td class="type">string</td><td class="default">—</td><td class="desc">File containing the bearer token. Prefer container or systemd secrets.</td></tr>
-                <tr><td class="key">[admin.transport].mode</td><td class="type">string</td><td class="default">"local_only"</td><td class="desc">Use <code class="section-ref">trusted_tls_terminator</code> only when a trusted local sidecar terminates TLS/mTLS.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h2>[headers.response]</h2>
-          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
-            <table class="key-table">
-              <thead><tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-              <tbody>
-                <tr><td class="key">enabled</td><td class="type">bool</td><td class="default">true</td><td class="desc">Enable the secure response header policy.</td></tr>
-                <tr><td class="key">remove</td><td class="type">string[]</td><td class="default">[]</td><td class="desc">Headers to remove. Use <code class="section-ref">["server"]</code> to suppress the default server banner.</td></tr>
-                <tr><td class="key">[headers.response.add]</td><td class="type">table</td><td class="default">—</td><td class="desc">Headers to add or set, such as <code class="section-ref">cache-control</code>.</td></tr>
-                <tr><td class="key">x_content_type_options</td><td class="type">string</td><td class="default">"nosniff"</td><td class="desc">Sets <code class="section-ref">X-Content-Type-Options</code>.</td></tr>
-                <tr><td class="key">x_frame_options</td><td class="type">string</td><td class="default">—</td><td class="desc"><code class="section-ref">DENY</code>, <code class="section-ref">SAMEORIGIN</code>, or unset.</td></tr>
-                <tr><td class="key">referrer_policy</td><td class="type">string</td><td class="default">—</td><td class="desc">Sets <code class="section-ref">Referrer-Policy</code>.</td></tr>
-                <tr><td class="key">strict_transport_security</td><td class="type">string</td><td class="default">—</td><td class="desc">Sets <code class="section-ref">Strict-Transport-Security</code>. Only set when TLS is in use.</td></tr>
-                <tr><td class="key">content_security_policy</td><td class="type">string</td><td class="default">—</td><td class="desc">Sets <code class="section-ref">Content-Security-Policy</code>.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h2>[geoip]</h2>
-          <p>When Fluxheim is built with the optional <code>geoip</code> feature, it can load local MMDB databases and expose bounded country/ASN context to route policy and structured logs. GeoIP is local-only: Fluxheim does not download, poll, or refresh databases itself.</p>
-          <div class="not-prose">
-            <div class="code-win my-5">
-              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml</span></div>
-<pre class="language-toml"><code class="language-toml">[geoip]
-enabled = true
-fallback_enabled = true
-
-[[geoip.databases]]
-provider = "maxmind"
-path = "/var/lib/fluxheim/geoip/GeoLite2-Country.mmdb"
-
-[[geoip.databases]]
-provider = "circl"
-path = "/var/lib/fluxheim/geoip/circl-country.mmdb"</code></pre>
-            </div>
-          </div>
-          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
-            <table class="key-table">
-              <thead><tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-              <tbody>
-                <tr><td class="key">enabled</td><td class="type">bool</td><td class="default">false</td><td class="desc">Enable local Geo-Context lookup when the binary includes <code class="section-ref">geoip</code>.</td></tr>
-                <tr><td class="key">fallback_enabled</td><td class="type">bool</td><td class="default">false</td><td class="desc">Try later local MMDB files when the primary file has no usable country or ASN result.</td></tr>
-                <tr><td class="key">[[geoip.databases]].provider</td><td class="type">string</td><td class="default">—</td><td class="desc"><code class="section-ref">maxmind</code> or <code class="section-ref">circl</code>.</td></tr>
-                <tr><td class="key">[[geoip.databases]].path</td><td class="type">string</td><td class="default">—</td><td class="desc">Absolute path to a local MMDB file. Files are bounded at load time.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p>Route policy can use <code>geo_allow_countries</code>, <code>geo_deny_countries</code>, <code>geo_allow_asns</code>, and <code>geo_deny_asns</code>. Allow lists fail closed when no Geo-Context is available; deny lists only deny on a known match. <code>privacy-mode</code> and <code>geoip</code> cannot be compiled together.</p>
-
-          <h2>[stream]</h2>
-          <p>When Fluxheim is built with the optional <code>stream-proxy</code> feature, <code>[stream]</code> exposes raw L4 TCP services that stay separate from HTTP routing, headers, cache, compression, auth subrequests, PHP, and static web serving.</p>
-          <div class="not-prose">
-            <div class="code-win my-5">
-              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml</span></div>
-<pre class="language-toml"><code class="language-toml">[stream]
-enabled = true
-
-[[stream.routes]]
-name = "postgres"
-listen = ["127.0.0.1:15432"]
-upstreams = ["10.0.0.11:5432", "10.0.0.12:5432"]
-# upstream_weights = [1, 2]
-# upstream_aliases = ["pg-a", "pg-b"]
-# backup_upstreams = []
-# drain_upstreams = []
-connect_timeout_secs = 5
-idle_timeout_secs = 300
-# max_connection_secs = 3600
-max_connection_bytes = 1073741824
-max_connections = 1024
-downstream_proxy_protocol = "off" # "off", "v1", or "v2"
-trusted_proxies = []
-upstream_proxy_protocol = "off" # "off", "v1", or "v2"
-upstream_tls = false
-# upstream_sni = "db.internal.example"
-# upstream_verify_cert = true
-# upstream_verify_hostname = true
-# upstream_alternative_cn = "db-alt.internal.example"
-# upstream_ca_path = "/etc/fluxheim/upstreams/db-ca.pem"
-# upstream_client_cert_path = "/etc/fluxheim/upstreams/client-chain.pem"
-# upstream_client_key_path = "/etc/fluxheim/upstreams/client-key.pem"</code></pre>
-            </div>
-          </div>
-          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
-            <table class="key-table">
-              <thead><tr><th>Key</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
-              <tbody>
-                <tr><td class="key">enabled</td><td class="type">bool</td><td class="default">false</td><td class="desc">Enable dedicated TCP stream listeners when the binary includes <code class="section-ref">stream-proxy</code>.</td></tr>
-                <tr><td class="key">[[stream.routes]].listen</td><td class="type">string[]</td><td class="default">—</td><td class="desc">One or more <code class="section-ref">ip:port</code> TCP listeners. Each listener may belong to only one stream route.</td></tr>
-                <tr><td class="key">[[stream.routes]].upstreams</td><td class="type">string[]</td><td class="default">—</td><td class="desc">One or more <code class="section-ref">host:port</code> upstreams. Multiple upstreams use weighted selection when weights are configured.</td></tr>
-                <tr><td class="key">upstream_weights</td><td class="type">integer[]</td><td class="default">—</td><td class="desc">Optional per-upstream weights for stream-local TCP selection.</td></tr>
-                <tr><td class="key">upstream_aliases</td><td class="type">string[]</td><td class="default">—</td><td class="desc">Optional safe labels for stream upstreams in logs and metrics.</td></tr>
-                <tr><td class="key">backup_upstreams</td><td class="type">string[]</td><td class="default">[]</td><td class="desc">Backup upstreams attempted when primary stream upstream connection attempts fail.</td></tr>
-                <tr><td class="key">drain_upstreams</td><td class="type">string[]</td><td class="default">[]</td><td class="desc">Upstreams excluded from new stream selections while existing connections drain.</td></tr>
-                <tr><td class="key">idle_timeout_secs</td><td class="type">integer</td><td class="default">300</td><td class="desc">True idle timeout that resets when either direction transfers bytes.</td></tr>
-                <tr><td class="key">max_connection_secs</td><td class="type">integer</td><td class="default">—</td><td class="desc">Optional wall-clock lifetime cap for one accepted stream connection.</td></tr>
-                <tr><td class="key">max_connection_bytes</td><td class="type">integer</td><td class="default">—</td><td class="desc">Optional copied-byte cap per direction for a single stream connection.</td></tr>
-                <tr><td class="key">max_connections</td><td class="type">integer</td><td class="default">0</td><td class="desc">Per-route concurrent connection cap. Zero means unlimited.</td></tr>
-                <tr><td class="key">downstream_proxy_protocol</td><td class="type">string</td><td class="default">"off"</td><td class="desc"><code class="section-ref">off</code>, <code class="section-ref">v1</code>, or <code class="section-ref">v2</code> receive for this stream route only. Requires route-local trusted proxies.</td></tr>
-                <tr><td class="key">upstream_proxy_protocol</td><td class="type">string</td><td class="default">"off"</td><td class="desc"><code class="section-ref">off</code>, <code class="section-ref">v1</code>, or <code class="section-ref">v2</code> send to upstream before forwarding stream bytes.</td></tr>
-                <tr><td class="key">upstream_tls</td><td class="type">bool</td><td class="default">false</td><td class="desc">Enable TLS for stream upstream connections. Cannot be combined with upstream PROXY protocol in this release.</td></tr>
-                <tr><td class="key">upstream_sni</td><td class="type">string</td><td class="default">—</td><td class="desc">Optional RFC 6066-safe SNI name for stream upstream TLS.</td></tr>
-                <tr><td class="key">upstream_verify_cert</td><td class="type">bool</td><td class="default">true</td><td class="desc">Verify the upstream certificate chain when stream upstream TLS is enabled.</td></tr>
-                <tr><td class="key">upstream_verify_hostname</td><td class="type">bool</td><td class="default">true</td><td class="desc">Verify upstream TLS hostname identity using SNI or the upstream host.</td></tr>
-                <tr><td class="key">upstream_alternative_cn</td><td class="type">string</td><td class="default">—</td><td class="desc">One alternative certificate name accepted for stream upstream TLS.</td></tr>
-                <tr><td class="key">upstream_ca_path</td><td class="type">path</td><td class="default">—</td><td class="desc">Route-local CA bundle for stream upstream TLS verification.</td></tr>
-                <tr><td class="key">upstream_client_cert_path</td><td class="type">path</td><td class="default">—</td><td class="desc">Client certificate chain for stream upstream mTLS.</td></tr>
-                <tr><td class="key">upstream_client_key_path</td><td class="type">path</td><td class="default">—</td><td class="desc">Client private key for stream upstream mTLS. Temporary key bytes are zeroized after parsing.</td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p>With <code>metrics</code> compiled and enabled, stream proxying exports bounded connection outcome and per-direction byte counters. Stream routes do not support UDP, TLS passthrough SNI routing, HTTP policy, HTTP header/body mutation, or Wasm/Lua filters in this release. Stream <code>upstream_tls</code> and <code>upstream_proxy_protocol</code> cannot be combined.</p>
-
-          <h2>[[vhosts]]</h2>
-          <p>Each vhost is a <code>[[vhosts]]</code> table in TOML (array of tables). They are matched by the <code>Host</code> header.</p>
-          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
-            <table class="key-table">
-              <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
-              <tbody>
-                <tr><td class="key">name</td><td class="type">string</td><td class="desc">Unique identifier for this vhost. Used in logs and as the default_vhost reference.</td></tr>
-                <tr><td class="key">hosts</td><td class="type">string[]</td><td class="desc">List of <code class="section-ref">Host</code> header values that route to this vhost. Wildcard hosts are accepted for matching; managed ACME derives exact domains only unless configured.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h3>[vhosts.web]</h3>
-          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
-            <table class="key-table">
-              <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
-              <tbody>
-                <tr><td class="key">root</td><td class="type">string</td><td class="desc">Absolute path to the document root directory.</td></tr>
-                <tr><td class="key">index_files</td><td class="type">string[]</td><td class="desc">List of filenames to serve as directory index. E.g. <code class="section-ref">["index.html"]</code>.</td></tr>
-                <tr><td class="key">deny_dotfiles</td><td class="type">bool</td><td class="desc">Deny requests for files or directories starting with <code class="section-ref">.</code>.</td></tr>
-                <tr><td class="key">cache_control</td><td class="type">string</td><td class="desc">Value for the <code class="section-ref">Cache-Control</code> response header.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h3>[vhosts.tls]</h3>
-          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
-            <table class="key-table">
-              <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
-              <tbody>
-                <tr><td class="key">enabled</td><td class="type">bool</td><td class="desc">Enable TLS for this vhost. Requires a static certificate, managed ACME source, or global listener certificate.</td></tr>
-                <tr><td class="key">[vhosts.tls.acme].enabled</td><td class="type">bool</td><td class="desc">Enable managed ACME certificate issuance and renewal for this vhost.</td></tr>
-                <tr><td class="key">[vhosts.tls.acme].issuer</td><td class="type">string</td><td class="desc">ACME issuer to use. Defaults to <code class="section-ref">tls.acme.default_issuer</code>.</td></tr>
-                <tr><td class="key">[vhosts.tls.acme].domains</td><td class="type">string[]</td><td class="desc">Optional exact SAN names. If omitted, exact vhost hosts are used.</td></tr>
-                <tr><td class="key">[vhosts.tls.certificate].cert_path</td><td class="type">string</td><td class="desc">Path to PEM certificate file for static/bought certs.</td></tr>
-                <tr><td class="key">[vhosts.tls.certificate].key_path</td><td class="type">string</td><td class="desc">Path to PEM private key file.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h3>[[vhosts.routes]]</h3>
-          <p>Routes are matched in order. The first matching route wins.</p>
-          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
-            <table class="key-table">
-              <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
-              <tbody>
-                <tr><td class="key">name</td><td class="type">string</td><td class="desc">Unique route name within the vhost. Used in cache scope and logs.</td></tr>
-                <tr><td class="key">path_exact</td><td class="type">string</td><td class="desc">Exact URL path matcher. Use one matcher only.</td></tr>
-                <tr><td class="key">path_prefix</td><td class="type">string</td><td class="desc">URL path prefix matcher. Use one matcher only.</td></tr>
-                <tr><td class="key">fallback</td><td class="type">bool</td><td class="desc">Fallback matcher when no earlier route matched. Use one matcher only.</td></tr>
-                <tr><td class="key">[vhosts.routes.proxy]</td><td class="type">table</td><td class="desc">Proxy action. Use <code class="section-ref">upstreams = ["127.0.0.1:3000"]</code> for one or more origins.</td></tr>
-                <tr><td class="key">[vhosts.routes.web]</td><td class="type">table</td><td class="desc">Route-scoped static web action.</td></tr>
-                <tr><td class="key">[vhosts.routes.redirect]</td><td class="type">table</td><td class="desc">Redirect action with <code class="section-ref">to</code> and optional <code class="section-ref">status</code> 301, 302, 307, or 308.</td></tr>
-                <tr><td class="key">[vhosts.routes.php]</td><td class="type">table</td><td class="desc">Route-scoped PHP action when built with a PHP runtime feature.</td></tr>
-                <tr><td class="key">geo_allow_countries</td><td class="type">string[]</td><td class="desc">Optional ISO country allow list when built with <code class="section-ref">geoip</code>. Missing Geo-Context fails closed.</td></tr>
-                <tr><td class="key">geo_deny_countries</td><td class="type">string[]</td><td class="desc">Optional ISO country deny list. Denies only when the lookup has a known match.</td></tr>
-                <tr><td class="key">geo_allow_asns</td><td class="type">integer[]</td><td class="desc">Optional ASN allow list. Missing Geo-Context fails closed.</td></tr>
-                <tr><td class="key">geo_deny_asns</td><td class="type">integer[]</td><td class="desc">Optional ASN deny list. Denies only when the lookup has a known match.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h3>[vhosts.cache]</h3>
-          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
-            <table class="key-table">
-              <thead><tr><th>Key</th><th>Type</th><th>Description</th></tr></thead>
-              <tbody>
-                <tr><td class="key">enabled</td><td class="type">bool</td><td class="desc">Enable cache for this vhost.</td></tr>
-                <tr><td class="key">local_static</td><td class="type">bool</td><td class="desc">Opt in to caching local static responses as well as proxy responses.</td></tr>
-                <tr><td class="key">max_object_bytes</td><td class="type">string</td><td class="desc">Maximum cacheable object size, e.g. <code class="section-ref">"32MiB"</code>.</td></tr>
-                <tr><td class="key">status_ttls</td><td class="type">table</td><td class="desc">Per-status TTLs, e.g. <code class="section-ref">{ "200" = 3600, "404" = 60 }</code>.</td></tr>
-                <tr><td class="key">[vhosts.cache.memory].enabled</td><td class="type">bool</td><td class="desc">Enable memory cache tier.</td></tr>
-                <tr><td class="key">[vhosts.cache.disk].enabled</td><td class="type">bool</td><td class="desc">Enable disk cache tier. Requires <code class="section-ref">path</code>.</td></tr>
-                <tr><td class="key">[vhosts.cache.lock].enabled</td><td class="type">bool</td><td class="desc">Enable request collapsing for concurrent misses on the same cache key.</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <h2>Gateway Recipes</h2>
-          <h3>Multi-vhost with shared TLS</h3>
-          <div class="not-prose">
-            <div class="code-win my-4">
-              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml</span></div>
-<pre class="language-toml"><code class="language-toml">[server]
-listen = ["0.0.0.0:80"]
-tls_listen = ["0.0.0.0:443"]
-default_vhost = "main"
-
-[server.https_redirect]
-enabled = true
-
-[tls.acme]
-enabled = true
-storage = "/var/lib/fluxheim/acme"
-contact_email = "admin@example.com"
-
-[[vhosts]]
-name = "main"
-hosts = ["example.com", "www.example.com"]
-[vhosts.tls]
-enabled = true
-[vhosts.tls.acme]
-enabled = true
-[vhosts.web]
-root = "/srv/sites/main/public"
-
-[[vhosts]]
-name = "api"
-hosts = ["api.example.com"]
-[vhosts.tls]
-enabled = true
-[vhosts.tls.acme]
-enabled = true
-[[vhosts.routes]]
-name = "api"
-path_prefix = "/"
-[vhosts.routes.proxy]
-upstreams = ["127.0.0.1:4000"]</code></pre>
-            </div>
-          </div>
-
-          <h3>WordPress with PHP-FPM</h3>
-          <div class="not-prose">
-            <div class="code-win my-4">
-              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">fluxheim.toml (requires php-fpm feature)</span></div>
-<pre class="language-toml"><code class="language-toml">[[vhosts]]
-name = "wordpress"
-hosts = ["blog.example.com"]
-
-[vhosts.tls]
-enabled = true
-
-[vhosts.web]
-root = "/srv/sites/wordpress"
-index_files = ["index.php", "index.html"]
-deny_dotfiles = true
-
-[vhosts.php]
-enabled = true
-runtime = "php-fpm"
-root = "/srv/sites/wordpress"
-index = "index.php"
-allowed_extensions = ["php"]
-
-[vhosts.php.fpm]
-socket = "/run/php/php8.2-fpm.sock"</code></pre>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="flex items-center justify-between mt-14 pt-8 border-t border-gray-800/60">
-          <a href="getting-started.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-            Installation & Quick Start
-          </a>
-          <a href="features.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
-            Feature Matrix
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
-        </div>
+hosts = ["example.com"]</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Safe habits</h2>
+  <ul class="checks"><li>Run <code>fluxheim --check-config</code> before reloads.</li><li>Use one vhost per site or application boundary.</li><li>Keep secrets in files, environment, or container secrets, not in public docs.</li></ul>
+</section>
 
       </div>
     </main>
   </div>
-
   <script src="../assets/js/alpine.min.js" defer></script>
-  <script src="../assets/js/prism.min.js"></script>
-  <script src="../assets/js/prism-toml.min.js"></script>
 </body>
 </html>

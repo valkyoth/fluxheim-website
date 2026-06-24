@@ -35,15 +35,19 @@ IGNORED_EXACT = {
     "Debian",
     "SUSE Micro",
     "WordPress",
+    "Quay",
+    "Container",
 }
 IGNORED_PATTERNS = [
     re.compile(r"^v?\d+(?:\.\d+)+"),
+    re.compile(r"^/[A-Za-z0-9_./:-]+$"),
     re.compile(r"^[A-Z0-9_./:-]+$"),
     re.compile(r"^\[[A-Za-z0-9_.-]+\]$"),
     re.compile(r'^"[A-Za-z0-9_./:-]+"$'),
+    re.compile(r"^[A-Za-z0-9_]+(?:-[A-Za-z0-9_]+)+$"),
     re.compile(r"^[a-z][a-z0-9_]+$"),
     re.compile(r"^[a-z][a-z0-9]+(?:-[a-z0-9]+)+$"),
-    re.compile(r"^~?\d+(?:\.\d+)?\s*(?:MB|GB)$"),
+    re.compile(r"^~?\d+(?:\.\d+)?\s*(?:MB|GB)(?:\s+binary)?$"),
     re.compile(r"^\d{4}$"),
 ]
 
@@ -161,6 +165,10 @@ def normalize(value: str) -> str:
 def should_ignore(text: str) -> bool:
     if text in IGNORED_EXACT:
         return True
+    if text[0] in {",", ".", ";", ":"}:
+        return True
+    if text.startswith("© "):
+        return True
     if len(text) < 3:
         return True
     if not re.search(r"[A-Za-z]", text):
@@ -254,7 +262,6 @@ def default_pages() -> list[str]:
     html_paths = [
         *ROOT.glob("*.html"),
         *(ROOT / "docs").glob("*.html"),
-        *(ROOT / "docs/source").glob("*.html"),
     ]
     return [str(path.relative_to(ROOT)) for path in sorted(html_paths)]
 

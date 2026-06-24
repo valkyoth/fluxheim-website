@@ -16,7 +16,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     init_tracing(&telemetry_guard);
 
     let app = build_router_with_observability(Arc::new(site), observability);
-    let addr = SocketAddr::from(([0, 0, 0, 0], 8080));
+    let addr = bind_addr()?;
     let listener = tokio::net::TcpListener::bind(addr).await?;
 
     tracing::info!(%addr, "starting fluxheim-website");
@@ -25,6 +25,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await?;
     telemetry_guard.shutdown();
     Ok(())
+}
+
+fn bind_addr() -> Result<SocketAddr, std::num::ParseIntError> {
+    let port = std::env::var("FLUXHEIM_WEBSITE_PORT")
+        .ok()
+        .map(|value| value.parse::<u16>())
+        .transpose()?
+        .unwrap_or(8080);
+    Ok(SocketAddr::from(([0, 0, 0, 0], port)))
 }
 
 fn init_tracing(telemetry_guard: &TelemetryGuard) {

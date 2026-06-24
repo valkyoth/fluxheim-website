@@ -142,6 +142,10 @@ fn is_allowed_html(path: &Path) -> bool {
         return false;
     }
 
+    if path.starts_with("docs/source") {
+        return false;
+    }
+
     path.starts_with("docs")
         || matches!(
             path.to_str(),
@@ -374,7 +378,12 @@ mod tests {
         assert!(
             paths
                 .iter()
-                .any(|path| path == std::path::Path::new("docs/source/systemd.html"))
+                .any(|path| path == std::path::Path::new("docs/reference.html"))
+        );
+        assert!(
+            !paths
+                .iter()
+                .any(|path| path.starts_with(std::path::Path::new("docs/source")))
         );
         assert_eq!(
             slug_for_path(std::path::Path::new("download.html")).as_deref(),

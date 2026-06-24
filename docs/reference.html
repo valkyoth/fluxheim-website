@@ -4,195 +4,82 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="../assets/img/fluxheim-logo.webp" type="image/webp">
-  <title>Source Reference — Fluxheim Docs</title>
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Fluxheim">
-  <meta property="og:title" content="Fluxheim">
-  <meta property="og:description" content="Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.">
-  <meta property="og:url" content="https://fluxheim.eu/">
-  <meta property="og:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
-  <meta property="og:image:secure_url" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Fluxheim logo">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Fluxheim">
-  <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust.">
-  <meta name="twitter:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <title>Full Reference - Fluxheim Docs</title>
+  <meta name="description" content="The website keeps short guides here. Full design notes, release runbooks, and source-level documents live in GitHub.">
   <link rel="stylesheet" href="../assets/css/prism-dark.min.css">
   <link rel="stylesheet" href="../assets/css/theme.css?v=20260519">
   <script src="../assets/js/theme.js?v=20260519"></script>
   <script src="../assets/js/tailwind.js"></script>
   <style>
     body { background-color: var(--fh-bg); }
-    .prose h2 { font-size: 1.35rem; font-weight: 700; color: white; margin: 2.25rem 0 1rem; padding-top: 1.75rem; border-top: 1px solid #1f2937; }
-    .prose h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
-    .prose p { color: #9ca3af; line-height: 1.75; margin-bottom: 1rem; }
-    .doc-link { display: flex; justify-content: space-between; gap: 1rem; padding: 0.85rem 1rem; border: 1px solid #1f2937; border-radius: 10px; background: rgba(17,24,39,0.55); transition: border-color 120ms ease, background-color 120ms ease; }
-    .doc-link:hover { border-color: rgba(6,182,212,0.45); background: rgba(17,24,39,0.85); }
+    pre { background:#0d1117; border:1px solid #21262d; border-radius:10px; padding:1rem; overflow:auto; color:#d1d5db; font-size:.82rem; line-height:1.65; }
+    table { width:100%; border-collapse:collapse; overflow:hidden; border-radius:10px; }
+    th,td { border:1px solid #1f2937; padding:.75rem; text-align:left; vertical-align:top; }
+    th { color:#9ca3af; background:rgba(17,24,39,.75); }
+    .sidebar-link.active { background:rgba(6,182,212,.08); color:#22d3ee; border-left:2px solid #22d3ee; }
+    .guide-section { margin-top:2rem; padding-top:2rem; border-top:1px solid #1f2937; }
+    .guide-section:first-of-type { margin-top:0; padding-top:0; border-top:0; }
+    .guide-section h2 { color:white; font-size:1.35rem; font-weight:800; margin-bottom:1rem; }
+    .guide-section p { color:#9ca3af; line-height:1.75; margin-bottom:1rem; }
+    .checks { display:grid; gap:.65rem; color:#d1d5db; }
+    .checks li { padding-left:.25rem; }
+    .steps { display:grid; gap:.75rem; color:#d1d5db; list-style:decimal; padding-left:1.25rem; }
+    .doc-card { display:block; border:1px solid #1f2937; border-radius:8px; background:rgba(17,24,39,.52); padding:1rem; transition:border-color 120ms ease, background-color 120ms ease; }
+    .doc-card:hover { border-color:rgba(6,182,212,.45); background:rgba(17,24,39,.82); }
+    .doc-card span { color:#22d3ee; font-size:.75rem; font-weight:800; text-transform:uppercase; letter-spacing:.04em; }
+    .doc-card strong { display:block; color:white; margin-top:.25rem; }
+    .doc-card p { color:#9ca3af; font-size:.875rem; margin-top:.45rem; line-height:1.6; }
+    .action { display:inline-flex; color:#020617; background:#22d3ee; padding:.6rem .85rem; border-radius:8px; font-weight:800; }
   </style>
 </head>
 <body class="bg-gray-950 text-gray-100 antialiased">
-
-  <nav x-data="{ open: false }" class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
-    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between h-16">
-        <a href="../index.html" class="flex items-center gap-3">
-          <img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
-          <span class="font-bold text-white text-lg">Fluxheim</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6">
-          <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
-          <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
-          <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
-          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.30</a>
-        </div>
-        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
-          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-        </button>
-        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-800">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center gap-3"><img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto"><span class="font-bold text-white text-lg">Fluxheim</span></a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+        <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+        <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+        <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+        <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.30</a>
       </div>
     </div>
   </nav>
-
-  <div class="flex min-h-screen pt-16" x-data="{ mobileSidebar: false }">
-    <div x-show="mobileSidebar" @click="mobileSidebar = false" x-transition.opacity class="fixed inset-0 z-30 bg-gray-950/70 backdrop-blur-sm md:hidden"></div>
-
+  <div class="flex min-h-screen pt-16">
     <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
       <nav class="p-6 space-y-7">
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li><li><a href="source/load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Load Balancer Migration</a></li><li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3><ul class="space-y-0.5"><li><a href="deployment.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Systemd & Containers</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li>
-            <li><a href="reference.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Source Reference</a></li></ul></div>
-        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Guides</h3><ul class="space-y-0.5"><li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="index.html">Start</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="getting-started.html">Install</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="static-sites.html">Static Sites</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="reverse-proxy.html">Reverse Proxy</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="tls-acme.html">TLS & ACME</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="cache.html">Cache</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="load-balancer.html">Load Balancer</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="php-fpm.html">PHP-FPM</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="wordpress.html">WordPress</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="observability.html">Observability</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="features.html">Builds & Features</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="configuration.html">Configuration</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="deployment.html">Systemd & Containers</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="advanced.html">Future Modules</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors active pl-4" href="reference.html">Full Reference</a></li></ul></div>
+        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deep Reference</h3><a href="https://github.com/valkyoth/fluxheim/tree/main/docs" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Full docs on GitHub</a></div>
       </nav>
     </aside>
-
     <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
-      <div class="md:hidden px-4 py-3 border-b border-gray-800/60">
-        <button @click="mobileSidebar = true" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>Menu
-        </button>
-      </div>
-
       <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
-        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
-          <a href="../index.html" class="hover:text-gray-300">Fluxheim</a>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          <a href="index.html" class="hover:text-gray-300">Docs</a>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          <span class="text-gray-400">Source Reference</span>
-        </div>
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Full Reference</span></div>
+        <header class="mb-10"><div class="inline-flex items-center gap-2 px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/25 rounded-full mb-4"><span class="text-cyan-400 text-xs font-semibold">v1.6.30</span></div><h1 class="text-4xl font-black text-white mb-4">Full Reference</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">The website keeps short guides here. Full design notes, release runbooks, and source-level documents live in GitHub.</p></header>
 
-        <h1 class="text-4xl font-black text-white mb-4">Source Reference</h1>
-        <p class="text-gray-400 text-lg mb-10">The complete upstream Markdown documentation from Fluxheim main is vendored here so the website exposes the full operator, architecture, and roadmap reference set.</p>
+<section class="guide-section">
+  <h2>Where the deep docs live</h2>
+  <p>Use the GitHub repository when you need complete generated source documentation, release evidence, architecture tracks, and internal planning notes.</p>
+  <p><a class="action" href="https://github.com/valkyoth/fluxheim/tree/main/docs">Open full docs on GitHub</a></p>
+</section>
 
-        <div class="grid sm:grid-cols-3 gap-4 mb-10">
-          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-white">54</div><div class="text-gray-500 text-xs">source files</div></div>
-          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-cyan-400">1.6.30</div><div class="text-gray-500 text-xs">current release line</div></div>
-          <div class="p-4 bg-gray-900/50 border border-gray-800 rounded-xl"><div class="text-2xl font-black text-emerald-400">main</div><div class="text-gray-500 text-xs">synced source branch</div></div>
-        </div>
-
-        <div class="prose">
-          <h2>Operations And Deployment</h2>
-        </div>
-        <div class="grid gap-3 mb-8">
-          <a class="doc-link" href="source/build-and-podman.html"><span><strong class="text-white">Build And Rootless Podman</strong><span class="block text-sm text-gray-500">Local builds, container variants, rootless Podman, publishing images, and ACME container notes.</span></span><code class="text-cyan-400 text-xs">build-and-podman.html</code></a>
-          <a class="doc-link" href="source/systemd.html"><span><strong class="text-white">systemd Deployment</strong><span class="block text-sm text-gray-500">Manual binary install, config path override, reload/restart, ACME timer, sandbox overrides, and TLS paths.</span></span><code class="text-cyan-400 text-xs">systemd.html</code></a>
-          <a class="doc-link" href="source/macos-development.html"><span><strong class="text-white">macOS Development Support</strong><span class="block text-sm text-gray-500">Level 1 Apple Silicon and Intel Mac developer builds, smoke tests, target labels, and release asset naming.</span></span><code class="text-cyan-400 text-xs">macos-development.html</code></a>
-          <a class="doc-link" href="source/production-readiness.html"><span><strong class="text-white">Production Readiness</strong><span class="block text-sm text-gray-500">Stable release boundaries, operator checks, configuration review, and deployment notes.</span></span><code class="text-cyan-400 text-xs">production-readiness.html</code></a>
-          <a class="doc-link" href="source/release-runbook.html"><span><strong class="text-white">Release Runbook</strong><span class="block text-sm text-gray-500">Preflight, release assets, container image publication, evidence, and post-release smoke steps.</span></span><code class="text-cyan-400 text-xs">release-runbook.html</code></a>
-          <a class="doc-link" href="source/release-checklist.html"><span><strong class="text-white">Release Checklist</strong><span class="block text-sm text-gray-500">Toolchain, dependency gates, TLS/storage, feature build matrix, Podman smoke, and final gates.</span></span><code class="text-cyan-400 text-xs">release-checklist.html</code></a>
-        </div>
-
-        <div class="prose">
-          <h2>Security, Compliance, And Assurance</h2>
-        </div>
-        <div class="grid gap-3 mb-8">
-          <a class="doc-link" href="source/fips.html"><span><strong class="text-white">FIPS-Capable Deployment</strong><span class="block text-sm text-gray-500">FIPS and ISO/IEC 19790 boundaries, provider-backed TLS paths, diagnostics, and operator evidence expectations.</span></span><code class="text-cyan-400 text-xs">fips.html</code></a>
-          <a class="doc-link" href="source/supply-chain-security.html"><span><strong class="text-white">Supply Chain Security</strong><span class="block text-sm text-gray-500">Build provenance, dependency review, release evidence, container practices, and supply-chain hardening checks.</span></span><code class="text-cyan-400 text-xs">supply-chain-security.html</code></a>
-          <a class="doc-link" href="source/owasp-top10-2025-baseline.html"><span><strong class="text-white">OWASP Top 10 2025 Baseline</strong><span class="block text-sm text-gray-500">Fluxheim-owned control mapping for OWASP Top 10 2025 validation and evidence capture.</span></span><code class="text-cyan-400 text-xs">owasp-top10-2025-baseline.html</code></a>
-          <a class="doc-link" href="source/compliance-evidence-template.html"><span><strong class="text-white">Compliance Evidence Template</strong><span class="block text-sm text-gray-500">Release metadata, TOE-style boundaries, cryptographic-module evidence, validation output, and vulnerability-analysis records.</span></span><code class="text-cyan-400 text-xs">compliance-evidence-template.html</code></a>
-          <a class="doc-link" href="source/common-criteria-roadmap.html"><span><strong class="text-white">Common Criteria Roadmap</strong><span class="block text-sm text-gray-500">Future assurance organization for Common Criteria-style review without making certification claims.</span></span><code class="text-cyan-400 text-xs">common-criteria-roadmap.html</code></a>
-        </div>
-
-        <div class="prose">
-          <h2>Configuration, Gateway, And Runtime</h2>
-        </div>
-        <div class="grid gap-3 mb-8">
-          <a class="doc-link" href="source/config-reference.html"><span><strong class="text-white">Config Reference</strong><span class="block text-sm text-gray-500">Server, stream proxy, admin, metrics, tracing, logging, headers, proxy, web, cache, TLS, ACME, vhosts, PHP, GeoIP, privacy, and preflight.</span></span><code class="text-cyan-400 text-xs">config-reference.html</code></a>
-          <a class="doc-link" href="source/load-balancer-migration.html"><span><strong class="text-white">Load Balancer Migration</strong><span class="block text-sm text-gray-500">HAProxy, nginx, Envoy, and F5-style pool migration notes, runtime member controls, persistence, health, queueing, and runtime boundary notes.</span></span><code class="text-cyan-400 text-xs">load-balancer-migration.html</code></a>
-          <a class="doc-link" href="source/load-balancer-ha.html"><span><strong class="text-white">Load Balancer HA Design Notes</strong><span class="block text-sm text-gray-500">Managed-cookie active-active design boundaries, peer protocol requirements, replicated state scope, and remaining HA non-goals.</span></span><code class="text-cyan-400 text-xs">load-balancer-ha.html</code></a>
-          <a class="doc-link" href="source/vhost-config.html"><span><strong class="text-white">Vhost Config Guide</strong><span class="block text-sm text-gray-500">Recommended layout, common mistakes, and route placement inside a vhost.</span></span><code class="text-cyan-400 text-xs">vhost-config.html</code></a>
-          <a class="doc-link" href="source/gateway-recipes.html"><span><strong class="text-white">Gateway Recipes</strong><span class="block text-sm text-gray-500">Shared server baseline, redirects, app proxy, websocket routes, aliases, and custom upstream error pages.</span></span><code class="text-cyan-400 text-xs">gateway-recipes.html</code></a>
-          <a class="doc-link" href="source/config-snapshots.html"><span><strong class="text-white">Config Snapshots And Rollback</strong><span class="block text-sm text-gray-500">Snapshot store layout, commands, admin API shape, and self-healing guard concepts.</span></span><code class="text-cyan-400 text-xs">config-snapshots.html</code></a>
-          <a class="doc-link" href="source/certificate-renewal.html"><span><strong class="text-white">Certificate Renewal And Reload</strong><span class="block text-sm text-gray-500">Storage permissions, secret handling, ACME initialization, renewal queue planning, and no-downtime reload.</span></span><code class="text-cyan-400 text-xs">certificate-renewal.html</code></a>
-        </div>
-
-        <div class="prose">
-          <h2>Cache, Observability, GeoIP, And PHP</h2>
-        </div>
-        <div class="grid gap-3 mb-8">
-          <a class="doc-link" href="source/cache-backends.html"><span><strong class="text-white">Cache Backends</strong><span class="block text-sm text-gray-500">Current cache implementation, memory cache evaluation, and backend adapter requirements.</span></span><code class="text-cyan-400 text-xs">cache-backends.html</code></a>
-          <a class="doc-link" href="source/cache-encryption.html"><span><strong class="text-white">Cache Encryption</strong><span class="block text-sm text-gray-500">Encrypted cache object scope, local-key provider, OpenBao Transit provider, verification, rotation, and operations.</span></span><code class="text-cyan-400 text-xs">cache-encryption.html</code></a>
-          <a class="doc-link" href="source/geoip.html"><span><strong class="text-white">GeoIP / Geo-Context</strong><span class="block text-sm text-gray-500">Local MMDB country/ASN context, MaxMind and CIRCL provider labels, route policy hooks, logging fields, privacy boundaries, and database update operations.</span></span><code class="text-cyan-400 text-xs">geoip.html</code></a>
-          <a class="doc-link" href="source/metrics-architecture.html"><span><strong class="text-white">Metrics Architecture</strong><span class="block text-sm text-gray-500">Feature flags, cardinality rules, hot path design, metrics catalog, export, and config shape.</span></span><code class="text-cyan-400 text-xs">metrics-architecture.html</code></a>
-          <a class="doc-link" href="source/logging-architecture.html"><span><strong class="text-white">Logging Architecture</strong><span class="block text-sm text-gray-500">Log classes, event fields, pipeline, overflow policy, sinks, circuit breaker, and security requirements.</span></span><code class="text-cyan-400 text-xs">logging-architecture.html</code></a>
-          <a class="doc-link" href="source/opentelemetry-tracing.html"><span><strong class="text-white">OpenTelemetry Tracing</strong><span class="block text-sm text-gray-500">Trace context propagation, internal spans, OTLP trace export, sampling, and security requirements.</span></span><code class="text-cyan-400 text-xs">opentelemetry-tracing.html</code></a>
-          <a class="doc-link" href="source/php-runtime-support.html"><span><strong class="text-white">PHP Runtime Support</strong><span class="block text-sm text-gray-500">Current PHP-FPM recommendation, config shape, security requirements, runtime plans, and operations.</span></span><code class="text-cyan-400 text-xs">php-runtime-support.html</code></a>
-          <a class="doc-link" href="source/php-fpm-app-recipes.html"><span><strong class="text-white">PHP-FPM Application Recipes</strong><span class="block text-sm text-gray-500">Recipes for WordPress, WordPress Multisite, Laravel, Symfony, Flarum, MediaWiki, phpBB, XenForo, MyBB, and Discourse-as-proxy.</span></span><code class="text-cyan-400 text-xs">php-fpm-app-recipes.html</code></a>
-          <a class="doc-link" href="source/perl-cgi-support.html"><span><strong class="text-white">Perl CGI Support</strong><span class="block text-sm text-gray-500">Current recommendation, compile-time features, request flow, security requirements, and testing plan.</span></span><code class="text-cyan-400 text-xs">perl-cgi-support.html</code></a>
-        </div>
-
-        <div class="prose">
-          <h2>Future And Architecture Tracks</h2>
-        </div>
-        <div class="grid gap-3 mb-8">
-          <a class="doc-link" href="source/features.html"><span><strong class="text-white">Feature Matrix</strong><span class="block text-sm text-gray-500">Cargo features, profile aliases, incompatible combinations, and planned future feature families.</span></span><code class="text-cyan-400 text-xs">features.html</code></a>
-          <a class="doc-link" href="source/versioning-plan.html"><span><strong class="text-white">Versioning Plan</strong><span class="block text-sm text-gray-500">Release ladder from 0.x through 2.x, stability levels, default feature changes, tags, and changelog shape.</span></span><code class="text-cyan-400 text-xs">versioning-plan.html</code></a>
-          <a class="doc-link" href="source/runtime-baseline.html"><span><strong class="text-white">Runtime Baseline</strong><span class="block text-sm text-gray-500">1.6 baseline capture for dependency trees, profile runtime dependencies, release metadata, binary size, and performance evidence.</span></span><code class="text-cyan-400 text-xs">runtime-baseline.html</code></a>
-          <a class="doc-link" href="source/runtime-parity-fixtures.html"><span><strong class="text-white">Runtime Parity Fixtures</strong><span class="block text-sm text-gray-500">Smoke scripts, example configs, TLS fixtures, and parity boundaries used before runtime cutover work begins.</span></span><code class="text-cyan-400 text-xs">runtime-parity-fixtures.html</code></a>
-          <a class="doc-link" href="source/runtime-parity-fixtures.tsv"><span><strong class="text-white">Runtime Parity Fixture Inventory</strong><span class="block text-sm text-gray-500">Machine-readable fixture list for release-gated runtime parity checks.</span></span><code class="text-cyan-400 text-xs">runtime-parity-fixtures.tsv</code></a>
-          <a class="doc-link" href="source/modularity-policy.html"><span><strong class="text-white">Modularity Policy</strong><span class="block text-sm text-gray-500">1.6 planning policy for focused crates, small files, explicit adapters, and release-gated exceptions.</span></span><code class="text-cyan-400 text-xs">modularity-policy.html</code></a>
-          <a class="doc-link" href="source/modularity-exceptions.html"><span><strong class="text-white">Modularity Exceptions</strong><span class="block text-sm text-gray-500">Legacy oversized Rust-file exception inventory and split targets for the 1.6 modularity gate.</span></span><code class="text-cyan-400 text-xs">modularity-exceptions.html</code></a>
-          <a class="doc-link" href="source/extraction-dependency-graph.html"><span><strong class="text-white">Extraction Dependency Graph</strong><span class="block text-sm text-gray-500">Planned crate extraction order for snapshot, protocol, tracing, headers, ACME, runtime, server, cache, proxy, and admin modules.</span></span><code class="text-cyan-400 text-xs">extraction-dependency-graph.html</code></a>
-          <a class="doc-link" href="source/runtime-facts-and-policy-proofs.html"><span><strong class="text-white">Runtime Facts And Policy Proofs</strong><span class="block text-sm text-gray-500">Typed runtime facts, policy proof objects, visibility levels, and future decision evidence boundaries.</span></span><code class="text-cyan-400 text-xs">runtime-facts-and-policy-proofs.html</code></a>
-          <a class="doc-link" href="source/pingora-dependency-exceptions.tsv"><span><strong class="text-white">Pingora Dependency Exceptions</strong><span class="block text-sm text-gray-500">Release-gated profile and crate inventory for temporary Pingora dependencies during the 1.6 exit line.</span></span><code class="text-cyan-400 text-xs">pingora-dependency-exceptions.tsv</code></a>
-          <a class="doc-link" href="source/pingora-http-error-boundary-exceptions.tsv"><span><strong class="text-white">Pingora HTTP/Error Boundary Exceptions</strong><span class="block text-sm text-gray-500">Temporary adapter-boundary inventory for Pingora HTTP and error usage during the native runtime cutover.</span></span><code class="text-cyan-400 text-xs">pingora-http-error-boundary-exceptions.tsv</code></a>
-          <a class="doc-link" href="source/fluxheim-ecosystem-idea.html"><span><strong class="text-white">Fluxheim Ecosystem Idea</strong><span class="block text-sm text-gray-500">Long-term separate-crate ecosystem direction for SDK, defense, router, common protocol, and product-boundary planning.</span></span><code class="text-cyan-400 text-xs">fluxheim-ecosystem-idea.html</code></a>
-          <a class="doc-link" href="source/waf-architecture.html"><span><strong class="text-white">WAF Architecture</strong><span class="block text-sm text-gray-500">Goals, feature flags, engine path, runtime hooks, decision model, rules, config shape, and guardrails.</span></span><code class="text-cyan-400 text-xs">waf-architecture.html</code></a>
-          <a class="doc-link" href="source/wasm-extensibility.html"><span><strong class="text-white">WASM Extensibility</strong><span class="block text-sm text-gray-500">Header, access-control, cache policy hooks, Proxy ABI compatibility, WASI plugins, and resource limits.</span></span><code class="text-cyan-400 text-xs">wasm-extensibility.html</code></a>
-          <a class="doc-link" href="source/crypto-rpc-edge.html"><span><strong class="text-white">Crypto RPC Edge</strong><span class="block text-sm text-gray-500">Future blockchain-aware RPC gateway modules for Ethereum/EVM first, with bounded caching, method policy, and node-health-aware routing.</span></span><code class="text-cyan-400 text-xs">crypto-rpc-edge.html</code></a>
-          <a class="doc-link" href="source/compression.html"><span><strong class="text-white">Compression</strong><span class="block text-sm text-gray-500">Negotiation, eligibility, execution model, cache integration, native acceleration, and privacy constraints.</span></span><code class="text-cyan-400 text-xs">compression.html</code></a>
-          <a class="doc-link" href="source/image-filter.html"><span><strong class="text-white">Image Filter</strong><span class="block text-sm text-gray-500">Planned transformations, format policy, resource limits, cache interaction, and security requirements.</span></span><code class="text-cyan-400 text-xs">image-filter.html</code></a>
-          <a class="doc-link" href="source/programmable-media-edge.html"><span><strong class="text-white">Programmable Media Edge</strong><span class="block text-sm text-gray-500">Manifest engine, segment-aware cache, manifest stitching, watermarking, and transmuxing plans.</span></span><code class="text-cyan-400 text-xs">programmable-media-edge.html</code></a>
-          <a class="doc-link" href="source/auth-request.html"><span><strong class="text-white">External Authorization Request</strong><span class="block text-sm text-gray-500">Authorization service contract, request shape, header policy, global auth zones, JWT verification, and caching.</span></span><code class="text-cyan-400 text-xs">auth-request.html</code></a>
-          <a class="doc-link" href="source/secure-links.html"><span><strong class="text-white">Secure Links</strong><span class="block text-sm text-gray-500">Cryptographic signed links, claims, replay controls, client binding, configuration sketch, and tests.</span></span><code class="text-cyan-400 text-xs">secure-links.html</code></a>
-          <a class="doc-link" href="source/cloudflare-origin-support.html"><span><strong class="text-white">Cloudflare Origin Support</strong><span class="block text-sm text-gray-500">Trust boundary, header handling, IP range refresh, Origin CA automation, and authenticated origin pulls.</span></span><code class="text-cyan-400 text-xs">cloudflare-origin-support.html</code></a>
-          <a class="doc-link" href="source/zero-retention-privacy-mode.html"><span><strong class="text-white">Zero-Retention Privacy Mode</strong><span class="block text-sm text-gray-500">Honest boundary, feature flags, runtime behavior, header policy, static/proxy behavior, logging, and metrics policy.</span></span><code class="text-cyan-400 text-xs">zero-retention-privacy-mode.html</code></a>
-          <a class="doc-link" href="source/legacy-static-http.html"><span><strong class="text-white">Legacy Static HTTP Support</strong><span class="block text-sm text-gray-500">Compile-time features, runtime isolation, HTTP/1.0 and HTTP/0.9 static modes, and smuggling guardrails.</span></span><code class="text-cyan-400 text-xs">legacy-static-http.html</code></a>
-          <a class="doc-link" href="source/sentinel-mesh.html"><span><strong class="text-white">Sentinel Mesh</strong><span class="block text-sm text-gray-500">Smart WireGuard load balancing architecture, controller, nodes, data model, scoring, and implementation phases.</span></span><code class="text-cyan-400 text-xs">sentinel-mesh.html</code></a>
-          <a class="doc-link" href="source/pingora-core-patch.html"><span><strong class="text-white">Runtime Compatibility Patch</strong><span class="block text-sm text-gray-500">Why the local runtime patch exists, removal criteria, and upstream candidate plan.</span></span><code class="text-cyan-400 text-xs">pingora-core-patch.html</code></a>
-        </div>
-
-        <div class="prose">
-          <h2>Repository And Release Templates</h2>
-        </div>
-        <div class="grid gap-3">
-          <a class="doc-link" href="source/github-setup.html"><span><strong class="text-white">GitHub Repository Setup</strong><span class="block text-sm text-gray-500">Safe path for connecting local history to GitHub, branch handling, commit scope, and security settings.</span></span><code class="text-cyan-400 text-xs">github-setup.html</code></a>
-          <a class="doc-link" href="source/release-notes-template.html"><span><strong class="text-white">Release Notes Template</strong><span class="block text-sm text-gray-500">Release scope, highlights, security gate, advisory exceptions, known limitations, containers, checksums, and signatures.</span></span><code class="text-cyan-400 text-xs">release-notes-template.html</code></a>
-        </div>
       </div>
     </main>
   </div>
-
   <script src="../assets/js/alpine.min.js" defer></script>
 </body>
 </html>

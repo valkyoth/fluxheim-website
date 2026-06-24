@@ -4,289 +4,85 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="../assets/img/fluxheim-logo.webp" type="image/webp">
-  <title>Systemd & Containers — Fluxheim Docs</title>
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Fluxheim">
-  <meta property="og:title" content="Fluxheim">
-  <meta property="og:description" content="Fluxheim is a high-performance, modular web server, reverse proxy and caching server built in Rust.">
-  <meta property="og:url" content="https://fluxheim.eu/">
-  <meta property="og:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
-  <meta property="og:image:secure_url" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Fluxheim logo">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Fluxheim">
-  <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust.">
-  <meta name="twitter:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
+  <title>Systemd & Containers - Fluxheim Docs</title>
+  <meta name="description" content="Use systemd for native hosts or rootless containers for isolated deployments.">
   <link rel="stylesheet" href="../assets/css/prism-dark.min.css">
   <link rel="stylesheet" href="../assets/css/theme.css?v=20260519">
   <script src="../assets/js/theme.js?v=20260519"></script>
   <script src="../assets/js/tailwind.js"></script>
   <style>
     body { background-color: var(--fh-bg); }
-    .code-win { background: #0d1117; border: 1px solid #21262d; border-radius: 10px; overflow: hidden; }
-    .code-win pre[class*="language-"] { margin: 0; padding: 1.2rem; background: transparent; font-size: 0.8rem; line-height: 1.7; }
-    .prose h2 { font-size: 1.5rem; font-weight: 700; color: white; margin: 2.5rem 0 1rem; padding-top: 2rem; border-top: 1px solid #1f2937; }
-    .prose h2:first-of-type { border-top: none; padding-top: 0; margin-top: 0; }
-    .prose h3 { font-size: 1.1rem; font-weight: 600; color: #e5e7eb; margin: 1.75rem 0 0.75rem; }
-    .prose p { color: #9ca3af; line-height: 1.75; margin-bottom: 1rem; }
-    .prose ul { margin: 0.75rem 0 1rem 1.25rem; list-style: disc; }
-    .prose ul li { color: #9ca3af; margin-bottom: 0.35rem; }
-    .prose code { background: #1f2937; color: #22d3ee; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.82em; }
-    .callout-warn { padding: 1rem 1.25rem; border-radius: 10px; margin: 1.25rem 0; background: rgba(234,179,8,0.05); border: 1px solid rgba(234,179,8,0.2); color: #fde68a; font-size: 0.9rem; }
-    .callout-info { padding: 1rem 1.25rem; border-radius: 10px; margin: 1.25rem 0; background: rgba(6,182,212,0.05); border: 1px solid rgba(6,182,212,0.2); color: #a5f3fc; font-size: 0.9rem; }
+    pre { background:#0d1117; border:1px solid #21262d; border-radius:10px; padding:1rem; overflow:auto; color:#d1d5db; font-size:.82rem; line-height:1.65; }
+    table { width:100%; border-collapse:collapse; overflow:hidden; border-radius:10px; }
+    th,td { border:1px solid #1f2937; padding:.75rem; text-align:left; vertical-align:top; }
+    th { color:#9ca3af; background:rgba(17,24,39,.75); }
+    .sidebar-link.active { background:rgba(6,182,212,.08); color:#22d3ee; border-left:2px solid #22d3ee; }
+    .guide-section { margin-top:2rem; padding-top:2rem; border-top:1px solid #1f2937; }
+    .guide-section:first-of-type { margin-top:0; padding-top:0; border-top:0; }
+    .guide-section h2 { color:white; font-size:1.35rem; font-weight:800; margin-bottom:1rem; }
+    .guide-section p { color:#9ca3af; line-height:1.75; margin-bottom:1rem; }
+    .checks { display:grid; gap:.65rem; color:#d1d5db; }
+    .checks li { padding-left:.25rem; }
+    .steps { display:grid; gap:.75rem; color:#d1d5db; list-style:decimal; padding-left:1.25rem; }
+    .doc-card { display:block; border:1px solid #1f2937; border-radius:8px; background:rgba(17,24,39,.52); padding:1rem; transition:border-color 120ms ease, background-color 120ms ease; }
+    .doc-card:hover { border-color:rgba(6,182,212,.45); background:rgba(17,24,39,.82); }
+    .doc-card span { color:#22d3ee; font-size:.75rem; font-weight:800; text-transform:uppercase; letter-spacing:.04em; }
+    .doc-card strong { display:block; color:white; margin-top:.25rem; }
+    .doc-card p { color:#9ca3af; font-size:.875rem; margin-top:.45rem; line-height:1.6; }
+    .action { display:inline-flex; color:#020617; background:#22d3ee; padding:.6rem .85rem; border-radius:8px; font-weight:800; }
   </style>
 </head>
 <body class="bg-gray-950 text-gray-100 antialiased">
-
-  <nav x-data="{ open: false }" class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
-    <div class="max-w-[1400px] mx-auto px-4 sm:px-6">
-      <div class="flex items-center justify-between h-16">
-        <a href="../index.html" class="flex items-center gap-3">
-          <img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto">
-          <span class="font-bold text-white text-lg">Fluxheim</span>
-        </a>
-        <div class="hidden md:flex items-center gap-6">
-          <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
-          <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
-          <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
-          <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
-          <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.30</a>
-        </div>
-        <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
-          <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-          <svg class="theme-toggle-moon w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-        </button>
-        <button @click="open = !open" class="md:hidden p-2 rounded-lg text-gray-400 hover:bg-gray-800">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
+  <nav class="fixed top-0 inset-x-0 z-50 bg-gray-950/80 backdrop-blur-md border-b border-gray-800/70">
+    <div class="max-w-[1400px] mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <a href="../index.html" class="flex items-center gap-3"><img src="../assets/img/fluxheim-logo.webp" alt="Fluxheim" class="h-8 w-auto"><span class="font-bold text-white text-lg">Fluxheim</span></a>
+      <div class="hidden md:flex items-center gap-6">
+        <a href="index.html" class="text-sm font-medium text-cyan-400">Docs</a>
+        <a href="../download.html" class="text-sm font-medium text-gray-400 hover:text-white">Download</a>
+        <a href="../changelog.html" class="text-sm font-medium text-gray-400 hover:text-white">Changelog</a>
+        <a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-sm font-medium text-gray-400 hover:text-white">GitHub</a>
+        <a href="../download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.6.30</a>
       </div>
     </div>
   </nav>
-
-  <div class="flex min-h-screen pt-16" x-data="{ mobileSidebar: false }">
-    <div x-show="mobileSidebar" @click="mobileSidebar = false" x-transition.opacity class="fixed inset-0 z-30 bg-gray-950/70 backdrop-blur-sm md:hidden"></div>
-
+  <div class="flex min-h-screen pt-16">
     <aside class="hidden md:block fixed top-16 left-0 bottom-0 w-64 lg:w-72 border-r border-gray-800/60 bg-gray-950/80 overflow-y-auto z-20">
       <nav class="p-6 space-y-7">
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Getting Started</h3><ul class="space-y-0.5"><li><a href="index.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Introduction</a></li><li><a href="getting-started.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Installation & Quick Start</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Configuration</h3><ul class="space-y-0.5"><li><a href="configuration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Config Reference</a></li></ul></div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Features & Modules</h3><ul class="space-y-0.5"><li><a href="features.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Feature Matrix</a></li>
-            <li><a href="source/load-balancer-migration.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Load Balancer Migration</a></li><li><a href="tls-acme.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">TLS & ACME</a></li><li><a href="cache.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Cache System</a></li><li><a href="observability.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Observability</a></li></ul></div>
-        <div>
-          <h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deployment</h3>
-          <ul class="space-y-0.5">
-            <li><a href="deployment.html" class="block px-3 py-2 rounded-lg text-sm bg-cyan-500/8 text-cyan-400 border-l-2 border-cyan-400 pl-[10px]">Systemd & Containers</a></li>
-          </ul>
-        </div>
-        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Advanced</h3><ul class="space-y-0.5"><li><a href="advanced.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">PHP-FPM, WAF & More</a></li>
-            <li><a href="reference.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60 transition-colors">Source Reference</a></li></ul></div>
-        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Links</h3><ul class="space-y-0.5"><li><a href="https://github.com/valkyoth/fluxheim" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">GitHub Repository</a></li><li><a href="../changelog.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Changelog</a></li><li><a href="../download.html" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Download</a></li></ul></div>
+        <div><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Guides</h3><ul class="space-y-0.5"><li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="index.html">Start</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="getting-started.html">Install</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="static-sites.html">Static Sites</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="reverse-proxy.html">Reverse Proxy</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="tls-acme.html">TLS & ACME</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="cache.html">Cache</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="load-balancer.html">Load Balancer</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="php-fpm.html">PHP-FPM</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="wordpress.html">WordPress</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="observability.html">Observability</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="features.html">Builds & Features</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="configuration.html">Configuration</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors active pl-4" href="deployment.html">Systemd & Containers</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="advanced.html">Future Modules</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="reference.html">Full Reference</a></li></ul></div>
+        <div class="border-t border-gray-800/60 pt-5"><h3 class="text-xs font-bold uppercase tracking-widest text-gray-600 mb-2.5">Deep Reference</h3><a href="https://github.com/valkyoth/fluxheim/tree/main/docs" target="_blank" rel="noopener" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-gray-800/60">Full docs on GitHub</a></div>
       </nav>
     </aside>
-
     <main class="flex-1 md:ml-64 lg:ml-72 min-w-0">
-      <div class="md:hidden px-4 py-3 border-b border-gray-800/60">
-        <button @click="mobileSidebar = true" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>Menu
-        </button>
-      </div>
+      <div class="max-w-4xl mx-auto px-6 lg:px-10 py-12">
+        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Systemd & Containers</span></div>
+        <header class="mb-10"><div class="inline-flex items-center gap-2 px-3 py-1.5 bg-cyan-500/10 border border-cyan-500/25 rounded-full mb-4"><span class="text-cyan-400 text-xs font-semibold">v1.6.30</span></div><h1 class="text-4xl font-black text-white mb-4">Systemd & Containers</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Use systemd for native hosts or rootless containers for isolated deployments.</p></header>
 
-      <div class="max-w-3xl mx-auto px-6 lg:px-10 py-12">
-
-        <div class="flex items-center gap-2 text-sm text-gray-500 mb-8">
-          <a href="../index.html" class="hover:text-gray-300">Fluxheim</a>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          <a href="index.html" class="hover:text-gray-300">Docs</a>
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          <span class="text-gray-400">Systemd & Containers</span>
-        </div>
-
-        <h1 class="text-4xl font-black text-white mb-4">Systemd & Containers</h1>
-        <p class="text-gray-400 text-lg mb-10">Fluxheim ships with a hardened systemd unit, RPM packaging, and rootless Podman container images for Wolfi, Alpine, SUSE Micro, and Debian.</p>
-
-        <div class="prose">
-
-          <h2>Systemd Deployment</h2>
-          <p>The tarball includes a pre-configured hardened systemd unit. The unit runs Fluxheim with <code>CAP_NET_BIND_SERVICE</code> (to allow ports 80/443 without root) and a dedicated system user.</p>
-
-          <h3>Setup</h3>
-          <div class="not-prose">
-            <div class="code-win my-5">
-              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — systemd setup</span></div>
-<pre class="language-bash"><code class="language-bash"># 1. Install the binary and unit file
-sudo mv fluxheim /usr/local/bin/
-sudo mv fluxheim-acme /usr/local/bin/
-sudo cp packaging/systemd/fluxheim.service /etc/systemd/system/
-
-# 2. Create the system user
-sudo useradd -r -s /sbin/nologin -d /var/lib/fluxheim fluxheim
-
-# 3. Create required directories and set ownership
-sudo mkdir -p /etc/fluxheim /srv/fluxheim /var/log/fluxheim \
-              /var/cache/fluxheim /var/lib/fluxheim/acme
-sudo chown -R fluxheim:fluxheim /srv/fluxheim /var/log/fluxheim \
-              /var/cache/fluxheim /var/lib/fluxheim
-
-# 4. Place your config
-sudo cp /path/to/your/fluxheim.toml /etc/fluxheim/fluxheim.toml
-
-# 5. Validate config as the fluxheim user
-sudo -u fluxheim fluxheim --check-config --config /etc/fluxheim/fluxheim.toml
-
-# 6. Enable and start
-sudo systemctl daemon-reload
-sudo systemctl enable --now fluxheim
-
-# 7. Verify
-sudo systemctl status fluxheim
-sudo journalctl -u fluxheim -f</code></pre>
-            </div>
-          </div>
-
-          <h3>Config Reload</h3>
-          <p>Fluxheim supports live config reload without dropping connections. Send <code>SIGHUP</code> or use the admin API.</p>
-          <div class="not-prose">
-            <div class="code-win my-4">
-              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash</span></div>
-<pre class="language-bash"><code class="language-bash"># Via systemd (sends SIGHUP)
-sudo systemctl reload fluxheim
-
-# Or via admin API
-curl -X POST http://127.0.0.1:9090/_fluxheim/reload \
-  -H "Authorization: Bearer $ADMIN_TOKEN"</code></pre>
-            </div>
-          </div>
-
-          <h2>Rootless Podman Containers</h2>
-          <p>Fluxheim's official container images are designed for rootless Podman operation. They use internal ports 8080 (HTTP) and 8443 (HTTPS) by default — no root required. The same release image set is published to GHCR and <a href="https://quay.io/repository/valkyoth/fluxheim" target="_blank" rel="noopener" class="text-cyan-400 hover:text-cyan-300">Quay</a> at <code>quay.io/valkyoth/fluxheim</code>.</p>
-
-          <div class="not-prose overflow-x-auto rounded-xl border border-gray-800 my-5">
-            <table class="w-full text-sm">
-              <thead><tr class="border-b border-gray-800 bg-gray-900/60"><th class="text-left px-4 py-3 font-semibold text-gray-400">Image tag</th><th class="text-left px-4 py-3 font-semibold text-gray-400">Base</th><th class="text-left px-4 py-3 font-semibold text-gray-400">Profile</th></tr></thead>
-              <tbody class="divide-y divide-gray-800/50 text-xs">
-                <tr><td class="px-4 py-3 font-mono text-cyan-400">ghcr.io/valkyoth/fluxheim:v1.6.30</td><td class="px-4 py-3 text-gray-400">Wolfi</td><td class="px-4 py-3 text-gray-400">Full (recommended)</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-cyan-400">ghcr.io/valkyoth/fluxheim:v1.6.30-load-balancer</td><td class="px-4 py-3 text-gray-400">Wolfi</td><td class="px-4 py-3 text-gray-400">Load balancer edge</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-cyan-400">ghcr.io/valkyoth/fluxheim:v1.6.30-cache</td><td class="px-4 py-3 text-gray-400">Wolfi</td><td class="px-4 py-3 text-gray-400">Cache edge</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-cyan-400">ghcr.io/valkyoth/fluxheim:v1.6.30-proxy</td><td class="px-4 py-3 text-gray-400">Wolfi</td><td class="px-4 py-3 text-gray-400">Proxy edge</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-cyan-400">ghcr.io/valkyoth/fluxheim:v1.6.30-php</td><td class="px-4 py-3 text-gray-400">Wolfi + PHP</td><td class="px-4 py-3 text-gray-400">Managed PHP-FPM</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-gray-400">ghcr.io/valkyoth/fluxheim:v1.6.30-alpine</td><td class="px-4 py-3 text-gray-400">Alpine</td><td class="px-4 py-3 text-gray-400">Full</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-gray-400">ghcr.io/valkyoth/fluxheim:v1.6.30-suse-micro</td><td class="px-4 py-3 text-gray-400">SUSE Micro</td><td class="px-4 py-3 text-gray-400">Full</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-gray-400">ghcr.io/valkyoth/fluxheim:v1.6.30-debian</td><td class="px-4 py-3 text-gray-400">Debian</td><td class="px-4 py-3 text-gray-400">Full</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-gray-400">quay.io/valkyoth/fluxheim:v1.6.30</td><td class="px-4 py-3 text-gray-400">Wolfi</td><td class="px-4 py-3 text-gray-400">Full mirror</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-gray-400">quay.io/valkyoth/fluxheim:v1.6.30-load-balancer</td><td class="px-4 py-3 text-gray-400">Wolfi</td><td class="px-4 py-3 text-gray-400">Load balancer mirror</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-gray-400">quay.io/valkyoth/fluxheim:v1.6.30-cache</td><td class="px-4 py-3 text-gray-400">Wolfi</td><td class="px-4 py-3 text-gray-400">Cache mirror</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-gray-400">quay.io/valkyoth/fluxheim:v1.6.30-proxy</td><td class="px-4 py-3 text-gray-400">Wolfi</td><td class="px-4 py-3 text-gray-400">Proxy mirror</td></tr>
-                <tr><td class="px-4 py-3 font-mono text-gray-400">quay.io/valkyoth/fluxheim:v1.6.30-php</td><td class="px-4 py-3 text-gray-400">Wolfi + PHP</td><td class="px-4 py-3 text-gray-400">PHP mirror</td></tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="not-prose">
-            <div class="code-win my-5">
-              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — rootless Podman run</span></div>
-<pre class="language-bash"><code class="language-bash">podman run -d \
-  --name fluxheim \
-  --restart unless-stopped \
-  -p 8080:8080 \
-  -p 8443:8443 \
-  -v /srv/sites:/srv/sites:ro,z \
-  -v /etc/fluxheim:/etc/fluxheim:ro,z \
-  -v /var/lib/fluxheim/acme:/var/lib/fluxheim/acme:rw,z \
-  ghcr.io/valkyoth/fluxheim:v1.6.30
-
-# Follow logs
-podman logs -f fluxheim
-
-# Reload config (without restart)
-podman kill --signal SIGHUP fluxheim</code></pre>
-            </div>
-          </div>
-
-          <div class="not-prose">
-            <div class="code-win my-5">
-              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — image variants</span></div>
-<pre class="language-bash"><code class="language-bash"># Full, load-balancer, cache, proxy, and managed PHP-FPM images
-podman pull ghcr.io/valkyoth/fluxheim:v1.6.30
-podman pull ghcr.io/valkyoth/fluxheim:v1.6.30-load-balancer
-podman pull ghcr.io/valkyoth/fluxheim:v1.6.30-cache
-podman pull ghcr.io/valkyoth/fluxheim:v1.6.30-proxy
-podman pull ghcr.io/valkyoth/fluxheim:v1.6.30-php
-
-# Same tags are also published on Quay
-podman pull quay.io/valkyoth/fluxheim:v1.6.30
-podman pull quay.io/valkyoth/fluxheim:v1.6.30-load-balancer
-podman pull quay.io/valkyoth/fluxheim:v1.6.30-cache
-podman pull quay.io/valkyoth/fluxheim:v1.6.30-proxy
-podman pull quay.io/valkyoth/fluxheim:v1.6.30-php</code></pre>
-            </div>
-          </div>
-
-          <h3>Podman Quadlet (systemd integration)</h3>
-          <p>Use Podman Quadlet to manage container lifecycle with systemd on the host:</p>
-          <div class="not-prose">
-            <div class="code-win my-5">
-              <div class="px-4 py-2 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">~/.config/containers/systemd/fluxheim.container</span></div>
-<pre class="language-bash"><code class="language-bash">[Unit]
-Description=Fluxheim Edge Server
-After=network-online.target
-
-[Container]
-Image=ghcr.io/valkyoth/fluxheim:v1.6.30
-PublishPort=8080:8080
-PublishPort=8443:8443
-Volume=/srv/sites:/srv/sites:ro,z
-Volume=/etc/fluxheim:/etc/fluxheim:ro,z
-Volume=/var/lib/fluxheim/acme:/var/lib/fluxheim/acme:rw,z
-AutoUpdate=registry
-
-[Service]
-Restart=always
-
-[Install]
-WantedBy=default.target</code></pre>
-            </div>
-          </div>
-
-          <h2>Production Readiness Checklist</h2>
-          <ul>
-            <li>Run <code>fluxheim --check-config</code> before every restart or reload</li>
-            <li>Run <code>scripts/release_checks.sh</code> before publishing security-sensitive changes</li>
-            <li>Pin to a specific image digest in production, not <code>latest</code></li>
-            <li>Mount config and site content as read-only (<code>:ro</code>)</li>
-            <li>Mount ACME state directory as read-write (<code>:rw</code>) separately</li>
-            <li>Use the admin API over loopback only, or configure a trusted TLS terminator</li>
-            <li>Set <code>[server.host_routing] strict = true</code> for multi-tenant hardened deployments</li>
-            <li>Review <code>deny_dotfiles = true</code> is set on all <code>[vhosts.web]</code> sections</li>
-            <li>Verify HSTS is only set when TLS is confirmed working</li>
-          </ul>
-
-          <div class="callout-info not-prose">
-            <p>The native systemd unit (at <code>packaging/default/fluxheim.toml</code>) listens on ports 80 and 443 with <code>CAP_NET_BIND_SERVICE</code>. Container configs (at <code>packaging/container/fluxheim.toml</code>) use internal ports 8080 and 8443 for rootless compatibility.</p>
-          </div>
-
-        </div>
-
-        <div class="flex items-center justify-between mt-14 pt-8 border-t border-gray-800/60">
-          <a href="observability.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-            Observability
-          </a>
-          <a href="advanced.html" class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
-            Advanced
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-          </a>
-        </div>
+<section class="guide-section">
+  <h2>Rootless Podman</h2>
+  <pre><code>podman run --name fluxheim --replace   -p 8080:8080   -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro   ghcr.io/valkyoth/fluxheim:v1.6.30</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Production checklist</h2>
+  <ul class="checks"><li>Pin release versions or image digests.</li><li>Mount config and content read-only.</li><li>Keep ACME and cache state on persistent volumes.</li></ul>
+</section>
 
       </div>
     </main>
   </div>
-
   <script src="../assets/js/alpine.min.js" defer></script>
-  <script src="../assets/js/prism.min.js"></script>
-  <script src="../assets/js/prism-bash.min.js"></script>
-  <script src="../assets/js/prism-toml.min.js"></script>
 </body>
 </html>
