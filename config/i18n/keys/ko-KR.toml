@@ -1,0 +1,66 @@
+locale_id = "ko-KR"
+
+[language]
+selector_label = "언어"
+
+[language.names]
+en-EU = "English (EU)"
+en-GB = "English (UK)"
+en-US = "English (US)"
+de-DE = "Deutsch"
+fr-FR = "Français"
+sv-SE = "Svenska"
+nb-NO = "Norsk"
+nl-NL = "Nederlands"
+fi-FI = "Suomi"
+is-IS = "Íslenska"
+da-DK = "Dansk"
+es-ES = "Español"
+pt-PT = "Português"
+et-EE = "Eesti"
+lv-LV = "Latviešu"
+el-GR = "Ελληνικά"
+it-IT = "Italiano"
+lt-LT = "Lietuvių"
+hr-HR = "Hrvatski"
+cs-CZ = "Čeština"
+bs-BA = "Bosanski"
+bg-BG = "Български"
+de-CH = "Deutsch (Schweiz)"
+ro-RO = "Română"
+pl-PL = "Polski"
+ru-RU = "Русский"
+ja-JP = "日本語"
+ko-KR = "한국어"
+
+[nav]
+docs = "문서"
+download = "다운로드"
+changelog = "변경 기록"
+
+[release]
+latest_stable = "최신 안정 버전"
+latest_stable_release = "최신 안정 릴리스"
+download_version = "v{version} 다운로드"
+
+[shell]
+home_title = "Fluxheim — Rust로 만든 메모리 안전 엣지 서버"
+view_on_github = "GitHub에서 보기"
+quick_start = "빠른 시작"
+switch_color_theme = "색상 테마 전환"
+links = "링크"
+github_repository = "GitHub 저장소"
+issues = "이슈"
+menu = "메뉴"
+
+[footer]
+tagline = "Rust로 만든 메모리 안전 엣지 서버. EUPL-1.2로 라이선스됩니다."
+project = "프로젝트"
+releases = "릴리스"
+roadmap = "로드맵"
+community = "커뮤니티"
+discussions = "토론"
+eupl_license = "EUPL-1.2 라이선스"
+valkyoth_org = "Valkyoth Org"
+copyright_prefix = "© 2026 Valkyoth. 다음 라이선스로 배포됩니다:"
+built_with = "Rust로 제작 · Fluxheim 기반"

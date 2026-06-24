@@ -159,3 +159,9 @@ locale_id = "ja-JP"
 html_lang = "ja-JP"
 url_prefix = "ja"
 display_name = "日本語"
+
+[[locales]]
+locale_id = "ko-KR"
+html_lang = "ko-KR"
+url_prefix = "ko"
+display_name = "한국어"
