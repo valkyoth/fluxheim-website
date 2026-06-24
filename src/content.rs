@@ -195,6 +195,7 @@ mod tests {
         assert!(site.locale("ru-RU").is_some());
         assert!(site.locale("ja-JP").is_some());
         assert!(site.locale("ko-KR").is_some());
+        assert!(site.locale("hu-HU").is_some());
     }
 
     #[test]
@@ -228,6 +229,7 @@ mod tests {
         assert_eq!(site.split_path("ru/docs/cache").0.locale_id, "ru-RU");
         assert_eq!(site.split_path("ja/docs/cache").0.locale_id, "ja-JP");
         assert_eq!(site.split_path("ko/docs/cache").0.locale_id, "ko-KR");
+        assert_eq!(site.split_path("hu/docs/cache").0.locale_id, "hu-HU");
     }
 
     #[test]
@@ -263,5 +265,6 @@ mod tests {
         assert!(links.iter().any(|link| link.href == "/ru/download"));
         assert!(links.iter().any(|link| link.href == "/ja/download"));
         assert!(links.iter().any(|link| link.href == "/ko/download"));
+        assert!(links.iter().any(|link| link.href == "/hu/download"));
     }
 }

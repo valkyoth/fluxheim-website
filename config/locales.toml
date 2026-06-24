@@ -165,3 +165,9 @@ locale_id = "ko-KR"
 html_lang = "ko-KR"
 url_prefix = "ko"
 display_name = "한국어"
+
+[[locales]]
+locale_id = "hu-HU"
+html_lang = "hu-HU"
+url_prefix = "hu"
+display_name = "Magyar"

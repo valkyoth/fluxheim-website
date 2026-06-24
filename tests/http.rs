@@ -252,6 +252,12 @@ async fn locale_prefixes_preserve_legacy_pages() {
     assert!(ko_body.contains(r#"<html lang="ko-KR""#));
     assert!(ko_body.contains("v1.6.30 다운로드"));
     assert!(ko_body.contains("🇰🇷"));
+
+    let (hu_status, _headers, hu_body) = request("/hu/download").await;
+    assert_eq!(hu_status, StatusCode::OK);
+    assert!(hu_body.contains(r#"<html lang="hu-HU""#));
+    assert!(hu_body.contains("v1.6.30 letöltése"));
+    assert!(hu_body.contains("🇭🇺"));
 }
 
 #[tokio::test]
@@ -425,6 +431,12 @@ async fn locale_prefixes_apply_runtime_translations() {
     assert!(ko_body.contains(r#"<html lang="ko-KR""#));
     assert!(ko_body.contains("메모리 안전"));
     assert!(ko_body.contains("v1.6.30 다운로드"));
+
+    let (hu_status, _headers, hu_body) = request("/hu/").await;
+    assert_eq!(hu_status, StatusCode::OK);
+    assert!(hu_body.contains(r#"<html lang="hu-HU""#));
+    assert!(hu_body.contains("Memóriabiztos"));
+    assert!(hu_body.contains("v1.6.30 letöltése"));
 }
 
 #[tokio::test]
@@ -606,6 +618,7 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     assert!(de_body.contains(r#"<a href="/ru/docs">"#));
     assert!(de_body.contains(r#"<a href="/ja/docs">"#));
     assert!(de_body.contains(r#"<a href="/ko/docs">"#));
+    assert!(de_body.contains(r#"<a href="/hu/docs">"#));
     assert!(de_body.contains("🇪🇺"));
     assert!(de_body.contains("🇩🇪"));
     assert!(de_body.contains("🇨🇭"));
@@ -631,6 +644,7 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     assert!(de_body.contains("🇷🇺"));
     assert!(de_body.contains("🇯🇵"));
     assert!(de_body.contains("🇰🇷"));
+    assert!(de_body.contains("🇭🇺"));
     assert!(de_body.contains("<span>English (EU)</span>"));
     assert!(de_body.contains("<span>Deutsch</span>"));
     assert!(de_body.contains("<span>Deutsch (Schweiz)</span>"));
@@ -656,6 +670,7 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     assert!(de_body.contains("<span>Русский</span>"));
     assert!(de_body.contains("<span>日本語</span>"));
     assert!(de_body.contains("<span>한국어</span>"));
+    assert!(de_body.contains("<span>Magyar</span>"));
 }
 
 #[tokio::test]

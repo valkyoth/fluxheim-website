@@ -29,6 +29,7 @@ fn reads_stable_language_keys() {
     let ru = site.locale("ru-RU").expect("Russian locale");
     let ja = site.locale("ja-JP").expect("Japanese locale");
     let ko = site.locale("ko-KR").expect("Korean locale");
+    let hu = site.locale("hu-HU").expect("Hungarian locale");
     let us = site.locale("en-US").expect("US English locale");
 
     assert_eq!(language_selector_label(de), "Sprache");
@@ -56,6 +57,7 @@ fn reads_stable_language_keys() {
     assert_eq!(language_selector_label(ru), "Язык");
     assert_eq!(language_selector_label(ja), "言語");
     assert_eq!(language_selector_label(ko), "언어");
+    assert_eq!(language_selector_label(hu), "Nyelv");
     assert_eq!(language_selector_label(us), "Language");
     assert_eq!(
         language_display_name(de, "en-US", "fallback"),
@@ -96,6 +98,7 @@ fn language_menu_names_are_autonyms_in_every_locale() {
         ("ru-RU", "Русский"),
         ("ja-JP", "日本語"),
         ("ko-KR", "한국어"),
+        ("hu-HU", "Magyar"),
     ];
 
     for active_locale in site.locales() {
