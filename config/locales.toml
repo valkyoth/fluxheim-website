@@ -117,3 +117,9 @@ locale_id = "cs-CZ"
 html_lang = "cs-CZ"
 url_prefix = "cs"
 display_name = "Čeština"
+
+[[locales]]
+locale_id = "bs-BA"
+html_lang = "bs-BA"
+url_prefix = "bs"
+display_name = "Bosanski"
