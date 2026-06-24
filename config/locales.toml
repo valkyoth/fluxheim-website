@@ -39,3 +39,9 @@ locale_id = "nb-NO"
 html_lang = "nb-NO"
 url_prefix = "no"
 display_name = "Norsk"
+
+[[locales]]
+locale_id = "nl-NL"
+html_lang = "nl-NL"
+url_prefix = "nl"
+display_name = "Nederlands"

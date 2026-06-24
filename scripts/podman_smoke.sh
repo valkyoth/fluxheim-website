@@ -25,6 +25,7 @@ curl -fsS "${base}/en-us/" | grep -q 'html lang="en-US"'
 curl -fsS "${base}/de/" | grep -q "Herunterladen v1.6.30"
 curl -fsS "${base}/fr/" | grep -q "Télécharger v1.6.30"
 curl -fsS "${base}/no/" | grep -q "Last ned v1.6.30"
+curl -fsS "${base}/nl/" | grep -q "Download versie 1.6.30"
 curl -fsS "${base}/de/download" | grep -q "Systemd-Dienst"
 
 curl -fsS "${base}/de/docs" | grep -q "Anleitungen"
@@ -38,6 +39,7 @@ curl -fsS "${base}/fr/docs/static-sites" | grep -q "Sites statiques"
 curl -fsS "${base}/fr/docs/features" | grep -q "Builds courants"
 curl -fsS "${base}/sv/docs/features" | grep -q "Vanliga byggen"
 curl -fsS "${base}/no/docs/features" | grep -q "Vanlige bygg"
+curl -fsS "${base}/nl/docs/features" | grep -q "Veelgebruikte builds"
 
 curl -fsS "${base}/de/docs/source/systemd.md" | grep -q "# systemd Deployment"
 curl -fsS "${base}/de/conf/fluxheim.toml" | grep -q 'hosts = \["fluxheim.eu"\]'

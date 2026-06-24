@@ -74,6 +74,7 @@ async fn renders_default_english_home() {
     assert!(body.contains("English (US)"));
     assert!(body.contains("Svenska"));
     assert!(body.contains("Norsk"));
+    assert!(body.contains("Nederlands"));
     assert!(body.contains("Rootless Containers"));
 }
 
@@ -106,6 +107,12 @@ async fn locale_prefixes_preserve_legacy_pages() {
     assert!(nb_body.contains(r#"<html lang="nb-NO""#));
     assert!(nb_body.contains("Last ned v1.6.30"));
     assert!(nb_body.contains("🇳🇴"));
+
+    let (nl_status, _headers, nl_body) = request("/nl/download").await;
+    assert_eq!(nl_status, StatusCode::OK);
+    assert!(nl_body.contains(r#"<html lang="nl-NL""#));
+    assert!(nl_body.contains("Download versie 1.6.30"));
+    assert!(nl_body.contains("🇳🇱"));
 }
 
 #[tokio::test]
@@ -153,6 +160,12 @@ async fn locale_prefixes_apply_runtime_translations() {
     assert!(nb_body.contains(r#"<html lang="nb-NO""#));
     assert!(nb_body.contains("Minnesikker"));
     assert!(nb_body.contains("Last ned v1.6.30"));
+
+    let (nl_status, _headers, nl_body) = request("/nl/").await;
+    assert_eq!(nl_status, StatusCode::OK);
+    assert!(nl_body.contains(r#"<html lang="nl-NL""#));
+    assert!(nl_body.contains("Memory-safe"));
+    assert!(nl_body.contains("Download versie 1.6.30"));
 }
 
 #[tokio::test]
@@ -313,14 +326,17 @@ async fn clean_directory_routes_use_legacy_index_pages() {
     assert!(de_body.contains(r#"<a href="/en-us/docs">"#));
     assert!(de_body.contains(r#"<a href="/de/docs" aria-current="true">"#));
     assert!(de_body.contains(r#"<a href="/no/docs">"#));
+    assert!(de_body.contains(r#"<a href="/nl/docs">"#));
     assert!(de_body.contains("🇪🇺"));
     assert!(de_body.contains("🇩🇪"));
     assert!(de_body.contains("🇫🇷"));
     assert!(de_body.contains("🇳🇴"));
+    assert!(de_body.contains("🇳🇱"));
     assert!(de_body.contains("<span>English (EU)</span>"));
     assert!(de_body.contains("<span>Deutsch</span>"));
     assert!(de_body.contains("<span>Français</span>"));
     assert!(de_body.contains("<span>Norsk</span>"));
+    assert!(de_body.contains("<span>Nederlands</span>"));
 }
 
 #[tokio::test]
@@ -376,8 +392,10 @@ async fn language_selector_targets_same_page() {
     assert!(body.contains(r#"<a href="/de/download" aria-current="true""#));
     assert!(body.contains(r#"<a href="/fr/download""#));
     assert!(body.contains(r#"<a href="/no/download""#));
+    assert!(body.contains(r#"<a href="/nl/download""#));
     assert!(body.contains(r#"<summary aria-label="Sprache">"#));
     assert!(body.contains("<span>Deutsch</span>"));
+    assert!(body.contains("<span>Nederlands</span>"));
 }
 
 #[tokio::test]

@@ -1,0 +1,46 @@
+locale_id = "nl-NL"
+
+[language]
+selector_label = "Taal"
+
+[language.names]
+en-EU = "English (EU)"
+en-GB = "English (UK)"
+en-US = "English (US)"
+de-DE = "Deutsch"
+fr-FR = "Français"
+sv-SE = "Svenska"
+nb-NO = "Norsk"
+nl-NL = "Nederlands"
+
+[nav]
+docs = "Documentatie"
+download = "Downloaden"
+changelog = "Wijzigingslog"
+
+[release]
+latest_stable = "Nieuwste stabiele versie"
+latest_stable_release = "Nieuwste stabiele release"
+download_version = "Download versie {version}"
+
+[shell]
+home_title = "Fluxheim - memory-safe edge-server gebouwd in Rust"
+view_on_github = "Bekijk op GitHub"
+quick_start = "Snelstart"
+switch_color_theme = "Kleurthema wisselen"
+links = "Koppelingen"
+github_repository = "GitHub-repository"
+issues = "Issues-lijst"
+menu = "Menu-items"
+
+[footer]
+tagline = "Memory-safe edge-server gebouwd in Rust. Gelicentieerd onder EUPL-1.2."
+project = "Projectinformatie"
+releases = "Releaseoverzicht"
+roadmap = "Routekaart"
+community = "Gemeenschap"
+discussions = "Discussies"
+eupl_license = "EUPL-1.2-licentie"
+valkyoth_org = "Valkyoth-organisatie"
+copyright_prefix = "© 2026 Valkyoth. Verspreid onder de"
+built_with = "Gebouwd met Rust · Aangedreven door Fluxheim"
