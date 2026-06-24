@@ -3,11 +3,12 @@ set -eu
 
 image="fluxheim-website:1.6.30"
 name="fluxheim-website-smoke"
-base="http://127.0.0.1:8080"
+port="${FLUXHEIM_WEBSITE_PORT:-8080}"
+base="http://127.0.0.1:${port}"
 
 podman rm -f "${name}" >/dev/null 2>&1 || true
 podman build -f container/Dockerfile -t "${image}" .
-podman run -d --rm --name "${name}" -p 8080:8080 "${image}" >/dev/null
+podman run -d --rm --name "${name}" -p "${port}:8080" "${image}" >/dev/null
 trap 'podman rm -f "${name}" >/dev/null 2>&1 || true' EXIT
 
 for _ in 1 2 3 4 5 6 7 8 9 10; do
@@ -23,6 +24,7 @@ curl -fsS "${base}/en-gb/" | grep -q 'html lang="en-GB"'
 curl -fsS "${base}/en-us/" | grep -q 'html lang="en-US"'
 curl -fsS "${base}/de/" | grep -q "Herunterladen v1.6.30"
 curl -fsS "${base}/fr/" | grep -q "Télécharger v1.6.30"
+curl -fsS "${base}/no/" | grep -q "Last ned v1.6.30"
 curl -fsS "${base}/de/download" | grep -q "Systemd-Dienst"
 
 curl -fsS "${base}/de/docs" | grep -q "Anleitungen"
@@ -35,6 +37,7 @@ curl -fsS "${base}/de/docs/reference" | grep -q "Wo die Detaildokumentation lieg
 curl -fsS "${base}/fr/docs/static-sites" | grep -q "Sites statiques"
 curl -fsS "${base}/fr/docs/features" | grep -q "Builds courants"
 curl -fsS "${base}/sv/docs/features" | grep -q "Vanliga byggen"
+curl -fsS "${base}/no/docs/features" | grep -q "Vanlige bygg"
 
 curl -fsS "${base}/de/docs/source/systemd.md" | grep -q "# systemd Deployment"
 curl -fsS "${base}/de/conf/fluxheim.toml" | grep -q 'hosts = \["fluxheim.eu"\]'

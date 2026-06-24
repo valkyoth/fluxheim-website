@@ -33,3 +33,9 @@ locale_id = "sv-SE"
 html_lang = "sv-SE"
 url_prefix = "sv"
 display_name = "Svenska"
+
+[[locales]]
+locale_id = "nb-NO"
+html_lang = "nb-NO"
+url_prefix = "no"
+display_name = "Norsk"
