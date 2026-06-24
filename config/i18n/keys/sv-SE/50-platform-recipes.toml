@@ -26,7 +26,7 @@ by_default_and_does_not_touch = "som standard och berör inte"
 launchd_or_system_service_locations = ", lanserade eller systemtjänstplatser."
 local_runtime_paths = "Lokala körtidsvägar"
 macos_development_configs_should_use_project_local_paths_or = "macOS-utvecklingskonfigurationer bör använda projektlokala sökvägar, eller en privat tillfällig katalog per användare vars föräldrar inte är grupp-/världsskrivbara:"
-runtime_data = "Runtime data"
+runtime_data = "Runtime-data"
 recommended_macos_dev_path = "Rekommenderad macOS dev sökväg"
 pid_file = "pid-fil"
 upgrade_socket = "uppgraderingsuttag"
@@ -45,7 +45,7 @@ preferred_release_naming_examples = "Exempel på namn på föredragna versioner:
 universal_macos_binaries_are_optional_and_can_be_produced = "Universal macOS binärer är valfria och kan produceras med"
 from_separate_intel_and_apple_silicon_builds_but = "från separata Intel- och Apple Silicon-byggen, men per-target-tarballs är enklare och tydligare för Fluxheims nuvarande supportnivå."
 from_separate_intel_and_apple_silicon_builds_but_2 = "från separata Intel- och Apple Silicon-byggen, men per-target-tarballs är enklare och tydligare för Fluxheims nuvarande supportnivå."
-thead_tr_th_target_th_th_scope_th_tr_thead = "<thead><tr><th>Target</th><th>Scope</th></tr></thead>"
+thead_tr_th_target_th_th_scope_th_tr_thead = "<thead><tr><th>Mål</th><th>Omfattning</th></tr></thead>"
 
 [gateway_recipes]
 gateway_recipes_fluxheim_source_docs = "Gateway-recept — Fluxheim Källdokument"
