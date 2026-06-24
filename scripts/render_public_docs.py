@@ -106,8 +106,8 @@ def page_body(page: str) -> str:
 
 def code_language(code: str) -> str:
     first_line = code.lstrip().splitlines()[0] if code.strip() else ""
-    shell_prefixes = ("curl ", "tar ", "sudo ", "fluxheim ", "podman ")
-    if first_line.startswith(shell_prefixes):
+    shell_prefixes = ("curl ", "export ", "tar ", "sudo ", "fluxheim ", "podman ")
+    if first_line.startswith(shell_prefixes) or first_line.startswith(("FLUXHEIM_", "OTEL_")):
         return "bash"
     return "toml"
 

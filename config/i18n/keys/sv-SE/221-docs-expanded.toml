@@ -144,3 +144,5 @@ external_certs_strict = "Anvand externt utfardade certifikat for strikta FIPS- e
 wordpress_preset_baseline = "Anvand WordPress-preseten som bas och lagg sedan till sajt-specifika bypasser."
 good_fit = "Bra passform"
 wordpress_setup_fit = "Den har uppsattningen ar for en normal WordPress-frontcontroller dar Fluxheim serverar sakra statiska filer, blockerar PHP i uppladdningssokvagar och skickar dynamiska forfragningar till PHP-FPM."
+observability_compose_sets_env = "Observability compose-stacken satter dessa varden for webbplatstjansten. Satt"
+observability_disable_env = "for att kora samma binary utan att exportera metrics eller traces."

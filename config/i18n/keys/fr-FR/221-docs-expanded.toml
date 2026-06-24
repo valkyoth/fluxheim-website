@@ -144,3 +144,5 @@ external_certs_strict = "Utilisez des certificats emis en externe pour les limit
 wordpress_preset_baseline = "Utilisez le preset WordPress comme base, puis ajoutez les bypass propres au site."
 good_fit = "Bon cas d'usage"
 wordpress_setup_fit = "Cette configuration vise un front controller WordPress normal ou Fluxheim sert les fichiers statiques surs, bloque PHP dans les chemins d'upload et transmet les requetes dynamiques a PHP-FPM."
+observability_compose_sets_env = "Le stack compose d'observabilite definit ces valeurs pour le service du site. Mettez"
+observability_disable_env = "pour executer le meme binaire sans exporter de metriques ni de traces."

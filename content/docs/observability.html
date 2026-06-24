@@ -6,9 +6,11 @@ listen = "127.0.0.1:9100"</code></pre>
 </section>
 <section class="guide-section">
   <h2>OTLP export</h2>
-  <pre><code>[observability.otlp]
-enabled = true
-endpoint = "http://127.0.0.1:4317"</code></pre>
+  <pre><code>FLUXHEIM_OTLP=enabled
+OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
+OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+OTEL_METRIC_EXPORT_INTERVAL=5000</code></pre>
+  <p>The observability compose stack sets these for the website service. Set <code>FLUXHEIM_OTLP=disabled</code> to run the same binary without exporting metrics or traces.</p>
   <p>Keep labels low-cardinality: route group, language, status class, download artifact, and GitHub target are useful. Raw IP addresses and user identifiers are not.</p>
 </section>
 <section class="guide-section">

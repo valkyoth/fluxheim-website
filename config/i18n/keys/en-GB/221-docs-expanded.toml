@@ -144,3 +144,5 @@ external_certs_strict = "Use externally issued certificates for strict FIPS or I
 wordpress_preset_baseline = "Use the WordPress preset as a baseline, then add site-specific bypasses."
 good_fit = "Good fit"
 wordpress_setup_fit = "This setup is for a normal WordPress front controller where Fluxheim serves safe static files, blocks PHP in upload paths, and forwards dynamic requests to PHP-FPM."
+observability_compose_sets_env = "The observability compose stack sets these for the website service. Set"
+observability_disable_env = "to run the same binary without exporting metrics or traces."
