@@ -81,3 +81,9 @@ locale_id = "et-EE"
 html_lang = "et-EE"
 url_prefix = "et"
 display_name = "Eesti"
+
+[[locales]]
+locale_id = "lv-LV"
+html_lang = "lv-LV"
+url_prefix = "lv"
+display_name = "Latviešu"
