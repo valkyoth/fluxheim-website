@@ -136,7 +136,7 @@ this_is_capability_parity_not_syntax_compatibility_fluxheim_should_expose_typed_
 design_goals = "Designmål"
 keep_wasm_runtime_code_out_of_default_builds = "Håll WASM-körtidskod borta från standardbyggen."
 use_a_reviewed_standard_abi_where_practical = "Använd ett granskat standard-ABI där det är praktiskt."
-start_with_request_response_header_hooks_access_control_hooks_and_bounded_cache_policy_hooks = "Börja med rubrikhooks för begäran/svar, hooks för åtkomstkontroll och avgränsade cachepolicyhooks."
+start_with_request_response_header_hooks_access_control_hooks_and_bounded_cache_policy_hooks = "Börja med request/response-header-hooks, åtkomstkontroll-hooks och avgränsade cachepolicy-hooks."
 cover_the_safe_subset_of_irules_lua_style_jobs_over_time_conditional_routing_pool_selection_persiste = "Täck den säkra delmängden av iRules/Lua-liknande jobb över tid: villkorlig routing, poolval, val av persistensnyckel, syntetiska nekande-/felsvar, rubrikmutation, loggning/redigering, val av spegel/skugga och cachepolicy."
 make_all_host_calls_explicit_small_and_auditable = "Gör alla värdsamtal tydliga, små och granskningsbara."
 keep_plugin_execution_bounded_by_memory_fuel_wall_time_and_output_limits = "Se till att plugin-exekveringen begränsas av minne, bränsle, väggtid och utdatagränser."

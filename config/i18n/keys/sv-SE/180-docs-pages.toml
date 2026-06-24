@@ -240,7 +240,7 @@ features_060_before_packaging_custom_feature_strings_the_validator_expands_profi
 features_061_privacy_build_constraints = "Begränsningar för integritetsbyggen"
 features_062_at_compile_time_always_use = "vid kompilering. Använd alltid"
 features_063_since_the_default_build_includes = "eftersom standardbygget inkluderar"
-features_064_extended_source_references = "Utökade källhänvisningar"
+features_064_extended_source_references = "Utökade källreferenser"
 features_065_some_source_documents_describe_implemented_1_6_28_capabilities_while_others_remain = "Vissa källdokument beskriver implementerade 1.6.28-funktioner, medan andra förblir arkitekturspår för framtida utgåvor. De fullständiga uppströms källdokumenten finns tillgängliga i"
 features_066_source_reference = "Källhänvisning"
 features_067_topic = "Ämne"
