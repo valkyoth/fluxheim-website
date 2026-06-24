@@ -1,7 +1,7 @@
 # Stable documentation reference index keys.
 
 [reference]
-the_complete_upstream_markdown_documentation_from_fluxheim_main_is_vendored_here_so_the_website_expo = "Den fullständiga uppströms Markdown-dokumentationen från Fluxheim main vendoreras här så att webbplatsen exponerar hela operatörs-, arkitektur- och roadmap-referensen."
+the_complete_upstream_markdown_documentation_from_fluxheim_main_is_vendored_here_so_the_website_expo = "Den fullständiga upstream Markdown-dokumentationen från Fluxheim main vendoreras här så att webbplatsen exponerar hela operatörs-, arkitektur- och roadmap-referensen."
 source_files = "källfiler"
 current_release_line = "nuvarande release-linje"
 synced_source_branch = "synkroniserad källgren"
