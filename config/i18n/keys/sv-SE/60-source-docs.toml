@@ -83,7 +83,7 @@ is_the_long_term_edge_defense_platform_idea_it_should_not_be_described_as_an_arb
 fluxheim_per_route_request_rates_and_anomaly_scores = "Fluxheim förfrågningar per rutt och anomalipoäng."
 source_ip_subnet_asn_and_geo_context_signals = "Källa IP, subnät, ASN och Geo-Context-signaler."
 http_2_abuse_signals_and_malformed_protocol_limit_events = "HTTP/2 missbrukssignaler och felaktiga händelser/protokollbegränsningar."
-load_balancer_saturation_queue_retry_and_passive_health_events = "Lastbalanserande mättnad, kö, försök igen och passiva hälsohändelser."
+load_balancer_saturation_queue_retry_and_passive_health_events = "Lastbalanserarmättnad, kö, retry och passiva hälsohändelser."
 netflow_sflow_or_ipfix_from_routers_in_a_later_phase = "NetFlow, sFlow eller IPFIX från routrar i en senare fas."
 local_fluxheim_deny_delay_tarpit_or_challenge_policy = "lokal Fluxheim policy för avvisning, fördröjning, tarpit eller utmaning;"
 xdp_ebpf_drop_map_updates_on_linux_hosts = "XDP/eBPF dropmap-uppdateringar på Linux-värdar;"
