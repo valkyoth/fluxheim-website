@@ -1,0 +1,47 @@
+locale_id = "fi-FI"
+
+[language]
+selector_label = "Kieli"
+
+[language.names]
+en-EU = "English (EU)"
+en-GB = "English (UK)"
+en-US = "English (US)"
+de-DE = "Deutsch"
+fr-FR = "Français"
+sv-SE = "Svenska"
+nb-NO = "Norsk"
+nl-NL = "Nederlands"
+fi-FI = "Suomi"
+
+[nav]
+docs = "Dokumentaatio"
+download = "Lataa"
+changelog = "Muutosloki"
+
+[release]
+latest_stable = "Uusin vakaa"
+latest_stable_release = "Uusin vakaa julkaisu"
+download_version = "Lataa v{version}"
+
+[shell]
+home_title = "Fluxheim - muistiturvallinen edge-palvelin Rustilla"
+view_on_github = "Katso GitHubissa"
+quick_start = "Pika-aloitus"
+switch_color_theme = "Vaihda väriteema"
+links = "Linkit"
+github_repository = "GitHub-repositorio"
+issues = "Issue-lista"
+menu = "Valikko"
+
+[footer]
+tagline = "Muistiturvallinen edge-palvelin Rustilla. Lisensoitu EUPL-1.2-lisenssillä."
+project = "Projekti"
+releases = "Julkaisut"
+roadmap = "Tiekartta"
+community = "Yhteisö"
+discussions = "Keskustelut"
+eupl_license = "EUPL-1.2-lisenssi"
+valkyoth_org = "Valkyoth-organisaatio"
+copyright_prefix = "© 2026 Valkyoth. Jaeltu lisenssillä"
+built_with = "Rakennettu Rustilla · Taustalla Fluxheim"

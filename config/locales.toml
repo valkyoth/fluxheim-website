@@ -45,3 +45,9 @@ locale_id = "nl-NL"
 html_lang = "nl-NL"
 url_prefix = "nl"
 display_name = "Nederlands"
+
+[[locales]]
+locale_id = "fi-FI"
+html_lang = "fi-FI"
+url_prefix = "fi"
+display_name = "Suomi"
