@@ -99,3 +99,9 @@ locale_id = "it-IT"
 html_lang = "it-IT"
 url_prefix = "it"
 display_name = "Italiano"
+
+[[locales]]
+locale_id = "lt-LT"
+html_lang = "lt-LT"
+url_prefix = "lt"
+display_name = "Lietuvių"

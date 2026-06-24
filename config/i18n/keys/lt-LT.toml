@@ -1,0 +1,56 @@
+locale_id = "lt-LT"
+
+[language]
+selector_label = "Kalba"
+
+[language.names]
+en-EU = "English (EU)"
+en-GB = "English (UK)"
+en-US = "English (US)"
+de-DE = "Deutsch"
+fr-FR = "Français"
+sv-SE = "Svenska"
+nb-NO = "Norsk"
+nl-NL = "Nederlands"
+fi-FI = "Suomi"
+is-IS = "Íslenska"
+da-DK = "Dansk"
+es-ES = "Español"
+pt-PT = "Português"
+et-EE = "Eesti"
+lv-LV = "Latviešu"
+el-GR = "Ελληνικά"
+it-IT = "Italiano"
+lt-LT = "Lietuvių"
+
+[nav]
+docs = "Dokumentacija"
+download = "Atsisiųsti"
+changelog = "Keitimų žurnalas"
+
+[release]
+latest_stable = "Naujausia stabili"
+latest_stable_release = "Naujausia stabili versija"
+download_version = "Atsisiųsti v{version}"
+
+[shell]
+home_title = "Fluxheim - atminčiai saugus edge serveris, parašytas Rust"
+view_on_github = "Žiūrėti GitHub"
+quick_start = "Greita pradžia"
+switch_color_theme = "Keisti spalvų temą"
+links = "Nuorodos"
+github_repository = "GitHub repozitorija"
+issues = "Problemos"
+menu = "Meniu"
+
+[footer]
+tagline = "Atminčiai saugus edge serveris, parašytas Rust. Licencija EUPL-1.2."
+project = "Projektas"
+releases = "Versijos"
+roadmap = "Planas"
+community = "Bendruomenė"
+discussions = "Diskusijos"
+eupl_license = "EUPL-1.2 licencija"
+valkyoth_org = "Valkyoth organizacija"
+copyright_prefix = "© 2026 Valkyoth. Platinama pagal licenciją"
+built_with = "Sukurta su Rust · Veikia su Fluxheim"
