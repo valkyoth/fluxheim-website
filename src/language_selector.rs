@@ -162,6 +162,7 @@ fn language_flag(locale_id: &str) -> &'static str {
         "la-VA" => "🇻🇦",
         "uk-UA" => "🇺🇦",
         "sr-RS" => "🇷🇸",
+        "tr-TR" => "🇹🇷",
         _ => "",
     }
 }
@@ -208,6 +209,7 @@ mod tests {
         assert_eq!(language_flag("la-VA"), "🇻🇦");
         assert_eq!(language_flag("uk-UA"), "🇺🇦");
         assert_eq!(language_flag("sr-RS"), "🇷🇸");
+        assert_eq!(language_flag("tr-TR"), "🇹🇷");
         assert_eq!(language_flag("unknown"), "");
     }
 }

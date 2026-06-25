@@ -213,3 +213,9 @@ locale_id = "sr-RS"
 html_lang = "sr-RS"
 url_prefix = "sr"
 display_name = "Српски"
+
+[[locales]]
+locale_id = "tr-TR"
+html_lang = "tr-TR"
+url_prefix = "tr"
+display_name = "Türkçe"
