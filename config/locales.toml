@@ -273,3 +273,9 @@ locale_id = "ca-ES"
 html_lang = "ca-ES"
 url_prefix = "ca"
 display_name = "Català"
+
+[[locales]]
+locale_id = "be-BY"
+html_lang = "be-BY"
+url_prefix = "be"
+display_name = "Беларуская"

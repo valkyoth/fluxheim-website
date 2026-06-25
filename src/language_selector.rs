@@ -172,6 +172,7 @@ fn language_flag(locale_id: &str) -> &'static str {
         "vec-IT" => "🇮🇹",
         "scn-IT" => "🇮🇹",
         "ca-ES" => "🇪🇸",
+        "be-BY" => "🇧🇾",
         _ => "",
     }
 }
@@ -228,6 +229,7 @@ mod tests {
         assert_eq!(language_flag("vec-IT"), "🇮🇹");
         assert_eq!(language_flag("scn-IT"), "🇮🇹");
         assert_eq!(language_flag("ca-ES"), "🇪🇸");
+        assert_eq!(language_flag("be-BY"), "🇧🇾");
         assert_eq!(language_flag("unknown"), "");
     }
 }
