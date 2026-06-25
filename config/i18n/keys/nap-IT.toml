@@ -1,7 +1,7 @@
-locale_id = "is-IS"
+locale_id = "nap-IT"
 
 [language]
-selector_label = "Tungumál"
+selector_label = "Lengua"
 
 [language.names]
 en-EU = "English (EU)"
@@ -49,33 +49,33 @@ zh-TW = "繁體中文"
 nap-IT = "Napulitano"
 
 [nav]
-docs = "Skjölun"
-download = "Sækja"
-changelog = "Breytingaskrá"
+docs = "Ducumentazione"
+download = "Scarrica"
+changelog = "Riggistro d'e cagnamiente"
 
 [release]
-latest_stable = "Nýjasta stöðuga"
-latest_stable_release = "Nýjasta stöðuga útgáfa"
-download_version = "Sækja v{version}"
+latest_stable = "Ùrdema stabile"
+latest_stable_release = "Ùrdema versione stabile"
+download_version = "Scarrica v{version}"
 
 [shell]
-home_title = "Fluxheim - minnisöruggur edge-þjónn byggður í Rust"
-view_on_github = "Skoða á GitHub"
-quick_start = "Flýtiræsing"
-switch_color_theme = "Skipta um litþema"
-links = "Tenglar"
-github_repository = "GitHub-geymsla"
-issues = "Mál"
-menu = "Valmynd"
+home_title = "Fluxheim - server edge memory-safe scritto cu Rust"
+view_on_github = "Vide ncopp'a GitHub"
+quick_start = "Partenza veloce"
+switch_color_theme = "Cagna 'o tema d'o culore"
+links = "Liegame"
+github_repository = "Repository GitHub"
+issues = "Issue"
+menu = "Menù"
 
 [footer]
-tagline = "Minnisöruggur edge-þjónn byggður í Rust. Leyfður með EUPL-1.2."
-project = "Verkefni"
-releases = "Útgáfur"
-roadmap = "Vegvísir"
-community = "Samfélag"
-discussions = "Umræður"
-eupl_license = "EUPL-1.2 leyfi"
-valkyoth_org = "Valkyoth-samtökin"
-copyright_prefix = "© 2026 Valkyoth. Dreift samkvæmt"
-built_with = "Byggt með Rust · Keyrt af Fluxheim"
+tagline = "Server edge memory-safe scritto cu Rust. Cu licenza EUPL-1.2."
+project = "Pruggetto"
+releases = "Versione"
+roadmap = "Piano"
+community = "Cumunità"
+discussions = "Discussione"
+eupl_license = "Licenza EUPL-1.2"
+valkyoth_org = "Urganizzazione Valkyoth"
+copyright_prefix = "© 2026 Valkyoth. Spartuto cu 'a licenza"
+built_with = "Custruito cu Rust · Purtato annanze cu Fluxheim"

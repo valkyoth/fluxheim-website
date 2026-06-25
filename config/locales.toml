@@ -249,3 +249,9 @@ locale_id = "zh-TW"
 html_lang = "zh-TW"
 url_prefix = "zh-tw"
 display_name = "繁體中文"
+
+[[locales]]
+locale_id = "nap-IT"
+html_lang = "nap-IT"
+url_prefix = "nap"
+display_name = "Napulitano"
