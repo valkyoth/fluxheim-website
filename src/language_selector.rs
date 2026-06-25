@@ -171,6 +171,7 @@ fn language_flag(locale_id: &str) -> &'static str {
         "nap-IT" => "🇮🇹",
         "vec-IT" => "🇮🇹",
         "scn-IT" => "🇮🇹",
+        "ca-ES" => "🇪🇸",
         _ => "",
     }
 }
@@ -226,6 +227,7 @@ mod tests {
         assert_eq!(language_flag("nap-IT"), "🇮🇹");
         assert_eq!(language_flag("vec-IT"), "🇮🇹");
         assert_eq!(language_flag("scn-IT"), "🇮🇹");
+        assert_eq!(language_flag("ca-ES"), "🇪🇸");
         assert_eq!(language_flag("unknown"), "");
     }
 }

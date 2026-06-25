@@ -267,3 +267,9 @@ locale_id = "scn-IT"
 html_lang = "scn-IT"
 url_prefix = "scn"
 display_name = "Sicilianu"
+
+[[locales]]
+locale_id = "ca-ES"
+html_lang = "ca-ES"
+url_prefix = "ca"
+display_name = "Català"
