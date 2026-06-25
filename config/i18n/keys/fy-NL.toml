@@ -1,7 +1,7 @@
-locale_id = "sv-SE"
+locale_id = "fy-NL"
 
 [language]
-selector_label = "Språk"
+selector_label = "Taal"
 
 [language.names]
 en-EU = "English (EU)"
@@ -60,33 +60,33 @@ yue-HK = "粵語"
 fy-NL = "Frysk"
 
 [nav]
-docs = "Dokument"
-download = "Ladda ner"
-changelog = "Ändringslogg"
+docs = "Dokumintaasje"
+download = "Ynlade"
+changelog = "Feroaringslog"
 
 [release]
-latest_stable = "Senaste stabila"
-latest_stable_release = "Senaste stabila utgåvan"
-download_version = "Ladda ner v{version}"
+latest_stable = "Lêste stabile ferzje"
+latest_stable_release = "Lêste stabile release"
+download_version = "Ynlade v{version}"
 
 [shell]
-home_title = "Fluxheim — minnessäker edge-server byggd i Rust"
-view_on_github = "Visa på GitHub"
-quick_start = "Snabbstart"
-switch_color_theme = "Byt färgtema"
-links = "Länkar"
+home_title = "Fluxheim - Memory-Safe Edge Server ynboud yn Rust"
+view_on_github = "Besjoch op GitHub"
+quick_start = "Fluch begjinne"
+switch_color_theme = "Feroarje kleurtema"
+links = "Keppelings"
 github_repository = "GitHub-repository"
-issues = "Ärenden"
-menu = "Meny"
+issues = "Issues en meldingen"
+menu = "Haadmenu"
 
 [footer]
-tagline = "Minnessäker edge-server inbyggd i Rust. Licensierad under EUPL-1.2."
+tagline = "Unthâld-feilige râne tsjinner boud yn Rust. Lisinsearre ûnder EUPL-1.2."
 project = "Projekt"
-releases = "Utgåvor"
-roadmap = "Färdkarta"
-community = "Gemenskap"
-discussions = "Diskussioner"
-eupl_license = "EUPL-1.2-licens"
-valkyoth_org = "Valkyoth-organisationen"
-copyright_prefix = "© 2026 Valkyoth. Distribueras under"
-built_with = "Byggd med Rust · Drivs av Fluxheim"
+releases = "Releases en ferzjes"
+roadmap = "Untwikkelplan"
+community = "Mienskip"
+discussions = "Diskusjes"
+eupl_license = "EUPL-1.2 Lisinsje"
+valkyoth_org = "Valkyoth-organisaasje"
+copyright_prefix = "© 2026 Valkyoth. Ferdield ûnder de"
+built_with = "Boud mei Rust · Oandreaun troch Fluxheim"

@@ -315,3 +315,9 @@ locale_id = "yue-HK"
 html_lang = "yue-HK"
 url_prefix = "yue"
 display_name = "粵語"
+
+[[locales]]
+locale_id = "fy-NL"
+html_lang = "fy-NL"
+url_prefix = "fy"
+display_name = "Frysk"

@@ -135,6 +135,7 @@ fn language_flag(locale_id: &str) -> &'static str {
         "sv-SE" => "🇸🇪",
         "nb-NO" => "🇳🇴",
         "nl-NL" => "🇳🇱",
+        "fy-NL" => "🇳🇱",
         "fi-FI" => "🇫🇮",
         "is-IS" => "🇮🇸",
         "da-DK" => "🇩🇰",
@@ -198,6 +199,7 @@ mod tests {
         assert_eq!(language_flag("sv-SE"), "🇸🇪");
         assert_eq!(language_flag("nb-NO"), "🇳🇴");
         assert_eq!(language_flag("nl-NL"), "🇳🇱");
+        assert_eq!(language_flag("fy-NL"), "🇳🇱");
         assert_eq!(language_flag("fi-FI"), "🇫🇮");
         assert_eq!(language_flag("is-IS"), "🇮🇸");
         assert_eq!(language_flag("da-DK"), "🇩🇰");

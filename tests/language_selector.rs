@@ -39,6 +39,7 @@ async fn every_rendered_language_selector_link_resolves() {
         "/sv/docs",
         "/no/docs",
         "/nl/docs",
+        "/fy/docs",
         "/fi/docs",
         "/is/docs",
         "/da/docs",
@@ -90,7 +91,7 @@ async fn every_rendered_language_selector_link_resolves() {
         assert_eq!(status, StatusCode::OK, "{page} should render");
 
         let links = language_selector_links(&body);
-        assert_eq!(links.len(), 53, "{page} should render all language links");
+        assert_eq!(links.len(), 54, "{page} should render all language links");
         assert!(
             body.contains(r#"<input class="fh-language-search" type="search""#),
             "{page} should render the language search input"
