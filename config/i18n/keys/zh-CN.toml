@@ -1,7 +1,7 @@
-locale_id = "sv-SE"
+locale_id = "zh-CN"
 
 [language]
-selector_label = "Språk"
+selector_label = "语言"
 
 [language.names]
 en-EU = "English (EU)"
@@ -47,33 +47,33 @@ bar-DE = "Boarisch"
 zh-CN = "简体中文"
 
 [nav]
-docs = "Dokument"
-download = "Ladda ner"
-changelog = "Ändringslogg"
+docs = "文档"
+download = "下载"
+changelog = "更新日志"
 
 [release]
-latest_stable = "Senaste stabila"
-latest_stable_release = "Senaste stabila utgåvan"
-download_version = "Ladda ner v{version}"
+latest_stable = "最新稳定版"
+latest_stable_release = "最新稳定版本"
+download_version = "下载 v{version}"
 
 [shell]
-home_title = "Fluxheim — minnessäker edge-server byggd i Rust"
-view_on_github = "Visa på GitHub"
-quick_start = "Snabbstart"
-switch_color_theme = "Byt färgtema"
-links = "Länkar"
-github_repository = "GitHub-repository"
-issues = "Ärenden"
-menu = "Meny"
+home_title = "Fluxheim — 使用 Rust 构建的内存安全 Edge 服务器"
+view_on_github = "在 GitHub 上查看"
+quick_start = "快速开始"
+switch_color_theme = "切换颜色主题"
+links = "链接"
+github_repository = "GitHub 仓库"
+issues = "问题"
+menu = "菜单"
 
 [footer]
-tagline = "Minnessäker edge-server inbyggd i Rust. Licensierad under EUPL-1.2."
-project = "Projekt"
-releases = "Utgåvor"
-roadmap = "Färdkarta"
-community = "Gemenskap"
-discussions = "Diskussioner"
-eupl_license = "EUPL-1.2-licens"
-valkyoth_org = "Valkyoth-organisationen"
-copyright_prefix = "© 2026 Valkyoth. Distribueras under"
-built_with = "Byggd med Rust · Drivs av Fluxheim"
+tagline = "使用 Rust 构建的内存安全 Edge 服务器。采用 EUPL-1.2 许可。"
+project = "项目"
+releases = "版本"
+roadmap = "路线图"
+community = "社区"
+discussions = "讨论"
+eupl_license = "EUPL-1.2 许可证"
+valkyoth_org = "Valkyoth 组织"
+copyright_prefix = "© 2026 Valkyoth。依据以下许可分发："
+built_with = "使用 Rust 构建 · 由 Fluxheim 提供支持"

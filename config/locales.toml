@@ -237,3 +237,9 @@ locale_id = "bar-DE"
 html_lang = "bar-DE"
 url_prefix = "bar"
 display_name = "Boarisch"
+
+[[locales]]
+locale_id = "zh-CN"
+html_lang = "zh-CN"
+url_prefix = "zh-cn"
+display_name = "简体中文"
