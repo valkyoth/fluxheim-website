@@ -207,3 +207,9 @@ locale_id = "uk-UA"
 html_lang = "uk-UA"
 url_prefix = "uk"
 display_name = "Українська"
+
+[[locales]]
+locale_id = "sr-RS"
+html_lang = "sr-RS"
+url_prefix = "sr"
+display_name = "Српски"

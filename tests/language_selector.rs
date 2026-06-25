@@ -63,6 +63,7 @@ async fn every_rendered_language_selector_link_resolves() {
         "/mt/docs",
         "/la/docs",
         "/uk/docs",
+        "/sr/docs",
         "/en-gb/download",
         "/en-us/docs/cache",
     ];
@@ -72,7 +73,7 @@ async fn every_rendered_language_selector_link_resolves() {
         assert_eq!(status, StatusCode::OK, "{page} should render");
 
         let links = language_selector_links(&body);
-        assert_eq!(links.len(), 35, "{page} should render all language links");
+        assert_eq!(links.len(), 36, "{page} should render all language links");
         assert!(
             body.contains(r#"<input class="fh-language-search" type="search""#),
             "{page} should render the language search input"
@@ -156,6 +157,7 @@ async fn locale_prefixed_asset_paths_resolve_for_english_variants() {
         "/mt/assets/css/theme.css?v=20260519",
         "/la/assets/css/theme.css?v=20260519",
         "/uk/assets/css/theme.css?v=20260519",
+        "/sr/assets/css/theme.css?v=20260519",
     ] {
         let (status, body) = get(path).await;
         assert_eq!(status, StatusCode::OK, "{path} should resolve");
