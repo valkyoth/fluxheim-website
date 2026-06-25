@@ -255,3 +255,9 @@ locale_id = "nap-IT"
 html_lang = "nap-IT"
 url_prefix = "nap"
 display_name = "Napulitano"
+
+[[locales]]
+locale_id = "vec-IT"
+html_lang = "vec-IT"
+url_prefix = "vec"
+display_name = "Vèneto"
