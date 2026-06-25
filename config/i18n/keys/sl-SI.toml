@@ -1,4 +1,4 @@
-locale_id = "hr-HR"
+locale_id = "sl-SI"
 
 [language]
 selector_label = "Jezik"
@@ -38,32 +38,32 @@ sl-SI = "Slovenščina"
 
 [nav]
 docs = "Dokumentacija"
-download = "Preuzimanje"
-changelog = "Dnevnik promjena"
+download = "Prenos"
+changelog = "Dnevnik sprememb"
 
 [release]
-latest_stable = "Najnovija stabilna"
-latest_stable_release = "Najnovije stabilno izdanje"
-download_version = "Preuzmi v{version}"
+latest_stable = "Najnovejša stabilna"
+latest_stable_release = "Najnovejša stabilna izdaja"
+download_version = "Prenesi v{version}"
 
 [shell]
-home_title = "Fluxheim - memorijski siguran edge server napisan u Rustu"
-view_on_github = "Pogledaj na GitHubu"
-quick_start = "Brzi početak"
-switch_color_theme = "Promijeni temu boja"
-links = "Poveznice"
+home_title = "Fluxheim - pomnilniško varen edge strežnik napisan v Rustu"
+view_on_github = "Poglej na GitHubu"
+quick_start = "Hitri začetek"
+switch_color_theme = "Spremeni barvno temo"
+links = "Povezave"
 github_repository = "GitHub repozitorij"
-issues = "Problemi"
-menu = "Izbornik"
+issues = "Težave"
+menu = "Meni"
 
 [footer]
-tagline = "Memorijski siguran edge server napisan u Rustu. Licencirano pod EUPL-1.2."
+tagline = "Pomnilniško varen edge strežnik, napisan v Rustu. Licencirano pod EUPL-1.2."
 project = "Projekt"
-releases = "Izdanja"
-roadmap = "Plan razvoja"
-community = "Zajednica"
-discussions = "Rasprave"
+releases = "Izdaje"
+roadmap = "Načrt razvoja"
+community = "Skupnost"
+discussions = "Razprave"
 eupl_license = "Licenca EUPL-1.2"
 valkyoth_org = "Organizacija Valkyoth"
-copyright_prefix = "© 2026 Valkyoth. Distribuirano pod licencom"
-built_with = "Izgrađeno s Rustom · Pokreće Fluxheim"
+copyright_prefix = "© 2026 Valkyoth. Distribuirano pod licenco"
+built_with = "Zgrajeno z Rustom · Poganja Fluxheim"

@@ -177,3 +177,9 @@ locale_id = "sk-SK"
 html_lang = "sk-SK"
 url_prefix = "sk"
 display_name = "Slovenčina"
+
+[[locales]]
+locale_id = "sl-SI"
+html_lang = "sl-SI"
+url_prefix = "sl"
+display_name = "Slovenščina"
