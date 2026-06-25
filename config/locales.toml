@@ -183,3 +183,9 @@ locale_id = "sl-SI"
 html_lang = "sl-SI"
 url_prefix = "sl"
 display_name = "Slovenščina"
+
+[[locales]]
+locale_id = "ga-IE"
+html_lang = "ga-IE"
+url_prefix = "ga"
+display_name = "Gaeilge"

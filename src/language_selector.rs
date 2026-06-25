@@ -157,6 +157,7 @@ fn language_flag(locale_id: &str) -> &'static str {
         "hu-HU" => "🇭🇺",
         "sk-SK" => "🇸🇰",
         "sl-SI" => "🇸🇮",
+        "ga-IE" => "🇮🇪",
         _ => "",
     }
 }
@@ -198,6 +199,7 @@ mod tests {
         assert_eq!(language_flag("hu-HU"), "🇭🇺");
         assert_eq!(language_flag("sk-SK"), "🇸🇰");
         assert_eq!(language_flag("sl-SI"), "🇸🇮");
+        assert_eq!(language_flag("ga-IE"), "🇮🇪");
         assert_eq!(language_flag("unknown"), "");
     }
 }
