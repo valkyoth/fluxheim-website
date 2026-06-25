@@ -1,7 +1,7 @@
-locale_id = "da-DK"
+locale_id = "bar-DE"
 
 [language]
-selector_label = "Sprog"
+selector_label = "Sproch"
 
 [language.names]
 en-EU = "English (EU)"
@@ -46,33 +46,33 @@ aat-GR = "Arbërisht"
 bar-DE = "Boarisch"
 
 [nav]
-docs = "Dokumentation"
-download = "Hent"
-changelog = "Ændringslog"
+docs = "Doku"
+download = "Obalodn"
+changelog = "Änderunga"
 
 [release]
-latest_stable = "Nyeste stabile"
-latest_stable_release = "Nyeste stabile udgivelse"
-download_version = "Hent v{version}"
+latest_stable = "Neieste stabile Version"
+latest_stable_release = "Neieste stabile Version"
+download_version = "Obalodn v{version}"
 
 [shell]
-home_title = "Fluxheim - hukommelsessikker edge-server bygget i Rust"
-view_on_github = "Se på GitHub"
-quick_start = "Hurtig start"
-switch_color_theme = "Skift farvetema"
-links = "Henvisninger"
-github_repository = "GitHub-repository"
-issues = "Sager"
-menu = "Valgmenu"
+home_title = "Fluxheim — speichersicherer Edge-Server in Rust"
+view_on_github = "Auf GitHub oschaugn"
+quick_start = "Schnöstart"
+switch_color_theme = "Farbschema wechsln"
+links = "Links"
+github_repository = "GitHub-Repository"
+issues = "Tickets"
+menu = "Menü"
 
 [footer]
-tagline = "Hukommelsessikker edge-server bygget i Rust. Licenseret under EUPL-1.2."
+tagline = "Speichersicherer Edge-Server in Rust. Lizenziert unter EUPL-1.2."
 project = "Projekt"
-releases = "Udgivelser"
-roadmap = "Køreplan"
-community = "Fællesskab"
-discussions = "Diskussioner"
-eupl_license = "EUPL-1.2-licens"
-valkyoth_org = "Valkyoth-organisation"
-copyright_prefix = "© 2026 Valkyoth. Distribueret under"
-built_with = "Bygget med Rust · Drevet af Fluxheim"
+releases = "Versionen"
+roadmap = "Fahrplan"
+community = "Gemeinschaft"
+discussions = "Diskussionen"
+eupl_license = "EUPL-1.2-Lizenz"
+valkyoth_org = "Valkyoth-Organisation"
+copyright_prefix = "© 2026 Valkyoth. Veröffentlicht unter der"
+built_with = "Gebaut mit Rust · Betrieben mit Fluxheim"

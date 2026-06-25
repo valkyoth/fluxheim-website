@@ -231,3 +231,9 @@ locale_id = "aat-GR"
 html_lang = "aat-GR"
 url_prefix = "aat"
 display_name = "Arbërisht"
+
+[[locales]]
+locale_id = "bar-DE"
+html_lang = "bar-DE"
+url_prefix = "bar"
+display_name = "Boarisch"
