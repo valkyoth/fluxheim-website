@@ -64,7 +64,7 @@ download = "डाउनलोड"
 changelog = "बदल नोंद"
 
 [release]
-latest_stable = "तांत्रिक शब्द: Latest Stable"
+latest_stable = "नवीनतम स्थिर"
 latest_stable_release = "Latest Stable रिलीज"
 download_version = "डाउनलोड v{version}"
 

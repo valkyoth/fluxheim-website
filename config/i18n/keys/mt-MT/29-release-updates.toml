@@ -1,5 +1,5 @@
 [release_updates]
-adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Adds explicit, disabled-by-default h2c Upgrade fallback for plaintext <code class=\"text-cyan-400 text-xs\">http1-and-http2</code> origins"
+adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Nota teknika: Adds explicit, disabled-by-default h2c Upgrade fallback for plaintext <code class=\"text-cyan-400 text-xs\">http1-and-http2</code> origins"
 adds_native_acme_http_01_challenge_serving_traffic_mirroring_auth_request_and_route_scoped_grpc_validation = "Iżid nattiv ACME HTTP-01 challenge servizz, mirroring tat-traffiku, auth-talba, u rotta-scoped gRPC validation"
 adds_pooled_native_upstream_h2_connections_with_bounded_stream_capacity_and_safe_method_retry_after_pre_response_pooled_handle_failure = "Iżid pooled nattiv upstream H2 connections b’ limitat stream capacity u metodu-sikur retry wara pre-rispons pooled-handle failure"
 bounds_native_upstream_h2_handshakes_stream_slot_waits_keepalive_pings_and_setup_timeouts = "Jillimita nattiv upstream H2 handshakes, stream-slot waits, keepalive pings, u setup timeouts"

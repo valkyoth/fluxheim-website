@@ -73,10 +73,10 @@ home_title = "Fluxheim — Server tal-edge sikur għall-memorja mibni f’Rust"
 view_on_github = "Ara fuq GitHub"
 quick_start = "Bidu ta’ malajr"
 switch_color_theme = "Ibdel it-tema tal-kulur"
-links = "Links"
+links = "Nota teknika: Links"
 github_repository = "Repożitorju GitHub"
 issues = "Kwistjonijiet"
-menu = "Menu"
+menu = "Nota teknika: Menu"
 
 [footer]
 tagline = "Server tal-edge sikur għall-memorja mibni f’Rust. Liċenzjat taħt EUPL-1.2."

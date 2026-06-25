@@ -64,7 +64,7 @@ download = "ডাউনলোড"
 changelog = "পরিবর্তন তালিকা"
 
 [release]
-latest_stable = "প্রযুক্তিগত শব্দ: Latest Stable"
+latest_stable = "সর্বশেষ স্থিতিশীল"
 latest_stable_release = "Latest Stable রিলিজ"
 download_version = "ডাউনলোড v{version}"
 

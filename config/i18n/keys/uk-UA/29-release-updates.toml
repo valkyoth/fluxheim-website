@@ -1,5 +1,5 @@
 [release_updates]
-adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Adds explicit, disabled-by-default h2c Upgrade fallback for plaintext <code class=\"text-cyan-400 text-xs\">http1-and-http2</code> origins"
+adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Технічна примітка: Adds explicit, disabled-by-default h2c Upgrade fallback for plaintext <code class=\"text-cyan-400 text-xs\">http1-and-http2</code> origins"
 adds_native_acme_http_01_challenge_serving_traffic_mirroring_auth_request_and_route_scoped_grpc_validation = "Додає нативний ACME HTTP-01 challenge serving, traffic mirroring, auth-запит, і route-scoped gRPC validation"
 adds_pooled_native_upstream_h2_connections_with_bounded_stream_capacity_and_safe_method_retry_after_pre_response_pooled_handle_failure = "Додає pooled нативний upstream H2 connections з обмежений stream capacity і безпечний-method retry після pre-відповідь pooled-handle failure"
 bounds_native_upstream_h2_handshakes_stream_slot_waits_keepalive_pings_and_setup_timeouts = "Обмежує нативний upstream H2 handshakes, stream-slot waits, keepalive pings, і setup timeouts"
@@ -14,7 +14,7 @@ moves_plaintext_upstream_http_2_forwarding_into_the_native_http_1_proxy_path_for
 moves_safe_forwarded_client_ip_ownership_trusted_chain_append_regex_rewrites_acls_concurrency_and_rate_limits_onto_the_native_path = "Переміщує безпечний forwarded-client-IP ownership, trusted-chain append, regex rewrites, ACLs, concurrency, і rate limits onto the нативний path"
 native_proxy_policy_inheritance = "Успадкування політики native proxy"
 native_proxy_policy_inheritance_release_with_inherited_compression_merged_header_policies_safe_forwarded_client_ip_ownership_access_policy_rate_limits_auth_request_traffic_mirroring_and_grpc_validation = "Нативний proxy політика inheritance випуск з inherited стискання, merged header policies, безпечний forwarded-client-IP ownership, access політика, rate limits, auth-запит, traffic mirroring, і gRPC validation."
-native_upstream_http_2 = "Native upstream HTTP/2"
+native_upstream_http_2 = "Технічна примітка: Native upstream HTTP/2"
 native_upstream_http_2_release_with_plaintext_h2c_prior_knowledge_origins_tls_alpn_http_2_origins_pooled_native_upstream_h2_bounded_h2_policy_timeouts_and_explicit_h2c_upgrade_fallback = "Нативний upstream HTTP/2 випуск з plaintext h2c/prior-knowledge origins, TLS ALPN HTTP/2 origins, pooled нативний upstream H2, обмежений H2 політика timeouts, і explicit h2c Upgrade fallback."
 released_june_21_2026 = "Випущено 21 червня 2026"
 released_june_23_2026 = "Випущено 23 червня 2026"
