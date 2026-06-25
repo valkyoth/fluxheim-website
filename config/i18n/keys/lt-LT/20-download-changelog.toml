@@ -67,7 +67,7 @@ proxy = "<span class=\"text-xs font-bold uppercase tracking-widest text-violet-4
 build_linux_x86_64_linux_arm64_macos_dev = "<th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Build profilis</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Linux x86_64</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Linux ARM64</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">macOS kūrimas</th>"
 cache_2 = "<td class=\"px-4 py-3 font-semibold text-white\">Cache edge</td>"
 proxy_2 = "<td class=\"px-4 py-3 font-semibold text-white\">Proxy edge</td>"
-config_tester = "<td class=\"px-4 py-3 font-semibold text-white\">Config tester įrankis</td>"
+config_tester = "<td class=\"px-4 py-3 font-semibold text-white\">Konfigūracijos testeris</td>"
 version_date = "<th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Versija</th>\n                <th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Data</th>"
 home = "<a href=\"index.html\" class=\"text-gray-600 hover:text-gray-400 text-sm transition-colors\">Pradžia</a>"
 

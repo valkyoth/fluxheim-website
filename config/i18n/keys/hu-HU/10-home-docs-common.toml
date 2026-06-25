@@ -140,4 +140,4 @@ github_redirect_privacy_text = "A GitHubra mutató külső kattintásokat aggreg
 your_rights = "Jogaid"
 gdpr_rights_text = "Mivel a weboldal kerüli a felhasználói azonosítókat és csak aggregált telemetryt tárol, általában nem tudunk egy konkrét látogatót azonosítani a metrikákban. Adatvédelmi vagy GDPR kérdéseket a Fluxheim GitHub projektben lehet nyitni."
 translation_notice = "Fordítási tájékoztató"
-translation_notice_text = "A weboldal fordításai AI segítségével készülnek, és best-effort alapon vannak karbantartva. Javításokat és jobb fordításokat szívesen fogadunk a <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Fluxheim website i18n keys</a> területen."
+translation_notice_text = "A webhelyek fordításait mesterséges intelligencia segíti, és a lehető legjobban karbantartják. A javításokat és a javított fordításokat szívesen fogadjuk a <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Fluxheim weboldal i18n kulcsai</a>."

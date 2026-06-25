@@ -140,4 +140,4 @@ github_redirect_privacy_text = "GitHub 외부 클릭은 브라우저를 GitHub�
 your_rights = "권리"
 gdpr_rights_text = "웹사이트는 사용자 식별자를 피하고 집계 텔레메트리만 저장하므로, 일반적으로 메트릭 안에서 특정 방문자를 식별할 수 없습니다. 개인정보 또는 GDPR 질문은 Fluxheim GitHub 프로젝트를 통해 열 수 있습니다."
 translation_notice = "번역 안내"
-translation_notice_text = "웹사이트 번역은 AI의 도움을 받으며 최선의 노력으로 유지됩니다. 수정과 개선된 번역은 <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Fluxheim website i18n keys</a>에서 환영합니다."
+translation_notice_text = "웹사이트 번역은 AI의 지원을 받아 최선을 다해 유지됩니다. 수정 및 개선된 번역은 환영합니다. <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Fluxheim 웹사이트 i18n 키</a>."

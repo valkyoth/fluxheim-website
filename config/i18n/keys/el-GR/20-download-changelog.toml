@@ -1,9 +1,9 @@
 [download]
 all_stable_production_modules_proxy_web_cache_compression = "Όλα τα stable production modules: proxy, web, cache, compression, load balancing, raw TCP stream proxying, TLS (rustls), PHP-FPM, ACME client, GeoIP/Geo-Context, security hardening, metrics και OpenTelemetry."
-focused_http_tcp_load_balancer_build_without_cache = "Focused HTTP/TCP load-balancer build χωρίς cache, static web, PHP, GeoIP, stream proxying ή traffic mirroring."
+focused_http_tcp_load_balancer_build_without_cache = "Εστιασμένη κατασκευή εξισορρόπησης φορτίου HTTP/TCP χωρίς προσωρινή μνήμη, στατικό ιστό, PHP, GeoIP, διακομιστή μεσολάβησης ροής ή κατοπτρισμό κυκλοφορίας."
 static_web_reverse_proxy_php_fpm_fastcgi_bridge = "Static web + reverse proxy + PHP-FPM FastCGI bridge. Ιδανικό για WordPress και PHP front-controller apps. Δεν γίνεται compile cache module."
-focused_cache_edge_without_local_static_web_serving = "Focused cache edge χωρίς local static web serving. Περιλαμβάνει proxy, cache, compression, TLS και ACME. Ιδανικό για CDN-style deployments."
-focused_reverse_proxy_without_cache_static_web_or = "Focused reverse proxy χωρίς cache, static web ή dedicated load-balancer module. Σχεδιασμένο για pure reverse-proxy deployments με TLS, ACME, compression και upstream resilience."
+focused_cache_edge_without_local_static_web_serving = "Εστιασμένη άκρη κρυφής μνήμης χωρίς τοπική στατική υπηρεσία web. Περιλαμβάνει διακομιστή μεσολάβησης, προσωρινή μνήμη, συμπίεση, TLS και ACME. Ιδανικό για αναπτύξεις τύπου CDN."
+focused_reverse_proxy_without_cache_static_web_or = "Εστιασμένος αντίστροφος διακομιστής μεσολάβησης χωρίς προσωρινή μνήμη, στατικό ιστό ή την αποκλειστική μονάδα εξισορρόπησης φορτίου. Σχεδιασμένο για καθαρές αναπτύξεις ανάστροφου διακομιστή με TLS, ACME, συμπίεση και ελαστικότητα ανάντη."
 the_packaged_systemd_unit_uses = "Το packaged systemd unit χρησιμοποιεί"
 so_fluxheim_can_bind_to_ports_80_and = "ώστε το Fluxheim να μπορεί να bind στα ports 80 και 443 χωρίς να τρέχει ως root. Το unit file περιλαμβάνει security hardening options."
 full_load_balancer_cache_proxy_and_php_image = "Full, load-balancer, cache, proxy και PHP image profiles"
@@ -67,7 +67,7 @@ proxy = "<span class=\"text-xs font-bold uppercase tracking-widest text-violet-4
 build_linux_x86_64_linux_arm64_macos_dev = "<th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Τύπος build</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Linux x86_64</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Linux ARM64</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">macOS dev</th>"
 cache_2 = "<td class=\"px-4 py-3 font-semibold text-white\">Cache edge</td>"
 proxy_2 = "<td class=\"px-4 py-3 font-semibold text-white\">Proxy edge</td>"
-config_tester = "<td class=\"px-4 py-3 font-semibold text-white\">Config tester tool</td>"
+config_tester = "<td class=\"px-4 py-3 font-semibold text-white\">Ελεγκτής διαμόρφωσης</td>"
 version_date = "<th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Έκδοση</th>\n                <th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Ημερομηνία</th>"
 home = "<a href=\"index.html\" class=\"text-gray-600 hover:text-gray-400 text-sm transition-colors\">Αρχική</a>"
 

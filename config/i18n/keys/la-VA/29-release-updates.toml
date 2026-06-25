@@ -1,5 +1,5 @@
 [release_updates]
-adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Nota technica: Adds explicit, disabled-by-default h2c Upgrade fallback for plaintext <code class=\"text-cyan-400 text-xs\">http1-and-http2</code> origins"
+adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Expressa, debilis-per default h2c lapsus Upgrade addit pro originibus plaintext <code class=\"text-cyan-400 text-xs\">http1-and-http2</code>"
 adds_native_acme_http_01_challenge_serving_traffic_mirroring_auth_request_and_route_scoped_grpc_validation = "Addit nativum ACME HTTP-01 challenge serviens, traffic mirroring, auth-petitio, et iter-scoped gRPC validation"
 adds_pooled_native_upstream_h2_connections_with_bounded_stream_capacity_and_safe_method_retry_after_pre_response_pooled_handle_failure = "Addit pooled nativum upstream H2 connections cum terminatum stream capacity et methodus-tuta retry post pre-responsum pooled-handle failure"
 bounds_native_upstream_h2_handshakes_stream_slot_waits_keepalive_pings_and_setup_timeouts = "Terminat nativum upstream H2 handshakes, stream-slot waits, keepalive pings, et setup timeouts"

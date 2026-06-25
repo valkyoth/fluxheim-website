@@ -140,4 +140,4 @@ github_redirect_privacy_text = "GitHub útgeande klikken wurde yn aggregaat teld
 your_rights = "Jo rjochten"
 gdpr_rights_text = "Om't de webside brûkersidentifikatoren foarkomt en allinich aggregearre telemetry opslaat, kinne wy normaal gjin spesifike besiker identifisearje binnen de metriken. Fragen oer privacy of GDPR kinne wurde iepene fia it Fluxheim GitHub-projekt."
 translation_notice = "Fertaalberjocht"
-translation_notice_text = "Webside-oersettingen wurde mei AI stipe en op basis fan bêste ynspanning ûnderhâlden. Korreksjes en bettere oersettingen binne wolkom yn de <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Fluxheim website i18n keys</a>."
+translation_notice_text = "Webside-oersettingen wurde AI-stipe en ûnderhâlden op basis fan bêste ynspanning. Korreksjes en ferbettere oersettings binne wolkom yn 'e <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Fluxheim webside i18n kaaien</a>."

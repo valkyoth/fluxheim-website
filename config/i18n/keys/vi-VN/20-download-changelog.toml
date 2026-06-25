@@ -1,6 +1,6 @@
 [download]
-all_stable_production_modules_proxy_web_cache_compression = "All stable production modules: proxy, web, cache, compression, load balancing, raw TCP stream proxying, TLS (rustls), PHP-FPM, ACME client, GeoIP/Geo-Context, bảo mật hardening, metric, and OpenTelemetry."
-focused_http_tcp_load_balancer_build_without_cache = "Focused HTTP/TCP load-balancer build without cache, static web, PHP, GeoIP, stream proxying, or lưu lượng mirroring."
+all_stable_production_modules_proxy_web_cache_compression = "Tất cả các mô-đun sản xuất ổn định: proxy, web, bộ đệm, nén, cân bằng tải, ủy quyền luồng TCP thô, TLS (rustls), PHP-FPM, máy khách ACME, GeoIP/Geo-Context, tăng cường bảo mật, số liệu và OpenTelemetry."
+focused_http_tcp_load_balancer_build_without_cache = "Xây dựng bộ cân bằng tải HTTP/TCP tập trung không có bộ đệm, web tĩnh, PHP, GeoIP, ủy quyền luồng hoặc phản chiếu lưu lượng truy cập."
 static_web_reverse_proxy_php_fpm_fastcgi_bridge = "Web tĩnh + proxy ngược + cầu FastCGI PHP-FPM. Lý tưởng cho các ứng dụng bộ điều khiển phía trước WordPress và PHP. Không có mô-đun bộ nhớ đệm nào được biên dịch."
 focused_cache_edge_without_local_static_web_serving = "Cạnh bộ nhớ đệm tập trung mà không cần phân phát web tĩnh cục bộ. Bao gồm proxy, bộ đệm, nén, TLS và ACME. Lý tưởng cho việc triển khai theo kiểu CDN."
 focused_reverse_proxy_without_cache_static_web_or = "Proxy ngược tập trung không có bộ đệm, web tĩnh hoặc mô-đun cân bằng tải chuyên dụng. Được thiết kế để triển khai proxy ngược thuần túy với TLS, ACME, tính năng nén và khả năng phục hồi ngược dòng."

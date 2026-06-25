@@ -1,5 +1,5 @@
 [release_updates]
-adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Nóta theicniúil: Adds explicit, disabled-by-default h2c Upgrade fallback for plaintext <code class=\"text-cyan-400 text-xs\">http1-and-http2</code> origins"
+adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Cuireann sé leis an t-aiseolas Uasghrádú h2c sainráite, díchumasaithe de réir réamhshocraithe le haghaidh bunús gnáth-théacs <code class=\"text-cyan-400 text-xs\">http1-and-http2</code>"
 adds_native_acme_http_01_challenge_serving_traffic_mirroring_auth_request_and_route_scoped_grpc_validation = "Cuireann sé leis dúchasach ACME HTTP-01 challenge freastal, scáthánú tráchta, auth-iarratas, agus bealach-scoped gRPC validation"
 adds_pooled_native_upstream_h2_connections_with_bounded_stream_capacity_and_safe_method_retry_after_pre_response_pooled_handle_failure = "Cuireann sé leis pooled dúchasach upstream H2 connections le teoranta stream capacity agus modh-sábháilte retry tar éis pre-freagra pooled-handle failure"
 bounds_native_upstream_h2_handshakes_stream_slot_waits_keepalive_pings_and_setup_timeouts = "Cuireann sé teorainneacha ar dúchasach upstream H2 handshakes, stream-slot waits, keepalive pings, agus setup timeouts"

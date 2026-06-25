@@ -14,7 +14,7 @@ moves_plaintext_upstream_http_2_forwarding_into_the_native_http_1_proxy_path_for
 moves_safe_forwarded_client_ip_ownership_trusted_chain_append_regex_rewrites_acls_concurrency_and_rate_limits_onto_the_native_path = "Lëviz pronësinë e sigurt të forwarded-client-IP, trusted-chain append, regex rewrites, ACLs, concurrency dhe rate limits në path-in native"
 native_proxy_policy_inheritance = "Trashëgimi politike native proxy"
 native_proxy_policy_inheritance_release_with_inherited_compression_merged_header_policies_safe_forwarded_client_ip_ownership_access_policy_rate_limits_auth_request_traffic_mirroring_and_grpc_validation = "Publikim i trashëgimisë native proxy policy me kompresim të trashëguar, header policies të bashkuara, pronësi të sigurt forwarded-client-IP, access policy, rate limits, auth-request, traffic mirroring dhe validim gRPC."
-native_upstream_http_2 = "Shënim teknik: Native upstream HTTP/2"
+native_upstream_http_2 = "Native HTTP/2 në rrjedhën e sipërme"
 native_upstream_http_2_release_with_plaintext_h2c_prior_knowledge_origins_tls_alpn_http_2_origins_pooled_native_upstream_h2_bounded_h2_policy_timeouts_and_explicit_h2c_upgrade_fallback = "Publikim native upstream HTTP/2 me origjina plaintext h2c/prior-knowledge, origjina TLS ALPN HTTP/2, upstream H2 native pooled, H2 policy timeouts të kufizuara dhe fallback h2c Upgrade eksplicit."
 released_june_21_2026 = "Publikuar më 21 qershor 2026"
 released_june_23_2026 = "Publikuar më 23 qershor 2026"

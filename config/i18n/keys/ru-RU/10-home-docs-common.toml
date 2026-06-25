@@ -140,4 +140,4 @@ github_redirect_privacy_text = "Исходящие clicks на GitHub счита
 your_rights = "Ваши права"
 gdpr_rights_text = "Поскольку сайт избегает user identifiers и хранит только агрегированную телеметрию, обычно мы не можем идентифицировать конкретного посетителя в метриках. Вопросы о приватности или GDPR можно открыть через GitHub project Fluxheim."
 translation_notice = "Примечание о переводах"
-translation_notice_text = "Переводы сайта выполнены с помощью AI и поддерживаются по принципу best-effort. Исправления и улучшенные переводы приветствуются в <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">i18n keys сайта Fluxheim</a>."
+translation_notice_text = "Переводы веб-сайтов выполняются с помощью искусственного интеллекта и поддерживаются с максимальной эффективностью. Исправления и улучшенные переводы приветствуются. <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Веб-сайт Fluxheim i18n ключи</a>."

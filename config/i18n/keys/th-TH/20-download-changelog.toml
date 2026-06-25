@@ -1,9 +1,9 @@
 [download]
-all_stable_production_modules_proxy_web_cache_compression = "All stable production modules: proxy, web, แคช, compression, load balancing, raw TCP stream proxying, TLS (rustls), PHP-FPM, ACME client, GeoIP/Geo-Context, ความปลอดภัย hardening, เมตริก, and OpenTelemetry."
-focused_http_tcp_load_balancer_build_without_cache = "Focused HTTP/TCP load-balancer build without แคช, static web, PHP, GeoIP, stream proxying, or ทราฟฟิก mirroring."
+all_stable_production_modules_proxy_web_cache_compression = "โมดูลการผลิตที่เสถียรทั้งหมด: พร็อกซี, เว็บ, แคช, การบีบอัด, การปรับสมดุลโหลด, พร็อกซีสตรีม TCP แบบดิบ, TLS (rustls), PHP-FPM, ไคลเอนต์ ACME, GeoIP/Geo-Context, การเสริมความปลอดภัย, เมตริก และ OpenTelemetry"
+focused_http_tcp_load_balancer_build_without_cache = "โครงสร้างโหลดบาลานซ์ HTTP/TCP ที่เน้นโดยไม่มีแคช, เว็บแบบคงที่, PHP, GeoIP, พร็อกซีสตรีม หรือการมิเรอร์การรับส่งข้อมูล"
 static_web_reverse_proxy_php_fpm_fastcgi_bridge = "Static web + รีเวิร์สพร็อกซี + PHP-FPM FastCGI bridge. Ideal for WordPress and PHP front-controller apps. No แคช module compiled."
-focused_cache_edge_without_local_static_web_serving = "Focused แคช edge without local static web serving. Includes proxy, แคช, compression, TLS, and ACME. Ideal for CDN-style deployments."
-focused_reverse_proxy_without_cache_static_web_or = "Focused รีเวิร์สพร็อกซี without แคช, static web, or the dedicated load-balancer module. Designed for pure reverse-proxy deployments with TLS, ACME, compression, and อัปสตรีม resilience."
+focused_cache_edge_without_local_static_web_serving = "ขอบแคชที่มุ่งเน้นโดยไม่มีการให้บริการเว็บแบบคงที่ในเครื่อง รวมถึงพร็อกซี แคช การบีบอัด TLS และ ACME เหมาะอย่างยิ่งสำหรับการปรับใช้แบบ CDN"
+focused_reverse_proxy_without_cache_static_web_or = "Reverse proxy ที่เน้นโดยไม่มีแคช เว็บแบบคงที่ หรือโมดูลตัวโหลดบาลานเซอร์เฉพาะ ออกแบบมาเพื่อการใช้งาน Reverse-Proxy อย่างแท้จริงด้วย TLS, ACME, การบีบอัด และความยืดหยุ่นของอัปสตรีม"
 the_packaged_systemd_unit_uses = "ใช้หน่วย systemd ที่ทำแพ็กเกจ"
 so_fluxheim_can_bind_to_ports_80_and = "so Fluxheim can bind to ports 80 and 443 without running as root. The unit file includes ความปลอดภัย hardening options."
 full_load_balancer_cache_proxy_and_php_image = "เต็ม, load-balancer, แคช, proxy, and PHP image profiles"

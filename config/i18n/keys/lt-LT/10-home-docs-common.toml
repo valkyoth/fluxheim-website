@@ -140,4 +140,4 @@ github_redirect_privacy_text = "Outbound click į GitHub skaičiuojami agreguota
 your_rights = "Tavo teisės"
 gdpr_rights_text = "Kadangi svetainė vengia user identifiers ir saugo tik agreguotą telemetry, paprastai negalime identifikuoti konkretaus lankytojo metrics. Privatumo ar BDAR klausimus galima atidaryti Fluxheim GitHub projekte."
 translation_notice = "Pranešimas apie vertimus"
-translation_notice_text = "Svetainės vertimai yra parengti su AI pagalba ir prižiūrimi best-effort principu. Pataisymai ir patobulinti vertimai laukiami <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Fluxheim svetainės i18n raktuose</a>."
+translation_notice_text = "Svetainių vertimai atliekami naudojant dirbtinį intelektą ir palaikomi geriausiomis pastangomis. Taisymai ir patobulinti vertimai laukiami <a href=\"https://github.com/valkyoth/fluxheim-website/tree/main/config/i18n/keys\" class=\"text-cyan-300 hover:text-cyan-200 underline underline-offset-4\">Fluxheim svetainės i18n raktai</a>."

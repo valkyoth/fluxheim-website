@@ -67,7 +67,7 @@ proxy = "<span class=\"text-xs font-bold uppercase tracking-widest text-violet-4
 build_linux_x86_64_linux_arm64_macos_dev = "<th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Profil build</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Linux x86_64</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">Linux ARM64</th>\n                <th class=\"text-left px-4 py-3 font-semibold text-gray-400\">macOS dev build</th>"
 cache_2 = "<td class=\"px-4 py-3 font-semibold text-white\">Cache build</td>"
 proxy_2 = "<td class=\"px-4 py-3 font-semibold text-white\">Proxy build</td>"
-config_tester = "<td class=\"px-4 py-3 font-semibold text-white\">Config tester tool</td>"
+config_tester = "<td class=\"px-4 py-3 font-semibold text-white\">Tester de configurare</td>"
 version_date = "<th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Versiune</th>\n                <th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Dată</th>"
 home = "<a href=\"index.html\" class=\"text-gray-600 hover:text-gray-400 text-sm transition-colors\">Acasă</a>"
 
