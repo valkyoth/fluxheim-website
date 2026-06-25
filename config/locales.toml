@@ -219,3 +219,9 @@ locale_id = "tr-TR"
 html_lang = "tr-TR"
 url_prefix = "tr"
 display_name = "Türkçe"
+
+[[locales]]
+locale_id = "sq-AL"
+html_lang = "sq-AL"
+url_prefix = "sq"
+display_name = "Shqip"
