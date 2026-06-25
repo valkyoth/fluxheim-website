@@ -201,3 +201,9 @@ locale_id = "la-VA"
 html_lang = "la-VA"
 url_prefix = "la"
 display_name = "Latina"
+
+[[locales]]
+locale_id = "uk-UA"
+html_lang = "uk-UA"
+url_prefix = "uk"
+display_name = "Українська"
