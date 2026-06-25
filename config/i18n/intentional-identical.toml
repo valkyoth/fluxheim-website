@@ -2,21 +2,14 @@
 
 [de-DE]
 keys = [
-  "changelog.arm64",
-  "changelog.cache",
-  "changelog.config_tester",
   "changelog.github_releases",
-  "changelog.load_balancer",
-  "changelog.mac_dev",
-  "changelog.php",
-  "changelog.proxy",
   "common.eupl_open_source",
+  "common.cookies",
   "common.linux",
-  "common.prometheus_opentelemetry",
+  "docs_guides.rootless_podman",
   "download.bash_rootless_podman",
   "download.container_podman",
   "download.prometheus_opentelemetry",
-  "home.prometheus_opentelemetry",
   "shell.links",
 ]
 
@@ -27,7 +20,7 @@ keys = [
   "changelog.php",
   "changelog.proxy",
   "common.linux",
-  "download.prometheus_opentelemetry",
+  "docs_guides.guides",
 ]
 
 [sv-SE]

@@ -77,7 +77,7 @@ switch_color_theme = "Changer le thème de couleur"
 links = "Liens"
 github_repository = "Dépôt GitHub"
 issues = "Tickets"
-menu = "Note technique : Menu"
+menu = "Menu principal"
 
 [footer]
 tagline = "Serveur edge sûr pour la mémoire construit en Rust. Sous licence EUPL-1.2."
