@@ -279,3 +279,21 @@ locale_id = "be-BY"
 html_lang = "be-BY"
 url_prefix = "be"
 display_name = "Беларуская"
+
+[[locales]]
+locale_id = "hi-IN"
+html_lang = "hi-IN"
+url_prefix = "hi"
+display_name = "हिन्दी"
+
+[[locales]]
+locale_id = "bn-IN"
+html_lang = "bn-IN"
+url_prefix = "bn"
+display_name = "বাংলা"
+
+[[locales]]
+locale_id = "mr-IN"
+html_lang = "mr-IN"
+url_prefix = "mr"
+display_name = "मराठी"

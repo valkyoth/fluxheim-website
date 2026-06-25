@@ -51,6 +51,9 @@ vec-IT = "Vèneto"
 scn-IT = "Sicilianu"
 ca-ES = "Català"
 be-BY = "Беларуская"
+hi-IN = "हिन्दी"
+bn-IN = "বাংলা"
+mr-IN = "मराठी"
 
 [nav]
 docs = "Τεκμηρίωση"
