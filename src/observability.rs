@@ -4,6 +4,7 @@ use std::time::Duration;
 use opentelemetry::metrics::{Counter, Histogram};
 use opentelemetry::{KeyValue, global};
 use opentelemetry_otlp::{Protocol, WithExportConfig};
+use opentelemetry_sdk::Resource;
 use opentelemetry_sdk::metrics::SdkMeterProvider;
 use opentelemetry_sdk::trace::SdkTracerProvider;
 
@@ -215,13 +216,15 @@ impl TelemetryGuard {
 }
 
 fn init_providers(
-    _service_version: &str,
+    service_version: &str,
 ) -> Result<TelemetryGuard, Box<dyn std::error::Error + Send + Sync + 'static>> {
+    let resource = telemetry_resource(service_version);
     let metric_exporter = opentelemetry_otlp::MetricExporter::builder()
         .with_http()
         .with_protocol(Protocol::HttpBinary)
         .build()?;
     let meter_provider = SdkMeterProvider::builder()
+        .with_resource(resource.clone())
         .with_periodic_exporter(metric_exporter)
         .build();
     global::set_meter_provider(meter_provider.clone());
@@ -231,6 +234,7 @@ fn init_providers(
         .with_protocol(Protocol::HttpBinary)
         .build()?;
     let tracer_provider = SdkTracerProvider::builder()
+        .with_resource(resource)
         .with_batch_exporter(span_exporter)
         .build();
     global::set_tracer_provider(tracer_provider.clone());
@@ -239,6 +243,13 @@ fn init_providers(
         meter_provider: Some(meter_provider),
         tracer_provider: Some(tracer_provider),
     })
+}
+
+fn telemetry_resource(service_version: &str) -> Resource {
+    Resource::builder()
+        .with_service_name(SERVICE_NAME)
+        .with_attribute(KeyValue::new("service.version", service_version.to_owned()))
+        .build()
 }
 
 pub fn normalize_route(slug: &str) -> String {

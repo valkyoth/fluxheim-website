@@ -11,6 +11,7 @@ use tracing_subscriber::prelude::*;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let site = Site::load()?;
+    validate_embedded_i18n(&site);
     let (observability, telemetry_guard) =
         fluxheim_website::observability::Observability::from_env(&site.config.fluxheim_version);
     init_tracing(&telemetry_guard);
@@ -25,6 +26,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await?;
     telemetry_guard.shutdown();
     Ok(())
+}
+
+fn validate_embedded_i18n(site: &Site) {
+    let locale = site.default_locale();
+    let _ = fluxheim_website::i18n_keys::apply_shared_keys(
+        locale,
+        String::new(),
+        &site.config.fluxheim_version,
+    );
 }
 
 fn bind_addr() -> Result<SocketAddr, std::num::ParseIntError> {

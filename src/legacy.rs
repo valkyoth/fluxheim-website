@@ -1,3 +1,4 @@
+use std::fs;
 use std::path::{Component, Path, PathBuf};
 
 use crate::content::{Locale, Site};
@@ -177,38 +178,45 @@ fn candidate_paths(normalized: &str) -> Vec<PathBuf> {
 }
 
 fn safe_existing_html(path: &Path) -> bool {
-    if path.components().any(|component| {
-        matches!(
-            component,
-            Component::ParentDir | Component::Prefix(_) | Component::RootDir
-        )
-    }) {
+    if has_unsafe_components(path) {
         return false;
     }
 
-    path.exists() && (is_allowed_html(path) || is_allowed_localized_html(path))
+    safe_regular_file(path) && (is_allowed_html(path) || is_allowed_localized_html(path))
 }
 
 fn safe_existing_artifact(path: &Path) -> bool {
-    if path.components().any(|component| {
-        matches!(
-            component,
-            Component::ParentDir | Component::Prefix(_) | Component::RootDir
-        )
-    }) {
+    if has_unsafe_components(path) {
         return false;
     }
 
-    path.exists() && path.is_file()
+    safe_regular_file(path)
 }
 
 fn is_allowed_artifact(path: &Path) -> bool {
     let extension = path.extension().and_then(|ext| ext.to_str());
-    let is_source_artifact = path.starts_with("docs/source") && extension != Some("html");
+    let is_source_artifact =
+        path.starts_with("docs/source") && matches!(extension, Some("md" | "toml" | "tsv" | "txt"));
     let is_release_artifact = path.starts_with("docs/releases") && extension == Some("md");
     let is_config_artifact = path.starts_with("conf") && extension == Some("toml");
 
     is_source_artifact || is_release_artifact || is_config_artifact
+}
+
+fn has_unsafe_components(path: &Path) -> bool {
+    path.components().any(|component| {
+        matches!(
+            component,
+            Component::ParentDir | Component::Prefix(_) | Component::RootDir
+        )
+    })
+}
+
+fn safe_regular_file(path: &Path) -> bool {
+    let Ok(metadata) = fs::symlink_metadata(path) else {
+        return false;
+    };
+    metadata.file_type().is_file()
 }
 
 fn artifact_content_type(path: &Path) -> Option<&'static str> {
@@ -324,5 +332,28 @@ mod tests {
                 .expect("utf8 toml")
                 .contains("hosts = [\"fluxheim.eu\"]")
         );
+    }
+
+    #[test]
+    fn rejects_unlisted_source_artifact_extensions() {
+        let site = Site::load().expect("site loads");
+        let path = Path::new("docs/source/__private.json");
+        fs::write(path, r#"{"secret":true}"#).expect("write private fixture");
+
+        assert!(render_static_artifact(&site, "/docs/source/__private.json").is_none());
+
+        fs::remove_file(path).expect("remove private fixture");
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn rejects_source_artifact_symlinks() {
+        let site = Site::load().expect("site loads");
+        let path = Path::new("docs/source/__symlink.md");
+        std::os::unix::fs::symlink("../../README.md", path).expect("create symlink fixture");
+
+        assert!(render_static_artifact(&site, "/docs/source/__symlink.md").is_none());
+
+        fs::remove_file(path).expect("remove symlink fixture");
     }
 }

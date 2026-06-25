@@ -182,8 +182,14 @@ disabled; the observability stack defaults it to enabled:
 
 ```bash
 FLUXHEIM_OTLP=enabled podman compose -f container/podman-compose.yml up --build
+OTEL_COLLECTOR_BEARER_TOKEN="$(openssl rand -hex 32)" podman compose -f container/observability/podman-compose.yml up --build
 FLUXHEIM_OTLP=disabled podman compose -f container/observability/podman-compose.yml up --build
 ```
+
+The app emits HSTS by default. Set `FLUXHEIM_HSTS=disabled` only when TLS is
+not terminated before responses reach browsers.
+The observability stack binds local UI ports to `127.0.0.1` and keeps OTLP
+receiver ports internal to the compose network.
 
 Or build manually:
 

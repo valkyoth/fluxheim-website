@@ -816,6 +816,18 @@ async fn page_visible_accepts_bounded_events() {
 }
 
 #[tokio::test]
+async fn telemetry_page_visible_rejects_large_bodies() {
+    let large_route = "a".repeat(5000);
+    let large = format!(
+        r#"{{"locale":"fr-FR","route":"/docs/cache","section":"docs","seconds":42,"padding":"{large_route}"}}"#
+    );
+    let (status, _headers, body) =
+        request_with_body(http::Method::POST, "/telemetry/page-visible", large).await;
+    assert_eq!(status, StatusCode::PAYLOAD_TOO_LARGE);
+    assert!(body.contains("length limit"));
+}
+
+#[tokio::test]
 async fn telemetry_click_accepts_only_bounded_events() {
     let github = r#"{"kind":"github","locale":"en-EU","target":"repo"}"#;
     let (status, _headers, body) =
@@ -886,6 +898,10 @@ async fn sets_security_headers() {
     let (_status, headers, _body) = request("/").await;
     assert_eq!(headers["x-content-type-options"], "nosniff");
     assert_eq!(headers["x-frame-options"], "DENY");
+    assert_eq!(
+        headers["strict-transport-security"],
+        "max-age=31536000; includeSubDomains; preload"
+    );
     let csp = headers["content-security-policy"].to_str().unwrap();
     assert!(csp.contains("script-src 'self' 'unsafe-inline' 'unsafe-eval'"));
     assert!(csp.contains("object-src 'none'"));

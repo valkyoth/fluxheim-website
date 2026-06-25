@@ -6,6 +6,7 @@
 /.codex/
 /.cargo-deny-advisory-dbs/
 README.internal.md
+PENTEST.md
 
 # Logs and diagnostics
 *.log

@@ -84,14 +84,5 @@ if [ -d ../fluxheim ]; then
 fi
 scripts/i18n_coverage.py --all-configured --summary-only --fail-under 100
 
-if cargo deny --version >/dev/null 2>&1; then
-  cargo deny check
-else
-  echo "cargo-deny not installed; skipping dependency policy check" >&2
-fi
-
-if cargo audit --version >/dev/null 2>&1; then
-  cargo audit
-else
-  echo "cargo-audit not installed; skipping advisory check" >&2
-fi
+cargo deny check
+cargo audit

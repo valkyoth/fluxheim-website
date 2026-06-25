@@ -10,5 +10,7 @@ services:
     stop_grace_period: 15s
     environment:
       FLUXHEIM_OTLP: "${FLUXHEIM_OTLP:-disabled}"
+      FLUXHEIM_HSTS: "${FLUXHEIM_HSTS:-enabled}"
+      OTEL_EXPORTER_OTLP_HEADERS: "${OTEL_EXPORTER_OTLP_HEADERS:-}"
     ports:
       - "8080:8080"

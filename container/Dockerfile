@@ -31,4 +31,9 @@ EXPOSE 8080
 
 USER fluxheim
 
+ENV FLUXHEIM_HSTS=enabled
+ENV FLUXHEIM_OTLP=disabled
+ENV OTEL_EXPORTER_OTLP_HEADERS=""
+ENV OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+
 CMD ["fluxheim-website"]

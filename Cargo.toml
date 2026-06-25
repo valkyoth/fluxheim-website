@@ -32,4 +32,5 @@ toml = "1.1.2"
 [profile.release]
 codegen-units = 1
 lto = "thin"
+overflow-checks = true
 strip = "symbols"
