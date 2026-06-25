@@ -189,3 +189,9 @@ locale_id = "ga-IE"
 html_lang = "ga-IE"
 url_prefix = "ga"
 display_name = "Gaeilge"
+
+[[locales]]
+locale_id = "mt-MT"
+html_lang = "mt-MT"
+url_prefix = "mt"
+display_name = "Malti"
