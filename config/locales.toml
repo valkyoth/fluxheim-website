@@ -297,3 +297,21 @@ locale_id = "mr-IN"
 html_lang = "mr-IN"
 url_prefix = "mr"
 display_name = "मराठी"
+
+[[locales]]
+locale_id = "th-TH"
+html_lang = "th-TH"
+url_prefix = "th"
+display_name = "ไทย"
+
+[[locales]]
+locale_id = "vi-VN"
+html_lang = "vi-VN"
+url_prefix = "vi"
+display_name = "Tiếng Việt"
+
+[[locales]]
+locale_id = "yue-HK"
+html_lang = "yue-HK"
+url_prefix = "yue"
+display_name = "粵語"

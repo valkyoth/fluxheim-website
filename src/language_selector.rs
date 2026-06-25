@@ -176,6 +176,9 @@ fn language_flag(locale_id: &str) -> &'static str {
         "hi-IN" => "🇮🇳",
         "bn-IN" => "🇮🇳",
         "mr-IN" => "🇮🇳",
+        "th-TH" => "🇹🇭",
+        "vi-VN" => "🇻🇳",
+        "yue-HK" => "🇭🇰",
         _ => "",
     }
 }
@@ -236,6 +239,9 @@ mod tests {
         assert_eq!(language_flag("hi-IN"), "🇮🇳");
         assert_eq!(language_flag("bn-IN"), "🇮🇳");
         assert_eq!(language_flag("mr-IN"), "🇮🇳");
+        assert_eq!(language_flag("th-TH"), "🇹🇭");
+        assert_eq!(language_flag("vi-VN"), "🇻🇳");
+        assert_eq!(language_flag("yue-HK"), "🇭🇰");
         assert_eq!(language_flag("unknown"), "");
     }
 }
