@@ -181,6 +181,7 @@ plus_packaged_certificate_renewal_systemd_units = "+ Πακεταρισμένα 
 plus_virtual_host_routing_by_host_header_with = "+ Virtual host routing με Host header και default-vhost fallback"
 plus_safe_acme_http_01_challenge_forwarding = "+ Ασφαλές ACME HTTP-01 challenge forwarding"
 plus_secure_request_response_header_policy = "+ Ασφαλής request/response header policy"
+plus_optional_http_https_redirect_with_safe_host_validation = "+ Προαιρετική ανακατεύθυνση HTTP→HTTPS με ασφαλή επικύρωση Host"
 plus_systemd_unit_rpm_packaging = "+ Systemd unit και RPM packaging"
 makes_the_remaining_compatibility_boundary_explicit_with = "κάνει explicit το remaining compatibility boundary με"
 what_s_next = "Τι ακολουθεί"

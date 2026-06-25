@@ -181,6 +181,7 @@ plus_packaged_certificate_renewal_systemd_units = "+ 패키지된 certificate re
 plus_virtual_host_routing_by_host_header_with = "+ default-vhost fallback을 갖춘 Host header 기반 virtual host routing"
 plus_safe_acme_http_01_challenge_forwarding = "+ 안전한 ACME HTTP-01 challenge forwarding"
 plus_secure_request_response_header_policy = "+ 안전한 request/response header policy"
+plus_optional_http_https_redirect_with_safe_host_validation = "+ 안전한 Host 검증을 포함한 선택적 HTTP→HTTPS 리디렉션"
 plus_systemd_unit_rpm_packaging = "+ systemd unit, RPM packaging"
 makes_the_remaining_compatibility_boundary_explicit_with = "남은 compatibility boundary를 명시합니다:"
 what_s_next = "다음 단계"

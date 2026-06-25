@@ -181,6 +181,7 @@ plus_packaged_certificate_renewal_systemd_units = "+ Spakowane systemd units dla
 plus_virtual_host_routing_by_host_header_with = "+ Virtual host routing przez Host header z default-vhost fallback"
 plus_safe_acme_http_01_challenge_forwarding = "+ Tryb safe ACME HTTP-01 challenge forwarding"
 plus_secure_request_response_header_policy = "+ Polityka secure request/response header"
+plus_optional_http_https_redirect_with_safe_host_validation = "+ Opcjonalne przekierowanie HTTP→HTTPS z bezpieczną walidacją Host"
 plus_systemd_unit_rpm_packaging = "+ Systemd unit i RPM packaging"
 makes_the_remaining_compatibility_boundary_explicit_with = "czyni pozostałe compatibility boundary explicit z"
 what_s_next = "Co dalej"
