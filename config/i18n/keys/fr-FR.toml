@@ -51,7 +51,7 @@ quick_start = "Démarrage rapide"
 switch_color_theme = "Changer le thème de couleur"
 links = "Liens"
 github_repository = "Dépôt GitHub"
-issues = "Issues"
+issues = "Tickets"
 menu = "Menu"
 
 [footer]
