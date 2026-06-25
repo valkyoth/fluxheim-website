@@ -45,17 +45,17 @@ latest_stable_release = "最新安定リリース"
 download_version = "ダウンロード v{version}"
 
 [shell]
-home_title = "Fluxheim - Rustで書かれたmemory-safe edgeサーバー"
+home_title = "Fluxheim - Rust製のメモリ安全なエッジサーバー"
 view_on_github = "GitHubで見る"
 quick_start = "クイックスタート"
 switch_color_theme = "カラーテーマを切り替え"
 links = "リンク"
 github_repository = "GitHubリポジトリ"
-issues = "Issue"
+issues = "課題"
 menu = "メニュー"
 
 [footer]
-tagline = "Rustで書かれたmemory-safe edgeサーバー。EUPL-1.2でライセンスされています。"
+tagline = "Rust製のメモリ安全なエッジサーバー。EUPL-1.2でライセンスされています。"
 project = "プロジェクト"
 releases = "リリース"
 roadmap = "ロードマップ"
