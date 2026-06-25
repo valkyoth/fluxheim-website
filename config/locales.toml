@@ -195,3 +195,9 @@ locale_id = "mt-MT"
 html_lang = "mt-MT"
 url_prefix = "mt"
 display_name = "Malti"
+
+[[locales]]
+locale_id = "la-VA"
+html_lang = "la-VA"
+url_prefix = "la"
+display_name = "Latina"
