@@ -1,7 +1,7 @@
-locale_id = "is-IS"
+locale_id = "zh-TW"
 
 [language]
-selector_label = "Tungumál"
+selector_label = "語言"
 
 [language.names]
 en-EU = "English (EU)"
@@ -48,33 +48,33 @@ zh-CN = "简体中文"
 zh-TW = "繁體中文"
 
 [nav]
-docs = "Skjölun"
-download = "Sækja"
-changelog = "Breytingaskrá"
+docs = "文件"
+download = "下載"
+changelog = "更新日誌"
 
 [release]
-latest_stable = "Nýjasta stöðuga"
-latest_stable_release = "Nýjasta stöðuga útgáfa"
-download_version = "Sækja v{version}"
+latest_stable = "最新穩定版"
+latest_stable_release = "最新穩定版本"
+download_version = "下載 v{version}"
 
 [shell]
-home_title = "Fluxheim - minnisöruggur edge-þjónn byggður í Rust"
-view_on_github = "Skoða á GitHub"
-quick_start = "Flýtiræsing"
-switch_color_theme = "Skipta um litþema"
-links = "Tenglar"
-github_repository = "GitHub-geymsla"
-issues = "Mál"
-menu = "Valmynd"
+home_title = "Fluxheim — 使用 Rust 建構的記憶體安全 Edge 伺服器"
+view_on_github = "在 GitHub 上查看"
+quick_start = "快速開始"
+switch_color_theme = "切換顏色主題"
+links = "連結"
+github_repository = "GitHub 倉庫"
+issues = "問題"
+menu = "選單"
 
 [footer]
-tagline = "Minnisöruggur edge-þjónn byggður í Rust. Leyfður með EUPL-1.2."
-project = "Verkefni"
-releases = "Útgáfur"
-roadmap = "Vegvísir"
-community = "Samfélag"
-discussions = "Umræður"
-eupl_license = "EUPL-1.2 leyfi"
-valkyoth_org = "Valkyoth-samtökin"
-copyright_prefix = "© 2026 Valkyoth. Dreift samkvæmt"
-built_with = "Byggt með Rust · Keyrt af Fluxheim"
+tagline = "使用 Rust 建構的記憶體安全 Edge 伺服器。採用 EUPL-1.2 授權。"
+project = "專案"
+releases = "版本"
+roadmap = "路線圖"
+community = "社群"
+discussions = "討論"
+eupl_license = "EUPL-1.2 授權條款"
+valkyoth_org = "Valkyoth 組織"
+copyright_prefix = "© 2026 Valkyoth。依據以下授權散布："
+built_with = "使用 Rust 建構 · 由 Fluxheim 提供支援"

@@ -243,3 +243,9 @@ locale_id = "zh-CN"
 html_lang = "zh-CN"
 url_prefix = "zh-cn"
 display_name = "简体中文"
+
+[[locales]]
+locale_id = "zh-TW"
+html_lang = "zh-TW"
+url_prefix = "zh-tw"
+display_name = "繁體中文"
