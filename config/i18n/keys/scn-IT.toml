@@ -1,7 +1,7 @@
-locale_id = "vec-IT"
+locale_id = "scn-IT"
 
 [language]
-selector_label = "Łengua"
+selector_label = "Lingua"
 
 [language.names]
 en-EU = "English (EU)"
@@ -51,33 +51,33 @@ vec-IT = "Vèneto"
 scn-IT = "Sicilianu"
 
 [nav]
-docs = "Documentasion"
-download = "Descarga"
-changelog = "Registro de łe modìfeghe"
+docs = "Ducumentazzioni"
+download = "Scàrrica"
+changelog = "Rigistru dî canciamenti"
 
 [release]
-latest_stable = "Ùltima stabile"
-latest_stable_release = "Ùltima version stabile"
-download_version = "Descarga v{version}"
+latest_stable = "Ùrtima stabbili"
+latest_stable_release = "Ùrtima virsioni stabbili"
+download_version = "Scàrrica v{version}"
 
 [shell]
-home_title = "Fluxheim - server edge memory-safe scrito in Rust"
-view_on_github = "Varda su GitHub"
-quick_start = "Partensa ràpida"
-switch_color_theme = "Canbia tema cołor"
-links = "Ligami"
+home_title = "Fluxheim - server edge memory-safe scrittu n Rust"
+view_on_github = "Talìa supra GitHub"
+quick_start = "Partenza lesta"
+switch_color_theme = "Cancia tema culuri"
+links = "Lijami"
 github_repository = "Repository GitHub"
 issues = "Issue"
 menu = "Menù"
 
 [footer]
-tagline = "Server edge memory-safe scrito in Rust. Co licensa EUPL-1.2."
-project = "Projxeto"
-releases = "Version"
-roadmap = "Pian"
-community = "Comunità"
-discussions = "Discussion"
-eupl_license = "Licensa EUPL-1.2"
-valkyoth_org = "Organizasion Valkyoth"
-copyright_prefix = "© 2026 Valkyoth. Distribuìo co ła licensa"
-built_with = "Costruìo co Rust · Mandà avanti da Fluxheim"
+tagline = "Server edge memory-safe scrittu n Rust. Cu licenza EUPL-1.2."
+project = "Pruggettu"
+releases = "Virsioni"
+roadmap = "Pianu"
+community = "Cumunità"
+discussions = "Discussioni"
+eupl_license = "Licenza EUPL-1.2"
+valkyoth_org = "Organizzazzioni Valkyoth"
+copyright_prefix = "© 2026 Valkyoth. Distribbuitu câ licenza"
+built_with = "Custruitu cu Rust · Purtatu avanti di Fluxheim"

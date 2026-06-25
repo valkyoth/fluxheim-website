@@ -261,3 +261,9 @@ locale_id = "vec-IT"
 html_lang = "vec-IT"
 url_prefix = "vec"
 display_name = "Vèneto"
+
+[[locales]]
+locale_id = "scn-IT"
+html_lang = "scn-IT"
+url_prefix = "scn"
+display_name = "Sicilianu"
