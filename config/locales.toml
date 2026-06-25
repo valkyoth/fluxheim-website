@@ -171,3 +171,9 @@ locale_id = "hu-HU"
 html_lang = "hu-HU"
 url_prefix = "hu"
 display_name = "Magyar"
+
+[[locales]]
+locale_id = "sk-SK"
+html_lang = "sk-SK"
+url_prefix = "sk"
+display_name = "Slovenčina"

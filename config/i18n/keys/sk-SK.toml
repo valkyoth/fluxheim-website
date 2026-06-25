@@ -1,0 +1,68 @@
+locale_id = "sk-SK"
+
+[language]
+selector_label = "Jazyk"
+
+[language.names]
+en-EU = "English (EU)"
+en-GB = "English (UK)"
+en-US = "English (US)"
+de-DE = "Deutsch"
+fr-FR = "Français"
+sv-SE = "Svenska"
+nb-NO = "Norsk"
+nl-NL = "Nederlands"
+fi-FI = "Suomi"
+is-IS = "Íslenska"
+da-DK = "Dansk"
+es-ES = "Español"
+pt-PT = "Português"
+et-EE = "Eesti"
+lv-LV = "Latviešu"
+el-GR = "Ελληνικά"
+it-IT = "Italiano"
+lt-LT = "Lietuvių"
+hr-HR = "Hrvatski"
+cs-CZ = "Čeština"
+bs-BA = "Bosanski"
+bg-BG = "Български"
+de-CH = "Deutsch (Schweiz)"
+ro-RO = "Română"
+pl-PL = "Polski"
+ru-RU = "Русский"
+ja-JP = "日本語"
+ko-KR = "한국어"
+hu-HU = "Magyar"
+sk-SK = "Slovenčina"
+
+[nav]
+docs = "Dokumentácia"
+download = "Stiahnuť"
+changelog = "Zoznam zmien"
+
+[release]
+latest_stable = "Najnovšia stabilná"
+latest_stable_release = "Najnovšie stabilné vydanie"
+download_version = "Stiahnuť v{version}"
+
+[shell]
+home_title = "Fluxheim - pamäťovo bezpečný edge server napísaný v Ruste"
+view_on_github = "Zobraziť na GitHube"
+quick_start = "Rýchly štart"
+switch_color_theme = "Prepnúť farebnú tému"
+links = "Odkazy"
+github_repository = "GitHub repozitár"
+issues = "Problémy"
+menu = "Ponuka"
+
+[footer]
+tagline = "Pamäťovo bezpečný edge server napísaný v Ruste. Licencovaný pod EUPL-1.2."
+project = "Projekt"
+releases = "Vydania"
+roadmap = "Plán vývoja"
+community = "Komunita"
+discussions = "Diskusie"
+eupl_license = "Licencia EUPL-1.2"
+valkyoth_org = "Organizácia Valkyoth"
+copyright_prefix = "© 2026 Valkyoth. Distribuované pod licenciou"
+built_with = "Postavené v Ruste · Poháňané Fluxheimom"
