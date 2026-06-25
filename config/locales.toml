@@ -225,3 +225,9 @@ locale_id = "sq-AL"
 html_lang = "sq-AL"
 url_prefix = "sq"
 display_name = "Shqip"
+
+[[locales]]
+locale_id = "aat-GR"
+html_lang = "aat-GR"
+url_prefix = "aat"
+display_name = "Arbërisht"
