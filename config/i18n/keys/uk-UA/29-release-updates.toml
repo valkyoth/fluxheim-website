@@ -22,5 +22,5 @@ remaining_parity_work_stays_documented_through_the_source_notes_and_release_gate
 supports_tls_alpn_negotiated_upstream_http_2_with_existing_upstream_tls_sni_ca_policy = "Підтримує TLS ALPN-negotiated upstream HTTP/2 з existing upstream TLS/SNI/CA політика"
 released_june_24_2026 = "Випущено 24 червня 2026 р."
 released_june_28_2026 = "Випущено 28 червня 2026 р."
-routes_selected_downstream_http_2_tls_connections_into_the_native_multi_stream_adapter = "Спрямовує вибрані downstream-з’єднання HTTP/2 TLS у нативний multi-stream адаптер"
-hardens_native_websocket_upgrades_http_2_stream_local_failures_rate_limit_sharding_and_zeroizing_request_body_storage = "Посилює нативні оновлення WebSocket, локальні помилки потоків HTTP/2, шардінг rate-limit і zeroizing-зберігання тіла запиту"
+routes_selected_downstream_http_2_tls_connections_into_the_native_multi_stream_adapter = "Спрямовує вибрані низхідні з’єднання HTTP/2 TLS у нативний багатопотоковий адаптер"
+hardens_native_websocket_upgrades_http_2_stream_local_failures_rate_limit_sharding_and_zeroizing_request_body_storage = "Посилює нативні оновлення WebSocket, обробку помилок усередині потоків HTTP/2, шардінг обмежень швидкості та zeroizing-зберігання тіла запиту"

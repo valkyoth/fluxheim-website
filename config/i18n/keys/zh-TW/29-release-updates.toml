@@ -22,5 +22,5 @@ remaining_parity_work_stays_documented_through_the_source_notes_and_release_gate
 supports_tls_alpn_negotiated_upstream_http_2_with_existing_upstream_tls_sni_ca_policy = "支援使用現有上游 TLS/SNI/CA 策略進行 TLS ALPN 協商的上游 HTTP/2"
 released_june_24_2026 = "2026年6月24日發布"
 released_june_28_2026 = "2026年6月28日發布"
-routes_selected_downstream_http_2_tls_connections_into_the_native_multi_stream_adapter = "將選定的 downstream HTTP/2 TLS 連線路由到原生 multi-stream adapter"
-hardens_native_websocket_upgrades_http_2_stream_local_failures_rate_limit_sharding_and_zeroizing_request_body_storage = "強化原生 WebSocket 升級、HTTP/2 stream-local 故障、rate-limit sharding 以及 request-body zeroizing 儲存"
+routes_selected_downstream_http_2_tls_connections_into_the_native_multi_stream_adapter = "將選定的下游 HTTP/2 TLS 連線路由到原生多串流適配器"
+hardens_native_websocket_upgrades_http_2_stream_local_failures_rate_limit_sharding_and_zeroizing_request_body_storage = "強化原生 WebSocket 升級、HTTP/2 串流內故障處理、速率限制分片以及請求主體的 zeroizing 儲存"

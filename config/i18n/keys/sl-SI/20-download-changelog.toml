@@ -193,7 +193,7 @@ series = "<span class=\"px-2 py-0.5 text-xs bg-gray-700 text-gray-400 rounded-fu
 released_june_20_2026 = "Objavljeno 20. junija 2026."
 makes_the_representative_native_runtime_cutover_report_blocker_free_for_simple_http_1_http_2_admin_metrics_stream_and_udp_configurations = "Čini representative native runtime cutover report blocker-free za jednostavne HTTP/1, HTTP/2, admin, metrics, stream in UDP konfiguracije"
 rows_to_runtime_cutover_evidence_so_remaining_compatibility_blockers_are_explicit = "redove v runtime cutover evidence kako bi preostali compatibility blockers bili eksplicitni"
-hardens_native_background_handles_so_dropped_critical_handles_abort_instead_of_silently_detaching_tasks = "Hardens native background handles tako da dropped critical handles abort umjesto tihog detach task"
+hardens_native_background_handles_so_dropped_critical_handles_abort_instead_of_silently_detaching_tasks = "Utrdi nativne ročice opravil v ozadju, tako da odvržene kritične ročice prekinejo opravilo namesto tihega odklopa"
 for_fluxheim_owned_background_task_orchestration = "za Fluxheim-owned background task orchestration"
 keeps_the_current_runtime_as_an_explicit_compatibility_adapter_while_native_server_listener_work_continues = "Drži trenutni runtime kot eksplicitni compatibility adapter dok se nastavlja native server/listener work"
 as_the_downstream_tls_listener_planning_and_provider_policy_boundary = "kot downstream TLS listener planning in provider-policy boundary"

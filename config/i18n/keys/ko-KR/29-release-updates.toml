@@ -22,5 +22,5 @@ remaining_parity_work_stays_documented_through_the_source_notes_and_release_gate
 supports_tls_alpn_negotiated_upstream_http_2_with_existing_upstream_tls_sni_ca_policy = "기존 upstream TLS/SNI/CA policy와 함께 TLS ALPN negotiated upstream HTTP/2를 지원합니다"
 released_june_24_2026 = "2026년 6월 24일 릴리스"
 released_june_28_2026 = "2026년 6월 28일 릴리스"
-routes_selected_downstream_http_2_tls_connections_into_the_native_multi_stream_adapter = "선택된 downstream HTTP/2 TLS 연결을 native multi-stream adapter로 라우팅"
-hardens_native_websocket_upgrades_http_2_stream_local_failures_rate_limit_sharding_and_zeroizing_request_body_storage = "native WebSocket 업그레이드, HTTP/2 stream-local 실패, rate-limit sharding, request-body zeroizing 저장을 강화"
+routes_selected_downstream_http_2_tls_connections_into_the_native_multi_stream_adapter = "선택한 다운스트림 HTTP/2 TLS 연결을 네이티브 멀티스트림 어댑터로 라우팅합니다"
+hardens_native_websocket_upgrades_http_2_stream_local_failures_rate_limit_sharding_and_zeroizing_request_body_storage = "네이티브 WebSocket 업그레이드, HTTP/2 스트림별 오류 처리, 속도 제한 샤딩, 요청 본문의 zeroizing 저장을 강화합니다"
