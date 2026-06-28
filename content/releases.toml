@@ -1,4 +1,16 @@
-latest = "1.6.30"
+latest = "1.6.32"
+
+[[release]]
+version = "1.6.32"
+date = "2026-06-28"
+title = "Native runtime dispatcher"
+summary = "Native runtime dispatch for proxy/admin/metrics/stream/UDP/load-balancer tasks, metrics token-file hardening, native TLS listener startup, WebSocket upgrade hardening, and downstream HTTP/2 native dispatch."
+
+[[release]]
+version = "1.6.31"
+date = "2026-06-24"
+title = "Native cache and PHP adapters"
+summary = "Pingora-independent cache and PHP-FPM policy crates, native static-web memory cache adapters, upstream PROXY protocol support, native host routing, and native runtime manifest and launch-plan evidence."
 
 [[release]]
 version = "1.6.30"

@@ -685,13 +685,27 @@ rootless container secrets or a local file readable only by the Fluxheim user.
 ## Metrics
 
 `[metrics]` is disabled by default and should remain loopback-only unless it is
-fronted by a trusted local monitoring agent.
+fronted by a trusted local monitoring agent. The native metrics handler only
+serves `GET`/`HEAD /metrics` and can enforce a bearer token from
+`metrics.token_file`. During the Pingora compatibility
+runtime, Fluxheim validates the configured token source at startup, but the
+compatibility metrics listener still relies on the metrics listener binding and
+network ACLs for access control until the final native runner cutover owns this
+service.
+
+`metrics.token_env` is parsed but rejected because Rust 2024 treats process
+environment mutation as unsafe and Fluxheim forbids unsafe code in the root
+crate. Use `metrics.token_file` instead. Token files can be permissioned,
+mounted from a secret store, and rotated without exposing the token in the
+process environment.
 
 ```toml
 [metrics]
 enabled = false
 listen = "127.0.0.1:9091"
 require_loopback = true
+# Optional native metrics bearer-token source.
+# token_file = "/run/secrets/fluxheim-metrics-token"
 
 [metrics.otlp]
 enabled = false
@@ -1253,7 +1267,9 @@ HAProxy PROXY protocol header to the origin immediately after the upstream TCP/U
 connection is established and before any upstream TLS handshake. The source
 address is trusted-proxy-aware: if the direct peer is trusted and
 `X-Forwarded-For` restores a client IP, that restored IP is used with source
-port `0`; otherwise the direct downstream socket address is used. If Fluxheim
+port `0`, the PROXY protocol unknown-port value, because forwarded headers do
+not carry the original source port; otherwise the direct downstream socket
+address is used. If Fluxheim
 cannot produce a same-family TCP4/TCP6 source and destination pair, it sends
 `PROXY UNKNOWN` for v1 or an empty v2 PROXY/UNSPEC frame for v2.
 `upstream_http_version` defaults to `http1`. Set it to `http2` for origins
@@ -1359,7 +1375,11 @@ and at least one upstream must remain a normal primary.
 `bounded-load-consistent-header-hash`, and
 `bounded-load-consistent-cookie-hash`, plus static-pool Maglev modes
 `maglev` / `maglev-source-hash`, `maglev-uri-hash`,
-`maglev-header-hash`, and `maglev-cookie-hash`. Header-hash modes require
+`maglev-header-hash`, and `maglev-cookie-hash`, plus static-pool
+nginx-compatible Ketama modes `nginx-consistent-source-hash` /
+`nginx-consistent-hash` / `ketama`, `nginx-consistent-uri-hash`,
+`nginx-consistent-header-hash`, and `nginx-consistent-cookie-hash`.
+Header-hash modes require
 `proxy.load_balance.hash_header = "x-session"` or another valid HTTP header
 name. Cookie-hash modes require `proxy.load_balance.hash_cookie = "session"` or
 another valid cookie name. Hash modes use weighted FNV selection seeded with a
@@ -1375,7 +1395,15 @@ fall back to normal consistent selection if no bounded candidate is found.
 current weighted average load, and is valid only with bounded-load consistent
 selectors. Maglev modes use a fixed 65,537-slot bounded lookup table for static
 `proxy.upstreams` pools only; file-refreshed and DNS-refreshed pools reject
-Maglev until dynamic table rebuild semantics are promoted later.
+Maglev until dynamic table rebuild semantics are promoted later. The
+nginx-compatible Ketama modes build a static CRC32 continuum with 160 points per
+weight unit and are intended for migration cases that need nginx/Pingora
+Ketama-style request-to-backend mapping; they are also static `proxy.upstreams`
+only and reject file, HTTP, and DNS discovery pools in this release. Ketama
+uses unsalted CRC32 by design so its mapping remains compatible with nginx and
+Pingora Ketama behavior. Do not use Ketama when the hash key is attacker
+controlled and deterministic backend targeting is unacceptable; use Fluxheim's
+salted rendezvous, bounded-load consistent, or Maglev selectors instead.
 `max_iterations` bounds how many ready candidates Pingora or Fluxheim may
 inspect while applying health, drain, slow-start, backup, priority, and
 in-flight policies. `all_down_status` defaults to `502` and may be set to
@@ -1394,7 +1422,7 @@ healthy backends are allowed to receive traffic so new or recovered pool
 members can establish a latency baseline. Runtime weight overrides through the
 admin API are honored by `round-robin`, `least-connections`, `least-sessions`,
 and `least-time` in the current release. Hash, consistent hash, bounded-load
-consistent hash, Maglev, and power-of-two selections reject runtime weight
+consistent hash, nginx-compatible Ketama, Maglev, and power-of-two selections reject runtime weight
 changes until ring/table rebuild and sampling semantics are specified.
 `power-of-two`
 also accepts `power-of-two-choices`, `two-choice`, `weighted-two-choice`, and
@@ -1696,10 +1724,9 @@ timeout, and upstream request-body/write timeout. Optional and required
 second-based proxy/PHP/load-balancer health-check timeout fields reject `0` and
 values above `86400` seconds so a malformed config cannot pin connections or
 workers indefinitely.
-`websocket = true` enables HTTP/1.1 upgrade forwarding for websocket-style or
-other token-based upgrade requests on that proxy block. Fluxheim validates this
-with `upstream_http_version = "http1"` because HTTP/2 origins do not use the
-same hop-by-hop upgrade mechanism.
+`websocket = true` enables HTTP/1.1 WebSocket upgrade forwarding on that proxy
+block. Fluxheim validates this with `upstream_http_version = "http1"` because
+HTTP/2 origins do not use the same hop-by-hop upgrade mechanism.
 `downstream_read_timeout_secs`,
 `downstream_write_timeout_secs`,
 `downstream_total_response_timeout_secs`, and
@@ -1729,13 +1756,17 @@ that limit. These service-level caps are applied before vhost routing because
 HTTP/2 negotiation happens before a `Host`/`:authority` value can be trusted.
 
 When `websocket = true` and the downstream request contains a valid
-`Connection: Upgrade` token plus a valid `Upgrade` token, Fluxheim forwards the
-request upstream with `Connection: upgrade` and the downstream upgrade token.
-Upgrade requests bypass proxy cache policy and should normally use route-level
-read/send timeouts sized for long-lived connections. Leave `websocket = false`
-on normal HTTP routes; Fluxheim strips HTTP/1 `Connection` and `Upgrade`
-request headers in that mode so normal proxy routes cannot tunnel upgraded
-protocols accidentally.
+`Connection: Upgrade` token, `Upgrade: websocket`, one `Sec-WebSocket-Key`,
+and `Sec-WebSocket-Version: 13`, Fluxheim forwards the request upstream with a
+canonical `Connection: upgrade` and `Upgrade: websocket`. Upgrade requests
+bypass proxy cache policy and should normally use route-level read/send
+timeouts sized for long-lived connections. The current native WebSocket tunnel
+uses the selected upstream `read_timeout_secs` as an absolute tunnel lifetime
+cap, not as an idle timeout; active tunnels are closed when that duration
+expires. Leave `websocket = false` on normal
+HTTP routes; Fluxheim strips HTTP/1 `Connection` and `Upgrade` request headers
+in that mode so normal proxy routes cannot tunnel upgraded protocols
+accidentally.
 
 `[proxy.auth_request]` is Fluxheim's NGINX-style external authorization hook for
 proxy actions. When enabled, Fluxheim sends a bounded `GET` subrequest to `url`
@@ -2644,12 +2675,13 @@ Fluxheim reloads downstream SNI certificate objects so new handshakes can use
 the renewed files without a restart when the selected TLS backend exposes a
 reloadable resolver or callback.
 
-For reloadable SNI TLS backends, including the default rustls backend, missing
-Fluxheim-managed ACME certificate files are a pending issuance state rather than
-a startup failure. This lets operators add a new `[vhosts.tls.acme]` vhost while
-keeping port `80` online for HTTP-01. Static certificates are different: if a
-vhost points at operator-owned `cert_path`/`key_path` files, those files must
-exist and pass storage checks before the listener starts.
+For reloadable SNI TLS backends, including the default rustls backend and
+OpenSSL builds, missing Fluxheim-managed ACME certificate files are a pending
+issuance state rather than a startup failure. This lets operators add a new
+`[vhosts.tls.acme]` vhost while keeping port `80` online for HTTP-01. Static
+certificates are different: if a vhost points at operator-owned
+`cert_path`/`key_path` files, those files must exist and pass storage checks
+before the listener starts.
 
 You can also invoke renewal explicitly. Production packages include
 `fluxheim-acme`, which can renew and then request live certificate activation
@@ -2947,9 +2979,11 @@ empty. `mode = "delay"` reserves future tokens and sleeps the request up to
 rejects instead of queueing indefinitely. If `burst` is omitted or zero,
 Fluxheim uses `requests_per_second` as the burst. State is bounded by
 `table_max_entries` and stale entries are pruned after `entry_ttl_secs`. The
-native HTTP/1 runtime shards the local rate-limit table so prune work only
-blocks one shard at a time, but very large `table_max_entries` values can still
-increase per-shard prune CPU under many-identity floods. Vhost
+native HTTP/1 runtime shards the local rate-limit table and uses bounded
+incremental prune scans when a shard is full, so cleanup work does not sweep an
+entire table in one request. Very large `table_max_entries` values can still
+increase retained memory and the number of expired entries that need later
+cleanup under many-identity floods. Vhost
 limits are checked before route limits. If Fluxheim cannot determine an
 effective client IP, the request uses one shared anonymous bucket for that
 vhost or route; do not rely on anonymous-IP rate limiting as the only
@@ -2957,6 +2991,10 @@ protection for sensitive internal paths. Set `reject_indeterminate = true` to
 reject those requests instead of placing them in the shared bucket.
 With metrics enabled, delayed and rejected rate-limit decisions are counted by
 `fluxheim_edge_policy_events_total` with bounded labels.
+In delay mode, delayed native requests are intentionally counted against
+vhost/route concurrency limits while they sleep. This prevents unbounded delayed
+tasks from parking outside the configured concurrency budget; use a conservative
+`max_delay_ms` and `max_in_flight` together for public routes.
 
 `[vhosts.concurrency]` and `[vhosts.routes.concurrency]` cap active in-flight
 requests. They are local process limits, not distributed cluster limits.

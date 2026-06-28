@@ -18,7 +18,7 @@ fn applies_stable_download_keys_for_release_page_copy() {
     )
     .to_owned();
 
-    let translated = apply_shared_keys(de, html, "1.6.30");
+    let translated = apply_shared_keys(de, html, "1.6.32");
 
     assert!(translated.contains(">Cache-Edge-Build<"));
     assert!(translated.contains(">Cache-Profil</span>"));
@@ -42,8 +42,8 @@ fn applies_stable_changelog_keys_only_on_changelog_page() {
     )
     .to_owned();
 
-    let translated = apply_shared_keys(de, html, "1.6.30");
-    let unrelated = apply_shared_keys(de, "Released June 23, 2026".to_owned(), "1.6.30");
+    let translated = apply_shared_keys(de, html, "1.6.32");
+    let unrelated = apply_shared_keys(de, "Released June 23, 2026".to_owned(), "1.6.32");
 
     assert!(translated.contains("<title>Änderungen — Fluxheim</title>"));
     assert!(translated.contains("Veröffentlicht am 23. Juni 2026"));
@@ -66,9 +66,9 @@ fn applies_public_docs_guide_keys_on_docs_pages() {
     )
     .to_owned();
 
-    let de_html = apply_shared_keys(de, html.clone(), "1.6.30");
-    let fr_html = apply_shared_keys(fr, html, "1.6.30");
-    let unrelated = apply_shared_keys(de, ">External PHP-FPM pool<".to_owned(), "1.6.30");
+    let de_html = apply_shared_keys(de, html.clone(), "1.6.32");
+    let fr_html = apply_shared_keys(fr, html, "1.6.32");
+    let unrelated = apply_shared_keys(de, ">External PHP-FPM pool<".to_owned(), "1.6.32");
 
     assert!(de_html.contains("<h3>Anleitungen</h3>"));
     assert!(de_html.contains(">Statische Sites<"));

@@ -298,6 +298,8 @@ Initial target:
 enabled = true
 listen = "127.0.0.1:9091"
 require_loopback = true
+# Optional native metrics bearer-token source.
+# token_file = "/run/secrets/fluxheim-metrics-token"
 
 [metrics.otlp]
 enabled = false

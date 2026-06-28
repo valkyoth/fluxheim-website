@@ -20,3 +20,7 @@ released_june_21_2026 = "เผยแพร่เมื่อวันที่ 
 released_june_23_2026 = "เผยแพร่เมื่อวันที่ 23 มิถุนายน 2026"
 remaining_parity_work_stays_documented_through_the_source_notes_and_release_gates = "งานพาริตีที่เหลือจะยังคงได้รับการบันทึกไว้ผ่านบันทึกต้นทางและประตูการเผยแพร่"
 supports_tls_alpn_negotiated_upstream_http_2_with_existing_upstream_tls_sni_ca_policy = "Supports TLS ALPN-negotiated อัปสตรีม HTTP/2 with existing อัปสตรีม TLS/SNI/CA policy"
+released_june_24_2026 = "เผยแพร่เมื่อ 24 มิถุนายน 2026"
+released_june_28_2026 = "เผยแพร่เมื่อ 28 มิถุนายน 2026"
+routes_selected_downstream_http_2_tls_connections_into_the_native_multi_stream_adapter = "กำหนดเส้นทางการเชื่อมต่อ downstream HTTP/2 TLS ที่เลือกไปยัง native multi-stream adapter"
+hardens_native_websocket_upgrades_http_2_stream_local_failures_rate_limit_sharding_and_zeroizing_request_body_storage = "เพิ่มความแข็งแกร่งให้ native WebSocket upgrades, ความล้มเหลวแบบ stream-local ของ HTTP/2, rate-limit sharding และการจัดเก็บ request body แบบ zeroizing"

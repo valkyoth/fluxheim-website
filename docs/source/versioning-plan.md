@@ -2803,33 +2803,65 @@ available for the stabilization/security-only follow-up.
   Upgrade. Keep advanced health-aware/dynamic load-balancer state on the
   `v1.6.32` native load-balancer cutover instead of mixing it into this
   upstream transport slice.
-- `v1.6.31`: move cache and PHP-FPM rich proxy integrations onto native
-  adapters. Cache work must cover lookup/fill/stale, Vary/Range/conditional
-  semantics, peer-fill guardrails, and purge visibility. PHP-FPM work must
-  cover SCRIPT_NAME/PATH_INFO safety, deny prefixes, spool limits, TCP/Unix
-  upstream policies, and custom PHP error pages. Keep the compatibility path
-  until fixture and smoke tests prove parity. Also make sure root/vhost cache
-  policy and route cache policy all report native-ready only after the native
-  cache adapter owns the full request/response/cache-key path.
-- `v1.6.32`: finish native load-balancer compatibility and remove the final
-  Pingora runtime/listener/TLS adapter crates from normal builds. This release
-  must close the remaining proxy gates that need runtime/load-balancer state:
-  dynamic discovery, health-aware selection, persistence, priority groups,
-  locality, backup/drain/disabled policy, max-in-flight, aliases/tags, static
-  weight parity, upstream PROXY protocol, websocket upgrade, native TLS
-  listener selection, native service supervision, admin/metrics/stream/UDP
-  service registration, and remaining Pingora HTTP/error/cache
-  boundary adapters. Add a Fluxheim-owned nginx/Ketama-compatible consistent
-  hash selection mode for operators migrating from nginx or Pingora Ketama
-  behavior. Keep the existing rendezvous consistent-hash and bounded-load
-  consistent modes as the default Fluxheim algorithms, but document that the
-  compatibility mode is for matching nginx-style request-to-backend mapping.
-  Do not depend on `pingora-ketama`; implement and test the ring behavior in
-  Fluxheim with golden vectors and membership-change remapping tests. This is
-  the final Pingora-free proof release: `cargo tree`, release containers, RPM
-  builds, source builds, and focused artifacts must all prove no normal
-  Fluxheim build compiles vendored Pingora code.
-- `v1.6.33`: stabilization/security-only release for the Pingora-free runtime
+- `v1.6.31`: move the native runtime dispatch, HTTP/1 upstream transport, host
+  routing, admin/metrics/stream/UDP service registration, and proxy listener
+  TLS/PROXY-protocol paths far enough that a representative full runtime can
+  run under the Fluxheim-owned supervisor. Keep rich proxy cache, PHP-FPM, and
+  WebSocket/upgrade gates explicit until their native adapters can prove full
+  request/response parity.
+- `v1.6.32`: finish native load-balancer compatibility and keep the native
+  runtime launch evidence honest. This release closes the proxy gates that need
+  shared runtime/load-balancer state: dynamic discovery, health-aware selection,
+  persistence, priority groups, locality, backup/drain/disabled policy,
+  max-in-flight, aliases/tags, static weight parity, and native service
+  supervision for load-balancer refresh tasks. Static ordered/weighted pools,
+  active health checks, static advanced load-balancer policy, and dynamic
+  discovery may run natively only when the native proxy and refresh task share
+  the same `UpstreamLoadBalancer` state. File/HTTP/DNS discovery must clone
+  vetted upstream transport policy onto selected dynamic authorities instead of
+  trusting unbounded per-request transport configuration. Add a Fluxheim-owned
+  nginx/Ketama-compatible consistent hash selection mode for operators
+  migrating from nginx or Pingora Ketama behavior. Keep the existing rendezvous
+  consistent-hash and bounded-load consistent modes as the default Fluxheim
+  algorithms, but document that the compatibility mode is for matching
+  nginx-style request-to-backend mapping. Do not depend on `pingora-ketama`;
+  implement and test the ring behavior in Fluxheim with parser, static-ring
+  rejection, and runtime mutation tests. Complete the current native PHP-FPM
+  route work: request-to-FastCGI parameter planning, PHP stdout-to-native
+  response planning, safe static script resolution, request-body staging,
+  bounded FastCGI execution, external and managed php-fpm route actions, and
+  PHP custom error pages. Convert the downstream HTTP/2 preview into production
+  native listener dispatch with TLS ALPN `h2` selection, multi-stream proxy
+  handling, request/response trailer preservation, and fail-closed behavior for
+  unsupported upgrade semantics. Keep proxy-cache parity as the explicit
+  remaining compatibility blocker. This release should be pentested and shipped
+  before starting the final cache work so cache findings are attributable to
+  the next focused slice.
+- `v1.6.33`: close the final native proxy-cache parity gates. Cache work must
+  cover lookup/fill/stale, Vary/Range/conditional semantics, cache status and
+  reason headers, no-store/private/Set-Cookie admission protection,
+  cache-control overrides, HEAD bypass behavior, stale-if-error and
+  stale-while-revalidate, peer-fill guardrails, purge visibility, and
+  root/vhost/route cache policy readiness only after the native adapter owns
+  the full request/response/cache-key path. Add focused unit tests plus live
+  native listener smoke tests proving `MISS` followed by `HIT`, stale serving,
+  Vary isolation, auth-before-cache ordering, range/slice behavior where
+  supported, and disk/memory/tier behavior. Do not remove Pingora in this
+  release unless the cache smoke and pentest pass cleanly; the goal is cache
+  parity, not simultaneous dependency deletion.
+- `v1.6.34`: remove the final Pingora runtime/listener/TLS adapter crates from
+  normal builds after proxy-cache parity is proven. The native WebSocket
+  baseline already covers strict `Upgrade: websocket` requests on forced HTTP/1
+  static upstream routes with shared 101 validation, prebuffer preservation,
+  and a bounded bidirectional tunnel; native load-balanced WebSocket pools
+  select one upstream at upgrade time and pin the tunnel to that backend.
+  Remaining upgrade work should cover generic token-based HTTP/1 upgrades only
+  if there is a real operator need and HTTP/2 WebSocket semantics separately
+  from hop-by-hop HTTP/1 upgrades. This release is the final Pingora-free proof
+  release: `cargo tree`, release containers, RPM builds, source builds, and
+  focused artifacts must all prove no normal Fluxheim build compiles vendored
+  Pingora code.
+- `v1.6.35`: stabilization/security-only release for the Pingora-free runtime
   before adding new extensibility or protocol surface. This release should
   prioritize pentest cleanup, performance regression checks, memory/FD leak
   checks, long-running soak tests, runtime-baseline comparisons, and

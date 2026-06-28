@@ -14,8 +14,8 @@ fn applies_stable_reference_keys_only_on_reference_page() {
     )
     .to_owned();
 
-    let translated = apply_shared_keys(de, html, "1.6.30");
-    let unrelated = apply_shared_keys(de, ">Full Reference<".to_owned(), "1.6.30");
+    let translated = apply_shared_keys(de, html, "1.6.32");
+    let unrelated = apply_shared_keys(de, ">Full Reference<".to_owned(), "1.6.32");
 
     assert!(translated.contains("<h3>Anleitungen</h3>"));
     assert!(translated.contains(">Vollständige Referenz<"));
