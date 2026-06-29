@@ -28,6 +28,12 @@ The same encryption layer applies to reverse-proxy cache responses and to
 local/static cache responses when the selected cache policy has
 `local_static = true`.
 
+Native runtime status: the native HTTP/1 proxy cache supports local-key and
+OpenBao Transit encrypted `backend = "filesystem"` and `backend =
+"storage-bin"` cache objects. OpenBao Transit support is enabled in Fluxheim's
+normal cache profile through the server crate's optional
+`openbao-cache-encryption` feature.
+
 ## Providers
 
 `provider = "local"` uses AES-256-GCM with a 64-character hex key loaded from
@@ -281,6 +287,13 @@ For local-key encryption, changing the raw key should also change `key_id` and
 either purge the disk cache or move to a new `cache.disk.path`. Existing cache
 objects encrypted with the old local key are intentionally unreadable once
 Fluxheim starts with only the new key.
+
+The local provider uses random 96-bit AES-256-GCM nonces. Rotate the local
+cache encryption key before roughly `2^32` object-encryption invocations with
+one key. Fluxheim tracks local-provider invocations inside each process and
+logs a security warning when a process approaches that bound, but operators
+should still rotate long-lived cache keys on a schedule that fits their write
+volume because restarts reset the in-process counter.
 
 For OpenBao Transit, the usual rotation path is to keep the same Fluxheim
 `key_id`, `mount`, and `key_name`, then rotate the Transit key inside OpenBao.

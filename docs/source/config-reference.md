@@ -2089,6 +2089,11 @@ is stored with the encrypted object and is included with the combined cache key
 as authenticated data, so objects cannot be silently swapped between cache
 keys. Local cache encryption is intended for cache-at-rest protection; it does
 not encrypt memory cache contents.
+Because the local provider uses random AES-GCM nonces, rotate local cache keys
+before roughly `2^32` object-encryption invocations per key. Fluxheim logs a
+security warning when one process approaches that bound, but scheduled key
+rotation is still required for long-lived high-write deployments because the
+runtime counter resets on restart.
 Filesystem disk-cache fills with the local provider encrypt streamed objects in
 bounded AEAD chunks, so enabling local encryption does not require Fluxheim to
 copy a complete streamed origin response back into heap before committing it to
@@ -2147,7 +2152,9 @@ the cache phase has an explicit no-cache reason. Leave it unset unless you are
 actively debugging cache policy.
 
 `[cache.predictor]`, `[vhosts.cache.predictor]`, and
-`[vhosts.routes.cache.predictor]` are opt-in Pingora cacheability predictors.
+`[vhosts.routes.cache.predictor]` are opt-in cacheability predictors. The
+native HTTP/1 memory-cache path uses Fluxheim-owned bounded cache-pass counters;
+the compatibility runtime maps the same setting to Pingora's predictor.
 When enabled, Fluxheim can remember recent origin-level uncacheable outcomes
 such as `private`/`no-store` cache responses or oversized responses and bypass
 future cache lookup and cache locking for the same primary key until the
@@ -2210,24 +2217,32 @@ Peer names are short ASCII identifiers. Peer `base_url` values must be
 HTTP(S) origins with an explicit `host:port`, no userinfo, no query or
 fragment, and no path beyond `/`. Plain HTTP is accepted only for loopback
 peers unless `allow_insecure_http = true`, which is intended for private test
-networks or trusted in-cluster transport. `max_concurrent_requests` is bounded
-to 1-1024 and `fail_open = true` means peer-fill failure should fall back to the
-normal origin path rather than failing the user request. `max_concurrent_requests`
-is enforced per vhost or route cache policy for active outbound peer-fill
-fetches. If that limit is saturated, Fluxheim follows `fail_open`: fallback to
-origin when allowed, or a bounded `504` miss response otherwise. The first
-runtime primitive is available now:
+networks or trusted in-cluster transport. Security note: enabling
+`allow_insecure_http` exposes peer-fill traffic to network-path modification;
+an attacker who can intercept that traffic can inject a cacheable `200`
+response that is served to users until its freshness expires. Use it only with
+loopback peers, an encrypted overlay, mTLS sidecars, or an otherwise trusted
+private network. `max_concurrent_requests` is bounded to 1-1024 and
+`fail_open = true` means peer-fill failure should fall back to the normal
+origin path rather than failing the user request. `max_concurrent_requests` is
+enforced per vhost or route cache policy for active outbound peer-fill fetches.
+If that limit is saturated, Fluxheim follows `fail_open`: fallback to origin
+when allowed, or a bounded `504` miss response otherwise. The first runtime
+primitive is available now:
 proxy-cache requests with `Cache-Control: only-if-cached` are answered only from
 a fresh local cache object and otherwise return `504` without contacting origin.
 Outbound peer fill uses the same safe request mode on local proxy-cache misses,
 stores valid peer hits locally, and falls back to origin only when `fail_open`
-is true. Peer-fill requests do not forward the client `Host` header; peers
-receive the authority from their configured `base_url` plus safe negotiation
-headers such as `Accept`, `Accept-Encoding`, and `Accept-Language`.
-Credentials such as `Authorization` and `Cookie` are not forwarded. Outbound
-peer-fill requests carry `X-Fluxheim-Peer-Fill: 1`; inbound requests with that
-marker are not allowed to launch another peer-fill fetch, which prevents
-recursive peer-fill loops in cyclic peer topologies.
+is true. Peer-fill requests forward the original request `Host` header so the
+peer can perform the same host-scoped cache-key lookup. They otherwise use the
+authority from their configured `base_url` plus safe negotiation headers such
+as `Accept`, `Accept-Encoding`, and `Accept-Language`. Credentials such as
+`Authorization` and `Cookie` are not forwarded. Outbound peer-fill requests
+carry `X-Fluxheim-Peer-Fill: 1`; Fluxheim strips that internal marker from
+client-supplied requests before normal proxy handling. Requests with
+`Cache-Control: only-if-cached` are answered only from local cache and are not
+allowed to contact origin, which prevents recursive peer-fill loops in cyclic
+peer topologies.
 `examples/cache-peer-fill.toml` shows the focused validated fixture. Metrics
 builds expose aggregate origin-protection and peer-fill configuration through
 `fluxheim_cache_origin_protection_enabled_policies`,

@@ -270,9 +270,10 @@ internal cache implementation.
   gives outbound peer fill a safe no-origin endpoint. On a local proxy-cache
   miss, Fluxheim asks configured peers for that no-origin endpoint before
   falling back to origin according to `fail_open`; peer hits are stored locally
-  and peer requests do not forward the client `Host` header. Peer requests use
-  the authority from the configured peer `base_url` plus safe negotiation
-  headers rather than client credentials. The example
+  and peer requests forward the original request `Host` header so peers can
+  perform the same host-scoped cache-key lookup. Peer requests use the
+  authority from the configured peer `base_url` plus safe negotiation headers
+  rather than client credentials. The example
   `examples/cache-peer-fill.toml` shows the current config shape for
   cache-cluster planning. `scripts/smoke_peer_fill_cache.sh` runs a local
   multi-node smoke that proves node-to-node `PEER-HIT`, no extra origin fetch,
@@ -284,9 +285,11 @@ internal cache implementation.
   stores only its remaining freshness instead of extending the origin TTL.
   Peer-filled responses with `Vary` are stored under the matching variant key,
   so later local hits preserve negotiated variants. Peer-fill requests carry
-  `X-Fluxheim-Peer-Fill: 1`, and a request carrying that inbound marker cannot
-  launch another outbound peer-fill fetch; cyclic peer topologies therefore
-  fall back or fail closed according to `fail_open` instead of recursing.
+  `X-Fluxheim-Peer-Fill: 1`; Fluxheim strips that internal marker from
+  client-supplied requests before normal proxy handling. Requests with
+  `Cache-Control: only-if-cached` are answered only from local cache and cannot
+  contact origin, so cyclic peer topologies return a local cache response or a
+  bounded miss instead of recursing.
   Metrics builds expose aggregate peer-fill policy, peer-count, and concurrency
   gauges for rollout checks.
 - New disk cache objects use the v5 object header, which stores the combined
@@ -839,12 +842,15 @@ Additional Pingora cache primitives worth exposing as Fluxheim matures:
   These are good candidates for low-cardinality Prometheus histograms and
   OpenTelemetry span attributes because they explain slow cache hits and
   stampede waits without exposing cache keys or paths.
-- `CacheablePredictor` is exposed through opt-in `[cache.predictor]`,
+- Cacheability prediction is exposed through opt-in `[cache.predictor]`,
   `[vhosts.cache.predictor]`, and `[vhosts.routes.cache.predictor]` settings.
-  `cache-key` and `cache-lookup` report and can assert the selected predictor
-  state with `--expect-cache-predictor-enabled`. Fluxheim skips custom
-  Fluxheim policy reasons in the predictor so local min-use, bypass, and
-  response-header refusal controls remain governed by Fluxheim counters.
+  The native HTTP/1 memory-cache path uses Fluxheim-owned bounded cache-pass
+  counters; the compatibility runtime maps the same setting to Pingora's
+  `CacheablePredictor`. `cache-key` and `cache-lookup` report and can assert
+  the selected predictor state with `--expect-cache-predictor-enabled`.
+  Fluxheim skips custom Fluxheim policy reasons in the compatibility predictor
+  so local min-use, bypass, and response-header refusal controls remain
+  governed by Fluxheim counters.
 - `ForcedFreshness::ForceExpired` is already used for bounded client refresh
   revalidation (`Cache-Control: no-cache`, `Cache-Control: max-age=0`, and
   `Pragma: no-cache`). Future force-miss or force-fresh controls should only be

@@ -7,7 +7,7 @@ use crate::i18n_keys;
 use crate::language_selector;
 use crate::page_enhancements;
 
-const SOURCE_FLUXHEIM_VERSION: &str = "1.6.32";
+const SOURCE_FLUXHEIM_VERSION: &str = "1.6.33";
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct LegacyPage {

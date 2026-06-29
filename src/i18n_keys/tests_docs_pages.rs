@@ -14,8 +14,8 @@ fn applies_stable_docs_guide_keys_to_generated_pages() {
     )
     .to_owned();
 
-    let de_html = apply_shared_keys(de, html.clone(), "1.6.32");
-    let sv_html = apply_shared_keys(sv, html, "1.6.32");
+    let de_html = apply_shared_keys(de, html.clone(), "1.6.33");
+    let sv_html = apply_shared_keys(sv, html, "1.6.33");
 
     assert!(de_html.contains("<h3>Anleitungen</h3>"));
     assert!(de_html.contains("<h2>Häufige Builds</h2>"));

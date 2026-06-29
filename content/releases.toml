@@ -1,4 +1,10 @@
-latest = "1.6.32"
+latest = "1.6.33"
+
+[[release]]
+version = "1.6.33"
+date = "2026-06-29"
+title = "Native proxy-cache parity"
+summary = "Native proxy-cache parity for memory, filesystem disk, storage-bin, encrypted disk, OpenBao Transit, tiering, peer-fill, stale serving, purge parity, and native cache metrics."
 
 [[release]]
 version = "1.6.32"

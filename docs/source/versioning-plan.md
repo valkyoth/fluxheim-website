@@ -2849,6 +2849,30 @@ available for the stabilization/security-only follow-up.
   supported, and disk/memory/tier behavior. Do not remove Pingora in this
   release unless the cache smoke and pentest pass cleanly; the goal is cache
   parity, not simultaneous dependency deletion.
+  - Current checkpoint: native HTTP/1 proxy memory-cache lookup/fill is wired
+    for ordinary single-upstream GET responses. It reuses `fluxheim-cache`
+    request/response policy helpers, emits configured cache status/reason
+    headers, preserves HEAD bypass behavior, isolates origin/configured Vary
+    variants in memory, serves configured `stale_if_error_secs` entries on
+    upstream errors/statuses, enforces `cache.origin_protection` fill budgets,
+    serves bounded single `Range` requests from fresh cached full objects,
+    supports native load-balanced upstream pools for the same memory-cache
+    subset, supports `cache.min_uses`, `cache.pass_uncacheable_after`, and
+    opt-in `[cache.predictor]` cache-pass decisions through bounded
+    Fluxheim-owned counters, serves `stale_while_revalidate_secs` objects with
+    bounded background refresh, supports `[cache.lock]` same-key request
+    collapsing for concurrent memory-cache misses, supports memory-tier
+    `[cache.range.slice]` fixed-slice range composition, supports peer-fill
+    over HTTPS and loopback-or-opt-in HTTP, supports unencrypted, local-key
+    encrypted, and OpenBao Transit encrypted filesystem and storage-bin disk
+    cache plus memory+disk tiering, and has live native listener `MISS` then
+    `HIT`, collapsed-fill `HIT`, slice-fill then slice `HIT`, multipart slice
+    composition, filesystem disk persistence, encrypted filesystem disk
+    persistence, storage-bin persistence, encrypted storage-bin persistence,
+    OpenBao storage-bin validation/hit decrypt coverage, memory refill from
+    disk, `PEER-HIT` then `HIT`, and stale-refresh tests. Storage-bin file-set,
+    manifest, index, bin allocation, free-map recovery, and native index I/O
+    now live behind the `fluxheim-cache`/native adapter boundary.
 - `v1.6.34`: remove the final Pingora runtime/listener/TLS adapter crates from
   normal builds after proxy-cache parity is proven. The native WebSocket
   baseline already covers strict `Upgrade: websocket` requests on forced HTTP/1
