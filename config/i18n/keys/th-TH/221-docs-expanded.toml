@@ -149,3 +149,8 @@ observability_disable_env = "to run the same binary without exporting เมต�
 native_proxy_cache_support = "รองรับ proxy-cache แบบเนทีฟ"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "เส้นทางพร็อกซีแบบเนทีฟของ Fluxheim รองรับแคชหน่วยความจำ แคชดิสก์ระบบไฟล์ แคชดิสก์ storage-bin แคชดิสก์เข้ารหัส การเข้ารหัส OpenBao Transit การจัดชั้น memory+disk, peer-fill, range slice cache, stale serving, cache locks, การล้างแคช และเมตริกแคช"
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "รูปแบบ route ที่ยังไม่รองรับจะ fail closed แทนที่จะละทิ้งนโยบายแคชแบบเงียบ ๆ เริ่มจากแคชหน่วยความจำก่อน แล้วค่อยเพิ่มดิสก์ การเข้ารหัส หรือ peer-fill เมื่อเข้าใจ workflow ของ origin และ purge แล้วเท่านั้น"
+
+[docs_expanded]
+pingora_free_normal_builds = "Pingora-free งานสร้างปกติ"
+starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "ตั้งแต่ 1.6.34 เป็นต้นไป Fluxheim release profiles ปกติจะใช้ Fluxheim-owned เนทิฟ runtime และไม่คอมไพล์ Pingora crates อีกต่อไป"
+unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "รูปร่างดั้งเดิมของ runtime ที่ไม่รองรับยังคงล้มเหลวในการปิดด้วยตัวบล็อกที่ชัดเจน แทนที่จะถอยกลับไปเป็น adapter รุ่นเก่า"

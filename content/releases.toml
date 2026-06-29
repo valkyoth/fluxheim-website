@@ -1,4 +1,10 @@
-latest = "1.6.33"
+latest = "1.6.34"
+
+[[release]]
+version = "1.6.34"
+date = "2026-06-29"
+title = "Pingora-free native runtime"
+summary = "Final Pingora-free proof release for the 1.6 runtime exit line, removing normal-build Pingora runtime dependencies, wiring native admin/cache/load-balancer handles, enforcing dependency-policy gates, and preserving explicit native-runtime blockers."
 
 [[release]]
 version = "1.6.33"

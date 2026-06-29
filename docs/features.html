@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.6.33
+            Download v1.6.34
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.6.33</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.6.34</a>
       </div>
     </div>
   </nav>
@@ -125,6 +125,11 @@ cargo build --release --no-default-features --features profile-cache-edge,acme-c
 cargo build --release --no-default-features --features profile-proxy-edge,acme-client
 cargo build --release --no-default-features --features profile-web-server,php-fpm,acme-client
 cargo build --release --no-default-features --features profile-load-balancer-edge,acme-client</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Pingora-free normal builds</h2>
+  <p>Starting with 1.6.34, normal Fluxheim release profiles use the Fluxheim-owned native runtime and no longer compile Pingora crates.</p>
+  <p>Unsupported native runtime shapes still fail closed with explicit blockers instead of falling back to legacy adapters.</p>
 </section>
 <section class="guide-section">
   <h2>Feature families</h2>

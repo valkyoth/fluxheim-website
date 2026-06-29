@@ -149,3 +149,8 @@ observability_disable_env = "pro spuštění stejného binary bez exportu metric
 native_proxy_cache_support = "Nativní podpora proxy-cache"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "Nativní cesta proxy serveru Fluxheim podporuje mezipaměť, diskovou mezipaměť souborového systému, mezipaměť disku storage-bin, šifrovanou mezipaměť disku, šifrování OpenBao Transit, vrstvení memory+disk, vyplnění mezipaměti, mezipaměť rozsahů, zastaralé poskytování, zámky mezipaměti, operace čištění a metriky mezipaměti."
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "Nepodporované tvary trasy se stále nedaří zavřít namísto tichého zrušení zásad mezipaměti. Začněte s mezipamětí a poté přidejte disk, šifrování nebo vyplnění peer pouze v případě, že již rozumíte pracovnímu postupu původu a čištění."
+
+[docs_expanded]
+pingora_free_normal_builds = "Pingora-free normální sestavení"
+starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "Počínaje verzí 1.6.34 používá normální Fluxheim release profiles nativní Fluxheim-owned runtime a již nekompiluje Pingora crates."
+unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "Nepodporované nativní tvary runtime se stále nedaří uzavřít pomocí explicitních blokátorů místo toho, aby se vrátily ke starším adapter."

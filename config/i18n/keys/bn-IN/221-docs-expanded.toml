@@ -149,3 +149,8 @@ observability_disable_env = "মেট্রিক্স বা ট্রেস 
 native_proxy_cache_support = "নেটিভ proxy-cache সমর্থন"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "Fluxheim এর নেটিভ প্রক্সি পাথ মেমরি ক্যাশে, ফাইলসিস্টেম ডিস্ক ক্যাশে, storage-bin ডিস্ক ক্যাশে, এনক্রিপ্টেড ডিস্ক ক্যাশে, OpenBao Transit এনক্রিপশন, memory+disk টিয়ারিং, পিয়ার ফিল, রেঞ্জ স্লাইস ক্যাশিং, স্টেল সার্ভিং, ক্যাশে মেট্রিক অপারেশন, ক্যাশে লক, সমর্থন করে।"
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "অসমর্থিত রুট আকারগুলি এখনও নীরবে ক্যাশে নীতি বাদ দেওয়ার পরিবর্তে বন্ধ হয়ে যায়। মেমরি ক্যাশে দিয়ে শুরু করুন, তারপরে ডিস্ক, এনক্রিপশন যোগ করুন বা পিয়ার ফিল শুধুমাত্র তখনই যখন মূল এবং পরিস্কার কর্মপ্রবাহ ইতিমধ্যেই বোঝা যায়।"
+
+[docs_expanded]
+pingora_free_normal_builds = "Pingora-free স্বাভাবিক বিল্ড"
+starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "1.6.34 থেকে শুরু করে, সাধারণ Fluxheim release profiles Fluxheim-owned নেটিভ runtime ব্যবহার করে এবং আর Pingora crates কম্পাইল করে না।"
+unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "অসমর্থিত নেটিভ runtime আকারগুলি এখনও লিগ্যাসি adapter-এ ফিরে আসার পরিবর্তে স্পষ্ট ব্লকারগুলির সাথে বন্ধ হয়ে যায়৷"

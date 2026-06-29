@@ -149,3 +149,8 @@ observability_disable_env = "değerini kullanın."
 native_proxy_cache_support = "Yerel proxy-cache desteği"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "Fluxheim'nin yerel proxy yolu, bellek önbelleğini, dosya sistemi disk önbelleğini, storage-bin disk önbelleğini, şifrelenmiş disk önbelleğini, OpenBao Transit şifrelemeyi, memory+disk katmanlamayı, eş doldurmayı, aralık dilimi önbelleğe almayı, eski sunumu, önbellek kilitlerini, temizleme işlemlerini ve önbellek ölçümlerini destekler."
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "Desteklenmeyen rota şekilleri, önbellek politikasını sessizce bırakmak yerine hala başarısız bir şekilde kapatılıyor. Bellek önbelleğiyle başlayın, ardından yalnızca kaynak ve temizleme iş akışı zaten anlaşıldığında disk, şifreleme veya eş doldurma ekleyin."
+
+[docs_expanded]
+pingora_free_normal_builds = "Pingora-free normal yapılar"
+starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "1.6.34'ten itibaren normal Fluxheim release profiles, Fluxheim-owned yerel runtime'i kullanır ve artık Pingora crates'i derlemez."
+unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "Desteklenmeyen yerel runtime şekilleri, eski adapter'lere geri dönmek yerine açık engelleyicilerle hâlâ başarısız oluyor."

@@ -149,3 +149,8 @@ observability_disable_env = "för att köra samma binary utan att exportera metr
 native_proxy_cache_support = "Inbyggt proxy-cache-stöd"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "Fluxheims inbyggda proxysökväg stöder minnescache, filsystemdiskcache, storage-bin diskcache, krypterad diskcache, OpenBao Transit kryptering, memory+disk nivåsättning, peer-fyllning, cachelagring av intervallsnitt, inaktuell visning, cachelås, rensningsoperationer och cachemått."
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "Ruttformer som inte stöds misslyckas fortfarande med att stängas istället för att tyst släppa cachepolicy. Börja med minnescache, lägg sedan till disk, kryptering eller peer-fill endast när ursprunget och rensningsarbetsflödet redan är förstått."
+
+[docs_expanded]
+pingora_free_normal_builds = "Pingora-free normal konstruktion"
+starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "Från och med 1.6.34 använder normala Fluxheim release profiles Fluxheim-owned inbyggda runtime och kompilerar inte längre Pingora crates."
+unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "Ostödda inhemska runtime-former misslyckas fortfarande med explicita blockerare istället för att falla tillbaka till äldre adapter."

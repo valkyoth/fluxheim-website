@@ -149,3 +149,8 @@ observability_disable_env = "to run the same binary without exporting metrics or
 native_proxy_cache_support = "Native proxy-cache support"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "Fluxheim's native proxy path supports memory cache, filesystem disk cache, storage-bin disk cache, encrypted disk cache, OpenBao Transit encryption, memory+disk tiering, peer fill, range slice caching, stale serving, cache locks, purge operations, and cache metrics."
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "Unsupported route shapes still fail closed instead of silently dropping cache policy. Start with memory cache, then add disk, encryption, or peer fill only when the origin and purge workflow are already understood."
+
+[docs_expanded]
+pingora_free_normal_builds = "Pingora-free normal builds"
+starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "Starting with 1.6.34, normal Fluxheim release profiles use the Fluxheim-owned native runtime and no longer compile Pingora crates."
+unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "Unsupported native runtime shapes still fail closed with explicit blockers instead of falling back to legacy adapters."

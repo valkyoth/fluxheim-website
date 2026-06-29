@@ -149,3 +149,8 @@ observability_disable_env = "itselde binêr útfiere sûnder metriken of spoaren
 native_proxy_cache_support = "Native proxy-cache stipe"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "It native proxypaad fan Fluxheim stipet ûnthâldcache, triemsysteemdiskcache, storage-bin skiifcache, fersifere skiifcache, OpenBao Transit fersifering, memory+disk tiering, peer fill, berik slice caching, stale tsjinst, cache sloten, purge operaasjes en cache metriken."
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "Net-stipe rûtefoarmen mislearje noch altyd sluten ynstee fan stilswijend cachebelied te fallen. Begjin mei ûnthâldcache, foegje dan skiif, fersifering of peer-folje ta allinich as de oarsprong en purge-workflow al begrepen binne."
+
+[docs_expanded]
+pingora_free_normal_builds = "Pingora-free normale builds"
+starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "Begjinnend mei 1.6.34, brûke normale Fluxheim release profiles de Fluxheim-owned native runtime en kompilearje net mear Pingora crates."
+unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "Net-stipe lânseigen runtime-foarmen mislearje noch sletten mei eksplisite blokkers ynstee fan werom te fallen nei legacy adapter's."

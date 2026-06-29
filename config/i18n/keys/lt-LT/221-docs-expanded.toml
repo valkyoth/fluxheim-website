@@ -149,3 +149,8 @@ observability_disable_env = "kad tas pats binary veiktų neeksportuodamas metric
 native_proxy_cache_support = "Vietinis proxy-cache palaikymas"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "Fluxheim vietinis tarpinio serverio kelias palaiko atminties talpyklą, failų sistemos disko talpyklą, storage-bin disko talpyklą, šifruotą disko talpyklą, OpenBao Transit šifravimą, memory+disk pakopą, lygių užpildymą, diapazono dalių talpyklą, pasenusį aptarnavimą, talpyklos operacijų užraktus ir."
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "Nepalaikomos maršruto formos vis tiek nepavyksta uždaryti, o ne tyliai išmesti talpyklos politiką. Pradėkite nuo atminties talpyklos, tada pridėkite diską, šifravimą arba tarpusavio užpildymą tik tada, kai jau suprantama kilmė ir išvalymo darbo eiga."
+
+[docs_expanded]
+pingora_free_normal_builds = "Pingora-free normalios konstrukcijos"
+starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "Pradedant nuo 1.6.34, įprastas Fluxheim release profiles naudoja Fluxheim-owned vietinį runtime ir nebekompiliuoja Pingora crates."
+unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "Nepalaikomų vietinių runtime formų vis tiek nepavyksta uždaryti naudojant aiškius blokatorius, o ne grįžti prie senųjų adapter."

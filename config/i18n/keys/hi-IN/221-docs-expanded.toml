@@ -149,3 +149,8 @@ observability_disable_env = "मेट्रिक्स या ट्रेस 
 native_proxy_cache_support = "मूल proxy-cache समर्थन"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "Fluxheim का मूल प्रॉक्सी पथ मेमोरी कैश, फ़ाइल सिस्टम डिस्क कैश, storage-bin डिस्क कैश, एन्क्रिप्टेड डिस्क कैश, OpenBao Transit एन्क्रिप्शन, memory+disk टियरिंग, पीयर फिल, रेंज स्लाइस कैशिंग, बासी सर्विंग, कैश लॉक, पर्ज ऑपरेशंस और कैश मेट्रिक्स का समर्थन करता है।"
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "कैश नीति को चुपचाप छोड़ने के बजाय असमर्थित रूट आकार अभी भी बंद होने में विफल हैं। मेमोरी कैश से प्रारंभ करें, फिर डिस्क, एन्क्रिप्शन, या पीयर फिल तभी जोड़ें जब मूल और पर्ज वर्कफ़्लो पहले से ही समझ में आ गया हो।"
+
+[docs_expanded]
+pingora_free_normal_builds = "Pingora-free सामान्य निर्माण"
+starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "1.6.34 से शुरू होकर, सामान्य Fluxheim release profiles, Fluxheim-owned मूल runtime का उपयोग करता है और अब Pingora crates संकलित नहीं करता है।"
+unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "असमर्थित देशी runtime आकृतियाँ अभी भी पुराने adapters पर वापस आने के बजाय स्पष्ट अवरोधकों के साथ बंद होने में विफल रहती हैं।"

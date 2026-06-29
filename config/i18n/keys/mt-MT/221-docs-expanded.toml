@@ -149,3 +149,8 @@ observability_disable_env = "to ħaddem the same binary mingħajr exporting metr
 native_proxy_cache_support = "Appoġġ nattiv proxy-cache"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "Il-mogħdija indiġena tal-proxy Fluxheim tappoġġja cache tal-memorja, cache tad-diska tas-sistema tal-fajls, cache tad-diska storage-bin, cache tad-diska kodifikata, encryption OpenBao Transit, memory+disk tiering, peer fill, range slice caching, stale servent, cache locks, cache metrics, u operazzjonijiet ta’ purge."
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "Forom tar-rotot mhux appoġġjati għadhom ma jingħalqu minflok ma jwaqqgħu l-politika tal-cache fis-skiet. Ibda bil-cache tal-memorja, imbagħad żid disk, encryption, jew peer fill biss meta l-oriġini u l-fluss tax-xogħol tat-tindif ikunu diġà mifhuma."
+
+[docs_expanded]
+pingora_free_normal_builds = "Pingora-free bini normali"
+starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "Nibda minn 1.6.34, Fluxheim release profiles normali juża l-runtime nattiv Fluxheim-owned u m'għadux jikkompila Pingora crates."
+unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "Forom runtime indiġeni mhux appoġġjati għadhom ifallu magħluqa b'imblokkaturi espliċiti minflok ma jaqgħu lura għal adapters wirt."

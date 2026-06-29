@@ -2894,6 +2894,74 @@ available for the stabilization/security-only follow-up.
   where practical, using crate-scoped patches and tests. Keep third-party
   transitive `zeroize` use inside crates such as rustls/AWS-LC untouched, and
   avoid mixing this secret-container migration into the runtime cutover slices.
+- `v1.6.36`: post-cutover structural cleanup release before the `1.7` Wasm
+  line. Turn the temporary native proxy shim into proper crate APIs by moving
+  any still-needed DTOs/helpers out of `src/native_proxy_shim.rs` and into
+  their owning crates, updating root callers to import `fluxheim-server`,
+  `fluxheim-cache`, `fluxheim-load-balancer`, and related crate APIs directly,
+  then deleting the shim. Delete disabled Pingora-era root modules and inert
+  `cfg(any())` compatibility code once no normal or test profile references
+  them. Keep this release behavior-preserving and cleanup-only except for
+  fixes found by pentest/CI.
+
+  Required cleanup outcomes:
+
+  - Remove `src/native_proxy_shim.rs` or reduce it to an empty deleted
+    compatibility boundary with all still-used request/cache/admin DTOs moved
+    into their owning crates.
+  - Remove dead Pingora-era root modules and adapters that are no longer
+    compiled by any supported profile, including old proxy/cache/web/listener
+    compatibility surfaces where tests prove the native replacement owns the
+    behavior.
+  - Replace root imports of old `crate::proxy::*` compatibility symbols with
+    direct imports from `fluxheim-server`, `fluxheim-cache`,
+    `fluxheim-load-balancer`, `fluxheim-headers`, or other owning crates.
+  - Move cache-preview route matching onto the same precompiled native route
+    selection structures used by the serving path. The temporary shim currently
+    compiles regex routes on demand for authenticated admin cache-preview
+    calls; this is bounded and off the hot path, but deleting the shim should
+    remove that duplicate matcher entirely.
+  - Keep `scripts/validate-pingora-dependency-policy.sh check`,
+    `scripts/validate-modularity-policy.sh check`, release containers, RPM,
+    and representative smoke tests as blocking evidence for the cleanup.
+
+  Crate-boundary follow-up for this cleanup:
+
+  - `fluxheim-acme` is now a good extraction candidate. The root `src/acme.rs`
+    and `src/acme_companion.rs` still hold account/order/renewal/storage logic
+    plus the companion binary wiring, while TLS certificate loading and native
+    listener planning already live in `fluxheim-tls`/`fluxheim-server`. Split
+    ACME as a domain crate with typed renewal/install/reload APIs, and keep the
+    root binary responsible only for CLI/runtime wiring.
+  - `fluxheim-proxy` is possible, but should not be a single mechanical move.
+    Native HTTP proxy logic currently spans `fluxheim-server` routing,
+    upstream clients, cache adapter, PHP/static route adapters, WebSocket,
+    HTTP/2, and admin-visible runtime handles. First extract stable DTOs and
+    policy/result types from the shim; then move route proxy/upstream-client
+    pieces behind a `fluxheim-proxy` crate only after tests prove no circular
+    dependency back to `fluxheim-server`, `fluxheim-cache`, or root admin code.
+  - `fluxheim-admin` remains later than ACME/proxy DTO cleanup. `src/admin.rs`
+    is large, but it depends on nearly every domain. Move admin only after
+    cache, ACME, load-balancer, metrics, and runtime crates expose stable
+    request/result APIs.
+  - Smaller realistic cleanup candidates are root `metrics` into
+    `fluxheim-observability`, root `headers` leftovers into
+    `fluxheim-headers`, and CLI subcommands into smaller root modules. Do
+    these only where they reduce real coupling or remove dead compatibility
+    imports; do not create tiny crates merely to move lines around.
+
+  Stretch outcomes, only if the required cleanup is already green:
+
+  - Start `fluxheim-acme` as a workspace crate with account/order/storage
+    primitives and keep root `fluxheim-acme` binary code as thin command wiring.
+  - Move observability helpers still living in root `metrics` into
+    `fluxheim-observability` where this does not change exported metrics names
+    or CodeQL path-safety annotations.
+  - Move any remaining root header-policy helpers into `fluxheim-headers`
+    without changing privacy-mode gates or trusted-proxy semantics.
+  - Split obvious CLI subcommand helpers into smaller root modules when that
+    reduces coupling for release/testing workflows; do not block the release on
+    full CLI extraction.
 
 Stable exit criteria:
 

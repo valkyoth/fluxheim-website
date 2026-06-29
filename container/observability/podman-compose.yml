@@ -9,7 +9,7 @@ services:
     build:
       context: ../..
       dockerfile: container/Dockerfile
-    image: fluxheim-website:1.6.33-observability
+    image: fluxheim-website:1.6.34-observability
     container_name: fluxheim-website-observability
     restart: unless-stopped
     stop_signal: SIGTERM
