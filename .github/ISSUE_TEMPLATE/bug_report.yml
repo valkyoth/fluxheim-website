@@ -1,7 +1,7 @@
 name: Bug Report
-description: Report a broken page, layout issue, bad link, or Alpine.js interaction bug.
+description: Report a broken page, route, translation, layout issue, bad link, or runtime bug.
 title: "[Bug]: "
-labels: ["bug", "frontend"]
+labels: ["bug", "website"]
 body:
   - type: markdown
     attributes:
@@ -13,7 +13,7 @@ body:
     id: what-happened
     attributes:
       label: What happened?
-      description: A clear description of the broken page, bad link, layout issue, or interactive behavior.
+      description: A clear description of the broken page, route, translation, bad link, layout issue, or runtime behavior.
     validations:
       required: true
 
@@ -21,7 +21,7 @@ body:
     id: expected-behavior
     attributes:
       label: What did you expect to happen?
-      description: Describe what the page, link, layout, or Alpine.js component should do.
+      description: Describe what the page, route, link, layout, language selector, or runtime behavior should do.
     validations:
       required: true
 
@@ -46,7 +46,7 @@ body:
         - Browser Name & Version (e.g., Safari 17.4, Chrome 124, Firefox):
         - Operating System (e.g., iOS, Android, macOS, Linux, Windows):
         - Viewport Size / Breakpoint (e.g., Mobile/sm, Tablet/md, Desktop/xl):
-        - How the site was served (e.g., opened from disk, Python http.server, Fluxheim container):
+        - How the site was served (e.g., cargo run, Podman compose, production proxy):
     validations:
       required: true
 

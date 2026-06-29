@@ -1,76 +1,114 @@
 # Contributing to fluxheim-website
 
-This is a fully static website — plain HTML5, a vendored Tailwind browser build, Alpine.js, and a small shared theme script. There is no build step, no Node.js, no package manager. All JavaScript and CSS assets are vendored locally under `assets/`.
+Fluxheim Website is a Rust 1.96.0 Axum application that serves the original
+HTML site through centralized versioning and stable TOML i18n keys. The app
+runs on port `8080` and is intended to sit behind Fluxheim or another TLS edge
+proxy.
 
-Contributions that keep the site lightweight, accessible, and accurate are welcome.
+Contributions that keep the site lightweight, accessible, localized, and
+secure are welcome.
 
 ## License
 
-This project is licensed under the **European Union Public Licence 1.2 (EUPL-1.2)**. By contributing, you agree that your contribution is provided under the same licence.
+This project is licensed under the **European Union Public Licence 1.2
+(EUPL-1.2)**. By contributing, you agree that your contribution is provided
+under the same licence.
 
 ## Development Setup
 
-No tooling required. Open any HTML file directly in a browser, or run a local server from the repo root:
+Install the pinned Rust toolchain and run the app from the repository root:
 
 ```bash
-python3 -m http.server 8000
+cargo +1.96.0 run
 ```
 
-Then visit `http://localhost:8000`.
+Then visit `http://127.0.0.1:8080`.
 
-To test the full container build locally:
+Run the full local verification gate before opening a pull request:
 
 ```bash
-podman build -f container/Dockerfile -t fluxheim-website:local .
-podman run -d -p 8080:8080 --name fluxheim-test fluxheim-website:local
-# Visit http://localhost:8080 — clean up with:
-podman rm -f fluxheim-test
+scripts/checks.sh
+```
+
+For fast route checks, use the local smoke test:
+
+```bash
+scripts/smoke_local.sh
+```
+
+To test the container build locally:
+
+```bash
+scripts/podman_smoke.sh
 ```
 
 ## What Lives Where
 
 | Path | Purpose |
 |------|---------|
-| `index.html`, `download.html`, `changelog.html` | Top-level site pages |
-| `docs/` | Documentation pages — one file per topic |
-| `docs/source/` | Vendored Markdown docs copied from Fluxheim main plus rendered HTML pages |
-| `assets/js/` | Vendored JavaScript (Tailwind, Alpine.js, Prism.js, theme toggle) |
-| `assets/css/` | Vendored CSS (Prism theme and shared light/dark theme overrides) |
-| `assets/img/` | Logo and images |
-| `conf/fluxheim.toml` | Fluxheim vhost config for serving the site |
-| `container/Dockerfile` | Multi-stage build: Rust builder → Wolfi runtime |
-| `container/podman-compose.yml` | Compose file for local container testing |
+| `src/` | Axum app, routing, i18n, observability, and tests |
+| `index.html`, `download.html`, `changelog.html` | Preserved legacy HTML page sources |
+| `docs/` | Public documentation pages and mirrored source docs |
+| `content/` | Release catalog and small reusable content snippets |
+| `config/site.toml` | Shared site metadata, including Fluxheim version |
+| `config/locales.toml` | Configured locale IDs, URL prefixes, and display names |
+| `config/i18n/keys/` | Stable TOML translation keys for every configured locale |
+| `assets/` | Vendored CSS, JavaScript, images, and flag assets |
+| `container/` | Dockerfile, Podman compose files, and observability stack |
+| `scripts/` | Local verification, i18n, release, and smoke-test tooling |
 
 ## Making Changes
 
-**Editing a page:** Edit the HTML file directly. Pages share a common nav and footer pattern — if you update one, update all. Sidebar active-link state in the docs pages is set via the `bg-cyan-500/8 text-cyan-400 border-l-2` class on the relevant `<a>` element.
+**Updating copy:** Add shared visible text to the stable key files under
+`config/i18n/keys/`. Every configured locale must have the same key shape.
+Run `scripts/check_i18n_keys.py --progress` and
+`scripts/i18n_coverage.py --all-configured --summary-only --fail-under 100`.
 
-**Adding a docs page:** Copy an existing docs page as your template. Add a link to the sidebar nav (present in every docs page) and to `docs/index.html` (the docs hub). Keep the file name lowercase with hyphens.
+**Adding a locale:** Add the locale to `config/locales.toml`, scaffold keys with
+`scripts/scaffold_i18n_locale.py`, translate the new TOML files, then run the
+full local gate.
 
-**Syncing Fluxheim source docs:** Refresh `docs/source/` from the upstream Fluxheim `docs/*.md` files whenever the project docs change, then run `python3 tools/render-source-docs.py` to regenerate the styled HTML pages. Update `docs/reference.html` if files are added, removed, or renamed, and check `docs/features.html` against `docs/source/features.md`.
+**Updating for a Fluxheim release:** Compare against the local Fluxheim checkout
+with `scripts/plan_fluxheim_update.py --fluxheim ../fluxheim`, mirror missing
+release notes and changed source docs, update the public release surfaces, and
+keep all language keys aligned.
 
-**Updating for a new Fluxheim release:** Version strings appear in the nav button, download cards, changelog timeline, install code blocks, and the container image tags. Search for the old version and replace throughout. Update the changelog timeline and the download page release table to match the new release artifacts.
+**Editing HTML:** The legacy HTML files remain the structural source for the
+public pages. Keep navigation, footer, security headers, language selector
+behavior, and static asset paths intact.
 
-**Adding a vendored asset:** Download the file into the appropriate `assets/` subdirectory. Do not reference external CDN URLs. Update the relevant HTML `<script>` or `<link>` tags to point to the local path.
+**Adding assets:** Keep assets local under `assets/`. Do not add external CDN
+script or stylesheet references.
 
 ## Checks Before Opening a PR
 
-- [ ] Pages open without console errors in Firefox and Chrome
-- [ ] Navigation links and sidebar links all resolve correctly
-- [ ] Mobile menu and light/dark theme toggle work (test at <768px viewport width)
-- [ ] Code blocks render with syntax highlighting in both themes
-- [ ] No external CDN URLs introduced (check `<script src>` and `<link href>` attributes)
-- [ ] Version strings are consistent across all pages
+- [ ] `scripts/checks.sh` passes
+- [ ] `scripts/smoke_local.sh` passes for route and locale rendering changes
+- [ ] `scripts/podman_smoke.sh` passes for container or deployment changes
+- [ ] `scripts/check_i18n_keys.py --progress` shows complete locale coverage
+- [ ] `scripts/i18n_coverage.py --all-configured --summary-only --fail-under 100` passes
+- [ ] Version strings and release notes are consistent for release updates
+- [ ] No external CDN URLs or unreviewed third-party scripts are introduced
 
 ## Security-Sensitive Areas
 
-- **Alpine.js directives:** Use `x-text` for user-controlled or dynamic content, never `x-html`, to avoid DOM-based XSS.
-- **External scripts and styles:** All assets must be vendored locally. Do not add `<script src="https://...">` or `<link href="https://...">` references.
-- **Container:** Changes to `container/Dockerfile` should preserve the non-root `fluxheim` user and the Wolfi runtime base.
-- **Config:** `conf/fluxheim.toml` has `deny_dotfiles = true` and directory listing disabled — do not relax these.
+- **Routing:** Locale prefixes and legacy paths must remain allow-listed and
+  traversal-safe.
+- **Translations:** TOML i18n keys are trusted project data. Do not introduce
+  user-controlled template paths or dynamic template evaluation.
+- **Telemetry:** Keep observability aggregate and privacy-preserving. Do not log
+  raw visitor IPs, raw user agents, or secret-bearing query strings.
+- **Secrets:** Use `sanitization` for secret-shaped runtime values that need
+  memory wiping.
+- **Container:** Preserve the non-root `fluxheim` user and hardened runtime
+  defaults.
+- **Dependencies:** Run `cargo deny check` and `cargo audit`; explain any
+  allowed advisory.
 
-Do not post vulnerability details in public issues. Follow [SECURITY.md](../SECURITY.md).
+Do not post vulnerability details in public issues. Follow
+[SECURITY.md](../SECURITY.md).
 
 ## Pull Requests
 
-Keep PRs scoped to a single change. Include a clear summary of what changed and why. For release updates, list the version being targeted in the PR description.
+Keep PRs scoped to a single change. Include a clear summary of what changed,
+why it changed, and which verification commands were run.
