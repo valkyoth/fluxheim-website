@@ -1,5 +1,5 @@
 [release_updates]
-adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Explicit, alapból kikapcsolt h2c Upgrade fallbacket ad plaintext HTTP/1 és HTTP/2 originokhoz"
+adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Explicit, alapból kikapcsolt h2c Upgrade fallbacket ad plaintext <code class=\"text-cyan-400 text-xs\">http1-and-http2</code> originokhoz"
 adds_native_acme_http_01_challenge_serving_traffic_mirroring_auth_request_and_route_scoped_grpc_validation = "Native ACME HTTP-01 challenge servinget, traffic mirroringot, auth-requestet és route-scoped gRPC validationt ad hozzá"
 adds_pooled_native_upstream_h2_connections_with_bounded_stream_capacity_and_safe_method_retry_after_pre_response_pooled_handle_failure = "Pooled native upstream H2 connectionöket ad bounded stream capacityvel és safe-method retryval pre-response pooled-handle failure után"
 bounds_native_upstream_h2_handshakes_stream_slot_waits_keepalive_pings_and_setup_timeouts = "Boundolja a native upstream H2 handshake-eket, stream-slot várakozásokat, keepalive pingeket és setup timeoutokat"

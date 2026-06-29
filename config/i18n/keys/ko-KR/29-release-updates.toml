@@ -1,5 +1,5 @@
 [release_updates]
-adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "plaintext HTTP/1 및 HTTP/2 origin을 위한 기본 비활성 h2c Upgrade fallback을 명시적으로 추가합니다"
+adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "plaintext <code class=\"text-cyan-400 text-xs\">http1-and-http2</code> origin을 위한 기본 비활성 h2c Upgrade fallback을 명시적으로 추가합니다"
 adds_native_acme_http_01_challenge_serving_traffic_mirroring_auth_request_and_route_scoped_grpc_validation = "native ACME HTTP-01 challenge serving, traffic mirroring, auth-request, route-scoped gRPC validation을 추가합니다"
 adds_pooled_native_upstream_h2_connections_with_bounded_stream_capacity_and_safe_method_retry_after_pre_response_pooled_handle_failure = "bounded stream capacity와 pre-response pooled-handle failure 이후 safe-method retry를 갖춘 pooled native upstream H2 connection을 추가합니다"
 bounds_native_upstream_h2_handshakes_stream_slot_waits_keepalive_pings_and_setup_timeouts = "native upstream H2 handshake, stream-slot wait, keepalive ping, setup timeout을 제한합니다"
