@@ -71,7 +71,7 @@ config_tester = "<td class=\"px-4 py-3 font-semibold text-white\">설정 검사�
 version_date = "<th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">버전</th>\n                <th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">날짜</th>"
 home = "<a href=\"index.html\" class=\"text-gray-600 hover:text-gray-400 text-sm transition-colors\">홈</a>"
 
-native_runtime_cutover_and_cleanup_line_pingora_exit_foundations_fluxheim_owned_http_1_and_http_2_paths_native_tls_listener_previews_route_proxy_static_web_parity_compression_and_error_pages_forwarded_header_policy_auth_request_traffic_mirroring_rate_limits_grpc_validation_pooled_upstream_http_2_post_cutover_native_proxy_cleanup_and_hardened_runtime_evidence = "1.6.36 구조 정리입니다. native proxy 정리, crate 소유 API, Pingora 시대 잔여 코드 제거, 결정적인 observability 이미지, HTTP/1 chunked 회귀 테스트를 포함합니다. The 1.6 series covers Pingora exit, Fluxheim-owned HTTP/1 and HTTP/2 paths, native TLS/listener previews, proxy/cache/load-balancer parity, post-cutover native proxy cleanup, and hardened runtime evidence."
+native_runtime_cutover_and_cleanup_line_pingora_exit_foundations_fluxheim_owned_http_1_and_http_2_paths_native_tls_listener_previews_route_proxy_static_web_parity_compression_and_error_pages_forwarded_header_policy_auth_request_traffic_mirroring_rate_limits_grpc_validation_pooled_upstream_http_2_post_cutover_native_proxy_cleanup_and_hardened_runtime_evidence = "1.6.36 구조 정리입니다. native proxy 정리, crate 소유 API, Pingora 시대 잔여 코드 제거, 결정적인 observability 이미지, HTTP/1 chunked 회귀 테스트를 포함합니다."
 [changelog]
 changelog_fluxheim = "변경 기록 — Fluxheim"
 fluxheim_release_history_and_changelog = "Fluxheim 릴리스 이력과 변경 기록입니다."
