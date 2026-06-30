@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.6.34
+            Download v1.6.35
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.6.34</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.6.35</a>
       </div>
     </div>
   </nav>
@@ -139,6 +139,7 @@ max_size_bytes = "10GiB"</code></pre>
   <h2>Native proxy-cache support</h2>
   <p>Fluxheim's native proxy path supports memory cache, filesystem disk cache, storage-bin disk cache, encrypted disk cache, OpenBao Transit encryption, memory+disk tiering, peer fill, range slice caching, stale serving, cache locks, purge operations, and cache metrics.</p>
   <p>Unsupported route shapes still fail closed instead of silently dropping cache policy. Start with memory cache, then add disk, encryption, or peer fill only when the origin and purge workflow are already understood.</p>
+  <p>For non-loopback plaintext peer-fill URLs, configure <code>cache.peer_fill.shared_secret_file</code> so peer responses are signed before they can be stored.</p>
 </section>
 <section class="guide-section">
   <h2>Route cache policy</h2>

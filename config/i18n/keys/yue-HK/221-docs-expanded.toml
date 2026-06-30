@@ -154,3 +154,4 @@ unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_po
 pingora_free_normal_builds = "唔使用 Pingora 嘅正常 builds"
 starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "由 1.6.34 開始，正常 Fluxheim release profiles 使用 Fluxheim-owned native runtime，唔再編譯 Pingora crates。"
 unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "唔受支援嘅 native runtime shapes 仍然會用 explicit blockers fail closed，而唔會 fallback 去 legacy adapters。"
+for_non_loopback_plaintext_peer_fill_urls_configure_cache_peer_fill_shared_secret_file_so_peer_responses_are_signed_before_they_can_be_stored = "對於 non-loopback plaintext peer-fill URLs，請設定 <code>cache.peer_fill.shared_secret_file</code>，等 peer responses 可以喺儲存之前簽署。"

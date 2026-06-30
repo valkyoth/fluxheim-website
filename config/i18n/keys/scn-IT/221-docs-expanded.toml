@@ -154,3 +154,4 @@ unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_po
 pingora_free_normal_builds = "Pingora-free custruzzioni nurmali"
 starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "Accuminciannu di 1.6.34, li nurmali Fluxheim release profiles ùsanu li runtime nativi e nun cumpilànu cchiù li Pingora."
 unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "Li furmi runtime nativi nun sustinuti nun su' ancora chiusi cu bloccatura esplìciti ô postu di turnari ê adapter vecchi."
+for_non_loopback_plaintext_peer_fill_urls_configure_cache_peer_fill_shared_secret_file_so_peer_responses_are_signed_before_they_can_be_stored = "Pi testu chianu non-loopback, cunfigurari <code>cache.peer_fill.shared_secret_file</code> accussì li risposti di pari vennu firmati prima di èssiri sarbati."

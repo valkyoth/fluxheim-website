@@ -119,16 +119,16 @@ fn applies_stable_shared_keys_before_phrase_maps() {
     let de = site.locale("de-DE").expect("German locale");
     let fr = site.locale("fr-FR").expect("French locale");
 
-    let html = ">Docs<>Changelog<>Latest Stable<>Download v1.6.34<".to_owned();
-    let de_html = apply_shared_keys(de, html.clone(), "1.6.34");
-    let fr_html = apply_shared_keys(fr, html, "1.6.34");
+    let html = ">Docs<>Changelog<>Latest Stable<>Download v1.6.35<".to_owned();
+    let de_html = apply_shared_keys(de, html.clone(), "1.6.35");
+    let fr_html = apply_shared_keys(fr, html, "1.6.35");
 
     assert!(de_html.contains("Dokumentation"));
     assert!(de_html.contains("Aktuelle stabile Version"));
-    assert!(de_html.contains("Herunterladen v1.6.34"));
+    assert!(de_html.contains("Herunterladen v1.6.35"));
     assert!(fr_html.contains("Journal des changements"));
     assert!(fr_html.contains("Dernière version stable"));
-    assert!(fr_html.contains("Télécharger v1.6.34"));
+    assert!(fr_html.contains("Télécharger v1.6.35"));
 }
 
 #[test]

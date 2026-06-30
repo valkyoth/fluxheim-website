@@ -154,3 +154,4 @@ unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_po
 pingora_free_normal_builds = "Pingora-free eðlileg smíði"
 starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "Frá og með 1.6.34, venjulegur Fluxheim release profiles notar Fluxheim-owned innfæddan runtime og ekki lengur saman Pingora crates."
 unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "Óstudd innfædd runtime form mistakast enn lokað með skýrum blokkum í stað þess að falla aftur í eldri adapter."
+for_non_loopback_plaintext_peer_fill_urls_configure_cache_peer_fill_shared_secret_file_so_peer_responses_are_signed_before_they_can_be_stored = "Fyrir non-loopback almennan texta peer-fill URLs, stilltu <code>cache.peer_fill.shared_secret_file</code> þannig að jafningjasvör séu undirrituð áður en hægt er að geyma þau."
