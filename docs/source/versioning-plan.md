@@ -2908,8 +2908,8 @@ available for the stabilization/security-only follow-up.
   shared secret for non-loopback `http://` peer-fill URLs so cross-host
   plaintext peer fill cannot remain silently unauthenticated.
 - `v1.6.36`: post-cutover structural cleanup release before the `1.7` Wasm
-  line. Turn the temporary native proxy shim into proper crate APIs by moving
-  any still-needed DTOs/helpers out of `src/native_proxy_shim.rs` and into
+  line. Turn the temporary native proxy boundary into proper crate APIs by moving
+  any still-needed DTOs/helpers out of `src/native_proxy.rs` and into
   their owning crates, updating root callers to import `fluxheim-server`,
   `fluxheim-cache`, `fluxheim-load-balancer`, and related crate APIs directly,
   then deleting the shim. Delete disabled Pingora-era root modules and inert
@@ -2919,7 +2919,7 @@ available for the stabilization/security-only follow-up.
 
   Required cleanup outcomes:
 
-  - Remove `src/native_proxy_shim.rs` or reduce it to an empty deleted
+  - Remove `src/native_proxy.rs` or reduce it to an empty deleted
     compatibility boundary with all still-used request/cache/admin DTOs moved
     into their owning crates.
   - Remove dead Pingora-era root modules and adapters that are no longer
@@ -2947,43 +2947,74 @@ available for the stabilization/security-only follow-up.
     `scripts/validate-modularity-policy.sh check`, release containers, RPM,
     and representative smoke tests as blocking evidence for the cleanup.
 
-  Crate-boundary follow-up for this cleanup:
+- `v1.6.37`: final pre-Wasm crate-boundary cleanup release. Use this release to
+  finish the obvious post-Pingora crate moves that make future work easier,
+  while keeping runtime behavior stable and avoiding a giant `1.6.36` release.
+  New substantial code after this line should default to a focused workspace
+  crate or an existing domain crate, with the root `fluxheim` crate acting as
+  binary/orchestration glue.
 
-  - `fluxheim-acme` is now a good extraction candidate. The root `src/acme.rs`
-    and `src/acme_companion.rs` still hold account/order/renewal/storage logic
-    plus the companion binary wiring, while TLS certificate loading and native
-    listener planning already live in `fluxheim-tls`/`fluxheim-server`. Split
-    ACME as a domain crate with typed renewal/install/reload APIs, and keep the
-    root binary responsible only for CLI/runtime wiring.
-  - `fluxheim-proxy` is possible, but should not be a single mechanical move.
-    Native HTTP proxy logic currently spans `fluxheim-server` routing,
-    upstream clients, cache adapter, PHP/static route adapters, WebSocket,
-    HTTP/2, and admin-visible runtime handles. First extract stable DTOs and
-    policy/result types from the shim; then move route proxy/upstream-client
-    pieces behind a `fluxheim-proxy` crate only after tests prove no circular
-    dependency back to `fluxheim-server`, `fluxheim-cache`, or root admin code.
-  - `fluxheim-admin` remains later than ACME/proxy DTO cleanup. `src/admin.rs`
-    is large, but it depends on nearly every domain. Move admin only after
-    cache, ACME, load-balancer, metrics, and runtime crates expose stable
-    request/result APIs.
-  - Smaller realistic cleanup candidates are root `metrics` into
-    `fluxheim-observability`, root `headers` leftovers into
-    `fluxheim-headers`, and CLI subcommands into smaller root modules. Do
-    these only where they reduce real coupling or remove dead compatibility
-    imports; do not create tiny crates merely to move lines around.
+  Primary extraction targets:
 
-  Stretch outcomes, only if the required cleanup is already green:
+  - Start `fluxheim-acme` as a workspace crate. The root `src/acme.rs` and
+    `src/acme_companion.rs` still hold account/order/renewal/storage logic plus
+    companion binary wiring, while TLS certificate loading and native listener
+    planning already live in `fluxheim-tls`/`fluxheim-server`. Split ACME as a
+    domain crate with typed account, order, storage, renewal, install, and
+    reload APIs. Keep `src/bin/fluxheim-acme.rs`, CLI commands, and runtime
+    orchestration as thin root wiring.
+  - Move observability helpers still living in root `metrics`, `metrics_otlp`,
+    `otel_otlp`, `otlp_http`, and `trace_context` into
+    `fluxheim-observability` where this does not change exported metric names,
+    log schemas, trace context behavior, or CodeQL path-safety annotations. The
+    root modules should remain only as registry/exporter/runtime adapters.
+  - Move remaining root header-policy helpers into `fluxheim-headers` without
+    changing privacy-mode gates, trusted-proxy semantics, hop-by-hop stripping,
+    or forwarding-header behavior. Header security tests must move with the
+    logic.
+  - Continue reducing `src/native_proxy.rs` and root cache/admin DTO shims by
+    moving stable request/result/policy types into `fluxheim-server`,
+    `fluxheim-cache`, `fluxheim-load-balancer`, or `fluxheim-headers`. Delete
+    root compatibility wrappers once callers use the owning crates directly.
+  - Review `src/tls.rs`, `src/upstream_tls.rs`, and `src/stream_tls.rs` for
+    small remaining TLS helper moves into `fluxheim-tls` or `fluxheim-stream`.
+    Do this only when dependency direction stays domain-crate-only and the root
+    runtime remains the orchestrator.
+  - Split obvious CLI/config-tester subcommand helpers into smaller root modules
+    when it reduces coupling for release/testing workflows. Do not create a
+    separate CLI crate unless the dependency graph is clean and the binary
+    wiring stays straightforward.
 
-  - Start `fluxheim-acme` as a workspace crate with account/order/storage
-    primitives and keep root `fluxheim-acme` binary code as thin command wiring.
-  - Move observability helpers still living in root `metrics` into
-    `fluxheim-observability` where this does not change exported metrics names
-    or CodeQL path-safety annotations.
-  - Move any remaining root header-policy helpers into `fluxheim-headers`
-    without changing privacy-mode gates or trusted-proxy semantics.
-  - Split obvious CLI subcommand helpers into smaller root modules when that
-    reduces coupling for release/testing workflows; do not block the release on
-    full CLI extraction.
+  Deliberate deferrals:
+
+  - Do not attempt a single mechanical `fluxheim-proxy` extraction. Native HTTP
+    proxy logic still spans `fluxheim-server` routing, upstream clients, cache,
+    PHP/static route adapters, WebSocket, HTTP/2, and admin-visible runtime
+    handles. Extract stable DTOs and policy/result types first; move route
+    proxy/upstream-client pieces behind a future `fluxheim-proxy` crate only
+    after tests prove no circular dependency back to `fluxheim-server`,
+    `fluxheim-cache`, or root admin code.
+  - Do not move `src/admin.rs` into `fluxheim-admin` yet unless the dependency
+    graph has clearly inverted. Admin depends on nearly every domain; it should
+    move only after cache, ACME, load-balancer, metrics, TLS, runtime, and
+    snapshot crates expose stable request/result APIs.
+  - Do not create tiny crates merely to move lines around. Prefer stronger
+    existing domain crates and smaller root modules when the extraction does
+    not reduce coupling or review risk.
+
+  Required evidence:
+
+  - `scripts/validate-modularity-policy.sh check` remains green or any new
+    exception has a documented split target.
+  - `cargo test --locked --workspace` and focused crate tests cover every moved
+    policy or DTO boundary.
+  - Release metadata, RPM, container, native-runtime, Pingora dependency, and
+    Pingora boundary gates remain green.
+  - Existing smoke tests for ACME/TLS planning, observability, headers,
+    cache/admin status, and native proxy behavior still pass without config
+    changes.
+  - The release notes explicitly list moved crates/modules so reviewers and
+    pentest can focus on dependency-boundary and behavior-preservation checks.
 
 Stable exit criteria:
 
@@ -4362,8 +4393,8 @@ the exception while the cache server is being completed as a focused sequence:
   `Content-Range`/`Content-Length` validation, cache-key component formatting,
   temporary HEAD cache bypass detection, and multipart slice range policy
   sizing now also live in
-  `crates/fluxheim-cache::request`, while root `crate::proxy_cache` keeps
-  Pingora request/response-header and cache-key adaptation. Pure remaining-TTL and
+  `crates/fluxheim-cache::request`, with native request/response-header and
+  cache-key adaptation now handled by `fluxheim-server`. Pure remaining-TTL and
   synthesized Cache-Control freshness helpers now live in
   `crates/fluxheim-cache::headers`, alongside Vary header parsing and
   configured request-header variance policy, Vary request hash material
@@ -4389,7 +4420,8 @@ the exception while the cache server is being completed as a focused sequence:
   config-value validators plus PHP-FPM timeout/retry policy and endpoint
   selection plus PHP-FPM response-header safety guards plus response split,
   `Status` parsing, ASCII trimming, header colon splitting, and managed
-  instance-name generation moved behind the existing `crate::php_fpm` surface.
+  instance-name generation moved behind the native PHP-FPM route adapter and
+  `fluxheim-php-fpm` crate surface.
   The `crates/fluxheim-geoip` boundary now owns `GeoContext` and the optional
   local MMDB runtime behind root compatibility re-exports. The
   `crates/fluxheim-compression` boundary now owns response compression encoder
@@ -4425,11 +4457,9 @@ the exception while the cache server is being completed as a focused sequence:
   `crates/fluxheim-observability` `otlp-trace` feature while root
   `crate::otel_otlp` remains a compatibility re-export.
   The `crates/fluxheim-protocol` boundary now
-  owns PROXY protocol v1/v2 upstream header framing while the root
-  `crate::proxy_protocol` adapter keeps Pingora L4 connector wiring. It also
-  owns route method matching and prefix-boundary helpers while root
-  `crate::route_policy` keeps config, regex-capture, and Pingora request
-  adaptation. The
+  owns PROXY protocol v1/v2 upstream header framing used by the native HTTP and
+  stream runtimes. It also owns route method matching and prefix-boundary
+  helpers consumed by native route selection. The
   `crates/fluxheim-snapshot` boundary now owns durable config snapshot storage,
   metadata validation, rollback pointer handling, and symlink-safe filesystem
   writes while root `crate::snapshot` remains a compatibility re-export.

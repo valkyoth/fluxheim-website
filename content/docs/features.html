@@ -17,6 +17,12 @@ cargo build --release --no-default-features --features profile-web-server,php-fp
 cargo build --release --no-default-features --features profile-load-balancer-edge,acme-client</code></pre>
 </section>
 <section class="guide-section">
+  <h2>Pingora-free normal builds</h2>
+  <p>Starting with 1.6.34, normal Fluxheim release profiles use the Fluxheim-owned native runtime and no longer compile Pingora crates.</p>
+  <p>Version 1.6.36 removes more temporary compatibility code: the native proxy boundary now uses direct crate-owned APIs, and dead Pingora-era root adapters are gone from normal source paths.</p>
+  <p>Unsupported native runtime shapes still fail closed with explicit blockers instead of falling back to legacy adapters.</p>
+</section>
+<section class="guide-section">
   <h2>Feature families</h2>
   <table><thead><tr><th>Family</th><th>What it adds</th></tr></thead><tbody>
     <tr><td><code>web</code></td><td>Static file serving and local web routes.</td></tr>

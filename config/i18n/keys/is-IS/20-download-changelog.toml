@@ -71,6 +71,7 @@ config_tester = "<td class=\"px-4 py-3 font-semibold text-white\">Config-tester<
 version_date = "<th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Útgáfa</th>\n                <th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">Dagsetning</th>"
 home = "<a href=\"index.html\" class=\"text-gray-600 hover:text-gray-400 text-sm transition-colors\">Heim</a>"
 
+native_runtime_cutover_and_cleanup_line_pingora_exit_foundations_fluxheim_owned_http_1_and_http_2_paths_native_tls_listener_previews_route_proxy_static_web_parity_compression_and_error_pages_forwarded_header_policy_auth_request_traffic_mirroring_rate_limits_grpc_validation_pooled_upstream_http_2_post_cutover_native_proxy_cleanup_and_hardened_runtime_evidence = "Uppfærir 1.6.36 skipulagið með native proxy hreinsun, crate-eigin API, Pingora-arfleið fjarlægða, ákveðnum observability image og HTTP/1 chunked aðhvarfsprófum. The 1.6 series covers Pingora exit, Fluxheim-owned HTTP/1 and HTTP/2 paths, native TLS/listener previews, proxy/cache/load-balancer parity, post-cutover native proxy cleanup, and hardened runtime evidence."
 [changelog]
 changelog_fluxheim = "Breytingaskrá - Fluxheim"
 fluxheim_release_history_and_changelog = "Útgáfusaga og breytingaskrá Fluxheim."

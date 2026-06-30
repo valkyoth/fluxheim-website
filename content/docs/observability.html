@@ -11,6 +11,7 @@ OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
 OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 OTEL_METRIC_EXPORT_INTERVAL=5000</code></pre>
   <p>The observability compose stack sets these for the website service. Set <code>FLUXHEIM_OTLP=disabled</code> to run the same binary without exporting metrics or traces.</p>
+  <p>Version 1.6.36 pins the Prometheus and Jaeger smoke-test images to stable tags so local and CI observability checks pull deterministic containers.</p>
   <p>Keep labels low-cardinality: route group, language, status class, download artifact, and GitHub target are useful. Raw IP addresses and user identifiers are not.</p>
 </section>
 <section class="guide-section">

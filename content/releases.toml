@@ -1,4 +1,10 @@
-latest = "1.6.35"
+latest = "1.6.36"
+
+[[release]]
+version = "1.6.36"
+date = "2026-06-30"
+title = "Post-cutover structural cleanup"
+summary = "Behavior-preserving cleanup after the Pingora-free runtime proof: native proxy boundary removal, crate-owned load-balancer/cache/admin DTOs, dead Pingora-era root code deletion, deterministic observability smoke images, and native HTTP/1 chunked-body regression coverage."
 
 [[release]]
 version = "1.6.35"
