@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 set -eu
 
-cargo +1.96.0 fmt --all --check
-cargo +1.96.0 clippy --all-targets -- -D warnings
-cargo +1.96.0 test
+cargo +1.96.1 fmt --all --check
+cargo +1.96.1 clippy --all-targets -- -D warnings
+cargo +1.96.1 test
 python3 -m py_compile scripts/check_i18n_keys.py scripts/i18n_coverage.py scripts/scaffold_i18n_locale.py scripts/check_english_variants.py
 scripts/check_i18n_keys.py
 scripts/check_english_variants.py

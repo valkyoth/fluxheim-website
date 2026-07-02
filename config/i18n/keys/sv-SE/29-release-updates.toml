@@ -54,3 +54,19 @@ consolidates_native_proxy_config_storage_so_reloads_refresh_the_same_snapshot_us
 adds_native_http_1_chunked_body_overflow_regression_coverage_and_pins_observability_smoke_images_to_deterministic_tags = "Lägger till native HTTP/1-regressionstäckning för chunked-body-overflow och låser observability smoke-images till deterministiska taggar"
 is_the_post_cutover_structural_cleanup_after_the_pingora_free_runtime_proof_and_stabilization_checkpoint = "är den strukturella rensningen efter cutover, efter Pingora-free runtime proof och stabiliseringspunkten."
 it_removes_temporary_compatibility_boundaries_deletes_inert_pingora_era_code_and_prepares_the_final_1_6_37_crate_boundary_cleanup_before_the_1_7_wasm_line = "Den tar bort tillfälliga kompatibilitetsgränser, raderar inert kod från Pingora-eran och förbereder den sista 1.6.37-rensningen av crate-gränser före 1.7 Wasm-linjen."
+
+released_july_2_2026 = "Släppt 2 juli 2026"
+
+updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "Uppdaterar den låsta Rust-verktygskedjan, rust-version-fälten och containerbyggbilderna till Rust 1.96.1"
+
+hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "Härdar OpenSSL-kopplingar för stream-upstream-TLS med TLS 1.2 som lägsta nivå och en modern TLS 1.2/TLS 1.3-chifferlista"
+
+stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "Lagrar serialiserade ACME-kontouppgifter i sanitization::SecretVec medan de skrivs till disk"
+
+removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "Tar bort kvarvarande rotkompatibilitetsshims så att anropare använder fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability och andra ägande crates direkt"
+
+splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "Delar upp ACME-, observability-, cache-, load-balancer-, PHP-FPM-, snapshot-, web-, stream- och native-runtime-interna delar i mindre fokuserade moduler"
+
+is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "är den sista crate-gränsrensningen före Wasm efter Pingora-fri runtime-cutover."
+
+it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Runtime-beteendet hålls stabilt medan de sista rothelparna flyttas till fokuserade workspace-crates före 1.7 Wasm-linjen."

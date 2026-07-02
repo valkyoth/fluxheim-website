@@ -19,7 +19,7 @@ cargo build --release --no-default-features --features profile-load-balancer-edg
 <section class="guide-section">
   <h2>Pingora-free normal builds</h2>
   <p>Starting with 1.6.34, normal Fluxheim release profiles use the Fluxheim-owned native runtime and no longer compile Pingora crates.</p>
-  <p>Version 1.6.36 removes more temporary compatibility code: the native proxy boundary now uses direct crate-owned APIs, and dead Pingora-era root adapters are gone from normal source paths.</p>
+  <p>Version 1.6.37 is the final pre-Wasm crate-boundary cleanup: ACME, observability, cache, load-balancer, PHP-FPM, and native runtime internals move into smaller crate-owned modules while runtime behavior stays stable.</p>
   <p>Unsupported native runtime shapes still fail closed with explicit blockers instead of falling back to legacy adapters.</p>
 </section>
 <section class="guide-section">

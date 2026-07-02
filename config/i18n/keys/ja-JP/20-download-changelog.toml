@@ -71,7 +71,7 @@ config_tester = "<td class=\"px-4 py-3 font-semibold text-white\">設定テス�
 version_date = "<th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">バージョン</th>\n                <th class=\"text-left px-5 py-3.5 font-semibold text-gray-400\">日付</th>"
 home = "<a href=\"index.html\" class=\"text-gray-600 hover:text-gray-400 text-sm transition-colors\">ホーム</a>"
 
-native_runtime_cutover_and_cleanup_line_pingora_exit_foundations_fluxheim_owned_http_1_and_http_2_paths_native_tls_listener_previews_route_proxy_static_web_parity_compression_and_error_pages_forwarded_header_policy_auth_request_traffic_mirroring_rate_limits_grpc_validation_pooled_upstream_http_2_post_cutover_native_proxy_cleanup_and_hardened_runtime_evidence = "1.6.36の構造整理です。native proxyの整理、crate所有APIへの移行、Pingora時代の不要コード削除、決定的なobservabilityイメージ、HTTP/1 chunked回帰テストを含みます。"
+native_runtime_cutover_and_cleanup_line_pingora_exit_foundations_fluxheim_owned_http_1_and_http_2_paths_native_tls_listener_previews_route_proxy_static_web_parity_compression_and_error_pages_forwarded_header_policy_auth_request_traffic_mirroring_rate_limits_grpc_validation_pooled_upstream_http_2_post_cutover_native_proxy_cleanup_and_hardened_runtime_evidence = "native runtime への切り替えと整理の系列: Pingora から離れるための基盤、Fluxheim 所有の HTTP/1 と HTTP/2 経路、native TLS/listener のプレビュー、route proxy/static-web の同等性、圧縮とエラーページ、forwarded header ポリシー、auth-request、トラフィックミラーリング、rate limits、gRPC 検証、プールされた upstream HTTP/2、切り替え後の native proxy 整理、Wasm 前最後の crate 境界整理、Rust 1.96.1、強化された OpenSSL stream TLS、ACME アカウントのゼロ化、小さく分けた runtime モジュール。"
 [changelog]
 changelog_fluxheim = "変更履歴 — Fluxheim"
 fluxheim_release_history_and_changelog = "Fluxheimのリリース履歴と変更履歴。"

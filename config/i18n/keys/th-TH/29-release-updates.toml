@@ -54,3 +54,19 @@ consolidates_native_proxy_config_storage_so_reloads_refresh_the_same_snapshot_us
 adds_native_http_1_chunked_body_overflow_regression_coverage_and_pins_observability_smoke_images_to_deterministic_tags = "อัปเดตโครงสร้าง 1.6.36: ล้าง native proxy, ใช้ API ที่ crate เป็นเจ้าของ, ลบโค้ดเก่ายุค Pingora, ตรึง observability images และเพิ่ม HTTP/1 chunked regression tests."
 is_the_post_cutover_structural_cleanup_after_the_pingora_free_runtime_proof_and_stabilization_checkpoint = "อัปเดตโครงสร้าง 1.6.36: ล้าง native proxy, ใช้ API ที่ crate เป็นเจ้าของ, ลบโค้ดเก่ายุค Pingora, ตรึง observability images และเพิ่ม HTTP/1 chunked regression tests."
 it_removes_temporary_compatibility_boundaries_deletes_inert_pingora_era_code_and_prepares_the_final_1_6_37_crate_boundary_cleanup_before_the_1_7_wasm_line = "อัปเดตโครงสร้าง 1.6.36: ล้าง native proxy, ใช้ API ที่ crate เป็นเจ้าของ, ลบโค้ดเก่ายุค Pingora, ตรึง observability images และเพิ่ม HTTP/1 chunked regression tests."
+
+released_july_2_2026 = "เผยแพร่ 2 กรกฎาคม 2026"
+
+updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "อัปเดต Rust toolchain ที่ pin ไว้, ฟิลด์ rust-version และ container builder images เป็น Rust 1.96.1"
+
+hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "เพิ่มความแข็งแรงให้ OpenSSL stream-upstream TLS connectors ด้วย TLS 1.2 เป็นขั้นต่ำและ allowlist cipher TLS 1.2/TLS 1.3 สมัยใหม่"
+
+stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "เก็บ ACME account credentials ที่ serialize แล้วไว้ใน sanitization::SecretVec ระหว่างเขียนลงดิสก์"
+
+removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "ลบ root compatibility shims ที่เหลือ เพื่อให้ caller ใช้ fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability และ owning crates อื่นโดยตรง"
+
+splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "แยก internals ของ ACME, observability, cache, load-balancer, PHP-FPM, snapshot, web, stream และ native runtime เป็นโมดูลเล็กลงและโฟกัสชัดขึ้น"
+
+is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "คือการ cleanup crate-boundary ขั้นสุดท้ายก่อน Wasm หลัง runtime cutover ที่ไม่ใช้ Pingora."
+
+it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "คงพฤติกรรม runtime ให้เสถียร ขณะย้าย root helpers ที่เหลือไปยัง workspace crates ที่โฟกัสก่อนสาย 1.7 Wasm."

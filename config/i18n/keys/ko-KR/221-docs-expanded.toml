@@ -150,6 +150,9 @@ native_proxy_cache_support = "기본 proxy-cache 지원"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "Fluxheim의 기본 프록시 경로는 메모리 캐시, 파일 시스템 디스크 캐시, storage-bin 디스크 캐시, 암호화된 디스크 캐시, OpenBao Transit 암호화, memory+disk 계층화, 피어 채우기, 범위 슬라이스 캐싱, 오래된 제공, 캐시 잠금, 제거 작업 및 캐시 측정항목을 지원합니다."
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "지원되지 않는 경로 형태는 캐시 정책을 자동으로 삭제하는 대신 페일클로즈됩니다. 메모리 캐시로 시작한 다음 원본 및 제거 작업 흐름을 이미 이해한 경우에만 디스크, 암호화 또는 피어 채우기를 추가하세요."
 
+version_1_6_37_is_the_final_pre_wasm_crate_boundary_cleanup_acme_observability_cache_load_balancer_php_fpm_and_native_runtime_internals_move_into_smaller_crate_owned_modules_while_runtime_behavior_stays_stable = "버전 1.6.37은 Wasm 전 마지막 crate 경계 정리입니다. ACME, observability, cache, load-balancer, PHP-FPM, native runtime 내부를 각 crate가 소유하는 더 작은 모듈로 옮기면서 runtime 동작은 안정적으로 유지합니다."
+
+version_1_6_37_keeps_the_local_observability_smoke_more_reliable_by_retrying_disposable_prometheus_and_jaeger_startup_with_freshly_allocated_ports_when_host_network_ports_race_with_other_runner_processes = "버전 1.6.37은 host-network 포트가 다른 runner 프로세스와 경쟁할 때 새로 할당한 포트로 Prometheus와 Jaeger 임시 시작을 재시도하여 로컬 observability smoke를 더 안정적으로 만듭니다."
 [docs_expanded]
 pingora_free_normal_builds = "Pingora 없는 일반 빌드"
 starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "1.6.34부터 일반 Fluxheim 릴리스 프로파일은 Fluxheim 소유 네이티브 runtime을 사용하며 더 이상 Pingora crate를 컴파일하지 않습니다."

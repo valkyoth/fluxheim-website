@@ -1,4 +1,10 @@
-latest = "1.6.36"
+latest = "1.6.37"
+
+[[release]]
+version = "1.6.37"
+date = "2026-07-02"
+title = "Final pre-Wasm crate-boundary cleanup"
+summary = "Final pre-Wasm crate-boundary cleanup with Rust 1.96.1, hardened OpenSSL stream-upstream TLS defaults, ACME account credential zeroization during writes, direct crate-owned APIs, and smaller ACME, observability, cache, load-balancer, PHP-FPM, and native runtime modules."
 
 [[release]]
 version = "1.6.36"

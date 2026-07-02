@@ -54,3 +54,19 @@ consolidates_native_proxy_config_storage_so_reloads_refresh_the_same_snapshot_us
 adds_native_http_1_chunked_body_overflow_regression_coverage_and_pins_observability_smoke_images_to_deterministic_tags = "Ενημερώνει τη δομή 1.6.36: καθαρισμός native proxy, crate-owned APIs, αφαίρεση κληρονομιάς Pingora, deterministic observability images και HTTP/1 chunked regression tests."
 is_the_post_cutover_structural_cleanup_after_the_pingora_free_runtime_proof_and_stabilization_checkpoint = "Ενημερώνει τη δομή 1.6.36: καθαρισμός native proxy, crate-owned APIs, αφαίρεση κληρονομιάς Pingora, deterministic observability images και HTTP/1 chunked regression tests."
 it_removes_temporary_compatibility_boundaries_deletes_inert_pingora_era_code_and_prepares_the_final_1_6_37_crate_boundary_cleanup_before_the_1_7_wasm_line = "Ενημερώνει τη δομή 1.6.36: καθαρισμός native proxy, crate-owned APIs, αφαίρεση κληρονομιάς Pingora, deterministic observability images και HTTP/1 chunked regression tests."
+
+released_july_2_2026 = "Κυκλοφόρησε στις 2 Ιουλίου 2026"
+
+updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "Ενημερώνει την καρφιτσωμένη Rust toolchain, τα πεδία rust-version και τα container builder images σε Rust 1.96.1"
+
+hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "Σκληραίνει τους OpenSSL stream-upstream TLS connectors με ελάχιστο TLS 1.2 και σύγχρονη allowlist κρυπτογράφησης TLS 1.2/TLS 1.3"
+
+stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "Αποθηκεύει τα σειριοποιημένα διαπιστευτήρια λογαριασμού ACME σε sanitization::SecretVec κατά την εγγραφή στον δίσκο"
+
+removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "Αφαιρεί τα εναπομείναντα root compatibility shims ώστε οι κλήσεις να χρησιμοποιούν άμεσα τα fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability και άλλα owning crates"
+
+splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "Χωρίζει τα εσωτερικά των ACME, observability, cache, load-balancer, PHP-FPM, snapshot, web, stream και native runtime σε μικρότερα εστιασμένα modules"
+
+is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "είναι ο τελικός καθαρισμός ορίων crates πριν από το Wasm μετά το Pingora-free runtime cutover."
+
+it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Η συμπεριφορά του runtime παραμένει σταθερή, ενώ οι τελευταίοι root helpers μετακινούνται σε εστιασμένα workspace crates πριν από τη γραμμή 1.7 Wasm."

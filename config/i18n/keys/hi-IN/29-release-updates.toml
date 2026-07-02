@@ -54,3 +54,19 @@ consolidates_native_proxy_config_storage_so_reloads_refresh_the_same_snapshot_us
 adds_native_http_1_chunked_body_overflow_regression_coverage_and_pins_observability_smoke_images_to_deterministic_tags = "1.6.36 संरचना अपडेट करता है: native proxy cleanup, crate-owned APIs, Pingora-era legacy removal, deterministic observability images, और HTTP/1 chunked regression tests."
 is_the_post_cutover_structural_cleanup_after_the_pingora_free_runtime_proof_and_stabilization_checkpoint = "1.6.36 संरचना अपडेट करता है: native proxy cleanup, crate-owned APIs, Pingora-era legacy removal, deterministic observability images, और HTTP/1 chunked regression tests."
 it_removes_temporary_compatibility_boundaries_deletes_inert_pingora_era_code_and_prepares_the_final_1_6_37_crate_boundary_cleanup_before_the_1_7_wasm_line = "1.6.36 संरचना अपडेट करता है: native proxy cleanup, crate-owned APIs, Pingora-era legacy removal, deterministic observability images, और HTTP/1 chunked regression tests."
+
+released_july_2_2026 = "2 जुलाई 2026 को जारी"
+
+updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "Pinned Rust toolchain, rust-version फ़ील्ड और container builder images को Rust 1.96.1 पर अपडेट करता है"
+
+hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "OpenSSL stream-upstream TLS connectors को TLS 1.2 minimum और आधुनिक TLS 1.2/TLS 1.3 cipher allowlist से harden करता है"
+
+stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "Disk पर लिखते समय serialized ACME account credentials को sanitization::SecretVec में रखता है"
+
+removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "बचे हुए root compatibility shims हटाता है ताकि callers fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability और अन्य owning crates सीधे उपयोग करें"
+
+splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "ACME, observability, cache, load-balancer, PHP-FPM, snapshot, web, stream और native runtime internals को छोटे focused modules में बाँटता है"
+
+is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "Pingora-free runtime cutover के बाद Wasm से पहले अंतिम crate-boundary cleanup है."
+
+it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Runtime behavior स्थिर रहता है और 1.7 Wasm line से पहले बचे root helpers focused workspace crates में जाते हैं."

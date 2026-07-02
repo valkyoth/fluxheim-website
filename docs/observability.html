@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.6.36
+            Download v1.6.37
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.6.36</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.6.37</a>
       </div>
     </div>
   </nav>
@@ -121,7 +121,7 @@ OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
 OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
 OTEL_METRIC_EXPORT_INTERVAL=5000</code></pre>
   <p>The observability compose stack sets these for the website service. Set <code>FLUXHEIM_OTLP=disabled</code> to run the same binary without exporting metrics or traces.</p>
-  <p>Version 1.6.36 pins the Prometheus and Jaeger smoke-test images to stable tags so local and CI observability checks pull deterministic containers.</p>
+  <p>Version 1.6.37 keeps the local observability smoke more reliable by retrying disposable Prometheus and Jaeger startup with freshly allocated ports when host-network ports race with other runner processes.</p>
   <p>Keep labels low-cardinality: route group, language, status class, download artifact, and GitHub target are useful. Raw IP addresses and user identifiers are not.</p>
 </section>
 <section class="guide-section">

@@ -54,3 +54,19 @@ consolidates_native_proxy_config_storage_so_reloads_refresh_the_same_snapshot_us
 adds_native_http_1_chunked_body_overflow_regression_coverage_and_pins_observability_smoke_images_to_deterministic_tags = "Uppfærir 1.6.36 skipulagið með native proxy hreinsun, crate-eigin API, Pingora-arfleið fjarlægða, ákveðnum observability image og HTTP/1 chunked aðhvarfsprófum."
 is_the_post_cutover_structural_cleanup_after_the_pingora_free_runtime_proof_and_stabilization_checkpoint = "Uppfærir 1.6.36 skipulagið með native proxy hreinsun, crate-eigin API, Pingora-arfleið fjarlægða, ákveðnum observability image og HTTP/1 chunked aðhvarfsprófum."
 it_removes_temporary_compatibility_boundaries_deletes_inert_pingora_era_code_and_prepares_the_final_1_6_37_crate_boundary_cleanup_before_the_1_7_wasm_line = "Uppfærir 1.6.36 skipulagið með native proxy hreinsun, crate-eigin API, Pingora-arfleið fjarlægða, ákveðnum observability image og HTTP/1 chunked aðhvarfsprófum."
+
+released_july_2_2026 = "Utgitt 2. juli 2026"
+
+updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "Oppdaterer den fastlåste Rust-verktøykjeden, rust-version-feltene og containerbyggerbildene til Rust 1.96.1"
+
+hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "Herder OpenSSL stream-upstream TLS-koblinger med TLS 1.2 som minimum og en moderne TLS 1.2/TLS 1.3-chifferliste"
+
+stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "Lagrer serialiserte ACME-kontodata i sanitization::SecretVec mens de skrives til disk"
+
+removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "Fjerner gjenværende root-kompatibilitetsshims slik at kallere bruker fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability og andre eier-crates direkte"
+
+splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "Deler ACME-, observability-, cache-, load-balancer-, PHP-FPM-, snapshot-, web-, stream- og native-runtime-internlogikk i mindre fokuserte moduler"
+
+is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "er den siste crate-grenseoppryddingen før Wasm etter Pingora-fri runtime-cutover."
+
+it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Runtime-atferden holdes stabil mens de siste rothelperne flyttes til fokuserte workspace-crates før 1.7 Wasm-linjen."
