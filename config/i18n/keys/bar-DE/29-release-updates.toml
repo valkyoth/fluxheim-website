@@ -55,18 +55,18 @@ adds_native_http_1_chunked_body_overflow_regression_coverage_and_pins_observabil
 is_the_post_cutover_structural_cleanup_after_the_pingora_free_runtime_proof_and_stabilization_checkpoint = "Aktualisiad d’1.6.36-Struktur: native-proxy-Auframa, crate-eigene APIs, Pingora-Oidlast weg, deterministische Observability-Images und HTTP/1-chunked-Regressionstests."
 it_removes_temporary_compatibility_boundaries_deletes_inert_pingora_era_code_and_prepares_the_final_1_6_37_crate_boundary_cleanup_before_the_1_7_wasm_line = "Aktualisiad d’1.6.36-Struktur: native-proxy-Auframa, crate-eigene APIs, Pingora-Oidlast weg, deterministische Observability-Images und HTTP/1-chunked-Regressionstests."
 
-released_july_2_2026 = "Veröffentlicht am 2. Juli 2026"
+released_july_2_2026 = "Rauskemma am 2. Juli 2026"
 
-updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "Aktualisiert die fest gepinnte Rust-Toolchain, die rust-version-Felder und die Container-Builder-Images auf Rust 1.96.1"
+updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "Bringt de festglegte Rust-Werkzeugkett, de rust-version-Felder und de Container-Build-Buidln auf Rust 1.96.1"
 
-hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "Härtet OpenSSL-Stream-Upstream-TLS-Connectoren mit TLS 1.2 als Mindestversion und einer modernen TLS-1.2/TLS-1.3-Chiffrenliste"
+hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "Macht de OpenSSL stream-upstream TLS-Connectoren härter: mindestns TLS 1.2 und a moderne TLS 1.2/TLS 1.3 Cipher-Allowlist"
 
-stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "Speichert serialisierte ACME-Kontodaten beim Schreiben auf die Festplatte in sanitization::SecretVec"
+stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "Legt serialisierte ACME-Kontodaten beim Schreibn auf d Plattn in sanitization::SecretVec ab"
 
-removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "Entfernt die verbleibenden Root-Kompatibilitätsshims, sodass Aufrufer fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability und andere zuständige Crates direkt verwenden"
+removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "Räumt de letztn Root-Kompatibilitäts-Shims weg, damid Aufruafa fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability und de andern eigana Crates direkt hernehma"
 
-splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "Teilt ACME-, Observability-, Cache-, Load-Balancer-, PHP-FPM-, Snapshot-, Web-, Stream- und native Runtime-Interna in kleinere fokussierte Module auf"
+splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "Teilt ACME, Observability, Cache, Load-Balancer, PHP-FPM, Snapshot, Web, Stream und native Runtime-Innereien in kloane, gscheid fokussierte Module auf"
 
-is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "ist die abschließende Crate-Grenzen-Bereinigung vor Wasm nach dem Pingora-freien Runtime-Cutover."
+is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "is de letzte Crate-Grenzn-Aufräumarbat vor Wasm nachm Pingora-frein Runtime-Cutover."
 
-it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Das Runtime-Verhalten bleibt stabil, während die letzten Root-Hilfen vor der 1.7-Wasm-Linie in fokussierte Workspace-Crates wandern."
+it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Das Runtime-Verhalten bleibt stabil, während de letztn Root-Helfer vor da 1.7-Wasm-Linie in fokussierte Workspace-Crates wandern."

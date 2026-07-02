@@ -57,16 +57,16 @@ it_removes_temporary_compatibility_boundaries_deletes_inert_pingora_era_code_and
 
 released_july_2_2026 = "২ জুলাই ২০২৬ প্রকাশিত"
 
-updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "Pinned Rust toolchain, rust-version ক্ষেত্র এবং container builder image Rust 1.96.1-এ আপডেট করে"
+updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "পিন করা Rust toolchain, rust-version ক্ষেত্র এবং container builder image Rust 1.96.1-এ আপডেট করে"
 
-hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "OpenSSL stream-upstream TLS connectors को TLS 1.2 minimum और आधुनिक TLS 1.2/TLS 1.3 cipher allowlist से harden करता है"
+hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "OpenSSL stream-upstream TLS connector-গুলোকে TLS 1.2 ন্যূনতম সীমা এবং আধুনিক TLS 1.2/TLS 1.3 cipher allowlist দিয়ে শক্ত করে"
 
-stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "Disk पर लिखते समय serialized ACME account credentials को sanitization::SecretVec में रखता है"
+stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "ডিস্কে লেখার সময় serialised ACME account credential sanitization::SecretVec-এ রাখে"
 
-removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "बचे हुए root compatibility shims हटाता है ताकि callers fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability और अन्य owning crates सीधे उपयोग करें"
+removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "বাকি root compatibility shim সরিয়ে দেয়, যাতে caller সরাসরি fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability এবং অন্য owning crate ব্যবহার করে"
 
-splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "ACME, observability, cache, load-balancer, PHP-FPM, snapshot, web, stream और native runtime internals को छोटे focused modules में बाँटता है"
+splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "ACME, observability, cache, load-balancer, PHP-FPM, snapshot, web, stream এবং native runtime internals ছোট ও focused module-এ ভাগ করে"
 
 is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "Pingora-free runtime cutover-এর পর Wasm-এর আগে শেষ crate-boundary cleanup।"
 
-it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Runtime behavior স্থির থাকে, আর 1.7 Wasm লাইনের আগে বাকি root helper focused workspace crate-এ যায়."
+it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Runtime behavior স্থির থাকে, আর 1.7 Wasm লাইনের আগে বাকি root helper focused workspace crate-এ যায়।"

@@ -55,18 +55,18 @@ adds_native_http_1_chunked_body_overflow_regression_coverage_and_pins_observabil
 is_the_post_cutover_structural_cleanup_after_the_pingora_free_runtime_proof_and_stabilization_checkpoint = "Wurket de 1.6.36-struktuer by: native proxy-opromming, crate-eigene API’s, fuortheljen fan Pingora-erfskip, deterministyske observability-images en HTTP/1 chunked-regresjetests."
 it_removes_temporary_compatibility_boundaries_deletes_inert_pingora_era_code_and_prepares_the_final_1_6_37_crate_boundary_cleanup_before_the_1_7_wasm_line = "Wurket de 1.6.36-struktuer by: native proxy-opromming, crate-eigene API’s, fuortheljen fan Pingora-erfskip, deterministyske observability-images en HTTP/1 chunked-regresjetests."
 
-released_july_2_2026 = "Uitgebracht op 2 juli 2026"
+released_july_2_2026 = "Utbrocht op 2 july 2026"
 
-updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "Werkt de vastgezette Rust-toolchain, rust-version-velden en containerbuilder-images bij naar Rust 1.96.1"
+updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "Fernijt de fêstpinde Rust-toolchain, de rust-version fjilden en de containerbou-ôfbylden nei Rust 1.96.1"
 
-hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "Verhardt OpenSSL stream-upstream TLS-connectors met minimaal TLS 1.2 en een moderne TLS 1.2/TLS 1.3 cipher-allowlist"
+hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "Ferhurdet OpenSSL stream-upstream TLS-ferbiners mei TLS 1.2 as minimum en in moderne TLS 1.2/TLS 1.3 cipher-allowlist"
 
-stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "Slaat geserialiseerde ACME-accountgegevens tijdens het schrijven naar schijf op in sanitization::SecretVec"
+stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "Bewarret serialisearre ACME-akkountgegevens yn sanitization::SecretVec wylst se nei skiif skreaun wurde"
 
-removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "Verwijdert resterende root-compatibility-shims zodat callers fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability en andere eigenaar-crates direct gebruiken"
+removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "Hellet de oerbleaune root-kompatibiliteitsshims fuort sadat callers fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability en oare eigener-crates direkt brûke"
 
-splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "Splitst ACME-, observability-, cache-, load-balancer-, PHP-FPM-, snapshot-, web-, stream- en native-runtime-interne delen op in kleinere gerichte modules"
+splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "Dielt ACME, observability, cache, load-balancer, PHP-FPM, snapshot, web, stream en native runtime-ynternen op yn lytsere rjochte modules"
 
-is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "is de laatste crate-boundary-opruiming vóór Wasm na de Pingora-vrije runtime-cutover."
+is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "is de lêste crate-grinsopromming foar Wasm nei de Pingora-frije runtime-cutover."
 
-it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Het runtimegedrag blijft stabiel terwijl de laatste roothelpers vóór de 1.7 Wasm-lijn naar gerichte workspace-crates verhuizen."
+it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "It runtime-gedrach bliuwt stabyl wylst de lêste root-helpers nei rjochte workspace-crates ferhúzje foar de 1.7 Wasm-line."

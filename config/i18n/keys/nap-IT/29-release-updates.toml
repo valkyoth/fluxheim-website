@@ -55,18 +55,18 @@ adds_native_http_1_chunked_body_overflow_regression_coverage_and_pins_observabil
 is_the_post_cutover_structural_cleanup_after_the_pingora_free_runtime_proof_and_stabilization_checkpoint = "Aggiorna ’a struttura 1.6.36: pulizia d’’o native proxy, API d’’e crate, rimozione d’’o retaggio Pingora, immagini observability deterministiche e test HTTP/1 chunked."
 it_removes_temporary_compatibility_boundaries_deletes_inert_pingora_era_code_and_prepares_the_final_1_6_37_crate_boundary_cleanup_before_the_1_7_wasm_line = "Aggiorna ’a struttura 1.6.36: pulizia d’’o native proxy, API d’’e crate, rimozione d’’o retaggio Pingora, immagini observability deterministiche e test HTTP/1 chunked."
 
-released_july_2_2026 = "Rilasciato il 2 luglio 2026"
+released_july_2_2026 = "Ascìuto ’o 2 luglio 2026"
 
-updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "Aggiorna la toolchain Rust fissata, i campi rust-version e le immagini di build dei container a Rust 1.96.1"
+updates_the_pinned_rust_toolchain_rust_version_fields_and_container_builder_images_to_rust_1_96_1 = "Aggiorna ’a toolchain Rust fermata, ’e campi rust-version e ll’immaggine pe custruì ’e container a Rust 1.96.1"
 
-hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "Irrigidisce i connettori TLS OpenSSL stream-upstream con TLS 1.2 minimo e una allowlist moderna di cifrari TLS 1.2/TLS 1.3"
+hardens_openssl_stream_upstream_tls_connectors_with_a_tls_1_2_minimum_and_modern_tls_1_2_tls_1_3_cipher_allowlist = "Fa cchiù sicure ’e connettori OpenSSL stream-upstream TLS cu TLS 1.2 comme minimo e na lista muderna ’e cifrature TLS 1.2/TLS 1.3"
 
-stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "Memorizza le credenziali serializzate dell’account ACME in sanitization::SecretVec durante la scrittura su disco"
+stores_serialized_acme_account_credentials_in_sanitization_secretvec_while_writing_them_to_disk = "Mette ’e credenziale serializzate d’ ’o cunto ACME dint’ a sanitization::SecretVec mentre se scrivono ncopp’ ’o disco"
 
-removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "Rimuove gli ultimi shim di compatibilità root così i chiamanti usano direttamente fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability e gli altri crate proprietari"
+removes_remaining_root_compatibility_shims_so_callers_use_fluxheim_common_fluxheim_config_fluxheim_cache_fluxheim_observability_and_other_owning_crates_directly = "Leva ll’ultime shim ’e compatibilità root accussì ’e chiamante usano direttamente fluxheim-common, fluxheim-config, fluxheim-cache, fluxheim-observability e ll’ate crate padrone"
 
-splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "Divide gli interni di ACME, observability, cache, load-balancer, PHP-FPM, snapshot, web, stream e runtime nativo in moduli più piccoli e mirati"
+splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_native_runtime_internals_into_smaller_focused_modules = "Sparte ll’interni ’e ACME, observability, cache, load-balancer, PHP-FPM, snapshot, web, stream e native runtime dint’ a moduli cchiù piccerille e mirate"
 
-is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "è la pulizia finale dei confini dei crate prima di Wasm dopo il cutover del runtime senza Pingora."
+is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "è l’urdema pulizia d’ ’e cunfine d’ ’e crate primma ’e Wasm doppo ’o runtime cutover senza Pingora."
 
-it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Il comportamento del runtime resta stabile mentre gli ultimi helper root migrano in crate di workspace mirati prima della linea Wasm 1.7."
+it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "’O cumpurtamiento d’ ’o runtime resta stabile mentre ll’urdeme helper root passano dint’ a workspace crate mirate primma d’ ’a linea 1.7 Wasm."
