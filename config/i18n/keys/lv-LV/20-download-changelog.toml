@@ -204,3 +204,6 @@ rustls_aws_lc_fips_capable_candidate_backend_through = "rustls/AWS-LC FIPS-capab
 fips_and_iso_iec_19790_rustls_profile_aliases_config_examples_diagnostics_and_validation_script = "FIPS un ISO/IEC 19790 rustls profile aliasi, config piemēri, diagnostika un validation script"
 php_metrics_and_opentelemetry_attributes_x_accel_redirect_x_sendfile_and_x_accel_expires_support = "PHP metrics un OpenTelemetry attributes, X-Accel-Redirect, X-Sendfile un X-Accel-Expires atbalsts"
 initial_stable = "Pirmā stabilā"
+
+july_2026 = "2026. gada jūlijs"
+webassembly_sandbox_foundation_optional_fluxheim_wasm_disabled_by_default_wasm_feature_gates_strict_approved_root_plugin_loading_typed_manifest_validation_bounded_wasmtime_execution_compile_worker_limits_privacy_mode_rejection_and_real_wasm_smoke_evidence = "WebAssembly sandbox foundation: optional fluxheim-wasm, Wasm feature gates disabled by default, strict approved-root plugin loading, typed manifest validation, bounded Wasmtime execution, compile-worker limits, privacy-mode rejection and real Wasm smoke evidence."

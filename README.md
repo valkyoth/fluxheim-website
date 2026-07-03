@@ -64,7 +64,7 @@ fluxheim-website/
 Update the Fluxheim version once in `config/site.toml`:
 
 ```toml
-fluxheim_version = "1.6.37"
+fluxheim_version = "1.7.0"
 ```
 
 The Rust response renderer injects that value into download buttons, footers,

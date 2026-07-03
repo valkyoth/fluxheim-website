@@ -2956,13 +2956,12 @@ available for the stabilization/security-only follow-up.
 
   Primary extraction targets:
 
-  - Start `fluxheim-acme` as a workspace crate. The root `src/acme.rs` and
-    `src/acme_companion.rs` still hold account/order/renewal/storage logic plus
-    companion binary wiring, while TLS certificate loading and native listener
-    planning already live in `fluxheim-tls`/`fluxheim-server`. Split ACME as a
-    domain crate with typed account, order, storage, renewal, install, and
-    reload APIs. Keep `src/bin/fluxheim-acme.rs`, CLI commands, and runtime
-    orchestration as thin root wiring.
+  - Start `fluxheim-acme` as a workspace crate and move ACME account, order,
+    challenge, renewal, certificate install, and certificate observation logic
+    into it. Keep `src/bin/fluxheim-acme.rs`, CLI commands, runtime
+    orchestration, and the root `src/acme.rs` compatibility re-export as thin
+    root wiring until the remaining binary glue can move behind stable crate
+    APIs.
   - Move observability helpers still living in root `metrics`, `metrics_otlp`,
     `otel_otlp`, `otlp_http`, and `trace_context` into
     `fluxheim-observability` where this does not change exported metric names,
@@ -3074,34 +3073,78 @@ the proxy or load-balancer hot path.
 
 Stable scope:
 
-- Compile-time `wasm` module.
-- Plugin loading from approved directories with strict path, ownership, and
-  symlink validation.
-- Wasmtime-based sandbox evaluation after license/advisory review.
-- Request header hook.
-- Response header hook.
-- TCP stream hook points after the stream foundation and load-balancer
-  semantics are stable. Stream filters must be opt-in, bounded by bytes/time,
+- `v1.7.0`: compile-time `wasm`, `wasm-proxy-abi`, and `wasm-wasi` feature
+  gates, with the Wasm feature family absent from default builds and rejected
+  by `privacy-mode`.
+- `v1.7.0`: `fluxheim-wasm` workspace crate foundation with plugin loading
+  from approved directories, strict absolute-path validation, regular-file and
+  symlink-parent rejection, module-size limits, and SHA-256 recording.
+- `v1.7.0`: Wasmtime-based sandbox evaluation with fuel, memory,
+  table/instance, and wall-time limits plus a real Wasm smoke script that
+  verifies successful execution and trapped infinite-loop behavior.
+- `v1.7.0`: typed plugin manifest boundary with plugin name, path, ABI, phase,
+  fail-mode, and sandbox-limit validation. Preview ABIs require explicit
+  allowance, duplicate phases are rejected, and `fail_open` is rejected for
+  security decision phases.
+- `v1.7.1`: wire the manifest boundary into Fluxheim config validation:
+  plugin registry, per-vhost/per-route attachment validation, host-call
+  namespace, deterministic error taxonomy, fail-open/fail-closed behavior, and
+  admin-visible plugin hashes. Add per-plugin/per-vhost execution admission
+  budgets before any request-path hook wiring, plus compile-only fixtures for
+  accepted and rejected plugin declarations.
+- `v1.7.2`: implement request header and access-control hooks. Cover
+  F5-iRules-style conditional allow/deny/synthetic error behavior and
+  nginx-Lua/OpenResty-style request header mutation through typed host calls.
+  Add live HTTP smoke tests that load real Wasm plugins and prove allow,
+  deny, mutation, timeout, trap, and fail-mode behavior.
+- `v1.7.3`: implement response header hooks and synthetic bounded responses.
+  Cover nginx-Lua/OpenResty-style response header mutation and redaction while
+  proving sensitive headers, cookies, bodies, filesystem, network, and admin
+  APIs are unavailable unless an explicit future capability grants them.
+- `v1.7.4`: implement routing, load-balancer, mirror/shadow, and persistence
+  decision hooks. Cover HAProxy-Lua/SPOE-style external-policy workflows with
+  bounded typed decisions for pool choice, persistence-key choice, mirror
+  enablement, and deny/pass/continue outcomes. Add live tests with two origins
+  and a load-balancer route so the plugin decision is observable.
+- `v1.7.5`: implement cache-policy hooks inspired by VCL but expressed as a
+  constrained Rust/Wasm ABI. Cover lookup/admission bypass/pass/continue/deny,
+  bounded cache-key component output, TTL override, tag assignment,
+  store-admission header inspection, and safe response-header mutation. Add
+  live cache tests that prove MISS/HIT behavior, TTL bounds, tag assignment,
+  and low-cardinality key validation.
+- `v1.7.6`: implement plugin chain ordering, compiled-module cache isolation by
+  module hash/ABI/features/version, admin/metrics visibility, and deterministic
+  reload behavior. Add tests for chain ordering, concurrent execution
+  isolation, reload hash changes, and metrics labels without leaking secrets.
+- `v1.7.7`: optional `wasm-proxy-abi` compatibility preview. Map a reviewed
+  safe subset of proxy-oriented ABI calls to Fluxheim's typed host calls,
+  reject unsupported calls deterministically, and add compatibility fixtures.
+  This is capability compatibility, not a promise that arbitrary existing
+  proxy-wasm plugins run unchanged.
+- `v1.7.8`: optional `wasm-wasi` capability preview for non-request-body
+  policy plugins. Keep filesystem, network, clocks, randomness, environment,
+  and inherited process state disabled unless explicitly granted and tested.
+- `v1.7.9`: documentation and example parity release. Ship documented,
+  runnable examples and live tests for the four migration families:
+  F5 iRules-style policy, nginx Lua/OpenResty-style header policy, HAProxy
+  Lua/SPOE-style routing/load-balancer policy, and VCL-like cache policy.
+- `v1.7.10`: stabilization and release gate hardening. All four example
+  families must run through `scripts/test_starter.py`, the stable/deep release
+  gates must include the appropriate Wasm checks, and the docs must clearly
+  describe supported capability parity and unsupported syntax/runtime parity.
+
+Scope rules:
+
+- TCP stream hook points can be planned only after HTTP request/response and
+  cache hooks are stable. Stream filters must be opt-in, bounded by bytes/time,
   safe for long-lived connections, and unable to become an unbounded arbitrary
   bytecode path on raw TCP traffic.
-- Access-control hook returning allow, deny, or continue.
-- Conditional request-policy hooks that can cover nginx rewrite-module-style
-  `if` use cases only inside the sandbox, with no URI rewrite loops by default
-  and with explicit limits on returned decisions and mutations.
-- Cache-policy hooks inspired by VCL, but designed as a constrained Rust/Wasm
-  ABI rather than an embedded language:
-  - lookup/admission hook for bypass, pass, continue, or deny decisions;
-  - safe cache-key component hook with typed inputs and explicit
-    low-cardinality output limits;
-  - `put_object`/store-admission hook for response-header inspection,
-    TTL override, tag assignment, and header mutation;
-  - invalidation hook for metadata predicates after the declarative 1.2 ban
-    model is proven;
-  - all cache hooks must be bounded by fuel, wall time, memory, output size,
-    and deterministic failure behavior.
-- Strict module, memory, fuel, wall-time, log, mutation, synthetic response,
-  and concurrency limits.
-- Plugin hashing and admin/metrics visibility when those modules are enabled.
+- Cache-policy hooks are inspired by VCL, but implemented as constrained
+  typed decisions. Fluxheim must not embed VCL or expose raw cache internals.
+- Strict module, memory, table-element, fuel, compile-time, wall-time, log,
+  mutation, synthetic-response, and concurrency limits apply to every hook.
+- Plugin hashing and admin/metrics visibility are required when those modules
+  are enabled.
 
 Beta scope:
 
@@ -4423,7 +4466,7 @@ the exception while the cache server is being completed as a focused sequence:
   instance-name generation moved behind the native PHP-FPM route adapter and
   `fluxheim-php-fpm` crate surface.
   The `crates/fluxheim-geoip` boundary now owns `GeoContext` and the optional
-  local MMDB runtime behind root compatibility re-exports. The
+  local MMDB runtime. The
   `crates/fluxheim-compression` boundary now owns response compression encoder
   lifecycle, output-limit accounting, Accept-Encoding token/qvalue parsing, and
   response policy string matching for Cache-Control directives and Content-Type
@@ -4431,8 +4474,7 @@ the exception while the cache server is being completed as a focused sequence:
   while the root adapter keeps Pingora-specific header selection, header
   iteration, config extraction, and response mutation. The
   `crates/fluxheim-observability` boundary now owns W3C Trace Context parsing,
-  generation, and traceparent normalization behind the existing
-  `crate::trace_context` surface, and the shared OTLP HTTP agent plus
+  generation, traceparent normalization, and the shared OTLP HTTP agent plus
   symlink-safe custom CA bundle loader and OTLP HTTP endpoint parser behind an
   `otlp-http` crate feature. It also owns the Prometheus-to-OTLP metrics payload
   builder behind an `otlp-metrics` crate feature while the root metrics OTLP
@@ -4454,17 +4496,16 @@ the exception while the cache server is being completed as a focused sequence:
   lives in `fluxheim-config`, leaving root `crate::metrics` as the
   compatibility wrapper for selection labels and Prometheus gauge publishing.
   The OTLP trace exporter and trace-span payload builder also live behind the
-  `crates/fluxheim-observability` `otlp-trace` feature while root
-  `crate::otel_otlp` remains a compatibility re-export.
+  `crates/fluxheim-observability` `otlp-trace` feature.
   The `crates/fluxheim-protocol` boundary now
   owns PROXY protocol v1/v2 upstream header framing used by the native HTTP and
   stream runtimes. It also owns route method matching and prefix-boundary
   helpers consumed by native route selection. The
   `crates/fluxheim-snapshot` boundary now owns durable config snapshot storage,
   metadata validation, rollback pointer handling, and symlink-safe filesystem
-  writes while root `crate::snapshot` remains a compatibility re-export.
-  reload-impact classification in `crates/fluxheim-config`, with root
-  `crate::reload` as a compatibility re-export for admin and CLI reporting.
+  writes.
+  reload-impact classification in `crates/fluxheim-config`, with root admin
+  and CLI code calling the owning crate directly.
   Runtime/member weight parsing now also lives in
   `crates/fluxheim-load-balancer`, with root admin kept as the HTTP/query
   endpoint adapter.
@@ -4623,15 +4664,31 @@ circular dependencies.
   do a dedicated hardening cleanup that moves first-party secret buffers and
   drop-clearing structs to `sanitization` containers/derives where practical,
   rather than mixing that API migration into the runtime replacement work.
-- `v1.7.0`: shared Wasm extensibility runtime line. Stop at one sandboxed,
-  typed, resource-limited extension runtime for operator policy normally solved
-  with F5 iRules, nginx Lua/OpenResty, HAProxy Lua/SPOE, and VCL-like cache
-  policy. Start it behind a dedicated crate boundary such as
-  `crates/fluxheim-wasm` with explicit ABI/versioning, fuel/time/memory limits,
-  deterministic host calls, redaction rules, and tests independent from the
-  proxy orchestrator where possible. Do not add generic UDP/GSLB platform
-  behavior or turn Wasm into an unbounded scripting language in this release.
-- `v1.7.1`: fixes for the shared Wasm extensibility runtime.
+- `v1.7.0`: shared Wasm sandbox foundation. Stop at compile-time feature
+  gates, strict plugin-file loading, resource-limited Wasmtime execution, typed
+  plugin manifest validation, and real sandbox smoke tests.
+- `v1.7.1`: config integration for the typed plugin registry and attachment
+  validation, host-call namespace, per-plugin/per-vhost execution admission
+  budgets, admin-visible hashes, and rejected-config fixtures.
+- `v1.7.2`: request-header and access-control hooks with F5-iRules-style and
+  nginx-Lua/OpenResty-style live examples.
+- `v1.7.3`: response-header hooks, bounded synthetic responses, and sensitive
+  field isolation tests.
+- `v1.7.4`: routing/load-balancer/mirror/persistence decision hooks with
+  HAProxy-Lua/SPOE-style live examples.
+- `v1.7.5`: VCL-like cache policy hooks for lookup/admission, cache-key
+  components, TTL/tag/store-admission decisions, and live cache HIT/MISS tests.
+- `v1.7.6`: plugin chain ordering, compiled-module cache isolation, reload
+  behavior, metrics, and admin visibility.
+- `v1.7.7`: optional `wasm-proxy-abi` compatibility preview with deterministic
+  unsupported-call rejection.
+- `v1.7.8`: optional `wasm-wasi` capability preview with explicit grants only.
+- `v1.7.9`: documentation and example parity release with runnable examples
+  and tests for F5 iRules, nginx Lua/OpenResty, HAProxy Lua/SPOE, and VCL-like
+  cache policy mappings.
+- `v1.7.10`: Wasm stabilization release. All four example families must be in
+  `scripts/test_starter.py` and the stable/deep release gates before the line
+  is considered complete.
 - `v1.8.0`: Fluxheim-owned HTTP/3 and QUIC line. Stop at an opt-in
   `http3`/`http3-experimental` feature using Rust `quinn` for QUIC transport
   and the Rust `h3` stack for HTTP/3 framing behind Fluxheim-owned listener,

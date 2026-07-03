@@ -1,8 +1,14 @@
-latest = "1.6.37"
+latest = "1.7.0"
+
+[[release]]
+version = "1.7.0"
+date = "2026-07-03"
+title = "Wasm sandbox foundation"
+summary = "Starts the WebAssembly extensibility line with the optional fluxheim-wasm crate, disabled-by-default wasm feature gates, strict approved-root plugin loading, typed manifest validation, bounded Wasmtime execution, compile-worker limits, privacy-mode rejection, and real Wasm sandbox smoke evidence."
 
 [[release]]
 version = "1.6.37"
-date = "2026-07-02"
+date = "2026-07-03"
 title = "Final pre-Wasm crate-boundary cleanup"
 summary = "Final pre-Wasm crate-boundary cleanup with Rust 1.96.1, hardened OpenSSL stream-upstream TLS defaults, ACME account credential zeroization during writes, direct crate-owned APIs, and smaller ACME, observability, cache, load-balancer, PHP-FPM, and native runtime modules."
 
@@ -113,3 +119,117 @@ version = "1.6.19"
 date = "2026-06-19"
 title = "Pingora compatibility boundary"
 summary = "Native TLS/listener preview and explicit pingora-compat compatibility boundary release."
+
+[[release]]
+version = "1.6.18"
+date = "2026-06-19"
+title = "Native health-check split"
+summary = "Native health probes split into focused HTTP/gRPC, database, exec, TCP, and TLS transport helpers with stricter bounds and compatibility-surface shrinkage."
+
+[[release]]
+version = "1.6.17"
+date = "2026-06-19"
+title = "Pingora-free load-balancer core"
+summary = "Removes the direct Pingora dependency from the load-balancer crate and adds Fluxheim-owned bounded HTTP/1.1 and h2 gRPC active health checks."
+
+[[release]]
+version = "1.6.16"
+date = "2026-06-19"
+title = "Native proxy cutover gate"
+summary = "Adds native HTTP/1.1 proxy cutover readiness planning with explicit fail-closed blockers for compatibility-only proxy features."
+
+[[release]]
+version = "1.6.15"
+date = "2026-06-18"
+title = "Native HTTP/2 upstream client"
+summary = "Introduces a Fluxheim-owned native HTTP/2 upstream client primitive with bounded headers, bodies, trailers, deadlines, and focused h2 test coverage."
+
+[[release]]
+version = "1.6.14"
+date = "2026-06-18"
+title = "Native upstream TLS"
+summary = "Moves rustls and OpenSSL upstream TLS and mTLS handling into native upstream connectors with SNI and CA-policy preservation."
+
+[[release]]
+version = "1.6.13"
+date = "2026-06-18"
+title = "Native upstream pooling"
+summary = "Adds HTTP/1 keepalive pooling and pooled-handle retry behavior for safe methods before response bytes are observed."
+
+[[release]]
+version = "1.6.12"
+date = "2026-06-18"
+title = "Reusable native HTTP/2 primitives"
+summary = "Adds reusable HTTP/2 primitives with bounded trailers, flow control, timeout behavior, and zeroized request-body handling."
+
+[[release]]
+version = "1.6.11"
+date = "2026-06-17"
+title = "Native HTTP/2 preview gate"
+summary = "Introduces the bounded native HTTP/2 stack preview and route-gated cutover evidence while preserving fail-closed compatibility blockers."
+
+[[release]]
+version = "1.6.10"
+date = "2026-06-17"
+title = "Native HTTP/1 proxy foundation"
+summary = "Adds the native HTTP/1 proxy foundation for route proxying, upstream request construction, and bounded response handling."
+
+[[release]]
+version = "1.6.9"
+date = "2026-06-17"
+title = "Native HTTP/1 server runtime"
+summary = "Builds the native HTTP/1 server runtime slice with Fluxheim-owned listener dispatch and request handling."
+
+[[release]]
+version = "1.6.8"
+date = "2026-06-17"
+title = "Native HTTP/1 parser"
+summary = "Adds the bounded native HTTP/1 parser and parser-policy evidence needed for the Pingora-free runtime path."
+
+[[release]]
+version = "1.6.7"
+date = "2026-06-16"
+title = "Server bootstrap planning"
+summary = "Adds server bootstrap planning for native runtime launch shapes and explicit blockers before runtime cutover."
+
+[[release]]
+version = "1.6.6"
+date = "2026-06-16"
+title = "TLS listener planning boundary"
+summary = "Defines the native TLS listener planning boundary and keeps unsupported listener shapes explicitly blocked."
+
+[[release]]
+version = "1.6.5"
+date = "2026-06-16"
+title = "Header policy crate boundary"
+summary = "Moves header-policy behavior into focused crate boundaries and preserves route and vhost policy inheritance semantics."
+
+[[release]]
+version = "1.6.4"
+date = "2026-06-15"
+title = "Runtime task lifecycle boundary"
+summary = "Splits runtime task lifecycle ownership into focused native runtime components with safer startup and shutdown planning."
+
+[[release]]
+version = "1.6.3"
+date = "2026-06-15"
+title = "Stream runtime crate boundary"
+summary = "Moves stream-runtime boundaries toward Fluxheim-owned modules while keeping compatibility behavior stable."
+
+[[release]]
+version = "1.6.2"
+date = "2026-06-14"
+title = "Cache runtime contracts"
+summary = "Adds cache runtime contracts and boundary cleanup for the native runtime exit line."
+
+[[release]]
+version = "1.6.1"
+date = "2026-06-14"
+title = "Load-balancer image and native backend storage"
+summary = "Adds focused load-balancer image work and native backend state storage needed for the Pingora-exit line."
+
+[[release]]
+version = "1.6.0"
+date = "2026-06-14"
+title = "Pingora-exit foundation"
+summary = "Starts the Pingora-exit foundation with runtime behavior freeze, native planning boundaries, and dependency-policy evidence."

@@ -130,14 +130,14 @@ mod tests {
         let catalog = ReleaseCatalog::load().expect("release catalog loads");
         let download = std::fs::read_to_string("download.html").expect("download html");
         let changelog = std::fs::read_to_string("changelog.html").expect("changelog html");
-        let collapsed_16_range = format!("v1.6.0 – v{}", catalog.latest);
+        let collapsed_16_range = "v1.6.0 – v1.6.37";
 
         for release in &catalog.release {
             let version = format!("v{}", release.version);
             assert!(
                 download.contains(&version)
                     || (release.version.starts_with("1.6.")
-                        && download.contains(&collapsed_16_range)),
+                        && download.contains(collapsed_16_range)),
                 "download missing {version}"
             );
             assert!(changelog.contains(&version), "changelog missing {version}");

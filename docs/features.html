@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.6.37
+            Download v1.7.0
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.6.37</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.0</a>
       </div>
     </div>
   </nav>
@@ -129,7 +129,7 @@ cargo build --release --no-default-features --features profile-load-balancer-edg
 <section class="guide-section">
   <h2>Pingora-free normal builds</h2>
   <p>Starting with 1.6.34, normal Fluxheim release profiles use the Fluxheim-owned native runtime and no longer compile Pingora crates.</p>
-  <p>Version 1.6.37 is the final pre-Wasm crate-boundary cleanup: ACME, observability, cache, load-balancer, PHP-FPM, and native runtime internals move into smaller crate-owned modules while runtime behavior stays stable.</p>
+  <p>Starting with 1.7.0, Fluxheim adds an optional Wasm sandbox foundation. It is disabled by default, incompatible with privacy-mode, and currently proves safe plugin loading plus bounded execution before request/response policy hooks are exposed.</p>
   <p>Unsupported native runtime shapes still fail closed with explicit blockers instead of falling back to legacy adapters.</p>
 </section>
 <section class="guide-section">
@@ -140,11 +140,12 @@ cargo build --release --no-default-features --features profile-load-balancer-edg
     <tr><td><code>cache</code></td><td>Shared cache policy, memory and disk tiers, purge, and cache tooling.</td></tr>
     <tr><td><code>php-fpm</code></td><td>FastCGI bridge and optional managed PHP-FPM supervision.</td></tr>
     <tr><td><code>metrics</code></td><td>Prometheus metrics and optional OTLP metrics export.</td></tr>
+    <tr><td><code>wasm</code></td><td>Optional WebAssembly sandbox foundation for future policy extensions; disabled by default.</td></tr>
   </tbody></table>
 </section>
 <section class="guide-section">
   <h2>Things that cannot go together</h2>
-  <ul class="checks"><li>Pick exactly one TLS backend.</li><li>Privacy builds do not include cache, metrics, tracing, or OTLP export.</li><li>Focused edge images intentionally omit modules outside their job.</li><li>Run the feature validator before packaging custom feature strings.</li></ul>
+  <ul class="checks"><li>Pick exactly one TLS backend.</li><li>Privacy builds do not include cache, metrics, tracing, OTLP export, or Wasm features.</li><li>Focused edge images intentionally omit modules outside their job.</li><li>Run the feature validator before packaging custom feature strings.</li></ul>
 </section>
 
       </div>

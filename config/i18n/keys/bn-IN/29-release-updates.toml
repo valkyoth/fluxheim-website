@@ -70,3 +70,12 @@ splits_acme_observability_cache_load_balancer_php_fpm_snapshot_web_stream_and_na
 is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cutover = "Pingora-free runtime cutover-এর পর Wasm-এর আগে শেষ crate-boundary cleanup।"
 
 it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Runtime behavior স্থির থাকে, আর 1.7 Wasm লাইনের আগে বাকি root helper focused workspace crate-এ যায়।"
+
+released_july_3_2026 = "৩ জুলাই ২০২৬ প্রকাশিত"
+adds_the_optional_fluxheim_wasm_workspace_crate = "যোগ করে optional fluxheim-wasm workspace crate"
+adds_wasm_wasm_proxy_abi_and_wasm_wasi_feature_gates_that_stay_disabled_by_default_and_incompatible_with_privacy_mode = "যোগ করে wasm, wasm-proxy-abi and wasm-wasi feature gates; disabled by default and incompatible with privacy-mode"
+loads_wasm_plugin_files_only_from_approved_absolute_roots_with_symlink_non_regular_file_and_module_size_rejection = "লোড করে Wasm plugin files only from approved absolute roots, with symlink, non-regular file and module-size rejection"
+adds_a_typed_wasm_plugin_manifest_boundary_with_abi_phase_fail_mode_path_and_sandbox_limit_validation = "যোগ করে a typed Wasm plugin manifest boundary for ABI, phase, fail-mode, path and sandbox-limit validation"
+adds_bounded_wasmtime_execution_with_fuel_memory_table_instance_compile_timeout_compile_worker_and_per_call_watchdog_limits = "যোগ করে bounded Wasmtime execution with fuel, memory, table, instance, compile-timeout, compile-worker and per-call watchdog limits"
+adds_real_wasm_sandbox_smoke_coverage_for_successful_execution_traps_table_growth_denial_and_unsafe_fail_open_manifest_rejection = "যোগ করে real Wasm sandbox smoke coverage for success, traps, table-growth denial and unsafe fail-open manifest rejection"
+starts_the_wasm_extensibility_line_with_a_sandbox_foundation_only_request_response_policy_hooks_proxy_abi_compatibility_and_wasi_capabilities_remain_staged_for_later_1_7_x_releases = "শুরু করে the Wasm extensibility line with only a sandbox foundation. Request/response hooks, proxy-ABI compatibility and WASI remain planned for later 1.7.x releases."

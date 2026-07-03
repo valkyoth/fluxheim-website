@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.6.37
+            Download v1.7.0
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.6.37</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.0</a>
       </div>
     </div>
   </nav>
@@ -119,16 +119,17 @@
 </section>
 <section class="guide-section">
   <h2>WASM extensions</h2>
-  <p>WASM extensions are planned for bounded operator logic. They must stay sandboxed, explicit, and disabled in default builds until the boundary is proven.</p>
+  <p>Fluxheim 1.7.0 starts the optional WASM sandbox foundation. It proves approved-root plugin loading, manifest validation, and bounded Wasmtime execution. Request/response hooks are still staged for later 1.7.x releases.</p>
   <table><thead><tr><th>Rule</th><th>Reason</th></tr></thead><tbody>
-    <tr><td>Disabled by default</td><td>Production builds should not run operator code unless explicitly enabled.</td></tr>
-    <tr><td>Bounded inputs</td><td>Extensions should receive only the request data they need.</td></tr>
-    <tr><td>No secret access by default</td><td>Extension code should not become a shortcut around the secret boundary.</td></tr>
+    <tr><td>Disabled by default</td><td>Default and privacy builds do not compile Wasm features.</td></tr>
+    <tr><td>Approved plugin roots</td><td>Plugin files must be absolute, regular files below approved roots, without symlinked files or parent paths.</td></tr>
+    <tr><td>Bounded execution</td><td>Fuel, memory, table, instance, compile-timeout, compile-worker, and per-call watchdog limits keep the sandbox bounded.</td></tr>
+    <tr><td>Typed manifests</td><td>ABI, phase, fail-mode, path, and sandbox limits are validated before loading.</td></tr>
   </tbody></table>
 </section>
 <section class="guide-section">
   <h2>Not production defaults</h2>
-  <p>Future modules are documented so operators can see the direction, but they should not be treated like stable features until release notes say they are ready.</p>
+  <p>Future modules and later Wasm hooks are documented so operators can see the direction, but they should not be treated like stable request-path features until release notes say they are ready.</p>
 </section>
 
       </div>
