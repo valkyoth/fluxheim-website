@@ -19,7 +19,7 @@ cargo build --release --no-default-features --features profile-load-balancer-edg
 <section class="guide-section">
   <h2>Pingora-free normal builds</h2>
   <p>Starting with 1.6.34, normal Fluxheim release profiles use the Fluxheim-owned native runtime and no longer compile Pingora crates.</p>
-  <p>Starting with 1.7.0, Fluxheim adds an optional Wasm sandbox foundation. It is disabled by default, incompatible with privacy-mode, and currently proves safe plugin loading plus bounded execution before request/response policy hooks are exposed.</p>
+  <p>Starting with 1.7.0, Fluxheim adds an optional Wasm sandbox foundation. Wires live native HTTP/1 access-decision hooks with priority ordering, first-deny-wins composition, and fail-closed behavior.</p>
   <p>Unsupported native runtime shapes still fail closed with explicit blockers instead of falling back to legacy adapters.</p>
 </section>
 <section class="guide-section">

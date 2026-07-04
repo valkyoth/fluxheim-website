@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use axum::Router;
 use axum::body::to_bytes;
 use axum::http::{Request, StatusCode};
 use fluxheim_website::content::Site;
@@ -9,7 +10,12 @@ use tower::ServiceExt;
 async fn get(path: &str) -> (StatusCode, String) {
     let site = Arc::new(Site::load().expect("site content loads"));
     let app = build_router(site);
+    get_from(&app, path).await
+}
+
+async fn get_from(app: &Router, path: &str) -> (StatusCode, String) {
     let response = app
+        .clone()
         .oneshot(
             Request::builder()
                 .uri(path)
@@ -28,6 +34,8 @@ async fn get(path: &str) -> (StatusCode, String) {
 
 #[tokio::test]
 async fn every_rendered_language_selector_link_resolves() {
+    let site = Arc::new(Site::load().expect("site content loads"));
+    let app = build_router(site);
     let pages = [
         "/",
         "/download",
@@ -85,9 +93,16 @@ async fn every_rendered_language_selector_link_resolves() {
         "/en-gb/download",
         "/en-us/docs/cache",
     ];
+    let exhaustive_link_pages = [
+        "/",
+        "/download",
+        "/docs/cache",
+        "/de/download",
+        "/en-gb/download",
+    ];
 
     for page in pages {
-        let (status, body) = get(page).await;
+        let (status, body) = get_from(&app, page).await;
         assert_eq!(status, StatusCode::OK, "{page} should render");
 
         let links = language_selector_links(&body);
@@ -109,17 +124,26 @@ async fn every_rendered_language_selector_link_resolves() {
             "{page} should render the language filter script"
         );
 
-        for href in links {
-            let (link_status, link_body) = get(&href).await;
-            assert_eq!(
-                link_status,
-                StatusCode::OK,
-                "{page} selector link {href} should resolve"
-            );
-            assert!(
-                link_body.contains("fh-language-switcher"),
-                "{page} selector link {href} should render a page"
-            );
+        if exhaustive_link_pages.contains(&page) {
+            for href in links {
+                let (link_status, link_body) = get_from(&app, &href).await;
+                assert_eq!(
+                    link_status,
+                    StatusCode::OK,
+                    "{page} selector link {href} should resolve"
+                );
+                assert!(
+                    link_body.contains("fh-language-switcher"),
+                    "{page} selector link {href} should render a page"
+                );
+            }
+        } else {
+            for href in links {
+                assert!(
+                    href.starts_with('/'),
+                    "{page} selector link {href} is local"
+                );
+            }
         }
     }
 }

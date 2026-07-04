@@ -79,3 +79,6 @@ adds_a_typed_wasm_plugin_manifest_boundary_with_abi_phase_fail_mode_path_and_san
 adds_bounded_wasmtime_execution_with_fuel_memory_table_instance_compile_timeout_compile_worker_and_per_call_watchdog_limits = "Wasmtime execution is bounded by fuel, memory, table, instance, compile-timeout, compile-worker and per-call watchdog limits"
 adds_real_wasm_sandbox_smoke_coverage_for_successful_execution_traps_table_growth_denial_and_unsafe_fail_open_manifest_rejection = "Real Wasm sandbox smoke coverage checks successful execution, traps, table-growth denial and unsafe fail-open manifest rejection"
 starts_the_wasm_extensibility_line_with_a_sandbox_foundation_only_request_response_policy_hooks_proxy_abi_compatibility_and_wasi_capabilities_remain_staged_for_later_1_7_x_releases = "Wasm 擴充性先只從沙箱基礎開始。request/response hooks、proxy-ABI 相容性與 WASI 會留到後續 1.7.x 版本。"
+released_july_4_2026 = "2026 年 7 月 4 日發布"
+wires_live_native_http_1_access_decision_hooks_with_priority_ordering_first_deny_wins_composition_and_fail_closed_behavior = "接入 live native HTTP/1 access-decision hooks，支援優先順序、first-deny-wins 組合與 fail-closed 行為"
+enforces_process_wide_per_plugin_and_per_attachment_execution_admission_ceilings = "強制執行程序級、plugin 級與 attachment 級執行准入上限"

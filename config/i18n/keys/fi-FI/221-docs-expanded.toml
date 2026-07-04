@@ -155,6 +155,7 @@ version_1_6_37_is_the_final_pre_wasm_crate_boundary_cleanup_acme_observability_c
 version_1_6_37_keeps_the_local_observability_smoke_more_reliable_by_retrying_disposable_prometheus_and_jaeger_startup_with_freshly_allocated_ports_when_host_network_ports_race_with_other_runner_processes = "Versio 1.6.37 tekee paikallisesta observability-smokesta luotettavamman yrittämällä kertakäyttöisten Prometheus- ja Jaeger-käynnistysten uudelleenajoa uusilla porteilla, kun host-network-portit kilpailevat muiden runner-prosessien kanssa."
 
 starting_with_1_7_0_fluxheim_adds_an_optional_wasm_sandbox_foundation_it_is_disabled_by_default_incompatible_with_privacy_mode_and_currently_proves_safe_plugin_loading_plus_bounded_execution_before_request_response_policy_hooks_are_exposed = "Från 1.7.0 lägger Fluxheim till en valfri Wasm-sandboxgrund. Den är avstängd som standard, inkompatibel med privacy-mode och bevisar för närvarande säker pluginladdning plus begränsad körning innan request/response-policyhooks exponeras."
+starting_with_1_7_0_fluxheim_adds_an_optional_wasm_sandbox_foundation = "Från 1.7.0 lägger Fluxheim till en valfri Wasm-sandboxgrund."
 optional_webassembly_sandbox_foundation_for_future_policy_extensions_disabled_by_default = "Valfri WebAssembly-sandboxgrund för framtida policyutbyggnader; avstängd som standard."
 privacy_builds_do_not_include_cache_metrics_tracing_otlp_export_or_wasm_features = "Privacy-byggen innehåller inte cache, mätvärden, tracing, OTLP-export eller Wasm-funktioner."
 fluxheim_1_7_0_starts_the_optional_wasm_sandbox_foundation_it_proves_approved_root_plugin_loading_manifest_validation_and_bounded_wasmtime_execution_request_response_hooks_are_still_staged_for_later_1_7_x_releases = "Fluxheim 1.7.0 startar den valfria WASM-sandboxgrunden. Den bevisar pluginladdning från godkända rötter, manifestvalidering och begränsad Wasmtime-körning. Request/response-hooks ligger kvar för senare 1.7.x-versioner."
@@ -166,6 +167,8 @@ fuel_memory_table_instance_compile_timeout_compile_worker_and_per_call_watchdog_
 typed_manifests = "Tyypitetyt manifestit"
 abi_phase_fail_mode_path_and_sandbox_limits_are_validated_before_loading = "ABI, fas, fail-mode, sökväg och sandboxgränser valideras före laddning."
 future_modules_and_later_wasm_hooks_are_documented_so_operators_can_see_the_direction_but_they_should_not_be_treated_like_stable_request_path_features_until_release_notes_say_they_are_ready = "Framtida moduler och senare Wasm-hooks dokumenteras för att visa riktningen, men ska inte behandlas som stabila request-path-funktioner förrän release notes säger det."
+deterministic_attachments = "Deterministiset attachmentit"
+fail_closed_access_decisions = "Fail-closed-pääsypäätökset"
 [docs_expanded]
 pingora_free_normal_builds = "Pingora-free normaalit rakenteet"
 starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "Alkaen versiosta 1.6.34, normaali Fluxheim release profiles käyttää alkuperäistä Fluxheim-owned runtime:ää eikä enää käännä Pingora crates."

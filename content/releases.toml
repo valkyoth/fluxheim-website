@@ -1,4 +1,10 @@
-latest = "1.7.0"
+latest = "1.7.1"
+
+[[release]]
+version = "1.7.1"
+date = "2026-07-04"
+title = "Live Wasm access decisions"
+summary = "Continues the WebAssembly extensibility line with config-level plugin registry validation, typed loader manifests, deterministic attachment ordering, process/plugin/attachment admission limits, authenticated status visibility, Wasm metrics, reload-impact classification, and live native HTTP/1 access-decision hooks."
 
 [[release]]
 version = "1.7.0"

@@ -7,6 +7,7 @@ fn applies_stable_docs_guide_keys_to_generated_pages() {
     let sv = site.locale("sv-SE").expect("Swedish locale");
     let html = concat!(
         "<title>Builds & Features - Fluxheim Docs</title>",
+        r#"<a class="sidebar-link">Start</a>"#,
         "<h3>Guides</h3>",
         "<a>Builds & Features</a>",
         "<h2>Common builds</h2>",

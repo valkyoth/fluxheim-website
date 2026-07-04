@@ -9,7 +9,7 @@ pub(super) fn page_map(
     keys: &BTreeMap<String, String>,
 ) -> String {
     if is_page {
-        html.replace_map_everywhere(source, keys)
+        html.replace_map_text_nodes(source, keys)
     } else {
         html
     }

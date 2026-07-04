@@ -1,11 +1,12 @@
 # WASM Extensibility
 
 Status: active `1.7` optional module family after the `1.6` Pingora-free
-runtime line. Fluxheim `1.7.0` ships the first sandbox foundation:
+runtime line. Fluxheim `1.7.0` shipped the first sandbox foundation:
 compile-time feature gates, strict plugin-file loading, bounded Wasmtime
-execution, and real Wasm smoke coverage. Request/response policy hooks,
-proxy-ABI compatibility, and WASI capabilities remain staged for later `1.7.x`
-releases.
+execution, and real Wasm smoke coverage. Fluxheim `1.7.1` starts live
+request-path execution with native HTTP/1 access-decision hooks. Header
+mutation, response hooks, proxy-ABI compatibility, and WASI capabilities remain
+staged for later `1.7.x` releases.
 
 Cargo features:
 
@@ -65,6 +66,25 @@ with the validated limits; production hook execution still starts later in the
 
 The first useful policy-hook scope should cover the common extension cases
 without exposing request bodies or arbitrary I/O.
+
+The first live request-path hook is `access-decision`. Multiple plugins may
+attach to the same phase and vhost/route, so attachments use explicit
+`priority`; lower priorities run first and equal priorities keep declaration
+order. Security decisions use a safe default: `access-decision` is
+`first-deny-wins`. Built-in Fluxheim access policy runs before Wasm and cannot
+be overridden by a plugin. Header mutation phases will run in the configured
+order once the typed host-call ABI for reading and mutating headers lands.
+
+The `1.7.1` preview access ABI calls an exported
+`fluxheim_access_decision() -> i32` function:
+
+- `0`: continue to the next plugin;
+- `1`: allow/continue;
+- `2`: deny with `403`.
+
+Any other value, trap, timeout, compile error, or admission rejection is treated
+as a plugin failure. Security-decision plugins are validated as `fail-closed`,
+so failures deny instead of silently allowing traffic.
 
 Allowed hooks:
 
@@ -141,16 +161,36 @@ Required limits:
 - maximum header mutations;
 - maximum synthetic response size;
 - maximum per-vhost concurrent plugin executions.
+- maximum process-wide concurrent plugin executions;
+- maximum process-wide Wasm memory or instance budget where Wasmtime exposes a
+  reliable enforcement point.
 
-Compiled modules should be cached only with strong isolation by module hash,
-ABI version, feature set, and Fluxheim version.
+Fluxheim `1.7.1` compiles each live hook module when the native WASM hook
+registry is built and reuses that compiled module on the request path. Each
+request still receives a fresh Wasmtime store and instance for isolation.
+Future cross-generation module caches must remain isolated by module hash, ABI
+version, feature set, and Fluxheim version.
+
+Per-plugin and per-attachment admission budgets are not enough by themselves.
+Fluxheim must also enforce a top-level admission ceiling such as
+`wasm.max_total_concurrent_executions` before any live hook release. Otherwise
+many individually-safe plugins can multiply into unsafe process-wide memory or
+instance pressure.
 
 ## Security Requirements
 
 - Disabled by default at compile time and runtime.
-- Plugin files must be regular files below approved directories.
+- Plugin files must be regular files below approved directories. Config
+  validation rejects plugin declarations unless every plugin path is under one
+  of the configured `wasm.plugin_roots`.
+- Plugin roots must be scoped directories, not `/` or top-level system
+  directories such as `/etc`; use deployment-specific roots such as
+  `/etc/fluxheim/plugins` or `/srv/fluxheim/plugins`.
 - Plugin paths must reject symlinks and symlinked parents.
 - Plugin modules must be hashed and recorded in admin status.
+- Plugins attached to security-decision phases (`access-decision`,
+  `route-decision`, or `cache-store`) must pin `sha256` in config before they
+  are accepted.
 - Host calls must never expose admin tokens, ACME/EAB secrets, private keys,
   authorization headers, cookies, raw request bodies, or filesystem paths unless
   explicitly allowed and redacted.
@@ -165,23 +205,110 @@ ABI version, feature set, and Fluxheim version.
 ## Configuration Sketch
 
 ```toml
-[wasm.plugins.security_headers]
+[wasm]
+enabled = true
+plugin_roots = ["/etc/fluxheim/plugins"]
+max_total_concurrent_executions = 256
+
+[[wasm.plugins]]
+name = "security_headers"
 path = "/etc/fluxheim/plugins/security_headers.wasm"
-abi = "proxy"
-max_memory = "32MiB"
+sha256 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+abi = "fluxheim-policy-v1"
+host_call_namespace = "fluxheim-policy-v1"
+phases = ["response-headers"]
+fail_mode = "fail-closed"
+
+[wasm.plugins.limits]
+max_module_bytes = "1MiB"
+max_memory_bytes = "16MiB"
+max_table_elements = 10000
 fuel = 5000000
-timeout = "5ms"
-fail_mode = "fail_closed"
+timeout_ms = 50
+compile_timeout_ms = 500
+
+[[wasm.attachments]]
+plugin = "security_headers"
+vhost = "example"
+priority = 100
+phases = ["response-headers"]
 
 [[vhosts]]
 name = "example"
 hosts = ["example.com"]
 
-[[vhosts.wasm]]
-plugin = "security_headers"
-phase = "response_headers"
-paths = ["/*"]
+[[vhosts.routes]]
+name = "static"
+path_prefix = "/static/"
+
+[vhosts.routes.web]
+root = "/srv/example/static"
 ```
+
+`wasm.enabled = true` is accepted only by binaries built with Fluxheim's `wasm`
+feature. Default and privacy-oriented builds reject non-empty `[wasm]` config
+during validation so a plugin registry cannot be configured without a runtime
+that can eventually enforce it.
+
+The config crate converts validated plugin declarations into
+`fluxheim-wasm` loader manifests. Per-plugin sandbox limits override
+`[wasm.default_limits]`; omitted limits inherit the defaults. If `sha256` is
+set on a plugin, the loader rejects a plugin file whose actual SHA-256 digest
+does not match.
+
+`wasm.max_total_concurrent_executions` caps total concurrent plugin executions
+across the whole process. Per-plugin and per-attachment admission budgets are
+still enforced inside that global ceiling.
+
+`[[wasm.attachments]].priority` controls chain order for plugins attached to
+the same phase and vhost/route. Lower numeric priorities run first; ties use
+the declaration order in the loaded config. Access decisions use
+`first-deny-wins` and are active for native HTTP/1 route proxy traffic in
+`1.7.1`.
+
+Config fragments preserve explicit resets to stock WASM defaults. A later
+`conf.d` fragment can set `[wasm.default_limits]` or
+`[wasm.default_admission]` back to the documented defaults and the loader will
+apply that reset instead of treating it as an omitted section.
+
+Authenticated `/_fluxheim/status` responses include a WASM registry summary
+when Fluxheim is built with `wasm`: enabled state, plugin/attachment counts,
+plugin names, phases, fail modes, and expected SHA-256 digests. Runtime loaded
+plugin hash exposure remains staged for a later status slice.
+
+`1.7.1` validates the registry and attachment declarations and enables the
+first native HTTP/1 access-decision request-path hook. Header mutation and
+other hook families remain staged for later `1.7.x` releases.
+
+## Reload Semantics
+
+WASM configuration must stay explicit in reload-impact classification. Changes
+to plugin path, expected hash, ABI, feature flags, sandbox limits, admission
+budgets, attachment order, or attachment targets must not fall through to a
+generic snapshot classification by accident.
+
+The default policy for the first live hook release should be conservative:
+validate the new registry, build a new module/cache generation, and atomically
+swap only after all affected modules are loadable under the new limits. Any
+change that cannot be proven reload-safe must require restart or be rejected by
+the reload path with a clear diagnostic.
+
+## Observability
+
+WASM hooks need first-class operator visibility from the first live hook
+release. Metrics and traces must use low-cardinality labels such as plugin
+name, phase, vhost/route scope, ABI, and outcome. They must not include raw
+request paths, headers, secrets, or plugin-returned arbitrary strings.
+
+Required metrics include:
+
+- plugin invocations and completed decisions;
+- execution duration;
+- traps, panics, timeouts, compile timeouts, and fuel exhaustion;
+- global and per-plugin admission rejections;
+- fail-open and fail-closed outcomes;
+- loaded module count and module-cache generation/hash changes;
+- reload validation, load, swap, and rejection outcomes.
 
 ## Test Plan
 
@@ -197,6 +324,17 @@ paths = ["/*"]
 - Verify request header mutation within limits.
 - Verify response header mutation within limits.
 - Verify deny decisions and synthetic responses.
+- Verify two plugins attached to the same phase and target execute in
+  deterministic order.
+- Verify `access-decision` composition is `first-deny-wins`.
+- Verify native HTTP/1 live access hooks load real Wasm modules and deny
+  traffic before upstream forwarding.
+- Verify process-wide admission rejects excess concurrent plugin executions
+  even when each plugin's individual budget has not been exhausted.
+- Verify WASM registry changes are classified by reload impact and do not fall
+  through to the generic snapshot bucket.
+- Verify per-plugin metrics are emitted for success, deny, timeout, trap, fuel
+  exhaustion, admission rejection, and fail-mode behavior.
 - Verify plugins cannot access bodies, filesystem, network, env, or admin APIs
   without capability grants.
 - Verify fuel exhaustion, timeout, compile timeout, table-element limit, trap,

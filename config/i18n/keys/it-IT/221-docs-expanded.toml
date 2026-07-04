@@ -155,6 +155,7 @@ version_1_6_37_is_the_final_pre_wasm_crate_boundary_cleanup_acme_observability_c
 version_1_6_37_keeps_the_local_observability_smoke_more_reliable_by_retrying_disposable_prometheus_and_jaeger_startup_with_freshly_allocated_ports_when_host_network_ports_race_with_other_runner_processes = "La versione 1.6.37 rende più affidabile lo smoke locale di observability ritentando avvii usa-e-getta di Prometheus e Jaeger con porte appena allocate quando le porte host-network competono con altri processi runner."
 
 starting_with_1_7_0_fluxheim_adds_an_optional_wasm_sandbox_foundation_it_is_disabled_by_default_incompatible_with_privacy_mode_and_currently_proves_safe_plugin_loading_plus_bounded_execution_before_request_response_policy_hooks_are_exposed = "A partire dalla 1.7.0, Fluxheim aggiunge una base sandbox Wasm opzionale. È disattivata per impostazione predefinita, incompatibile con privacy-mode e al momento dimostra caricamento sicuro dei plugin ed esecuzione limitata prima dell’esposizione degli hook di policy request/response."
+starting_with_1_7_0_fluxheim_adds_an_optional_wasm_sandbox_foundation = "A partire dalla 1.7.0, Fluxheim aggiunge una base sandbox Wasm opzionale."
 optional_webassembly_sandbox_foundation_for_future_policy_extensions_disabled_by_default = "Base sandbox WebAssembly opzionale per future estensioni di policy; disattivata per impostazione predefinita."
 privacy_builds_do_not_include_cache_metrics_tracing_otlp_export_or_wasm_features = "Le build privacy non includono cache, metriche, tracing, export OTLP o funzionalità Wasm."
 fluxheim_1_7_0_starts_the_optional_wasm_sandbox_foundation_it_proves_approved_root_plugin_loading_manifest_validation_and_bounded_wasmtime_execution_request_response_hooks_are_still_staged_for_later_1_7_x_releases = "Fluxheim 1.7.0 avvia la base sandbox WASM opzionale. Dimostra caricamento plugin da radici approvate, validazione manifesto ed esecuzione Wasmtime limitata. Gli hook request/response restano pianificati per release 1.7.x successive."
@@ -166,6 +167,8 @@ fuel_memory_table_instance_compile_timeout_compile_worker_and_per_call_watchdog_
 typed_manifests = "Manifest tipizzati"
 abi_phase_fail_mode_path_and_sandbox_limits_are_validated_before_loading = "ABI, fase, fail-mode, percorso e limiti della sandbox vengono validati prima del caricamento."
 future_modules_and_later_wasm_hooks_are_documented_so_operators_can_see_the_direction_but_they_should_not_be_treated_like_stable_request_path_features_until_release_notes_say_they_are_ready = "I moduli futuri e i successivi hook Wasm sono documentati per mostrare la direzione, ma non vanno trattati come funzionalità request-path stabili finché le note di rilascio non lo indicano."
+deterministic_attachments = "Attachment deterministici"
+fail_closed_access_decisions = "Decisioni di accesso fail-closed"
 [docs_expanded]
 pingora_free_normal_builds = "Pingora-free build normali"
 starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "A partire dalla versione 1.6.34, i normali Fluxheim release profiles utilizzano il runtime nativo di Fluxheim-owned e non compilano più Pingora crates."

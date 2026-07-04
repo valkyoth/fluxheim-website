@@ -7,7 +7,7 @@ use fluxheim_website::http_app::build_router;
 use fluxheim_website::legacy::{legacy_html_paths, slug_for_path};
 use tower::ServiceExt;
 
-const SOURCE_FLUXHEIM_VERSION: &str = "1.7.0";
+const SOURCE_FLUXHEIM_VERSION: &str = "1.7.1";
 
 #[tokio::test]
 async fn all_legacy_html_pages_are_served_for_each_locale_prefix() {

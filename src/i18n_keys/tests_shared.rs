@@ -157,9 +157,9 @@ fn applies_stable_home_keys_before_phrase_maps() {
     let fr = site.locale("fr-FR").expect("French locale");
     let html = concat!(
         r#"<meta name="description" content="A memory-safe edge server and reverse proxy built in Rust.">"#,
-        ">Memory-Safe by Design<>Memory-Safe<",
-        "Fluxheim ships as focused, modular builds — use only what your deployment needs.",
-        "A Rust-native edge runtime with connection pooling, upstream retries, active health checks, HTTP/2, WebSocket upgrades, and gRPC pass-through.",
+        "<h2>Memory-Safe by Design</h2><span>Memory-Safe</span>",
+        "<p>Fluxheim ships as focused, modular builds — use only what your deployment needs.</p>",
+        "<p>A Rust-native edge runtime with connection pooling, upstream retries, active health checks, HTTP/2, WebSocket upgrades, and gRPC pass-through.</p>",
     )
     .to_owned();
 

@@ -36,18 +36,19 @@ cargo install --locked cargo-sbom --version 0.10.0
 
 - Run `cargo update` only as a deliberate dependency maintenance step.
 - Before tagging, verify compatible dependency updates are exhausted. This gate
-  intentionally ignores `pingora*` packages while Fluxheim is still exiting the
-  Pingora compatibility runtime dependency surface:
+  intentionally ignores `pingora*` packages because supported Fluxheim profiles
+  no longer compile Pingora; separate Pingora dependency and boundary policy
+  gates verify that this remains true.
 
 ```bash
 scripts/check_latest_crates.sh
 ```
 
-- During the `1.6.x` Pingora-exit line, capture the runtime baseline evidence
-  before tagging. `check` mode records locked dependency trees and the
-  per-profile Pingora dependency surface, including native web TLS proof
-  profiles; `release` mode also records the default release-binary size and
-  local performance baseline:
+- During the `1.6.x` native-runtime line, capture the runtime baseline evidence
+  before tagging. `check` mode records locked dependency trees, proves the
+  per-profile Pingora dependency surface remains empty, and includes native web
+  TLS proof profiles; `release` mode also records the default release-binary
+  size and local performance baseline:
 
 ```bash
 scripts/capture-runtime-baseline.sh check
@@ -67,11 +68,11 @@ scripts/validate-runtime-fixtures.sh check
   stay denied.
 - Keep `.cargo/audit.toml` exceptions narrow, versioned, and documented with a
   removal condition.
-- For unmaintained transitive dependencies inherited from Pingora or TLS
-  backends, prefer upstream fixes over local forks. Track the package, advisory
-  ID, upstream source, Fluxheim reachability, and removal condition in
-  `SECURITY.md` and release notes. Do not promote an ignored advisory from
-  warning to accepted risk without a written reason.
+- For unmaintained transitive dependencies inherited from TLS backends or other
+  optional integrations, prefer upstream fixes over local forks. Track the
+  package, advisory ID, upstream source, Fluxheim reachability, and removal
+  condition in `SECURITY.md` and release notes. Do not promote an ignored
+  advisory from warning to accepted risk without a written reason.
 - Run the release wrapper:
 
 ```bash
@@ -214,8 +215,8 @@ variant image smoke tests.
 
 For release-candidate validation, run the deeper local gate. It enables the TLS
 backend matrix, OpenSSL FIPS-capable validation, rustls/AWS-LC FIPS-capable
-validation, local TLS scan, local load smoke, raw request-framing smoke, and
-fuzz target compile check:
+validation, local TLS scan, local load smoke, raw request-framing smoke, real
+Wasm sandbox execution, and fuzz target compile check:
 
 ```bash
 scripts/stable_release_deep_gate.sh release
@@ -238,6 +239,7 @@ FLUXHEIM_GATE_FIPS_RUSTLS=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_OWASP_RUN=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_TLS_SCAN=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_LOAD=1 scripts/stable_release_gate.sh release
+FLUXHEIM_GATE_WASM=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_FRAMING=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_FUZZ_CHECK=1 scripts/stable_release_gate.sh release
 FLUXHEIM_GATE_IMAGE_VARIANTS="debian alpine wolfi suse-micro" scripts/stable_release_gate.sh release
@@ -352,11 +354,11 @@ The default duration is intentionally modest. Tune it for release validation:
 FLUXHEIM_LOAD_DURATION=60s FLUXHEIM_LOAD_CONCURRENCY=128 scripts/load_smoke_1_0.sh
 ```
 
-- TLS policy check. The current Fluxheim TLS listener configuration uses the
-  selected Pingora TLS backend defaults and does not expose user-configurable
-  cipher-suite or protocol-version settings yet. Release scans are therefore
-  the enforcement gate: a stable release must not ship if the selected default
-  TLS backend negotiates deprecated protocol versions or weak cipher suites.
+- TLS policy check. The current Fluxheim TLS listener configuration uses
+  Fluxheim-owned rustls/OpenSSL policy helpers for ALPN, protocol versions,
+  curves, and cipher lists. Release scans remain an enforcement gate: a stable
+  release must not ship if a selected TLS backend negotiates deprecated
+  protocol versions or weak cipher suites.
 - Local TLS smoke. The localhost smoke already proves a static certificate over
   a TLS listener. For a deeper local scan, use a temporary copy of the latest
   stable `testssl.sh` release against the release binary. Re-check the latest
