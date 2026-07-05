@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.7.1
+            Download v1.7.2
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.1</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.2</a>
       </div>
     </div>
   </nav>
@@ -119,14 +119,16 @@
 </section>
 <section class="guide-section">
   <h2>WASM extensions</h2>
-  <p>Wires live native HTTP/1 access-decision hooks with priority ordering, first-deny-wins composition, and fail-closed behavior. Enforces process-wide, per-plugin, and per-attachment execution admission ceilings.</p>
+  <p>Fluxheim 1.7.2 keeps Wasm optional and adds the first bounded native HTTP/1 request-header and response-header hook family. Plugins can make approved synthetic policy changes, but they still do not receive raw headers, bodies, filesystem access, network access, private keys, or admin APIs.</p>
   <table><thead><tr><th>Rule</th><th>Reason</th></tr></thead><tbody>
     <tr><td>Disabled by default</td><td>Default and privacy builds do not compile Wasm features.</td></tr>
     <tr><td>Approved plugin roots</td><td>Plugin files must be absolute, regular files below approved roots, without symlinked files or parent paths.</td></tr>
-    <tr><td>Deterministic attachments</td><td>Wires live native HTTP/1 access-decision hooks with priority ordering, first-deny-wins composition, and fail-closed behavior.</td></tr>
+    <tr><td>Access decisions</td><td>Live native HTTP/1 access-decision hooks use priority ordering, first-deny-wins composition, and fail-closed behaviour.</td></tr>
+    <tr><td>Header hooks</td><td><code>request-headers</code> and <code>response-headers</code> hooks can set or remove only allow-listed synthetic headers such as the policy-tier example.</td></tr>
     <tr><td>Bounded execution</td><td>Fuel, memory, table, instance, compile-timeout, compile-worker, and per-call watchdog limits keep the sandbox bounded.</td></tr>
-    <tr><td>Fail-closed access decisions</td><td>Enforces process-wide, per-plugin, and per-attachment execution admission ceilings.</td></tr>
+    <tr><td>Admission limits</td><td>Process-wide, per-plugin, and per-attachment execution ceilings prevent unbounded plugin work.</td></tr>
     <tr><td>Typed manifests</td><td>ABI, phase, fail-mode, path, and sandbox limits are validated before loading.</td></tr>
+    <tr><td>PHP-FPM fallback</td><td>Vhost-level header hooks and fallback response-header cleanup now also apply to PHP-FPM fallback responses.</td></tr>
   </tbody></table>
 </section>
 

@@ -97,12 +97,17 @@ def page_mentions_version(
     if name != "download.html" or not isinstance(latest, str):
         return False
 
-    collapsed_range = "v1.6.0 – v1.6.37"
-    if collapsed_range not in body:
-        return False
-
     major, minor, patch = version_tuple(version)
-    return (major, minor) == (1, 6) and 0 <= patch <= 37
+    collapsed_ranges = (
+        ((1, 7), 0, version_tuple(latest)[2], f"v1.7.0 – v{latest}"),
+        ((1, 6), 0, 37, "v1.6.0 – v1.6.37"),
+    )
+    return any(
+        major_minor == (major, minor)
+        and start <= patch <= end
+        and label in body
+        for major_minor, start, end, label in collapsed_ranges
+    )
 
 
 def version_tuple(version: object) -> tuple[int, int, int]:

@@ -82,3 +82,7 @@ starts_the_wasm_extensibility_line_with_a_sandbox_foundation_only_request_respon
 released_july_4_2026 = "2026 年 7 月 4 日发布"
 wires_live_native_http_1_access_decision_hooks_with_priority_ordering_first_deny_wins_composition_and_fail_closed_behavior = "接入 live native HTTP/1 access-decision hooks，支持优先级排序、first-deny-wins 组合和 fail-closed 行为"
 enforces_process_wide_per_plugin_and_per_attachment_execution_admission_ceilings = "强制执行进程级、plugin 级和 attachment 级执行准入上限"
+released_july_5_2026 = "2026 年 7 月 5 日发布"
+adds_live_native_http_1_request_header_and_response_header_wasm_hooks_for_vhost_and_route_attachments = "为 vhost 和 route attachment 添加实时 native HTTP/1 request-header 与 response-header Wasm hook"
+keeps_the_header_hook_abi_symbolic_with_allow_listed_synthetic_mutations_instead_of_raw_header_or_body_access = "保持 header-hook ABI 为符号化接口，只允许白名单内的合成变更，而不是原始 header 或 body 访问"
+applies_vhost_level_wasm_header_hooks_and_fallback_response_header_policy_to_php_fpm_fallback_responses = "将 vhost 级 Wasm header hook 和 fallback response header policy 应用于 PHP-FPM fallback 响应"

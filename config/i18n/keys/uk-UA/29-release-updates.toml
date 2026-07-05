@@ -82,3 +82,7 @@ starts_the_wasm_extensibility_line_with_a_sandbox_foundation_only_request_respon
 released_july_4_2026 = "Випущено 4 липня 2026 р."
 wires_live_native_http_1_access_decision_hooks_with_priority_ordering_first_deny_wins_composition_and_fail_closed_behavior = "Підключає live native HTTP/1 access-decision hooks із пріоритетним порядком, композицією first-deny-wins і поведінкою fail-closed"
 enforces_process_wide_per_plugin_and_per_attachment_execution_admission_ceilings = "Застосовує стелі допуску виконання на рівні процесу, plugin і attachment"
+released_july_5_2026 = "Випущено 5 липня 2026 року"
+adds_live_native_http_1_request_header_and_response_header_wasm_hooks_for_vhost_and_route_attachments = "Додає живі native HTTP/1 Wasm hooks для request-header і response-header у прив’язках vhost і route"
+keeps_the_header_hook_abi_symbolic_with_allow_listed_synthetic_mutations_instead_of_raw_header_or_body_access = "Зберігає ABI header-hook символічним, із дозволеними синтетичними змінами замість сирого доступу до headers або body"
+applies_vhost_level_wasm_header_hooks_and_fallback_response_header_policy_to_php_fpm_fallback_responses = "Застосовує vhost-level Wasm header hooks і fallback response header policy до PHP-FPM fallback-відповідей"

@@ -1,4 +1,10 @@
-latest = "1.7.1"
+latest = "1.7.2"
+
+[[release]]
+version = "1.7.2"
+date = "2026-07-05"
+title = "Wasm header hooks"
+summary = "Continues the WebAssembly extensibility line with bounded native HTTP/1 request-header and response-header hooks, symbolic fluxheim_policy_v1 host calls, approved synthetic header mutations, fail-closed forbidden-mutation coverage, PHP-FPM fallback header-hook coverage, and stable pre-rewrite path context."
 
 [[release]]
 version = "1.7.1"
