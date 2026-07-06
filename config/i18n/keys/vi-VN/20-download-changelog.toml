@@ -189,7 +189,7 @@ makes_the_remaining_compatibility_boundary_explicit_with = "làm cho ranh giới
 what_s_next = "Tiếp theo là gì"
 plus_adds_tests_and_release_gates_that_enforce = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>Thêm tests and release gates that enforce Pingora dependency removal targets during normal <code class=\"text-cyan-400 text-xs\">cargo test</code> runs</li>"
 plus_started_the_1_6_x_pingora_exit = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>Started the <code class=\"text-cyan-400 text-xs\">1.6.x</code>Pingora-exit foundation line while keeping runtime behavior unchanged</li>"
-plus_new_profile_php_build_profile_proxy_plus = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>Mới <code class=\"text-cyan-400 text-xs\">profile-php</code> build profile — <code class=\"text-cyan-400 text-xs\">proxy + web + php-fpm + tls-rustls + bảo mật</code></li>"
+plus_new_profile_php_build_profile_proxy_plus = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>Mới <code class=\"text-cyan-400 text-xs\">profile-php</code> build profile — <code class=\"text-cyan-400 text-xs\">proxy + web + php-fpm + tls-rustls + security</code></li>"
 series = "<span class=\"px-2 py-0.5 text-xs bg-gray-700 text-gray-400 rounded-full\">chuỗi</span>"
 released_june_20_2026 = "Phát hành ngày 20 tháng 6 năm 2026"
 makes_the_representative_native_runtime_cutover_report_blocker_free_for_simple_http_1_http_2_admin_metrics_stream_and_udp_configurations = "Makes the representative native runtime cutover report blocker-free for simple HTTP/1, HTTP/2, admin, metric, stream, and UDP cấu hìnhs"

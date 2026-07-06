@@ -189,7 +189,7 @@ makes_the_remaining_compatibility_boundary_explicit_with = "शेष संग�
 what_s_next = "आगे क्या होगा"
 plus_adds_tests_and_release_gates_that_enforce = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>Adds tests and रिलीज़ gates that enforce Pingora dependency removal targets during normal <code class=\"text-cyan-400 text-xs\">cargo test</code> runs</li>"
 plus_started_the_1_6_x_pingora_exit = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>Started the <code class=\"text-cyan-400 text-xs\">1.6.x</code>Pingora-exit foundation line while keeping runtime behavior unchanged</li>"
-plus_new_profile_php_build_profile_proxy_plus = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>New <code class=\"text-cyan-400 text-xs\">profile-php</code>build profile — <code class=\"text-cyan-400 text-xs\">प्रॉक्सी + web + php-fpm + tls-rustls + security</code></li>"
+plus_new_profile_php_build_profile_proxy_plus = "<li class=\"flex gap-2\"><span class=\"text-emerald-400 mt-0.5\">+</span>New <code class=\"text-cyan-400 text-xs\">profile-php</code>build profile — <code class=\"text-cyan-400 text-xs\">proxy + web + php-fpm + tls-rustls + security</code></li>"
 series = "<span class=\"px-2 py-0.5 text-xs bg-gray-700 text-gray-400 rounded-full\">श्रृंखला</span>"
 released_june_20_2026 = "रिलीज़d June 20, 2026"
 makes_the_representative_native_runtime_cutover_report_blocker_free_for_simple_http_1_http_2_admin_metrics_stream_and_udp_configurations = "सरल HTTP/1, HTTP/2, एडमिन, मेट्रिक्स, स्ट्रीम और UDP कॉन्फ़िगरेशन के लिए प्रतिनिधि मूल रनटाइम कटओवर रिपोर्ट को अवरोधक-मुक्त बनाता है"

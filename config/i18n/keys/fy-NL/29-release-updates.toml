@@ -1,5 +1,5 @@
 [release_updates]
-adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Foeget eksplisite, standert útskeakele h2c Upgrade fallback ta foar platte tekst <code class=\"text-cyan-400 text-xs\">http1-en-http2</code> oarsprong"
+adds_explicit_disabled_by_default_h2c_upgrade_fallback_for_plaintext_http1_and_http2_origins = "Foeget eksplisite, standert útskeakele h2c Upgrade fallback ta foar platte tekst <code class=\"text-cyan-400 text-xs\">http1-and-http2</code> oarsprong"
 adds_native_acme_http_01_challenge_serving_traffic_mirroring_auth_request_and_route_scoped_grpc_validation = "Foeget native ACME HTTP-01-útdagingsserving ta, ferkearsspegeljen, auth-fersyk, en gRPC-validaasje"
 adds_pooled_native_upstream_h2_connections_with_bounded_stream_capacity_and_safe_method_retry_after_pre_response_pooled_handle_failure = "Foeget gearfoege native upstream H2-ferbiningen ta mei beheine streamkapasiteit en op 'e nij besykjen fan feilige metoade nei pre-antwurd mislearre gearfoeging"
 bounds_native_upstream_h2_handshakes_stream_slot_waits_keepalive_pings_and_setup_timeouts = "Beheint native upstream H2-handshakes, stream-slot-wachttiden, keepalive-pings, en setup-timeouts"
