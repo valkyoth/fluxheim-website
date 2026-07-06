@@ -9,15 +9,17 @@
 </section>
 <section class="guide-section">
   <h2>WASM extensions</h2>
-  <p>Fluxheim 1.7.2 keeps Wasm optional and adds the first bounded native HTTP/1 request-header and response-header hook family. Plugins can make approved synthetic policy changes, but they still do not receive raw headers, bodies, filesystem access, network access, private keys, or admin APIs.</p>
+  <p>Fluxheim 1.7.3 keeps Wasm optional and adds constrained native HTTP/1 route-decision hooks alongside access-decision and header hooks. Plugins can continue, deny, or select configured canary and mirror route branches, but they still cannot invent upstreams, bypass route matching, override Fluxheim access policy, or receive raw headers, bodies, filesystem access, network access, private keys, or admin APIs.</p>
   <table><thead><tr><th>Rule</th><th>Reason</th></tr></thead><tbody>
     <tr><td>Disabled by default</td><td>Default and privacy builds do not compile Wasm features.</td></tr>
     <tr><td>Approved plugin roots</td><td>Plugin files must be absolute, regular files below approved roots, without symlinked files or parent paths.</td></tr>
     <tr><td>Access decisions</td><td>Live native HTTP/1 access-decision hooks use priority ordering, first-deny-wins composition, and fail-closed behaviour.</td></tr>
     <tr><td>Header hooks</td><td><code>request-headers</code> and <code>response-headers</code> hooks can set or remove only allow-listed synthetic headers such as the policy-tier example.</td></tr>
+    <tr><td>Route decisions</td><td><code>route-decision</code> hooks can continue, deny, or select only configured matching <code>canary</code> and <code>mirror</code> route branches.</td></tr>
     <tr><td>Bounded execution</td><td>Fuel, memory, table, instance, compile-timeout, compile-worker, and per-call watchdog limits keep the sandbox bounded.</td></tr>
     <tr><td>Admission limits</td><td>Process-wide, per-plugin, and per-attachment execution ceilings prevent unbounded plugin work.</td></tr>
     <tr><td>Typed manifests</td><td>ABI, phase, fail-mode, path, and sandbox limits are validated before loading.</td></tr>
     <tr><td>PHP-FPM fallback</td><td>Vhost-level header hooks and fallback response-header cleanup now also apply to PHP-FPM fallback responses.</td></tr>
+    <tr><td>Selected-route policy</td><td>Selected-route ACLs, rate limits, concurrency limits, body limits, redirects, and header policy still run after a Wasm route decision.</td></tr>
   </tbody></table>
 </section>

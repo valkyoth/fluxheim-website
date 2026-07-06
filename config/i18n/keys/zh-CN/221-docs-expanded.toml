@@ -182,3 +182,9 @@ live_native_http_1_access_decision_hooks_use_priority_ordering_first_deny_wins_c
 request_headers_and_response_headers_hooks_can_set_or_remove_only_allow_listed_synthetic_headers_such_as_the_policy_tier_example = "<code>request-headers</code> 和 <code>response-headers</code> hook 只能设置或移除白名单内的合成 header，例如 policy-tier 示例。"
 process_wide_per_plugin_and_per_attachment_execution_ceilings_prevent_unbounded_plugin_work = "进程级、插件级和 attachment 级执行上限会防止插件工作无限扩张。"
 vhost_level_header_hooks_and_fallback_response_header_cleanup_now_also_apply_to_php_fpm_fallback_responses = "vhost 级 header hook 和 fallback response-header 清理现在也适用于 PHP-FPM fallback 响应。"
+
+fluxheim_1_7_3_keeps_wasm_optional_and_adds_constrained_native_http_1_route_decision_hooks_alongside_access_decision_and_header_hooks_plugins_can_continue_deny_or_select_configured_canary_and_mirror_route_branches_but_they_still_cannot_invent_upstreams_bypass_route_matching_override_fluxheim_access_policy_or_receive_raw_headers_bodies_filesystem_access_network_access_private_keys_or_admin_apis = "Fluxheim 1.7.3 继续将 Wasm 保持为可选功能，并在 access-decision 和 header hook 旁加入受限的 native HTTP/1 route-decision hook。插件可以继续、拒绝，或选择已配置的 canary 与 mirror 路由分支，但仍不能创建 upstream、绕过路由匹配、覆盖 Fluxheim 访问策略，或接收原始 header、body、文件系统访问、网络访问、私钥或 admin API。"
+route_decisions = "路由决策"
+route_decision_hooks_can_continue_deny_or_select_only_configured_matching_canary_and_mirror_route_branches = "<code>route-decision</code> hook 只能继续、拒绝，或选择已配置且匹配的 <code>canary</code> 与 <code>mirror</code> 路由分支。"
+selected_route_policy = "所选路由策略"
+selected_route_acls_rate_limits_concurrency_limits_body_limits_redirects_and_header_policy_still_run_after_a_wasm_route_decision = "所选路由的 ACL、rate limit、concurrency limit、body limit、redirect 和 header-policy 会在 Wasm 路由决策后继续执行。"

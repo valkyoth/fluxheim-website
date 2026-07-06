@@ -182,3 +182,9 @@ live_native_http_1_access_decision_hooks_use_priority_ordering_first_deny_wins_c
 request_headers_and_response_headers_hooks_can_set_or_remove_only_allow_listed_synthetic_headers_such_as_the_policy_tier_example = "<code>request-headers</code> 및 <code>response-headers</code> hook은 policy-tier 예시처럼 허용 목록의 합성 header만 설정하거나 제거할 수 있습니다."
 process_wide_per_plugin_and_per_attachment_execution_ceilings_prevent_unbounded_plugin_work = "프로세스 전체, 플러그인별, attachment별 실행 상한이 무제한 플러그인 작업을 막습니다."
 vhost_level_header_hooks_and_fallback_response_header_cleanup_now_also_apply_to_php_fpm_fallback_responses = "vhost 수준 header hook과 fallback response-header 정리가 이제 PHP-FPM fallback 응답에도 적용됩니다."
+
+fluxheim_1_7_3_keeps_wasm_optional_and_adds_constrained_native_http_1_route_decision_hooks_alongside_access_decision_and_header_hooks_plugins_can_continue_deny_or_select_configured_canary_and_mirror_route_branches_but_they_still_cannot_invent_upstreams_bypass_route_matching_override_fluxheim_access_policy_or_receive_raw_headers_bodies_filesystem_access_network_access_private_keys_or_admin_apis = "Fluxheim 1.7.3은 Wasm을 계속 선택 기능으로 두고, access-decision 및 header hook 옆에 제한된 native HTTP/1 route-decision hook을 추가합니다. 플러그인은 계속 진행, 거부, 또는 설정된 canary 및 mirror 라우트 분기를 선택할 수 있지만, upstream을 만들어 내거나 라우트 매칭을 우회하거나 Fluxheim 접근 정책을 덮어쓰거나 원시 header, body, 파일시스템 접근, 네트워크 접근, 개인 키 또는 admin API를 받을 수는 없습니다."
+route_decisions = "라우트 결정"
+route_decision_hooks_can_continue_deny_or_select_only_configured_matching_canary_and_mirror_route_branches = "<code>route-decision</code> hook은 계속 진행, 거부, 또는 설정되어 매칭된 <code>canary</code> 및 <code>mirror</code> 라우트 분기 선택만 할 수 있습니다."
+selected_route_policy = "선택된 라우트 정책"
+selected_route_acls_rate_limits_concurrency_limits_body_limits_redirects_and_header_policy_still_run_after_a_wasm_route_decision = "선택된 라우트의 ACL, rate limit, concurrency limit, body limit, redirect 및 header policy는 Wasm 라우트 결정 후에도 계속 실행됩니다."

@@ -1,4 +1,10 @@
-latest = "1.7.2"
+latest = "1.7.3"
+
+[[release]]
+version = "1.7.3"
+date = "2026-07-06"
+title = "Wasm route decisions"
+summary = "Starts the HAProxy-Lua/SPOE-style routing-policy part of the WebAssembly line with bounded native HTTP/1 route-decision hooks, configured canary and mirror branch selection, live listener/load-balancer/persistence/mirror coverage, fail-closed unavailable-branch handling, and a bounded Wasm compile-slot wait."
 
 [[release]]
 version = "1.7.2"

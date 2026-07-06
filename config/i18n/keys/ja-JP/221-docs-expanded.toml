@@ -182,3 +182,9 @@ live_native_http_1_access_decision_hooks_use_priority_ordering_first_deny_wins_c
 request_headers_and_response_headers_hooks_can_set_or_remove_only_allow_listed_synthetic_headers_such_as_the_policy_tier_example = "<code>request-headers</code> と <code>response-headers</code> の hook は、policy-tier の例のような許可リスト済みの合成 header だけを設定または削除できます。"
 process_wide_per_plugin_and_per_attachment_execution_ceilings_prevent_unbounded_plugin_work = "プロセス全体、プラグイン単位、attachment 単位の実行上限により、プラグイン処理が無制限にならないようにします。"
 vhost_level_header_hooks_and_fallback_response_header_cleanup_now_also_apply_to_php_fpm_fallback_responses = "vhost レベルの header hook と fallback response-header のクリーンアップは、PHP-FPM fallback レスポンスにも適用されます。"
+
+fluxheim_1_7_3_keeps_wasm_optional_and_adds_constrained_native_http_1_route_decision_hooks_alongside_access_decision_and_header_hooks_plugins_can_continue_deny_or_select_configured_canary_and_mirror_route_branches_but_they_still_cannot_invent_upstreams_bypass_route_matching_override_fluxheim_access_policy_or_receive_raw_headers_bodies_filesystem_access_network_access_private_keys_or_admin_apis = "Fluxheim 1.7.3 では Wasm は引き続き任意機能で、access-decision と header hook に加えて、制限付きの native HTTP/1 route-decision hook を追加しました。プラグインは続行、拒否、または設定済みの canary / mirror ルート分岐の選択だけを行えます。upstream を新規に作る、ルートマッチングを迂回する、Fluxheim のアクセス制御を上書きする、生の header や body、ファイルシステム、ネットワーク、秘密鍵、admin API に触れることはできません。"
+route_decisions = "ルート判定"
+route_decision_hooks_can_continue_deny_or_select_only_configured_matching_canary_and_mirror_route_branches = "<code>route-decision</code> hook は、続行、拒否、または一致した設定済み <code>canary</code> / <code>mirror</code> ルート分岐の選択だけを行えます。"
+selected_route_policy = "選択されたルートのポリシー"
+selected_route_acls_rate_limits_concurrency_limits_body_limits_redirects_and_header_policy_still_run_after_a_wasm_route_decision = "選択されたルートの ACL、rate limit、concurrency limit、body limit、redirect、header policy は、Wasm ルート判定の後も実行されます。"
