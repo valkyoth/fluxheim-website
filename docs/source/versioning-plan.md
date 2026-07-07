@@ -1123,7 +1123,7 @@ Reference parity map:
 | mTLS/client auth | NGINX `ssl_verify_client`, HAProxy `verify required`, Envoy TLS validation context | Listener-level required/optional client cert verification, CA bundle validation, identity variables, and route/admin policy use |
 | PROXY protocol | NGINX/HAProxy/Envoy listener and upstream support | Accept v1/v2 only from trusted peers; optionally send v1/v2 upstream |
 | gRPC | Envoy first-class gRPC/trailers, NGINX `grpc_pass` | Preserve HTTP/2 trailers/status/body limits/timeouts; no transcoding in 1.4 |
-| HTTP/3/QUIC | NGINX/Caddy/Envoy support | Track as Fluxheim-owned `1.8` protocol milestone using Rust `quinn`/`h3` after the `1.6` Pingora-free runtime is stable |
+| HTTP/3/QUIC | NGINX/Caddy/Envoy support | Track as Fluxheim-owned `1.9` protocol milestone using Rust `quinn`/`h3` after the `1.8` macOS/Windows production-parity line is stable |
 | Traffic mirroring | NGINX `mirror`, Envoy shadowing | First slice: safe bodyless shadow requests with deterministic sampling, timeout budgets, allow-listed headers, and no effect on primary response; body mirroring/redaction later |
 | Dynamic discovery | Envoy xDS, Caddy dynamic upstreams, DNS/service integrations | DNS refresh and file-watched upstream lists first; xDS/Kubernetes/Consul later |
 | Regex routing and rewrites | NGINX `location ~`, named captures, `rewrite`; HAProxy regex ACLs | Rust `regex`-based route matchers, capture variables, and bounded rewrite/header templates |
@@ -1842,9 +1842,9 @@ Stable scope:
   - xDS/Kubernetes/Consul discovery only after local DNS/file discovery and
     runtime backend mutation are stable. Treat this as a control-plane feature,
     not a quick stream-proxy add-on;
-  - HTTP/3/QUIC remains a later protocol milestone targeted at `1.8`, after
+  - HTTP/3/QUIC remains a later protocol milestone targeted at `1.9`, after
     the Fluxheim-owned Pingora-free server/listener/TLS and HTTP runtime
-    boundaries are stable.
+    boundaries and the `1.8` macOS/Windows production-parity line are stable.
 - Multiple upstreams per pool with safe address validation and per-upstream
   metadata: name, address, weight, backup, disabled/down, drain/maintenance,
   max in-flight requests or connections, max queue, priority group, manual
@@ -3118,13 +3118,19 @@ Stable scope:
   bounded typed decisions for pool choice, persistence-key choice, mirror
   enablement, and deny/pass/continue outcomes. Add live tests with two origins
   and a load-balancer route so the plugin decision is observable.
-- `v1.7.4`: implement cache-policy hooks inspired by VCL but expressed as a
-  constrained Rust/Wasm ABI. Cover lookup/admission bypass/pass/continue/deny,
-  bounded cache-key component output, TTL override, tag assignment,
-  store-admission header inspection, and safe response-header mutation. Add
-  live cache tests that prove MISS/HIT behavior, TTL bounds, tag assignment,
-  and low-cardinality key validation.
-- `v1.7.5`: harden the mature plugin runtime after the request, response,
+- `v1.7.4`: start cache-policy hooks inspired by VCL but expressed as a
+  constrained Rust/Wasm ABI. Cover cache lookup/pass/bypass/continue/deny
+  decisions before slice lookup, normal lookup, peer-fill, request collapsing,
+  origin-fill protection, and store admission. Cover cache-store
+  continue/skip-store/deny decisions after origin response and before cache
+  writes. Add live cache tests that prove a plugin can pass selected requests
+  without storing while normal requests still produce MISS then HIT, and that a
+  plugin can skip or deny storage before memory/disk writes.
+- `v1.7.5`: add the next bounded cache-policy ABI slice for cache-key
+  components, TTL override, tag assignment, store-admission header inspection,
+  and safe response-header mutation, with live tests for TTL bounds, tag
+  assignment, and low-cardinality key validation.
+- `v1.7.6`: harden the mature plugin runtime after the request, response,
   routing, and cache hook families exist. Finish atomic compiled-module reload
   generation handling, broaden admin and metrics visibility across all hook
   families, and add regression tests for
@@ -3133,23 +3139,23 @@ Stable scope:
   the first point where access-decision ordering, process-wide admission, reload
   classification, or per-plugin metrics appear; those are prerequisites for
   `v1.7.1`.
-- `v1.7.6`: optional `wasm-proxy-abi` compatibility preview. Map a reviewed
+- `v1.7.7`: optional `wasm-proxy-abi` compatibility preview. Map a reviewed
   safe subset of proxy-oriented ABI calls to Fluxheim's typed host calls,
   reject unsupported calls deterministically, and add compatibility fixtures.
   This is capability compatibility, not a promise that arbitrary existing
   proxy-wasm plugins run unchanged.
-- `v1.7.7`: optional `wasm-wasi` capability preview for non-request-body
+- `v1.7.8`: optional `wasm-wasi` capability preview for non-request-body
   policy plugins. Keep filesystem, network, clocks, randomness, environment,
   and inherited process state disabled unless explicitly granted and tested.
-- `v1.7.8`: documentation and example parity release. Ship documented,
+- `v1.7.9`: documentation and example parity release. Ship documented,
   runnable examples and live tests for the four migration families:
   F5 iRules-style policy, nginx Lua/OpenResty-style header policy, HAProxy
   Lua/SPOE-style routing/load-balancer policy, and VCL-like cache policy.
-- `v1.7.9`: stabilization and release gate hardening. All four example
+- `v1.7.10`: stabilization and release gate hardening. All four example
   families must run through `scripts/test_starter.py`, the stable/deep release
   gates must include the appropriate Wasm checks, and the docs must clearly
   describe supported capability parity and unsupported syntax/runtime parity.
-- `v1.7.10`: zero-downtime upgrade planning and first implementation slice
+- `v1.7.11`: zero-downtime upgrade planning and first implementation slice
   after the Wasm line is stable. Add a documented design for native binary and
   Podman deployments that can swap Fluxheim versions without a listener gap:
   inherited listener file descriptors, systemd socket activation support,
@@ -3160,6 +3166,62 @@ Stable scope:
   requests move to the new process while existing keep-alive/proxy requests
   drain on the old process, and documents which Podman setups cannot be
   truly zero-downtime without a stable fronting layer.
+- `v1.8.0`: cross-platform production baseline planning. Replace the old
+  "macOS developer-only" posture with a concrete macOS and Windows production
+  parity line now that Fluxheim no longer depends on Pingora for the normal
+  runtime. Define the supported feature matrix for macOS and Windows against
+  Linux: static web, reverse proxy, cache, load-balancer, ACME, admin,
+  observability, Wasm-enabled profiles, and focused images. Explicitly mark
+  features that need platform-specific alternatives, such as Unix sockets,
+  daemon/process management, filesystem trust checks, PHP-FPM supervision,
+  service integration, and certificate/key storage.
+- `v1.8.1`: macOS production release foundation. Add regular macOS CI for
+  Apple Silicon and Intel where runners are available, run profile builds for
+  the same public profiles as Linux, and add live smoke coverage for static
+  serving, proxying, TLS, ACME dry-run/config validation, cache, admin,
+  load-balancer, observability, and selected Wasm hooks. Add launchd service
+  templates or an explicitly documented non-service deployment mode, Mac-safe
+  production paths, APFS/symlink/ACL/security review notes, and release-asset
+  generation for `aarch64-macos` and `x86_64-macos`.
+- `v1.8.2`: macOS signed package release. Produce a macOS distribution path
+  that can be trusted by normal operators: signed and notarized artifacts with
+  an Apple Developer ID, plus either a signed/notarized `.pkg`, a Homebrew
+  formula/cask path, or both. The release gate must verify codesign/notary
+  status where credentials are available and keep unsigned developer artifacts
+  clearly separate from production artifacts. Do not make FIPS/ISO-19790
+  claims on macOS unless a separate provider-specific evidence package exists.
+- `v1.8.3`: Windows production release foundation. Add Windows CI for
+  `x86_64-pc-windows-msvc`, profile builds for the same public profiles as
+  Linux where platform semantics allow them, and live smoke coverage for
+  static serving, reverse proxying, TLS, cache, admin, load-balancer,
+  observability, and selected Wasm hooks. Define Windows-specific behavior for
+  paths, ACLs, file locking, symlink handling, signal/shutdown semantics,
+  service control, named-pipe or TCP replacements for Unix-socket control
+  paths, certificate/key storage, and unsupported or degraded Unix-only
+  features.
+- `v1.8.4`: Windows signed package release. Add a signed Windows installer and
+  distribution path. Prefer an MSIX/App Installer or Microsoft Store-compatible
+  package when it fits Fluxheim's service/server model; otherwise ship a
+  signed MSI or signed zip with a documented Windows service installation path
+  and keep Store publication as a separate compatibility decision. The release
+  gate must verify Authenticode signing where credentials are available and
+  prove install, service start, smoke request, upgrade, and uninstall behavior.
+- `v1.8.5`: cross-platform parity hardening. Compare Linux, macOS, and Windows
+  behavior profile by profile, close remaining platform gaps where practical,
+  document intentional differences, add `scripts/test_starter.py` entries for
+  macOS and Windows smoke flows, and require the stable/deep release gates to
+  prove all supported platform assets before the line is complete.
+- `v1.9.0`: Fluxheim-owned HTTP/3 and QUIC line. Stop at an opt-in
+  `http3`/`http3-experimental` feature using Rust `quinn` for QUIC transport
+  and the Rust `h3` stack for HTTP/3 framing behind Fluxheim-owned listener,
+  TLS, routing, access-policy, cache/proxy, metrics, logging, and graceful
+  shutdown boundaries after the cross-platform production line is stable.
+  Preserve HTTP/1.1 and HTTP/2 behavior, advertise `Alt-Svc` only for healthy
+  configured QUIC listeners, keep 0-RTT disabled unless explicit replay-safe
+  route policy exists, and require interop, malformed-input, packet-loss,
+  anti-amplification, timeout, container-network, and mixed-protocol boundary
+  tests. Do not add generic UDP proxying, DNS/GSLB, WAF, VPN/firewall
+  appliance behavior, or new Wasm ABI scope in this release.
 
 Scope rules:
 
@@ -3329,14 +3391,15 @@ Exit criteria:
   format, dimensions, quality, and `Accept` bucket.
 - `privacy-mode` rejects incompatible transform/cache combinations.
 
-### 1.8 - HTTP/3 And QUIC
+### 1.9 - HTTP/3 And QUIC
 
 Goal: add opt-in HTTP/3 ingress with Fluxheim-owned UDP listener, QUIC, ALPN,
 certificate, routing, policy, and observability integration.
 
 This should be built as a Fluxheim protocol milestone after the `1.6` Pingora
 exit has made server bootstrap, listener/TLS ownership, and HTTP runtime
-ownership Fluxheim-owned and stable.
+ownership Fluxheim-owned and stable, and after the `1.8` macOS/Windows
+production-parity line has settled.
 The intended implementation path is the Rust `quinn` crate for QUIC transport
 and the Rust `h3` stack for HTTP/3 framing, with Fluxheim-owned adapters around
 TLS policy, vhost routing, request limits, access policy, cache/proxy behavior,
@@ -4709,23 +4772,26 @@ circular dependencies.
   sensitive field isolation tests.
 - `v1.7.3`: routing/load-balancer/mirror/persistence decision hooks with
   HAProxy-Lua/SPOE-style live examples.
-- `v1.7.4`: VCL-like cache policy hooks for lookup/admission, cache-key
-  components, TTL/tag/store-admission decisions, and live cache HIT/MISS tests.
-- `v1.7.5`: mature-runtime hardening across all hook families: compiled-module
+- `v1.7.4`: VCL-like cache lookup/store policy hooks for
+  lookup/pass/bypass/deny and store continue/skip/deny decisions, with live
+  cache HIT/MISS and skip-store tests.
+- `v1.7.5`: VCL-like cache policy mutation hooks for bounded cache-key
+  components, TTL/tag/store-admission decisions, and live TTL/tag/key tests.
+- `v1.7.6`: mature-runtime hardening across all hook families: compiled-module
   cache isolation, cross-family chain regression tests, reload hash-change
   tests, metrics/admin completeness, and secret-safe labels. The initial
   access-decision ordering, global admission, reload classification, and
   per-plugin metrics must already exist from `v1.7.1`.
-- `v1.7.6`: optional `wasm-proxy-abi` compatibility preview with deterministic
+- `v1.7.7`: optional `wasm-proxy-abi` compatibility preview with deterministic
   unsupported-call rejection.
-- `v1.7.7`: optional `wasm-wasi` capability preview with explicit grants only.
-- `v1.7.8`: documentation and example parity release with runnable examples
+- `v1.7.8`: optional `wasm-wasi` capability preview with explicit grants only.
+- `v1.7.9`: documentation and example parity release with runnable examples
   and tests for F5 iRules, nginx Lua/OpenResty, HAProxy Lua/SPOE, and VCL-like
   cache policy mappings.
-- `v1.7.9`: Wasm stabilization release. All four example families must be in
+- `v1.7.10`: Wasm stabilization release. All four example families must be in
   `scripts/test_starter.py` and the stable/deep release gates before the line
   is considered complete.
-- `v1.7.10`: zero-downtime upgrade release after Wasm stabilization. Add
+- `v1.7.11`: zero-downtime upgrade release after Wasm stabilization. Add
   inherited listener file-descriptor support, systemd socket activation
   guidance, readiness-gated new-process startup, old-process drain mode,
   bounded graceful drain timeout, and a documented Podman blue/green pattern
@@ -4733,12 +4799,38 @@ circular dependencies.
   live upgrade smoke tests that prove no listener gap for the supported native
   path and clearly document Podman configurations that cannot be seamless
   without a fronting layer.
-- `v1.8.0`: Fluxheim-owned HTTP/3 and QUIC line. Stop at an opt-in
+- `v1.8.0`: cross-platform production baseline planning. Make macOS and
+  Windows first-class release targets where practical, with Linux as the
+  reference baseline. Define the supported profile matrix, platform-specific
+  gaps, service/install models, release asset shape, and smoke evidence needed
+  before either platform is called production-supported.
+- `v1.8.1`: macOS production foundation with regular CI, Apple Silicon and
+  Intel build profiles, live static/proxy/TLS/cache/admin/load-balancer/Wasm
+  smoke coverage, launchd or documented non-service deployment, Mac-safe
+  production paths, and APFS/ACL/symlink/certificate-storage review notes.
+- `v1.8.2`: macOS signed package release with Apple Developer ID signing and
+  notarization. Ship a signed/notarized `.pkg`, Homebrew formula/cask path, or
+  both, with release-gate checks for signed/notarized artifacts when
+  credentials are available.
+- `v1.8.3`: Windows production foundation with Windows CI, MSVC build profiles,
+  live static/proxy/TLS/cache/admin/load-balancer/Wasm smoke coverage, Windows
+  service behavior, ACL/path/file-locking/symlink review, and replacements or
+  documented limitations for Unix-only control paths.
+- `v1.8.4`: Windows signed package release with Authenticode signing and an
+  installer path. Prefer Microsoft Store/MSIX/App Installer when the Store
+  model fits Fluxheim's server/service behavior; otherwise ship signed MSI or
+  signed zip/service assets and keep Store publication as a separate packaging
+  compatibility decision.
+- `v1.8.5`: cross-platform parity hardening. Compare Linux, macOS, and Windows
+  behavior profile by profile, close remaining gaps where practical, document
+  intentional differences, and add platform smoke entries to the release gates
+  and `scripts/test_starter.py`.
+- `v1.9.0`: Fluxheim-owned HTTP/3 and QUIC line. Stop at an opt-in
   `http3`/`http3-experimental` feature using Rust `quinn` for QUIC transport
   and the Rust `h3` stack for HTTP/3 framing behind Fluxheim-owned listener,
   TLS, routing, access-policy, cache/proxy, metrics, logging, and graceful
-  shutdown boundaries after the `1.6` Pingora-free runtime is stable. Preserve
-  HTTP/1.1 and HTTP/2 behavior, advertise `Alt-Svc` only for healthy
+  shutdown boundaries after the cross-platform production line is stable.
+  Preserve HTTP/1.1 and HTTP/2 behavior, advertise `Alt-Svc` only for healthy
   configured QUIC listeners, keep 0-RTT disabled unless explicit replay-safe
   route policy exists, and require interop, malformed-input, packet-loss,
   anti-amplification, timeout, container-network, and mixed-protocol boundary

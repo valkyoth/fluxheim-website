@@ -1,4 +1,10 @@
-latest = "1.7.3"
+latest = "1.7.4"
+
+[[release]]
+version = "1.7.4"
+date = "2026-07-07"
+title = "Wasm cache policies"
+summary = "Starts the VCL-like cache-policy part of the WebAssembly line with bounded native HTTP/1 cache-lookup and cache-store hooks, continue/pass/bypass/skip-store/deny outcomes, separate cache-hook admission limits, fail-closed deny coverage, and most-restrictive-wins cache-store aggregation."
 
 [[release]]
 version = "1.7.3"

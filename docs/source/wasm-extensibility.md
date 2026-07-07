@@ -8,10 +8,13 @@ request-path execution with native HTTP/1 access-decision hooks. Fluxheim
 `1.7.2` adds bounded native HTTP/1 request-header and response-header hooks.
 Fluxheim `1.7.3` starts bounded native HTTP/1 route-decision hooks with
 configured canary and mirror branch selection, including selected native
-load-balanced and persistent routes. Direct backend choice, plugin-provided
-persistence keys, dynamic mirror/shadow target choice, Proxy-ABI compatibility,
-cache policy hooks, and WASI capabilities remain staged for later `1.7.x`
-releases.
+load-balanced and persistent routes. Fluxheim `1.7.4` starts bounded
+cache-policy hooks with cache-lookup decisions that can continue, pass, bypass,
+or deny before cache lookup and storage, plus cache-store decisions that can
+continue, skip storage, or deny after origin response and before cache write.
+Direct backend choice, plugin-provided persistence keys, dynamic mirror/shadow
+target choice, richer cache-key/TTL/tag store policy hooks, Proxy-ABI
+compatibility, and WASI capabilities remain staged for later `1.7.x` releases.
 
 Cargo features:
 
@@ -147,6 +150,36 @@ concurrency, and preselected/decoded-route ACL gates. If the plugin selects a
 different configured route, that selected route's ACL and route-specific
 rate/concurrency limits are checked before Fluxheim proceeds.
 
+Fluxheim `1.7.4` adds the first cache-policy hook ABIs. Plugins attached to
+`cache-lookup` export `fluxheim_cache_lookup() -> i32`:
+
+- `0`: continue normal cache lookup and storage;
+- `1`: pass through origin without cache lookup or storage;
+- `2`: bypass cache lookup and storage;
+- `3`: deny with `403`.
+
+The cache lookup host-call surface deliberately reuses only bounded symbolic
+request context in this slice. It runs before native proxy-cache slice lookup,
+normal lookup, peer-fill, request collapsing, origin-fill protection, and store
+admission, but after Fluxheim's built-in access, route, rate-limit,
+concurrency, and header policy gates.
+
+Plugins attached to `cache-store` export `fluxheim_cache_store() -> i32`:
+
+- `0`: continue normal cache storage;
+- `1`: serve the origin response but skip storage;
+- `2`: deny with `403`.
+
+The cache store host-call surface exposes only the path class and response
+status as bounded integer context. It runs after an origin response and before
+memory/disk cache writes. Raw headers, request bodies, cache-key bytes, TTL
+override, tag assignment, cached objects, and response-store mutation are not
+exposed in `1.7.4`.
+
+Cache-store chains use the same restrictive aggregation model as other hook
+families: every hook runs unless a hook returns `deny`; an earlier `skip` does
+not mask a later `deny`.
+
 Allowed hooks:
 
 - request headers before upstream selection;
@@ -240,6 +273,12 @@ Fluxheim must also enforce a top-level admission ceiling such as
 many individually-safe plugins can multiply into unsafe process-wide memory or
 instance pressure.
 
+Cache-policy hooks are isolated from the security-decision admission pool with
+their own process-wide ceiling, `wasm.max_total_cache_concurrent_executions`.
+This keeps a hot cacheable route with `cache-lookup` or `cache-store` hooks
+from starving access-decision, route-decision, and header hooks on unrelated
+vhosts.
+
 ## Security Requirements
 
 - Disabled by default at compile time and runtime.
@@ -272,6 +311,7 @@ instance pressure.
 enabled = true
 plugin_roots = ["/etc/fluxheim/plugins"]
 max_total_concurrent_executions = 256
+max_total_cache_concurrent_executions = 256
 
 [[wasm.plugins]]
 name = "security_headers"
@@ -323,6 +363,12 @@ does not match.
 across the whole process. Per-plugin and per-attachment admission budgets are
 still enforced inside that global ceiling.
 
+`wasm.max_total_cache_concurrent_executions` caps total concurrent
+`cache-lookup` and `cache-store` plugin executions across the whole process.
+The cache-specific ceiling is intentionally separate from
+`wasm.max_total_concurrent_executions` so cache-policy load cannot exhaust the
+admission pool used by security and routing hooks.
+
 `[[wasm.attachments]].priority` controls chain order for plugins attached to
 the same phase and vhost/route. Lower numeric priorities run first; ties use
 the declaration order in the loaded config. Access decisions use
@@ -344,9 +390,11 @@ first native HTTP/1 access-decision request-path hook. `1.7.2` adds bounded
 request-header and response-header mutation. `1.7.3` adds the first bounded
 route-decision hook with configured `canary` and `mirror` branch selection,
 including live coverage for selected native load-balanced and managed-cookie
-persistent routes. Direct backend pool/member choice, plugin-provided
-persistence-key choice, dynamic mirror/shadow target choice, and cache-policy
-hook families remain staged for later `1.7.x` releases.
+persistent routes. `1.7.4` adds bounded cache-lookup decisions before cache
+lookup/storage and bounded cache-store skip/deny decisions before cache writes.
+Direct backend pool/member choice, plugin-provided persistence-key choice,
+dynamic mirror/shadow target choice, and richer cache-key/TTL/tag store policy
+hooks remain staged for later `1.7.x` releases.
 
 ## Reload Semantics
 

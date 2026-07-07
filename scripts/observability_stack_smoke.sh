@@ -46,7 +46,7 @@ curl -fsS -X POST "${BASE_URL}/telemetry/click" \
   --data '{"kind":"github","locale":"en-EU","target":"repo"}' >/dev/null
 curl -fsS -X POST "${BASE_URL}/telemetry/click" \
   -H "content-type: application/json" \
-  --data '{"kind":"download","locale":"en-EU","artifact":"fluxheim-1.7.3-full-x86_64-linux.tar.gz"}' >/dev/null
+  --data '{"kind":"download","locale":"en-EU","artifact":"fluxheim-1.7.4-full-x86_64-linux.tar.gz"}' >/dev/null
 
 sleep 12
 
