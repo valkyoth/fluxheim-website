@@ -53,7 +53,7 @@ deletes_inert_pingora_era_root_adapters_and_stale_disabled_runtime_test_code_tha
 consolidates_native_proxy_config_storage_so_reloads_refresh_the_same_snapshot_used_by_cache_and_load_balancer_admin_paths = "Werkt de 1.6.36-structuur bij met native proxy-opruiming, crate-eigen APIs, verwijdering van Pingora-erfenis, deterministische observability-images en HTTP/1 chunked-regressietests."
 adds_native_http_1_chunked_body_overflow_regression_coverage_and_pins_observability_smoke_images_to_deterministic_tags = "Werkt de 1.6.36-structuur bij met native proxy-opruiming, crate-eigen APIs, verwijdering van Pingora-erfenis, deterministische observability-images en HTTP/1 chunked-regressietests."
 is_the_post_cutover_structural_cleanup_after_the_pingora_free_runtime_proof_and_stabilization_checkpoint = "Werkt de 1.6.36-structuur bij met native proxy-opruiming, crate-eigen APIs, verwijdering van Pingora-erfenis, deterministische observability-images en HTTP/1 chunked-regressietests."
-it_removes_temporary_compatibility_boundaries_deletes_inert_pingora_era_code_and_prepares_the_final_1_6_37_crate_boundary_cleanup_before_the_1_7_wasm_line = "Werkt de 1.6.36-structuur bij met native proxy-opruiming, crate-eigen APIs, verwijdering van Pingora-erfenis, deterministische observability-images en HTTP/1 chunked-regressietests."
+it_removes_temporary_compatibility_boundaries_deletes_inert_pingora_era_code_and_prepares_the_final_1_6_37_crate_boundary_cleanup_before_the_1_7_wasm_line = "Werkt de 1.6.37-structuur bij met native proxy-opruiming, crate-eigen APIs, verwijdering van Pingora-erfenis, deterministische observability-images en HTTP/1 chunked-regressietests."
 
 released_july_2_2026 = "Uitgebracht op 2 juli 2026"
 
