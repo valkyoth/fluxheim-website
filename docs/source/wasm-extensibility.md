@@ -12,9 +12,12 @@ load-balanced and persistent routes. Fluxheim `1.7.4` starts bounded
 cache-policy hooks with cache-lookup decisions that can continue, pass, bypass,
 or deny before cache lookup and storage, plus cache-store decisions that can
 continue, skip storage, or deny after origin response and before cache write.
+Fluxheim `1.7.5` adds the first bounded symbolic cache-key component hook for
+low-cardinality cache variants plus fixed-ID cache-store TTL/tag/header
+metadata.
 Direct backend choice, plugin-provided persistence keys, dynamic mirror/shadow
-target choice, richer cache-key/TTL/tag store policy hooks, Proxy-ABI
-compatibility, and WASI capabilities remain staged for later `1.7.x` releases.
+target choice, richer store policy hooks, Proxy-ABI compatibility, and WASI
+capabilities remain staged for later `1.7.x` releases.
 
 Cargo features:
 
@@ -159,10 +162,26 @@ Fluxheim `1.7.4` adds the first cache-policy hook ABIs. Plugins attached to
 - `3`: deny with `403`.
 
 The cache lookup host-call surface deliberately reuses only bounded symbolic
-request context in this slice. It runs before native proxy-cache slice lookup,
-normal lookup, peer-fill, request collapsing, origin-fill protection, and store
-admission, but after Fluxheim's built-in access, route, rate-limit,
-concurrency, and header policy gates.
+request context. Fluxheim `1.7.5` adds the first bounded cache-key mutation
+host call:
+
+- `context(5, 0)` returns a symbolic device class derived from
+  `X-Device-Class`: `0` for unset/unknown, `5` for `mobile`, and `6` for
+  `desktop`;
+- `set_cache_key_component(1, 5)` adds the low-cardinality
+  `wasm-device-class=mobile` cache-key component;
+- `set_cache_key_component(1, 6)` adds the low-cardinality
+  `wasm-device-class=desktop` cache-key component.
+
+Any other cache-key component ID, value ID, duplicate component, or component
+count above the hard cap fails the hook through the plugin fail mode. Plugins
+still cannot emit arbitrary cache-key bytes or raw request headers. The lookup
+hook runs before native proxy-cache slice lookup, normal lookup, peer-fill,
+request collapsing, origin-fill protection, and store admission, but after
+Fluxheim's built-in access, route, rate-limit, concurrency, and header policy
+gates. Wasm-selected cache-key components are part of the complete-object,
+single-range, and fixed-slice range-cache keys, so a bounded variant selected
+by a plugin cannot share slice objects with another variant for the same URL.
 
 Plugins attached to `cache-store` export `fluxheim_cache_store() -> i32`:
 
@@ -170,15 +189,41 @@ Plugins attached to `cache-store` export `fluxheim_cache_store() -> i32`:
 - `1`: serve the origin response but skip storage;
 - `2`: deny with `403`.
 
-The cache store host-call surface exposes only the path class and response
-status as bounded integer context. It runs after an origin response and before
-memory/disk cache writes. Raw headers, request bodies, cache-key bytes, TTL
-override, tag assignment, cached objects, and response-store mutation are not
-exposed in `1.7.4`.
+The cache store host-call surface exposes only the path class, response status,
+symbolic response content-type class, fixed TTL IDs, fixed tag IDs, and one
+fixed stored response-header family.
+Plugins can call `set_cache_ttl(1, 0)` for a short bounded TTL,
+`set_cache_ttl(2, 0)` for a medium bounded TTL, `add_cache_tag(1, 0)` for
+`wasm-policy`, `add_cache_tag(2, 0)` for `wasm-gold`,
+`set_cache_store_header(1, 1)` for `x-fluxheim-cache-policy: wasm`, or
+`set_cache_store_header(1, 2)` for `x-fluxheim-cache-policy: gold`. Duplicate
+TTL overrides, unknown TTL/tag/header IDs, duplicate stored-header mutations,
+and mutation counts above the hard caps fail through the plugin fail mode. It
+runs after an origin response and before memory/disk cache writes. Raw headers,
+request bodies, arbitrary cache-key bytes, arbitrary TTLs, arbitrary tag
+strings, arbitrary stored response headers, cached objects, and response-store
+body mutation are not exposed in `1.7.5`.
+
+Cache-store response-header inspection is also symbolic. `context(6, 0)`
+returns `0` for unset/other, `7` for image media types, `8` for HTML, `9` for
+JSON, and `10` for text media types. Plugins cannot read raw response header
+names or values through this cache-store surface.
 
 Cache-store chains use the same restrictive aggregation model as other hook
 families: every hook runs unless a hook returns `deny`; an earlier `skip` does
-not mask a later `deny`.
+not mask a later `deny`. Cache-key components are also aggregated across the
+full chain with duplicate-label rejection and a hard total component cap; one
+plugin cannot silently overwrite or multiply another plugin's cache-key
+variant. Cache-store tag and stored-header caps are scoped to their own
+metadata families so exhausting one family cannot drop the other.
+
+`examples/wasm/cache-lookup-policy.wat` and
+`examples/wasm/cache-store-policy.wat` show the shipped `1.7.5` cache-policy
+subset as concrete Wasm Text modules, and `examples/wasm/cache-policy.toml`
+shows the matching plugin/attachment config shape. The example is test-backed
+by a live native HTTP/1 listener test that compiles the checked-in sources and
+verifies mobile/desktop cache variants, image-only store metadata, short TTL
+expiry, and fixed stored response headers.
 
 Allowed hooks:
 
@@ -392,9 +437,11 @@ route-decision hook with configured `canary` and `mirror` branch selection,
 including live coverage for selected native load-balanced and managed-cookie
 persistent routes. `1.7.4` adds bounded cache-lookup decisions before cache
 lookup/storage and bounded cache-store skip/deny decisions before cache writes.
-Direct backend pool/member choice, plugin-provided persistence-key choice,
-dynamic mirror/shadow target choice, and richer cache-key/TTL/tag store policy
-hooks remain staged for later `1.7.x` releases.
+`1.7.5` adds bounded symbolic cache-key components with low-cardinality live
+variant coverage plus fixed-ID TTL/tag/header store metadata. Direct backend
+pool/member choice, plugin-provided persistence-key choice, dynamic
+mirror/shadow target choice, and richer store policy hooks remain staged for
+later `1.7.x` releases.
 
 ## Reload Semantics
 

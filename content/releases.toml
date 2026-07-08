@@ -1,4 +1,10 @@
-latest = "1.7.4"
+latest = "1.7.5"
+
+[[release]]
+version = "1.7.5"
+date = "2026-07-08"
+title = "Wasm cache metadata"
+summary = "Continues the VCL-like WebAssembly cache-policy line with bounded symbolic cache-key components, fixed mobile/desktop cache variants, fixed cache-store TTL/tag/header metadata, symbolic content-type inspection, range-cache variant isolation, and fail-closed caps for unknown or duplicate metadata."
 
 [[release]]
 version = "1.7.4"
