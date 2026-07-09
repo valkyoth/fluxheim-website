@@ -159,7 +159,7 @@ privacy_builds_do_not_include_cache_metrics_tracing_otlp_export_or_wasm_features
 fluxheim_1_7_0_starts_the_optional_wasm_sandbox_foundation_it_proves_approved_root_plugin_loading_manifest_validation_and_bounded_wasmtime_execution_request_response_hooks_are_still_staged_for_later_1_7_x_releases = "Od verzie 1.7.0 Fluxheim pridáva voliteľný základ sandboxu Wasm. Predvolene je vypnutý, nekompatibilný s privacy-mode a zatiaľ overuje bezpečné načítanie pluginov a obmedzené spúšťanie pred sprístupnením hookov request/response policy."
 default_and_privacy_builds_do_not_compile_wasm_features = "Predvolené a privacy buildy nekompilujú funkcie Wasm."
 approved_plugin_roots = "Schválené korene pluginov"
-plugin_files_must_be_absolute_regular_files_below_approved_roots_without_symlinked_files_or_parent_paths = "Plugin files must be absolute regular files below approved roots, without symlinked files or parent paths."
+plugin_files_must_be_absolute_regular_files_below_approved_roots_without_symlinked_files_or_parent_paths = "Súbory pluginov musia byť absolútne bežné súbory pod schválenými koreňmi, bez symbolických odkazov alebo nadradených ciest."
 bounded_execution = "Obmedzené spúšťanie"
 fuel_memory_table_instance_compile_timeout_compile_worker_and_per_call_watchdog_limits_keep_the_sandbox_bounded = "Fuel, memory, table, instance, compile-timeout, compile-worker and per-call watchdog limits keep the sandbox bounded."
 typed_manifests = "Typované manifesty"

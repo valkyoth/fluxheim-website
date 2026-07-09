@@ -72,9 +72,9 @@ is_the_final_pre_wasm_crate_boundary_cleanup_after_the_pingora_free_runtime_cuto
 it_keeps_runtime_behavior_stable_while_moving_remaining_root_helpers_into_focused_workspace_crates_before_the_1_7_wasm_line = "Runtime-beteendet hålls stabilt medan de sista rothelparna flyttas till fokuserade workspace-crates före 1.7 Wasm-linjen."
 
 released_july_3_2026 = "Släppt 3 juli 2026"
-adds_the_optional_fluxheim_wasm_workspace_crate = "fluxheim-wasm workspace crate is optional and added for the Wasm sandbox line"
+adds_the_optional_fluxheim_wasm_workspace_crate = "Lägger till den valfria workspace-craten fluxheim-wasm för Wasm-sandboxlinjen"
 adds_wasm_wasm_proxy_abi_and_wasm_wasi_feature_gates_that_stay_disabled_by_default_and_incompatible_with_privacy_mode = "Feature gates för wasm, wasm-proxy-abi och wasm-wasi är avstängda som standard och går inte ihop med privacy-mode"
-loads_wasm_plugin_files_only_from_approved_absolute_roots_with_symlink_non_regular_file_and_module_size_rejection = "Wasm plugin files load only from approved absolute roots; symlinks, non-regular files and oversized modules are rejected"
+loads_wasm_plugin_files_only_from_approved_absolute_roots_with_symlink_non_regular_file_and_module_size_rejection = "Wasm-pluginfiler läses bara in från godkända absoluta rötter; symlänkar, icke-vanliga filer och för stora moduler avvisas"
 adds_a_typed_wasm_plugin_manifest_boundary_with_abi_phase_fail_mode_path_and_sandbox_limit_validation = "Typade Wasm-pluginmanifest validerar ABI, fas, fail-mode, sökväg och sandboxgränser före laddning"
 adds_bounded_wasmtime_execution_with_fuel_memory_table_instance_compile_timeout_compile_worker_and_per_call_watchdog_limits = "Wasmtime execution is bounded by fuel, memory, table, instance, compile-timeout, compile-worker and per-call watchdog limits"
 adds_real_wasm_sandbox_smoke_coverage_for_successful_execution_traps_table_growth_denial_and_unsafe_fail_open_manifest_rejection = "Real Wasm sandbox smoke coverage checks successful execution, traps, table-growth denial and unsafe fail-open manifest rejection"
