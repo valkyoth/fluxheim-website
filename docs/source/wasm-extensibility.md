@@ -14,7 +14,9 @@ or deny before cache lookup and storage, plus cache-store decisions that can
 continue, skip storage, or deny after origin response and before cache write.
 Fluxheim `1.7.5` adds the first bounded symbolic cache-key component hook for
 low-cardinality cache variants plus fixed-ID cache-store TTL/tag/header
-metadata.
+metadata. Fluxheim `1.7.6` starts the mature-runtime hardening pass by giving
+compiled modules explicit cache identities scoped by plugin SHA-256 digest, ABI
+version, native feature surface, and Fluxheim version.
 Direct backend choice, plugin-provided persistence keys, dynamic mirror/shadow
 target choice, richer store policy hooks, Proxy-ABI compatibility, and WASI
 capabilities remain staged for later `1.7.x` releases.
@@ -74,6 +76,12 @@ ABI, phase, fail-mode, and per-plugin sandbox limits. The manifest-backed
 loader validates the manifest and then loads the exact approved plugin path
 with the validated limits; production hook execution still starts later in the
 `1.7` line.
+
+Compiled modules carry a stable identity that includes the loaded plugin digest,
+the manifest ABI version, the native hook feature surface used to compile it,
+and the Fluxheim crate version. Any future compile cache must use that full
+identity as the cache key so module reuse cannot cross ABI, feature, or release
+boundaries.
 
 The first useful policy-hook scope should cover the common extension cases
 without exposing request bodies or arbitrary I/O.
@@ -438,10 +446,12 @@ including live coverage for selected native load-balanced and managed-cookie
 persistent routes. `1.7.4` adds bounded cache-lookup decisions before cache
 lookup/storage and bounded cache-store skip/deny decisions before cache writes.
 `1.7.5` adds bounded symbolic cache-key components with low-cardinality live
-variant coverage plus fixed-ID TTL/tag/header store metadata. Direct backend
-pool/member choice, plugin-provided persistence-key choice, dynamic
-mirror/shadow target choice, and richer store policy hooks remain staged for
-later `1.7.x` releases.
+variant coverage plus fixed-ID TTL/tag/header store metadata. `1.7.6` adds
+compiled-module identities and a derived per-vhost cache-hook admission layer
+under `wasm.max_total_cache_concurrent_executions`, so one vhost cannot consume
+the whole cache-hook process budget. Direct backend pool/member choice,
+plugin-provided persistence-key choice, dynamic mirror/shadow target choice,
+and richer store policy hooks remain staged for later `1.7.x` releases.
 
 ## Reload Semantics
 
@@ -468,7 +478,8 @@ Required metrics include:
 - plugin invocations and completed decisions;
 - execution duration;
 - traps, panics, timeouts, compile timeouts, and fuel exhaustion;
-- global and per-plugin admission rejections;
+- global, cache-global, cache-vhost, per-plugin, and per-attachment admission
+  rejections;
 - fail-open and fail-closed outcomes;
 - loaded module count and module-cache generation/hash changes;
 - reload validation, load, swap, and rejection outcomes.
@@ -494,6 +505,8 @@ Required metrics include:
   traffic before upstream forwarding.
 - Verify process-wide admission rejects excess concurrent plugin executions
   even when each plugin's individual budget has not been exhausted.
+- Verify cache-hook admission applies a process-wide ceiling and a per-vhost
+  fair-share ceiling so one vhost cannot starve another vhost's cache hooks.
 - Verify WASM registry changes are classified by reload impact and do not fall
   through to the generic snapshot bucket.
 - Verify per-plugin metrics are emitted for success, deny, timeout, trap, fuel

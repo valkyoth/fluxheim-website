@@ -1,4 +1,10 @@
-latest = "1.7.5"
+latest = "1.7.6"
+
+[[release]]
+version = "1.7.6"
+date = "2026-07-09"
+title = "Wasm runtime hardening"
+summary = "Starts the mature WebAssembly runtime hardening pass with explicit compiled-module identities, manifest-derived hook registry identities, per-vhost cache-hook admission budgets, bounded Prometheus labels for all current hook families, admin budget visibility, and cross-family live-chain regression coverage."
 
 [[release]]
 version = "1.7.5"
