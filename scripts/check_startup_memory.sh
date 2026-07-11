@@ -3,11 +3,22 @@ set -eu
 
 limit_kib="${FLUXHEIM_STARTUP_RSS_LIMIT_KIB:-262144}"
 
-cargo +1.96.1 build --release --locked
+binary="$(
+  cargo +1.96.1 build \
+    --release \
+    --locked \
+    --message-format=json-render-diagnostics |
+    scripts/cargo_binary_path.py fluxheim-website
+)"
+if [ ! -x "$binary" ]; then
+  echo "Cargo release binary is not executable: $binary" >&2
+  exit 1
+fi
+
 rss_kib="$(
   FLUXHEIM_OTLP=disabled \
     scripts/measure_startup_memory.py \
-    target/release/fluxheim-website \
+    "$binary" \
     --startup-probe
 )"
 case "$rss_kib" in

@@ -30,7 +30,8 @@ Include:
 - Localized content is parsed from bundled TOML into typed structures.
 - Request paths are resolved against an immutable page cache rendered at startup.
 - Translation matchers are bounded per worker and released after each locale;
-  release startup RSS is gated at 256 MiB.
+  release startup RSS is gated at 256 MiB against the exact executable emitted
+  by the locked Cargo build.
 - Security headers are applied to responses.
 - Static documentation artifacts use no-follow file opens and a fixed size limit.
 - Container runtime uses a non-root user, a read-only filesystem, dropped

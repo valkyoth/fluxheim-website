@@ -65,6 +65,16 @@ fn website_compose_keeps_rootless_hardening() {
     }
 }
 
+#[test]
+fn startup_memory_gate_uses_the_cargo_emitted_binary() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let gate = fs::read_to_string(root.join("scripts/check_startup_memory.sh"))
+        .expect("startup memory gate");
+    assert!(gate.contains("--message-format=json-render-diagnostics"));
+    assert!(gate.contains("scripts/cargo_binary_path.py fluxheim-website"));
+    assert!(!gate.contains("target/release/fluxheim-website"));
+}
+
 fn collect_oversized(path: &Path, oversized: &mut Vec<PathBuf>) {
     if !path.exists() {
         return;
