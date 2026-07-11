@@ -29,6 +29,8 @@ Include:
 - Askama templates are compiled and type checked.
 - Localized content is parsed from bundled TOML into typed structures.
 - Request paths are resolved against an immutable page cache rendered at startup.
+- Translation matchers are bounded per worker and released after each locale;
+  release startup RSS is gated at 256 MiB.
 - Security headers are applied to responses.
 - Static documentation artifacts use no-follow file opens and a fixed size limit.
 - Container runtime uses a non-root user, a read-only filesystem, dropped
@@ -61,7 +63,9 @@ full visual and mobile-navigation regression testing.
 
 Browser-reported page-visible duration is untrusted, best-effort aggregate data.
 It must not drive security alerts or billing. Outbound and download clicks are
-recorded only by server-side, fixed-destination redirect routes.
+recorded only by server-side, fixed-destination redirect routes. Download
+artifacts must also exist in the immutable rendered-site allowlist, keeping
+metric labels bounded while preserving published historical releases.
 
 Container image references include both immutable digests and readable version
 tags. Refresh both together after verifying the upstream release and rerunning

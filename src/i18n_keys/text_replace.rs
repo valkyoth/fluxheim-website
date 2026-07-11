@@ -1,7 +1,14 @@
+use std::cell::RefCell;
 use std::collections::{BTreeMap, HashMap, HashSet};
-use std::sync::{Arc, Mutex, OnceLock};
+use std::sync::Arc;
 
 use aho_corasick::{AhoCorasick, AhoCorasickBuilder, MatchKind};
+
+type CacheKey = (u8, Vec<(String, String)>);
+thread_local! {
+    static REPLACER_CACHE: RefCell<HashMap<CacheKey, Arc<MultiReplacer>>> =
+        RefCell::new(HashMap::new());
+}
 
 pub(super) trait HtmlTextReplace {
     fn replace_map(
@@ -126,20 +133,32 @@ fn replace_many_cached(input: &str, kind: u8, replacements: Vec<(String, String)
 }
 
 fn cached_replacer(kind: u8, replacements: Vec<(String, String)>) -> Option<Arc<MultiReplacer>> {
-    type CacheKey = (u8, Vec<(String, String)>);
-    static CACHE: OnceLock<Mutex<HashMap<CacheKey, Arc<MultiReplacer>>>> = OnceLock::new();
     if replacements.is_empty() {
         return None;
     }
     let key = (kind, replacements);
-    let cache = CACHE.get_or_init(|| Mutex::new(HashMap::new()));
-    let mut cache = cache.lock().expect("i18n matcher cache is not poisoned");
-    if let Some(replacer) = cache.get(&key) {
-        return Some(replacer.clone());
-    }
-    let replacer = Arc::new(MultiReplacer::new(key.1.clone())?);
-    cache.insert(key, replacer.clone());
-    Some(replacer)
+    REPLACER_CACHE.with(|cache| {
+        let mut cache = cache.borrow_mut();
+        if let Some(replacer) = cache.get(&key) {
+            return Some(replacer.clone());
+        }
+        let replacer = Arc::new(MultiReplacer::new(key.1.clone())?);
+        cache.insert(key, replacer.clone());
+        Some(replacer)
+    })
+}
+
+pub(super) fn clear_replacer_cache() {
+    REPLACER_CACHE.with(|cache| {
+        let mut cache = cache.borrow_mut();
+        cache.clear();
+        cache.shrink_to_fit();
+    });
+}
+
+#[cfg(test)]
+pub(super) fn replacer_cache_len() -> usize {
+    REPLACER_CACHE.with(|cache| cache.borrow().len())
 }
 
 struct MultiReplacer {

@@ -17,6 +17,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     init_tracing(&telemetry_guard);
 
     let app = build_router_with_observability(Arc::new(site), observability);
+    if startup_probe_requested() {
+        telemetry_guard.shutdown();
+        return Ok(());
+    }
     let addr = bind_addr()?;
     let listener = tokio::net::TcpListener::bind(addr).await?;
 
@@ -26,6 +30,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await?;
     telemetry_guard.shutdown();
     Ok(())
+}
+
+fn startup_probe_requested() -> bool {
+    std::env::args_os().any(|argument| argument == "--startup-probe")
 }
 
 fn validate_embedded_i18n(site: &Site) {

@@ -24,6 +24,15 @@ pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String
     apply::apply_keys(keys, source_keys(), html, version)
 }
 
+pub(crate) fn clear_replacer_cache() {
+    text_replace::clear_replacer_cache();
+}
+
+#[cfg(test)]
+pub(crate) fn replacer_cache_len() -> usize {
+    text_replace::replacer_cache_len()
+}
+
 pub fn language_selector_label(locale: &Locale) -> &str {
     locale_keys(&locale.locale_id)
         .map(|keys| keys.language.selector_label.as_str())

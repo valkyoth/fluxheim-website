@@ -151,6 +151,10 @@ Run the full local gate:
 scripts/checks.sh
 ```
 
+The gate includes a release-mode startup memory check with a default maximum
+RSS of 256 MiB. Override `FLUXHEIM_STARTUP_RSS_LIMIT_KIB` only for a documented
+platform-specific reason.
+
 Compare the website release metadata with a local Fluxheim checkout before a
 version update:
 

@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::sync::{Arc, OnceLock};
 
 use axum::Router;
 use axum::body::to_bytes;
@@ -7,9 +7,17 @@ use fluxheim_website::content::Site;
 use fluxheim_website::http_app::build_router;
 use tower::ServiceExt;
 
+fn app() -> Router {
+    static APP: OnceLock<Router> = OnceLock::new();
+    APP.get_or_init(|| {
+        let site = Arc::new(Site::load().expect("site content loads"));
+        build_router(site)
+    })
+    .clone()
+}
+
 async fn get(path: &str) -> (StatusCode, String) {
-    let site = Arc::new(Site::load().expect("site content loads"));
-    let app = build_router(site);
+    let app = app();
     get_from(&app, path).await
 }
 
@@ -34,8 +42,7 @@ async fn get_from(app: &Router, path: &str) -> (StatusCode, String) {
 
 #[tokio::test]
 async fn every_rendered_language_selector_link_resolves() {
-    let site = Arc::new(Site::load().expect("site content loads"));
-    let app = build_router(site);
+    let app = app();
     let pages = [
         "/",
         "/download",

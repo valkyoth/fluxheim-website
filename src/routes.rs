@@ -114,6 +114,9 @@ pub async fn page_visible(
 }
 
 fn download_target_url(state: &AppState, artifact: &str) -> Option<String> {
+    if !state.download_artifacts.contains(artifact) {
+        return None;
+    }
     let version = download_artifact_version(artifact)?;
     Some(format!(
         "{}/download/v{}/{}",

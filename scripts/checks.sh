@@ -4,6 +4,7 @@ set -eu
 cargo +1.96.1 fmt --all --check
 cargo +1.96.1 clippy --all-targets -- -D warnings
 cargo +1.96.1 test
+scripts/check_startup_memory.sh
 python3 -m py_compile scripts/check_i18n_keys.py scripts/i18n_coverage.py scripts/scaffold_i18n_locale.py scripts/check_english_variants.py scripts/check_i18n_fallback_prefixes.py scripts/check_i18n_english_fragments.py scripts/check_i18n_collapsed_values.py
 scripts/check_i18n_keys.py
 scripts/check_i18n_fallback_prefixes.py

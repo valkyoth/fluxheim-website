@@ -8,6 +8,13 @@ PROM_URL="${PROM_URL:-http://127.0.0.1:9090}"
 GRAFANA_URL="${GRAFANA_URL:-http://127.0.0.1:3000}"
 JAEGER_URL="${JAEGER_URL:-http://127.0.0.1:16686}"
 
+cleanup() {
+  if [[ "${OBSERVABILITY_SMOKE_DOWN:-0}" == "1" ]]; then
+    podman compose -f "${COMPOSE_FILE}" down
+  fi
+}
+trap cleanup EXIT
+
 podman compose -f "${COMPOSE_FILE}" up -d --build --force-recreate
 
 wait_for() {
@@ -27,6 +34,12 @@ wait_for "${BASE_URL}/healthz" "website"
 wait_for "${PROM_URL}/-/ready" "prometheus"
 wait_for "${GRAFANA_URL}/api/health" "grafana"
 wait_for "${JAEGER_URL}/" "jaeger"
+
+grafana_password="${GRAFANA_ADMIN_PASSWORD:-admin}"
+if [[ -n "${GRAFANA_ADMIN_PASSWORD:-}" ]]; then
+  podman exec fluxheim-website-grafana \
+    grafana cli admin reset-admin-password "${grafana_password}" >/dev/null
+fi
 
 curl -fsS "${BASE_URL}/" >/dev/null
 curl -fsS "${BASE_URL}/en-gb/index.html" >/dev/null
@@ -61,10 +74,6 @@ do
 done
 
 curl -fsS "${GRAFANA_URL}/api/search?query=Fluxheim%20Website" \
-  -u admin:admin | grep -q "Fluxheim Website"
-
-if [[ "${OBSERVABILITY_SMOKE_DOWN:-0}" == "1" ]]; then
-  podman compose -f "${COMPOSE_FILE}" down
-fi
+  -u "admin:${grafana_password}" | grep -q "Fluxheim Website"
 
 echo "observability stack smoke ok"

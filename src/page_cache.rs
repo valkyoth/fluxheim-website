@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
 
 use axum::body::Bytes;
@@ -20,10 +20,10 @@ pub fn preload_pages(site: &Site) -> Result<PageCache, String> {
     let available = std::thread::available_parallelism()
         .map(usize::from)
         .unwrap_or(1);
-    let workers = available.min(16).min(locales.len()).max(1);
+    let workers = available.min(4).min(locales.len()).max(1);
     let chunk_size = locales.len().div_ceil(workers);
 
-    std::thread::scope(|scope| {
+    let pages = std::thread::scope(|scope| {
         let mut handles = Vec::new();
         for chunk in locales.chunks(chunk_size) {
             handles.push(scope.spawn(|| preload_locale_pages(site, chunk, &paths)));
@@ -37,7 +37,9 @@ pub fn preload_pages(site: &Site) -> Result<PageCache, String> {
             pages.extend(rendered);
         }
         Ok(pages)
-    })
+    });
+    crate::i18n_keys::clear_replacer_cache();
+    pages
 }
 
 pub fn cached_page<'a>(
@@ -46,6 +48,24 @@ pub fn cached_page<'a>(
     request_path: &str,
 ) -> Option<&'a CachedPage> {
     pages.get(&page_cache_key(site, request_path))
+}
+
+pub fn download_artifacts(pages: &PageCache) -> HashSet<String> {
+    const PREFIX: &str = r#"href="/out/download/"#;
+    pages
+        .values()
+        .filter_map(|page| std::str::from_utf8(&page.body).ok())
+        .flat_map(|html| html.split(PREFIX).skip(1))
+        .filter_map(|value| value.split_once("?locale=").map(|(artifact, _)| artifact))
+        .filter(|artifact| {
+            !artifact.is_empty()
+                && artifact.len() <= 160
+                && artifact
+                    .bytes()
+                    .all(|byte| byte.is_ascii_alphanumeric() || b"._-".contains(&byte))
+        })
+        .map(str::to_owned)
+        .collect()
 }
 
 fn preload_locale_pages(
@@ -69,6 +89,7 @@ fn preload_locale_pages(
                 );
             }
         }
+        crate::i18n_keys::clear_replacer_cache();
     }
     Ok(pages)
 }
@@ -102,7 +123,7 @@ fn page_cache_key(site: &Site, request_path: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::{cached_page, preload_pages};
+    use super::{cached_page, download_artifacts, preload_pages};
     use crate::content::Site;
 
     #[test]
@@ -114,5 +135,9 @@ mod tests {
         assert!(String::from_utf8_lossy(&clean.body).contains("fh-language-switcher"));
         assert!(String::from_utf8_lossy(&clean.body).contains(r#"href="/de/docs""#));
         assert!(String::from_utf8_lossy(&legacy.body).contains(r#"href="/de/docs/index.html""#));
+        assert_eq!(crate::i18n_keys::replacer_cache_len(), 0);
+        let artifacts = download_artifacts(&pages);
+        assert!(artifacts.contains("fluxheim-1.7.7-full-x86_64-linux.tar.gz"));
+        assert!(artifacts.contains("fluxheim-1.3.2-full-x86_64-linux.tar.gz"));
     }
 }
