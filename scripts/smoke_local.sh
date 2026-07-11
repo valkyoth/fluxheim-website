@@ -8,12 +8,15 @@ FLUXHEIM_WEBSITE_PORT="${port}" cargo +1.96.1 run --quiet &
 pid="$!"
 trap 'kill "$pid" >/dev/null 2>&1 || true' EXIT
 
-for _ in 1 2 3 4 5 6 7 8 9 10; do
+i=0
+while [ "$i" -lt 90 ]; do
   if curl -fsS "${base}/healthz" >/dev/null 2>&1; then
     break
   fi
   sleep 1
+  i=$((i + 1))
 done
+curl -fsS "${base}/healthz" >/dev/null
 
 curl -fsS "${base}/" | grep -q "Memory-safe edge server"
 curl -fsS "${base}/en-gb/" | grep -q 'html lang="en-GB"'

@@ -11,23 +11,23 @@ use axum::routing::{get, post};
 use http::{HeaderValue, StatusCode};
 use tower_http::services::ServeDir;
 use tower_http::set_header::SetResponseHeaderLayer;
-use tower_http::trace::TraceLayer;
 use tracing::Instrument;
 
 use crate::app_state::AppState;
 use crate::content::Site;
 use crate::observability::Observability;
-use crate::routes::{
-    download_outbound, github_outbound, healthz, page_visible, render_page, telemetry_click,
-};
+use crate::routes::{download_outbound, github_outbound, healthz, page_visible, render_page};
 
 const CONTENT_SECURITY_POLICY: &str = concat!(
     "default-src 'self'; ",
     "img-src 'self' data:; ",
+    "font-src 'self'; ",
+    "connect-src 'self'; ",
     "script-src 'self' 'unsafe-inline' 'unsafe-eval'; ",
     "style-src 'self' 'unsafe-inline'; ",
     "object-src 'none'; ",
-    "base-uri 'self'; ",
+    "base-uri 'none'; ",
+    "form-action 'self'; ",
     "frame-ancestors 'none'"
 );
 const HSTS_HEADER_VALUE: &str = "max-age=31536000; includeSubDomains; preload";
@@ -38,7 +38,10 @@ pub fn build_router(site: Arc<Site>) -> Router {
 }
 
 pub fn build_router_with_observability(site: Arc<Site>, observability: Observability) -> Router {
-    let state = Arc::new(AppState::new((*site).clone(), observability));
+    let state = Arc::new(
+        AppState::new((*site).clone(), observability)
+            .expect("all configured website pages must render during startup"),
+    );
     let mut router = Router::new()
         .route("/healthz", get(healthz))
         .route("/out/github/{target}", get(github_outbound))
@@ -47,12 +50,6 @@ pub fn build_router_with_observability(site: Arc<Site>, observability: Observabi
             "/telemetry/page-visible",
             post(page_visible)
                 .layer(DefaultBodyLimit::max(4096))
-                .layer(middleware::from_fn(limit_telemetry_rate)),
-        )
-        .route(
-            "/telemetry/click",
-            post(telemetry_click)
-                .layer(DefaultBodyLimit::max(2048))
                 .layer(middleware::from_fn(limit_telemetry_rate)),
         )
         .nest_service("/assets", ServeDir::new("assets"));
@@ -68,7 +65,6 @@ pub fn build_router_with_observability(site: Arc<Site>, observability: Observabi
         .fallback(render_page)
         .with_state(state.clone())
         .layer(middleware::from_fn_with_state(state, observe_request))
-        .layer(TraceLayer::new_for_http())
         .layer(static_header("x-content-type-options", "nosniff"))
         .layer(static_header("x-frame-options", "DENY"))
         .layer(static_header(

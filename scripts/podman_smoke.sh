@@ -11,11 +11,13 @@ podman build -f container/Dockerfile -t "${image}" .
 podman run -d --rm --name "${name}" -p "${port}:8080" "${image}" >/dev/null
 trap 'podman rm -f "${name}" >/dev/null 2>&1 || true' EXIT
 
-for _ in 1 2 3 4 5 6 7 8 9 10; do
+i=0
+while [ "$i" -lt 90 ]; do
   if curl -fsS "${base}/healthz" >/dev/null 2>&1; then
     break
   fi
   sleep 1
+  i=$((i + 1))
 done
 
 curl -fsS "${base}/healthz" | grep -q "ok"

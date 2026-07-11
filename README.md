@@ -7,7 +7,7 @@ server-rendered application.
 The app uses Axum for HTTP routing, TOML for project/locale metadata, and a
 small hardened container runtime. It currently serves the original HTML site
 unchanged, with only centralized version replacement and a small bottom language
-selector injected at response time. It listens on port `8080` and is intended to
+selector injected when an immutable page cache is built at startup. It listens on port `8080` and is intended to
 run behind Fluxheim or another TLS edge proxy.
 
 ## Locales
@@ -39,7 +39,7 @@ their own `html lang` values. All locale text is keyed under
 truth, so updating the site does not require editing cloned HTML trees.
 
 Legacy static artifacts under `docs/source/`, such as Markdown and TSV files,
-are still served directly through the same locale-prefixed paths.
+are served through bounded, no-follow reads on the same locale-prefixed paths.
 The legacy `conf/fluxheim.toml` example is also preserved.
 
 ## Project Layout
@@ -190,6 +190,10 @@ The app emits HSTS by default. Set `FLUXHEIM_HSTS=disabled` only when TLS is
 not terminated before responses reach browsers.
 The observability stack binds local UI ports to `127.0.0.1` and keeps OTLP
 receiver ports internal to the compose network.
+Set `GRAFANA_ADMIN_PASSWORD` to a unique secret outside local development.
+Browser-reported visible time is privacy-preserving, untrusted aggregate input;
+server-validated redirects record GitHub and download clicks without accepting
+client-supplied click events.
 
 Or build manually:
 
@@ -222,7 +226,10 @@ Security is part of the default development path:
 - Runtime translation uses fixed TOML stable keys; no user-controlled template
   or file path is evaluated.
 - Security headers are applied by the Axum router.
-- Runtime container uses a non-root user.
+- Runtime container uses a non-root user, read-only filesystem, dropped
+  capabilities, a file-descriptor limit, and root-owned content. CPU, PID,
+  memory, connection, and request-rate ceilings belong at the trusted Fluxheim
+  edge or orchestrator because rootless cgroup delegation varies by host.
 - Secret-shaped future runtime values should use the `sanitization` crate.
 
 ## License

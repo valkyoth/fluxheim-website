@@ -31,6 +31,40 @@ fn authored_project_files_stay_under_500_lines() {
     );
 }
 
+#[test]
+fn external_container_dependencies_are_digest_pinned() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let dockerfile = fs::read_to_string(root.join("container/Dockerfile")).expect("Dockerfile");
+    for line in dockerfile.lines().filter(|line| line.starts_with("FROM ")) {
+        assert!(line.contains("@sha256:"), "unpinned base image: {line}");
+    }
+
+    let compose = fs::read_to_string(root.join("container/observability/podman-compose.yml"))
+        .expect("observability compose");
+    for line in compose
+        .lines()
+        .map(str::trim)
+        .filter(|line| line.starts_with("image: docker.io/") || line.starts_with("image: cgr.dev/"))
+    {
+        assert!(line.contains("@sha256:"), "unpinned service image: {line}");
+    }
+}
+
+#[test]
+fn website_compose_keeps_rootless_hardening() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    for relative in [
+        "container/podman-compose.yml",
+        "container/observability/podman-compose.yml",
+    ] {
+        let compose = fs::read_to_string(root.join(relative)).expect("compose file");
+        assert!(compose.contains("read_only: true"), "{relative}");
+        assert!(compose.contains("- ALL"), "{relative}");
+        assert!(compose.contains("no-new-privileges:true"), "{relative}");
+        assert!(compose.contains("noexec,nosuid,nodev"), "{relative}");
+    }
+}
+
 fn collect_oversized(path: &Path, oversized: &mut Vec<PathBuf>) {
     if !path.exists() {
         return;

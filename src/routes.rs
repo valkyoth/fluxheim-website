@@ -10,6 +10,7 @@ use serde::Deserialize;
 use crate::app_state::AppState;
 use crate::legacy;
 use crate::observability::{Observability, VisiblePageEvent};
+use crate::page_cache;
 
 pub async fn healthz() -> impl IntoResponse {
     (StatusCode::OK, "ok")
@@ -20,8 +21,13 @@ pub async fn render_page(
     OriginalUri(uri): OriginalUri,
 ) -> Response<Body> {
     let path = uri.path();
-    if let Some(page) = legacy::render(&state.site, path) {
-        return html_response(StatusCode::OK, Ok(page.html));
+    if let Some(page) = page_cache::cached_page(&state.site, &state.pages, path) {
+        return (
+            StatusCode::OK,
+            [(header::CONTENT_TYPE, "text/html; charset=utf-8")],
+            Body::from(page.body.clone()),
+        )
+            .into_response();
     }
 
     if let Some(artifact) = legacy::render_static_artifact(&state.site, path) {
@@ -50,14 +56,6 @@ pub struct VisiblePayload {
     route: String,
     section: String,
     seconds: u64,
-}
-
-#[derive(Debug, Deserialize)]
-pub struct ClickPayload {
-    kind: String,
-    locale: String,
-    target: Option<String>,
-    artifact: Option<String>,
 }
 
 pub async fn github_outbound(
@@ -115,45 +113,15 @@ pub async fn page_visible(
     (StatusCode::ACCEPTED, "ok").into_response()
 }
 
-pub async fn telemetry_click(
-    State(state): State<Arc<AppState>>,
-    Json(payload): Json<ClickPayload>,
-) -> Response<Body> {
-    let locale = click_locale(&state, Some(payload.locale.as_str()));
-    match payload.kind.as_str() {
-        "github" => {
-            let Some(target) = payload
-                .target
-                .filter(|target| github_target_url(&state, target).is_some())
-            else {
-                return (StatusCode::BAD_REQUEST, "invalid click event").into_response();
-            };
-            state.observability.record_outbound_click(locale, &target);
-        }
-        "download" => {
-            let Some(artifact) = payload.artifact.filter(|artifact| {
-                is_known_download_artifact(&state.site.config.fluxheim_version, artifact)
-            }) else {
-                return (StatusCode::BAD_REQUEST, "invalid click event").into_response();
-            };
-            state.observability.record_download_click(locale, &artifact);
-        }
-        _ => return (StatusCode::BAD_REQUEST, "invalid click event").into_response(),
-    }
-    (StatusCode::ACCEPTED, "ok").into_response()
-}
-
 fn download_target_url(state: &AppState, artifact: &str) -> Option<String> {
-    if !is_known_download_artifact(&state.site.config.fluxheim_version, artifact) {
-        return None;
-    }
+    let version = download_artifact_version(artifact)?;
     Some(format!(
         "{}/download/v{}/{}",
-        state.site.config.releases_url, state.site.config.fluxheim_version, artifact
+        state.site.config.releases_url, version, artifact
     ))
 }
 
-fn is_known_download_artifact(version: &str, artifact: &str) -> bool {
+fn download_artifact_version(artifact: &str) -> Option<&str> {
     let allowed_suffixes = [
         "full-x86_64-linux.tar.gz",
         "full-aarch64-linux.tar.gz",
@@ -169,9 +137,19 @@ fn is_known_download_artifact(version: &str, artifact: &str) -> bool {
         "config-tester-x86_64-linux.tar.gz",
         "config-tester-aarch64-linux.tar.gz",
     ];
-    allowed_suffixes
-        .iter()
-        .any(|suffix| artifact == format!("fluxheim-{version}-{suffix}"))
+    let version = allowed_suffixes.iter().find_map(|suffix| {
+        artifact
+            .strip_prefix("fluxheim-")?
+            .strip_suffix(&format!("-{suffix}"))
+    })?;
+    if version.is_empty()
+        || version
+            .split('.')
+            .any(|part| part.is_empty() || !part.bytes().all(|byte| byte.is_ascii_digit()))
+    {
+        return None;
+    }
+    Some(version)
 }
 
 fn github_target_url<'a>(state: &'a AppState, target: &str) -> Option<&'a str> {

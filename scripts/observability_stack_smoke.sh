@@ -41,12 +41,8 @@ curl -fsS "${BASE_URL}/privacy" >/dev/null
 curl -fsS -X POST "${BASE_URL}/telemetry/page-visible" \
   -H "content-type: application/json" \
   --data '{"locale":"en-EU","route":"/","section":"home","seconds":7}' >/dev/null
-curl -fsS -X POST "${BASE_URL}/telemetry/click" \
-  -H "content-type: application/json" \
-  --data '{"kind":"github","locale":"en-EU","target":"repo"}' >/dev/null
-curl -fsS -X POST "${BASE_URL}/telemetry/click" \
-  -H "content-type: application/json" \
-  --data '{"kind":"download","locale":"en-EU","artifact":"fluxheim-1.7.7-full-x86_64-linux.tar.gz"}' >/dev/null
+curl -fsS "${BASE_URL}/out/github/repo?locale=en-EU" >/dev/null
+curl -fsS "${BASE_URL}/out/download/fluxheim-1.7.7-full-x86_64-linux.tar.gz?locale=en-EU" >/dev/null
 
 sleep 12
 

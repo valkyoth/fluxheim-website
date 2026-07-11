@@ -1,5 +1,9 @@
-use std::fs;
+use std::fs::{self, File, OpenOptions};
+use std::io::{self, Read};
 use std::path::{Component, Path, PathBuf};
+
+#[cfg(unix)]
+use std::os::unix::fs::OpenOptionsExt;
 
 use crate::content::{Locale, Site};
 use crate::i18n;
@@ -8,6 +12,7 @@ use crate::language_selector;
 use crate::page_enhancements;
 
 const SOURCE_FLUXHEIM_VERSION: &str = "1.7.7";
+const MAX_STATIC_ARTIFACT_BYTES: u64 = 2 * 1024 * 1024;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct LegacyPage {
@@ -48,12 +53,8 @@ pub fn render_static_artifact(site: &Site, request_path: &str) -> Option<StaticA
         return None;
     }
 
-    if !safe_existing_artifact(&path) {
-        return None;
-    }
-
     let content_type = artifact_content_type(&path)?;
-    let body = std::fs::read(&path).ok()?;
+    let body = read_static_artifact(&path).ok()?;
     Some(StaticArtifact { body, content_type })
 }
 
@@ -185,14 +186,6 @@ fn safe_existing_html(path: &Path) -> bool {
     safe_regular_file(path) && (is_allowed_html(path) || is_allowed_localized_html(path))
 }
 
-fn safe_existing_artifact(path: &Path) -> bool {
-    if has_unsafe_components(path) {
-        return false;
-    }
-
-    safe_regular_file(path)
-}
-
 fn is_allowed_artifact(path: &Path) -> bool {
     let extension = path.extension().and_then(|ext| ext.to_str());
     let is_source_artifact =
@@ -201,6 +194,54 @@ fn is_allowed_artifact(path: &Path) -> bool {
     let is_config_artifact = path.starts_with("conf") && extension == Some("toml");
 
     is_source_artifact || is_release_artifact || is_config_artifact
+}
+
+fn read_static_artifact(path: &Path) -> io::Result<Vec<u8>> {
+    if has_unsafe_components(path) {
+        return Err(io::Error::new(
+            io::ErrorKind::PermissionDenied,
+            "unsafe path",
+        ));
+    }
+
+    let file = open_artifact(path)?;
+    let metadata = file.metadata()?;
+    if !metadata.is_file() || metadata.len() > MAX_STATIC_ARTIFACT_BYTES {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "artifact is not a bounded regular file",
+        ));
+    }
+
+    let mut body = Vec::with_capacity(metadata.len() as usize);
+    file.take(MAX_STATIC_ARTIFACT_BYTES + 1)
+        .read_to_end(&mut body)?;
+    if body.len() as u64 > MAX_STATIC_ARTIFACT_BYTES {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "artifact exceeds size limit",
+        ));
+    }
+    Ok(body)
+}
+
+#[cfg(unix)]
+fn open_artifact(path: &Path) -> io::Result<File> {
+    OpenOptions::new()
+        .read(true)
+        .custom_flags(libc::O_NOFOLLOW | libc::O_CLOEXEC)
+        .open(path)
+}
+
+#[cfg(not(unix))]
+fn open_artifact(path: &Path) -> io::Result<File> {
+    if fs::symlink_metadata(path)?.file_type().is_symlink() {
+        return Err(io::Error::new(
+            io::ErrorKind::PermissionDenied,
+            "artifact symlinks are not allowed",
+        ));
+    }
+    OpenOptions::new().read(true).open(path)
 }
 
 fn has_unsafe_components(path: &Path) -> bool {
@@ -242,7 +283,10 @@ fn apply_version(site: &Site, html: String) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::{html_path, legacy_html_paths, render, render_static_artifact, slug_for_path};
+    use super::{
+        MAX_STATIC_ARTIFACT_BYTES, html_path, legacy_html_paths, render, render_static_artifact,
+        slug_for_path,
+    };
     use crate::content::Site;
     use std::fs;
     use std::path::Path;
@@ -343,6 +387,19 @@ mod tests {
         assert!(render_static_artifact(&site, "/docs/source/__private.json").is_none());
 
         fs::remove_file(path).expect("remove private fixture");
+    }
+
+    #[test]
+    fn rejects_oversized_source_artifacts_before_reading() {
+        let site = Site::load().expect("site loads");
+        let path = Path::new("docs/source/__oversized.md");
+        let file = fs::File::create(path).expect("create oversized fixture");
+        file.set_len(MAX_STATIC_ARTIFACT_BYTES + 1)
+            .expect("size oversized fixture");
+
+        assert!(render_static_artifact(&site, "/docs/source/__oversized.md").is_none());
+
+        fs::remove_file(path).expect("remove oversized fixture");
     }
 
     #[cfg(unix)]

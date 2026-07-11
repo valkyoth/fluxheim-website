@@ -87,6 +87,7 @@ fn assert_preserves_source_html(source: &str, served: &str, uri: &str, version: 
         &format!("v{SOURCE_FLUXHEIM_VERSION}"),
         &format!("v{version}"),
     );
+    let served = restore_observed_links(served);
     let body_index = source
         .rfind("</body>")
         .unwrap_or_else(|| panic!("{uri} source missing </body>"));
@@ -101,4 +102,37 @@ fn assert_preserves_source_html(source: &str, served: &str, uri: &str, version: 
         served.ends_with(suffix),
         "{uri} changed legacy HTML after injected selector"
     );
+}
+
+fn restore_observed_links(served: &str) -> String {
+    let mut restored = served
+        .replace(
+            r#"href="/out/github/repo?locale=en-EU""#,
+            r#"href="https://github.com/valkyoth/fluxheim""#,
+        )
+        .replace(
+            r#"href="/out/github/releases?locale=en-EU""#,
+            r#"href="https://github.com/valkyoth/fluxheim/releases""#,
+        );
+    const PREFIX: &str = r#"href="/out/download/"#;
+    while let Some(start) = restored.find(PREFIX) {
+        let value_start = start + PREFIX.len();
+        let Some(end) = restored[value_start..].find("?locale=en-EU\"") else {
+            break;
+        };
+        let value_end = value_start + end;
+        let artifact = &restored[value_start..value_end];
+        let Some(version) = artifact
+            .strip_prefix("fluxheim-")
+            .and_then(|tail| tail.split_once('-').map(|(version, _)| version))
+        else {
+            break;
+        };
+        let original = format!(
+            r#"href="https://github.com/valkyoth/fluxheim/releases/download/v{version}/{artifact}""#
+        );
+        let replacement_end = value_end + "?locale=en-EU\"".len();
+        restored.replace_range(start..replacement_end, &original);
+    }
+    restored
 }

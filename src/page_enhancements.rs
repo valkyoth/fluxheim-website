@@ -4,7 +4,51 @@ use crate::observability::{normalize_route, section_for_slug};
 
 pub fn enhance(site: &Site, active_locale: &Locale, slug: &str, html: String) -> String {
     let html = inject_legal_links(site, active_locale, html);
+    let html = rewrite_observable_links(active_locale, html);
     inject_visible_time_beacon(active_locale, slug, html)
+}
+
+fn rewrite_observable_links(active_locale: &Locale, html: String) -> String {
+    let locale = html_escape(&active_locale.locale_id);
+    let repo = "https://github.com/valkyoth/fluxheim";
+    let releases = "https://github.com/valkyoth/fluxheim/releases";
+    let html = html.replace(
+        &format!(r#"href="{repo}""#),
+        &format!(r#"href="/out/github/repo?locale={locale}""#),
+    );
+    let html = html.replace(
+        &format!(r#"href="{releases}""#),
+        &format!(r#"href="/out/github/releases?locale={locale}""#),
+    );
+    rewrite_download_links(&html, &locale)
+}
+
+fn rewrite_download_links(html: &str, locale: &str) -> String {
+    const PREFIX: &str = r#"href="https://github.com/valkyoth/fluxheim/releases/download/v"#;
+    let mut output = String::with_capacity(html.len());
+    let mut remaining = html;
+
+    while let Some(start) = remaining.find(PREFIX) {
+        output.push_str(&remaining[..start]);
+        let value = &remaining[start + PREFIX.len()..];
+        let Some(end) = value.find('"') else {
+            output.push_str(&remaining[start..]);
+            return output;
+        };
+        let target = &value[..end];
+        let artifact = target.rsplit_once('/').map(|(_, artifact)| artifact);
+        if let Some(artifact) = artifact.filter(|artifact| !artifact.is_empty()) {
+            output.push_str(&format!(
+                r#"href="/out/download/{}?locale={locale}""#,
+                html_escape(artifact)
+            ));
+        } else {
+            output.push_str(&remaining[start..start + PREFIX.len() + end + 1]);
+        }
+        remaining = &value[end + 1..];
+    }
+    output.push_str(remaining);
+    output
 }
 
 fn inject_legal_links(site: &Site, active_locale: &Locale, html: String) -> String {
@@ -49,8 +93,6 @@ fn inject_visible_time_beacon(active_locale: &Locale, slug: &str, html: String) 
 (() => {{
   let started = Date.now();
   let sent = false;
-  const releasePrefix = "https://github.com/valkyoth/fluxheim/releases/download/v";
-  const githubPrefix = "https://github.com/valkyoth/fluxheim";
   const payload = () => JSON.stringify({{
     locale: "{}",
     route: "{}",
@@ -65,30 +107,13 @@ fn inject_visible_time_beacon(active_locale: &Locale, slug: &str, html: String) 
   document.addEventListener("visibilitychange", () => {{
     if (document.visibilityState === "hidden") send();
   }});
-  document.addEventListener("click", event => {{
-    const anchor = event.target.closest && event.target.closest("a[href]");
-    if (!anchor) return;
-    const href = anchor.href;
-    if (href.startsWith(releasePrefix)) {{
-      const artifact = href.slice(href.lastIndexOf("/") + 1);
-      navigator.sendBeacon("/telemetry/click", new Blob([JSON.stringify({{
-        kind: "download", locale: "{}", artifact
-      }})], {{type: "application/json"}}));
-    }} else if (href === githubPrefix || href.startsWith(githubPrefix + "/releases")) {{
-      navigator.sendBeacon("/telemetry/click", new Blob([JSON.stringify({{
-        kind: "github", locale: "{}", target: href.startsWith(githubPrefix + "/releases") ? "releases" : "repo"
-      }})], {{type: "application/json"}}));
-    }}
-  }}, true);
   window.addEventListener("pagehide", send);
 }})();
 </script>
 "#,
         js_escape(&active_locale.locale_id),
         js_escape(&route),
-        js_escape(section),
-        js_escape(&active_locale.locale_id),
-        js_escape(&active_locale.locale_id)
+        js_escape(section)
     );
     inject_before_body_end(html, &script)
 }

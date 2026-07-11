@@ -8,6 +8,17 @@ services:
     restart: always
     stop_signal: SIGTERM
     stop_grace_period: 15s
+    read_only: true
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=16m,mode=1777
+    ulimits:
+      nofile:
+        soft: 1024
+        hard: 1024
     environment:
       FLUXHEIM_OTLP: "${FLUXHEIM_OTLP:-disabled}"
       FLUXHEIM_HSTS: "${FLUXHEIM_HSTS:-enabled}"

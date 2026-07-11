@@ -6,6 +6,7 @@ pub mod i18n_keys;
 pub mod language_selector;
 pub mod legacy;
 pub mod observability;
+pub mod page_cache;
 pub mod page_enhancements;
 pub mod releases;
 pub mod routes;

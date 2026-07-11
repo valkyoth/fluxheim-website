@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::sync::{Arc, OnceLock};
 
 use axum::body::{Body, to_bytes};
 use axum::http::{Request, StatusCode, header};
@@ -6,10 +6,17 @@ use fluxheim_website::content::Site;
 use fluxheim_website::http_app::build_router;
 use tower::ServiceExt;
 
+fn app() -> axum::Router {
+    static APP: OnceLock<axum::Router> = OnceLock::new();
+    APP.get_or_init(|| {
+        let site = Arc::new(Site::load().expect("site content loads"));
+        build_router(site)
+    })
+    .clone()
+}
+
 async fn request(path: &str) -> (StatusCode, http::HeaderMap, String) {
-    let site = Arc::new(Site::load().expect("site content loads"));
-    let app = build_router(site);
-    let response = app
+    let response = app()
         .oneshot(
             Request::builder()
                 .uri(path)
@@ -36,9 +43,7 @@ async fn request_with_body(
     path: &str,
     body: impl Into<Body>,
 ) -> (StatusCode, http::HeaderMap, String) {
-    let site = Arc::new(Site::load().expect("site content loads"));
-    let app = build_router(site);
-    let response = app
+    let response = app()
         .oneshot(
             Request::builder()
                 .method(method)
@@ -823,6 +828,15 @@ async fn download_outbound_redirects_only_known_artifacts() {
         request("/out/download/fluxheim-1.7.7-private-token.tar.gz").await;
     assert_eq!(unknown_status, StatusCode::NOT_FOUND);
     assert!(body.contains("Unknown download artifact"));
+
+    let historical = "fluxheim-1.6.37-cache-x86_64-linux.tar.gz";
+    let (historical_status, historical_headers, _body) =
+        request(&format!("/out/download/{historical}?locale=de-DE")).await;
+    assert_eq!(historical_status, StatusCode::TEMPORARY_REDIRECT);
+    assert_eq!(
+        historical_headers[header::LOCATION],
+        format!("https://github.com/valkyoth/fluxheim/releases/download/v1.6.37/{historical}")
+    );
 }
 
 #[tokio::test]
@@ -853,25 +867,12 @@ async fn telemetry_page_visible_rejects_large_bodies() {
 }
 
 #[tokio::test]
-async fn telemetry_click_accepts_only_bounded_events() {
-    let github = r#"{"kind":"github","locale":"en-EU","target":"repo"}"#;
+async fn direct_client_click_telemetry_is_not_exposed() {
+    let payload = r#"{"kind":"github","locale":"en-EU","target":"repo"}"#;
     let (status, _headers, body) =
-        request_with_body(http::Method::POST, "/telemetry/click", github).await;
-    assert_eq!(status, StatusCode::ACCEPTED);
-    assert_eq!(body, "ok");
-
-    let artifact = "fluxheim-1.7.7-full-x86_64-linux.tar.gz";
-    let download = format!(r#"{{"kind":"download","locale":"de-DE","artifact":"{artifact}"}}"#);
-    let (download_status, _headers, download_body) =
-        request_with_body(http::Method::POST, "/telemetry/click", download).await;
-    assert_eq!(download_status, StatusCode::ACCEPTED);
-    assert_eq!(download_body, "ok");
-
-    let invalid = r#"{"kind":"download","locale":"de-DE","artifact":"fluxheim-private.tar.gz"}"#;
-    let (invalid_status, _headers, invalid_body) =
-        request_with_body(http::Method::POST, "/telemetry/click", invalid).await;
-    assert_eq!(invalid_status, StatusCode::BAD_REQUEST);
-    assert!(invalid_body.contains("invalid click event"));
+        request_with_body(http::Method::POST, "/telemetry/click", payload).await;
+    assert_eq!(status, StatusCode::NOT_FOUND);
+    assert!(body.contains("Page not found"));
 }
 
 #[tokio::test]
@@ -905,17 +906,17 @@ async fn legal_pages_render_and_translate() {
 }
 
 #[tokio::test]
-async fn rendered_pages_keep_links_and_inject_click_beacon() {
+async fn rendered_pages_use_validated_click_redirects() {
     let (status, _headers, body) = request("/download").await;
     assert_eq!(status, StatusCode::OK);
-    assert!(body.contains(r#"href="https://github.com/valkyoth/fluxheim""#));
+    assert!(body.contains(r#"href="/out/github/repo?locale=en-EU""#));
     assert!(
         body.contains(
-            r#"href="https://github.com/valkyoth/fluxheim/releases/download/v1.7.7/fluxheim-1.7.7-full-x86_64-linux.tar.gz""#
+            r#"href="/out/download/fluxheim-1.7.7-full-x86_64-linux.tar.gz?locale=en-EU""#
         )
     );
     assert!(body.contains("navigator.sendBeacon"));
-    assert!(body.contains("/telemetry/click"));
+    assert!(!body.contains("/telemetry/click"));
 }
 
 #[tokio::test]
@@ -929,8 +930,10 @@ async fn sets_security_headers() {
     );
     let csp = headers["content-security-policy"].to_str().unwrap();
     assert!(csp.contains("script-src 'self' 'unsafe-inline' 'unsafe-eval'"));
+    assert!(csp.contains("connect-src 'self'"));
     assert!(csp.contains("object-src 'none'"));
-    assert!(csp.contains("base-uri 'self'"));
+    assert!(csp.contains("base-uri 'none'"));
+    assert!(csp.contains("form-action 'self'"));
     assert!(csp.contains("frame-ancestors 'none'"));
 }
 
