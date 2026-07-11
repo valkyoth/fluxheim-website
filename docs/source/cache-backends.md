@@ -218,18 +218,54 @@ internal cache implementation.
   and its `(bin_id, offset, len)` location. On startup Fluxheim reads the index,
   validates each referenced object by parsing the v5 cache object bytes, rebuilds
   the purge index, and reconstructs free ranges from the occupied locations.
-- Storage-bin index writes are debounced after insert, eviction, and purge
-  bursts. A crash can drop the newest cache entries from the durable index, but
+- Storage-bin index writes are coalesced by one fallibly-created process-wide
+  persistence worker and limited to one flush per second per cache root during
+  insert, eviction, and purge bursts. Cache policies register weak persistence
+  tasks rather than creating an OS thread each. Request workers only mark the
+  index dirty; sorting, atomic replacement, and `sync_all` run off the request
+  path. A crash can drop the newest cache entries from the durable index, but
   the affected bin ranges are then treated as free on restart rather than
   becoming unbounded orphaned files. Clean storage teardown performs a
   best-effort flush when the debounced index is still dirty.
+- Every enabled storage-bin cache policy must use a unique canonical
+  `cache.disk.path`. Fluxheim rejects startup when two vhost or route policies
+  resolve to the same root; shared-root allocator semantics are not supported.
+  Persisted objects also carry their combined cache key, which must match the
+  requested index key before an object can be served.
+- Each allocator acquires an exclusive `.fluxheim-storage-bin.lock` filesystem
+  lease immediately after creating and canonicalizing the empty root, before
+  creating or validating the manifest, data directory, index, or bins. The
+  lease remains held for the allocator's complete lifetime. On local filesystems
+  and shared filesystems with reliable cross-node `flock` semantics, another
+  cooperating Fluxheim process fails to open or initialize the root while that
+  lease is held. The lease is advisory: unrelated software can ignore it, and
+  some NFS/CSI implementations do not provide reliable cross-node advisory
+  locking. Storage-bin admin and CLI inspection resolve the registered live
+  cache by vhost/route and never construct a temporary allocator or write an
+  independent index. The filesystem backend has no shared allocator and may
+  rebuild a bounded read index for standalone CLI inspection.
+- Production HA deployments should use one storage-bin root per replica on
+  local, `ReadWriteOnce`, or `ReadWriteOncePod` storage. Share cache warmth with
+  peer fill rather than mounting one `ReadWriteMany` root into multiple
+  replicas. Use shared RWX storage only after a deployment acceptance test has
+  started two Fluxheim replicas simultaneously, confirmed that the loser fails
+  before changing the manifest, stopped the winner, and confirmed that the
+  remaining replica can acquire the lease without changing persisted metadata.
+  High-assurance deployments must also enforce single-writer ownership at the
+  orchestration layer.
+- Native disk-cache lookup is admitted through a dedicated blocking-work class.
+  Saturation is distinct from a cache miss: Fluxheim serves an eligible stale
+  memory object when available and otherwise returns `503` without contacting
+  origin. Disk stores remain best-effort when their class is saturated.
 - The allocator model uses first-fit free-range reuse within bounded bins and
   refuses allocations once the configured disk-cache byte budget is exhausted.
   Free ranges are merged after release so evictions can make space without
   growing the number of bin files. When purge or eviction frees the
   highest-numbered bin files completely, Fluxheim reclaims those tail bins
   without moving live objects.
-- Storage-bin eviction follows the same basic LRU contract as the filesystem
+- Storage-bin eviction maintains an ordered `(access time, key)` index, so
+  selecting the oldest object does not scan and clone the whole object map.
+  It follows the same basic LRU contract as the filesystem
   disk cache: before admitting a new object it removes the oldest tracked
   objects until the projected encoded-byte total fits under
   `cache.disk.max_size_bytes`, releases their bin ranges, removes purge-index

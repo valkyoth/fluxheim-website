@@ -26,10 +26,16 @@ pub(super) fn apply_page_maps(html: String, keys: &KeyFile, source: &KeyFile) ->
         &keys.download,
     );
     let html = page_map(html, is_changelog_page, &source.changelog, &keys.changelog);
-    page_map(
+    let html = page_map(
         html,
         is_docs_page || is_changelog_page,
         &source.docs_guides,
         &keys.docs_guides,
+    );
+    page_map(
+        html,
+        is_docs_page,
+        &source.docs_expanded,
+        &keys.docs_expanded,
     )
 }

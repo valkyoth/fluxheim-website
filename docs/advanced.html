@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.7.6
+            Download v1.7.7
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.6</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.7</a>
       </div>
     </div>
   </nav>
@@ -119,7 +119,7 @@
 </section>
 <section class="guide-section">
   <h2>WASM extensions</h2>
-  <p>Fluxheim 1.7.6 keeps Wasm optional and hardens the mature native HTTP/1 hook runtime. Compiled modules now carry identities scoped by plugin SHA-256 digest, ABI version, native hook feature surface, and Fluxheim version; cache hooks also get per-vhost admission budgets under the process-wide cache-hook ceiling so one vhost cannot starve another.</p>
+  <p>Fluxheim 1.7.7 keeps Wasm optional and adds the first opt-in Proxy-Wasm ABI compatibility preview. It establishes a separate, feature-gated host-call namespace with strict manifest validation and deterministic fail-closed handling for unsupported calls; it does not claim that arbitrary existing Proxy-Wasm plugins run unchanged.</p>
   <table><thead><tr><th>Rule</th><th>Reason</th></tr></thead><tbody>
     <tr><td>Disabled by default</td><td>Default and privacy builds do not compile Wasm features.</td></tr>
     <tr><td>Approved plugin roots</td><td>Plugin files must be absolute, regular files below approved roots, without symlinked files or parent paths.</td></tr>
@@ -129,7 +129,8 @@
     <tr><td>Cache decisions</td><td><code>cache-lookup</code> hooks can continue, pass, bypass, or deny. <code>cache-store</code> hooks can continue, skip storage, or deny before memory/disk cache writes.</td></tr>
     <tr><td>Cache metadata</td><td><code>cache-lookup</code> hooks can add fixed mobile/desktop cache-key variants. <code>cache-store</code> hooks can set fixed TTL, tag, and stored-header metadata.</td></tr>
     <tr><td>Bounded execution</td><td>Fuel, memory, table, instance, compile-timeout, compile-worker, and per-call watchdog limits keep the sandbox bounded.</td></tr>
-    <tr><td>Module identity</td><td>Compiled modules are tied to plugin digest, ABI version, hook feature surface, and Fluxheim version so future reuse cannot cross release or feature boundaries.</td></tr>
+    <tr><td>Module identity</td><td>Compiled modules are tied to plugin digest, ABI version, hook feature surface, host-call namespace, and Fluxheim version so future reuse cannot cross release, feature, or ABI boundaries.</td></tr>
+    <tr><td>Proxy-Wasm preview</td><td>Build with <code>wasm-proxy-abi</code>, enable <code>allow_preview_abi</code>, and declare both the <code>proxy-wasm-preview</code> ABI and host-call namespace. Unsupported imports and calls fail closed.</td></tr>
     <tr><td>Admission limits</td><td>Process-wide, cache-global, cache-vhost, per-plugin, and per-attachment execution ceilings prevent unbounded plugin work.</td></tr>
     <tr><td>Typed manifests</td><td>ABI, phase, fail-mode, path, and sandbox limits are validated before loading.</td></tr>
     <tr><td>PHP-FPM fallback</td><td>Vhost-level header hooks and fallback response-header cleanup now also apply to PHP-FPM fallback responses.</td></tr>

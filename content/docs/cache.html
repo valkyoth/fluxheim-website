@@ -56,5 +56,5 @@ stale_if_error_secs = 120</code></pre>
 </section>
 <section class="guide-section">
   <h2>Use cache carefully</h2>
-  <ul class="checks"><li>Do not cache private user pages unless the route is explicitly safe.</li><li>Keep cache keys bounded and predictable.</li><li>Use purge or short TTLs when content changes often.</li><li>Bypass on cookies, authorization, preview headers, and unsafe query strings.</li></ul>
+  <ul class="checks"><li>Do not cache private user pages unless the route is explicitly safe.</li><li>Keep cache keys bounded and predictable.</li><li>Use one storage-bin root per running Fluxheim process; ownership uses an advisory filesystem lock and shared multi-writer roots are unsafe without verified external locking.</li><li>Use purge or short TTLs when content changes often.</li><li>Bypass on cookies, authorization, preview headers, and unsafe query strings.</li></ul>
 </section>

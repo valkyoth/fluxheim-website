@@ -59,12 +59,16 @@ Config sources must be real TOML files or real directories. Fluxheim rejects a
 symlink used as the top-level config source, rejects config sources below a
 symlinked directory, and ignores symlinked TOML entries inside split config
 directories, so a reload cannot be redirected through an unexpected filesystem
-pointer. Each TOML file is size-limited to 1 MiB; large deployments should use
-a split config directory instead of one huge file. Split config directories are
-limited to 256 visible TOML files. Configured filesystem paths are also rejected
-when any existing path component is a symlink; missing final directories may
-still be created by the owning runtime module, but never through a symlinked
-prefix.
+pointer. On Unix, each config file, config directory, `conf.d` directory, and
+every existing ancestor must be owned by root or the Fluxheim service user and
+must not be group- or world-writable. Each TOML file is opened without following
+a final symlink, its checked path identity must match the opened descriptor, and
+in-place changes during the bounded read are rejected. Each TOML file is
+size-limited to 1 MiB; large deployments should use a split config directory
+instead of one huge file. Split config directories are limited to 256 visible
+TOML files. Configured filesystem paths are also rejected when any existing path
+component is a symlink; missing final directories may still be created by the
+owning runtime module, but never through a symlinked prefix.
 
 ## Server
 
@@ -591,13 +595,16 @@ Successful and rejected weight operations are counted as `member_weight`,
 When compiled with `wasm`, `GET /_fluxheim/status` includes a read-only `wasm`
 object for the validation-stage plugin registry. It reports whether `[wasm]` is
 enabled, whether preview ABIs are allowed, plugin root/plugin/attachment counts,
-the process-wide `max_total_concurrent_executions` ceiling, plugin names,
 the process-wide `max_total_concurrent_executions` ceiling, the cache-specific
 `max_total_cache_concurrent_executions` ceiling, plugin names, plugin paths,
 configured expected SHA-256 digests, declared ABI and host-call namespace,
 phases, fail mode, attachment priority, and whether each plugin or attachment
 overrides the default admission/limit policy. Runtime loaded plugin hashes are
-added by later `1.7.x` hook releases. `1.7.1` enables the first live
+added by later `1.7.x` hook releases. All Wasm active-execution and queued
+admission values are bounded to `0..=256`, with active limits required to be
+non-zero. Runtime acquisition proceeds from attachment and plugin scopes toward
+the process-wide scope so a narrow backlog cannot consume global permits.
+`1.7.1` enables the first live
 native HTTP/1 request-path hook family: `access-decision`. The current preview
 ABI calls `fluxheim_access_decision() -> i32`, where `0` continues the chain,
 `1` allows/continues, and `2` denies with `403`. Built-in Fluxheim access
@@ -657,6 +664,28 @@ metadata family cannot suppress the other. The current cache hooks still do not
 expose raw headers, request bodies, arbitrary cache-key bytes, arbitrary TTLs,
 arbitrary tag strings, arbitrary stored response headers, or response-store
 body mutation; those stay staged behind later bounded cache-policy ABIs.
+
+`1.7.7` adds the opt-in `wasm-proxy-abi` compatibility preview boundary. A
+plugin may use the proxy preview host-call namespace only when all of these are
+true: the binary was built with `wasm-proxy-abi`, `[wasm].allow_preview_abi =
+true`, the plugin declares `abi = "proxy-wasm-preview"`, and the plugin declares
+`host_call_namespace = "proxy-wasm-preview"`. The preview namespace is separate
+from `fluxheim-policy-v1`; mismatched ABI/namespace pairs are rejected during
+config validation. Unsupported preview host calls fail deterministically through
+the plugin fail mode.
+
+```toml
+[wasm]
+enabled = true
+allow_preview_abi = true
+
+[[wasm.plugins]]
+name = "proxy_preview"
+path = "/etc/fluxheim/plugins/proxy-preview.wasm"
+abi = "proxy-wasm-preview"
+host_call_namespace = "proxy-wasm-preview"
+phases = ["access-decision"]
+```
 
 Authenticated admins can fetch only load-balancer runtime state without parsing
 the full `/_fluxheim/status` payload:
@@ -718,8 +747,14 @@ values.
 explicitly configured for loopback-only unauthenticated probes. Repeated failed
 bearer-token attempts are tracked per direct socket source and globally over
 `window_secs`; once either limit is reached, Fluxheim returns `429` until the
-progressive lockout expires. `max_sources` bounds the in-memory per-source
-failure table. With metrics enabled,
+progressive lockout expires. Source-specific lockouts are enforced before
+credential validation. A valid token and, when configured, valid client
+certificate can still use the admin API during a global invalid-attempt
+lockout; the global lockout continues to reject invalid credentials. This
+prevents remote failures from disabling incident response. Keep the local
+owner-restricted `[admin.ops_socket]` available as a recovery/status channel
+for deployments with strict operational requirements. `max_sources` bounds
+the in-memory per-source failure table. With metrics enabled,
 `fluxheim_admin_auth_events_total{event,scope}` records failed and throttled
 admin authentication events, and security logs are emitted without reflecting
 the attempted token.
@@ -878,8 +913,9 @@ path prefixes are rejected during config validation, and Linux opens the log fil
 without following a final symlink. Runtime log-file open also rejects symlinked
 path components before creating or appending the file, so restart and rotation
 paths apply the same trust boundary as config validation. On Unix, file logs
-must use a dedicated log directory and are rejected when the nearest existing
-parent is group- or world-writable, such as `/tmp`.
+must use a dedicated log directory and are rejected when any existing parent is
+not owned by root or the service user, or is group- or world-writable, such as
+`/tmp`.
 
 In `privacy-mode` builds, access logging and file logging must stay disabled.
 Fluxheim rejects `logging.access.enabled = true` and
@@ -1144,6 +1180,7 @@ allow_response_headers = ["x-auth-request-user", "x-auth-request-email"]
 connect_timeout_secs = 2
 read_timeout_secs = 5
 max_response_bytes = "64KiB"
+max_in_flight = 64
 
 [proxy.mirror]
 enabled = false
@@ -1849,7 +1886,21 @@ Any 2xx auth response allows the request and headers listed in
 `allow_response_headers` are copied into the upstream request; 4xx/5xx auth
 responses stop the request and return the auth status with a bounded text body.
 Other auth statuses are treated as a gateway-side auth failure. The hook can be
-configured globally, per vhost proxy, or per route proxy block. In
+configured globally, per vhost proxy, or per route proxy block.
+`max_in_flight` bounds active synchronous authorization calls for each
+configured auth service. Fluxheim acquires this permit before submitting work
+to Tokio's blocking pool; saturation fails closed with `503` instead of
+growing the blocking queue. A second process-wide semaphore caps aggregate
+authorization work across every vhost and route at `256`; per-service permits
+are acquired first so one saturated service cannot reserve global capacity.
+Authorization then shares Fluxheim's hierarchical request-driven blocking-work
+budget with Wasm, traffic mirrors, disk-cache work, and ACME challenge reads.
+The total is `256`, non-critical work is capped at `224`, and class ceilings are
+auth `96`, Wasm `96`, disk cache `32`, mirror `8`, and critical ACME work `32`.
+This prevents one request class from consuming every slot and reserves critical
+capacity. The native Tokio runtime explicitly permits `384` blocking threads,
+leaving another `128` slots outside request-driven admission for lifecycle,
+admin, and recovery work. Valid per-service values are `1..=256` and the default is `64`. In
 FIPS/ISO-required mode, auth subrequests are limited to numeric local
 `http://127.0.0.1/...` or `http://[::1]/...` sidecars until outbound TLS client
 evidence is routed through the selected validated provider. With metrics
@@ -1942,17 +1993,25 @@ The compression path compresses only eligible `GET` responses with known
 `Content-Length`, status `200`, a matching client `Accept-Encoding`, no
 existing `Content-Encoding`, no `Set-Cookie`, no request `Cookie` or
 `Authorization`, no `Content-Range`, no `Cache-Control: no-transform`, and a
-conservative text, JavaScript, JSON, XML, or SVG media type. Fluxheim prefers
+conservative text, JavaScript, JSON, XML, or SVG media type. `Cache-Control:
+private` and `no-store` also suppress compression, including qualified forms
+such as `private="Set-Cookie"`. Fluxheim prefers
 `br`, then `zstd`, then `gzip` when those codecs are enabled and accepted by
 the client. Fluxheim removes `Content-Length` and `ETag` from compressed
 responses and adds `Vary: Accept-Encoding`. `Accept-Encoding` q-values are
 parsed as finite RFC-style values from `0` through `1` with at most three
-decimal digits; malformed values such as `NaN` or `Infinity` do not enable an
-encoding token.
+decimal digits. Explicit coding entries take precedence over `*`; malformed,
+unknown, duplicate, or empty parameter/list forms fail closed to an identity
+response rather than enabling an encoding.
 
 `min_bytes` and `max_input_bytes` bound the original response size.
-`max_output_bytes` bounds the encoded response size. The configured input
-maximum cannot exceed 64 MiB and the output maximum cannot exceed 128 MiB.
+`max_output_bytes` bounds the encoded response size with a codec sink that
+rejects a write before its logical output length exceeds the limit. It is not
+an exact RSS ceiling: the allocator may reserve additional `Vec` capacity and
+codec-internal working memory is separate. Emitted output allocations are
+transferred without a second body copy, and an encoder is discarded after any
+output-limit or allocation failure. The configured input maximum cannot exceed
+64 MiB and the output maximum cannot exceed 128 MiB.
 `gzip_level` must be between `0` and `9`, `zstd_level` between `1` and `19`,
 and `brotli_quality` between `0` and `11`.
 
@@ -2092,10 +2151,10 @@ If `cache.enabled = true`, at least one storage tier must be enabled.
 Each enabled tier must be at least as large as `max_object_bytes`.
 Disk cache requires `cache.disk.path`. The disk cache root must be a real
 directory and must not sit below a symlinked parent directory. On Unix,
-Fluxheim also rejects disk cache roots whose nearest existing parent is
-group- or world-writable, such as creating a cache root directly below `/tmp`; use a
-dedicated cache directory such as `/var/cache/fluxheim` or a pre-created private
-runtime directory.
+Fluxheim also rejects disk cache roots when any existing parent is not owned by
+root or the service user, or is group- or world-writable, such as creating a
+cache root directly below `/tmp`; use a dedicated cache directory such as
+`/var/cache/fluxheim` or a pre-created private runtime directory.
 
 `[cache.range]` is disabled by default. When enabled, Fluxheim can cache safe
 bounded single `Range: bytes=start-end` proxy responses under a range-specific
@@ -2146,6 +2205,15 @@ table defines the allocator shape:
 `cache.disk.max_size_bytes`, `preallocate` controls whether Fluxheim should
 reserve full bin files ahead of object writes, and `max_open_bins` bounds the
 number of concurrently opened bin files.
+
+The storage-bin backend holds a root-local advisory lock before creating or
+validating persistent layout metadata. Cross-node exclusion therefore depends
+on correct `flock` behavior from the selected filesystem and CSI driver. Use a
+separate local, `ReadWriteOnce`, or `ReadWriteOncePod` cache volume per replica.
+Do not share one RWX storage-bin root between replicas unless cross-node lock
+behavior has been explicitly tested; high-assurance deployments should enforce
+single-writer ownership through orchestration as well. Peer fill is the
+supported mechanism for sharing cache warmth between independent roots.
 
 `[cache.disk.encryption]` is disabled by default. When `enabled = true` with
 `provider = "local"`, Fluxheim encrypts disk cache objects with AES-256-GCM
@@ -2752,8 +2820,9 @@ symlinked or group- or world-writable directories; mount or configure the real p
 directly. If Fluxheim cannot inspect any TLS path prefix for symlinks,
 validation fails closed and reports the path as unreadable. Config validation
 also rejects static certificate paths, ACME storage paths, and ACME EAB secret
-files when their nearest existing parent directory is group- or world-writable. EAB secret
-files are checked with the same owner-only permission rule as private keys.
+files when any existing ancestor has an untrusted owner or is group- or
+world-writable. EAB secret files are checked with the same owner-only permission
+rule as private keys.
 
 ## ACME
 
@@ -3044,9 +3113,15 @@ supplied in MMDB-compatible form. Databases are ordered local fallbacks when
 `fallback_enabled = true`; Fluxheim fills missing country or ASN fields from
 later databases when possible.
 Fluxheim does not download GeoIP databases in-process. Each MMDB file is capped
-at 512 MiB at read time and each loaded GeoIP runtime is capped at 1 GiB total.
-GeoIP update jobs should write and verify a replacement file, then atomically
-rename it into place before reloading Fluxheim.
+at 512 MiB, each loaded GeoIP runtime is capped at 1 GiB total, and at most
+eight databases are accepted. Aggregate capacity is checked from the verified
+open descriptor before its contents are allocated, read, or parsed. Paths must
+be absolute and symlink-free; the file and every parent directory must be owned
+by root, the effective service user, or the platform root-equivalent owner and
+must not be group- or world-writable. Fluxheim rejects descriptor identity or
+metadata changes during loading. GeoIP update jobs should prepare and verify a
+replacement under a trusted directory, apply safe ownership and modes, then
+atomically rename it into place before reloading Fluxheim.
 
 Vhost and route access policies can then use:
 
@@ -3316,6 +3391,10 @@ retry_statuses = [500, 502, 503, 504]
 # group = "fluxheim"
 # Generated socket/config/pid/log files live under socket_dir. Forced process
 # termination can leave stale files; remove them only while Fluxheim is stopped.
+# Fluxheim keeps generated names compact and validates the complete Unix socket
+# address before spawn. Keep socket_dir short enough for the platform's Unix
+# socket path limit; an oversized final address fails startup instead of being
+# truncated by php-fpm.
 
 [vhosts.acme_challenge]
 enabled = true
@@ -3358,6 +3437,9 @@ Managed PHP-FPM validates `php_fpm_binary` at config load and again immediately
 before each supervised spawn. The binary path must be absolute, must not contain
 parent traversal, must not be or be below a symlink, must point directly to a
 regular file, and must not be below a group/world-writable parent directory.
+Adding or removing a managed vhost/route pool, or changing its process and
+supervision settings, is classified as a process-upgrade change. Request-time
+PHP routing, limits, FastCGI transport, and response policy remain snapshot-safe.
 
 For PHP actions, `max_request_body_bytes` bounds the request sent to php-fpm
 and `max_response_bytes` bounds the FastCGI STDOUT/STDERR bytes accepted from

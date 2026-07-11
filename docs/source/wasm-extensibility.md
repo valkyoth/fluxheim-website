@@ -16,10 +16,12 @@ Fluxheim `1.7.5` adds the first bounded symbolic cache-key component hook for
 low-cardinality cache variants plus fixed-ID cache-store TTL/tag/header
 metadata. Fluxheim `1.7.6` starts the mature-runtime hardening pass by giving
 compiled modules explicit cache identities scoped by plugin SHA-256 digest, ABI
-version, native feature surface, and Fluxheim version.
+version, native feature surface, and Fluxheim version. Fluxheim `1.7.7` adds
+the opt-in `wasm-proxy-abi` compatibility preview boundary with explicit
+host-call namespace validation and deterministic unsupported-call rejection.
 Direct backend choice, plugin-provided persistence keys, dynamic mirror/shadow
-target choice, richer store policy hooks, Proxy-ABI compatibility, and WASI
-capabilities remain staged for later `1.7.x` releases.
+target choice, richer store policy hooks, broader Proxy-ABI compatibility, and
+WASI capabilities remain staged for later `1.7.x` releases.
 
 Cargo features:
 
@@ -27,12 +29,12 @@ Cargo features:
 - `wasm-proxy-abi`
 - `wasm-wasi`
 
-Latest crate candidates checked on 2026-07-03:
+Latest crate candidates checked on 2026-07-10:
 
 - `wasmtime 46.0.1`
 - `wasmtime-wasi 46.0.1`
 - `proxy-wasm 0.2.4`
-- `wat 1.252.0`
+- `wat 1.253.0`
 
 WASM extensibility gives Fluxheim a sandboxed way to run operator-provided
 logic without compiling that logic into the Fluxheim binary. It should be
@@ -48,6 +50,35 @@ The end-of-line example and test requirements for F5 iRules-style policy,
 nginx Lua/OpenResty-style header policy, HAProxy Lua/SPOE-style routing and
 load-balancer policy, and VCL-like cache policy are tracked in
 [Wasm Policy Example Parity](wasm-policy-example-parity.md).
+
+## Proxy-ABI Compatibility Preview
+
+Fluxheim `1.7.7` reserves a separate `proxy-wasm-preview` ABI and host-call
+namespace for compatibility work. This path is intentionally opt-in:
+
+- the binary must be built with `wasm-proxy-abi`;
+- config must set `[wasm].allow_preview_abi = true`;
+- the plugin must declare `abi = "proxy-wasm-preview"`;
+- the plugin must declare `host_call_namespace = "proxy-wasm-preview"`.
+- the plugin may currently declare only the `access-decision` phase.
+
+The preview namespace does not mean arbitrary existing proxy-wasm plugins run
+unchanged. Unsupported preview host calls are rejected deterministically through
+the plugin fail mode, and security-decision plugins still fail closed. Fluxheim
+keeps this namespace separate from `fluxheim-policy-v1` so native policy hooks
+cannot accidentally bind to a future proxy-oriented compatibility surface.
+The `1.7.7` compatibility fixture imports the canonical proxy-wasm
+`env.proxy_log(i32, i32, i32) -> i32` function and verifies that invoking it is
+rejected before the origin is reached. This deliberately tests a real ABI shape
+without claiming logging or guest-memory access semantics that are not yet
+implemented.
+Imports that are not explicitly bound for the selected namespace are rejected
+before module instantiation. A plugin therefore cannot obtain a host capability
+by declaring an unexpected module or function name.
+Fluxheim also scopes phase-specific native host functions by namespace in the
+server. Preview plugins never receive `fluxheim_policy_v1` request-header,
+routing, or cache capabilities, even if a future construction path bypasses
+configuration validation.
 
 ## Design Goals
 
@@ -78,10 +109,10 @@ with the validated limits; production hook execution still starts later in the
 `1.7` line.
 
 Compiled modules carry a stable identity that includes the loaded plugin digest,
-the manifest ABI version, the native hook feature surface used to compile it,
-and the Fluxheim crate version. Any future compile cache must use that full
-identity as the cache key so module reuse cannot cross ABI, feature, or release
-boundaries.
+the manifest ABI version, the host-call namespace, the native hook feature
+surface used to compile it, and the Fluxheim crate version. Any future compile
+cache must use that full identity as the cache key so module reuse cannot cross
+ABI, namespace, feature, or release boundaries.
 
 The first useful policy-hook scope should cover the common extension cases
 without exposing request bodies or arbitrary I/O.
@@ -414,7 +445,20 @@ does not match.
 
 `wasm.max_total_concurrent_executions` caps total concurrent plugin executions
 across the whole process. Per-plugin and per-attachment admission budgets are
-still enforced inside that global ceiling.
+still enforced inside that global ceiling. Fluxheim acquires attachment,
+plugin, optional cache-vhost, and finally process-wide permits, so requests
+waiting on a narrow policy cannot reserve broader process capacity. Admission
+is implemented with Tokio semaphores and is complete before work is submitted
+to Tokio's blocking pool. `queue_limit = 0` rejects immediately at the
+configured concurrency limit; a positive value permits only that many async
+waiters and never enlarges the blocking-work queue. Active and queued budgets
+are each hard-capped at `256`. Immediately before blocking submission, Wasm
+also acquires Fluxheim's shared request-driven blocking-work budget. Wasm has a
+`96`-execution class ceiling beneath the `224` non-critical and `256` total
+ceilings, so it cannot starve external auth, disk-cache work, traffic mirrors,
+or the `32` slots reserved for critical ACME work. Runtime wall-time enforcement
+uses one process-wide shared epoch ticker rather than one OS watchdog thread per
+invocation.
 
 `wasm.max_total_cache_concurrent_executions` caps total concurrent
 `cache-lookup` and `cache-store` plugin executions across the whole process.

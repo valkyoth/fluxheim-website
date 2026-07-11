@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.7.6
+            Download v1.7.7
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.6</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.7</a>
       </div>
     </div>
   </nav>
@@ -117,6 +117,7 @@ default_vhost = "site"
 [[vhosts]]
 name = "site"
 hosts = ["example.com"]</code></pre>
+  <p>For multi-tenant deployments, enable <code>[server.host_routing].strict = true</code> so missing or invalid host identity returns <code>400</code> and unknown hosts return <code>421</code> instead of reaching the default site.</p>
 </section>
 <section class="guide-section">
   <h2>How config is organized</h2>
@@ -142,7 +143,7 @@ upstreams = ["127.0.0.1:3000"]</code></pre>
 </section>
 <section class="guide-section">
   <h2>Safe habits</h2>
-  <ul class="checks"><li>Run <code>fluxheim --check-config</code> before reloads.</li><li>Use one vhost per site or application boundary.</li><li>Keep secrets in files, environment, or container secrets, not in public docs.</li><li>Use route-level limits for uploads and expensive application paths.</li><li>Keep admin and metrics listeners private.</li></ul>
+  <ul class="checks"><li>Run <code>fluxheim --check-config</code> before reloads.</li><li>Use one vhost per site or application boundary.</li><li>Keep secrets in files, environment, or container secrets, not in public docs.</li><li>Keep config files and every existing parent directory under trusted ownership and not writable by group or other users.</li><li>Replace the process when TLS, listeners, streams, UDP, ACME, cache purging, tracing, or managed PHP-FPM process settings change; ordinary routing and request-time policy can use a snapshot reload.</li><li>Use route-level limits for uploads and expensive application paths.</li><li>Keep admin and metrics listeners private.</li></ul>
 </section>
 
       </div>

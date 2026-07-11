@@ -1,4 +1,10 @@
-latest = "1.7.6"
+latest = "1.7.7"
+
+[[release]]
+version = "1.7.7"
+date = "2026-07-10"
+title = "Proxy-Wasm ABI preview"
+summary = "Adds the first opt-in Proxy-Wasm ABI compatibility preview boundary with explicit ABI and host-call namespace validation, deterministic unsupported-call rejection, namespace-scoped compiled-module identities, strict host routing, bounded Wasm and external-auth admission, and broader config, cache, compression, GeoIP, and reload hardening."
 
 [[release]]
 version = "1.7.6"
