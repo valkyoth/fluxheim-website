@@ -147,7 +147,6 @@ observability_disable_env = "을 사용하면 같은 binary를 metrics 또는 tr
 native_proxy_cache_support = "기본 proxy-cache 지원"
 fluxheims_native_proxy_path_supports_memory_cache_filesystem_disk_cache_storage_bin_disk_cache_encrypted_disk_cache_openbao_transit_encryption_memory_disk_tiering_peer_fill_range_slice_caching_stale_serving_cache_locks_purge_operations_and_cache_metrics = "Fluxheim의 기본 프록시 경로는 메모리 캐시, 파일 시스템 디스크 캐시, storage-bin 디스크 캐시, 암호화된 디스크 캐시, OpenBao Transit 암호화, memory+disk 계층화, 피어 채우기, 범위 슬라이스 캐싱, 오래된 제공, 캐시 잠금, 제거 작업 및 캐시 측정항목을 지원합니다."
 unsupported_route_shapes_still_fail_closed_instead_of_silently_dropping_cache_policy_start_with_memory_cache_then_add_disk_encryption_or_peer_fill_only_when_the_origin_and_purge_workflow_are_already_understood = "지원되지 않는 경로 형태는 캐시 정책을 자동으로 삭제하는 대신 페일클로즈됩니다. 메모리 캐시로 시작한 다음 원본 및 제거 작업 흐름을 이미 이해한 경우에만 디스크, 암호화 또는 피어 채우기를 추가하세요."
-
 version_1_6_37_is_the_final_pre_wasm_crate_boundary_cleanup_acme_observability_cache_load_balancer_php_fpm_and_native_runtime_internals_move_into_smaller_crate_owned_modules_while_runtime_behavior_stays_stable = "버전 1.6.37은 Wasm 전 마지막 crate 경계 정리입니다. ACME, observability, cache, load-balancer, PHP-FPM, native runtime 내부를 각 crate가 소유하는 더 작은 모듈로 옮기면서 runtime 동작은 안정적으로 유지합니다."
 
 version_1_6_37_keeps_the_local_observability_smoke_more_reliable_by_retrying_disposable_prometheus_and_jaeger_startup_with_freshly_allocated_ports_when_host_network_ports_race_with_other_runner_processes = "버전 1.6.37은 host-network 포트가 다른 runner 프로세스와 경쟁할 때 새로 할당한 포트로 Prometheus와 Jaeger 임시 시작을 재시도하여 로컬 observability smoke를 더 안정적으로 만듭니다."
@@ -167,13 +166,13 @@ abi_phase_fail_mode_path_and_sandbox_limits_are_validated_before_loading = "ABI,
 deterministic_attachments = "결정적 attachments"
 fail_closed_access_decisions = "fail-closed 접근 결정"
 [docs_expanded]
+fluxheim_1_7_2_keeps_wasm_optional_and_adds_the_first_bounded_native_http_1_request_header_and_response_header_hook_family_plugins_can_make_approved_synthetic_policy_changes_but_they_still_do_not_receive_raw_headers_bodies_filesystem_access_network_access_private_keys_or_admin_apis = "Fluxheim 1.7.2는 Wasm을 계속 선택 기능으로 두면서 native HTTP/1 request-header와 response-header를 위한 첫 번째 bounded hook 계열을 추가합니다. 플러그인은 승인된 합성 policy 변경을 수행할 수 있지만 raw header, body, 파일시스템 접근, 네트워크 접근, 개인 키, admin API는 여전히 받지 않습니다."
 pingora_free_normal_builds = "Pingora 없는 일반 빌드"
 starting_with_1_6_34_normal_fluxheim_release_profiles_use_the_fluxheim_owned_native_runtime_and_no_longer_compile_pingora_crates = "1.6.34부터 일반 Fluxheim 릴리스 프로파일은 Fluxheim 소유 네이티브 runtime을 사용하며 더 이상 Pingora crate를 컴파일하지 않습니다."
 unsupported_native_runtime_shapes_still_fail_closed_with_explicit_blockers_instead_of_falling_back_to_legacy_adapters = "지원되지 않는 네이티브 runtime 형태는 레거시 어댑터로 되돌아가지 않고 명시적 blocker와 함께 fail-closed 됩니다."
 for_non_loopback_plaintext_peer_fill_urls_configure_cache_peer_fill_shared_secret_file_so_peer_responses_are_signed_before_they_can_be_stored = "non-loopback plaintext peer-fill URL에서는 peer response가 저장되기 전에 서명되도록 <code>cache.peer_fill.shared_secret_file</code>을 설정합니다."
-version_1_6_36_removes_more_temporary_compatibility_code_the_native_proxy_boundary_now_uses_direct_crate_owned_apis_and_dead_pingora_era_root_adapters_are_gone_from_normal_source_paths = "1.6.36 구조 정리입니다. native proxy 정리, crate 소유 API, Pingora 시대 잔여 코드 제거, 결정적인 observability 이미지, HTTP/1 chunked 회귀 테스트를 포함합니다."
-version_1_6_36_pins_the_prometheus_and_jaeger_smoke_test_images_to_stable_tags_so_local_and_ci_observability_checks_pull_deterministic_containers = "1.6.36 구조 정리입니다. native proxy 정리, crate 소유 API, Pingora 시대 잔여 코드 제거, 결정적인 observability 이미지, HTTP/1 chunked 회귀 테스트를 포함합니다."
-fluxheim_1_7_2_keeps_wasm_optional_and_adds_the_first_bounded_native_http_1_request_header_and_response_header_hook_family_plugins_can_make_approved_synthetic_policy_changes_but_they_still_do_not_receive_raw_headers_bodies_filesystem_access_network_access_private_keys_or_admin_apis = "Fluxheim 1.7.2는 Wasm을 계속 선택 기능으로 두면서 native HTTP/1 request-header와 response-header를 위한 첫 번째 bounded hook 계열을 추가합니다. 플러그인은 승인된 합성 policy 변경을 수행할 수 있지만 raw header, body, 파일시스템 접근, 네트워크 접근, 개인 키, admin API는 여전히 받지 않습니다."
+version_1_6_36_removes_more_temporary_compatibility_code_the_native_proxy_boundary_now_uses_direct_crate_owned_apis_and_dead_pingora_era_root_adapters_are_gone_from_normal_source_paths = "버전 1.6.36은 임시 호환성 코드를 더 제거합니다. native proxy 경계는 크레이트가 직접 소유하는 API를 사용하며, 사용되지 않는 Pingora 시절의 루트 어댑터는 일반 소스 경로에서 제거되었습니다."
+version_1_6_36_pins_the_prometheus_and_jaeger_smoke_test_images_to_stable_tags_so_local_and_ci_observability_checks_pull_deterministic_containers = "버전 1.6.36은 Prometheus와 Jaeger 스모크 테스트 이미지를 안정 태그로 고정하여 로컬 및 CI 관측성 검사에서 항상 재현 가능한 컨테이너를 가져오도록 합니다."
 access_decisions = "접근 결정"
 header_hooks = "Header hook"
 admission_limits = "Admission limit"

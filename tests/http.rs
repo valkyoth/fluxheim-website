@@ -522,7 +522,9 @@ async fn deployment_uses_page_specific_translations() {
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains("Rootless Podman"));
     assert!(de_body.contains("Produktions-Checkliste"));
-    assert!(de_body.contains("jedem Storage-Bin-Replikat ein eigenes lokales oder RWO-Volume"));
+    assert!(
+        de_body.contains("jedem Storage-Bin-Replikat einen eigenen lokalen oder RWO-Datenträger")
+    );
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/deployment").await;
     assert_eq!(fr_status, StatusCode::OK);
