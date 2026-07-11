@@ -69,4 +69,5 @@ metric labels bounded while preserving published historical releases.
 
 Container image references include both immutable digests and readable version
 tags. Refresh both together after verifying the upstream release and rerunning
-the container smoke tests.
+the container smoke tests. The pinned Wolfi runtime already provides the CA
+bundle, so the image build performs no mutable package-repository install.
