@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 set -eu
 
-cargo +1.96.1 fmt --all --check
-cargo +1.96.1 clippy --all-targets -- -D warnings
-cargo +1.96.1 test
+cargo +1.97.0 fmt --all --check
+cargo +1.97.0 clippy --all-targets -- -D warnings
+cargo +1.97.0 test
 scripts/cargo_binary_path.py --self-test
 scripts/measure_startup_memory.py --self-test
 scripts/check_startup_memory.sh

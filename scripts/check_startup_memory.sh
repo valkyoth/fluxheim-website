@@ -4,7 +4,7 @@ set -eu
 limit_kib="${FLUXHEIM_STARTUP_RSS_LIMIT_KIB:-262144}"
 
 binary="$(
-  cargo +1.96.1 build \
+  cargo +1.97.0 build \
     --release \
     --locked \
     --message-format=json-render-diagnostics |

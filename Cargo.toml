@@ -2,7 +2,7 @@
 name = "fluxheim-website"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.96.1"
+rust-version = "1.97.0"
 license = "EUPL-1.2"
 publish = false
 description = "Localized Rust website for Fluxheim."
