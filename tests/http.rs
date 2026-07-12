@@ -584,19 +584,19 @@ async fn advanced_uses_page_specific_translations() {
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains("Zukünftige Module"));
     assert!(de_body.contains("WASM-Erweiterungen"));
-    assert!(de_body.contains("ausführbare Migrationsbeispiele"));
+    assert!(de_body.contains("sofort einsatzbereite Migrationsbeispiele"));
     assert!(de_body.contains("Migrationsbeispiele"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/advanced").await;
     assert_eq!(fr_status, StatusCode::OK);
     assert!(fr_body.contains("Modules futurs"));
     assert!(fr_body.contains("Extensions WASM"));
-    assert!(fr_body.contains("exemples de migration exécutables"));
+    assert!(fr_body.contains("exemples de migration prêts à l'emploi"));
 
     let (ja_status, _headers, ja_body) = request("/ja/docs/advanced").await;
     assert_eq!(ja_status, StatusCode::OK);
-    assert!(ja_body.contains("実行可能な移行サンプル"));
-    assert!(ja_body.contains("ダイジェスト固定された Wasm モジュール"));
+    assert!(ja_body.contains("すぐに試せる移行例"));
+    assert!(ja_body.contains("暗号学的ダイジェストに固定した Wasm モジュール"));
 }
 
 #[tokio::test]

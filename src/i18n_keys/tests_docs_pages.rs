@@ -34,7 +34,7 @@ fn applies_expanded_docs_keys_only_to_docs_pages() {
         format!(r#"<a class="sidebar-link">Start</a><p>{paragraph}</p><p>{strict_host}</p>"#);
 
     let docs_html = apply_shared_keys(de, docs, "1.7.9");
-    assert!(docs_html.contains("ausführbare Migrationsbeispiele"));
+    assert!(docs_html.contains("sofort einsatzbereite Migrationsbeispiele"));
     assert!(docs_html.contains("mandantenfähigen Bereitstellungen"));
     assert!(docs_html.contains("<code>[server.host_routing].strict = true</code>"));
 
