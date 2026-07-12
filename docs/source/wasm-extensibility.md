@@ -19,9 +19,11 @@ compiled modules explicit cache identities scoped by plugin SHA-256 digest, ABI
 version, native feature surface, and Fluxheim version. Fluxheim `1.7.7` adds
 the opt-in `wasm-proxy-abi` compatibility preview boundary with explicit
 host-call namespace validation and deterministic unsupported-call rejection.
+Fluxheim `1.7.8` starts the opt-in WASI Preview 1 capability boundary with
+independent clock and randomness grants and fail-closed import filtering.
 Direct backend choice, plugin-provided persistence keys, dynamic mirror/shadow
-target choice, richer store policy hooks, broader Proxy-ABI compatibility, and
-WASI capabilities remain staged for later `1.7.x` releases.
+target choice, richer store policy hooks, and broader Proxy-ABI/WASI capability
+coverage remain staged for later `1.7.x` releases.
 
 Cargo features:
 
@@ -29,7 +31,7 @@ Cargo features:
 - `wasm-proxy-abi`
 - `wasm-wasi`
 
-Latest crate candidates checked on 2026-07-10:
+Latest crate candidates checked on 2026-07-11:
 
 - `wasmtime 46.0.1`
 - `wasmtime-wasi 46.0.1`
@@ -80,6 +82,39 @@ server. Preview plugins never receive `fluxheim_policy_v1` request-header,
 routing, or cache capabilities, even if a future construction path bypasses
 configuration validation.
 
+## WASI Capability Preview
+
+Fluxheim `1.7.8` supports WASI Preview 1 core-module imports only when the
+binary is built with `wasm-wasi`, `[wasm].allow_preview_abi = true`, and the
+plugin declares both `abi = "wasi-preview"` and
+`host_call_namespace = "wasi-preview"`. The initial namespace is restricted to
+`access-decision` and does not expose request bodies or Fluxheim's native
+policy host calls.
+
+The default capability set is empty. `[wasm.plugins.wasi] clocks = true` grants
+only `clock_res_get` and `clock_time_get`; `randomness = true` grants only
+`random_get`. Fluxheim validates every declared WASI import before
+instantiation, then builds a fresh per-execution WASI context without inherited
+arguments, environment, stdio, directories, sockets, or process state.
+Each granted randomness call is capped at 4096 bytes so guest-selected host
+work cannot scale to the full memory limit in one call; larger requests trap.
+Environment, filesystem, network, polling, stdio, and process-exit imports are
+therefore rejected even though the underlying Wasmtime WASI implementation can
+provide broader interfaces to less constrained embedders.
+
+The clock grant exposes Wasmtime's full-resolution host wall and monotonic
+clocks. Do not grant it to untrusted multi-tenant plugins running alongside
+secret-dependent computation in the same process. Fluxheim currently exposes
+no native policy host functions to the WASI namespace, which limits the
+present side-channel surface, but the grant remains an explicit operator
+tradeoff.
+
+Capability grants are included in compiled-module identity equality so a
+module prepared for an empty capability set cannot be reused as one prepared
+for clocks or randomness. Normal module digest pinning, fuel, memory, table,
+wall-time, admission, blocking-work, metrics, and fail-closed access-decision
+rules continue to apply.
+
 ## Design Goals
 
 - Keep WASM runtime code out of default builds.
@@ -107,6 +142,28 @@ ABI, phase, fail-mode, and per-plugin sandbox limits. The manifest-backed
 loader validates the manifest and then loads the exact approved plugin path
 with the validated limits; production hook execution still starts later in the
 `1.7` line.
+
+The runtime crate enforces hard ceilings even when it is called without the
+configuration layer: modules are capped at 16 MiB, linear memory at 256 MiB,
+tables at 100000 elements, fuel at 100000000, execution timeout at 5 seconds,
+and compilation timeout at 10 seconds. Normal defaults remain substantially
+lower. Admission values are also checked against Tokio's semaphore capacity
+before semaphore construction, and execution deadlines use checked arithmetic.
+
+Native host callbacks execute synchronously while Wasmtime is inside native
+Rust and therefore cannot be forcibly preempted by epoch interruption. Every
+current Fluxheim callback is a finite, panic-free in-memory operation that is
+total over every possible guest `i32` input. Callback implementations use
+explicit matching, checked arithmetic, bounds-checked access, and fallible lock
+handling; property tests exercise arbitrary guest IDs. Callbacks that perform
+filesystem/network I/O, IPC, sleeps, assertion-based operations, unchecked
+indexing/arithmetic, or potentially contended waits are prohibited. Fluxheim
+checks the absolute execution deadline before and after each callback, so a
+late result fails as a timeout. A callback that never returns or panics still
+cannot be isolated safely inside an abort-on-panic process. Before Fluxheim adds
+any blocking or third-party native host callback, that capability requires a
+killable subprocess runner with bounded IPC; thread-based timeout wrappers and
+`catch_unwind` are not acceptable substitutes.
 
 Compiled modules carry a stable identity that includes the loaded plugin digest,
 the manifest ABI version, the host-call namespace, the native hook feature
@@ -363,6 +420,12 @@ This keeps a hot cacheable route with `cache-lookup` or `cache-store` hooks
 from starving access-decision, route-decision, and header hooks on unrelated
 vhosts.
 
+Preview access-decision hooks are isolated through
+`wasm.max_total_preview_concurrent_executions`, defaulting to and capped at
+`32`, plus a separate 32-slot blocking-work class. Both `wasi-preview` and
+`proxy-wasm-preview` use this pool, so preview plugins cannot consume the
+native `fluxheim-policy-v1` admission or blocking capacity.
+
 ## Security Requirements
 
 - Disabled by default at compile time and runtime.
@@ -380,6 +443,10 @@ vhosts.
 - Host calls must never expose admin tokens, ACME/EAB secrets, private keys,
   authorization headers, cookies, raw request bodies, or filesystem paths unless
   explicitly allowed and redacted.
+- Host callbacks must remain finite, non-blocking, panic-free, and total for all
+  guest integers. Adding I/O, IPC, sleeps, contended waits, unchecked
+  indexing/arithmetic, assertion-based operations, or third-party native code
+  requires process isolation rather than an in-process callback timeout.
 - Plugins must not control routing destinations or upstream TLS verification
   directly. Cache-key influence is allowed only through constrained typed hook
   outputs that Fluxheim validates, bounds, and records.
@@ -395,6 +462,7 @@ vhosts.
 enabled = true
 plugin_roots = ["/etc/fluxheim/plugins"]
 max_total_concurrent_executions = 256
+max_total_preview_concurrent_executions = 32
 max_total_cache_concurrent_executions = 256
 
 [[wasm.plugins]]

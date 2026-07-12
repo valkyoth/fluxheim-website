@@ -70,6 +70,12 @@ TOML files. Configured filesystem paths are also rejected when any existing path
 component is a symlink; missing final directories may still be created by the
 owning runtime module, but never through a symlinked prefix.
 
+Rootless Podman deployments must ensure bind-mounted config ownership maps to
+the image runtime UID/GID `65532:65532`; host-user or host-root ownership can
+appear as an unrelated UID inside the user namespace even on a read-only mount.
+See [Rootless Config Ownership](build-and-podman.md#rootless-config-ownership)
+for explicit `podman unshare chown`, permission, `:U`, and verification steps.
+
 ## Server
 
 `[server]` controls listeners, default vhost selection, trusted proxies, and
@@ -223,15 +229,21 @@ upstream_dns_allow_private_addresses = false
 - Configure either `upstream = "host:port"` or `upstreams = ["host:port", ...]`.
   Multiple upstreams use stream-local round-robin selection by default.
 - `upstream_weights` optionally enables weighted stream selection and must have
-  one positive value for each `upstreams` entry. `upstream_aliases` optionally
-  assigns safe low-cardinality names for stream logs and future metrics.
+  one value from 1 through 1000 for each `upstreams` entry; the aggregate must
+  not exceed 65535. Config validation and the runtime selector both enforce
+  these limits with checked accumulation. `upstream_aliases` optionally assigns
+  safe low-cardinality names for stream logs and future metrics.
 - `backup_upstreams` and `drain_upstreams` are optional subsets of
   `upstreams`. Drained stream upstreams do not receive new connections. Backup
   stream upstreams are not selected while a primary is available, but are tried
   as connect-fallback candidates before the downstream stream starts copying.
 - `connect_timeout_secs` bounds DNS/connect setup and defaults to `5`.
 - `idle_timeout_secs` is a true stream idle timer and defaults to `300`. The
-  timer resets whenever either direction transfers bytes.
+  timer resets whenever either direction transfers bytes. Both copy directions
+  retain their read/write state across dispatcher polls, so simultaneous
+  backpressured traffic cannot cancel a partial write. Forwarded plaintext is
+  cleared from the 16 KiB direction buffer immediately, and the complete buffer
+  is cleared when the direction exits.
 - `max_connection_secs` is optional and bounds total accepted stream lifetime
   when set. Leave it unset for no wall-clock lifetime cap.
 - `max_connection_bytes` is optional and caps copied bytes per direction for a
@@ -260,7 +272,8 @@ upstream_dns_allow_private_addresses = false
   Hostname upstreams are resolved on connection setup. By default, Fluxheim
   rejects hostname DNS answers that resolve only to private, loopback,
   link-local, multicast, broadcast, documentation, or unspecified addresses to
-  reduce DNS-rebinding pivots. Set
+  reduce DNS-rebinding pivots. IPv4-mapped and legacy IPv4-compatible IPv6
+  answers are normalized and evaluated by the IPv4 policy before selection. Set
   `upstream_dns_allow_private_addresses = true` only for routes whose hostname
   upstreams are intentionally resolved by trusted internal DNS. IP-literal
   upstreams remain explicit and are not blocked by this DNS guard.
@@ -387,6 +400,7 @@ require_loopback = true
 token_env = "FLUXHEIM_ADMIN_TOKEN"
 token_file = "/run/secrets/fluxheim-admin-token"
 snapshot_store = "/var/lib/fluxheim/snapshots"
+snapshot_integrity_key_file = "/etc/fluxheim/snapshot-integrity.key"
 
 [admin.transport]
 mode = "local_only"
@@ -425,8 +439,15 @@ max_error_rate_per_mille = 100
 ```
 
 If `admin.enabled = true`, configure `token_env` or `token_file`. Snapshot and
-rollback endpoints also require `snapshot_store`. `token_file` and
-`snapshot_store` must not contain parent traversal, must not sit below a
+rollback endpoints also require `snapshot_store`.
+`snapshot_integrity_key_file` is optional; when set, snapshot creation writes
+HMAC-SHA-256 manifests and rollback requires a valid manifest. Keep the key
+outside the store in a private regular file containing 32..=4096 bytes. On
+Unix, the key and every snapshot state file must have no group or other access
+bits; Fluxheim rejects them otherwise. Snapshot HMAC and SHA-256 operations use
+the selected Ring, OpenSSL-FIPS, or AWS-LC-FIPS internal crypto provider.
+`token_file`, `snapshot_store`, and the integrity key path must not contain
+parent traversal, must not sit below a
 symlinked parent directory, and on Unix must not use a group- or world-writable
 existing parent such as `/tmp`. The snapshot store runtime applies the same rule when it
 is used directly by CLI/admin paths.
@@ -595,7 +616,8 @@ Successful and rejected weight operations are counted as `member_weight`,
 When compiled with `wasm`, `GET /_fluxheim/status` includes a read-only `wasm`
 object for the validation-stage plugin registry. It reports whether `[wasm]` is
 enabled, whether preview ABIs are allowed, plugin root/plugin/attachment counts,
-the process-wide `max_total_concurrent_executions` ceiling, the cache-specific
+the process-wide `max_total_concurrent_executions` ceiling, the preview-specific
+`max_total_preview_concurrent_executions` ceiling, the cache-specific
 `max_total_cache_concurrent_executions` ceiling, plugin names, plugin paths,
 configured expected SHA-256 digests, declared ABI and host-call namespace,
 phases, fail mode, attachment priority, and whether each plugin or attachment
@@ -604,6 +626,11 @@ added by later `1.7.x` hook releases. All Wasm active-execution and queued
 admission values are bounded to `0..=256`, with active limits required to be
 non-zero. Runtime acquisition proceeds from attachment and plugin scopes toward
 the process-wide scope so a narrow backlog cannot consume global permits.
+Sandbox limits also have crate-enforced ceilings: `max_module_bytes` is at most
+16 MiB, `max_memory_bytes` at most 256 MiB, `max_table_elements` at most
+100000, `fuel` at most 100000000, `timeout_ms` at most 5000, and
+`compile_timeout_ms` at most 10000. These are hard safety ceilings, not
+recommended defaults.
 `1.7.1` enables the first live
 native HTTP/1 request-path hook family: `access-decision`. The current preview
 ABI calls `fluxheim_access_decision() -> i32`, where `0` continues the chain,
@@ -678,6 +705,7 @@ the plugin fail mode.
 [wasm]
 enabled = true
 allow_preview_abi = true
+max_total_preview_concurrent_executions = 16
 
 [[wasm.plugins]]
 name = "proxy_preview"
@@ -686,6 +714,48 @@ abi = "proxy-wasm-preview"
 host_call_namespace = "proxy-wasm-preview"
 phases = ["access-decision"]
 ```
+
+`1.7.8` adds the separate opt-in `wasm-wasi` capability preview for WASI
+Preview 1 core modules. The binary must be built with `wasm-wasi`, preview ABIs
+must be allowed, and the ABI/namespace pair must both be `wasi-preview`.
+Capabilities default to false and are part of the compiled-module identity.
+Only clock and randomness imports are currently reviewable grants:
+
+```toml
+[wasm]
+enabled = true
+allow_preview_abi = true
+
+[[wasm.plugins]]
+name = "wasi_random_policy"
+path = "/etc/fluxheim/plugins/wasi-random-policy.wasm"
+sha256 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+abi = "wasi-preview"
+host_call_namespace = "wasi-preview"
+phases = ["access-decision"]
+fail_mode = "fail-closed"
+
+[wasm.plugins.wasi]
+clocks = false
+randomness = true
+```
+
+Fluxheim checks every declared `wasi_snapshot_preview1` import before module
+instantiation. `clock_res_get` and `clock_time_get` require `clocks = true`;
+`random_get` requires `randomness = true`. Environment and arguments,
+inherited stdin/stdout/stderr, filesystem descriptors and paths,
+sockets/network, polling, and process-exit imports are not configurable in this
+preview and fail closed. WASI plugins currently support only
+`access-decision`, do not receive request bodies, and remain subject to the
+normal Wasm digest pin, fuel, memory, table, timeout, admission, and fail-mode
+controls. Each `random_get` call is capped at 4096 bytes; a larger request
+traps and follows the plugin fail mode.
+
+Preview-namespace access decisions use a separate process-wide admission pool
+configured by `wasm.max_total_preview_concurrent_executions` (default and hard
+maximum `32`) and a separate 32-slot blocking-work class. `wasi-preview` and
+`proxy-wasm-preview` therefore cannot consume the native
+`fluxheim-policy-v1` admission or blocking-work capacity.
 
 Authenticated admins can fetch only load-balancer runtime state without parsing
 the full `/_fluxheim/status` payload:
@@ -2698,6 +2768,12 @@ policy, curve preferences, and cipher suite allow-list. BoringSSL and s2n are
 not part of the supported TLS matrix because their Fluxheim integrations did
 not provide the same complete policy, SNI, upstream TLS, and client-auth
 coverage.
+The allow-list is deterministic across protocol families: when an explicit or
+profile-derived list has no TLS 1.2 suites, TLS 1.2 is disabled; when it has no
+TLS 1.3 suites, TLS 1.3 is disabled. OpenSSL does not retain provider defaults
+for an omitted protocol family and starts from the current Mozilla v5 acceptor
+baseline rather than the legacy v4 template that disabled TLS 1.3. Release
+tests perform real handshakes against both one-family policy shapes.
 Explicit `curve_preferences` are capped at 16 entries, and explicit
 `cipher_suites` are capped at 32 entries.
 
@@ -2727,6 +2803,15 @@ backends use their native certificate callback APIs. TLS backends without SNI
 certificate selection support reject vhost-specific certificates at startup
 instead of silently serving the default certificate.
 The global `[[tls.certificates]]` table is capped at 1024 certificate pairs.
+Each loaded certificate-chain file is capped at 1 MiB and 16 certificates, and
+each private-key file is capped at 64 KiB. Fluxheim reads these inputs through
+one retained file descriptor and rejects growth beyond the admitted size.
+Private-key PEM buffers use `sanitization::SecretVec`; the rustls path also
+protects the transient decoded DER allocation until the selected crypto
+provider has constructed its signing key. Partial file reads and growth-race
+rejections remain inside clear-on-drop storage. Rustls PEM payloads use staged
+constant-time-oriented Base64 decoding, and parse errors expose only a redacted
+error class rather than an input byte or position.
 
 Downstream client certificate authentication is configured globally for TLS
 listeners:
@@ -2744,6 +2829,9 @@ bundle path uses the same safe-path validation as other TLS files: no
 parent-directory traversal, no symlinked path components, and no group- or
 world-writable existing parent directory. The supported TLS matrix wires rustls
 and OpenSSL listeners only.
+Client-auth CA bundles are capped at 8 MiB and 4096 certificates. Oversized or
+over-count bundles fail listener construction instead of consuming unbounded
+memory during startup or certificate reload.
 Verified client-certificate identity can be forwarded explicitly with
 request header templates such as `{tls.client_cert_sha256}`. Route decisions
 based on certificate identity remain future work; do not rely on client-cert
@@ -3109,19 +3197,27 @@ path = "/var/lib/fluxheim/geo/circl-country.mmdb"
 
 `provider = "maxmind"` covers MaxMind GeoIP2/GeoLite2 MMDB files.
 `provider = "circl-geo-open"` covers European CIRCL Geo Open datasets when
-supplied in MMDB-compatible form. Databases are ordered local fallbacks when
-`fallback_enabled = true`; Fluxheim fills missing country or ASN fields from
-later databases when possible.
+supplied in MMDB-compatible form. CIRCL's country-only database supplies the
+standard `country.iso_code` field. Its combined Country and ASN database stores
+the ASN as the string field `country.AutonomousSystemNumber`; the explicit
+`circl-geo-open` provider enables the bounded decoder for that schema. Databases
+are ordered local fallbacks when `fallback_enabled = true`; Fluxheim fills
+missing country or ASN fields from later databases when possible. The pinned
+real-database setup and opt-in static/proxy/load-balancer proof are documented
+in [`docs/geoip.md`](geoip.md).
 Fluxheim does not download GeoIP databases in-process. Each MMDB file is capped
 at 512 MiB, each loaded GeoIP runtime is capped at 1 GiB total, and at most
 eight databases are accepted. Aggregate capacity is checked from the verified
-open descriptor before its contents are allocated, read, or parsed. Paths must
-be absolute and symlink-free; the file and every parent directory must be owned
-by root, the effective service user, or the platform root-equivalent owner and
-must not be group- or world-writable. Fluxheim rejects descriptor identity or
-metadata changes during loading. GeoIP update jobs should prepare and verify a
-replacement under a trusted directory, apply safe ownership and modes, then
-atomically rename it into place before reloading Fluxheim.
+open descriptor before its contents are allocated, read, or parsed. The loader
+allocates exactly the admitted length, reads it completely, then probes for one
+extra byte separately so concurrent file growth cannot amplify the heap
+allocation. Paths must be absolute and symlink-free; the file and every parent
+directory must be owned by root, the effective service user, or the platform
+root-equivalent owner and must not be group- or world-writable. Fluxheim rejects
+shortened, grown, descriptor-identity-changed, or metadata-changed databases
+during loading. GeoIP update jobs should prepare and verify a replacement under
+a trusted directory, apply safe ownership and modes, then atomically rename it
+into place before reloading Fluxheim.
 
 Vhost and route access policies can then use:
 
@@ -3134,8 +3230,10 @@ deny_asns = [64512]
 ```
 
 Country values must be uppercase ISO alpha-2 codes. ASN values are numeric and
-must be greater than zero. Geo allow lists fail closed when no Geo-Context is
-available; Geo deny lists deny only on a resolved match. See
+must be greater than zero. The Geo-Context API also validates these invariants
+and canonicalizes valid country values before they can reach policy. Geo allow
+lists fail closed when no Geo-Context is available; Geo deny lists deny only on
+a resolved match. See
 [`docs/geoip.md`](geoip.md) for the feature boundary and operational update
 pattern.
 
@@ -3435,8 +3533,12 @@ to gRPC.
 
 Managed PHP-FPM validates `php_fpm_binary` at config load and again immediately
 before each supervised spawn. The binary path must be absolute, must not contain
-parent traversal, must not be or be below a symlink, must point directly to a
-regular file, and must not be below a group/world-writable parent directory.
+parent traversal, must not be or be below a symlink, must point directly to an
+executable regular file owned by root or the Fluxheim service user, and must
+not be group/world writable or below an untrusted or group/world-writable
+ancestor. Fluxheim opens and validates the executable once, retains that
+descriptor through spawn, supplies a fixed minimal `PATH`, and runs the managed
+master and workers in a dedicated process group for group-wide shutdown.
 Adding or removing a managed vhost/route pool, or changing its process and
 supervision settings, is classified as a process-upgrade change. Request-time
 PHP routing, limits, FastCGI transport, and response policy remain snapshot-safe.
@@ -3450,12 +3552,21 @@ responses held at once. Set `php.request_body_spool_threshold_bytes` with
 `php.request_body_spool_dir` to spill larger request bodies to an owner-safe
 temporary file before php-fpm dispatch. This keeps `CONTENT_LENGTH` exact for
 FastCGI and lets retries replay the same upload without cloning a large memory
-buffer; both spool settings must be configured together, and the spool file is
-removed when the request completes. When `php.max_request_body_bytes` is set on
-the same PHP action, the spool threshold must be lower than that body limit.
-Existing spool paths must be directories, and existing directories must not be
-group/world writable. Fluxheim rechecks those permissions after creating a
-missing spool directory and before writing upload bodies.
+buffer; both spool settings must be configured together. On Unix, the securely
+created spool entry is unlinked immediately and Fluxheim retains its open file
+descriptor for request and retry readers, preventing a crash from leaving a
+named plaintext upload behind. Overlapping readers use independent logical
+offsets with bounded positional disk reads, so one reader cannot reset or
+consume another reader's body position. Fluxheim keeps memory bodies and each
+bounded positional-read buffer in `sanitization::SecretVec`, clears consumed
+buffers immediately, and clears their full allocation capacity on cancellation,
+error, or drop. This does not guarantee raw-media erasure; use encrypted storage
+or tmpfs when storage remanence is in scope. When
+`php.max_request_body_bytes` is set on the same PHP action, the spool threshold
+must be lower than that body limit. Existing spool paths must be directories,
+and existing directories must not be group/world writable. Fluxheim rechecks
+those permissions after creating a missing spool directory and before writing
+upload bodies.
 `php.fpm_root` optionally rewrites `DOCUMENT_ROOT`,
 `SCRIPT_FILENAME`, and `PATH_TRANSLATED` for separate php-fpm container
 filesystem roots while Fluxheim still checks scripts under `php.root`.
@@ -3491,10 +3602,11 @@ that expect safe trailing `PATH_INFO` after an explicit PHP script such as
 `split`.
 `php.fpm.connect_timeout_secs` caps connecting to php-fpm and is also bounded
 by `php.request_timeout_secs`. `read_timeout_secs` and `write_timeout_secs`
-currently act as stricter caps on the buffered FastCGI request phase; the
+currently contribute to one stricter absolute FastCGI request deadline; the
 shortest of `php.request_timeout_secs`, `php.fpm.read_timeout_secs`, and
-`php.fpm.write_timeout_secs` is used until the future streaming FastCGI path
-can enforce separate per-direction timeouts.
+`php.fpm.write_timeout_secs` covers request transmission and complete response
+collection. A timed-out keepalive connection is discarded because its FastCGI
+protocol state is no longer reusable.
 `php.pass_request_headers` controls whether safe inbound request headers are
 translated to CGI `HTTP_*` params. `php.server_port` can override CGI
 `SERVER_PORT`; when omitted, Fluxheim uses an explicit port from the request

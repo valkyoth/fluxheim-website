@@ -1,4 +1,10 @@
-latest = "1.7.7"
+latest = "1.7.8"
+
+[[release]]
+version = "1.7.8"
+date = "2026-07-11"
+title = "WASI capability preview"
+summary = "Starts the opt-in WASI Preview 1 capability boundary with independent clock and randomness grants, fail-closed import filtering, separate preview admission, trusted-client GeoIP restoration, authenticated snapshot history, and broad stream, TLS, PHP-FPM, static-serving, and Wasm resource hardening."
 
 [[release]]
 version = "1.7.7"

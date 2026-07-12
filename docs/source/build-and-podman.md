@@ -473,15 +473,15 @@ Optional Quay repository secrets and variables:
 
 The workflow publishes OS-variant tags for the full/default image profile:
 
-- `v1.7.7-wolfi`, `v1.7.7-alpine`, `v1.7.7-suse-micro`, `v1.7.7-debian`
+- `v1.7.8-wolfi`, `v1.7.8-alpine`, `v1.7.8-suse-micro`, `v1.7.8-debian`
 - `sha-<short-sha>-wolfi`, `sha-<short-sha>-alpine`, etc.
 - `latest-wolfi`, `latest-alpine`, etc. when run from the default branch
 
 For the recommended Wolfi runtime, the full/default profile also gets short
 aliases:
 
-- `v1.7.7`
-- `v1.7.7-base`
+- `v1.7.8`
+- `v1.7.8-base`
 - `latest`
 - `latest-base`
 
@@ -490,21 +490,21 @@ automation. They point at the full/default image profile.
 
 The focused image profiles publish tags with a profile segment:
 
-- `v1.7.7-cache-wolfi`, `v1.7.7-cache-alpine`,
-  `v1.7.7-cache-suse-micro`, `v1.7.7-cache-debian`
-- `v1.7.7-proxy-wolfi`, `v1.7.7-proxy-alpine`,
-  `v1.7.7-proxy-suse-micro`, `v1.7.7-proxy-debian`
-- `v1.7.7-load-balancer-wolfi`, `v1.7.7-load-balancer-alpine`,
-  `v1.7.7-load-balancer-suse-micro`, `v1.7.7-load-balancer-debian`
-- `v1.7.7-php-wolfi`, `v1.7.7-php-alpine`,
-  `v1.7.7-php-suse-micro`, `v1.7.7-php-debian`
+- `v1.7.8-cache-wolfi`, `v1.7.8-cache-alpine`,
+  `v1.7.8-cache-suse-micro`, `v1.7.8-cache-debian`
+- `v1.7.8-proxy-wolfi`, `v1.7.8-proxy-alpine`,
+  `v1.7.8-proxy-suse-micro`, `v1.7.8-proxy-debian`
+- `v1.7.8-load-balancer-wolfi`, `v1.7.8-load-balancer-alpine`,
+  `v1.7.8-load-balancer-suse-micro`, `v1.7.8-load-balancer-debian`
+- `v1.7.8-php-wolfi`, `v1.7.8-php-alpine`,
+  `v1.7.8-php-suse-micro`, `v1.7.8-php-debian`
 - `sha-<short-sha>-cache-wolfi`, `sha-<short-sha>-proxy-wolfi`,
   `sha-<short-sha>-load-balancer-wolfi`, `sha-<short-sha>-php-wolfi`, etc.
 - `latest-cache-wolfi`, `latest-proxy-wolfi`,
   `latest-load-balancer-wolfi`, `latest-php-wolfi`, etc. when run from the
   default branch
-- Wolfi short aliases: `v1.7.7-cache`, `v1.7.7-proxy`,
-  `v1.7.7-load-balancer`, `v1.7.7-php`, `latest-cache`, `latest-proxy`,
+- Wolfi short aliases: `v1.7.8-cache`, `v1.7.8-proxy`,
+  `v1.7.8-load-balancer`, `v1.7.8-php`, `latest-cache`, `latest-proxy`,
   `latest-load-balancer`, and `latest-php`
 
 Starting with `v1.5.0`, the load-balancer image profile is part of normal tag
@@ -576,8 +576,8 @@ these paths instead of writing inside the image layer.
 
 | Container path | Purpose | Mount mode |
 | --- | --- | --- |
-| `/etc/fluxheim/fluxheim.toml` | Main config file. | `ro,Z` |
-| `/etc/fluxheim/conf.d` | Optional config directory. | `ro,Z` |
+| `/etc/fluxheim/fluxheim.toml` | Main config file. | `ro,Z` after mapping ownership to UID `65532` |
+| `/etc/fluxheim/conf.d` | Optional config directory. | `ro,Z` after mapping ownership to UID `65532` |
 | `/etc/fluxheim/tls` | Static certificate chains and private keys. | `ro,Z` |
 | `/run/fluxheim` | Process runtime files such as PID files, upgrade sockets, and the certificate reload socket. | `Z,U` |
 | `/var/lib/fluxheim` | Runtime state: ACME storage and future snapshots. | `Z,U` |
@@ -587,12 +587,57 @@ these paths instead of writing inside the image layer.
 | `/var/log/fluxheim` | Optional file logs when `[logging.file]` is enabled. | `Z,U` |
 
 For Podman on SELinux hosts, `:Z` gives the bind mount a private container
-label. Add `:U` only for writable paths when you want Podman to adjust ownership
-for user namespaces. Read-only paths normally use `:ro,Z`, not `:U`.
+label. `:U` asks Podman to change source ownership for the container user
+namespace. Use it for writable paths when that ownership change is intentional.
+Read-only paths normally use `:ro,Z`; configuration mounts additionally require
+the ownership preparation described below. `:ro,Z,U` is an available shortcut
+for configuration only when changing its host ownership automatically is
+acceptable.
 
 The default image user is `65532:65532`, so writable host directories should be
 owned or mapped for that user. With rootless Podman, `:U` is often the easiest
 safe option for cache/state/log directories.
+
+### Rootless Config Ownership
+
+Fluxheim validates configuration ownership and permissions before parsing any
+TOML. Every config file and directory visible inside the container must be
+owned by container root or by the Fluxheim runtime user `65532`, must not be a
+symlink, and must not be group- or world-writable. A host file owned by the
+interactive user or host root may appear as an unrelated unmapped UID inside a
+rootless container; a read-only bind mount does not change that metadata.
+
+Prepare the example config tree explicitly before starting Fluxheim:
+
+```bash
+sudo chown -R "$(id -un):$(id -gn)" /srv/infra/fluxheim/config
+find /srv/infra/fluxheim/config -type d -exec chmod 0755 {} \;
+find /srv/infra/fluxheim/config -type f -name '*.toml' -exec chmod 0644 {} \;
+podman unshare chown -R 65532:65532 /srv/infra/fluxheim/config
+```
+
+The first command normalizes any host-root-owned fragments so the rootless
+user can map them. `podman unshare chown` applies the correct subordinate host
+UID/GID for container UID/GID `65532`; host tools may display a numeric owner
+such as `165531`, but that value depends on the local subordinate-ID mapping and
+must not be hard-coded. New or replaced config fragments need the same mapping.
+
+Alternatively, append `U` to both config mounts (`:ro,Z,U`) and let Podman make
+the recursive ownership change. Do not use that shortcut when the source tree
+is shared with another service that requires its current host ownership.
+
+Verify ownership as seen by the image before enabling a restart policy:
+
+```bash
+podman compose run --rm --entrypoint sh fluxheim -c \
+  'id; ls -ld /etc/fluxheim /etc/fluxheim/conf.d /etc/fluxheim/conf.d/*.toml'
+```
+
+The process and mounted configuration should report UID `65532` (or container
+root for deliberately root-owned config), and directories/files should normally
+have modes `0755`/`0644`. Repeated `untrusted owner, symlink, or writable
+component` messages under `restart: always` mean the process is failing closed
+and the container engine is restarting it.
 
 Example host layout:
 
