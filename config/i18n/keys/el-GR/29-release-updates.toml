@@ -121,7 +121,7 @@ rejects_unsupported_preview_calls_deterministically_before_they_reach_an_upstrea
 hardens_strict_host_routing_bounded_admission_config_trust_cache_storage_geoip_and_compression = "Ενισχύει την αυστηρή δρομολόγηση host, την περιορισμένη αποδοχή, την αξιοπιστία ρυθμίσεων, την αποθήκευση cache, το GeoIP και τη συμπίεση"
 adds_an_opt_in_proxy_wasm_abi_compatibility_preview_with_explicit_namespace_validation_and_deterministic_unsupported_call_rejection = "προσθέτει μια προαιρετική προεπισκόπηση συμβατότητας ABI Proxy-Wasm με ρητή επικύρωση χώρου ονομάτων και προβλέψιμη απόρριψη μη υποστηριζόμενων κλήσεων."
 later_1_7_x_work_remains_focused_on_the_optional_wasi_capability_preview_documented_example_parity_stabilization_and_zero_downtime_upgrade_work = "Οι επόμενες εργασίες της σειράς 1.7.x παραμένουν εστιασμένες στην προαιρετική προεπισκόπηση δυνατοτήτων WASI, στην ισοδυναμία των τεκμηριωμένων παραδειγμάτων, στη σταθεροποίηση και στις αναβαθμίσεις χωρίς διακοπή λειτουργίας."
-released_july_11_2026 = "Έκδοση 11 Ιουλίου 2026"
+released_july_11_2026 = "Κυκλοφόρησε στις 11 Ιουλίου 2026"
 starts_the_opt_in_wasi_preview_1_boundary_with_explicit_clock_and_randomness_grants_and_deny_by_default_imports = "Εκκινεί το όριο WASI Preview 1 με εκτελεστικές επιλογές για ρολόι και τυχαιότητα, και απορρίπτει τις εισαγωγές από προεπιλογή"
 restores_trusted_client_geoip_and_supports_circl_combined_country_and_asn_databases = "Επαναφέρει την GeoIP έμπιστου πελάτη και υποστηρίζει συνδυασμένες βάσεις δεδομένων Country και ASN CIRCL"
 hardens_stream_ssrf_and_copying_authenticated_snapshots_tls_php_fpm_static_serving_and_wasm_resource_limits = "Ενισχύει την αντιμετώπιση SSRF ροής και αντιγραφής, ελεγμένα στιγμιότυπα, TLS, PHP-FPM, στατική παροχή και ορία πόρων Wasm"

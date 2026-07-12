@@ -120,7 +120,7 @@ rejects_unsupported_preview_calls_deterministically_before_they_reach_an_upstrea
 hardens_strict_host_routing_bounded_admission_config_trust_cache_storage_geoip_and_compression = "เสริมความแข็งแกร่งให้ strict host routing, admission แบบมีขอบเขต, ความน่าเชื่อถือของ config, cache storage, GeoIP และ compression"
 adds_an_opt_in_proxy_wasm_abi_compatibility_preview_with_explicit_namespace_validation_and_deterministic_unsupported_call_rejection = "เพิ่ม Proxy-Wasm ABI compatibility preview แบบเลือกเปิดใช้ พร้อมการตรวจสอบ namespace อย่างชัดเจนและการปฏิเสธ call ที่ไม่รองรับอย่างแน่นอน"
 later_1_7_x_work_remains_focused_on_the_optional_wasi_capability_preview_documented_example_parity_stabilization_and_zero_downtime_upgrade_work = "งานในสาย 1.7.x ต่อจากนี้ยังมุ่งที่ WASI capability preview แบบเลือกใช้ ความสอดคล้องของตัวอย่างในเอกสาร การทำให้เสถียร และ zero-downtime upgrade"
-released_july_11_2026 = "รีเลส 11 กรกฎาคม 2026"
+released_july_11_2026 = "เผยแพร่เมื่อ 11 กรกฎาคม 2026"
 starts_the_opt_in_wasi_preview_1_boundary_with_explicit_clock_and_randomness_grants_and_deny_by_default_imports = "เริ่มต้น boundary ของ WASI Preview 1 ด้วยการให้อนุญาตเวลาและความสุ่มอย่างชัดเจน และนำเข้าแบบปฏิเสธโดยค่าเริ่มต้น"
 restores_trusted_client_geoip_and_supports_circl_combined_country_and_asn_databases = "กู้คืนฐานข้อมูล GeoIP ของไคลเอนต์ที่เชื่อถือได้ และรองรับฐานข้อมูล Country และ ASN แบบรวมจาก CIRCL"
 hardens_stream_ssrf_and_copying_authenticated_snapshots_tls_php_fpm_static_serving_and_wasm_resource_limits = "เสริมความแข็งแกร่งให้กับการป้องกัน SSRF และการคัดลอกของสตรีม, สแนปชอตที่มีการตรวจสอบสิทธิ์, TLS, PHP-FPM, การให้บริการแบบคงที่ และข้อจำกัดทรัพยากร Wasm"

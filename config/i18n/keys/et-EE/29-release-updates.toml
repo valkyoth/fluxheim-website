@@ -121,7 +121,7 @@ rejects_unsupported_preview_calls_deterministically_before_they_reach_an_upstrea
 hardens_strict_host_routing_bounded_admission_config_trust_cache_storage_geoip_and_compression = "Tugevdab ranget hostipõhist marsruutimist, piiratud vastuvõttu, konfiguratsiooni usaldusväärsust, vahemälu salvestust, GeoIP-d ja tihendamist"
 adds_an_opt_in_proxy_wasm_abi_compatibility_preview_with_explicit_namespace_validation_and_deterministic_unsupported_call_rejection = "lisab valikulise Proxy-Wasm ABI ühilduvuse eelvaate koos nimeruumi selgesõnalise valideerimise ja toetamata kutsete deterministliku tagasilükkamisega."
 later_1_7_x_work_remains_focused_on_the_optional_wasi_capability_preview_documented_example_parity_stabilization_and_zero_downtime_upgrade_work = "Hilisem 1.7.x töö keskendub jätkuvalt valikulisele WASI võimekuse eelvaatele, dokumenteeritud näidete vastavusele, stabiliseerimisele ja katkestusteta uuendamisele."
-released_july_11_2026 = "Väljaanne 11. juuli 2026"
+released_july_11_2026 = "Välja antud 11. juulil 2026"
 starts_the_opt_in_wasi_preview_1_boundary_with_explicit_clock_and_randomness_grants_and_deny_by_default_imports = "Käivitab opt-sisse lülitatava WASI Preview 1 piirid, kus on selgelt määratud kella- ja juhuslikkuse õigused ning keelatud vaikimisi importimised"
 restores_trusted_client_geoip_and_supports_circl_combined_country_and_asn_databases = "Taastab usaldusväärse klienti GeoIP ja toetab CIRCL-i ühendatud riigi ja ASN andmebaase"
 hardens_stream_ssrf_and_copying_authenticated_snapshots_tls_php_fpm_static_serving_and_wasm_resource_limits = "Tugevdamine voog SSRF ja kopeerimise, autentitud hetktõmmised, TLS, PHP-FPM, staatiline teenus ja Wasm ressursi limiidid"
