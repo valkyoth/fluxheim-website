@@ -10,6 +10,24 @@ email = "admin@example.com"
 storage = "/var/lib/fluxheim/acme"</code></pre>
 </section>
 <section class="guide-section">
+  <h2>ACME safety and lifecycle</h2>
+  <p>Fluxheim 1.7.9 validates issuer directories and requires explicit agreement to the exact advertised terms before creating an account. Account bootstrap, certificate publication, deactivation, and revocation use recoverable transactions.</p>
+  <pre><code>[[tls.acme.issuers]]
+name = "letsencrypt"
+directory_url = "https://acme-v02.api.letsencrypt.org/directory"
+terms_of_service_agreed = true
+terms_of_service_url = "https://letsencrypt.org/repository/"</code></pre>
+  <p>Confirm the current URL from the issuer before deployment. A changed or mismatched agreement must be rejected.</p>
+</section>
+<section class="guide-section">
+  <h2>Check and maintain ACME</h2>
+  <pre><code>fluxheim-acme --config /etc/fluxheim/fluxheim.toml doctor
+fluxheim-acme --config /etc/fluxheim/fluxheim.toml doctor --online
+fluxheim-acme --config /etc/fluxheim/fluxheim.toml renew
+fluxheim-acme --config /etc/fluxheim/fluxheim.toml revoke --vhost example.com --confirm</code></pre>
+  <p>Online checks run from this server and do not replace external monitoring. Revocation quarantines the managed certificate pair and requests a reload; install a replacement before continuing normal service.</p>
+</section>
+<section class="guide-section">
   <h2>TLS choices</h2>
   <table><thead><tr><th>Choice</th><th>Use it when</th></tr></thead><tbody>
     <tr><td><code>rustls</code></td><td>You want the normal memory-safe TLS path.</td></tr>

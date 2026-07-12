@@ -48,6 +48,15 @@ Required live test:
 
 Target release: `v1.7.1`.
 
+Status: the checked-in `examples/wasm/irules-access-policy.wat` and
+`examples/wasm/irules-access-policy.toml` pair packages the bounded
+access-decision subset as a runnable `v1.7.9` migration example. Fluxheim owns
+host/path/method/trusted-client/TLS classification; the route-scoped plugin can
+continue, allow, or deny and cannot inspect arbitrary request state. The live
+listener smoke proves an unattached public request reaches origin, the attached
+admin request receives the plugin's 403 before origin dispatch, and a trapping
+plugin fails closed.
+
 ### nginx Lua/OpenResty-Style Header Policy
 
 Capability target:
@@ -83,6 +92,13 @@ coverage is in
 mutation IDs. The ABI remains symbolic and does not expose raw sensitive
 headers or bodies.
 
+The `v1.7.9` operator example is checked in as
+`examples/wasm/openresty-header-policy.wat` with a complete config fixture. The
+shared policy-example smoke compiles that exact source and proves the origin
+receives `x-policy-tier: gold`, the client receives
+`x-fluxheim-policy-branch: gold`, upstream `x-powered-by` is removed, and an
+unknown header mutation ID fails closed before origin dispatch.
+
 ### HAProxy Lua/SPOE-Style Routing And Load-Balancer Policy
 
 Capability target:
@@ -115,6 +131,14 @@ configured `canary` route branch selected by a bounded `x-canary: 1` signal.
 The hook can continue, deny, or select a configured matching branch; arbitrary
 pool names, persistence keys, and mirror/shadow target decisions remain staged
 for later `1.7.x` slices.
+
+The `v1.7.9` runnable mapping is checked in as
+`examples/wasm/haproxy-spoe-routing-policy.wat` with a complete config fixture.
+The shared live smoke compiles that source and proves configured canary route
+selection, unavailable-branch fail-closed behavior, selected-route policy
+enforcement, native load-balancer selection, managed-cookie persistence, and
+safe configured mirror routing. Backend addresses, arbitrary persistence keys,
+and mirror URLs remain outside the guest ABI.
 
 ### VCL-Like Cache Policy
 
@@ -155,6 +179,13 @@ checked-in `examples/wasm/cache-lookup-policy.wat` and
 native HTTP/1 test suite compiles the example sources directly. Richer
 store-admission mutation remains follow-up `1.7.x` cache-policy work.
 
+For `v1.7.9`, the example TOML is schema-validated and the shared live policy
+smoke proves pass versus MISS/HIT behavior, bounded device-class variants,
+image-only TTL/tag/stored-header mutation, TTL expiry, non-image isolation,
+tag-based purge through Fluxheim's cache tooling, and fail-closed unknown or
+duplicate mutation IDs. This is typed VCL-like capability parity; it does not
+embed VCL or expose raw cache objects.
+
 ## Stabilization Requirements
 
 Before `1.7` is complete:
@@ -169,3 +200,15 @@ Before `1.7` is complete:
 - every example must have a matching negative test that proves the sandbox does
   not expose filesystem, network, env, admin APIs, secrets, request bodies, or
   raw cache objects without explicit future capabilities.
+
+`v1.7.9` provides `scripts/build_wasm_policy_examples.sh` for deterministic
+source-to-module builds and digest output, while `scripts/smoke_wasm_all.sh`
+is the single orchestration entry used by both `scripts/test_starter.py` and
+the opt-in stable/deep release gate. This avoids treating multiple script paths
+as arguments to one launcher command and keeps human and CI coverage aligned.
+
+The standalone `scripts/smoke_wasm_policy_examples_binary.sh` proof also loads
+the generated files through a private plugin root and exact SHA-256 pins,
+starts the real Fluxheim binary from a file-based config, and sends HTTP
+traffic through all four vhosts. The in-process listener tests remain the
+faster detailed regressions; both layers are required by the complete smoke.

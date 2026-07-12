@@ -1,4 +1,10 @@
-latest = "1.7.8"
+latest = "1.7.9"
+
+[[release]]
+version = "1.7.9"
+date = "2026-07-12"
+title = "Policy examples and ACME lifecycle"
+summary = "Adds runnable, digest-pinned migration examples for iRules, OpenResty, HAProxy/SPOE, and VCL-style policy jobs; bounded ACME transport, ARI scheduling, doctor and lifecycle commands, explicit terms acceptance, recoverable account and certificate transactions; and stronger ACME storage-boundary and snapshot publication hardening."
 
 [[release]]
 version = "1.7.8"
