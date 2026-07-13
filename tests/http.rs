@@ -857,32 +857,22 @@ async fn download_outbound_redirects_only_known_artifacts() {
     assert_eq!(unlisted_status, StatusCode::NOT_FOUND);
     assert!(body.contains("Unknown download artifact"));
 
-    let historical = "fluxheim-1.6.37-cache-x86_64-linux.tar.gz";
-    let (historical_status, historical_headers, _body) =
-        request(&format!("/out/download/{historical}?locale=de-DE")).await;
-    assert_eq!(historical_status, StatusCode::TEMPORARY_REDIRECT);
-    assert_eq!(
-        historical_headers[header::LOCATION],
-        format!("https://github.com/valkyoth/fluxheim/releases/download/v1.6.37/{historical}")
-    );
+    let removed_historical = "fluxheim-1.6.37-cache-x86_64-linux.tar.gz";
+    let (historical_status, _headers, historical_body) =
+        request(&format!("/out/download/{removed_historical}?locale=de-DE")).await;
+    assert_eq!(historical_status, StatusCode::NOT_FOUND);
+    assert!(historical_body.contains("Unknown download artifact"));
 }
 
 #[tokio::test]
-async fn every_rendered_changelog_download_is_allowlisted() {
-    let (status, _headers, body) = request("/changelog").await;
-    assert_eq!(status, StatusCode::OK);
-
-    let links: Vec<_> = body
-        .split(r#"href=""#)
-        .skip(1)
-        .filter_map(|value| value.split_once('"').map(|(href, _)| href))
-        .filter(|href| href.starts_with("/out/download/"))
-        .collect();
-    assert!(!links.is_empty(), "changelog should contain download links");
-
-    for link in links {
-        let (status, _headers, _body) = request(link).await;
-        assert_eq!(status, StatusCode::TEMPORARY_REDIRECT, "{link}");
+async fn changelog_leaves_artifact_links_to_the_download_page() {
+    for route in ["/changelog", "/de/changelog"] {
+        let (status, _headers, body) = request(route).await;
+        assert_eq!(status, StatusCode::OK, "{route}");
+        assert!(body.contains("v1.7.10"), "{route}");
+        assert!(body.contains("releases/tag/v1.7.10"), "{route}");
+        assert!(!body.contains("/out/download/"), "{route}");
+        assert!(!body.contains("/releases/download/"), "{route}");
     }
 }
 

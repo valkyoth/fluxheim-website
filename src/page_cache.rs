@@ -138,6 +138,6 @@ mod tests {
         assert_eq!(crate::i18n_keys::replacer_cache_len(), 0);
         let artifacts = download_artifacts(&pages);
         assert!(artifacts.contains("fluxheim-1.7.10-full-x86_64-linux.tar.gz"));
-        assert!(artifacts.contains("fluxheim-1.3.2-full-x86_64-linux.tar.gz"));
+        assert!(!artifacts.contains("fluxheim-1.3.2-full-x86_64-linux.tar.gz"));
     }
 }
