@@ -7,11 +7,13 @@ cargo +1.97.0 test
 scripts/cargo_binary_path.py --self-test
 scripts/measure_startup_memory.py --self-test
 scripts/check_startup_memory.sh
-python3 -m py_compile scripts/check_i18n_keys.py scripts/i18n_coverage.py scripts/scaffold_i18n_locale.py scripts/check_english_variants.py scripts/check_i18n_fallback_prefixes.py scripts/check_i18n_english_fragments.py scripts/check_i18n_collapsed_values.py scripts/cargo_binary_path.py scripts/measure_startup_memory.py
+python3 -m py_compile scripts/check_i18n_keys.py scripts/i18n_coverage.py scripts/scaffold_i18n_locale.py scripts/check_english_variants.py scripts/check_i18n_fallback_prefixes.py scripts/check_i18n_english_fragments.py scripts/check_i18n_collapsed_values.py scripts/check_i18n_integrity.py scripts/cargo_binary_path.py scripts/measure_startup_memory.py
 scripts/check_i18n_keys.py
 scripts/check_i18n_fallback_prefixes.py
 scripts/check_i18n_english_fragments.py
 scripts/check_i18n_collapsed_values.py
+scripts/check_i18n_integrity.py --self-test
+scripts/check_i18n_integrity.py
 scripts/check_english_variants.py
 for locale in ja-JP ko-KR; do
   unchanged="$(scripts/check_i18n_keys.py --list-untranslated "$locale" --include-intentional --untranslated-limit 1)"
