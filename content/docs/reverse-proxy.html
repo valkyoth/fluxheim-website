@@ -34,6 +34,18 @@ read_timeout_secs = 30
 send_timeout_secs = 30</code></pre>
 </section>
 <section class="guide-section">
+  <h2>CORS for browser apps</h2>
+  <p>Enable CORS only when browser applications on known origins must call this route.</p>
+  <pre><code>[headers.cors]
+enabled = true
+allow_origins = ["https://app.example.com"]
+allow_methods = ["GET", "HEAD", "POST"]
+allow_headers = ["authorization", "content-type"]
+allow_credentials = true
+max_age_secs = 600</code></pre>
+  <ul class="checks"><li>Fluxheim answers valid preflight requests locally; rejected preflights return <code>403</code> without reaching the application.</li><li>Do not combine a wildcard origin with credentials.</li><li>CORS is not authentication, authorization, or CSRF protection.</li></ul>
+</section>
+<section class="guide-section">
   <h2>Production notes</h2>
   <ul class="checks"><li>Keep the application on loopback or a private network.</li><li>Set request body limits before exposing uploads.</li><li>Use trusted proxy settings only for networks you control.</li><li>Prefer explicit routes over one large fallback when different paths need different safety rules.</li></ul>
 </section>

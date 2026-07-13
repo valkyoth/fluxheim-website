@@ -1,4 +1,10 @@
-latest = "1.7.9"
+latest = "1.7.10"
+
+[[release]]
+version = "1.7.10"
+date = "2026-07-13"
+title = "Header policy and Wasm stabilization"
+summary = "Stabilizes runnable Wasm migration examples and release-gate testing; adds optional HTTP response-security profiles, validated request-aware CORS, bounded retry guidance, stricter forwarding and identity-header sanitization, and safer header parsing and rewriting."
 
 [[release]]
 version = "1.7.9"

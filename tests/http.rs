@@ -73,7 +73,7 @@ async fn renders_default_english_home() {
     assert_eq!(status, StatusCode::OK);
     assert!(body.contains("Memory-Safe"));
     assert!(body.contains("Edge Server"));
-    assert!(body.contains("Download v1.7.9"));
+    assert!(body.contains("Download v1.7.10"));
     assert!(body.contains("English (EU)"));
     assert!(body.contains("English (UK)"));
     assert!(body.contains("English (US)"));
@@ -108,9 +108,9 @@ async fn locale_prefixes_preserve_legacy_pages() {
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains("Systemd-Dienst"));
     assert!(de_body.contains("Cache-Edge-Build"));
-    assert!(de_body.contains("Herunterladen v1.7.9"));
-    assert!(de_body.contains("WebAssembly-Zeile"));
-    assert!(de_body.contains("v1.7.9"));
+    assert!(de_body.contains("Herunterladen v1.7.10"));
+    assert!(de_body.contains("Fluxheim 1.7-Release-Serie"));
+    assert!(de_body.contains("v1.7.10"));
     assert!(de_body.contains("v1.6.0 – v1.6.37"));
     assert!(de_body.contains("Native-Runtime-Cutover- und Bereinigungslinie"));
     assert!(de_body.contains("Alle auf GitHub"));
@@ -118,7 +118,7 @@ async fn locale_prefixes_preserve_legacy_pages() {
     let (ch_status, _headers, ch_body) = request("/ch/download").await;
     assert_eq!(ch_status, StatusCode::OK);
     assert!(ch_body.contains(r#"<html lang="de-CH""#));
-    assert!(ch_body.contains("Herunterladen v1.7.9"));
+    assert!(ch_body.contains("Herunterladen v1.7.10"));
     assert!(ch_body.contains("🇨🇭"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/deployment").await;
@@ -131,139 +131,139 @@ async fn locale_prefixes_preserve_legacy_pages() {
     let (sv_status, _headers, sv_body) = request("/sv/download").await;
     assert_eq!(sv_status, StatusCode::OK);
     assert!(sv_body.contains(r#"<html lang="sv-SE""#));
-    assert!(sv_body.contains("Ladda ner v1.7.9"));
+    assert!(sv_body.contains("Ladda ner v1.7.10"));
     assert!(sv_body.contains("🇸🇪"));
 
     let (nb_status, _headers, nb_body) = request("/no/download").await;
     assert_eq!(nb_status, StatusCode::OK);
     assert!(nb_body.contains(r#"<html lang="nb-NO""#));
-    assert!(nb_body.contains("Last ned v1.7.9"));
+    assert!(nb_body.contains("Last ned v1.7.10"));
     assert!(nb_body.contains("🇳🇴"));
 
     let (nl_status, _headers, nl_body) = request("/nl/download").await;
     assert_eq!(nl_status, StatusCode::OK);
     assert!(nl_body.contains(r#"<html lang="nl-NL""#));
-    assert!(nl_body.contains("Download versie 1.7.9"));
+    assert!(nl_body.contains("Download versie 1.7.10"));
     assert!(nl_body.contains("🇳🇱"));
 
     let (fi_status, _headers, fi_body) = request("/fi/download").await;
     assert_eq!(fi_status, StatusCode::OK);
     assert!(fi_body.contains(r#"<html lang="fi-FI""#));
-    assert!(fi_body.contains("Lataa v1.7.9"));
+    assert!(fi_body.contains("Lataa v1.7.10"));
     assert!(fi_body.contains("🇫🇮"));
 
     let (is_status, _headers, is_body) = request("/is/download").await;
     assert_eq!(is_status, StatusCode::OK);
     assert!(is_body.contains(r#"<html lang="is-IS""#));
-    assert!(is_body.contains("Sækja v1.7.9"));
+    assert!(is_body.contains("Sækja v1.7.10"));
     assert!(is_body.contains("🇮🇸"));
 
     let (da_status, _headers, da_body) = request("/da/download").await;
     assert_eq!(da_status, StatusCode::OK);
     assert!(da_body.contains(r#"<html lang="da-DK""#));
-    assert!(da_body.contains("Hent v1.7.9"));
+    assert!(da_body.contains("Hent v1.7.10"));
     assert!(da_body.contains("🇩🇰"));
 
     let (es_status, _headers, es_body) = request("/es/download").await;
     assert_eq!(es_status, StatusCode::OK);
     assert!(es_body.contains(r#"<html lang="es-ES""#));
-    assert!(es_body.contains("Descargar v1.7.9"));
+    assert!(es_body.contains("Descargar v1.7.10"));
     assert!(es_body.contains("🇪🇸"));
 
     let (pt_status, _headers, pt_body) = request("/pt/download").await;
     assert_eq!(pt_status, StatusCode::OK);
     assert!(pt_body.contains(r#"<html lang="pt-PT""#));
-    assert!(pt_body.contains("Transferir v1.7.9"));
+    assert!(pt_body.contains("Transferir v1.7.10"));
     assert!(pt_body.contains("🇵🇹"));
 
     let (et_status, _headers, et_body) = request("/et/download").await;
     assert_eq!(et_status, StatusCode::OK);
     assert!(et_body.contains(r#"<html lang="et-EE""#));
-    assert!(et_body.contains("Laadi alla v1.7.9"));
+    assert!(et_body.contains("Laadi alla v1.7.10"));
     assert!(et_body.contains("🇪🇪"));
 
     let (lv_status, _headers, lv_body) = request("/lv/download").await;
     assert_eq!(lv_status, StatusCode::OK);
     assert!(lv_body.contains(r#"<html lang="lv-LV""#));
-    assert!(lv_body.contains("Lejupielādēt v1.7.9"));
+    assert!(lv_body.contains("Lejupielādēt v1.7.10"));
     assert!(lv_body.contains("🇱🇻"));
 
     let (el_status, _headers, el_body) = request("/el/download").await;
     assert_eq!(el_status, StatusCode::OK);
     assert!(el_body.contains(r#"<html lang="el-GR""#));
-    assert!(el_body.contains("Λήψη v1.7.9"));
+    assert!(el_body.contains("Λήψη v1.7.10"));
     assert!(el_body.contains("🇬🇷"));
 
     let (it_status, _headers, it_body) = request("/it/download").await;
     assert_eq!(it_status, StatusCode::OK);
     assert!(it_body.contains(r#"<html lang="it-IT""#));
-    assert!(it_body.contains("Scarica v1.7.9"));
+    assert!(it_body.contains("Scarica v1.7.10"));
     assert!(it_body.contains("🇮🇹"));
 
     let (lt_status, _headers, lt_body) = request("/lt/download").await;
     assert_eq!(lt_status, StatusCode::OK);
     assert!(lt_body.contains(r#"<html lang="lt-LT""#));
-    assert!(lt_body.contains("Atsisiųsti v1.7.9"));
+    assert!(lt_body.contains("Atsisiųsti v1.7.10"));
     assert!(lt_body.contains("🇱🇹"));
 
     let (hr_status, _headers, hr_body) = request("/hr/download").await;
     assert_eq!(hr_status, StatusCode::OK);
     assert!(hr_body.contains(r#"<html lang="hr-HR""#));
-    assert!(hr_body.contains("Preuzmi v1.7.9"));
+    assert!(hr_body.contains("Preuzmi v1.7.10"));
     assert!(hr_body.contains("🇭🇷"));
 
     let (cs_status, _headers, cs_body) = request("/cs/download").await;
     assert_eq!(cs_status, StatusCode::OK);
     assert!(cs_body.contains(r#"<html lang="cs-CZ""#));
-    assert!(cs_body.contains("Stáhnout v1.7.9"));
+    assert!(cs_body.contains("Stáhnout v1.7.10"));
     assert!(cs_body.contains("🇨🇿"));
 
     let (bs_status, _headers, bs_body) = request("/bs/download").await;
     assert_eq!(bs_status, StatusCode::OK);
     assert!(bs_body.contains(r#"<html lang="bs-BA""#));
-    assert!(bs_body.contains("Preuzmi v1.7.9"));
+    assert!(bs_body.contains("Preuzmi v1.7.10"));
     assert!(bs_body.contains("🇧🇦"));
 
     let (bg_status, _headers, bg_body) = request("/bg/download").await;
     assert_eq!(bg_status, StatusCode::OK);
     assert!(bg_body.contains(r#"<html lang="bg-BG""#));
-    assert!(bg_body.contains("Изтегли v1.7.9"));
+    assert!(bg_body.contains("Изтегли v1.7.10"));
     assert!(bg_body.contains("🇧🇬"));
 
     let (ro_status, _headers, ro_body) = request("/ro/download").await;
     assert_eq!(ro_status, StatusCode::OK);
     assert!(ro_body.contains(r#"<html lang="ro-RO""#));
-    assert!(ro_body.contains("Descarcă v1.7.9"));
+    assert!(ro_body.contains("Descarcă v1.7.10"));
     assert!(ro_body.contains("🇷🇴"));
 
     let (pl_status, _headers, pl_body) = request("/pl/download").await;
     assert_eq!(pl_status, StatusCode::OK);
     assert!(pl_body.contains(r#"<html lang="pl-PL""#));
-    assert!(pl_body.contains("Pobierz v1.7.9"));
+    assert!(pl_body.contains("Pobierz v1.7.10"));
     assert!(pl_body.contains("🇵🇱"));
 
     let (ru_status, _headers, ru_body) = request("/ru/download").await;
     assert_eq!(ru_status, StatusCode::OK);
     assert!(ru_body.contains(r#"<html lang="ru-RU""#));
-    assert!(ru_body.contains("Скачать v1.7.9"));
+    assert!(ru_body.contains("Скачать v1.7.10"));
     assert!(ru_body.contains("🇷🇺"));
 
     let (ja_status, _headers, ja_body) = request("/ja/download").await;
     assert_eq!(ja_status, StatusCode::OK);
     assert!(ja_body.contains(r#"<html lang="ja-JP""#));
-    assert!(ja_body.contains("ダウンロード v1.7.9"));
+    assert!(ja_body.contains("ダウンロード v1.7.10"));
     assert!(ja_body.contains("🇯🇵"));
 
     let (ko_status, _headers, ko_body) = request("/ko/download").await;
     assert_eq!(ko_status, StatusCode::OK);
     assert!(ko_body.contains(r#"<html lang="ko-KR""#));
-    assert!(ko_body.contains("v1.7.9 다운로드"));
+    assert!(ko_body.contains("v1.7.10 다운로드"));
     assert!(ko_body.contains("🇰🇷"));
 
     let (hu_status, _headers, hu_body) = request("/hu/download").await;
     assert_eq!(hu_status, StatusCode::OK);
     assert!(hu_body.contains(r#"<html lang="hu-HU""#));
-    assert!(hu_body.contains("v1.7.9 letöltése"));
+    assert!(hu_body.contains("v1.7.10 letöltése"));
     assert!(hu_body.contains("🇭🇺"));
 }
 
@@ -272,7 +272,7 @@ async fn english_variant_prefixes_preserve_english_content() {
     let (gb_status, _headers, gb_body) = request("/en-gb/download").await;
     assert_eq!(gb_status, StatusCode::OK);
     assert!(gb_body.contains(r#"<html lang="en-GB""#));
-    assert!(gb_body.contains("Download v1.7.9"));
+    assert!(gb_body.contains("Download v1.7.10"));
     assert!(gb_body.contains("Pre-built Linux binaries"));
     assert!(gb_body.contains(r#"<a href="/en-gb/download" aria-current="true">"#));
     assert!(gb_body.contains("🇬🇧"));
@@ -293,157 +293,157 @@ async fn locale_prefixes_apply_runtime_translations() {
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains(r#"<html lang="de-DE""#));
     assert!(de_body.contains("Speichersicher"));
-    assert!(de_body.contains("Herunterladen v1.7.9"));
+    assert!(de_body.contains("Herunterladen v1.7.10"));
 
     let (fr_status, _headers, fr_body) = request("/fr/").await;
     assert_eq!(fr_status, StatusCode::OK);
     assert!(fr_body.contains(r#"<html lang="fr-FR""#));
     assert!(fr_body.contains("Sûr pour la mémoire"));
-    assert!(fr_body.contains("Télécharger v1.7.9"));
+    assert!(fr_body.contains("Télécharger v1.7.10"));
 
     let (sv_status, _headers, sv_body) = request("/sv/").await;
     assert_eq!(sv_status, StatusCode::OK);
     assert!(sv_body.contains(r#"<html lang="sv-SE""#));
     assert!(sv_body.contains("Minnessäker"));
-    assert!(sv_body.contains("Ladda ner v1.7.9"));
+    assert!(sv_body.contains("Ladda ner v1.7.10"));
 
     let (nb_status, _headers, nb_body) = request("/no/").await;
     assert_eq!(nb_status, StatusCode::OK);
     assert!(nb_body.contains(r#"<html lang="nb-NO""#));
     assert!(nb_body.contains("Minnesikker"));
-    assert!(nb_body.contains("Last ned v1.7.9"));
+    assert!(nb_body.contains("Last ned v1.7.10"));
 
     let (nl_status, _headers, nl_body) = request("/nl/").await;
     assert_eq!(nl_status, StatusCode::OK);
     assert!(nl_body.contains(r#"<html lang="nl-NL""#));
     assert!(nl_body.contains("Memory-safe"));
-    assert!(nl_body.contains("Download versie 1.7.9"));
+    assert!(nl_body.contains("Download versie 1.7.10"));
 
     let (fi_status, _headers, fi_body) = request("/fi/").await;
     assert_eq!(fi_status, StatusCode::OK);
     assert!(fi_body.contains(r#"<html lang="fi-FI""#));
     assert!(fi_body.contains("Muistiturvallinen"));
-    assert!(fi_body.contains("Lataa v1.7.9"));
+    assert!(fi_body.contains("Lataa v1.7.10"));
 
     let (is_status, _headers, is_body) = request("/is/").await;
     assert_eq!(is_status, StatusCode::OK);
     assert!(is_body.contains(r#"<html lang="is-IS""#));
     assert!(is_body.contains("Minnisöruggur"));
-    assert!(is_body.contains("Sækja v1.7.9"));
+    assert!(is_body.contains("Sækja v1.7.10"));
 
     let (da_status, _headers, da_body) = request("/da/").await;
     assert_eq!(da_status, StatusCode::OK);
     assert!(da_body.contains(r#"<html lang="da-DK""#));
     assert!(da_body.contains("Hukommelsessikker"));
-    assert!(da_body.contains("Hent v1.7.9"));
+    assert!(da_body.contains("Hent v1.7.10"));
 
     let (es_status, _headers, es_body) = request("/es/").await;
     assert_eq!(es_status, StatusCode::OK);
     assert!(es_body.contains(r#"<html lang="es-ES""#));
     assert!(es_body.contains("Seguro para memoria"));
-    assert!(es_body.contains("Descargar v1.7.9"));
+    assert!(es_body.contains("Descargar v1.7.10"));
 
     let (pt_status, _headers, pt_body) = request("/pt/").await;
     assert_eq!(pt_status, StatusCode::OK);
     assert!(pt_body.contains(r#"<html lang="pt-PT""#));
     assert!(pt_body.contains("Seguro para memória"));
-    assert!(pt_body.contains("Transferir v1.7.9"));
+    assert!(pt_body.contains("Transferir v1.7.10"));
 
     let (et_status, _headers, et_body) = request("/et/").await;
     assert_eq!(et_status, StatusCode::OK);
     assert!(et_body.contains(r#"<html lang="et-EE""#));
     assert!(et_body.contains("Mäluturvaline"));
-    assert!(et_body.contains("Laadi alla v1.7.9"));
+    assert!(et_body.contains("Laadi alla v1.7.10"));
 
     let (lv_status, _headers, lv_body) = request("/lv/").await;
     assert_eq!(lv_status, StatusCode::OK);
     assert!(lv_body.contains(r#"<html lang="lv-LV""#));
     assert!(lv_body.contains("Atmiņdrošs"));
-    assert!(lv_body.contains("Lejupielādēt v1.7.9"));
+    assert!(lv_body.contains("Lejupielādēt v1.7.10"));
 
     let (el_status, _headers, el_body) = request("/el/").await;
     assert_eq!(el_status, StatusCode::OK);
     assert!(el_body.contains(r#"<html lang="el-GR""#));
     assert!(el_body.contains("Memory-safe"));
-    assert!(el_body.contains("Λήψη v1.7.9"));
+    assert!(el_body.contains("Λήψη v1.7.10"));
 
     let (it_status, _headers, it_body) = request("/it/").await;
     assert_eq!(it_status, StatusCode::OK);
     assert!(it_body.contains(r#"<html lang="it-IT""#));
     assert!(it_body.contains("Memory-safe"));
-    assert!(it_body.contains("Scarica v1.7.9"));
+    assert!(it_body.contains("Scarica v1.7.10"));
 
     let (lt_status, _headers, lt_body) = request("/lt/").await;
     assert_eq!(lt_status, StatusCode::OK);
     assert!(lt_body.contains(r#"<html lang="lt-LT""#));
     assert!(lt_body.contains("Atminčiai saugus"));
-    assert!(lt_body.contains("Atsisiųsti v1.7.9"));
+    assert!(lt_body.contains("Atsisiųsti v1.7.10"));
 
     let (hr_status, _headers, hr_body) = request("/hr/").await;
     assert_eq!(hr_status, StatusCode::OK);
     assert!(hr_body.contains(r#"<html lang="hr-HR""#));
     assert!(hr_body.contains("Memorijski siguran"));
-    assert!(hr_body.contains("Preuzmi v1.7.9"));
+    assert!(hr_body.contains("Preuzmi v1.7.10"));
 
     let (cs_status, _headers, cs_body) = request("/cs/").await;
     assert_eq!(cs_status, StatusCode::OK);
     assert!(cs_body.contains(r#"<html lang="cs-CZ""#));
     assert!(cs_body.contains("Paměťově bezpečný"));
-    assert!(cs_body.contains("Stáhnout v1.7.9"));
+    assert!(cs_body.contains("Stáhnout v1.7.10"));
 
     let (bs_status, _headers, bs_body) = request("/bs/").await;
     assert_eq!(bs_status, StatusCode::OK);
     assert!(bs_body.contains(r#"<html lang="bs-BA""#));
     assert!(bs_body.contains("memorijski siguran") || bs_body.contains("Memorijski siguran"));
-    assert!(bs_body.contains("Preuzmi v1.7.9"));
+    assert!(bs_body.contains("Preuzmi v1.7.10"));
 
     let (ch_status, _headers, ch_body) = request("/ch/").await;
     assert_eq!(ch_status, StatusCode::OK);
     assert!(ch_body.contains(r#"<html lang="de-CH""#));
     assert!(ch_body.contains("Speichersicher"));
-    assert!(ch_body.contains("Herunterladen v1.7.9"));
+    assert!(ch_body.contains("Herunterladen v1.7.10"));
 
     let (bg_status, _headers, bg_body) = request("/bg/").await;
     assert_eq!(bg_status, StatusCode::OK);
     assert!(bg_body.contains(r#"<html lang="bg-BG""#));
     assert!(bg_body.contains("Memory-safe"));
-    assert!(bg_body.contains("Изтегли v1.7.9"));
+    assert!(bg_body.contains("Изтегли v1.7.10"));
 
     let (ro_status, _headers, ro_body) = request("/ro/").await;
     assert_eq!(ro_status, StatusCode::OK);
     assert!(ro_body.contains(r#"<html lang="ro-RO""#));
     assert!(ro_body.contains("Memory-safe"));
-    assert!(ro_body.contains("Descarcă v1.7.9"));
+    assert!(ro_body.contains("Descarcă v1.7.10"));
 
     let (pl_status, _headers, pl_body) = request("/pl/").await;
     assert_eq!(pl_status, StatusCode::OK);
     assert!(pl_body.contains(r#"<html lang="pl-PL""#));
     assert!(pl_body.contains("Memory-safe"));
-    assert!(pl_body.contains("Pobierz v1.7.9"));
+    assert!(pl_body.contains("Pobierz v1.7.10"));
 
     let (ru_status, _headers, ru_body) = request("/ru/").await;
     assert_eq!(ru_status, StatusCode::OK);
     assert!(ru_body.contains(r#"<html lang="ru-RU""#));
     assert!(ru_body.contains("Memory-safe"));
-    assert!(ru_body.contains("Скачать v1.7.9"));
+    assert!(ru_body.contains("Скачать v1.7.10"));
 
     let (ja_status, _headers, ja_body) = request("/ja/").await;
     assert_eq!(ja_status, StatusCode::OK);
     assert!(ja_body.contains(r#"<html lang="ja-JP""#));
     assert!(ja_body.contains("メモリ安全"));
-    assert!(ja_body.contains("ダウンロード v1.7.9"));
+    assert!(ja_body.contains("ダウンロード v1.7.10"));
 
     let (ko_status, _headers, ko_body) = request("/ko/").await;
     assert_eq!(ko_status, StatusCode::OK);
     assert!(ko_body.contains(r#"<html lang="ko-KR""#));
     assert!(ko_body.contains("메모리 안전"));
-    assert!(ko_body.contains("v1.7.9 다운로드"));
+    assert!(ko_body.contains("v1.7.10 다운로드"));
 
     let (hu_status, _headers, hu_body) = request("/hu/").await;
     assert_eq!(hu_status, StatusCode::OK);
     assert!(hu_body.contains(r#"<html lang="hu-HU""#));
     assert!(hu_body.contains("Memóriabiztos"));
-    assert!(hu_body.contains("v1.7.9 letöltése"));
+    assert!(hu_body.contains("v1.7.10 letöltése"));
 }
 
 #[tokio::test]
@@ -502,11 +502,28 @@ async fn configuration_uses_page_specific_translations() {
     assert!(de_body.contains("Sichere Gewohnheiten"));
     assert!(de_body.contains("mandantenfähigen Bereitstellungen"));
     assert!(de_body.contains("unbekannter Host <code>421</code>"));
+    assert!(de_body.contains("HTTP-Antwortsicherheit"));
+    assert!(de_body.contains("<code>baseline</code>"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/configuration").await;
     assert_eq!(fr_status, StatusCode::OK);
     assert!(fr_body.contains("Configuration"));
     assert!(fr_body.contains("Bonnes habitudes sûres"));
+    assert!(fr_body.contains("Sécurité des réponses HTTP"));
+}
+
+#[tokio::test]
+async fn reverse_proxy_uses_localized_cors_guidance() {
+    let (de_status, _headers, de_body) = request("/de/docs/reverse-proxy").await;
+    assert_eq!(de_status, StatusCode::OK);
+    assert!(de_body.contains("CORS für Browser-Apps"));
+    assert!(de_body.contains("<code>403</code>"));
+    assert!(!de_body.contains("Fluxheim answers valid preflight requests locally"));
+
+    let (fr_status, _headers, fr_body) = request("/fr/docs/reverse-proxy").await;
+    assert_eq!(fr_status, StatusCode::OK);
+    assert!(fr_body.contains("CORS pour les applications de navigateur"));
+    assert!(fr_body.contains("<code>403</code>"));
 }
 
 #[tokio::test]
@@ -584,18 +601,22 @@ async fn advanced_uses_page_specific_translations() {
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains("Zukünftige Module"));
     assert!(de_body.contains("WASM-Erweiterungen"));
-    assert!(de_body.contains("sofort einsatzbereite Migrationsbeispiele"));
+    assert!(de_body.contains("jede Migrationsfamilie unabhängig testbar"));
     assert!(de_body.contains("Migrationsbeispiele"));
+    assert!(de_body.contains("Wasm-Host-Rückrufe"));
+    assert!(de_body.contains("Release-Tests"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/advanced").await;
     assert_eq!(fr_status, StatusCode::OK);
     assert!(fr_body.contains("Modules futurs"));
     assert!(fr_body.contains("Extensions WASM"));
-    assert!(fr_body.contains("exemples de migration prêts à l'emploi"));
+    assert!(fr_body.contains("chaque famille de migration testable indépendamment"));
+    assert!(fr_body.contains("Rappels de l'hôte Wasm"));
 
     let (ja_status, _headers, ja_body) = request("/ja/docs/advanced").await;
     assert_eq!(ja_status, StatusCode::OK);
-    assert!(ja_body.contains("すぐに試せる移行例"));
+    assert!(ja_body.contains("移行例の各系統を個別にテスト"));
+    assert!(ja_body.contains("Wasmホストコールバック"));
     assert!(ja_body.contains("暗号学的ダイジェストに固定した Wasm モジュール"));
 }
 
@@ -722,10 +743,10 @@ async fn source_markdown_artifacts_are_served() {
 
 #[tokio::test]
 async fn release_note_artifacts_are_served() {
-    let (status, headers, body) = request("/fr/docs/releases/RELEASE_NOTES_1.7.9.md").await;
+    let (status, headers, body) = request("/fr/docs/releases/RELEASE_NOTES_1.7.10.md").await;
     assert_eq!(status, StatusCode::OK);
     assert_eq!(headers["content-type"], "text/markdown; charset=utf-8");
-    assert!(body.contains("# Fluxheim 1.7.9 Release Notes"));
+    assert!(body.contains("# Fluxheim 1.7.10 Release Notes"));
     assert!(body.contains("iRules-style"));
 }
 
@@ -817,16 +838,16 @@ async fn github_outbound_redirects_only_known_targets() {
 
 #[tokio::test]
 async fn download_outbound_redirects_only_known_artifacts() {
-    let artifact = "fluxheim-1.7.9-full-x86_64-linux.tar.gz";
+    let artifact = "fluxheim-1.7.10-full-x86_64-linux.tar.gz";
     let (status, headers, _body) = request(&format!("/out/download/{artifact}?locale=en-EU")).await;
     assert_eq!(status, StatusCode::TEMPORARY_REDIRECT);
     assert_eq!(
         headers[header::LOCATION],
-        format!("https://github.com/valkyoth/fluxheim/releases/download/v1.7.9/{artifact}")
+        format!("https://github.com/valkyoth/fluxheim/releases/download/v1.7.10/{artifact}")
     );
 
     let (unknown_status, _headers, body) =
-        request("/out/download/fluxheim-1.7.9-private-token.tar.gz").await;
+        request("/out/download/fluxheim-1.7.10-private-token.tar.gz").await;
     assert_eq!(unknown_status, StatusCode::NOT_FOUND);
     assert!(body.contains("Unknown download artifact"));
 
@@ -938,7 +959,7 @@ async fn rendered_pages_use_validated_click_redirects() {
     assert!(body.contains(r#"href="/out/github/repo?locale=en-EU""#));
     assert!(
         body.contains(
-            r#"href="/out/download/fluxheim-1.7.9-full-x86_64-linux.tar.gz?locale=en-EU""#
+            r#"href="/out/download/fluxheim-1.7.10-full-x86_64-linux.tar.gz?locale=en-EU""#
         )
     );
     assert!(body.contains("navigator.sendBeacon"));

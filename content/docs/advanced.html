@@ -9,7 +9,7 @@
 </section>
 <section class="guide-section">
   <h2>WASM extensions</h2>
-  <p>Fluxheim 1.7.9 adds runnable migration examples for iRules-style access policy, OpenResty-style header policy, HAProxy/SPOE-style routing, and VCL-style cache policy. These map common policy jobs to Fluxheim's typed ABI; they do not run source code from those products.</p>
+  <p>Fluxheim 1.7.10 makes every migration family independently testable, keeps the complete Wasm smoke test in the release gate, and verifies that guest-controlled symbolic IDs are rejected safely. In-process host callbacks remain limited to finite, non-blocking operations.</p>
   <table><thead><tr><th>Rule</th><th>Reason</th></tr></thead><tbody>
     <tr><td>Disabled by default</td><td>Default and privacy builds do not compile Wasm features.</td></tr>
     <tr><td>Approved plugin roots</td><td>Plugin files must be absolute, regular files below approved roots, without symlinked files or parent paths.</td></tr>
@@ -23,6 +23,8 @@
     <tr><td>Proxy-Wasm preview</td><td>Build with <code>wasm-proxy-abi</code>, enable <code>allow_preview_abi</code>, and declare both the <code>proxy-wasm-preview</code> ABI and host-call namespace. Unsupported imports and calls fail closed.</td></tr>
     <tr><td>WASI Preview 1</td><td>Build with <code>wasm-wasi</code>, enable <code>allow_preview_abi</code>, declare the <code>wasi-preview</code> ABI and host-call namespace, and grant only the required clock or randomness capability. The preview is limited to access decisions.</td></tr>
     <tr><td>Migration examples</td><td>Build the checked-in examples into digest-pinned Wasm modules. Every example uses configured symbolic IDs and remains unable to access arbitrary files, networks, secrets, request bodies, or cache objects.</td></tr>
+    <tr><td>Wasm host callbacks</td><td>Callbacks are limited to finite symbolic decoding, bounded context reads, and bounded state. They cannot perform file, network, IPC, sleep, process, or third-party callback work.</td></tr>
+    <tr><td>Release testing</td><td>Each migration family can run independently, while the release gate also runs the complete smoke test and an arbitrary guest-ID decoder property test.</td></tr>
     <tr><td>Admission limits</td><td>Process-wide, cache-global, cache-vhost, per-plugin, and per-attachment execution ceilings prevent unbounded plugin work.</td></tr>
     <tr><td>Typed manifests</td><td>ABI, phase, fail-mode, path, and sandbox limits are validated before loading.</td></tr>
     <tr><td>PHP-FPM fallback</td><td>Vhost-level header hooks and fallback response-header cleanup now also apply to PHP-FPM fallback responses.</td></tr>

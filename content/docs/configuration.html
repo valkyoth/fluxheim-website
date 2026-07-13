@@ -32,6 +32,18 @@ upstreams = ["127.0.0.1:3000"]</code></pre>
   <p>A route has one matcher and one action. Exact paths win first, then longest prefixes, then regex routes when regex support is enabled, then one fallback route.</p>
 </section>
 <section class="guide-section">
+  <h2>HTTP response security</h2>
+  <p>HTTP response-security profiles are optional. Start with <code>baseline</code>; use cross-origin isolation only after testing every script, font, image, sign-in flow, and embedded resource.</p>
+  <pre><code>[headers.response.hardening]
+profile = "baseline"</code></pre>
+  <table><thead><tr><th>Profile</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><code>off</code></td><td>Keeps the opt-in hardening headers disabled.</td></tr>
+    <tr><td><code>baseline</code></td><td>Adds conservative browser isolation and resource-policy defaults suitable for most sites.</td></tr>
+    <tr><td><code>cross-origin-isolated</code></td><td>Enables strict cross-origin isolation for applications that have tested every external dependency.</td></tr>
+  </tbody></table>
+  <p>Neither profile enables HSTS or CSP. Configure those separately after testing them against the real site.</p>
+</section>
+<section class="guide-section">
   <h2>Safe habits</h2>
   <ul class="checks"><li>Run <code>fluxheim --check-config</code> before reloads.</li><li>Use one vhost per site or application boundary.</li><li>Keep secrets in files, environment, or container secrets, not in public docs.</li><li>Keep config files and every existing parent directory under trusted ownership and not writable by group or other users.</li><li>Replace the process when TLS, listeners, streams, UDP, ACME, cache purging, tracing, or managed PHP-FPM process settings change; ordinary routing and request-time policy can use a snapshot reload.</li><li>Use route-level limits for uploads and expensive application paths.</li><li>Keep admin and metrics listeners private.</li></ul>
 </section>

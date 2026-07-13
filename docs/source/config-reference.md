@@ -1061,6 +1061,10 @@ x_frame_options = "DENY"
 referrer_policy = "no-referrer"
 remove = ["x-powered-by"]
 
+[headers.response.hardening]
+# off, baseline, or cross-origin-isolated
+profile = "off"
+
 [headers.response.add]
 cache-control = "public, max-age=60"
 
@@ -1097,6 +1101,16 @@ client-IP forwarding remains stripped. IPv4-mapped IPv6 socket addresses such as
 `::ffff:192.0.2.10` are normalized to IPv4 before trusted-proxy, access-policy,
 rate-limit, and GeoIP decisions, so IPv4 CIDR rules apply consistently on
 dual-stack listeners.
+
+The inbound identity denylist includes `Client-IP`, `X-Client-IP`,
+`X-Forwarded-For`, `X-Real-IP`, `Forwarded`, common CDN identity fields,
+`X-Envoy-External-Address`, `X-Original-Forwarded-For`, `X-Azure-ClientIP`,
+`Fly-Client-IP`, `X-ProxyUser-IP`, `X-Forwarded-Client-Cert`, and the generated
+forwarded host/protocol fields. Malformed trusted
+`X-Forwarded-For` hops, including repeated or unbalanced quotes, invalidate the
+whole chain and fall back to the directly observed peer. Add deployment-specific
+identity headers to `headers.request.remove` when an upstream or edge product
+uses a name outside Fluxheim's built-in list.
 
 Warning: setting `strip_inbound_client_ip_headers = false` together with
 `x_forwarded_host = false` or `x_forwarded_proto = false` allows
@@ -1183,9 +1197,96 @@ header value, but do not combine it with `[headers.response.hsts]` in the same
 policy. HSTS and CSP are intentionally not enabled blindly in examples because
 they are site-specific and can break local HTTP testing or asset policies.
 
-Fluxheim sets `Server: fluxheim` and strips `X-Powered-By` by default. Operators
-who do not want a server banner can remove it with `remove = ["server"]`, and
-operators who want a different banner can set one through
+Response hardening profiles are opt-in and default to `off`, preserving existing
+site behavior. `baseline` removes the `Server` banner and emits a conservative
+`Permissions-Policy` plus `X-Permitted-Cross-Domain-Policies: none`.
+`cross-origin-isolated` adds `Cross-Origin-Opener-Policy: same-origin`,
+`Cross-Origin-Resource-Policy: same-origin`, and
+`Cross-Origin-Embedder-Policy: require-corp`. Cross-origin isolation can break
+third-party scripts, fonts, images, OAuth flows, and embedded resources; enable
+it only after testing the complete site. Neither profile enables HSTS or CSP,
+because those policies require deployment-specific TLS, asset, and reporting
+decisions.
+
+Typed response fields and explicit response mutations override profile values:
+
+```toml
+[headers.response]
+content_security_policy_report_only = "default-src 'self'; report-to csp"
+cross_origin_opener_policy = "same-origin-allow-popups"
+cross_origin_resource_policy = "same-site"
+cross_origin_embedder_policy = "credentialless"
+x_permitted_cross_domain_policies = "none"
+
+[headers.response.permissions_policy]
+enabled = true
+# deny-sensitive or deny-all
+profile = "deny-sensitive"
+
+[headers.response.reporting_endpoints]
+csp = "https://reports.example.com/csp"
+```
+
+Reporting endpoints are limited to 16 HTTPS URLs, use lowercase RFC 9651
+dictionary keys, and have a bounded aggregate serialized size. Use report-only
+CSP before enforcement, keep the endpoint on trusted infrastructure, and bound
+its retention and ingestion independently. The generic response mutation layer
+remains available for deliberately site-specific policies. For example,
+`Clear-Site-Data` should be limited to logout or account-reset routes, never a
+global header:
+
+```toml
+[[vhosts.routes]]
+name = "logout"
+path_exact = "/logout"
+
+[vhosts.routes.headers.response.add]
+clear-site-data = "\"cache\", \"cookies\", \"storage\""
+```
+
+Fluxheim does not add obsolete `X-XSS-Protection`, `Expect-CT`, HPKP, or
+`Feature-Policy` headers. Use CSP, HSTS, and `Permissions-Policy` instead.
+
+### CORS
+
+CORS is disabled by default and must use the dedicated request-aware policy.
+Static `Access-Control-Allow-*` response strings cannot safely implement origin
+allowlists or preflight behavior.
+
+```toml
+[headers.cors]
+enabled = true
+allow_origins = ["https://app.example.com"]
+allow_methods = ["GET", "HEAD", "POST"]
+allow_headers = ["authorization", "content-type"]
+expose_headers = ["x-request-id"]
+allow_credentials = true
+max_age_secs = 600
+```
+
+The same fields can be overlaid at `[vhosts.headers.cors]` and
+`[vhosts.routes.headers.cors]`. Fluxheim validates the final inherited policy,
+rejects duplicate origins/methods/headers, rejects non-origin URLs, and never
+allows wildcard origin `*` with credentials. Valid preflights are answered
+locally with `204`; denied preflights receive `403` and do not reach the origin.
+Fluxheim owns the resulting CORS headers, replaces unsafe upstream values, and
+manages `Vary: Origin`, `Vary: Access-Control-Request-Method`, and
+`Vary: Access-Control-Request-Headers`. Response compression separately manages
+`Vary: Accept-Encoding`. Actual responses receive CORS authorization headers
+only when both the request origin and request method are allowed. CORS controls
+whether browser JavaScript may read a response; it is not CSRF protection and
+must never replace route access policy, authentication, authorization, or
+same-site cookie controls.
+
+Generated rate-limit and concurrency-limit responses include
+`Retry-After: 1`. Temporary PHP-FPM and ACME blocking-work saturation responses
+also include bounded retry guidance. Fluxheim does not add retry guidance to
+permanent policy, configuration, or Wasm failures.
+
+Fluxheim strips `X-Powered-By` by default. The native runtime preserves an
+origin `Server` header but does not synthesize one when the origin omits it.
+The opt-in hardening profiles remove the origin banner. Operators can also
+remove it explicitly with `remove = ["server"]` or replace it through
 `[headers.response.add]`.
 
 `[[headers.response.rewrite.location]]` and

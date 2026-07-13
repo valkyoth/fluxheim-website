@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.7.9
+            Download v1.7.10
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.9</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.10</a>
       </div>
     </div>
   </nav>
@@ -140,6 +140,18 @@ max_request_body_bytes = "16MiB"
 [vhosts.routes.proxy]
 upstreams = ["127.0.0.1:3000"]</code></pre>
   <p>A route has one matcher and one action. Exact paths win first, then longest prefixes, then regex routes when regex support is enabled, then one fallback route.</p>
+</section>
+<section class="guide-section">
+  <h2>HTTP response security</h2>
+  <p>HTTP response-security profiles are optional. Start with <code>baseline</code>; use cross-origin isolation only after testing every script, font, image, sign-in flow, and embedded resource.</p>
+  <pre class="language-toml"><code class="language-toml">[headers.response.hardening]
+profile = "baseline"</code></pre>
+  <table><thead><tr><th>Profile</th><th>What it does</th></tr></thead><tbody>
+    <tr><td><code>off</code></td><td>Keeps the opt-in hardening headers disabled.</td></tr>
+    <tr><td><code>baseline</code></td><td>Adds conservative browser isolation and resource-policy defaults suitable for most sites.</td></tr>
+    <tr><td><code>cross-origin-isolated</code></td><td>Enables strict cross-origin isolation for applications that have tested every external dependency.</td></tr>
+  </tbody></table>
+  <p>Neither profile enables HSTS or CSP. Configure those separately after testing them against the real site.</p>
 </section>
 <section class="guide-section">
   <h2>Safe habits</h2>
