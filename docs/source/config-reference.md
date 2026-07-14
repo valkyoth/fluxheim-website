@@ -132,9 +132,11 @@ Notes:
 - `listen` and `tls_listen` are each capped at 64 entries.
 - `default_vhost`, when set, must match a configured `[[vhosts]].name`.
 - `[server.host_routing].strict = false` preserves compatibility by falling
-  back to `default_vhost` for missing, invalid, or unknown host names. Set it
-  to `true` in hardened multi-tenant deployments to reject missing or invalid
-  host identity with `400` and unknown hosts with `421`.
+  back to `default_vhost` for a missing HTTP/1.0 host or an unknown valid host.
+  Malformed authority syntax and a missing HTTP/1.1 `Host` always fail at the
+  protocol boundary. Set strict routing to `true` in hardened multi-tenant
+  deployments to reject missing host identity with `400` and unknown hosts
+  with `421`.
 - Host names are normalized to lowercase and reject percent signs, empty labels
   such as consecutive dots, leading/trailing label hyphens, overlong labels,
   and numeric-only final labels. Single-label internal names such as
@@ -158,11 +160,18 @@ Notes:
   that trust list before parsing the header, and restores the PROXY source
   address before TLS, HTTP, and stream handling. The v2 parser supports TCP4/TCP6 and
   LOCAL/UNSPEC frames, skips bounded TLV payloads, and rejects unsupported
-  address families or oversized v2 payloads.
+  address families, oversized v1/v2 input, or a v2 payload whose byte length
+  differs from the frame header.
 - `[server.process]` maps safe process settings into Fluxheim's native runtime
   process plan. Changes to these values require a process upgrade, not a live
   snapshot reload. Keep `threads` conservative in containers because worker
   threads and listener tasks are process-level resources.
+- On process shutdown, `grace_period_seconds` delays the drain request when it
+  is configured. Fluxheim then drops native accept sockets while established
+  HTTP, HTTPS, HTTP/2, and local HTTP connections drain.
+  `graceful_shutdown_timeout_seconds` bounds that drain; omitting it uses an
+  effective 30-second timeout. The supervisor stop timeout must exceed the sum
+  of the configured grace and effective drain timeout.
 - `pid_file`, `upgrade_sock`, `certificate_reload_sock`, and optional
   `error_log` must not contain parent traversal, must not be below symlinked
   existing parent directories, and on Unix must not use a group- or
@@ -1576,6 +1585,24 @@ h2c/prior-knowledge upstreams and TLS ALPN-negotiated upstream HTTP/2 for
 `http/1.1`, then sends the upstream request with the protocol selected by ALPN.
 Plaintext `http1-and-http2` remains HTTP/1.1-only unless
 `upstream_h2c_upgrade = true` is explicitly configured.
+For downstream HTTP/2, `:authority` is the sole vhost-routing authority;
+Fluxheim discards any ordinary `Host` fields before adapting the request and
+rejects requests without authority. Native HTTP/1 origins may send a bounded
+sequence of informational responses before the final response. Generic status
+`101` is accepted only by the explicit WebSocket or h2c takeover paths.
+Downstream HTTP/1 similarly derives one effective authority. HTTP(S)
+absolute-form and CONNECT authority-form targets must agree with `Host` when it
+is present; malformed authorities, unsupported schemes, fragments,
+backslashes, invalid percent escapes, and conflicts receive `400` before
+routing. HTTP/1.0 requests containing `Transfer-Encoding` are always rejected
+and closed even if they request keep-alive. Chunked bodies have independent
+bounds for decoded and encoded bytes, chunk size/count, size-line length, and
+aggregate extension bytes; extension syntax is validated and fragmented input
+is decoded incrementally.
+Fluxheim supports only a single `chunked` HTTP/1 response transfer coding and
+rejects coding chains it cannot decode completely. It removes fixed
+hop-by-hop response fields plus every field nominated by `Connection` before
+downstream delivery or cache admission.
 For explicit gRPC routes, set route-scoped `[vhosts.routes.grpc] enabled =
 true`; Fluxheim then requires the route proxy to allow upstream HTTP/2, rejects
 non-`POST` requests, accepts only `application/grpc` or `application/grpc+*`

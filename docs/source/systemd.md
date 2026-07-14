@@ -62,10 +62,11 @@ below one of Fluxheim's standard native roots: `/etc/fluxheim`, `/run/fluxheim`,
 `/var/lib/fluxheim`, `/var/cache/fluxheim`, `/var/log/fluxheim`, or
 `/srv/fluxheim`.
 
-Install the systemd unit and optional environment file:
+Install the systemd service, optional socket unit, and environment file:
 
 ```bash
 sudo install -Dm0644 packaging/systemd/fluxheim.service /etc/systemd/system/fluxheim.service
+sudo install -Dm0644 packaging/systemd/fluxheim.socket /etc/systemd/system/fluxheim.socket
 sudo install -Dm0644 packaging/systemd/fluxheim.env /etc/sysconfig/fluxheim
 sudo systemctl daemon-reload
 ```
@@ -122,6 +123,57 @@ sudo systemctl restart fluxheim.service
 
 Fluxheim exits on `SIGTERM`; the unit uses `TimeoutStopSec=30s` so the process
 has time to drain and shut down cleanly before systemd escalates.
+
+Starting with `1.7.11`, native listeners stop accepting after the configured
+grace interval and wait for established connection tasks within the configured
+graceful-shutdown timeout. Public HTTP/HTTPS listeners can also be inherited
+through systemd socket activation. This makes restarts bounded and
+connection-aware and lets systemd retain the listening socket between process
+generations.
+
+RPM packages ship a disabled `fluxheim.socket` matching the packaged
+`server.listen = ["0.0.0.0:80"]` default. The addresses in the socket unit must
+exactly match `server.listen` and `server.tls_listen`. For example, for a config
+listening on `0.0.0.0:80` and `0.0.0.0:443`, replace the socket unit with:
+
+```ini
+[Unit]
+Description=Fluxheim public listeners
+
+[Socket]
+ListenStream=0.0.0.0:80
+ListenStream=0.0.0.0:443
+NoDelay=true
+Service=fluxheim.service
+
+[Install]
+WantedBy=sockets.target
+```
+
+The first conversion from a directly bound service requires one stop/start and
+therefore is not itself zero-downtime. Disable the direct service owner, then
+activate the persistent socket owner:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl disable --now fluxheim.service
+sudo systemctl enable --now fluxheim.socket
+sudo systemctl start fluxheim.service
+```
+
+Keep `fluxheim.socket` enabled and do not re-enable `fluxheim.service`; incoming
+traffic can activate the service, and explicit service restarts retain the
+socket in systemd. After this one-time conversion, validate an update and use
+`systemctl restart fluxheim.service` while the socket unit remains active.
+
+Do not add addresses that are absent from the Fluxheim config and do not omit
+configured public addresses. Fluxheim rejects partial activation, wrong-process
+descriptors, non-TCP descriptors, duplicate addresses, and address mismatches;
+it never silently binds a fallback public socket once activation was requested.
+The packaged service uses `Type=notify` and considers startup successful only
+after Fluxheim reports that native startup completed. The complete rollout
+model and current limitation are documented in
+[Zero-Downtime Upgrades](zero-downtime-upgrades.md).
 
 ## ACME Timer
 

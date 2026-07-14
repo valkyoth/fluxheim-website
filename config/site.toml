@@ -1,5 +1,5 @@
 project_name = "Fluxheim"
-fluxheim_version = "1.7.10"
+fluxheim_version = "1.7.11"
 github_url = "https://github.com/valkyoth/fluxheim"
 releases_url = "https://github.com/valkyoth/fluxheim/releases"
 license = "EUPL-1.2"

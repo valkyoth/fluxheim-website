@@ -5,7 +5,7 @@
   -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro \
   -v ./site:/srv/site:ro \
   -v fluxheim-cache:/var/cache/fluxheim \
-  ghcr.io/valkyoth/fluxheim:v1.7.10</code></pre>
+  ghcr.io/valkyoth/fluxheim:v1.7.11</code></pre>
 </section>
 <section class="guide-section">
   <h2>Container mounts</h2>
@@ -23,6 +23,11 @@
 sudo systemctl restart fluxheim
 sudo systemctl status fluxheim
 journalctl -u fluxheim -n 100 --no-pager</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Zero-downtime upgrades</h2>
+  <p>Systemd socket activation keeps the public listener available while Fluxheim validates the replacement and drains existing connections. Containers need a stable front proxy, load balancer, or orchestrator because directly published host ports cannot be replaced without a listener gap.</p>
+  <a class="action" href="https://github.com/valkyoth/fluxheim/blob/main/docs/zero-downtime-upgrades.md" target="_blank" rel="noopener">Read the complete upgrade contract</a>
 </section>
 <section class="guide-section">
   <h2>Production checklist</h2>

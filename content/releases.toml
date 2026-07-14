@@ -1,4 +1,10 @@
-latest = "1.7.10"
+latest = "1.7.11"
+
+[[release]]
+version = "1.7.11"
+date = "2026-07-14"
+title = "Zero-downtime process upgrades"
+summary = "Adds bounded native connection drain, strict systemd listener inheritance, readiness-gated process handoff, and tested native and Podman blue/green deployment patterns while completing the HTTP/1 parser audit and strengthening background-service ownership."
 
 [[release]]
 version = "1.7.10"
