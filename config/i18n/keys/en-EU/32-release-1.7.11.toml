@@ -1,4 +1,4 @@
-released_july_14_2026 = "Released July 14, 2026"
+released_july_14_2026 = "Released 14 July 2026"
 adds_bounded_graceful_drain_and_readiness_gated_zero_downtime_handoff = "Adds bounded graceful drain and readiness-gated zero-downtime handoff"
 adds_strict_systemd_socket_activation_with_exact_inherited_listener_validation = "Adds strict systemd socket activation with exact inherited-listener validation"
 completes_http_1_parser_hardening_and_strengthens_background_service_ownership = "Completes HTTP/1 parser hardening and strengthens background-service ownership"

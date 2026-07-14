@@ -109,7 +109,7 @@ async fn locale_prefixes_preserve_legacy_pages() {
     assert!(de_body.contains("Systemd-Dienst"));
     assert!(de_body.contains("Cache-Edge-Build"));
     assert!(de_body.contains("Herunterladen v1.7.11"));
-    assert!(de_body.contains("Fluxheim-1.7-Reihe"));
+    assert!(de_body.contains("Fluxheim 1.7-Reihe"));
     assert!(de_body.contains("Prozess-Upgrades ohne Ausfallzeit"));
     assert!(de_body.contains("v1.7.11"));
     assert!(de_body.contains("v1.6.0 – v1.6.37"));
@@ -275,6 +275,8 @@ async fn english_variant_prefixes_preserve_english_content() {
     assert!(gb_body.contains(r#"<html lang="en-GB""#));
     assert!(gb_body.contains("Download v1.7.11"));
     assert!(gb_body.contains("Pre-built Linux binaries"));
+    assert!(gb_body.contains("Released 14 July 2026"));
+    assert!(!gb_body.contains("Released July 14, 2026"));
     assert!(gb_body.contains(r#"<a href="/en-gb/download" aria-current="true">"#));
     assert!(gb_body.contains("🇬🇧"));
     assert!(gb_body.contains("<span>English (UK)</span>"));
@@ -286,6 +288,11 @@ async fn english_variant_prefixes_preserve_english_content() {
     assert!(us_body.contains(r#"<a href="/en-us/docs" aria-current="true">"#));
     assert!(us_body.contains("🇺🇸"));
     assert!(us_body.contains("<span>English (US)</span>"));
+
+    let (us_download_status, _headers, us_download_body) = request("/en-us/download").await;
+    assert_eq!(us_download_status, StatusCode::OK);
+    assert!(us_download_body.contains("Released July 14, 2026"));
+    assert!(!us_download_body.contains("Released 14 July 2026"));
 }
 
 #[tokio::test]
@@ -546,8 +553,8 @@ async fn deployment_uses_page_specific_translations() {
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains("Rootless Podman"));
     assert!(de_body.contains("Produktions-Checkliste"));
-    assert!(de_body.contains("Upgrades ohne Ausfallzeiten"));
-    assert!(de_body.contains("Vollständige Upgrade-Bedingungen lesen"));
+    assert!(de_body.contains("Upgrades ohne Ausfallzeit"));
+    assert!(de_body.contains("Vollständige Upgrade-Vorgaben lesen"));
     assert!(!de_body.contains("Read the complete upgrade contract"));
     assert!(
         de_body.contains("jedem Storage-Bin-Replikat einen eigenen lokalen oder RWO-Datenträger")
@@ -557,7 +564,7 @@ async fn deployment_uses_page_specific_translations() {
     assert_eq!(fr_status, StatusCode::OK);
     assert!(fr_body.contains("Podman rootless"));
     assert!(fr_body.contains("Checklist de production"));
-    assert!(fr_body.contains("Mises à niveau sans temps d'arrêt"));
+    assert!(fr_body.contains("Mises à niveau sans interruption"));
 }
 
 #[tokio::test]
