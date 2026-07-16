@@ -37,3 +37,9 @@ cargo build --release --no-default-features --features profile-load-balancer-edg
   <h2>Things that cannot go together</h2>
   <ul class="checks"><li>Pick exactly one TLS backend.</li><li>Privacy builds do not include cache, metrics, tracing, OTLP export, or Wasm features.</li><li>Focused edge images intentionally omit modules outside their job.</li><li>Run the feature validator before packaging custom feature strings.</li></ul>
 </section>
+<section class="guide-section">
+  <h2>FIPS backend evidence</h2>
+  <p>Fluxheim provides separately pinned CI proof environments for the OpenSSL-FIPS and rustls/AWS-LC-FIPS profiles. They build and run the exact profile binary, exercise downstream and certificate-verified upstream TLS, reject incompatible policy, and record compiler, provider, dependency, binary, and image identities.</p>
+  <p>This is reproducible backend evidence, not product-level FIPS validation. Keep the proof containers separate from normal release images and review the evidence for the exact build you deploy.</p>
+  <a class="action" href="https://github.com/valkyoth/fluxheim/blob/main/docs/fips.md" target="_blank" rel="noopener">Read the FIPS evidence guide</a>
+</section>

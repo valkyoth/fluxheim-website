@@ -43,6 +43,12 @@ internal cache implementation.
   `vhosts.routes.cache.status_header` optionally emit a cache debug header such
   as `X-Cache-Status: HIT`, `MISS`, `STALE`, `BYPASS`, `EXPIRED`, or
   `REVALIDATED` for requests that participate in the proxy cache.
+- `[headers.response.metadata]`, `[vhosts.headers.response.metadata]`, and
+  `[vhosts.routes.headers.response.metadata]` can instead opt into the
+  standards-based RFC 9211 `Cache-Status` field. Fluxheim derives its member
+  from the same real cache outcome but intentionally omits cache keys, tiers,
+  policy reasons, and origin topology. A valid deployment `identifier` is
+  required. See the response-metadata section of the config reference.
 - `cache.hide_response_headers`, `vhosts.cache.hide_response_headers`, and
   `vhosts.routes.cache.hide_response_headers` remove explicitly configured
   upstream response headers before cache admission and downstream delivery.
@@ -59,8 +65,10 @@ internal cache implementation.
 - `cache.bypass_request_headers`, `vhosts.cache.bypass_request_headers`, and
   `vhosts.routes.cache.bypass_request_headers` bypass cache lookup and storage
   when any listed request header is present. Use this for route policies where
-  headers such as `Cookie` or `Authorization` make the upstream response
-  request-specific.
+  headers such as `Cookie` make the upstream response request-specific.
+  Fluxheim always bypasses shared-cache lookup and storage for requests with
+  `Authorization` or `Proxy-Authorization`; that credential boundary cannot be
+  disabled by an empty configured bypass list.
 - `bypass_request_header_values`, `bypass_cookie_names`,
   `bypass_cookie_values`, `bypass_query_params`, and `bypass_query_values`
   provide narrower bypass controls for preview flags, session cookies, and
@@ -156,6 +164,16 @@ internal cache implementation.
   `vhosts.routes.cache.stale_while_revalidate_secs` add an explicit
   stale-while-revalidate window to cache-participating responses. Fluxheim can
   then serve an expired stored object while revalidating it with the upstream.
+  Origin `must-revalidate`, `proxy-revalidate`, and `s-maxage` directives are
+  persisted with each object and prohibit both stale-while-revalidate and
+  stale-if-error reuse even when operator stale windows are configured.
+- Fluxheim parses response `Cache-Control` as one strict shared-cache policy.
+  `s-maxage` takes precedence over `max-age`; malformed values, invalid quoted
+  strings, and duplicate security or freshness directives reject admission
+  rather than falling back to an operator TTL. The combined response policy is
+  limited to 16 KiB and 128 directives and is parsed without a directive
+  allocation. Peer-fill subtracts the first received `Age` value from
+  remaining freshness.
 - `cache.content_types`, `vhosts.cache.content_types`, and
   `vhosts.routes.cache.content_types` allow exact media types and subtype
   wildcards such as `image/*`. The `extensions` key is accepted as the
@@ -217,10 +235,11 @@ internal cache implementation.
   selection are in place. The release gate includes a storage-bin smoke that
   verifies live proxy traffic populates the bin/index files and returns `MISS`
   followed by `HIT`.
-- A root-local `.fluxheim-storage-bin-index-v1` records each combined cache key
-  and its `(bin_id, offset, len)` location. On startup Fluxheim reads the index,
-  validates each referenced object by parsing the v5 cache object bytes, rebuilds
-  the purge index, and reconstructs free ranges from the occupied locations.
+- A root-local `.fluxheim-storage-bin-index-v1` records each combined cache key,
+  or its root-bound HMAC-SHA-256 lookup identity when encryption is enabled, and its
+  `(bin_id, offset, len)` location. On startup Fluxheim reads the index, validates
+  each referenced object by parsing the v5 cache object bytes, rebuilds the purge
+  index, and reconstructs free ranges from the occupied locations.
 - Storage-bin index writes are coalesced by one fallibly-created process-wide
   persistence worker and limited to one flush per second per cache root during
   insert, eviction, and purge bursts. Cache policies register weak persistence
@@ -287,8 +306,13 @@ internal cache implementation.
   systemd/container credential. The OpenBao Transit provider keeps key material
   outside Fluxheim, calls Transit encrypt/decrypt over HTTPS or loopback HTTP,
   and stores only the returned Transit ciphertext in the cache backend.
-  Encrypted objects bind the configured key id and combined cache key as
-  authenticated data. `examples/podman-compose-openbao.yml` and
+  Encrypted objects bind the configured key id as authenticated data and keep
+  the combined cache key inside the encrypted payload for post-decryption
+  identity validation. Encrypted filesystem names and storage-bin index entries
+  use a separate root-bound HMAC key. A first `1.7.12` encrypted-root startup
+  and local-key rotation cold-purge older encrypted cache data rather than
+  retaining v1 or unkeyed-index compatibility.
+  `examples/podman-compose-openbao.yml` and
   `scripts/smoke_openbao_cache_encryption.sh` provide an optional local
   OpenBao Transit smoke path for this provider; the script starts a dev OpenBao
   container, enables Transit, creates a cache key, and verifies a Fluxheim

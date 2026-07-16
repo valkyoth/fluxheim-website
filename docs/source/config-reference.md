@@ -95,6 +95,7 @@ max_request_header_bytes = "64KiB"
 max_uri_bytes = "8KiB"
 max_request_headers = 100
 max_request_body_bytes = "16MiB"
+max_buffered_request_body_bytes = "1GiB"
 
 [server.process]
 daemon = false
@@ -121,6 +122,24 @@ strict = false
 
 Notes:
 
+- `max_request_body_bytes` limits one buffered downstream request body.
+  `max_buffered_request_body_bytes` is the process-wide admission budget shared
+  by HTTP/1 and HTTP/2; it defaults to `1GiB` and must be at least as large as
+  every configured server, vhost, and route body limit. Fluxheim reserves an
+  exact validated `Content-Length`, rounded to 64 KiB admission units, and grows
+  unknown-length HTTP/1 chunked and HTTP/2 reservations incrementally before
+  extending their buffers. It returns `503` with `Retry-After: 1` while the
+  aggregate budget remains occupied. HTTP/1 body bytes are moved without
+  constructing a second full-body copy and retained in one owned,
+  full-capacity-cleared allocation; the same allocation becomes the owned H2
+  DATA source when an HTTP/2 upstream is selected. The admission reservation
+  is owned by that sanitizing body allocation, so queued H2 DATA slices retain
+  their process-budget charge until the final transport reference is released.
+  Secure HTTP/1 chunked and unknown-length HTTP/2 body growth temporarily
+  admits both old and replacement capacities before reallocating, and consumed
+  connection buffers do not retain uploaded bodies after request dispatch.
+  Fluxheim does not automatically retry or fail over a request with a non-empty
+  body. Tune the budget to available service memory.
 - `listen` and `tls_listen` cannot both be empty unless `[stream].enabled =
   true` supplies dedicated TCP stream listeners.
 - `server.process.upstream_keepalive_pool_size` is a per-native-upstream idle
@@ -214,6 +233,7 @@ upstreams = ["10.0.0.11:5432", "10.0.0.12:5432"]
 # drain_upstreams = []
 connect_timeout_secs = 5
 idle_timeout_secs = 300
+proxy_header_timeout_secs = 10
 # max_connection_secs = 3600
 max_connection_bytes = 1073741824
 max_connections = 1024
@@ -250,9 +270,14 @@ upstream_dns_allow_private_addresses = false
 - `idle_timeout_secs` is a true stream idle timer and defaults to `300`. The
   timer resets whenever either direction transfers bytes. Both copy directions
   retain their read/write state across dispatcher polls, so simultaneous
-  backpressured traffic cannot cancel a partial write. Forwarded plaintext is
-  cleared from the 16 KiB direction buffer immediately, and the complete buffer
-  is cleared when the direction exits.
+  backpressured traffic cannot cancel a partial write. Every successful partial
+  write refreshes the deadline and its forwarded plaintext range is cleared
+  from the 16 KiB direction buffer immediately; the complete buffer is cleared
+  when the direction exits.
+- `proxy_header_timeout_secs` is one absolute deadline for receiving the
+  complete downstream PROXY v1 or v2 preamble. It defaults to `10`, must be
+  non-zero, and cannot exceed `60`. Individual bytes do not refresh it. The
+  setting has no effect while `downstream_proxy_protocol = "off"`.
 - `max_connection_secs` is optional and bounds total accepted stream lifetime
   when set. Leave it unset for no wall-clock lifetime cap.
 - `max_connection_bytes` is optional and caps copied bytes per direction for a
@@ -281,8 +306,10 @@ upstream_dns_allow_private_addresses = false
   Hostname upstreams are resolved on connection setup. By default, Fluxheim
   rejects hostname DNS answers that resolve only to private, loopback,
   link-local, multicast, broadcast, documentation, or unspecified addresses to
-  reduce DNS-rebinding pivots. IPv4-mapped and legacy IPv4-compatible IPv6
-  answers are normalized and evaluated by the IPv4 policy before selection. Set
+  reduce DNS-rebinding pivots. IANA special-purpose translation, transition,
+  discard-only, benchmarking, site-local, and SRv6 SID prefixes are rejected as
+  well. IPv4-mapped and legacy IPv4-compatible IPv6 answers are normalized and
+  evaluated by the IPv4 policy before selection. Set
   `upstream_dns_allow_private_addresses = true` only for routes whose hostname
   upstreams are intentionally resolved by trusted internal DNS. IP-literal
   upstreams remain explicit and are not blocked by this DNS guard.
@@ -459,7 +486,12 @@ the selected Ring, OpenSSL-FIPS, or AWS-LC-FIPS internal crypto provider.
 parent traversal, must not sit below a
 symlinked parent directory, and on Unix must not use a group- or world-writable
 existing parent such as `/tmp`. The snapshot store runtime applies the same rule when it
-is used directly by CLI/admin paths.
+is used directly by CLI/admin paths. Configure `snapshot_store` as a dedicated
+directory, never a filesystem root or shared system/application directory. An
+existing store must already be owned by the service identity with mode `0700`;
+Fluxheim rejects it instead of changing its permissions. When the final store
+directory is absent, its immediate trusted parent must already exist and
+Fluxheim creates the dedicated store as `0700`.
 
 Remote admin exposure fails closed. Keep `admin.listen` loopback whenever
 possible. If `admin.require_loopback = false` and `admin.listen` is non-loopback,
@@ -636,10 +668,18 @@ admission values are bounded to `0..=256`, with active limits required to be
 non-zero. Runtime acquisition proceeds from attachment and plugin scopes toward
 the process-wide scope so a narrow backlog cannot consume global permits.
 Sandbox limits also have crate-enforced ceilings: `max_module_bytes` is at most
-16 MiB, `max_memory_bytes` at most 256 MiB, `max_table_elements` at most
-100000, `fuel` at most 100000000, `timeout_ms` at most 5000, and
-`compile_timeout_ms` at most 10000. These are hard safety ceilings, not
-recommended defaults.
+16 MiB, `max_compiled_artifact_bytes` at most 256 MiB, `max_memory_bytes` at
+most 256 MiB, `max_table_elements` at most 100000, `fuel` at most 100000000,
+`timeout_ms` at most 5000, and `compile_timeout_ms` at most 10000. These are
+configuration ceilings, not recommended defaults. The compiled-artifact limit
+is checked before a module enters the live registry. Native Wasmtime
+compilation cannot be preempted safely in-process, so `compile_timeout_ms` is a
+result deadline: an over-deadline compile completes synchronously, releases its
+global slot, and is then rejected. Fluxheim never leaves detached compiler
+threads running after returning a timeout. Deployments that require hard
+compiler cancellation must isolate the Fluxheim startup/reload process with OS
+CPU and memory limits; killable per-plugin workers require a future
+process-isolated Wasm execution architecture.
 `1.7.1` enables the first live
 native HTTP/1 request-path hook family: `access-decision`. The current preview
 ABI calls `fluxheim_access_decision() -> i32`, where `0` continues the chain,
@@ -1255,6 +1295,56 @@ clear-site-data = "\"cache\", \"cookies\", \"storage\""
 
 Fluxheim does not add obsolete `X-XSS-Protection`, `Expect-CT`, HPKP, or
 `Feature-Policy` headers. Use CSP, HSTS, and `Permissions-Policy` instead.
+
+### Standards-Based Response Metadata
+
+Standards-based cache, proxy, and digest fields are opt-in and disabled by
+default. They are generated from runtime outcomes and final response bytes;
+they are not aliases for static response-header mutation.
+
+```toml
+[headers.response.metadata]
+# Required when cache_status or proxy_status is enabled. This is a public
+# Structured Fields token identifying this Fluxheim deployment, not an origin.
+identifier = "edge-gateway"
+cache_status = true
+proxy_status = true
+content_digest = true
+repr_digest = true
+```
+
+The same table can be overlaid at `[vhosts.headers.response.metadata]` and
+`[vhosts.routes.headers.response.metadata]`. The identifier is limited to 64
+bytes and must use HTTP Structured Fields token grammar. Fluxheim rejects a
+policy that enables `cache_status` or `proxy_status` without a valid inherited
+identifier.
+
+`cache_status` appends an RFC 9211 `Cache-Status` member derived from the real
+cache result. The member reports only bounded outcomes such as hit, URI miss,
+stored, stale forwarding, or bypass. It does not expose cache keys, internal
+tiers, admission reasons, or origin topology. `proxy_status` appends an RFC
+9209 `Proxy-Status` member only for a Fluxheim-generated proxy failure, using a
+standard low-cardinality error token. Backend addresses, DNS names,
+certificate details, and raw error strings are never included. Existing
+origin members remain visible as separate list members, so enable these fields
+only when exposing cache/proxy behavior is acceptable for the route.
+
+`content_digest` emits RFC 9530 `Content-Digest` with SHA-256 over the final
+HTTP message content after any Fluxheim compression. `repr_digest` emits
+RFC 9530 `Repr-Digest` only when Fluxheim has the complete selected
+representation: currently a complete `GET` response with status `200`, no
+`Content-Range`, and a body consistent with the declared content length.
+Fluxheim deliberately suppresses `Repr-Digest` for `HEAD`, `206`, `304`, and
+other responses where the full representation is unavailable rather than
+guessing it. `Content-Digest` on bodyless `HEAD` and `304` responses covers the
+empty message content; on `206` it covers only the returned range. If Fluxheim
+compresses a response while digest generation is disabled, it removes any
+origin digest fields that would describe the pre-compression bytes.
+
+The current native response path is bounded and buffered. Digest generation
+hashes that final buffer without making a second body copy; unbuffered digest
+trailers are not currently supported. Digest fields provide transport
+integrity metadata, not authentication or authorization.
 
 ### CORS
 
@@ -2230,10 +2320,11 @@ local_time = false
 ```
 
 Static serving requires `web.root` to be a real directory, not a symlink and
-not below a symlinked parent directory. Request paths are symlink-free,
-including intermediate directories. Static serving also rejects traversal,
-dotfiles by default, and unknown nested index file names. `index_files` is
-capped at 32 entries. Static body reads
+not below a symlinked parent directory. Existing path prefixes are checked even
+when a later descendant is missing. Request paths are symlink-free, including
+intermediate directories. Static serving also rejects traversal, dotfiles by
+default (including non-UTF-8 OS filenames beginning with `.`), and unknown
+nested index file names. `index_files` is capped at 32 entries. Static body reads
 re-check the opened file handle and full-body reads are length-exact, failing
 if the file changes while it is being read. The current static response path is
 buffered and refuses response bodies larger than 64 MiB; larger-file streaming
@@ -2418,16 +2509,35 @@ supported mechanism for sharing cache warmth between independent roots.
 before they are written to the filesystem or storage-bin backend. The local key
 must be a 64-character hex-encoded 256-bit key loaded from exactly one of
 `key_file` or `key_credential`; credential names are resolved through
-`$CREDENTIALS_DIRECTORY` when present or `/run/secrets` otherwise. `key_id`
-is stored with the encrypted object and is included with the combined cache key
-as authenticated data, so objects cannot be silently swapped between cache
-keys. Local cache encryption is intended for cache-at-rest protection; it does
-not encrypt memory cache contents.
-Because the local provider uses random AES-GCM nonces, rotate local cache keys
-before roughly `2^32` object-encryption invocations per key. Fluxheim logs a
-security warning when one process approaches that bound, but scheduled key
-rotation is still required for long-lived high-write deployments because the
-runtime counter resets on restart.
+`$CREDENTIALS_DIRECTORY` when present or `/run/secrets` otherwise. `key_id` is
+stored with the encrypted object as authenticated data. The combined cache key
+remains inside the encrypted payload. Encrypted filesystem filenames and
+storage-bin indexes use HMAC-SHA-256 identities made with a separately derived
+index key, so persisted metadata does not provide an offline oracle for
+candidate URLs or query values. Decrypted objects are validated against the
+requested cache identity before use. Local cache encryption is intended for
+cache-at-rest protection; it does not encrypt memory cache contents.
+
+Fluxheim creates a persistent random identity for each encrypted cache root and
+uses HKDF-SHA-256 to derive separate root-specific AES and index keys from the
+configured local master key. Random AES-GCM nonces are accounted by a locked,
+durable counter for that effective root key. Encryption fails closed at `2^32`
+object-encryption invocations and logs a security warning before that bound.
+Preserve `.fluxheim-encryption-*`, `.fluxheim-gcm-*`, and
+`.fluxheim-index-key-*` state with the cache root. Missing, truncated, or
+inconsistent active-key or counter state fails startup instead of resetting a
+counter. A missing root identity causes a new root key and mandatory cold purge.
+Do not clone or restore one initialized encrypted root into multiple
+concurrently active replicas; use independent roots and peer fill.
+
+The first `1.7.12` startup on an existing encrypted root creates root-bound
+state and cold-purges legacy encrypted objects and indexes. Envelope v1 is no
+longer accepted. Changing a local master key also triggers a cold purge before
+the new derived key is used. Cache contents are expendable, but the hidden
+encryption state is cryptographic state: filesystem rollback of that complete
+state cannot be detected locally. High-assurance deployments requiring
+externally enforced rollback resistance should use OpenBao/KMS-managed key
+lifecycle and must not restore cache cryptographic state from an old snapshot.
 Filesystem disk-cache fills with the local provider encrypt streamed objects in
 bounded AEAD chunks, so enabling local encryption does not require Fluxheim to
 copy a complete streamed origin response back into heap before committing it to
@@ -2439,9 +2549,13 @@ that need centralized key custody and rotation. Fluxheim calls the Transit
 returned `vault:v...` ciphertext in the filesystem or storage-bin backend. The
 OpenBao endpoint must be HTTPS unless it is loopback HTTP, and the token must
 come from exactly one safe `token_file` or `token_credential` source. The
-configured key id plus combined cache key are passed as associated data, so a
-stored ciphertext is bound to the cache object identity. The default local-key
-provider does not require OpenBao. Transit calls do not follow HTTP redirects,
+configured key id is associated data; the combined cache identity is encrypted
+inside the object and checked after decryption, so substituted objects are
+discarded without exposing cache URLs in envelope metadata. The default
+local-key provider does not require OpenBao. Fluxheim creates a random HMAC
+index key per OpenBao cache root and stores only its Transit-encrypted form, so
+the OpenBao token itself is never used as index-key material. Transit calls do
+not follow HTTP redirects,
 and Transit JSON responses are read with an explicit size limit before parsing.
 OpenBao Transit accepts a single plaintext value per `encrypt` request, so
 Fluxheim bounds concurrent OpenBao encrypted commit heap usage and may refuse a
@@ -2677,9 +2791,11 @@ storage for matching request paths. Prefixes are useful for app admin areas;
 exact paths are useful for login, XML-RPC, cron, sitemap, or legacy WordPress endpoints.
 `bypass_request_headers` disables both cache lookup and cache storage when any
 listed request header is present. Use it on routes where a header such as
-`Cookie` or `Authorization` changes the upstream response but should not become
-part of the shared cache identity. The default is empty so explicit static
-asset routes can still cache browser requests that carry unrelated cookies.
+`Cookie` changes the upstream response but should not become part of the shared
+cache identity. Requests containing `Authorization` or `Proxy-Authorization`
+always bypass shared-cache lookup and storage, independently of this list. The
+configured default is empty so explicit static asset routes can still cache
+browser requests that carry unrelated cookies.
 `bypass_request_header_values` disables lookup and storage only when a listed
 request header has the exact configured value. Use it for bounded flags such as
 `x-preview-mode = "1"` when header presence alone is too broad.
@@ -2755,7 +2871,10 @@ Non-200 origin responses are admitted only when their status appears in
 `status_ttls`, or when `default_status_ttl_secs` is set as a fallback for any
 status. Use `default_status_ttl_secs` carefully: it can make unusual or error
 statuses cacheable on the matched route unless another admission rule rejects
-the response. `stale_while_revalidate_secs` and `stale_if_error_secs` are
+the response. Malformed response `Cache-Control`, duplicate security or
+freshness directives, and invalid quoted values fail admission rather than
+falling back to these TTLs. For valid policy, `s-maxage` takes precedence over
+`max-age`. `stale_while_revalidate_secs` and `stale_if_error_secs` are
 optional and must be greater than zero when set.
 `stale_while_revalidate_secs` permits serving an already-stored stale object
 while Fluxheim revalidates it in the background, and `stale_if_error_secs`
@@ -2767,7 +2886,10 @@ values are `connect`, `timeout`, `read`, `write`, `connection-closed`,
 `http-status`, `protocol`, `tls`, and `other`. The default includes all
 classes. `stale_if_error_statuses` optionally narrows HTTP-status stale serving
 to selected 5xx origin statuses; when it is empty, any upstream 5xx status that
-Fluxheim marks stale-if-error eligible is allowed. `content_types` is the
+Fluxheim marks stale-if-error eligible is allowed. Stored responses carrying
+`must-revalidate`, `proxy-revalidate`, or `s-maxage` are never reused stale;
+that origin restriction is persisted across memory and disk cache tiers and
+overrides configured stale windows. `content_types` is the
 allow-list for `200 OK` origin
 response media types. Entries may be exact media types such as `text/css` or
 subtype wildcards such as `image/*`. `extensions` is the user-facing alias for
@@ -2859,6 +2981,7 @@ key_path = "tls/key.pem"
 [tls.client_auth]
 mode = "off"
 # ca_path = "tls/client-ca.pem"
+# crl_path = "tls/client.crl.pem"
 ```
 
 TLS backend values: `rustls`, `openssl`. `boringssl` and `s2n` are rejected
@@ -2948,18 +3071,52 @@ listeners:
 [tls.client_auth]
 mode = "required" # "off", "optional", or "required"
 ca_path = "/etc/fluxheim/tls/client-ca.pem"
+crl_path = "/etc/fluxheim/tls/client-crls.pem" # optional PEM CRL bundle
 ```
 
 `mode = "required"` rejects TLS handshakes that do not present a certificate
 chain trusted by `ca_path`. `mode = "optional"` asks for a client certificate
 and verifies it when present, but still accepts clients without one. The CA
-bundle path uses the same safe-path validation as other TLS files: no
+bundle and optional CRL paths use the same safe-path validation as other TLS files: no
 parent-directory traversal, no symlinked path components, and no group- or
 world-writable existing parent directory. The supported TLS matrix wires rustls
 and OpenSSL listeners only.
 Client-auth CA bundles are capped at 8 MiB and 4096 certificates. Oversized or
 over-count bundles fail listener construction instead of consuming unbounded
 memory during startup or certificate reload.
+When `crl_path` is set, Fluxheim accepts a bounded PEM bundle containing 1 to
+64 CRLs and checks the complete presented client chain. Hierarchical client PKI
+therefore needs the issuing intermediate CA CRL for each client certificate and
+the parent CA CRL for each non-root intermediate. Rustls rejects unknown
+revocation status and expired CRLs; OpenSSL enables `CRL_CHECK` and
+`CRL_CHECK_ALL`. Malformed, empty, over-count, oversized, expired, or revoked
+inputs fail closed. CRL policy changes require a process upgrade, so a failed
+replacement cannot mutate the active listener configuration. Without
+`crl_path`, ordinary client-auth deployments validate certificate trust but do
+not perform revocation checks. Required client authentication under
+`tls.fips.required = true` or `tls.iso19790.required = true` must configure a
+CRL bundle.
+
+The OpenSSL SNI store parses and admits client-auth policy once per atomic
+generation and shares reference-counted CA certificates across certificate
+contexts. It rejects a configuration when the CA/CRL input size projected
+across the active and replacement SNI context generations exceeds 128 MiB.
+OpenSSL's internal server session-cache capacity is divided across all SNI
+contexts from a global 4096-entry budget, preventing the backend default from
+being multiplied by every configured certificate. Complete reload operations
+are serialized, and every SNI-selected SSL connection retains an explicit lease
+for its certificate generation and an independent drain-waker registration.
+At most two generations may be live. When an older generation blocks rotation,
+Fluxheim marks it for draining; the native OpenSSL HTTP/1, HTTP/2, and
+connection-takeover I/O paths wake and close every retained connection before
+the reload automatically retries for up to 10 seconds. If connections cannot
+release within that bound, the reload fails closed without replacing the active
+certificates. This enforced lifetime cap makes the active-plus-replacement
+memory projection match actual retained generations. OpenSSL SSL ex-data uses
+one process-global connection-lease slot, including when listeners or
+certificate stores are reconstructed in-process. Fluxheim verifies every lease
+attachment by reading that slot back and terminates if OpenSSL cannot preserve
+the connection-generation lifetime invariant under extreme allocation failure.
 Verified client-certificate identity can be forwarded explicitly with
 request header templates such as `{tls.client_cert_sha256}`. Route decisions
 based on certificate identity remain future work; do not rely on client-cert

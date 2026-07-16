@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.7.11
+            Download v1.7.12
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.11</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.12</a>
       </div>
     </div>
   </nav>
@@ -146,6 +146,12 @@ cargo build --release --no-default-features --features profile-load-balancer-edg
 <section class="guide-section">
   <h2>Things that cannot go together</h2>
   <ul class="checks"><li>Pick exactly one TLS backend.</li><li>Privacy builds do not include cache, metrics, tracing, OTLP export, or Wasm features.</li><li>Focused edge images intentionally omit modules outside their job.</li><li>Run the feature validator before packaging custom feature strings.</li></ul>
+</section>
+<section class="guide-section">
+  <h2>FIPS backend evidence</h2>
+  <p>Fluxheim provides separately pinned CI proof environments for the OpenSSL-FIPS and rustls/AWS-LC-FIPS profiles. They build and run the exact profile binary, exercise downstream and certificate-verified upstream TLS, reject incompatible policy, and record compiler, provider, dependency, binary, and image identities.</p>
+  <p>This is reproducible backend evidence, not product-level FIPS validation. Keep the proof containers separate from normal release images and review the evidence for the exact build you deploy.</p>
+  <a class="action" href="https://github.com/valkyoth/fluxheim/blob/main/docs/fips.md" target="_blank" rel="noopener">Read the FIPS evidence guide</a>
 </section>
 
       </div>

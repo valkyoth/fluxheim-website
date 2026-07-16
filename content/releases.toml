@@ -1,4 +1,10 @@
-latest = "1.7.11"
+latest = "1.7.12"
+
+[[release]]
+version = "1.7.12"
+date = "2026-07-15"
+title = "Standards metadata and runtime hardening"
+summary = "Adds opt-in Cache-Status, Proxy-Status, Content-Digest, and Repr-Digest generated from real runtime outcomes and final response bytes; proves authenticated snapshot reload and rollback; adds reproducible FIPS-backend evidence; and hardens cache policy, encrypted cache state, request buffering, TLS client revocation, Wasm loading, and stream boundaries."
 
 [[release]]
 version = "1.7.11"

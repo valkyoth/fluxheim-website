@@ -7,7 +7,11 @@ COPY src/ src/
 COPY content/ content/
 COPY config/ config/
 
-RUN cargo build --release --locked
+# The official 1.97.1 image was not yet published when this toolchain shipped.
+# rustup reads rust-toolchain.toml, installs 1.97.1, and verifies the compiler
+# before Cargo builds the release binary.
+RUN rustc --version | grep -F "rustc 1.97.1 " && \
+    cargo build --release --locked
 
 FROM cgr.dev/chainguard/wolfi-base:latest@sha256:02dab76bd852a70556b5b2002195c8a5fdab77d323c433bf6642aab080489795
 

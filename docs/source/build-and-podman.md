@@ -71,6 +71,20 @@ cargo build --release --no-default-features --features profile-iso19790-rustls
 scripts/validate-fips-rustls.sh check
 ```
 
+For the stronger `1.7.12` container evidence, build the exact proof binaries
+inside pinned UBI environments and exercise real downstream and upstream TLS:
+
+```bash
+scripts/smoke_fips_backend_images.sh all
+# or: scripts/smoke_fips_backend_images.sh openssl
+# or: scripts/smoke_fips_backend_images.sh rustls
+```
+
+These are CI/deep-gate proof images, not release images and not a FIPS
+certification claim. They retain compiler, package, dependency, provider, and
+binary-hash evidence inside each image. See [FIPS-Capable Deployments](fips.md)
+for the exact boundary and operator responsibilities.
+
 Use an AWS-LC-supported FIPS builder for
 `scripts/validate-fips-rustls.sh release`. Rolling distribution compilers can be
 ahead of AWS-LC FIPS support; newer GCC/Clang families may fail inside
@@ -473,15 +487,15 @@ Optional Quay repository secrets and variables:
 
 The workflow publishes OS-variant tags for the full/default image profile:
 
-- `v1.7.11-wolfi`, `v1.7.11-alpine`, `v1.7.11-suse-micro`, `v1.7.11-debian`
+- `v1.7.12-wolfi`, `v1.7.12-alpine`, `v1.7.12-suse-micro`, `v1.7.12-debian`
 - `sha-<short-sha>-wolfi`, `sha-<short-sha>-alpine`, etc.
 - `latest-wolfi`, `latest-alpine`, etc. when run from the default branch
 
 For the recommended Wolfi runtime, the full/default profile also gets short
 aliases:
 
-- `v1.7.11`
-- `v1.7.11-base`
+- `v1.7.12`
+- `v1.7.12-base`
 - `latest`
 - `latest-base`
 
@@ -490,21 +504,21 @@ automation. They point at the full/default image profile.
 
 The focused image profiles publish tags with a profile segment:
 
-- `v1.7.11-cache-wolfi`, `v1.7.11-cache-alpine`,
-  `v1.7.11-cache-suse-micro`, `v1.7.11-cache-debian`
-- `v1.7.11-proxy-wolfi`, `v1.7.11-proxy-alpine`,
-  `v1.7.11-proxy-suse-micro`, `v1.7.11-proxy-debian`
-- `v1.7.11-load-balancer-wolfi`, `v1.7.11-load-balancer-alpine`,
-  `v1.7.11-load-balancer-suse-micro`, `v1.7.11-load-balancer-debian`
-- `v1.7.11-php-wolfi`, `v1.7.11-php-alpine`,
-  `v1.7.11-php-suse-micro`, `v1.7.11-php-debian`
+- `v1.7.12-cache-wolfi`, `v1.7.12-cache-alpine`,
+  `v1.7.12-cache-suse-micro`, `v1.7.12-cache-debian`
+- `v1.7.12-proxy-wolfi`, `v1.7.12-proxy-alpine`,
+  `v1.7.12-proxy-suse-micro`, `v1.7.12-proxy-debian`
+- `v1.7.12-load-balancer-wolfi`, `v1.7.12-load-balancer-alpine`,
+  `v1.7.12-load-balancer-suse-micro`, `v1.7.12-load-balancer-debian`
+- `v1.7.12-php-wolfi`, `v1.7.12-php-alpine`,
+  `v1.7.12-php-suse-micro`, `v1.7.12-php-debian`
 - `sha-<short-sha>-cache-wolfi`, `sha-<short-sha>-proxy-wolfi`,
   `sha-<short-sha>-load-balancer-wolfi`, `sha-<short-sha>-php-wolfi`, etc.
 - `latest-cache-wolfi`, `latest-proxy-wolfi`,
   `latest-load-balancer-wolfi`, `latest-php-wolfi`, etc. when run from the
   default branch
-- Wolfi short aliases: `v1.7.11-cache`, `v1.7.11-proxy`,
-  `v1.7.11-load-balancer`, `v1.7.11-php`, `latest-cache`, `latest-proxy`,
+- Wolfi short aliases: `v1.7.12-cache`, `v1.7.12-proxy`,
+  `v1.7.12-load-balancer`, `v1.7.12-php`, `latest-cache`, `latest-proxy`,
   `latest-load-balancer`, and `latest-php`
 
 Starting with `v1.5.0`, the load-balancer image profile is part of normal tag

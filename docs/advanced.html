@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.7.11
+            Download v1.7.12
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.11</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.12</a>
       </div>
     </div>
   </nav>
@@ -129,6 +129,8 @@
     <tr><td>Cache decisions</td><td><code>cache-lookup</code> hooks can continue, pass, bypass, or deny. <code>cache-store</code> hooks can continue, skip storage, or deny before memory/disk cache writes.</td></tr>
     <tr><td>Cache metadata</td><td><code>cache-lookup</code> hooks can add fixed mobile/desktop cache-key variants. <code>cache-store</code> hooks can set fixed TTL, tag, and stored-header metadata.</td></tr>
     <tr><td>Bounded execution</td><td>Fuel, memory, table, instance, compile-timeout, compile-worker, and per-call watchdog limits keep the sandbox bounded.</td></tr>
+    <tr><td>Module loading controls</td><td>Public plugin manifests must include a fixed SHA-256 digest. At most two modules compile at once across the process. Compiled output defaults to a 32 MiB limit and cannot exceed 256 MiB.</td></tr>
+    <tr><td>Plugin file identity</td><td>Fluxheim opens approved plugin files without following links, retains the validated regular-file handle, and reads module bytes from that handle without reopening the path.</td></tr>
     <tr><td>Module identity</td><td>Compiled modules are tied to plugin digest, ABI version, hook feature surface, host-call namespace, and Fluxheim version so future reuse cannot cross release, feature, or ABI boundaries.</td></tr>
     <tr><td>Proxy-Wasm preview</td><td>Build with <code>wasm-proxy-abi</code>, enable <code>allow_preview_abi</code>, and declare both the <code>proxy-wasm-preview</code> ABI and host-call namespace. Unsupported imports and calls fail closed.</td></tr>
     <tr><td>WASI Preview 1</td><td>Build with <code>wasm-wasi</code>, enable <code>allow_preview_abi</code>, declare the <code>wasi-preview</code> ABI and host-call namespace, and grant only the required clock or randomness capability. The preview is limited to access decisions.</td></tr>

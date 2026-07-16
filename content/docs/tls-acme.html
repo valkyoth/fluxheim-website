@@ -51,6 +51,15 @@ cert_path = "/etc/fluxheim/tls/fullchain.pem"
 key_path = "/etc/fluxheim/tls/privkey.pem"</code></pre>
 </section>
 <section class="guide-section">
+  <h2>Client certificate revocation</h2>
+  <p>When mutual TLS must reject revoked client certificates, provide a bounded PEM CRL bundle. Fluxheim validates the complete issuer chain and rejects expired or incomplete CRL policy.</p>
+  <pre><code>[vhosts.tls.client_auth]
+mode = "required"
+ca_path = "/etc/fluxheim/tls/client-ca.pem"
+crl_path = "/etc/fluxheim/tls/client-crls.pem"</code></pre>
+  <p>Required client authentication in a FIPS or ISO-required compliance mode also requires a CRL bundle. Ordinary client authentication keeps revocation as an explicit opt-in.</p>
+</section>
+<section class="guide-section">
   <h2>Before enabling ACME</h2>
   <ul class="checks"><li>Make sure public DNS points to this server.</li><li>Allow HTTP-01 or TLS-ALPN-01 challenge traffic.</li><li>Mount ACME state as persistent writable storage.</li><li>Use externally issued certificates for strict FIPS or ISO-required boundaries.</li></ul>
 </section>

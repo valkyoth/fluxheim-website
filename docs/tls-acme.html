@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.7.11
+            Download v1.7.12
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.11</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.12</a>
       </div>
     </div>
   </nav>
@@ -159,6 +159,15 @@ hosts = ["example.com"]
 [vhosts.tls]
 cert_path = "/etc/fluxheim/tls/fullchain.pem"
 key_path = "/etc/fluxheim/tls/privkey.pem"</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Client certificate revocation</h2>
+  <p>When mutual TLS must reject revoked client certificates, provide a bounded PEM CRL bundle. Fluxheim validates the complete issuer chain and rejects expired or incomplete CRL policy.</p>
+  <pre class="language-toml"><code class="language-toml">[vhosts.tls.client_auth]
+mode = "required"
+ca_path = "/etc/fluxheim/tls/client-ca.pem"
+crl_path = "/etc/fluxheim/tls/client-crls.pem"</code></pre>
+  <p>Required client authentication in a FIPS or ISO-required compliance mode also requires a CRL bundle. Ordinary client authentication keeps revocation as an explicit opt-in.</p>
 </section>
 <section class="guide-section">
   <h2>Before enabling ACME</h2>

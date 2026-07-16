@@ -1,6 +1,6 @@
 # Contributing to fluxheim-website
 
-Fluxheim Website is a Rust 1.97.0 Axum application that serves the original
+Fluxheim Website is a Rust 1.97.1 Axum application that serves the original
 HTML site through centralized versioning and stable TOML i18n keys. The app
 runs on port `8080` and is intended to sit behind Fluxheim or another TLS edge
 proxy.
@@ -19,7 +19,7 @@ under the same licence.
 Install the pinned Rust toolchain and run the app from the repository root:
 
 ```bash
-cargo +1.97.0 run
+cargo +1.97.1 run
 ```
 
 Then visit `http://127.0.0.1:8080`.
