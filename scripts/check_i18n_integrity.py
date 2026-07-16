@@ -7,6 +7,7 @@ import argparse
 import re
 import sys
 import tomllib
+import unicodedata
 from collections import Counter
 from pathlib import Path
 from typing import Any, Callable
@@ -33,6 +34,7 @@ CODE_VALUE = re.compile(r"<code>(.*?)</code>", re.DOTALL)
 PLACEHOLDER = re.compile(r"\{[A-Za-z_][A-Za-z0-9_]*\}")
 URL = re.compile(r"https?://[^\s<>\"]+")
 STATUS_CODE = re.compile(r"(?<!\d)[1-5]\d\d(?!\d)")
+UNSAFE_FORMAT_CHARACTERS = {"\u200b", "\u2060", "\ufeff"}
 
 
 def main() -> int:
@@ -96,7 +98,7 @@ def self_test() -> int:
         print(f"i18n-integrity self-test rejected valid text: {errors}", file=sys.stderr)
         return 1
 
-    broken = "Fluxheim <strong>404</strong>"
+    broken = "Fluxheim\u200b <strong>404</strong>"
     check_value("zz-ZZ", "test.broken", source, broken, "1.7.10", True, errors)
     expected_fragments = (
         "HTML tags",
@@ -106,6 +108,7 @@ def self_test() -> int:
         "HTTP status codes",
         "omitted current version",
         "omitted technical term 'CORS'",
+        "format character",
     )
     missing = [
         fragment
@@ -161,6 +164,15 @@ def check_value(
 
     if any(character in target for character in ("\x00", "\ufffd")):
         errors.append(f"{locale_id} {key} contains an invalid replacement character")
+    for character in target:
+        if (
+            unicodedata.category(character) == "Cf"
+            and character in UNSAFE_FORMAT_CHARACTERS
+        ):
+            errors.append(
+                f"{locale_id} {key} contains format character "
+                f"U+{ord(character):04X}"
+            )
 
 
 def load_bundle(locale_id: str) -> dict[str, Any]:

@@ -1,7 +1,7 @@
 r1712_released_july_15_2026 = "Objavljeno 15. jula 2026"
 r1712_adds_opt_in_standards_based_cache_proxy_and_response_digest_metadata = "Dodaje keš memoriju, proxy i metapodatke za analizu odgovora zasnovanih na standardima"
 r1712_proves_authenticated_live_snapshot_reload_rollback_integrity_checks_and_restart_persistence = "Dokazuje autentičnost ponovnog učitavanja snimka uživo, vraćanja, provjere integriteta i postojanost ponovnog pokretanja"
-r1712_adds_reproducible_fips_backend_evidence_and_broad_native_runtime_hardening = "Dodaje reproducibilne dokaze FIPS-backend i široko prirodno očvršćavanje"
+r1712_adds_reproducible_fips_backend_evidence_and_broad_native_runtime_hardening = "Dodaje ponovljive dokaze za FIPS pozadinske sisteme i opsežno ojačavanje izvornog izvršnog okruženja"
 r1712_whats_next_summary = "dodaje metapodatke standarda za opt-in, autentificirani dokaz vraćanja snimka, reproducibilne dokaze FIPS-backend i jaču keš memoriju, TLS, Wasm, međuspremnik i granice toka."
 r1712_release_series_digest = "Fluxheim 1.7 serija izdanja: keš memorija, proxy i metapodaci odgovora zasnovani na standardima; ponovno učitavanje i vraćanje autentificiranog snimka uživo; ponovljivi dokazi FIPS-backend; nadogradnje procesa bez zastoja; nezavisno testirani primeri politike Wasm; i jači keš, TLS, međuspremnik, tok i granice protokola."
 r1712_standards_based_response_metadata = "Metapodaci odgovora zasnovani na standardima"
