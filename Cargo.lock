@@ -843,9 +843,9 @@ checksum = "9774ba4a74de5f7b1c1451ed6cd5285a32eddb5cccb8cc655a4e50009e06477f"
 
 [[package]]
 name = "sanitization"
-version = "1.2.2"
+version = "1.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e917ba6e3d60c9756acda8f7e4b5958984b2fb1d7eb501c71e07f04da8c20413"
+checksum = "c92c75202f3f884d540d83c61b14a9e3787542ced35cd5d7842d075c7475c0b1"
 
 [[package]]
 name = "serde"
