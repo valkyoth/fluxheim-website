@@ -11,7 +11,7 @@ use crate::i18n_keys;
 use crate::language_selector;
 use crate::page_enhancements;
 
-const SOURCE_FLUXHEIM_VERSION: &str = "1.7.12";
+const SOURCE_FLUXHEIM_VERSION: &str = "1.8.0";
 const MAX_STATIC_ARTIFACT_BYTES: u64 = 2 * 1024 * 1024;
 
 #[derive(Debug, Clone, PartialEq, Eq)]

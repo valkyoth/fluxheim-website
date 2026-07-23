@@ -6,7 +6,8 @@ fn applies_stable_code_comment_keys_globally() {
     let site = Site::load().expect("site loads");
     let de = site.locale("de-DE").expect("German locale");
     let html = concat!(
-        "# Pull GHCR images (full, load-balancer, cache, proxy, and PHP variants)",
+        "# Pull GHCR images (Wasm, full, load-balancer, cache, proxy, and PHP variants)",
+        "\n# Available image variants: full, load-balancer, cache, proxy, wasm, php",
         "\n# Run rootless — internal ports 8080 and 8443",
         "\nNative TLS/listener preview and compatibility-boundary release with explicit ",
         "<code>pingora-compat</code>",
@@ -19,6 +20,10 @@ fn applies_stable_code_comment_keys_globally() {
     let translated = apply_shared_keys(de, html, "1.6.28");
 
     assert!(translated.contains("# GHCR-Images ziehen"));
+    assert!(
+        translated
+            .contains("# Verfügbare Image-Varianten: full, load-balancer, cache, proxy, wasm, php")
+    );
     assert!(translated.contains("# Rootless ausführen — interne Ports 8080 und 8443"));
     assert!(translated.contains("Release mit nativer TLS-/Listener-Vorschau"));
     assert!(translated.contains("<code>pingora-compat</code>"));

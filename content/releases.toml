@@ -1,4 +1,10 @@
-latest = "1.7.12"
+latest = "1.8.0"
+
+[[release]]
+version = "1.8.0"
+date = "2026-07-23"
+title = "Dedicated Wasm distribution"
+summary = "Adds a dedicated Wasm binary and container based on the full production profile, shared portable archive contracts and native macOS full/Wasm builds, tested read-only hash-pinned plugin deployment, per-vhost Wasm admission isolation, and stronger cache-fill and range-cache protection."
 
 [[release]]
 version = "1.7.12"

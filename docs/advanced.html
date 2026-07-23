@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.7.12
+            Download v1.8.0
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.7.12</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.8.0</a>
       </div>
     </div>
   </nav>
@@ -95,6 +95,7 @@
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="load-balancer.html">Load Balancer</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="php-fpm.html">PHP-FPM</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="wordpress.html">WordPress</a></li>
+<li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="wasm.html">WASM extensions</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="observability.html">Observability</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="features.html">Builds & Features</a></li>
 <li><a class="sidebar-link block px-3 py-2 rounded-lg text-sm transition-colors text-gray-400 hover:text-white hover:bg-gray-800/60" href="configuration.html">Configuration</a></li>
@@ -115,33 +116,6 @@
     <tr><td>Rules</td><td>Block or challenge suspicious requests before they reach an app.</td></tr>
     <tr><td>Signals</td><td>Record bounded security events without storing sensitive payloads.</td></tr>
     <tr><td>Exceptions</td><td>Allow controlled bypasses for known safe application paths.</td></tr>
-  </tbody></table>
-</section>
-<section class="guide-section">
-  <h2>WASM extensions</h2>
-  <p>Fluxheim 1.7.10 makes every migration family independently testable, keeps the complete Wasm smoke test in the release gate, and verifies that guest-controlled symbolic IDs are rejected safely. In-process host callbacks remain limited to finite, non-blocking operations.</p>
-  <table><thead><tr><th>Rule</th><th>Reason</th></tr></thead><tbody>
-    <tr><td>Disabled by default</td><td>Default and privacy builds do not compile Wasm features.</td></tr>
-    <tr><td>Approved plugin roots</td><td>Plugin files must be absolute, regular files below approved roots, without symlinked files or parent paths.</td></tr>
-    <tr><td>Access decisions</td><td>Live native HTTP/1 access-decision hooks use priority ordering, first-deny-wins composition, and fail-closed behaviour.</td></tr>
-    <tr><td>Header hooks</td><td><code>request-headers</code> and <code>response-headers</code> hooks can set or remove only allow-listed synthetic headers such as the policy-tier example.</td></tr>
-    <tr><td>Route decisions</td><td><code>route-decision</code> hooks can continue, deny, or select only configured matching <code>canary</code> and <code>mirror</code> route branches.</td></tr>
-    <tr><td>Cache decisions</td><td><code>cache-lookup</code> hooks can continue, pass, bypass, or deny. <code>cache-store</code> hooks can continue, skip storage, or deny before memory/disk cache writes.</td></tr>
-    <tr><td>Cache metadata</td><td><code>cache-lookup</code> hooks can add fixed mobile/desktop cache-key variants. <code>cache-store</code> hooks can set fixed TTL, tag, and stored-header metadata.</td></tr>
-    <tr><td>Bounded execution</td><td>Fuel, memory, table, instance, compile-timeout, compile-worker, and per-call watchdog limits keep the sandbox bounded.</td></tr>
-    <tr><td>Module loading controls</td><td>Public plugin manifests must include a fixed SHA-256 digest. At most two modules compile at once across the process. Compiled output defaults to a 32 MiB limit and cannot exceed 256 MiB.</td></tr>
-    <tr><td>Plugin file identity</td><td>Fluxheim opens approved plugin files without following links, retains the validated regular-file handle, and reads module bytes from that handle without reopening the path.</td></tr>
-    <tr><td>Module identity</td><td>Compiled modules are tied to plugin digest, ABI version, hook feature surface, host-call namespace, and Fluxheim version so future reuse cannot cross release, feature, or ABI boundaries.</td></tr>
-    <tr><td>Proxy-Wasm preview</td><td>Build with <code>wasm-proxy-abi</code>, enable <code>allow_preview_abi</code>, and declare both the <code>proxy-wasm-preview</code> ABI and host-call namespace. Unsupported imports and calls fail closed.</td></tr>
-    <tr><td>WASI Preview 1</td><td>Build with <code>wasm-wasi</code>, enable <code>allow_preview_abi</code>, declare the <code>wasi-preview</code> ABI and host-call namespace, and grant only the required clock or randomness capability. The preview is limited to access decisions.</td></tr>
-    <tr><td>Migration examples</td><td>Build the checked-in examples into digest-pinned Wasm modules. Every example uses configured symbolic IDs and remains unable to access arbitrary files, networks, secrets, request bodies, or cache objects.</td></tr>
-    <tr><td>Wasm host callbacks</td><td>Callbacks are limited to finite symbolic decoding, bounded context reads, and bounded state. They cannot perform file, network, IPC, sleep, process, or third-party callback work.</td></tr>
-    <tr><td>Release testing</td><td>Each migration family can run independently, while the release gate also runs the complete smoke test and an arbitrary guest-ID decoder property test.</td></tr>
-    <tr><td>Admission limits</td><td>Process-wide, cache-global, cache-vhost, per-plugin, and per-attachment execution ceilings prevent unbounded plugin work.</td></tr>
-    <tr><td>Typed manifests</td><td>ABI, phase, fail-mode, path, and sandbox limits are validated before loading.</td></tr>
-    <tr><td>PHP-FPM fallback</td><td>Vhost-level header hooks and fallback response-header cleanup now also apply to PHP-FPM fallback responses.</td></tr>
-    <tr><td>Selected-route policy</td><td>Selected-route ACLs, rate limits, concurrency limits, body limits, redirects, and header policy still run after a Wasm route decision.</td></tr>
-    <tr><td>Cache-policy limits</td><td>Cache hooks use a separate process-wide admission ceiling so hot cache-policy routes cannot starve access, route, or header hooks.</td></tr>
   </tbody></table>
 </section>
 
@@ -176,6 +150,7 @@
             <li><a href="deployment.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Deployment</a></li>
             <li><a href="cache.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Cache System</a></li>
             <li><a href="tls-acme.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">TLS & ACME</a></li>
+            <li><a href="wasm.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">WASM extensions</a></li>
             <li><a href="observability.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Observability</a></li>
             <li><a href="advanced.html" class="text-gray-500 hover:text-gray-300 text-sm transition-colors">Advanced</a></li>
           </ul>

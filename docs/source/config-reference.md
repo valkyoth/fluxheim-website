@@ -2463,10 +2463,15 @@ open-ended, suffix, or `multipart/byteranges` responses. Missing slices can be
 filled from origin with bounded single-slice `Range` requests when
 `fill_missing = true`; concurrent fills for the same slice key are collapsed.
 Slice fill rejects responses unless `206`, `Content-Range`, `Content-Length`,
-content type, object length, and validators are compatible. `If-Range` requests
-are served from slices only when the cached `ETag` or `Last-Modified` matches;
-otherwise Fluxheim falls back to the normal proxy path. Exact admin purges also
-remove indexed slices for the same request path.
+content type, object length, validators, and cache variance are compatible.
+Configured `vary_request_headers` values partition fixed-slice keys exactly as
+they partition complete objects. Because an origin-only `Vary` field is not
+known before a slice lookup, Fluxheim admits that slice only when every response
+`Vary` field is also listed in `vary_request_headers`; otherwise it falls back
+without storing the slice. `If-Range` requests are served from slices only when
+the cached `ETag` or `Last-Modified` matches; otherwise Fluxheim falls back to
+the normal proxy path. Exact admin purges also remove indexed slices for the
+same request path.
 
 ```toml
 [cache.range]
@@ -2903,10 +2908,18 @@ identity.
 `[cache.lock]` controls request collapsing for concurrent misses on the same
 cache key. Keep it enabled for expensive static misses and stampede protection:
 one request fetches the origin object while matching readers wait for the cache
-fill instead of all hitting the backend together. `age_timeout_secs` controls
-how long an active writer lock is considered valid, while `wait_timeout_secs`
-controls how long readers wait for the writer before falling back to their own
-origin fetch.
+fill instead of all hitting the backend together. The same per-key gate applies
+to each fixed range-slice fill. `age_timeout_secs` controls how long an active
+writer lock is considered valid, while `wait_timeout_secs` controls how long
+readers wait in total for the writer, capped by that writer's remaining valid
+age. Fluxheim registers each waiter before releasing the cache-state lock,
+preserves the first deadline across
+wake-and-recheck races, and returns `503 Service Unavailable` with
+`Retry-After: 1` when that deadline expires rather than allowing every waiter
+to start another origin fill. Set `wait_timeout_secs` above normal upper-tail
+origin latency but below the shortest applicable client, ingress, or service
+request deadline. Keep `age_timeout_secs` at least as large as the intended
+wait budget because remaining writer age is an additional cap.
 
 Per-vhost cache settings use `[vhosts.cache]`, `[vhosts.cache.memory]`, and
 `[vhosts.cache.disk]`. Route cache settings use `[vhosts.routes.cache]` and

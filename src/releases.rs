@@ -130,7 +130,7 @@ mod tests {
         let catalog = ReleaseCatalog::load().expect("release catalog loads");
         let download = std::fs::read_to_string("download.html").expect("download html");
         let changelog = std::fs::read_to_string("changelog.html").expect("changelog html");
-        let collapsed_17_range = format!("v1.7.0 – v{}", catalog.latest);
+        let collapsed_17_range = "v1.7.0 – v1.7.12";
         let collapsed_16_range = "v1.6.0 – v1.6.37";
 
         for release in &catalog.release {
@@ -138,7 +138,7 @@ mod tests {
             assert!(
                 download.contains(&version)
                     || (release.version.starts_with("1.7.")
-                        && download.contains(&collapsed_17_range))
+                        && download.contains(collapsed_17_range))
                     || (release.version.starts_with("1.6.")
                         && download.contains(collapsed_16_range)),
                 "download missing {version}"

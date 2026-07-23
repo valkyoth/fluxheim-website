@@ -164,27 +164,22 @@ async fn advanced_uses_page_specific_translations() {
     let (de_status, _headers, de_body) = request("/de/docs/advanced").await;
     assert_eq!(de_status, StatusCode::OK);
     assert!(de_body.contains("Zukünftige Module"));
-    assert!(de_body.contains("WASM-Erweiterungen"));
-    assert!(de_body.contains("jede Migrationsfamilie unabhängig testbar"));
-    assert!(de_body.contains("Migrationsbeispiele"));
-    assert!(de_body.contains("Wasm-Host-Rückrufe"));
-    assert!(de_body.contains("Release-Tests"));
-    assert!(de_body.contains("Kontrollen für das Laden von Modulen"));
+    assert!(de_body.contains("Geplanter Bereich"));
+    assert!(de_body.contains("regelbasiertes Request-Filtering"));
+    assert!(de_body.contains("begrenzte Sicherheitsereignisse"));
 
     let (fr_status, _headers, fr_body) = request("/fr/docs/advanced").await;
     assert_eq!(fr_status, StatusCode::OK);
     assert!(fr_body.contains("Modules futurs"));
-    assert!(fr_body.contains("Extensions WASM"));
-    assert!(fr_body.contains("chaque famille de migration testable indépendamment"));
-    assert!(fr_body.contains("Rappels de l'hôte Wasm"));
+    assert!(fr_body.contains("Domaine prevu"));
+    assert!(fr_body.contains("filtrage de requêtes par règles"));
+    assert!(fr_body.contains("evenements de securite bornes"));
 
     let (ja_status, _headers, ja_body) = request("/ja/docs/advanced").await;
     assert_eq!(ja_status, StatusCode::OK);
-    assert!(ja_body.contains("移行例の各系統を個別にテスト"));
-    assert!(ja_body.contains("Wasmホストコールバック"));
-    assert!(ja_body.contains("暗号学的ダイジェストに固定した Wasm モジュール"));
-    assert!(ja_body.contains("読み込み時の受け入れ制御"));
-    assert!(ja_body.contains("ファイルの同一性"));
+    assert!(ja_body.contains("計画領域"));
+    assert!(ja_body.contains("ルールベースのリクエストフィルタリング"));
+    assert!(ja_body.contains("機密ペイロードを保存せず"));
 }
 
 #[tokio::test]

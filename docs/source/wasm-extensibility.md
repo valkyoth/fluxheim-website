@@ -470,6 +470,75 @@ native `fluxheim-policy-v1` admission or blocking capacity.
 
 ## Configuration Sketch
 
+The official Wasm container contains the runtime but no operator plugins.
+Mount a dedicated plugin directory read-only and configure that exact
+directory as a plugin root:
+
+```yaml
+services:
+  fluxheim:
+    image: ghcr.io/valkyoth/fluxheim:v1.8.0-wasm-wolfi
+    volumes:
+      - /srv/infra/fluxheim/plugins:/etc/fluxheim/plugins:ro,Z
+```
+
+Do not mount the plugin directory over `/var/log/fluxheim` or another mutable
+runtime path. Keep plugins read-only, owned by the deployment administrator,
+free of symlinks, and pin every security-decision module by SHA-256 in config.
+
+### Container Plugin Trust Models
+
+A `:ro` bind mount is read-only from inside the container. It does not make the
+host directory immutable. A user who can modify the host plugin directory can
+replace an unpinned module and wait for a reload. If every module is hash
+pinned, module-only replacement is rejected, but an attacker who can also
+modify the mounted configuration can replace both the module and its expected
+hash.
+
+Use one of these deployment models deliberately:
+
+- Development and controlled internal deployments can use the documented
+  read-only bind mount.
+- Production bind-mount deployments should make both the plugin directory and
+  configuration root-owned, non-writable by the Fluxheim service identity,
+  read-only in the container, free of symlinks, and monitored by host integrity
+  controls. Pin every module, including modules used only for header mutation.
+- High-assurance deployments should build a derivative image containing the
+  reviewed modules and preferably the non-secret configuration. Pin the
+  official Fluxheim base by manifest digest, deploy the derivative image by
+  digest, keep the container root filesystem read-only, and mount only required
+  mutable state and secrets separately.
+
+Example derivative image:
+
+```dockerfile
+FROM ghcr.io/valkyoth/fluxheim:v1.8.0-wasm-wolfi@sha256:REPLACE_WITH_MANIFEST_DIGEST
+
+USER 0:0
+RUN mkdir -p /etc/fluxheim/plugins \
+    && chown 65532:65532 /etc/fluxheim/plugins \
+    && chmod 0555 /etc/fluxheim/plugins
+COPY --chown=65532:65532 --chmod=0444 \
+    plugins/security_headers.wasm \
+    /etc/fluxheim/plugins/security_headers.wasm
+COPY --chown=65532:65532 --chmod=0444 \
+    fluxheim.toml \
+    /etc/fluxheim/fluxheim.toml
+USER 65532:65532
+```
+
+Build this image in a controlled pipeline, verify that the SHA-256 in
+`fluxheim.toml` matches the copied module, and treat a module update as a new
+image release. Do not bake private keys, admin tokens, ACME EAB keys, or other
+secrets into an image layer.
+
+Embedding modules increases provenance, repeatability, and resistance to
+accidental or low-privilege host-file modification. It is not a defense
+against an attacker who controls the host root account, container engine,
+registry credentials, or deployment controller; those capabilities can replace
+the image or running process. Use image signatures/attestations when available,
+restrict deployment credentials, and monitor digest changes.
+
 ```toml
 [wasm]
 enabled = true
@@ -527,15 +596,18 @@ does not match.
 
 `wasm.max_total_concurrent_executions` caps total concurrent plugin executions
 across the whole process. Per-plugin and per-attachment admission budgets are
-still enforced inside that global ceiling. Fluxheim acquires attachment,
-plugin, optional cache-vhost, and finally process-wide permits, so requests
-waiting on a narrow policy cannot reserve broader process capacity. Admission
-is implemented with Tokio semaphores and is complete before work is submitted
-to Tokio's blocking pool. `queue_limit = 0` rejects immediately at the
-configured concurrency limit; a positive value permits only that many async
-waiters and never enlarges the blocking-work queue. Active and queued budgets
-are each hard-capped at `256`. Immediately before blocking submission, Wasm
-also acquires Fluxheim's shared request-driven blocking-work budget. Wasm has a
+still enforced inside that global ceiling. Fluxheim derives a fair-share
+per-vhost ceiling for native policy hooks and a separate fair-share ceiling for
+preview-ABI hooks. A slow or attacked vhost therefore cannot consume all
+process capacity needed by another configured vhost. Fluxheim acquires
+attachment, plugin, vhost, and finally process-wide permits, so requests waiting
+on a narrow policy cannot reserve broader process capacity. Admission is
+implemented with Tokio semaphores and is complete before work is submitted to
+Tokio's blocking pool. `queue_limit = 0` rejects immediately at the configured
+concurrency limit; a positive value permits only that many async waiters and
+never enlarges the blocking-work queue. Active and queued budgets are each
+hard-capped at `256`. Immediately before blocking submission, Wasm also
+acquires Fluxheim's shared request-driven blocking-work budget. Wasm has a
 `96`-execution class ceiling beneath the `224` non-critical and `256` total
 ceilings, so it cannot starve external auth, disk-cache work, traffic mirrors,
 or the `32` slots reserved for critical ACME work. Runtime wall-time enforcement
@@ -622,8 +694,8 @@ Required metrics include:
 - plugin invocations and completed decisions;
 - execution duration;
 - traps, panics, timeouts, compile timeouts, and fuel exhaustion;
-- global, cache-global, cache-vhost, per-plugin, and per-attachment admission
-  rejections;
+- global, vhost, preview-global, preview-vhost, cache-global, cache-vhost,
+  per-plugin, and per-attachment admission rejections;
 - fail-open and fail-closed outcomes;
 - loaded module count and module-cache generation/hash changes;
 - reload validation, load, swap, and rejection outcomes.
@@ -649,6 +721,8 @@ Required metrics include:
   traffic before upstream forwarding.
 - Verify process-wide admission rejects excess concurrent plugin executions
   even when each plugin's individual budget has not been exhausted.
+- Verify native and preview hook admission applies per-vhost fair-share ceilings
+  so one vhost cannot starve another vhost's access, routing, or header hooks.
 - Verify cache-hook admission applies a process-wide ceiling and a per-vhost
   fair-share ceiling so one vhost cannot starve another vhost's cache hooks.
 - Verify WASM registry changes are classified by reload impact and do not fall

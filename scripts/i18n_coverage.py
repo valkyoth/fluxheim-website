@@ -28,6 +28,7 @@ IGNORED_EXACT = {
     "TLS",
     "HTTP/2",
     "OpenTelemetry",
+    "Wasm",
     "Prometheus",
     "Podman",
     "Wolfi",

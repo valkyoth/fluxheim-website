@@ -20,6 +20,7 @@ NAV = [
     ("load-balancer.html", "Load Balancer"),
     ("php-fpm.html", "PHP-FPM"),
     ("wordpress.html", "WordPress"),
+    ("wasm.html", "WASM extensions"),
     ("observability.html", "Observability"),
     ("features.html", "Builds & Features"),
     ("configuration.html", "Configuration"),
@@ -64,6 +65,10 @@ PAGE_META = {
     "wordpress.html": (
         "WordPress",
         "A practical PHP-FPM recipe for a normal WordPress front controller.",
+    ),
+    "wasm.html": (
+        "WASM extensions",
+        "Dedicated Wasm build based on the full production profile, with bounded policy hooks, ACME, metrics, and OpenTelemetry",
     ),
     "observability.html": (
         "Observability",
@@ -170,7 +175,7 @@ def render(page: str, title: str, intro: str, body: str) -> str:
         f'<li><a class="{nav_class(page, href)}" href="{href}">{label}</a></li>'
         for href, label in NAV
     )
-    cards = "\n".join(card(href, label) for href, label in NAV[1:13])
+    cards = "\n".join(card(href, label) for href, label in NAV[1:14])
     body = colorize_code_blocks(body.replace("{cards}", cards))
     site_header = shared_header()
     site_footer = shared_footer()

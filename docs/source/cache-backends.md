@@ -27,10 +27,19 @@ internal cache implementation.
   prevent cache stampedes when many clients request the same uncached or
   expired object at once. One request receives the writer permit and fetches
   from the origin; matching readers wait for that writer up to the configured
-  timeout instead of all hitting the origin together. `cache.lock`,
+  total timeout, capped by the writer's remaining valid age, instead of all
+  hitting the origin together. The waiter is
+  registered before the cache-state lock is released so a fast writer
+  completion cannot be missed. If the total wait deadline expires, Fluxheim
+  returns `503 Service Unavailable` with `Retry-After: 1` and does not turn
+  every waiter into another origin request. `cache.lock`,
   `vhosts.cache.lock`, and `vhosts.routes.cache.lock` configure whether request
   collapsing is enabled and how long writer age and reader wait timeouts last.
   Defaults use a 30 second writer age timeout and 30 second waiter timeout.
+  Set `wait_timeout_secs` above normal upper-tail origin latency but below the
+  shortest applicable client, ingress, or service request deadline. Keep
+  `age_timeout_secs` at least as large as the intended wait budget; otherwise
+  the writer's remaining age becomes the effective shorter deadline.
 - `cache.predictor`, `vhosts.cache.predictor`, and
   `vhosts.routes.cache.predictor` can opt into Fluxheim's cacheability
   predictor. The predictor keeps a bounded LRU of primary keys that recently
@@ -89,7 +98,15 @@ internal cache implementation.
   `Vary` header. Sensitive headers such as `Cookie`, `Authorization`, and
   `Proxy-Authorization` are rejected here; use `bypass_request_headers` for
   request-specific responses. The configured list is capped at 16 headers,
-  matching the runtime Vary field cap.
+  matching the runtime Vary field cap. The same partition applies to fixed
+  range slices. A slice response carrying an additional origin `Vary` field is
+  not stored unless that field is configured here, because it is unavailable
+  when Fluxheim constructs the pre-origin slice lookup key. Fluxheim hashes the
+  bounded variance material into a fixed-width SHA-256 key component, so large
+  permitted request-header values are not copied into every object, slice, or
+  purge-index key. This `1.8.0` key format deliberately treats persisted
+  variants from the older variable-width format as cold; normal cache eviction
+  or an operator purge removes those legacy objects.
 - `cache.key_namespace`, `vhosts.cache.key_namespace`, and
   `vhosts.routes.cache.key_namespace` add an operator-controlled namespace
   component to the primary cache key. Bump this value to isolate new objects

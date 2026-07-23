@@ -1,0 +1,64 @@
+<section class="guide-section">
+  <h2>What it gives you</h2>
+  <p>Dedicated Wasm build based on the full production profile, with bounded policy hooks, ACME, metrics, and OpenTelemetry.</p>
+  <table><thead><tr><th>Feature</th><th>Use it for</th></tr></thead><tbody>
+    <tr><td>Access decisions</td><td>Live native HTTP/1 access-decision hooks use priority ordering, first-deny-wins composition, and fail-closed behaviour.</td></tr>
+    <tr><td>Header hooks</td><td><code>request-headers</code> and <code>response-headers</code> hooks can set or remove only allow-listed synthetic headers such as the policy-tier example.</td></tr>
+    <tr><td>Route decisions</td><td><code>route-decision</code> hooks can continue, deny, or select only configured matching <code>canary</code> and <code>mirror</code> route branches.</td></tr>
+    <tr><td>Cache decisions</td><td><code>cache-lookup</code> hooks can continue, pass, bypass, or deny. <code>cache-store</code> hooks can continue, skip storage, or deny before memory/disk cache writes.</td></tr>
+  </tbody></table>
+</section>
+<section class="guide-section">
+  <h2>Run</h2>
+  <p>Use the dedicated <code>profile-wasm</code> archive or image; the normal full build intentionally remains Wasm-free.</p>
+  <p>The official Wasm image contains the runtime but no operator plugins. Mount reviewed modules read-only and pin every module by SHA-256.</p>
+  <pre><code>podman pull ghcr.io/valkyoth/fluxheim:v1.8.0-wasm
+
+podman run --rm \
+  -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro,Z \
+  -v /srv/infra/fluxheim/plugins:/etc/fluxheim/plugins:ro,Z \
+  ghcr.io/valkyoth/fluxheim:v1.8.0-wasm</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Approved plugin roots</h2>
+  <p>Plugin files must be absolute, regular files below approved roots, without symlinked files or parent paths.</p>
+  <pre><code>[wasm]
+enabled = true
+plugin_roots = ["/etc/fluxheim/plugins"]
+max_total_concurrent_executions = 256
+max_total_preview_concurrent_executions = 32
+max_total_cache_concurrent_executions = 256
+
+[[wasm.plugins]]
+name = "security_headers"
+path = "/etc/fluxheim/plugins/security_headers.wasm"
+sha256 = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+abi = "fluxheim-policy-v1"
+host_call_namespace = "fluxheim-policy-v1"
+phases = ["response-headers"]
+fail_mode = "fail-closed"
+
+[[wasm.attachments]]
+plugin = "security_headers"
+vhost = "example"
+priority = 100
+phases = ["response-headers"]</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Bounded execution</h2>
+  <p>Fuel, memory, table, instance, compile-timeout, compile-worker, and per-call watchdog limits keep the sandbox bounded.</p>
+  <pre><code>[wasm.plugins.limits]
+max_module_bytes = "1MiB"
+max_compiled_artifact_bytes = "32MiB"
+max_memory_bytes = "16MiB"
+max_table_elements = 10000
+fuel = 5000000
+timeout_ms = 50
+compile_timeout_ms = 500</code></pre>
+</section>
+<section class="guide-section">
+  <h2>Production notes</h2>
+  <p>A read-only container mount does not protect its host files. Keep the host config and plugin directory under trusted, non-writable ownership.</p>
+  <ul class="checks"><li>Public plugin manifests must include a fixed SHA-256 digest. At most two modules compile at once across the process. Compiled output defaults to a 32 MiB limit and cannot exceed 256 MiB.</li><li>Keep config files and every existing parent directory under trusted ownership and not writable by group or other users.</li><li>Pin release versions or image digests.</li><li>Keep secrets in files, environment, or container secrets, not in public docs.</li></ul>
+  <p><a class="action" href="https://github.com/valkyoth/fluxheim/blob/main/docs/wasm-extensibility.md">Full docs on GitHub</a></p>
+</section>

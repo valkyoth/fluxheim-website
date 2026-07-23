@@ -128,7 +128,10 @@ fn download_artifact_version(artifact: &str) -> Option<&str> {
     let allowed_suffixes = [
         "full-x86_64-linux.tar.gz",
         "full-aarch64-linux.tar.gz",
-        "dev-aarch64-macos.tar.gz",
+        "full-aarch64-macos.tar.gz",
+        "wasm-x86_64-linux.tar.gz",
+        "wasm-aarch64-linux.tar.gz",
+        "wasm-aarch64-macos.tar.gz",
         "php-x86_64-linux.tar.gz",
         "php-aarch64-linux.tar.gz",
         "load-balancer-x86_64-linux.tar.gz",

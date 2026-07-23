@@ -99,7 +99,7 @@ def page_mentions_version(
 
     major, minor, patch = version_tuple(version)
     collapsed_ranges = (
-        ((1, 7), 0, version_tuple(latest)[2], f"v1.7.0 – v{latest}"),
+        ((1, 7), 0, 12, "v1.7.0 – v1.7.12"),
         ((1, 6), 0, 37, "v1.6.0 – v1.6.37"),
     )
     return any(

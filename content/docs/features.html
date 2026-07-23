@@ -2,6 +2,7 @@
   <h2>Common builds</h2>
   <table><thead><tr><th>Build</th><th>Use it for</th></tr></thead><tbody>
     <tr><td>full</td><td>General production server with web, proxy, cache, TLS, ACME, PHP-FPM, metrics, and tracing.</td></tr>
+    <tr><td>wasm</td><td>Dedicated Wasm build based on the full production profile, with bounded policy hooks, ACME, metrics, and OpenTelemetry.</td></tr>
     <tr><td>proxy</td><td>Reverse proxy without local static hosting or cache.</td></tr>
     <tr><td>cache</td><td>Cache edge in front of another origin.</td></tr>
     <tr><td>load-balancer</td><td>Focused upstream balancing and health checks.</td></tr>
@@ -11,6 +12,7 @@
 <section class="guide-section">
   <h2>Profile examples</h2>
   <pre><code>cargo build --release --no-default-features --features profile-full,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp
+cargo build --release --no-default-features --features profile-wasm,acme-client,metrics,metrics-otlp,otel-tracing,otel-otlp
 cargo build --release --no-default-features --features profile-cache-edge,acme-client
 cargo build --release --no-default-features --features profile-proxy-edge,acme-client
 cargo build --release --no-default-features --features profile-web-server,php-fpm,acme-client
@@ -19,7 +21,7 @@ cargo build --release --no-default-features --features profile-load-balancer-edg
 <section class="guide-section">
   <h2>Pingora-free normal builds</h2>
   <p>Starting with 1.6.34, normal Fluxheim release profiles use the Fluxheim-owned native runtime and no longer compile Pingora crates.</p>
-  <p>Starting with 1.7.0, Fluxheim adds an optional Wasm sandbox foundation. Wires live native HTTP/1 access-decision hooks with priority ordering, first-deny-wins composition, and fail-closed behavior.</p>
+  <p>Dedicated Wasm build based on the full production profile, with bounded policy hooks, ACME, metrics, and OpenTelemetry.</p>
   <p>Unsupported native runtime shapes still fail closed with explicit blockers instead of falling back to legacy adapters.</p>
 </section>
 <section class="guide-section">
