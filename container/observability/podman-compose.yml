@@ -10,7 +10,7 @@ services:
       context: ../..
       dockerfile: container/Dockerfile
     image: fluxheim-website:1.8.0-observability
-    container_name: fluxheim-website-observability
+    container_name: "${FLUXHEIM_OBSERVABILITY_CONTAINER_PREFIX:-fluxheim-website}-observability"
     restart: unless-stopped
     stop_signal: SIGTERM
     stop_grace_period: 15s
@@ -39,8 +39,8 @@ services:
       - otel-collector
 
   otel-collector:
-    image: docker.io/otel/opentelemetry-collector-contrib:0.156.0@sha256:125bdbeb7590cc1952c5b3430ecf14063568980c2c93d5b38676cc0446ed8108
-    container_name: fluxheim-website-otel
+    image: docker.io/otel/opentelemetry-collector-contrib:0.157.0@sha256:f2f01157055a9b2aab9df7118e1f1c9abf345e99b23bc7a2bc791db374a7d0f6
+    container_name: "${FLUXHEIM_OBSERVABILITY_CONTAINER_PREFIX:-fluxheim-website}-otel"
     restart: unless-stopped
     command: ["--config=/etc/otelcol/config.yml"]
     environment:
@@ -56,7 +56,7 @@ services:
 
   prometheus:
     image: docker.io/prom/prometheus:v3.13.1@sha256:3c42b892cf723fa54d2f262c37a0e1f80aa8c8ddb1da7b9b0df9455a35a7f893
-    container_name: fluxheim-website-prometheus
+    container_name: "${FLUXHEIM_OBSERVABILITY_CONTAINER_PREFIX:-fluxheim-website}-prometheus"
     restart: unless-stopped
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
@@ -72,17 +72,15 @@ services:
       - otel-collector
 
   jaeger:
-    image: docker.io/jaegertracing/all-in-one:1.76.0@sha256:ab6f1a1f0fb49ea08bcd19f6b84f6081d0d44b364b6de148e1798eb5816bacac
-    container_name: fluxheim-website-jaeger
+    image: docker.io/jaegertracing/jaeger:2.20.0@sha256:46a886260e04002d8f45e213fc39063fa11a50446048fdaa64786fc0840cb9f8
+    container_name: "${FLUXHEIM_OBSERVABILITY_CONTAINER_PREFIX:-fluxheim-website}-jaeger"
     restart: unless-stopped
-    environment:
-      COLLECTOR_OTLP_ENABLED: "true"
     ports:
       - "127.0.0.1:16686:16686"
 
   grafana:
     image: docker.io/grafana/grafana-oss:13.0.2@sha256:5dad0df181cb644a14e13617b913b261a54f7d4fd4510721dba420929f35bea2
-    container_name: fluxheim-website-grafana
+    container_name: "${FLUXHEIM_OBSERVABILITY_CONTAINER_PREFIX:-fluxheim-website}-grafana"
     restart: unless-stopped
     environment:
       GF_SECURITY_ADMIN_USER: "admin"

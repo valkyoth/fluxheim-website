@@ -1,4 +1,4 @@
-FROM docker.io/library/rust:1.97.0-slim-bookworm@sha256:cfbb0e0ef7a73e736386bfa346f1cb0503c6d162969dc9426fb37834f3f64c25 AS builder
+FROM docker.io/library/rust:1.97.1-slim-bookworm@sha256:99e09cb2284e2ddbb73a995deee3e91783fd04d177602ccf6eab326d778ee777 AS builder
 
 WORKDIR /build
 
@@ -7,9 +7,6 @@ COPY src/ src/
 COPY content/ content/
 COPY config/ config/
 
-# The official 1.97.1 image was not yet published when this toolchain shipped.
-# rustup reads rust-toolchain.toml, installs 1.97.1, and verifies the compiler
-# before Cargo builds the release binary.
 RUN rustc --version | grep -F "rustc 1.97.1 " && \
     cargo build --release --locked
 

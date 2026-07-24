@@ -7,15 +7,26 @@ BASE_URL="${BASE_URL:-http://127.0.0.1:8080}"
 PROM_URL="${PROM_URL:-http://127.0.0.1:9090}"
 GRAFANA_URL="${GRAFANA_URL:-http://127.0.0.1:3000}"
 JAEGER_URL="${JAEGER_URL:-http://127.0.0.1:16686}"
+project_name="${FLUXHEIM_OBSERVABILITY_PROJECT_NAME:-fluxheim_website_observability_smoke}"
+container_prefix="${FLUXHEIM_OBSERVABILITY_CONTAINER_PREFIX:-fluxheim-website-smoke}"
+smoke_compose_file="$(mktemp "${ROOT}/container/observability/.smoke-compose.XXXXXX.yml")"
+export FLUXHEIM_OBSERVABILITY_PROJECT_NAME="${project_name}"
+export FLUXHEIM_OBSERVABILITY_CONTAINER_PREFIX="${container_prefix}"
+
+compose() {
+  podman compose -p "${project_name}" -f "${smoke_compose_file}" "$@"
+}
 
 cleanup() {
-  if [[ "${OBSERVABILITY_SMOKE_DOWN:-0}" == "1" ]]; then
-    podman compose -f "${COMPOSE_FILE}" down
+  if [[ -s "${smoke_compose_file}" && "${OBSERVABILITY_SMOKE_DOWN:-1}" == "1" ]]; then
+    compose down --volumes
   fi
+  rm -f "${smoke_compose_file}"
 }
 trap cleanup EXIT
 
-podman compose -f "${COMPOSE_FILE}" up -d --build --force-recreate
+sed '1{/^name: /d;}' "${COMPOSE_FILE}" >"${smoke_compose_file}"
+compose up -d --build --force-recreate
 
 wait_for() {
   local url="$1"
@@ -37,7 +48,7 @@ wait_for "${JAEGER_URL}/" "jaeger"
 
 grafana_password="${GRAFANA_ADMIN_PASSWORD:-admin}"
 if [[ -n "${GRAFANA_ADMIN_PASSWORD:-}" ]]; then
-  podman exec fluxheim-website-grafana \
+  podman exec "${container_prefix}-grafana" \
     grafana cli admin reset-admin-password "${grafana_password}" >/dev/null
 fi
 
