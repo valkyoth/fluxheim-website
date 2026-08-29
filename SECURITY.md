@@ -25,7 +25,7 @@ Include:
 
 ## Security Baseline
 
-- Rust toolchain pinned to `1.97.1`.
+- Rust toolchain pinned to `1.98.0`.
 - Askama templates are compiled and type checked.
 - Localized content is parsed from bundled TOML into typed structures.
 - Request paths are resolved against an immutable page cache rendered at startup.

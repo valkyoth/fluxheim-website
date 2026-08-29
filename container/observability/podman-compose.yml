@@ -39,7 +39,7 @@ services:
       - otel-collector
 
   otel-collector:
-    image: docker.io/otel/opentelemetry-collector-contrib:0.157.0@sha256:f2f01157055a9b2aab9df7118e1f1c9abf345e99b23bc7a2bc791db374a7d0f6
+    image: docker.io/otel/opentelemetry-collector-contrib:0.159.0@sha256:1f2c54a30e713fac6b3ae77a1ec84010c2007e29ced8ec666214fc2f6739c1cc
     container_name: "${FLUXHEIM_OBSERVABILITY_CONTAINER_PREFIX:-fluxheim-website}-otel"
     restart: unless-stopped
     command: ["--config=/etc/otelcol/config.yml"]
@@ -55,7 +55,7 @@ services:
       - jaeger
 
   prometheus:
-    image: docker.io/prom/prometheus:v3.13.1@sha256:3c42b892cf723fa54d2f262c37a0e1f80aa8c8ddb1da7b9b0df9455a35a7f893
+    image: docker.io/prom/prometheus:v3.14.0@sha256:5ce7540c3c00ef4ab0c9d2c995c6a5b9c421f44b4a115d97a2c7af3b1c21cbb0
     container_name: "${FLUXHEIM_OBSERVABILITY_CONTAINER_PREFIX:-fluxheim-website}-prometheus"
     restart: unless-stopped
     command:

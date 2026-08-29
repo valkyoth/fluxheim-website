@@ -4,7 +4,7 @@ set -eu
 port="${FLUXHEIM_WEBSITE_PORT:-18080}"
 base="http://127.0.0.1:${port}"
 
-FLUXHEIM_WEBSITE_PORT="${port}" cargo +1.97.1 run --quiet &
+FLUXHEIM_WEBSITE_PORT="${port}" cargo +1.98.0 run --quiet &
 pid="$!"
 trap 'kill "$pid" >/dev/null 2>&1 || true' EXIT
 
