@@ -1,0 +1,8 @@
+r181_summary = "7種類すべての公開ビルドプロファイルにApple Silicon向けmacOSネイティブアーカイブを追加し、実環境での動作同等性テスト、移植可能なチェックサム検証ツール、診断情報とファイルシステムの保護強化を導入しました。"
+platform_windows_x86_64_button = "Windows（x86_64）"
+platform_windows_aarch64_button = "Windows（aarch64）"
+platform_macos_button = "macOS（Apple Silicon / aarch64）"
+platform_windows_x86_64 = "Windows x86_64版"
+platform_windows_aarch64 = "Windows aarch64版"
+platform_macos = "macOS Apple Silicon版"
+platform_macos_target = "macOS Apple Silicon / aarch64版"

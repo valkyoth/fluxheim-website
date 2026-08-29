@@ -1,0 +1,8 @@
+r181_summary = "Lisab kõigile seitsmele avalikule koostamisprofiilile Apple Siliconi macOS-i omarakenduste arhiivid, käituskeskkonna võrdsuse vahetud testid, porditavad kontrollsummatööriistad ning tugevamad diagnostika- ja failisüsteemikaitsed."
+platform_windows_x86_64_button = "Windows (x86_64)"
+platform_windows_aarch64_button = "Windows (aarch64)"
+platform_macos_button = "macOS (Apple Silicon / aarch64)"
+platform_windows_x86_64 = "Windows x86_64"
+platform_windows_aarch64 = "Windows aarch64"
+platform_macos = "macOS Apple Silicon"
+platform_macos_target = "macOS Apple Silicon / aarch64"

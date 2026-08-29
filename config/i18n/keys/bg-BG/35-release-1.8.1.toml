@@ -1,0 +1,8 @@
+r181_summary = "Добавя нативни macOS архиви за Apple Silicon за всичките седем публични профила, тестове на живо за равностойност при изпълнение, преносими инструменти за контролни суми и по-силна защита на диагностиката и файловата система."
+platform_windows_x86_64_button = "Windows (x86_64)"
+platform_windows_aarch64_button = "Windows (aarch64)"
+platform_macos_button = "macOS (Apple Silicon / aarch64)"
+platform_windows_x86_64 = "Windows x86_64"
+platform_windows_aarch64 = "Windows aarch64"
+platform_macos = "macOS Apple Silicon"
+platform_macos_target = "macOS Apple Silicon / aarch64"

@@ -1,0 +1,8 @@
+r181_summary = "Yedi genel derleme profilinin tamamına Apple Silicon için yerel macOS arşivleri, canlı çalışma zamanı eşdeğerlik testleri, taşınabilir sağlama toplamı araçları ve daha güçlü tanılama ile dosya sistemi korumaları ekler."
+platform_windows_x86_64_button = "Windows (x86_64)"
+platform_windows_aarch64_button = "Windows (aarch64)"
+platform_macos_button = "macOS (Apple Silicon / aarch64)"
+platform_windows_x86_64 = "Windows x86_64"
+platform_windows_aarch64 = "Windows aarch64"
+platform_macos = "macOS Apple Silicon"
+platform_macos_target = "macOS Apple Silicon / aarch64"

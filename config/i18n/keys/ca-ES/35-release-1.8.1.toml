@@ -1,0 +1,8 @@
+r181_summary = "Afegeix arxius natius de macOS per a Apple Silicon als set perfils públics, proves reals de paritat en temps d'execució, eines portables de suma de verificació i proteccions més sòlides per al diagnòstic i el sistema de fitxers."
+platform_windows_x86_64_button = "Windows (x86_64)"
+platform_windows_aarch64_button = "Windows (aarch64)"
+platform_macos_button = "macOS (Apple Silicon / aarch64)"
+platform_windows_x86_64 = "Windows x86_64"
+platform_windows_aarch64 = "Windows aarch64"
+platform_macos = "macOS Apple Silicon"
+platform_macos_target = "macOS Apple Silicon / aarch64"

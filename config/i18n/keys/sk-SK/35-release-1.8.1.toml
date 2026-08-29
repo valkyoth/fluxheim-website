@@ -1,0 +1,8 @@
+r181_summary = "Pridáva natívne archívy macOS pre Apple Silicon pre všetkých sedem verejných profilov zostavenia, živé testy parity behu, prenosné nástroje kontrolných súčtov a silnejšiu ochranu diagnostiky a súborového systému."
+platform_windows_x86_64_button = "Windows (x86_64)"
+platform_windows_aarch64_button = "Windows (aarch64)"
+platform_macos_button = "macOS (Apple Silicon / aarch64)"
+platform_windows_x86_64 = "Windows x86_64"
+platform_windows_aarch64 = "Windows aarch64"
+platform_macos = "macOS Apple Silicon"
+platform_macos_target = "macOS Apple Silicon / aarch64"

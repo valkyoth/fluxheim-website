@@ -134,14 +134,19 @@ fn download_artifact_version(artifact: &str) -> Option<&str> {
         "wasm-aarch64-macos.tar.gz",
         "php-x86_64-linux.tar.gz",
         "php-aarch64-linux.tar.gz",
+        "php-aarch64-macos.tar.gz",
         "load-balancer-x86_64-linux.tar.gz",
         "load-balancer-aarch64-linux.tar.gz",
+        "load-balancer-aarch64-macos.tar.gz",
         "cache-x86_64-linux.tar.gz",
         "cache-aarch64-linux.tar.gz",
+        "cache-aarch64-macos.tar.gz",
         "proxy-x86_64-linux.tar.gz",
         "proxy-aarch64-linux.tar.gz",
+        "proxy-aarch64-macos.tar.gz",
         "config-tester-x86_64-linux.tar.gz",
         "config-tester-aarch64-linux.tar.gz",
+        "config-tester-aarch64-macos.tar.gz",
     ];
     let version = allowed_suffixes.iter().find_map(|suffix| {
         artifact

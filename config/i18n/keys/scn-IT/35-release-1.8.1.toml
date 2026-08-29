@@ -1,0 +1,8 @@
+r181_summary = "Agghiunci archivi macOS nativi pi Apple Silicon a tutti li setti profili pubbrici, provi veri di parità d'esecuzzioni, strumenti purtatili pi li sommi di cuntrollu e prutezzioni cchiù forti pi diagnostica e sistema di file."
+platform_windows_x86_64_button = "Windows (x86_64)"
+platform_windows_aarch64_button = "Windows (aarch64)"
+platform_macos_button = "macOS (Apple Silicon / aarch64)"
+platform_windows_x86_64 = "Windows x86_64"
+platform_windows_aarch64 = "Windows aarch64"
+platform_macos = "macOS Apple Silicon"
+platform_macos_target = "macOS Apple Silicon / aarch64"

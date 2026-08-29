@@ -55,7 +55,9 @@ def main() -> int:
     source_keys = set(flatten(source).keys())
     source_parts = key_part_names(SOURCE_LOCALE)
     source_language_names = source.get("language", {}).get("names", {})
-    intentional_identical = load_intentional_identical(locale_ids, source_keys, errors)
+    intentional_identical, global_intentional = load_intentional_identical(
+        locale_ids, source_keys, errors
+    )
 
     for locale_id in locale_ids:
         path = KEY_ROOT / f"{locale_id}.toml"
@@ -64,7 +66,7 @@ def main() -> int:
             locale_id,
             source,
             data,
-            intentional_identical.get(locale_id, set()),
+            intentional_identical.get(locale_id, set()) - global_intentional,
             errors,
         )
         keys = set(flatten(data).keys())
@@ -235,37 +237,55 @@ def load_intentional_identical(
     locale_ids: list[str],
     source_keys: set[str],
     errors: list[str],
-) -> dict[str, set[str]]:
+) -> tuple[dict[str, set[str]], set[str]]:
     data = load_intentional_identical_data(errors)
     if not data:
-        return {}
-    allowed: dict[str, set[str]] = {}
+        return {}, set()
+    global_keys = intentional_key_set("all", data.get("all"), source_keys, errors)
+    allowed: dict[str, set[str]] = {
+        locale_id: set(global_keys) for locale_id in locale_ids
+    }
     configured = set(locale_ids)
     for locale_id, table in data.items():
+        if locale_id == "all":
+            continue
         if locale_id not in configured:
             errors.append(
                 f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} has unconfigured locale {locale_id}"
             )
             continue
-        keys = table.get("keys") if isinstance(table, dict) else None
-        if not isinstance(keys, list):
+        allowed[locale_id].update(
+            intentional_key_set(locale_id, table, source_keys, errors)
+        )
+    return allowed, global_keys
+
+
+def intentional_key_set(
+    scope: str,
+    table: Any,
+    source_keys: set[str],
+    errors: list[str],
+) -> set[str]:
+    if table is None:
+        return set()
+    keys = table.get("keys") if isinstance(table, dict) else None
+    if not isinstance(keys, list):
+        errors.append(
+            f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} {scope}.keys must be an array"
+        )
+        return set()
+    allowed = set()
+    for key in keys:
+        if not isinstance(key, str) or not key:
             errors.append(
-                f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} {locale_id}.keys must be an array"
+                f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} {scope}.keys contains a non-text key"
             )
             continue
-        locale_keys: set[str] = set()
-        for key in keys:
-            if not isinstance(key, str) or not key:
-                errors.append(
-                    f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} {locale_id}.keys contains a non-text key"
-                )
-                continue
-            if key not in source_keys:
-                errors.append(
-                    f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} {locale_id}.{key} is not an i18n key"
-                )
-            locale_keys.add(key)
-        allowed[locale_id] = locale_keys
+        if key not in source_keys:
+            errors.append(
+                f"{INTENTIONAL_IDENTICAL_PATH.relative_to(ROOT)} {scope}.{key} is not an i18n key"
+            )
+        allowed.add(key)
     return allowed
 
 

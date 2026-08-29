@@ -22,53 +22,65 @@ Each supported operating-system target uses the same public profile names:
 `full` intentionally remains Wasm-free. Select `wasm` when in-process policy
 execution and its reviewed proxy-ABI and WASI capability surfaces are needed.
 
-Every staged directory is emitted as both `.tar.gz` and `.zip`. The archive
-builder verifies that both formats contain the same paths and file payloads.
-Windows binaries retain their `.exe` suffix. Archive names use normalized
-platform labels such as:
+Every staged directory is emitted internally as both `.tar.gz` and `.zip` so
+the archive builder can verify that both formats contain the same paths and
+file payloads. Publication format is platform-specific: Linux publishes
+`.tar.gz`, unsigned macOS CLI previews publish `.tar.gz`, and Windows will
+publish `.zip` once its native gate is complete. Windows binaries retain their
+`.exe` suffix. Archive names use normalized platform labels such as:
 
 ```text
-fluxheim-1.8.0-wasm-x86_64-linux.zip
-fluxheim-1.8.0-wasm-aarch64-macos.tar.gz
+fluxheim-VERSION-wasm-x86_64-linux.tar.gz
+fluxheim-VERSION-wasm-aarch64-macos.tar.gz
+fluxheim-VERSION-wasm-x86_64-windows.zip
+fluxheim-VERSION-wasm-aarch64-windows.zip
 ```
 
-Windows will use the same naming contract from `1.8.2`; `1.8.0` does not
-publish a Windows archive.
+Windows uses the same naming contract during `1.8.2` development. Do not
+publish those archives until the native runtime and release evidence gates pass
+on both architectures.
 
 The shared matrix can be inspected without compiling:
 
 ```bash
-scripts/build_release_assets.sh 1.8.0 --kind linux --plan
-scripts/build_release_assets.sh 1.8.0 --kind macos --plan
-scripts/build_release_assets.sh 1.8.0 --kind windows --plan
+VERSION="$(sed -n 's/^version = "\([^"]*\)"/\1/p' Cargo.toml | sed -n '1p')"
+scripts/build_release_assets.sh "$VERSION" --kind linux --plan
+scripts/build_release_assets.sh "$VERSION" --kind macos --plan
+scripts/build_release_assets.sh "$VERSION" --kind windows --plan
+python scripts/portable_release_plan.py "$VERSION" --kind windows --target aarch64-pc-windows-msvc
 scripts/validate_portable_release_plan.py
 ```
 
-The shell asset builder and cross-platform validator consume the same native
-Python release-plan module. Plan validation therefore does not require Bash,
-Git Bash, or WSL on Windows.
+The POSIX and PowerShell asset builders consume the same native Python
+release-plan module. Plan validation and Windows packaging therefore do not
+require Git Bash or WSL.
 
 Build on the operating system and architecture represented by the target:
 
 ```bash
-scripts/build_release_assets.sh 1.8.0 --kind macos --profile wasm
+scripts/build_release_assets.sh "$VERSION" --kind macos --profile wasm
 ```
 
 Cross-compiling a Windows MSVC binary from Linux is not an authoritative
 release proof because the MSVC linker and Windows SDK are absent. The Windows
-CI runner validates the shared archive plan and fail-closed configuration
-boundary in `1.8.0`; native Windows runtime and archive builds begin with the
-`1.8.2` parity work. The same host-native rule applies to Apple SDK and linker
-validation: published macOS archives must be built on macOS.
+release builders must run natively on x86_64 and ARM64 hosts and use
+`scripts/build_release_assets.ps1`. See
+[Windows Release Builders](windows-release-builders.md). The same host-native
+rule applies to Apple SDK and linker validation.
 
 ## Current Support Level
 
-The `1.8.0` CI baseline compiles the portable static-site, reverse-proxy,
-full, Wasm, and development profiles on native macOS, and builds representative
-macOS `full` and `wasm` archives. The complete seven-profile naming and feature
-contract is checked without compiling on every supported CI host.
+The `1.8.0` CI baseline compiled the portable static-site, reverse-proxy,
+full, Wasm, and development profiles on native macOS and built representative
+`full` and `wasm` archives. The `1.8.1` release gate runs on native Apple
+Silicon, builds all seven public archive profiles for ARM64 macOS, and exercises
+live static, proxy, downstream/upstream TLS, cache, admin, load-balancer, local
+observability, and packaged Wasm behavior. Intel macOS is not a supported
+release target and does not receive official archives.
+External Prometheus and Jaeger collector integration remains in the Linux gate
+because the macOS portable gate does not require a container runtime.
 
-`1.8.0` does not publish Windows binaries. Fluxheim deliberately rejects
+`1.8.1` does not publish Windows binaries. Fluxheim deliberately rejects
 configuration-file loading on Windows until native owner and ACL trust checks
 replace the Unix ownership and mode checks, and the cache storage path still
 depends on descriptor-relative Unix filesystem operations. It does not
@@ -80,7 +92,9 @@ profile builds, and archives are `1.8.2` work.
 
 Live platform parity remains staged:
 
-- `1.8.1` expands native macOS runtime and archive smoke coverage.
+- `1.8.1` completes the defined unsigned native macOS runtime and archive
+  smoke matrix while retaining explicit foreground and filesystem-policy
+  limitations.
 - `1.8.2` expands native Windows runtime and archive smoke coverage.
 - `1.8.3` compares all published profiles and records intentional platform
   differences.
@@ -103,6 +117,43 @@ macOS archives are unsigned portable previews until Fluxheim has company-backed
 publisher credentials. Windows archives will follow the same policy when they
 begin in `1.8.2`. SHA-256 checksums prove downloaded-byte integrity against the
 published release metadata; they do not establish a signed publisher identity.
+
+The public macOS preview uses only `.tar.gz`. Fluxheim is a command-line server,
+and the documented terminal download and extraction flow avoids presenting an
+unsigned ZIP as a Finder installation experience. ZIP remains an internal
+archive-equivalence check and is not attached to the GitHub release. This is a
+temporary distribution policy, not a substitute for Developer ID signing and
+notarization.
+
+Install a runtime profile without embedding a release number in automation:
+
+```bash
+VERSION="REPLACE_WITH_RELEASE_VERSION"
+PROFILE="full"
+ARCHIVE="fluxheim-${VERSION}-${PROFILE}-aarch64-macos.tar.gz"
+BASE_URL="https://github.com/valkyoth/fluxheim/releases/download/v${VERSION}"
+
+curl -fLO "${BASE_URL}/${ARCHIVE}"
+curl -fLO "${BASE_URL}/SHA256SUMS-aarch64-macos.txt"
+grep "  ${ARCHIVE}$" SHA256SUMS-aarch64-macos.txt | shasum -a 256 -c -
+tar -xzf "$ARCHIVE"
+
+install -d "$HOME/.local/bin"
+install -m 0755 "fluxheim-${VERSION}-${PROFILE}-aarch64-macos/fluxheim" \
+  "$HOME/.local/bin/fluxheim"
+install -m 0755 "fluxheim-${VERSION}-${PROFILE}-aarch64-macos/fluxheim-acme" \
+  "$HOME/.local/bin/fluxheim-acme"
+```
+
+Ensure `$HOME/.local/bin` is on `PATH`. The `config-tester` profile contains
+`fluxheim-config-tester` instead of the two runtime binaries. Administrators
+may install into `/usr/local/bin` with appropriate privileges instead.
+
+Use the terminal workflow above even if the archive was first downloaded in a
+browser. Do not disable Gatekeeper globally. If Finder or another graphical
+extractor produces a quarantined executable, download and extract it again with
+the documented command-line workflow. Signed and notarized `.pkg`/`.dmg`
+installation is a later platform milestone.
 
 Operators are responsible for local Gatekeeper, SmartScreen, ACL, and
 execution-policy decisions for these unsigned archives. Fluxheim will not

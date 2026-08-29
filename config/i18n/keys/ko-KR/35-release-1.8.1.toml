@@ -1,0 +1,8 @@
+r181_summary = "공개 빌드 프로필 7종 모두에 Apple Silicon용 macOS 네이티브 압축 파일을 추가하고, 실제 실행 환경의 동등성 시험과 이식 가능한 체크섬 도구, 진단 정보 및 파일 시스템 보호 강화를 제공합니다."
+platform_windows_x86_64_button = "Windows(x86_64)"
+platform_windows_aarch64_button = "Windows(aarch64)"
+platform_macos_button = "macOS(Apple Silicon / aarch64)"
+platform_windows_x86_64 = "Windows x86_64용"
+platform_windows_aarch64 = "Windows aarch64용"
+platform_macos = "macOS Apple Silicon용"
+platform_macos_target = "macOS Apple Silicon / aarch64용"

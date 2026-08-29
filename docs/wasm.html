@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.8.0
+            Download v1.8.1
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.8.0</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.8.1</a>
       </div>
     </div>
   </nav>
@@ -123,12 +123,12 @@
   <h2>Run</h2>
   <p>Use the dedicated <code>profile-wasm</code> archive or image; the normal full build intentionally remains Wasm-free.</p>
   <p>The official Wasm image contains the runtime but no operator plugins. Mount reviewed modules read-only and pin every module by SHA-256.</p>
-  <pre class="language-bash"><code class="language-bash">podman pull ghcr.io/valkyoth/fluxheim:v1.8.0-wasm
+  <pre class="language-bash"><code class="language-bash">podman pull ghcr.io/valkyoth/fluxheim:v1.8.1-wasm
 
 podman run --rm \
   -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro,Z \
   -v /srv/infra/fluxheim/plugins:/etc/fluxheim/plugins:ro,Z \
-  ghcr.io/valkyoth/fluxheim:v1.8.0-wasm</code></pre>
+  ghcr.io/valkyoth/fluxheim:v1.8.1-wasm</code></pre>
 </section>
 <section class="guide-section">
   <h2>Approved plugin roots</h2>

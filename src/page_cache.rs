@@ -137,8 +137,8 @@ mod tests {
         assert!(String::from_utf8_lossy(&legacy.body).contains(r#"href="/de/docs/index.html""#));
         assert_eq!(crate::i18n_keys::replacer_cache_len(), 0);
         let artifacts = download_artifacts(&pages);
-        assert!(artifacts.contains("fluxheim-1.8.0-full-x86_64-linux.tar.gz"));
-        assert!(artifacts.contains("fluxheim-1.8.0-wasm-x86_64-linux.tar.gz"));
+        assert!(artifacts.contains("fluxheim-1.8.1-full-x86_64-linux.tar.gz"));
+        assert!(artifacts.contains("fluxheim-1.8.1-wasm-x86_64-linux.tar.gz"));
         assert!(!artifacts.contains("fluxheim-1.3.2-full-x86_64-linux.tar.gz"));
     }
 }

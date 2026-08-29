@@ -12,12 +12,12 @@
   <h2>Run</h2>
   <p>Use the dedicated <code>profile-wasm</code> archive or image; the normal full build intentionally remains Wasm-free.</p>
   <p>The official Wasm image contains the runtime but no operator plugins. Mount reviewed modules read-only and pin every module by SHA-256.</p>
-  <pre><code>podman pull ghcr.io/valkyoth/fluxheim:v1.8.0-wasm
+  <pre><code>podman pull ghcr.io/valkyoth/fluxheim:v1.8.1-wasm
 
 podman run --rm \
   -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro,Z \
   -v /srv/infra/fluxheim/plugins:/etc/fluxheim/plugins:ro,Z \
-  ghcr.io/valkyoth/fluxheim:v1.8.0-wasm</code></pre>
+  ghcr.io/valkyoth/fluxheim:v1.8.1-wasm</code></pre>
 </section>
 <section class="guide-section">
   <h2>Approved plugin roots</h2>

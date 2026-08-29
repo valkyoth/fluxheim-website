@@ -1,0 +1,8 @@
+r181_summary = "সাতটি প্রকাশ্য বিল্ড প্রোফাইলের সবগুলোর জন্য Apple Silicon-এর নিজস্ব macOS আর্কাইভ, সরাসরি রানটাইম সমতা পরীক্ষা, বহনযোগ্য চেকসম সরঞ্জাম এবং ডায়াগনস্টিক ও ফাইল সিস্টেমের আরও শক্তিশালী সুরক্ষা যোগ করে।"
+platform_windows_x86_64_button = "Windows (x86_64)"
+platform_windows_aarch64_button = "Windows (aarch64)"
+platform_macos_button = "macOS (Apple Silicon / aarch64)"
+platform_windows_x86_64 = "Windows x86_64"
+platform_windows_aarch64 = "Windows aarch64"
+platform_macos = "macOS Apple Silicon"
+platform_macos_target = "macOS Apple Silicon / aarch64"
