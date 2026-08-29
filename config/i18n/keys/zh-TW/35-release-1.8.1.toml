@@ -1,4 +1,4 @@
-r181_summary = "為全部七種公開建構設定新增 Apple Silicon 原生 macOS 封存檔、實際執行環境一致性測試、可攜式總和檢查工具，並進一步強化診斷資訊與檔案系統保護。"
+r181_summary = "為全部七種公開建構設定新增 Apple Silicon 原生 macOS 封存檔、實際執行環境一致性測試、可攜式總和檢查碼工具，並進一步強化診斷資訊與檔案系統保護。"
 platform_windows_x86_64_button = "Windows (x86_64)"
 platform_windows_aarch64_button = "Windows (aarch64)"
 platform_macos_button = "macOS (Apple Silicon / aarch64)"

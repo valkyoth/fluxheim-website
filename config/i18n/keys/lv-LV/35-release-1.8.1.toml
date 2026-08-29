@@ -1,4 +1,4 @@
-r181_summary = "Pievieno vietējus Apple Silicon macOS arhīvus visiem septiņiem publiskajiem būvējumu profiliem, darbības vides paritātes tiešos testus, pārnesamus kontrolsummu rīkus un stingrāku diagnostikas un failu sistēmas aizsardzību."
+r181_summary = "Pievieno visiem septiņiem publiskajiem būvējumu profiliem Apple Silicon platformai kompilētus macOS arhīvus, paritātes testus reālā darbības vidē, pārnesamus kontrolsummu rīkus un stingrāku diagnostikas datu un failu sistēmas aizsardzību."
 platform_windows_x86_64_button = "Windows (x86_64)"
 platform_windows_aarch64_button = "Windows (aarch64)"
 platform_macos_button = "macOS (Apple Silicon / aarch64)"

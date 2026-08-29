@@ -1,4 +1,4 @@
-r181_summary = "Bætir við innbyggðum macOS-söfnum fyrir Apple Silicon fyrir öll sjö opinberu byggingarsniðin, lifandi prófunum á keyrslusamhæfi, færanlegum gátsummuverkfærum og öflugri vörnum fyrir greiningar og skráakerfi."
+r181_summary = "Bætir við macOS-safnskrám sem eru byggðar sérstaklega fyrir Apple Silicon fyrir öll sjö opinberu byggingarsniðin, prófunum á sambærilegri hegðun í raunverulegu keyrsluumhverfi, færanlegum gátsummuverkfærum og öflugri vörnum fyrir greiningargögn og skráakerfi."
 platform_windows_x86_64_button = "Windows (x86_64)"
 platform_windows_aarch64_button = "Windows (aarch64)"
 platform_macos_button = "macOS (Apple Silicon / aarch64)"

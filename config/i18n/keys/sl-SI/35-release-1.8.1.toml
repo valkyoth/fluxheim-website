@@ -1,4 +1,4 @@
-r181_summary = "Dodaja izvorne arhive macOS za Apple Silicon za vseh sedem javnih profilov gradnje, neposredne preizkuse enakovrednosti izvajanja, prenosljiva orodja za kontrolne vsote ter močnejšo zaščito diagnostike in datotečnega sistema."
+r181_summary = "Dodaja izvorne arhive macOS za Apple Silicon za vseh sedem javnih profilov gradnje, preizkuse enakovrednega delovanja v dejanskem izvajalnem okolju, prenosljiva orodja za kontrolne vsote ter močnejšo zaščito diagnostike in datotečnega sistema."
 platform_windows_x86_64_button = "Windows (x86_64)"
 platform_windows_aarch64_button = "Windows (aarch64)"
 platform_macos_button = "macOS (Apple Silicon / aarch64)"

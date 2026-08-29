@@ -1,4 +1,4 @@
-r181_summary = "सभी सात सार्वजनिक बिल्ड प्रोफ़ाइलों के लिए Apple Silicon के मूल macOS संग्रह, वास्तविक रनटाइम समानता परीक्षण, सुवाह्य चेकसम उपकरण और निदान व फ़ाइल सिस्टम की अधिक मज़बूत सुरक्षा जोड़ता है।"
+r181_summary = "सभी सात सार्वजनिक बिल्ड प्रोफ़ाइलों के लिए Apple Silicon हेतु सीधे संकलित macOS पैकेज, वास्तविक रनटाइम परिवेश में समान व्यवहार की जाँच, सुवाह्य चेकसम उपकरण और निदान व फ़ाइल सिस्टम की अधिक मज़बूत सुरक्षा जोड़ता है।"
 platform_windows_x86_64_button = "Windows (x86_64)"
 platform_windows_aarch64_button = "Windows (aarch64)"
 platform_macos_button = "macOS (Apple Silicon / aarch64)"

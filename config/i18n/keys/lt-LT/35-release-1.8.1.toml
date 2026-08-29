@@ -1,4 +1,4 @@
-r181_summary = "Prideda savųjų Apple Silicon macOS archyvų visiems septyniems viešiems komponavimo profiliams, tiesioginius vykdymo aplinkos lygiavertiškumo bandymus, perkeliamus kontrolinių sumų įrankius ir stipresnę diagnostikos bei failų sistemos apsaugą."
+r181_summary = "Prideda visiems septyniems viešiems komponavimo profiliams Apple Silicon platformai sukompiliuotus macOS archyvus, lygiavertiškumo bandymus realioje vykdymo aplinkoje, perkeliamus kontrolinių sumų įrankius ir stipresnę diagnostikos bei failų sistemos apsaugą."
 platform_windows_x86_64_button = "Windows (x86_64)"
 platform_windows_aarch64_button = "Windows (aarch64)"
 platform_macos_button = "macOS (Apple Silicon / aarch64)"

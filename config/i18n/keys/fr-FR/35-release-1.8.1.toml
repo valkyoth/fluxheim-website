@@ -1,4 +1,4 @@
-r181_summary = "Ajoute des archives macOS natives pour Apple Silicon aux sept profils publics, des tests réels de parité d’exécution, des outils de somme de contrôle portables et des protections renforcées pour les diagnostics et le système de fichiers."
+r181_summary = "Ajoute aux sept profils publics de compilation des archives macOS natives pour Apple Silicon, des tests de parité dans des environnements d’exécution réels, des outils portables de vérification des sommes de contrôle et des protections renforcées pour les diagnostics et le système de fichiers."
 platform_windows_x86_64_button = "Windows (x86_64)"
 platform_windows_aarch64_button = "Windows (aarch64)"
 platform_macos_button = "macOS (Apple Silicon / aarch64)"

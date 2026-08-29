@@ -1,4 +1,4 @@
-r181_summary = "Lägger till inbyggda macOS-arkiv för Apple Silicon för alla sju offentliga byggprofiler, skarpa tester av körningsparitet, portabla kontrollsummeverktyg och starkare skydd för diagnostik och filsystem."
+r181_summary = "Lägger till macOS-arkiv byggda direkt för Apple Silicon för samtliga sju offentliga byggprofiler, tester som verifierar samma beteende i verklig körning, portabla verktyg för kontrollsummor samt förstärkt skydd för diagnostik och filsystem."
 platform_windows_x86_64_button = "Windows (x86_64)"
 platform_windows_aarch64_button = "Windows (aarch64)"
 platform_macos_button = "macOS (Apple Silicon / aarch64)"

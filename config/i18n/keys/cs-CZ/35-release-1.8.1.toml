@@ -1,4 +1,4 @@
-r181_summary = "Přidává nativní archivy macOS pro Apple Silicon pro všech sedm veřejných profilů sestavení, živé testy parity běhu, přenosné nástroje pro kontrolní součty a silnější ochranu diagnostiky a souborového systému."
+r181_summary = "Přidává nativní archivy macOS pro Apple Silicon pro všech sedm veřejných profilů sestavení, testy shodného chování ve skutečném běhovém prostředí, přenosné nástroje pro kontrolní součty a silnější ochranu diagnostiky a souborového systému."
 platform_windows_x86_64_button = "Windows (x86_64)"
 platform_windows_aarch64_button = "Windows (aarch64)"
 platform_macos_button = "macOS (Apple Silicon / aarch64)"

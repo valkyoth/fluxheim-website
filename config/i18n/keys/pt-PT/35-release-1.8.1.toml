@@ -1,4 +1,4 @@
-r181_summary = "Adiciona arquivos macOS nativos para Apple Silicon aos sete perfis públicos, testes reais de paridade em execução, ferramentas portáteis de soma de verificação e proteções reforçadas para diagnósticos e sistema de ficheiros."
+r181_summary = "Adiciona pacotes macOS nativos para Apple Silicon aos sete perfis públicos de compilação, testes de paridade em ambientes de execução reais, ferramentas portáteis de verificação de somas de controlo e proteções reforçadas para diagnósticos e para o sistema de ficheiros."
 platform_windows_x86_64_button = "Windows (x86_64)"
 platform_windows_aarch64_button = "Windows (aarch64)"
 platform_macos_button = "macOS (Apple Silicon / aarch64)"
