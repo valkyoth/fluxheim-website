@@ -1,4 +1,7 @@
-use std::net::SocketAddr;
+#![forbid(unsafe_code)]
+
+use std::io;
+use std::net::{IpAddr, SocketAddr};
 use std::sync::Arc;
 
 use fluxheim_website::content::Site;
@@ -45,13 +48,30 @@ fn validate_embedded_i18n(site: &Site) {
     );
 }
 
-fn bind_addr() -> Result<SocketAddr, std::num::ParseIntError> {
-    let port = std::env::var("FLUXHEIM_WEBSITE_PORT")
-        .ok()
-        .map(|value| value.parse::<u16>())
-        .transpose()?
-        .unwrap_or(8080);
-    Ok(SocketAddr::from(([0, 0, 0, 0], port)))
+fn bind_addr() -> io::Result<SocketAddr> {
+    bind_addr_from(
+        std::env::var("FLUXHEIM_WEBSITE_BIND").ok().as_deref(),
+        std::env::var("FLUXHEIM_WEBSITE_PORT").ok().as_deref(),
+    )
+}
+
+fn bind_addr_from(host: Option<&str>, port: Option<&str>) -> io::Result<SocketAddr> {
+    let host = host
+        .unwrap_or("127.0.0.1")
+        .parse::<IpAddr>()
+        .map_err(|error| {
+            io::Error::new(
+                io::ErrorKind::InvalidInput,
+                format!("invalid bind IP: {error}"),
+            )
+        })?;
+    let port = port.unwrap_or("8080").parse::<u16>().map_err(|error| {
+        io::Error::new(
+            io::ErrorKind::InvalidInput,
+            format!("invalid bind port: {error}"),
+        )
+    })?;
+    Ok(SocketAddr::new(host, port))
 }
 
 fn init_tracing(telemetry_guard: &TelemetryGuard) {
@@ -97,5 +117,30 @@ async fn shutdown_signal() {
     tokio::select! {
         () = ctrl_c => {},
         () = terminate => {},
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::bind_addr_from;
+
+    #[test]
+    fn defaults_native_server_to_loopback() {
+        assert_eq!(
+            bind_addr_from(None, None)
+                .expect("default bind")
+                .to_string(),
+            "127.0.0.1:8080"
+        );
+    }
+
+    #[test]
+    fn accepts_explicit_container_bind() {
+        assert_eq!(
+            bind_addr_from(Some("0.0.0.0"), Some("18080"))
+                .expect("container bind")
+                .to_string(),
+            "0.0.0.0:18080"
+        );
     }
 }

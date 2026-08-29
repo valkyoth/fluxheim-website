@@ -1,3 +1,5 @@
+#![forbid(unsafe_code)]
+
 pub mod app_state;
 pub mod content;
 pub mod http_app;

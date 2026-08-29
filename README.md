@@ -204,7 +204,7 @@ Or build manually:
 
 ```bash
 podman build -f container/Dockerfile -t fluxheim-website:0.1.0 .
-podman run --rm -p 8080:8080 fluxheim-website:0.1.0
+podman run --rm -p 127.0.0.1:8080:8080 fluxheim-website:0.1.0
 ```
 
 Run the container smoke test:

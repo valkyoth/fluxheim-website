@@ -264,11 +264,12 @@ pub fn normalize_route(slug: &str) -> String {
         "docs" | "docs/index" | "docs/index.html" => "/docs".to_owned(),
         value if value.starts_with("docs/source/") => "/docs/source/:page".to_owned(),
         value if value.starts_with("docs/") => {
-            let first = value.trim_start_matches("docs/").trim_end_matches(".html");
-            if first.contains('/') {
-                "/docs/:page".to_owned()
-            } else {
-                format!("/docs/{first}")
+            match value.trim_start_matches("docs/").trim_end_matches(".html") {
+                page @ ("advanced" | "cache" | "configuration" | "deployment" | "features"
+                | "getting-started" | "load-balancer" | "observability" | "php-fpm"
+                | "reference" | "reverse-proxy" | "static-sites" | "tls-acme" | "wasm"
+                | "wordpress") => format!("/docs/{page}"),
+                _ => "/docs/:page".to_owned(),
             }
         }
         value if value.starts_with("assets/") => "/assets/:file".to_owned(),
@@ -390,6 +391,8 @@ mod tests {
         assert_eq!(normalize_route(""), "/");
         assert_eq!(normalize_route("docs/cache"), "/docs/cache");
         assert_eq!(normalize_route("docs/source/systemd"), "/docs/source/:page");
+        assert_eq!(normalize_route("docs/random-token"), "/docs/:page");
+        assert_eq!(normalize_route("docs/nested/random-token"), "/docs/:page");
         assert_eq!(normalize_route("private/random-token"), "unknown");
     }
 

@@ -112,7 +112,7 @@
 <section class="guide-section">
   <h2>Rootless Podman</h2>
   <pre class="language-bash"><code class="language-bash">podman run --name fluxheim --replace \
-  -p 8080:8080 \
+  -p 127.0.0.1:8080:8080 \
   -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro \
   -v ./site:/srv/site:ro \
   -v fluxheim-cache:/var/cache/fluxheim \

@@ -32,6 +32,21 @@ updates:
       prefix: "chore"
       include: scope
 
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: Europe/Stockholm
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - javascript
+    commit-message:
+      prefix: "chore"
+      include: scope
+
   - package-ecosystem: github-actions
     directory: /
     schedule:

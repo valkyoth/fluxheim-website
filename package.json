@@ -1,0 +1,7 @@
+{
+  "name": "fluxheim-website-browser-assets",
+  "private": true,
+  "dependencies": {
+    "prismjs": "1.30.0"
+  }
+}

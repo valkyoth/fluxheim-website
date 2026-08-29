@@ -24,9 +24,6 @@ tracing = "0.1.44"
 tracing-opentelemetry = { version = "0.33.0", default-features = false }
 tracing-subscriber = { version = "0.3.23", features = ["env-filter", "fmt"] }
 
-[target.'cfg(unix)'.dependencies]
-libc = "0.2.189"
-
 [dev-dependencies]
 tower = { version = "0.5.3", features = ["util"] }
 

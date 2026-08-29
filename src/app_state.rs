@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 
 use crate::content::Site;
+use crate::legacy::{self, ArtifactCache};
 use crate::observability::Observability;
 use crate::page_cache::{self, PageCache};
 
@@ -9,12 +10,14 @@ pub struct AppState {
     pub site: Site,
     pub observability: Observability,
     pub pages: PageCache,
+    pub artifacts: ArtifactCache,
     pub download_artifacts: HashSet<String>,
 }
 
 impl AppState {
     pub fn new(site: Site, observability: Observability) -> Result<Self, String> {
         let pages = page_cache::preload_pages(&site)?;
+        let artifacts = legacy::preload_static_artifacts()?;
         let download_artifacts = page_cache::download_artifacts(&pages);
         if download_artifacts.is_empty() {
             return Err("rendered site contains no download artifacts".to_owned());
@@ -23,6 +26,7 @@ impl AppState {
             site,
             observability,
             pages,
+            artifacts,
             download_artifacts,
         })
     }

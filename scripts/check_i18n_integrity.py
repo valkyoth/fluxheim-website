@@ -35,6 +35,11 @@ PLACEHOLDER = re.compile(r"\{[A-Za-z_][A-Za-z0-9_]*\}")
 URL = re.compile(r"https?://[^\s<>\"]+")
 STATUS_CODE = re.compile(r"(?<!\d)[1-5]\d\d(?!\d)")
 UNSAFE_FORMAT_CHARACTERS = {"\u200b", "\u2060", "\ufeff"}
+DANGEROUS_HTML = re.compile(
+    r"javascript\s*:|srcdoc\s*=|(?:^|[\s\"'`])on[a-z][a-z0-9_-]*\s*=|"
+    r"<\s*(?:script|iframe|object|embed|svg)\b",
+    re.IGNORECASE,
+)
 
 
 def main() -> int:
@@ -98,7 +103,10 @@ def self_test() -> int:
         print(f"i18n-integrity self-test rejected valid text: {errors}", file=sys.stderr)
         return 1
 
-    broken = "Fluxheim\u200b <strong>404</strong>"
+    broken = (
+        'Fluxheim\u200b <strong>404</strong> " onmouseover="alert(1) '
+        "javascript:alert(2)"
+    )
     check_value("zz-ZZ", "test.broken", source, broken, "1.7.10", True, errors)
     expected_fragments = (
         "HTML tags",
@@ -109,6 +117,7 @@ def self_test() -> int:
         "omitted current version",
         "omitted technical term 'CORS'",
         "format character",
+        "dangerous HTML or URL syntax",
     )
     missing = [
         fragment
@@ -173,6 +182,8 @@ def check_value(
                 f"{locale_id} {key} contains format character "
                 f"U+{ord(character):04X}"
             )
+    if DANGEROUS_HTML.search(target):
+        errors.append(f"{locale_id} {key} contains dangerous HTML or URL syntax")
 
 
 def load_bundle(locale_id: str) -> dict[str, Any]:

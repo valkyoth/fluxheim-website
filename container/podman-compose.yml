@@ -19,9 +19,10 @@ services:
       nofile:
         soft: 1024
         hard: 1024
+    pids_limit: 128
     environment:
       FLUXHEIM_OTLP: "${FLUXHEIM_OTLP:-disabled}"
       FLUXHEIM_HSTS: "${FLUXHEIM_HSTS:-enabled}"
       OTEL_EXPORTER_OTLP_HEADERS: "${OTEL_EXPORTER_OTLP_HEADERS:-}"
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"

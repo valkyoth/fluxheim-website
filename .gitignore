@@ -28,6 +28,7 @@ release-reports/
 
 # Generated website/container artifacts
 /dist/
+/node_modules/
 *.tar
 *.tar.gz
 *.tgz

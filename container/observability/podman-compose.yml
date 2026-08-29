@@ -25,6 +25,7 @@ services:
       nofile:
         soft: 1024
         hard: 1024
+    pids_limit: 128
     environment:
       FLUXHEIM_OTLP: "${FLUXHEIM_OTLP:-enabled}"
       FLUXHEIM_HSTS: "${FLUXHEIM_HSTS:-enabled}"

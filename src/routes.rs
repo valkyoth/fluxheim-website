@@ -30,11 +30,11 @@ pub async fn render_page(
             .into_response();
     }
 
-    if let Some(artifact) = legacy::render_static_artifact(&state.site, path) {
+    if let Some(artifact) = legacy::cached_static_artifact(&state.site, &state.artifacts, path) {
         return (
             StatusCode::OK,
             [(header::CONTENT_TYPE, artifact.content_type)],
-            Body::from(artifact.body),
+            Body::from(artifact.body.clone()),
         )
             .into_response();
     }

@@ -17,6 +17,9 @@ struct KeyTomlFile {
 include!(concat!(env!("OUT_DIR"), "/i18n_key_files.rs"));
 
 pub fn apply_shared_keys(locale: &Locale, html: String, version: &str) -> String {
+    if locale.locale_id == "en-EU" {
+        return html;
+    }
     let Some(keys) = locale_keys(&locale.locale_id) else {
         return html;
     };

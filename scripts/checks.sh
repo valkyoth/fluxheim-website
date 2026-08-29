@@ -94,3 +94,4 @@ scripts/i18n_coverage.py --all-configured --summary-only --fail-under 100
 
 cargo deny check
 cargo audit
+npm audit --ignore-scripts --audit-level=high

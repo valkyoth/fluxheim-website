@@ -1,9 +1,7 @@
-use std::fs::{self, File, OpenOptions};
-use std::io::{self, Read};
-use std::path::{Component, Path, PathBuf};
+use std::collections::HashMap;
+use std::path::{Path, PathBuf};
 
-#[cfg(unix)]
-use std::os::unix::fs::OpenOptionsExt;
+use axum::body::Bytes;
 
 use crate::content::{Locale, Site};
 use crate::i18n;
@@ -14,6 +12,8 @@ use crate::page_enhancements;
 const SOURCE_FLUXHEIM_VERSION: &str = "1.8.1";
 const MAX_STATIC_ARTIFACT_BYTES: u64 = 2 * 1024 * 1024;
 
+include!(concat!(env!("OUT_DIR"), "/embedded_content.rs"));
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct LegacyPage {
     pub html: String,
@@ -22,15 +22,17 @@ pub struct LegacyPage {
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct StaticArtifact {
-    pub body: Vec<u8>,
+    pub body: Bytes,
     pub content_type: &'static str,
 }
+
+pub type ArtifactCache = HashMap<String, StaticArtifact>;
 
 pub fn render(site: &Site, request_path: &str) -> Option<LegacyPage> {
     let clean = request_path.trim_matches('/');
     let (locale, slug) = site.split_path(clean);
     let file_path = html_path_for_locale(site, locale, slug)?;
-    let mut html = std::fs::read_to_string(&file_path).ok()?;
+    let mut html = embedded_html(&file_path)?.to_owned();
     html = apply_version(site, html);
     html = i18n_keys::apply_shared_keys(locale, html, &site.config.fluxheim_version);
     html = i18n::translate_html(locale, html);
@@ -43,7 +45,28 @@ pub fn render(site: &Site, request_path: &str) -> Option<LegacyPage> {
     })
 }
 
-pub fn render_static_artifact(site: &Site, request_path: &str) -> Option<StaticArtifact> {
+pub fn preload_static_artifacts() -> Result<ArtifactCache, String> {
+    let mut artifacts = HashMap::with_capacity(EMBEDDED_ARTIFACTS.len());
+    for (path, body, content_type) in EMBEDDED_ARTIFACTS {
+        if body.len() as u64 > MAX_STATIC_ARTIFACT_BYTES {
+            return Err(format!("embedded artifact exceeds size limit: {path}"));
+        }
+        let artifact = StaticArtifact {
+            body: Bytes::from_static(body),
+            content_type,
+        };
+        if artifacts.insert((*path).to_owned(), artifact).is_some() {
+            return Err(format!("duplicate embedded artifact: {path}"));
+        }
+    }
+    Ok(artifacts)
+}
+
+pub fn cached_static_artifact<'a>(
+    site: &Site,
+    artifacts: &'a ArtifactCache,
+    request_path: &str,
+) -> Option<&'a StaticArtifact> {
     let clean = request_path.trim_matches('/');
     let (_locale, slug) = site.split_path(clean);
     let normalized = normalize_slug(slug)?;
@@ -52,10 +75,7 @@ pub fn render_static_artifact(site: &Site, request_path: &str) -> Option<StaticA
     if !is_allowed_artifact(&path) {
         return None;
     }
-
-    let content_type = artifact_content_type(&path)?;
-    let body = read_static_artifact(&path).ok()?;
-    Some(StaticArtifact { body, content_type })
+    artifacts.get(normalized)
 }
 
 fn html_path_for_locale(site: &Site, locale: &Locale, slug: &str) -> Option<PathBuf> {
@@ -77,15 +97,11 @@ fn localized_html_path(locale_prefix: &str, slug: &str) -> Option<PathBuf> {
 }
 
 pub fn legacy_html_paths() -> Vec<PathBuf> {
-    let mut paths = vec![
-        PathBuf::from("index.html"),
-        PathBuf::from("download.html"),
-        PathBuf::from("changelog.html"),
-        PathBuf::from("cookies.html"),
-        PathBuf::from("privacy.html"),
-        PathBuf::from("gdpr.html"),
-    ];
-    collect_html_paths(Path::new("docs"), &mut paths);
+    let mut paths = EMBEDDED_HTML
+        .iter()
+        .map(|(path, _)| PathBuf::from(path))
+        .filter(|path| is_allowed_html(path))
+        .collect::<Vec<_>>();
     paths.sort();
     paths
 }
@@ -103,21 +119,6 @@ pub fn slug_for_path(path: &Path) -> Option<String> {
     without_extension
         .to_str()
         .map(|slug| slug.trim_matches('/').to_owned())
-}
-
-fn collect_html_paths(root: &Path, paths: &mut Vec<PathBuf>) {
-    let Ok(entries) = std::fs::read_dir(root) else {
-        return;
-    };
-
-    for entry in entries.flatten() {
-        let path = entry.path();
-        if path.is_dir() {
-            collect_html_paths(&path, paths);
-        } else if is_allowed_html(&path) {
-            paths.push(path);
-        }
-    }
 }
 
 fn html_path(slug: &str) -> Option<PathBuf> {
@@ -179,11 +180,7 @@ fn candidate_paths(normalized: &str) -> Vec<PathBuf> {
 }
 
 fn safe_existing_html(path: &Path) -> bool {
-    if has_unsafe_components(path) {
-        return false;
-    }
-
-    safe_regular_file(path) && (is_allowed_html(path) || is_allowed_localized_html(path))
+    (is_allowed_html(path) || is_allowed_localized_html(path)) && embedded_html(path).is_some()
 }
 
 fn is_allowed_artifact(path: &Path) -> bool {
@@ -196,82 +193,15 @@ fn is_allowed_artifact(path: &Path) -> bool {
     is_source_artifact || is_release_artifact || is_config_artifact
 }
 
-fn read_static_artifact(path: &Path) -> io::Result<Vec<u8>> {
-    if has_unsafe_components(path) {
-        return Err(io::Error::new(
-            io::ErrorKind::PermissionDenied,
-            "unsafe path",
-        ));
-    }
-
-    let file = open_artifact(path)?;
-    let metadata = file.metadata()?;
-    if !metadata.is_file() || metadata.len() > MAX_STATIC_ARTIFACT_BYTES {
-        return Err(io::Error::new(
-            io::ErrorKind::InvalidData,
-            "artifact is not a bounded regular file",
-        ));
-    }
-
-    let mut body = Vec::with_capacity(metadata.len() as usize);
-    file.take(MAX_STATIC_ARTIFACT_BYTES + 1)
-        .read_to_end(&mut body)?;
-    if body.len() as u64 > MAX_STATIC_ARTIFACT_BYTES {
-        return Err(io::Error::new(
-            io::ErrorKind::InvalidData,
-            "artifact exceeds size limit",
-        ));
-    }
-    Ok(body)
-}
-
-#[cfg(unix)]
-fn open_artifact(path: &Path) -> io::Result<File> {
-    OpenOptions::new()
-        .read(true)
-        .custom_flags(libc::O_NOFOLLOW | libc::O_CLOEXEC)
-        .open(path)
-}
-
-#[cfg(not(unix))]
-fn open_artifact(path: &Path) -> io::Result<File> {
-    if fs::symlink_metadata(path)?.file_type().is_symlink() {
-        return Err(io::Error::new(
-            io::ErrorKind::PermissionDenied,
-            "artifact symlinks are not allowed",
-        ));
-    }
-    OpenOptions::new().read(true).open(path)
-}
-
-fn has_unsafe_components(path: &Path) -> bool {
-    path.components().any(|component| {
-        matches!(
-            component,
-            Component::ParentDir | Component::Prefix(_) | Component::RootDir
-        )
-    })
-}
-
-fn safe_regular_file(path: &Path) -> bool {
-    let Ok(metadata) = fs::symlink_metadata(path) else {
-        return false;
-    };
-    metadata.file_type().is_file()
-}
-
-fn artifact_content_type(path: &Path) -> Option<&'static str> {
-    match path.extension().and_then(|ext| ext.to_str()) {
-        Some("md") => Some("text/markdown; charset=utf-8"),
-        Some("toml") => Some("application/toml; charset=utf-8"),
-        Some("tsv") => Some("text/tab-separated-values; charset=utf-8"),
-        Some("txt") => Some("text/plain; charset=utf-8"),
-        _ => None,
-    }
-}
-
 fn is_allowed_localized_html(path: &Path) -> bool {
     path.starts_with("localized") && path.extension().and_then(|ext| ext.to_str()) == Some("html")
+}
+
+fn embedded_html(path: &Path) -> Option<&'static str> {
+    let path = path.to_str()?;
+    EMBEDDED_HTML
+        .iter()
+        .find_map(|(candidate, html)| (*candidate == path).then_some(*html))
 }
 
 fn apply_version(site: &Site, html: String) -> String {
@@ -284,12 +214,10 @@ fn apply_version(site: &Site, html: String) -> String {
 #[cfg(test)]
 mod tests {
     use super::{
-        MAX_STATIC_ARTIFACT_BYTES, html_path, legacy_html_paths, render, render_static_artifact,
-        slug_for_path,
+        MAX_STATIC_ARTIFACT_BYTES, cached_static_artifact, html_path, legacy_html_paths,
+        preload_static_artifacts, render, slug_for_path,
     };
     use crate::content::Site;
-    use std::fs;
-    use std::path::Path;
 
     #[test]
     fn maps_locale_prefixed_legacy_paths() {
@@ -333,34 +261,15 @@ mod tests {
     }
 
     #[test]
-    fn localized_file_overrides_english_fallback() {
-        let site = Site::load().expect("site loads");
-        let dir = Path::new("localized/de/docs");
-        let path = dir.join("__fixture.html");
-
-        fs::create_dir_all(dir).expect("create localized fixture dir");
-        fs::write(
-            &path,
-            "<!doctype html><html><head><title>Fixture</title></head><body>Deutsch fixture</body></html>",
-        )
-        .expect("write localized fixture");
-
-        let page = render(&site, "/de/docs/__fixture").expect("localized page");
-        assert!(page.html.contains("Deutsch fixture"));
-        assert!(page.html.contains("fh-language-switcher"));
-
-        fs::remove_file(&path).expect("remove localized fixture");
-    }
-
-    #[test]
     fn serves_source_markdown_artifacts() {
         let site = Site::load().expect("site loads");
-        let artifact =
-            render_static_artifact(&site, "/de/docs/source/systemd.md").expect("markdown artifact");
+        let artifacts = preload_static_artifacts().expect("artifact cache");
+        let artifact = cached_static_artifact(&site, &artifacts, "/de/docs/source/systemd.md")
+            .expect("markdown artifact");
         assert_eq!(artifact.content_type, "text/markdown; charset=utf-8");
         assert!(
-            String::from_utf8(artifact.body)
-                .expect("utf8 markdown")
+            std::str::from_utf8(&artifact.body)
+                .expect("UTF-8 markdown")
                 .contains("# systemd Deployment")
         );
     }
@@ -368,12 +277,13 @@ mod tests {
     #[test]
     fn serves_legacy_fluxheim_config_artifacts() {
         let site = Site::load().expect("site loads");
-        let artifact =
-            render_static_artifact(&site, "/fr/conf/fluxheim.toml").expect("config artifact");
+        let artifacts = preload_static_artifacts().expect("artifact cache");
+        let artifact = cached_static_artifact(&site, &artifacts, "/fr/conf/fluxheim.toml")
+            .expect("config artifact");
         assert_eq!(artifact.content_type, "application/toml; charset=utf-8");
         assert!(
-            String::from_utf8(artifact.body)
-                .expect("utf8 toml")
+            std::str::from_utf8(&artifact.body)
+                .expect("UTF-8 TOML")
                 .contains("hosts = [\"fluxheim.eu\"]")
         );
     }
@@ -381,36 +291,18 @@ mod tests {
     #[test]
     fn rejects_unlisted_source_artifact_extensions() {
         let site = Site::load().expect("site loads");
-        let path = Path::new("docs/source/__private.json");
-        fs::write(path, r#"{"secret":true}"#).expect("write private fixture");
-
-        assert!(render_static_artifact(&site, "/docs/source/__private.json").is_none());
-
-        fs::remove_file(path).expect("remove private fixture");
+        let artifacts = preload_static_artifacts().expect("artifact cache");
+        assert!(cached_static_artifact(&site, &artifacts, "/docs/source/private.json").is_none());
     }
 
     #[test]
-    fn rejects_oversized_source_artifacts_before_reading() {
-        let site = Site::load().expect("site loads");
-        let path = Path::new("docs/source/__oversized.md");
-        let file = fs::File::create(path).expect("create oversized fixture");
-        file.set_len(MAX_STATIC_ARTIFACT_BYTES + 1)
-            .expect("size oversized fixture");
-
-        assert!(render_static_artifact(&site, "/docs/source/__oversized.md").is_none());
-
-        fs::remove_file(path).expect("remove oversized fixture");
-    }
-
-    #[cfg(unix)]
-    #[test]
-    fn rejects_source_artifact_symlinks() {
-        let site = Site::load().expect("site loads");
-        let path = Path::new("docs/source/__symlink.md");
-        std::os::unix::fs::symlink("../../README.md", path).expect("create symlink fixture");
-
-        assert!(render_static_artifact(&site, "/docs/source/__symlink.md").is_none());
-
-        fs::remove_file(path).expect("remove symlink fixture");
+    fn embedded_artifacts_are_unique_and_bounded() {
+        let artifacts = preload_static_artifacts().expect("artifact cache");
+        assert!(!artifacts.is_empty());
+        assert!(
+            artifacts
+                .values()
+                .all(|artifact| artifact.body.len() as u64 <= MAX_STATIC_ARTIFACT_BYTES)
+        );
     }
 }

@@ -51,6 +51,29 @@ fn external_container_dependencies_are_digest_pinned() {
 }
 
 #[test]
+fn prism_is_locked_to_the_dom_clobbering_fixed_release() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let package = fs::read_to_string(root.join("package-lock.json")).expect("package lock");
+    let prism = fs::read_to_string(root.join("assets/js/prism.min.js")).expect("Prism asset");
+    assert!(package.contains(r#""prismjs": "1.30.0""#));
+    assert!(prism.contains(r#"document.currentScript.tagName"#));
+    assert!(prism.contains(r#""SCRIPT"==="#));
+}
+
+#[test]
+fn immutable_pages_and_artifacts_are_embedded() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let legacy = fs::read_to_string(root.join("src/legacy.rs")).expect("legacy module");
+    let dockerfile = fs::read_to_string(root.join("container/Dockerfile")).expect("Dockerfile");
+    assert!(!legacy.contains("read_to_end"));
+    assert!(!legacy.contains("read_to_string"));
+    assert!(!legacy.contains("OpenOptions"));
+    assert!(legacy.contains("embedded_content.rs"));
+    assert!(!dockerfile.contains("COPY --chown=root:root docs/"));
+    assert!(!dockerfile.contains("COPY --chown=root:root conf/"));
+}
+
+#[test]
 fn website_compose_keeps_rootless_hardening() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
     for relative in [
@@ -62,7 +85,13 @@ fn website_compose_keeps_rootless_hardening() {
         assert!(compose.contains("- ALL"), "{relative}");
         assert!(compose.contains("no-new-privileges:true"), "{relative}");
         assert!(compose.contains("noexec,nosuid,nodev"), "{relative}");
+        assert!(compose.contains("pids_limit: 128"), "{relative}");
     }
+
+    let compose =
+        fs::read_to_string(root.join("container/podman-compose.yml")).expect("website compose");
+    assert!(compose.contains("127.0.0.1:8080:8080"));
+    assert!(!compose.contains("- \"8080:8080\""));
 }
 
 #[test]
