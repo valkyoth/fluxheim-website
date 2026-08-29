@@ -8,7 +8,7 @@ base="http://127.0.0.1:${port}"
 
 podman rm -f "${name}" >/dev/null 2>&1 || true
 podman build -f container/Dockerfile -t "${image}" .
-podman run -d --rm --name "${name}" -p "${port}:8080" "${image}" >/dev/null
+podman run -d --rm --name "${name}" -p "127.0.0.1:${port}:8080" "${image}" >/dev/null
 trap 'podman rm -f "${name}" >/dev/null 2>&1 || true' EXIT
 
 i=0

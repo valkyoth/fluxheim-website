@@ -12,3 +12,10 @@ locked in the repository root and monitored by Dependabot.
 
 The core minified asset comes from the jsDelivr mirror of the exact npm
 release. Language components come directly from the npm tarball.
+
+`SHA256SUMS` is the machine-readable source of truth. Verify the vendored bytes
+from the repository root with:
+
+```bash
+sha256sum --check assets/js/SHA256SUMS
+```

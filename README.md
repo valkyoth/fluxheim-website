@@ -39,8 +39,10 @@ their own `html lang` values. All locale text is keyed under
 truth, so updating the site does not require editing cloned HTML trees.
 
 Legacy static artifacts under `docs/source/`, such as Markdown and TSV files,
-are served through bounded, no-follow reads on the same locale-prefixed paths.
-The legacy `conf/fluxheim.toml` example is also preserved.
+are allow-listed and embedded during the locked build. Build-time traversal
+rejects symlinks, artifacts are limited to 2 MiB, and the runtime serves
+immutable in-memory bytes without filesystem access. The same locale-prefixed
+paths and the legacy `conf/fluxheim.toml` example are preserved.
 
 ## Project Layout
 

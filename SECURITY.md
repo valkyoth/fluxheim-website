@@ -33,7 +33,10 @@ Include:
   release startup RSS is gated at 256 MiB against the exact executable emitted
   by the locked Cargo build.
 - Security headers are applied to responses.
-- Static documentation artifacts use no-follow file opens and a fixed size limit.
+- Static documentation artifacts are allow-listed and embedded during the
+  locked build. Build-time traversal rejects symlinks, artifacts are limited
+  to 2 MiB, and the runtime serves immutable in-memory bytes without filesystem
+  access.
 - Container runtime uses a non-root user, a read-only filesystem, dropped
   capabilities, a file-descriptor limit, and root-owned site content. Apply
   CPU, PID, memory, connection, and request-rate limits at the trusted Fluxheim

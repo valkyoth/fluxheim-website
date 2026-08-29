@@ -55,9 +55,11 @@ fn prism_is_locked_to_the_dom_clobbering_fixed_release() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
     let package = fs::read_to_string(root.join("package-lock.json")).expect("package lock");
     let prism = fs::read_to_string(root.join("assets/js/prism.min.js")).expect("Prism asset");
+    let checks = fs::read_to_string(root.join("scripts/checks.sh")).expect("checks script");
     assert!(package.contains(r#""prismjs": "1.30.0""#));
     assert!(prism.contains(r#"document.currentScript.tagName"#));
     assert!(prism.contains(r#""SCRIPT"==="#));
+    assert!(checks.contains("sha256sum --check assets/js/SHA256SUMS"));
 }
 
 #[test]
@@ -92,6 +94,11 @@ fn website_compose_keeps_rootless_hardening() {
         fs::read_to_string(root.join("container/podman-compose.yml")).expect("website compose");
     assert!(compose.contains("127.0.0.1:8080:8080"));
     assert!(!compose.contains("- \"8080:8080\""));
+
+    let smoke =
+        fs::read_to_string(root.join("scripts/podman_smoke.sh")).expect("container smoke test");
+    assert!(smoke.contains(r#"127.0.0.1:${port}:8080"#));
+    assert!(!smoke.contains(r#"-p "${port}:8080""#));
 }
 
 #[test]
