@@ -297,7 +297,7 @@ async fn changelog_leaves_artifact_links_to_the_download_page() {
 }
 
 #[tokio::test]
-async fn download_page_exposes_macos_and_keeps_windows_disabled() {
+async fn download_page_exposes_macos_and_one_windows_x86_64_option() {
     let (status, _headers, body) = request("/download").await;
     assert_eq!(status, StatusCode::OK);
 
@@ -316,8 +316,10 @@ async fn download_page_exposes_macos_and_keeps_windows_disabled() {
         );
     }
 
-    assert!(body.contains("Windows (x86_64)"));
-    assert!(body.contains("Windows (aarch64)"));
+    assert_eq!(body.matches("Windows (x86_64)").count(), 6);
+    assert!(!body.contains("Windows (aarch64)"));
+    assert!(!body.contains("Windows aarch64"));
+    assert!(!body.contains("Windows x86_64 / aarch64"));
     assert!(body.contains(r#"aria-disabled="true""#));
     assert!(!body.contains("fluxheim-1.8.2-full-x86_64-windows.zip"));
     assert!(!body.contains("fluxheim-1.8.2-full-aarch64-windows.zip"));

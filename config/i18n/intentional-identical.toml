@@ -6,8 +6,6 @@ keys = [
   "release_updates.platform_macos",
   "release_updates.platform_macos_button",
   "release_updates.platform_macos_target",
-  "release_updates.platform_windows_aarch64",
-  "release_updates.platform_windows_aarch64_button",
   "release_updates.platform_windows_x86_64",
   "release_updates.platform_windows_x86_64_button",
 ]
