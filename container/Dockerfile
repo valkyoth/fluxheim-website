@@ -1,4 +1,4 @@
-FROM docker.io/library/rust:1.98.0-slim-bookworm@sha256:1469a27c125cb5a3aebfa4f4e4665d935b02fb72cc093b2c974b3d740e43f157 AS builder
+FROM docker.io/library/rust:1.98.1-slim-bookworm@sha256:ebd900bae66fd508b466cef82d64a83a5fb34682e4c8b2797a42908bddc95a57 AS builder
 
 WORKDIR /build
 
@@ -11,10 +11,10 @@ COPY conf/ conf/
 COPY docs/ docs/
 COPY localized/ localized/
 
-RUN rustc --version | grep -F "rustc 1.98.0 " && \
+RUN rustc --version | grep -F "rustc 1.98.1 " && \
     cargo build --release --locked
 
-FROM cgr.dev/chainguard/wolfi-base:latest@sha256:03c6561658909fc4eadd0b2dc717375df40a22cc05455b8f82f1f1974e7e4427
+FROM cgr.dev/chainguard/wolfi-base:latest@sha256:65e1acb87a2bf356b92c5f70f3980f03b4bb51dfd483c834e01557525f15c1d9
 
 RUN addgroup -S fluxheim && \
     adduser -S -G fluxheim fluxheim && \

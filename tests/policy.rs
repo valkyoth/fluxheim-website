@@ -2,6 +2,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 const MAX_LINES: usize = 500;
+const RUST_VERSION: &str = "1.98.1";
 const CHECKED_EXTENSIONS: &[&str] = &["rs", "html", "toml", "sh", "yml", "md", "py"];
 const CHECKED_DIRS: &[&str] = &[
     "src",
@@ -47,6 +48,31 @@ fn external_container_dependencies_are_digest_pinned() {
         .filter(|line| line.starts_with("image: docker.io/") || line.starts_with("image: cgr.dev/"))
     {
         assert!(line.contains("@sha256:"), "unpinned service image: {line}");
+    }
+}
+
+#[test]
+fn rust_toolchain_pins_are_consistent() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let cargo = fs::read_to_string(root.join("Cargo.toml")).expect("Cargo manifest");
+    let toolchain = fs::read_to_string(root.join("rust-toolchain.toml")).expect("Rust toolchain");
+    let dockerfile = fs::read_to_string(root.join("container/Dockerfile")).expect("Dockerfile");
+
+    assert!(cargo.contains(&format!(r#"rust-version = "{RUST_VERSION}""#)));
+    assert!(toolchain.contains(&format!(r#"channel = "{RUST_VERSION}""#)));
+    assert!(dockerfile.contains(&format!("rust:{RUST_VERSION}-slim-bookworm@sha256:")));
+    assert!(dockerfile.contains(&format!(r#"rustc {RUST_VERSION} "#)));
+
+    for relative in [
+        "scripts/checks.sh",
+        "scripts/check_startup_memory.sh",
+        "scripts/smoke_local.sh",
+    ] {
+        let script = fs::read_to_string(root.join(relative)).expect("Rust script");
+        assert!(
+            script.contains(&format!("cargo +{RUST_VERSION}")),
+            "{relative}"
+        );
     }
 }
 
