@@ -8,6 +8,12 @@ keys = [
   "release_updates.platform_macos_target",
   "release_updates.platform_windows_x86_64",
   "release_updates.platform_windows_x86_64_button",
+  "release_updates.r182_macos_install_label",
+  "release_updates.r182_macos_tab",
+  "release_updates.r182_suse_bci_php",
+  "release_updates.r182_suse_non_php",
+  "release_updates.r182_windows_install_label",
+  "release_updates.r182_windows_tab",
 ]
 
 [de-DE]

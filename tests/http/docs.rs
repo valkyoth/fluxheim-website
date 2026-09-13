@@ -48,6 +48,12 @@ async fn getting_started_uses_page_specific_translations() {
     assert_eq!(fr_status, StatusCode::OK);
     assert!(fr_body.contains("Guides"));
     assert!(fr_body.contains("Installation"));
+
+    let (ja_status, _headers, ja_body) = request("/ja/docs/getting-started").await;
+    assert_eq!(ja_status, StatusCode::OK);
+    assert!(ja_body.contains("<h2>インストール</h2>"));
+    assert!(ja_body.contains("language-powershell"));
+    assert!(ja_body.contains("../assets/js/prism-powershell.min.js"));
 }
 
 #[tokio::test]

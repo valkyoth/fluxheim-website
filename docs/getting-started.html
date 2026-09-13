@@ -24,7 +24,7 @@
     .sidebar-link.active { background:rgba(6,182,212,.08); color:#22d3ee; border-left:2px solid #22d3ee; }
     .guide-section { margin-top:2rem; padding-top:2rem; border-top:1px solid #1f2937; }
     .guide-section:first-of-type { margin-top:0; padding-top:0; border-top:0; }
-    .guide-section h2 { color:white; font-size:1.35rem; font-weight:800; margin-bottom:1rem; }
+    .guide-section h2 { color:var(--fh-text); font-size:1.35rem; font-weight:800; margin-bottom:1rem; }
     .guide-section p { color:#9ca3af; line-height:1.75; margin-bottom:1rem; }
     .checks { display:grid; gap:.65rem; color:#d1d5db; }
     .checks li { padding-left:.25rem; }
@@ -58,7 +58,7 @@
           </a>
           <a href="../download.html"
              class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">
-            Download v1.8.1
+            Download v1.8.2
           </a>
         </div>
         <!-- Mobile toggle -->
@@ -79,7 +79,7 @@
         <a href="../download.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Download</a>
         <a href="../changelog.html" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">Changelog</a>
         <a href="https://github.com/valkyoth/fluxheim" class="block px-3 py-2 text-sm rounded-lg text-gray-300 hover:text-white hover:bg-gray-800">GitHub</a>
-        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.8.1</a>
+        <a href="../download.html" class="block mt-2 px-3 py-2 text-sm rounded-lg bg-cyan-500 text-gray-950 font-bold text-center">Download v1.8.2</a>
       </div>
     </div>
   </nav>
@@ -110,10 +110,40 @@
         <div class="flex items-center gap-2 text-sm text-gray-500 mb-8"><a href="../index.html" class="hover:text-gray-300">Fluxheim</a><span>/</span><a href="index.html" class="hover:text-gray-300">Docs</a><span>/</span><span class="text-gray-400">Get Fluxheim Running</span></div>
         <header class="mb-10"><h1 class="text-4xl font-black text-white mb-4">Get Fluxheim Running</h1><p class="text-gray-400 text-lg leading-relaxed max-w-2xl">Use this page when you want a local server quickly. It keeps the config small and checks it before serving traffic.</p></header>
 <section class="guide-section">
-  <h2>Install a release binary</h2>
-  <pre class="language-bash"><code class="language-bash">curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-full-x86_64-linux.tar.gz -o fluxheim.tar.gz
-tar -xzf fluxheim.tar.gz
-sudo install -m 0755 fluxheim /usr/local/bin/fluxheim</code></pre>
+  <h2>Install</h2>
+  <p>Verify the published SHA-256 checksum before extracting an archive.</p>
+  <h3>Linux x86_64</h3>
+  <pre class="language-bash"><code class="language-bash">VERSION="1.8.2"
+ARCHIVE="fluxheim-${VERSION}-full-x86_64-linux.tar.gz"
+BASE_URL="https://github.com/valkyoth/fluxheim/releases/download/v${VERSION}"
+curl -fLO "${BASE_URL}/${ARCHIVE}"
+curl -fLO "${BASE_URL}/SHA256SUMS-x86_64-linux.txt"
+grep "  ${ARCHIVE}$" SHA256SUMS-x86_64-linux.txt | sha256sum -c -
+tar -xzf "$ARCHIVE"
+sudo install -m 0755 "fluxheim-${VERSION}-full-x86_64-linux/fluxheim" /usr/local/bin/fluxheim</code></pre>
+  <h3>macOS Apple Silicon</h3>
+  <pre class="language-bash"><code class="language-bash">VERSION="1.8.2"
+ARCHIVE="fluxheim-${VERSION}-full-aarch64-macos.tar.gz"
+BASE_URL="https://github.com/valkyoth/fluxheim/releases/download/v${VERSION}"
+curl -fLO "${BASE_URL}/${ARCHIVE}"
+curl -fLO "${BASE_URL}/SHA256SUMS-aarch64-macos.txt"
+grep "  ${ARCHIVE}$" SHA256SUMS-aarch64-macos.txt | shasum -a 256 -c -
+tar -xzf "$ARCHIVE"
+install -d "$HOME/.local/bin"
+install -m 0755 "fluxheim-${VERSION}-full-aarch64-macos/fluxheim" "$HOME/.local/bin/fluxheim"</code></pre>
+  <p>This is an unsigned command-line preview. Keep Gatekeeper enabled; Developer ID signing, notarisation, and launchd integration are not yet provided.</p>
+  <h3>Windows x86_64</h3>
+  <pre class="language-powershell"><code class="language-powershell">$Version = "1.8.2"
+$Archive = "fluxheim-$Version-full-x86_64-windows.zip"
+$BaseUrl = "https://github.com/valkyoth/fluxheim/releases/download/v$Version"
+Invoke-WebRequest "$BaseUrl/$Archive" -OutFile $Archive
+Invoke-WebRequest "$BaseUrl/SHA256SUMS-x86_64-windows.txt" -OutFile SHA256SUMS.txt
+$Line = @(Get-Content SHA256SUMS.txt | Where-Object { $_ -like "*  $Archive" })
+if ($Line.Count -ne 1) { throw "Archive checksum entry is missing or duplicated" }
+if ((Get-FileHash $Archive -Algorithm SHA256).Hash.ToLowerInvariant() -cne ($Line[0] -split '\s+')[0].ToLowerInvariant()) { throw "Archive checksum verification failed" }
+Expand-Archive -LiteralPath $Archive -DestinationPath "$env:LOCALAPPDATA\Fluxheim" -Force</code></pre>
+  <p>This is an unsigned portable preview. Keep SmartScreen and PowerShell security enabled; Authenticode signing and a Windows service installer are not yet provided.</p>
+  <p>Managed PHP-FPM supervision is Unix-only; Windows supports external TCP FastCGI pools.</p>
 </section>
 <section class="guide-section">
   <h2>Minimal static site</h2>
@@ -219,6 +249,7 @@ fluxheim --config /etc/fluxheim/fluxheim.toml</code></pre>
   </footer>
   <script src="../assets/js/prism.min.js"></script>
   <script src="../assets/js/prism-bash.min.js"></script>
+  <script src="../assets/js/prism-powershell.min.js"></script>
   <script src="../assets/js/prism-toml.min.js"></script>
   <script src="../assets/js/alpine.min.js" defer></script>
 </body>

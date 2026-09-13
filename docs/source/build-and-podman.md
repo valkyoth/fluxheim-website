@@ -1,6 +1,6 @@
 # Build And Rootless Podman
 
-Fluxheim pins Rust 1.97.0 in `rust-toolchain.toml` and `Cargo.toml`. The local
+Fluxheim pins Rust 1.98.1 in `rust-toolchain.toml` and `Cargo.toml`. The local
 toolchain and the container builder should stay on the same stable release.
 
 ## Local Builds
@@ -17,6 +17,11 @@ Use `target-cpu=native` only for binaries that will run on the same CPU family
 they were built on. For portable release artifacts, omit the flag.
 The cross-platform profile and archive contract is documented in
 [Portable Releases](portable-releases.md).
+
+The `v1.8.2` release adds native Windows x86_64 release-builder automation.
+Linux cross-builds do not stand in for the Windows MSVC
+SDK, ACL, locking, or live-runtime gates. See
+[Windows Release Builders](windows-release-builders.md).
 
 Feature-reduced builds keep the binary small and reduce dependency surface:
 
@@ -159,7 +164,7 @@ scripts/validate-features.sh proxy,web,tls-rustls
 
 ## System Build Dependencies
 
-Fluxheim builds with Rust 1.97.0. Starting in `1.6.34`, the default feature set
+Fluxheim builds with Rust 1.98.1. Starting in `1.6.34`, the default feature set
 uses the Fluxheim-owned native runtime with rustls, cache support, and static
 file serving; normal profiles no longer compile Pingora crates. Native builds
 need a normal C/C++ toolchain plus a few build helpers for transitive native
@@ -167,7 +172,7 @@ code.
 
 Required for the default build:
 
-- Rust 1.97.0, usually through `rustup` or the distro Rust packages when they
+- Rust 1.98.1, usually through `rustup` or the distro Rust packages when they
   are new enough;
 - C and C++ compiler toolchain;
 - `make`;
@@ -211,15 +216,16 @@ OS that fits their security and operations model.
 | `alpine` | `containers/Containerfile.alpine` | `alpine:3.23` | Small musl-based runtime with broad availability. |
 | `suse-micro` | `containers/Containerfile.suse-micro` | `registry.suse.com/suse/sl-micro/6.2/base-os-container:latest` | SUSE Micro runtime base aligned with Leap Micro-style deployments. |
 | `debian` | `containers/Containerfile.debian` | `debian:trixie-slim` | Conservative glibc runtime for broad compatibility. |
+| `suse-bci` | `containers/Containerfile.suse-bci` | `registry.suse.com/bci/php:8` | PHP-only SUSE variant with the official BCI PHP repository and managed PHP-FPM. |
 
 The root `Containerfile` remains the Debian default for simple local builds.
 New packaging and publishing work should use the explicit variant files under
 `containers/`.
 
-The Alpine, Wolfi, and SUSE Micro variants build with the official Rust
-`1.97.0-alpine3.23` image to keep a musl-linked release binary portable across
+The Alpine, Wolfi, SUSE Micro, and PHP-only SUSE BCI variants build with the official Rust
+`1.98.1-alpine3.23` image to keep a musl-linked release binary portable across
 small runtime bases. The Debian variant builds with the official Rust
-`1.97.0-bookworm` image and runs on `debian:trixie-slim`.
+`1.98.1-bookworm` image and runs on `debian:trixie-slim`.
 
 The builder installs `cmake` for native TLS/compression transitives that may
 compile C code. The runtime runs as UID/GID `65532` and owns only:
@@ -309,12 +315,15 @@ These focused profiles use TLS/ACME as shared ingress capabilities. The
 `cache` image is TLS-capable and omits local static web serving. The `proxy`
 image is TLS-capable and omits cache and static web serving. The `php` image is
 TLS-capable, includes static web serving and PHP-FPM support, and omits cache
-and proxy-edge extras. Starting with `1.3.7`, the recommended Wolfi `php` image
-also installs `php-8.5-fpm` and uses
+and proxy-edge extras. The Wolfi, Alpine, Debian, and SUSE BCI `php` images
+install managed PHP-FPM plus the common modules listed in
+[packaging/container/php-required-modules.txt](../packaging/container/php-required-modules.txt)
+and use
 [packaging/container/php-managed.toml](../packaging/container/php-managed.toml)
 so `mode = "managed"` works out of the box for content mounted under
-`/srv/fluxheim`. The non-Wolfi PHP image variants keep the external php-fpm
-container config unless their runtime packages are customized. The
+`/srv/fluxheim`. The SUSE PHP image is `php-suse-bci`; `php-suse-micro` is not
+published because the minimal SUSE Micro runtime has no matching enabled PHP
+package repository. The
 `load-balancer` image is TLS-capable and omits cache and static web serving.
 Starting with the `1.5` load-balancer line, it is part of the normal focused
 release image set. The
@@ -379,16 +388,17 @@ Build the self-contained managed PHP-FPM Wolfi profile locally:
 podman build \
   --build-arg FLUXHEIM_FEATURES=profile-web-server,php-fpm,acme-client \
   --build-arg FLUXHEIM_CONFIG=packaging/container/php-managed.toml \
-  --build-arg FLUXHEIM_RUNTIME_PACKAGES=php-8.5-fpm \
+  --build-arg FLUXHEIM_RUNTIME_PACKAGES="$(paste -sd ' ' packaging/container/php-wolfi-runtime-packages.txt)" \
   -t fluxheim:php-wolfi \
   -f containers/Containerfile.wolfi .
 ```
 
-The matching smoke test builds that image when needed and verifies `/index.php`
-is executed through Fluxheim-managed php-fpm:
+The managed PHP image smoke builds Wolfi, Alpine, Debian, and SUSE BCI images,
+rejects extension-load warnings, verifies the common module contract, and
+executes `/index.php` through Fluxheim-managed PHP-FPM in each image:
 
 ```bash
-scripts/smoke_fluxheim_php_wolfi.sh
+scripts/smoke_fluxheim_php_images.sh
 ```
 
 Build the development Wolfi profile locally:
@@ -525,15 +535,17 @@ Optional Quay repository secrets and variables:
 
 The workflow publishes OS-variant tags for the full/default image profile:
 
-- `v1.8.0-wolfi`, `v1.8.0-alpine`, `v1.8.0-suse-micro`, `v1.8.0-debian`
+The `1.8.2` release retains this naming contract.
+
+- `v1.8.2-wolfi`, `v1.8.2-alpine`, `v1.8.2-suse-micro`, `v1.8.2-debian`
 - `sha-<short-sha>-wolfi`, `sha-<short-sha>-alpine`, etc.
 - `latest-wolfi`, `latest-alpine`, etc. when run from the default branch
 
 For the recommended Wolfi runtime, the full/default profile also gets short
 aliases:
 
-- `v1.8.0`
-- `v1.8.0-base`
+- `v1.8.2`
+- `v1.8.2-base`
 - `latest`
 - `latest-base`
 
@@ -542,23 +554,23 @@ automation. They point at the full/default image profile.
 
 The focused image profiles publish tags with a profile segment:
 
-- `v1.8.0-wasm-wolfi`, `v1.8.0-wasm-alpine`,
-  `v1.8.0-wasm-suse-micro`, `v1.8.0-wasm-debian`
-- `v1.8.0-cache-wolfi`, `v1.8.0-cache-alpine`,
-  `v1.8.0-cache-suse-micro`, `v1.8.0-cache-debian`
-- `v1.8.0-proxy-wolfi`, `v1.8.0-proxy-alpine`,
-  `v1.8.0-proxy-suse-micro`, `v1.8.0-proxy-debian`
-- `v1.8.0-load-balancer-wolfi`, `v1.8.0-load-balancer-alpine`,
-  `v1.8.0-load-balancer-suse-micro`, `v1.8.0-load-balancer-debian`
-- `v1.8.0-php-wolfi`, `v1.8.0-php-alpine`,
-  `v1.8.0-php-suse-micro`, `v1.8.0-php-debian`
+- `v1.8.2-wasm-wolfi`, `v1.8.2-wasm-alpine`,
+  `v1.8.2-wasm-suse-micro`, `v1.8.2-wasm-debian`
+- `v1.8.2-cache-wolfi`, `v1.8.2-cache-alpine`,
+  `v1.8.2-cache-suse-micro`, `v1.8.2-cache-debian`
+- `v1.8.2-proxy-wolfi`, `v1.8.2-proxy-alpine`,
+  `v1.8.2-proxy-suse-micro`, `v1.8.2-proxy-debian`
+- `v1.8.2-load-balancer-wolfi`, `v1.8.2-load-balancer-alpine`,
+  `v1.8.2-load-balancer-suse-micro`, `v1.8.2-load-balancer-debian`
+- `v1.8.2-php-wolfi`, `v1.8.2-php-alpine`,
+  `v1.8.2-php-debian`, `v1.8.2-php-suse-bci`
 - `sha-<short-sha>-cache-wolfi`, `sha-<short-sha>-proxy-wolfi`,
   `sha-<short-sha>-load-balancer-wolfi`, `sha-<short-sha>-php-wolfi`, etc.
 - `latest-cache-wolfi`, `latest-proxy-wolfi`,
   `latest-load-balancer-wolfi`, `latest-php-wolfi`, etc. when run from the
   default branch
-- Wolfi short aliases: `v1.8.0-wasm`, `v1.8.0-cache`, `v1.8.0-proxy`,
-  `v1.8.0-load-balancer`, `v1.8.0-php`, `latest-wasm`, `latest-cache`,
+- Wolfi short aliases: `v1.8.2-wasm`, `v1.8.2-cache`, `v1.8.2-proxy`,
+  `v1.8.2-load-balancer`, `v1.8.2-php`, `latest-wasm`, `latest-cache`,
   `latest-proxy`, `latest-load-balancer`, and `latest-php`
 
 Starting with `v1.5.0`, the load-balancer image profile is part of normal tag

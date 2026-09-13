@@ -112,7 +112,9 @@ def page_body(page: str) -> str:
 def code_language(code: str) -> str:
     first_line = code.lstrip().splitlines()[0] if code.strip() else ""
     shell_prefixes = ("curl ", "export ", "tar ", "sudo ", "fluxheim ", "podman ")
-    if first_line.startswith(shell_prefixes) or first_line.startswith(("FLUXHEIM_", "OTEL_")):
+    if first_line.startswith("$"):
+        return "powershell"
+    if first_line.startswith(shell_prefixes) or re.match(r"^[A-Z][A-Z0-9_]*=", first_line):
         return "bash"
     return "toml"
 
@@ -205,7 +207,7 @@ def render(page: str, title: str, intro: str, body: str) -> str:
     .sidebar-link.active {{ background:rgba(6,182,212,.08); color:#22d3ee; border-left:2px solid #22d3ee; }}
     .guide-section {{ margin-top:2rem; padding-top:2rem; border-top:1px solid #1f2937; }}
     .guide-section:first-of-type {{ margin-top:0; padding-top:0; border-top:0; }}
-    .guide-section h2 {{ color:white; font-size:1.35rem; font-weight:800; margin-bottom:1rem; }}
+    .guide-section h2 {{ color:var(--fh-text); font-size:1.35rem; font-weight:800; margin-bottom:1rem; }}
     .guide-section p {{ color:#9ca3af; line-height:1.75; margin-bottom:1rem; }}
     .checks {{ display:grid; gap:.65rem; color:#d1d5db; }}
     .checks li {{ padding-left:.25rem; }}
@@ -238,6 +240,7 @@ def render(page: str, title: str, intro: str, body: str) -> str:
 {site_footer}
   <script src="../assets/js/prism.min.js"></script>
   <script src="../assets/js/prism-bash.min.js"></script>
+  <script src="../assets/js/prism-powershell.min.js"></script>
   <script src="../assets/js/prism-toml.min.js"></script>
   <script src="../assets/js/alpine.min.js" defer></script>
 </body>

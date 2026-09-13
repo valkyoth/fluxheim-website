@@ -65,7 +65,7 @@ For PHP-FPM releases, also run:
 ```bash
 scripts/smoke_wordpress_php_fpm.sh both
 scripts/smoke_wordpress_proxy_tls.sh
-scripts/smoke_fluxheim_php_wolfi.sh
+scripts/smoke_fluxheim_php_images.sh
 ```
 
 When collecting release evidence on a host that cannot build every FIPS
@@ -157,10 +157,8 @@ triple:
 | --- | --- |
 | `x86_64-unknown-linux-gnu` | `x86_64-linux` |
 | `aarch64-unknown-linux-gnu` | `aarch64-linux` |
-| `x86_64-apple-darwin` | `x86_64-macos` |
 | `aarch64-apple-darwin` | `aarch64-macos` |
 | `x86_64-pc-windows-msvc` | `x86_64-windows` |
-| `aarch64-pc-windows-msvc` | `aarch64-windows` |
 
 Build the current Linux host target:
 
@@ -216,19 +214,58 @@ Validate the common operating-system archive plan without compiling:
 scripts/validate_portable_release_plan.py
 ```
 
-Build the seven portable profiles on a matching supported host. During
-`1.8.0`, native CI builds representative macOS `full` and `wasm` archives.
-Windows is plan-only until native runtime and archive work begins in `1.8.2`;
-do not publish Windows artifacts before that gate is restored:
+Build the seven portable profiles on a matching supported host. Native CI
+builds every public archive profile on Apple Silicon. Intel macOS is not a
+supported release target. During `1.8.2`, Windows archives additionally require
+native x86_64 builder evidence; do not publish them when that gate is
+incomplete:
 
 ```bash
 scripts/build_release_assets.sh "${RELEASE_VERSION}" --kind macos
+sh scripts/smoke_macos_native_parity.sh
 ```
 
-Future Windows binaries retain `.exe`; both operating systems use matching
-`.tar.gz` and `.zip` payload contracts. These archives are unsigned previews,
-not notarized or Authenticode-signed installers. See
-[Portable Releases](portable-releases.md).
+Run `scripts/run_windows_release_builder.ps1` on the prepared native x86_64
+host. The exact-tag Linux aggregator can invoke it over OpenSSH. Windows ARM64
+is deferred and must not be published. See
+[Windows Release Builders](windows-release-builders.md).
+
+The official Windows builder must be a fresh disposable host with the
+Administrator-provisioned read-only Rust toolchain. Run
+`scripts/release_helper.sh` from the Linux release machine and provide the
+Linux ARM and Windows hosts and SSH keys when prompted. The helper invokes the
+exact-tag Windows build, verifies its seven ZIP checksums and evidence, imports
+the separately produced macOS evidence, and creates the complete Markdown
+checksum report used for the GitHub release.
+
+Build the macOS set first with `scripts/release_helper_macos.sh`, then transfer
+its output directory to the Linux release machine. Set
+`FLUXHEIM_MACOS_ASSET_DIR` to that directory or enter it when prompted. The
+Linux helper accepts the Rust and Fluxheim versions as positional arguments:
+
+```bash
+scripts/release_helper.sh 1.98.1 1.8.2
+```
+
+For unattended use, set `FLUXHEIM_AARCH64_LINUX_HOST`,
+`FLUXHEIM_LINUX_SSH_KEY`, `FLUXHEIM_WINDOWS_X64_HOST`, and
+`FLUXHEIM_WINDOWS_SSH_KEY`. The corresponding user variables default to
+`ubuntu` and `fluxheim-build`. No machine address, account, or key path is
+stored in the repository.
+
+Destroy both disposable cloud builders after the evidence and archives are
+collected.
+
+The native matrix must also execute
+`scripts/smoke_wasm_policy_examples_binary.sh` against the staged `wasm`
+archive binary. Do not substitute source-tree Wasm tests for packaged-binary
+evidence.
+
+Future Windows binaries retain `.exe`. The builder creates matching `.tar.gz`
+and `.zip` payloads as an equivalence check, but public release formats are
+platform-native: `.tar.gz` for Linux and the unsigned macOS CLI preview, and
+`.zip` for Windows. These archives are unsigned previews, not notarized or
+Authenticode-signed installers. See [Portable Releases](portable-releases.md).
 
 The older combined macOS development artifact remains available for local
 developer workflows:
@@ -238,10 +275,9 @@ scripts/build_release_assets.sh "${RELEASE_VERSION}" --kind macos-dev
 ```
 
 Apple Silicon Macs produce
-`fluxheim-${RELEASE_VERSION}-dev-aarch64-macos.{tar.gz,zip}`. Intel Macs
-produce `fluxheim-${RELEASE_VERSION}-dev-x86_64-macos.{tar.gz,zip}`. These
-remain unsigned development conveniences and are separate from the portable
-profile matrix.
+`fluxheim-${RELEASE_VERSION}-dev-aarch64-macos.{tar.gz,zip}` for local
+validation. These remain unsigned development conveniences and are not public
+release assets. Intel macOS developer archives are not published.
 
 Record all runtime and config-tester binary checksums.
 
@@ -333,20 +369,21 @@ On GitHub:
 3. Select the tag from `$TAG`.
 4. Use `$TITLE` as the release title.
 5. Paste the contents of `$RELEASE_NOTES`.
-6. Upload both formats of every runtime profile archive built in step 4:
-   `dist/fluxheim-${RELEASE_VERSION}-{full,wasm,cache,proxy,load-balancer,php}-{x86_64,aarch64}-linux.{tar.gz,zip}`.
-7. Upload both formats of the unified config-tester archive built in step 4:
-   `dist/fluxheim-${RELEASE_VERSION}-config-tester-{x86_64,aarch64}-linux.{tar.gz,zip}`.
+6. Upload the `.tar.gz` runtime profile archives built for Linux:
+   `dist/fluxheim-${RELEASE_VERSION}-{full,wasm,cache,proxy,load-balancer,php}-{x86_64,aarch64}-linux.tar.gz`.
+7. Upload the `.tar.gz` unified config-tester archives built for Linux:
+   `dist/fluxheim-${RELEASE_VERSION}-config-tester-{x86_64,aarch64}-linux.tar.gz`.
 8. If the release includes unsigned portable previews, upload every
-   successfully gated profile from
-   `dist/fluxheim-${RELEASE_VERSION}-{full,wasm,cache,proxy,load-balancer,php,config-tester}-{aarch64,x86_64}-{macos,windows}.{tar.gz,zip}`.
+   successfully gated macOS `.tar.gz` profile from
+   `dist/fluxheim-${RELEASE_VERSION}-{full,wasm,cache,proxy,load-balancer,php,config-tester}-aarch64-macos.tar.gz`,
+   plus `SHA256SUMS-aarch64-macos.txt`. Upload only `.zip` for any separately
+   gated Windows profiles. ZIP output from the macOS builder is
+   validation-only.
    Do not upload an untested target or describe these files as signed
    installers.
-9. If a legacy combined macOS developer artifact is needed, upload
-   `dist/fluxheim-${RELEASE_VERSION}-dev-{aarch64,x86_64}-macos.{tar.gz,zip}`.
-10. Upload `target/release-evidence/fluxheim.spdx.json`.
-11. Upload `target/release-evidence/fluxheim.cyclonedx.json`.
-12. Publish the release.
+9. Upload `target/release-evidence/fluxheim.spdx.json`.
+10. Upload `target/release-evidence/fluxheim.cyclonedx.json`.
+11. Publish the release.
 
 It is normal to publish before every evidence field is filled. Source archives
 and container digests are available only after the tag/release and image
@@ -411,8 +448,8 @@ for image in \
   "${TAG}-proxy-debian" \
   "${TAG}-php-wolfi" \
   "${TAG}-php-alpine" \
-  "${TAG}-php-suse-micro" \
-  "${TAG}-php-debian"
+  "${TAG}-php-debian" \
+  "${TAG}-php-suse-bci"
 do
   podman pull "ghcr.io/valkyoth/fluxheim:${image}"
   podman inspect "ghcr.io/valkyoth/fluxheim:${image}" --format '{{index .RepoDigests 0}}'
@@ -439,8 +476,8 @@ for image in \
   "${TAG}-proxy-debian" \
   "${TAG}-php-wolfi" \
   "${TAG}-php-alpine" \
-  "${TAG}-php-suse-micro" \
-  "${TAG}-php-debian"
+  "${TAG}-php-debian" \
+  "${TAG}-php-suse-bci"
 do
   podman pull "quay.io/valkyoth/fluxheim:${image}"
   podman inspect "quay.io/valkyoth/fluxheim:${image}" --format '{{index .RepoDigests 0}}'

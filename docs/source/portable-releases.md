@@ -26,19 +26,18 @@ Every staged directory is emitted internally as both `.tar.gz` and `.zip` so
 the archive builder can verify that both formats contain the same paths and
 file payloads. Publication format is platform-specific: Linux publishes
 `.tar.gz`, unsigned macOS CLI previews publish `.tar.gz`, and Windows will
-publish `.zip` once its native gate is complete. Windows binaries retain their
+publish `.zip` after its exact-tag native gate passes. Windows binaries retain their
 `.exe` suffix. Archive names use normalized platform labels such as:
 
 ```text
 fluxheim-VERSION-wasm-x86_64-linux.tar.gz
 fluxheim-VERSION-wasm-aarch64-macos.tar.gz
 fluxheim-VERSION-wasm-x86_64-windows.zip
-fluxheim-VERSION-wasm-aarch64-windows.zip
 ```
 
-Windows uses the same naming contract during `1.8.2` development. Do not
-publish those archives until the native runtime and release evidence gates pass
-on both architectures.
+Windows uses the same naming contract starting with `1.8.2`. Publish those
+archives only after the native x86_64 runtime and exact-tag release-evidence
+gates pass. Windows ARM64 is not a supported release target.
 
 The shared matrix can be inspected without compiling:
 
@@ -46,8 +45,8 @@ The shared matrix can be inspected without compiling:
 VERSION="$(sed -n 's/^version = "\([^"]*\)"/\1/p' Cargo.toml | sed -n '1p')"
 scripts/build_release_assets.sh "$VERSION" --kind linux --plan
 scripts/build_release_assets.sh "$VERSION" --kind macos --plan
-scripts/build_release_assets.sh "$VERSION" --kind windows --plan
-python scripts/portable_release_plan.py "$VERSION" --kind windows --target aarch64-pc-windows-msvc
+scripts/build_release_assets.sh "$VERSION" --kind windows \
+  --target x86_64-pc-windows-msvc --plan
 scripts/validate_portable_release_plan.py
 ```
 
@@ -61,10 +60,10 @@ Build on the operating system and architecture represented by the target:
 scripts/build_release_assets.sh "$VERSION" --kind macos --profile wasm
 ```
 
-Cross-compiling a Windows MSVC binary from Linux is not an authoritative
-release proof because the MSVC linker and Windows SDK are absent. The Windows
-release builders must run natively on x86_64 and ARM64 hosts and use
-`scripts/build_release_assets.ps1`. See
+Cross-compiling a Windows MSVC binary from Linux is not authoritative release
+proof because it does not execute the Windows ACL, locking, shutdown, and live
+runtime checks. The Windows release builder must run natively on x86_64 and
+use `scripts/build_release_assets.ps1`. See
 [Windows Release Builders](windows-release-builders.md). The same host-native
 rule applies to Apple SDK and linker validation.
 
@@ -80,22 +79,47 @@ release target and does not receive official archives.
 External Prometheus and Jaeger collector integration remains in the Linux gate
 because the macOS portable gate does not require a container runtime.
 
-`1.8.1` does not publish Windows binaries. Fluxheim deliberately rejects
-configuration-file loading on Windows until native owner and ACL trust checks
-replace the Unix ownership and mode checks, and the cache storage path still
-depends on descriptor-relative Unix filesystem operations. It does not
-silently weaken either security boundary to make a preview compile. The
-Windows CI planning gate validates archive names and feature sets and executes
-a platform-specific regression proving unsupported config trust checks fail
-closed. Runtime config loading, path trust, cache storage, service integration,
-profile builds, and archives are `1.8.2` work.
+`1.8.0` did not publish Windows binaries. Release `1.8.2` implements
+native owner/ACL trust checks for configuration and runtime paths, Windows-safe
+static and cache file handling, all seven MSVC profile builds, and native live
+static, downstream/upstream TLS, memory and persistent disk cache, proxy,
+load-balancer, integrity-authenticated snapshot create/list/rollback and doctor
+verification, admin, metrics, graceful-shutdown, external FastCGI, ACME
+storage, and packaged-Wasm checks. Every packaged executable must also launch
+and report the expected version. These checks preserve the existing trust
+boundary instead of replacing it with permissive cross-platform fallbacks, and
+must pass natively on x86_64 before Windows archives are published.
+
+The normal native x86_64 CI gate now passes that complete matrix, including
+crash-restart storage-bin recovery and execution of all seven generated ZIP
+profiles. Exact-tag execution on a freshly provisioned disposable host with an
+Administrator-controlled read-only Rust toolchain remains mandatory. Like the
+Linux ARM and macOS release flows, that host reproduces the default release
+binary in two clean target directories, builds each public archive once, and
+emits checksums and native test evidence for aggregation.
+Windows ARM64 is deferred until sustainable native build and test
+infrastructure can provide the same evidence; no ARM64 Windows archive is
+currently generated or supported.
+
+Windows filesystem parity uses protected DACLs for newly created secret and
+private state, rejects untrusted read access to credentials, and rejects
+untrusted write or delete-child access throughout configured runtime paths.
+Static response bodies are opened component-by-component relative to retained
+directory handles with reparse processing disabled. Cache, snapshot, ACME,
+logging, PHP spool, and configuration paths also fail closed when an ancestor
+is writable by an untrusted principal. These controls deliberately trust the
+Fluxheim service identity, `SYSTEM`, and local Administrators; do not run
+untrusted workloads under the same Windows account or grant them Administrator
+access. Use a dedicated service account and dedicated runtime directories when
+the host runs mutually untrusted applications.
 
 Live platform parity remains staged:
 
 - `1.8.1` completes the defined unsigned native macOS runtime and archive
   smoke matrix while retaining explicit foreground and filesystem-policy
   limitations.
-- `1.8.2` expands native Windows runtime and archive smoke coverage.
+- `1.8.2` completes the defined unsigned native Windows x86_64 runtime and
+  archive smoke matrix.
 - `1.8.3` compares all published profiles and records intentional platform
   differences.
 
@@ -103,7 +127,10 @@ Linux-only deployment material can still be present inside an archive as
 documentation, but it is not a native integration promise. In particular:
 
 - systemd and RPM units are Linux deployment assets;
-- Windows does not support Unix-domain control paths in the same way as Linux;
+- the TCP admin listener is the portable Windows control plane; the local Unix
+  operations socket is unavailable and must remain disabled;
+- Unix socket activation, upgrade sockets, and certificate-reload sockets do
+  not yet have Windows service/control-channel replacements;
 - managed PHP-FPM process supervision is Unix-only, while external TCP
   FastCGI remains the portable PHP path;
 - launchd and Windows service integration are later platform milestones.
@@ -113,9 +140,8 @@ out explicitly before release rather than silently omitted.
 
 ## Unsigned Preview Policy
 
-macOS archives are unsigned portable previews until Fluxheim has company-backed
-publisher credentials. Windows archives will follow the same policy when they
-begin in `1.8.2`. SHA-256 checksums prove downloaded-byte integrity against the
+macOS and Windows archives are unsigned portable previews until Fluxheim has
+company-backed publisher credentials. SHA-256 checksums prove downloaded-byte integrity against the
 published release metadata; they do not establish a signed publisher identity.
 
 The public macOS preview uses only `.tar.gz`. Fluxheim is a command-line server,

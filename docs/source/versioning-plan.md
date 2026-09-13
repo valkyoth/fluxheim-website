@@ -1361,10 +1361,11 @@ Release shape:
     Rust target/toolchain, CMake when selected features need it, and optional
     Homebrew PHP-FPM for managed PHP development tests;
   - document release artifacts by normalized target labels:
-    `aarch64-macos` for Apple Silicon Macs, `x86_64-macos` for Intel Macs,
-    `aarch64-linux` for Linux ARM64, and `x86_64-linux` for the main Linux
-    x86_64 build. Do not publish one ambiguous "ARM" artifact, and do not use
-    machine-local `target-cpu=native` tuning for public release binaries;
+    `aarch64-macos` for Apple Silicon Macs, `aarch64-linux` for Linux ARM64,
+    and `x86_64-linux` for the main Linux x86_64 build. Intel macOS is not a
+    supported release target. Do not publish one ambiguous "ARM" artifact,
+    and do not use machine-local `target-cpu=native` tuning for public release
+    binaries;
   - keep Linux as the production support baseline. macOS support is for
     contributor development and local site testing until Pingora's macOS
     support is no longer experimental and Fluxheim has regular macOS smoke
@@ -3222,23 +3223,35 @@ Stable scope:
   examples, document the read-only plugin mount and hash-pinned plugin config,
   and define one archive/profile contract for Linux, macOS, and Windows.
 - `v1.8.1`: unsigned macOS portable parity. Build the same supported public
-  archive profiles for Apple Silicon and Intel where runners are available,
-  using the same archive names, layout, documentation, checksums, and smoke
-  expectations as Linux. Add live static, proxy, TLS, cache, admin,
-  load-balancer, observability, and Wasm tests, plus launchd or an explicitly
-  documented foreground deployment mode and APFS/ACL/symlink review.
+  archive profiles for Apple Silicon, using the same archive names, layout,
+  documentation, checksums, and smoke expectations as Linux. Build tar and ZIP
+  internally for payload-equivalence validation, but publish only `.tar.gz`
+  for the terminal-oriented unsigned CLI preview. Intel macOS is outside the
+  supported release matrix. Add live static, proxy, TLS, cache,
+  admin, load-balancer, observability, and Wasm tests, plus launchd or an
+  explicitly documented foreground deployment mode and APFS/ACL/symlink
+  review.
 - `v1.8.2`: unsigned Windows portable parity. Build MSVC archives for the same
-  supported profiles and both archive formats, run live static, proxy, TLS,
-  cache, admin, load-balancer, observability, and Wasm tests, and define
+  supported profiles, generate both archive formats for internal payload
+  equivalence, publish ZIP only, run live static, proxy, TLS, cache, admin,
+  load-balancer, observability, and Wasm tests, and define
   Windows path, ACL, file-locking, shutdown, service, certificate-storage, and
   Unix-control-path replacements. Any unsupported profile must be named and
-  justified rather than silently omitted.
+  justified rather than silently omitted. Make the Wolfi, Alpine, Debian, and
+  SUSE BCI PHP images self-contained with managed PHP-FPM and a common tested
+  extension contract. Publish the SUSE PHP profile as `php-suse-bci` because
+  the dedicated BCI PHP base supplies an official PHP repository; retain SUSE
+  Micro for the non-PHP profiles.
 - `v1.8.3`: cross-platform parity hardening. Compare Linux, macOS, and Windows
   behavior profile by profile, close practical gaps, document intentional
   differences, add `scripts/test_starter.py` platform entries, and require
-  stable/deep gates to prove every published portable artifact. Unsigned
-  archives must be clearly labeled and accompanied by checksums and
-  provenance; users remain responsible for local trust-policy exceptions.
+  stable/deep gates to prove every published portable artifact. Evaluate a
+  capability-style storage-bin lifecycle that retains validated root,
+  data-directory, shard, manifest, and index descriptors instead of reopening
+  assembled paths for each operation; retain the documented dedicated-UID/root
+  boundary unless that redesign lands. Unsigned archives must be clearly
+  labeled and accompanied by checksums and provenance; users remain responsible
+  for local trust-policy exceptions.
 - `v1.8.4`: company-backed signing foundation, conditional on Fluxheim having
   the required legal publisher identity and credentials. Add Apple Developer
   ID signing/notarization and Windows Authenticode without making unavailable
@@ -4864,15 +4877,18 @@ circular dependencies.
   `full` Wasm-free, add `profile-wasm`, a Wasm image and release archive, both
   `.tar.gz` and `.zip` formats, a read-only plugin mount contract, and a live
   packaged-binary Wasm smoke.
-- `v1.8.1`: unsigned macOS portable parity for Apple Silicon and Intel, using
-  the same supported profile names, archive layout, checksums, docs, and live
-  evidence as Linux.
+- `v1.8.1`: unsigned macOS portable parity for Apple Silicon, using the same
+  supported profile names, archive layout, checksums, docs, and live evidence
+  as Linux. Publish `.tar.gz` only while ZIP remains an internal equivalence
+  check and signed/notarized installers are unavailable. Intel macOS is not a
+  supported release target.
 - `v1.8.2`: unsigned Windows MSVC portable parity with the same supported
   profile/archive contract and explicit replacements or limitations for
   Unix-only behavior.
 - `v1.8.3`: cross-platform parity hardening, platform test-starter entries,
   documented intentional differences, and stable/deep release-gate evidence
-  for every published archive.
+  for every published archive. Evaluate lifetime-retained storage-bin
+  descriptors as defense in depth against a hostile same-UID/root local actor.
 - `v1.8.4`: company-backed Apple Developer ID and Windows Authenticode signing
   foundation once the legal publisher identity and credentials exist.
 - `v1.8.5`: notarized macOS and signed Windows installer delivery, including

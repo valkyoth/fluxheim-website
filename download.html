@@ -20,7 +20,7 @@
   <meta name="twitter:title" content="Fluxheim">
   <meta name="twitter:description" content="A memory-safe edge server and reverse proxy built in Rust.">
   <meta name="twitter:image" content="https://fluxheim.eu/assets/img/fluxheim-social.png">
-  <meta name="description" content="Download Fluxheim binaries for Linux x86_64, Linux ARM64, Apple Silicon macOS, and container images.">
+  <meta name="description" content="Download Fluxheim binaries for Linux x86_64, Linux ARM64, Windows x86_64, Apple Silicon macOS, and container images.">
   <link rel="stylesheet" href="assets/css/prism-dark.min.css">
   <link rel="stylesheet" href="assets/css/theme.css?v=20260519">
   <script src="assets/js/theme.js?v=20260519"></script>
@@ -50,7 +50,7 @@
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
             GitHub
           </a>
-          <a href="download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.8.1</a>
+          <a href="download.html" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-gray-950 text-sm font-bold rounded-lg transition-colors">Download v1.8.2</a>
         </div>
         <button type="button" class="theme-toggle ml-auto md:ml-0 p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors" data-theme-toggle aria-label="Switch color theme">
           <svg class="theme-toggle-sun w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364-.707.707M6.343 17.657l-.707.707m12.728 0-.707-.707M6.343 6.343l-.707-.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -78,10 +78,10 @@
       <div class="mb-12">
         <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-500/25 rounded-full mb-5">
           <span class="w-2 h-2 bg-emerald-400 rounded-full"></span>
-          <span class="text-emerald-400 text-xs font-semibold">Latest Stable — v1.8.1</span>
+          <span class="text-emerald-400 text-xs font-semibold">Latest Stable — v1.8.2</span>
         </div>
         <h1 class="text-4xl font-black text-white mb-3">Download Fluxheim</h1>
-        <p class="text-gray-400 text-lg"><span>Linux x86_64 · Linux aarch64 · macOS Apple Silicon</span> <span>2026-08-28</span>.</p>
+        <p class="text-gray-400 text-lg"><span>Linux x86_64 · Linux aarch64 · Windows x86_64 · macOS Apple Silicon</span> <span>2026-09-13</span>.</p>
       </div>
 
       <!-- Latest Release Cards -->
@@ -108,18 +108,19 @@
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>~10.3 MB binary</div>
           </div>
           <div class="grid grid-cols-2 gap-px rounded-lg overflow-hidden bg-gray-700 text-xs font-semibold shadow-md">
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-full-x86_64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-full-x86_64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-cyan-500 px-2 py-2.5 text-center text-gray-950 hover:bg-cyan-400 transition-colors"
                aria-label="Download full build for Linux x86_64">
               Linux (x86_64)
             </a>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-full-aarch64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-full-aarch64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-cyan-500 px-2 py-2.5 text-center text-gray-950 hover:bg-cyan-400 transition-colors"
                aria-label="Download full build for Linux ARM64">
               Linux (aarch64)
             </a>
-            <span aria-disabled="true" class="col-span-2 flex min-h-11 cursor-not-allowed flex-col items-center justify-center bg-gray-800 px-3 py-2 text-center text-gray-500">Windows (x86_64)<small class="text-gray-600">v1.8.2</small></span>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-full-aarch64-macos.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-full-x86_64-windows.zip"
+               class="col-span-2 flex min-h-11 items-center justify-center bg-cyan-500 px-3 py-2.5 text-center text-gray-950 hover:bg-cyan-400 transition-colors">Windows (x86_64)</a>
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-full-aarch64-macos.tar.gz"
                class="col-span-2 flex min-h-11 items-center justify-center bg-cyan-500 px-3 py-2.5 text-center text-gray-950 hover:bg-cyan-400 transition-colors"
                aria-label="Download full build for Apple Silicon macOS">macOS (Apple Silicon / aarch64)</a>
           </div>
@@ -142,18 +143,19 @@
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>TLS + managed ACME renewal</div>
           </div>
           <div class="grid grid-cols-2 gap-px rounded-lg overflow-hidden bg-gray-700 text-xs font-semibold border border-gray-700">
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-load-balancer-x86_64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-load-balancer-x86_64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-gray-800 px-2 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download load balancer build for Linux x86_64">
               Linux (x86_64)
             </a>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-load-balancer-aarch64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-load-balancer-aarch64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-gray-800 px-2 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download load balancer build for Linux ARM64">
               Linux (aarch64)
             </a>
-            <span aria-disabled="true" class="col-span-2 flex min-h-11 cursor-not-allowed flex-col items-center justify-center bg-gray-900 px-3 py-2 text-center text-gray-600">Windows (x86_64)<small>v1.8.2</small></span>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-load-balancer-aarch64-macos.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-load-balancer-x86_64-windows.zip"
+               class="col-span-2 flex min-h-11 items-center justify-center bg-gray-800 px-3 py-2.5 text-center text-white hover:bg-gray-700 transition-colors">Windows (x86_64)</a>
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-load-balancer-aarch64-macos.tar.gz"
                class="col-span-2 flex min-h-11 items-center justify-center bg-gray-800 px-3 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download load balancer build for Apple Silicon macOS">macOS (Apple Silicon / aarch64)</a>
           </div>
@@ -176,18 +178,19 @@
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>~8.9 MB binary</div>
           </div>
           <div class="grid grid-cols-2 gap-px rounded-lg overflow-hidden bg-gray-700 text-xs font-semibold border border-gray-700">
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-php-x86_64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-php-x86_64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-gray-800 px-2 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download PHP build for Linux x86_64">
               Linux (x86_64)
             </a>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-php-aarch64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-php-aarch64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-gray-800 px-2 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download PHP build for Linux ARM64">
               Linux (aarch64)
             </a>
-            <span aria-disabled="true" class="col-span-2 flex min-h-11 cursor-not-allowed flex-col items-center justify-center bg-gray-900 px-3 py-2 text-center text-gray-600">Windows (x86_64)<small>v1.8.2</small></span>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-php-aarch64-macos.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-php-x86_64-windows.zip"
+               class="col-span-2 flex min-h-11 items-center justify-center bg-gray-800 px-3 py-2.5 text-center text-white hover:bg-gray-700 transition-colors">Windows (x86_64)</a>
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-php-aarch64-macos.tar.gz"
                class="col-span-2 flex min-h-11 items-center justify-center bg-gray-800 px-3 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download PHP build for Apple Silicon macOS">macOS (Apple Silicon / aarch64)</a>
           </div>
@@ -210,18 +213,19 @@
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>~6.8 MB binary</div>
           </div>
           <div class="grid grid-cols-2 gap-px rounded-lg overflow-hidden bg-gray-700 text-xs font-semibold border border-gray-700">
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-cache-x86_64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-cache-x86_64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-gray-800 px-2 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download cache build for Linux x86_64">
               Linux (x86_64)
             </a>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-cache-aarch64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-cache-aarch64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-gray-800 px-2 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download cache build for Linux ARM64">
               Linux (aarch64)
             </a>
-            <span aria-disabled="true" class="col-span-2 flex min-h-11 cursor-not-allowed flex-col items-center justify-center bg-gray-900 px-3 py-2 text-center text-gray-600">Windows (x86_64)<small>v1.8.2</small></span>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-cache-aarch64-macos.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-cache-x86_64-windows.zip"
+               class="col-span-2 flex min-h-11 items-center justify-center bg-gray-800 px-3 py-2.5 text-center text-white hover:bg-gray-700 transition-colors">Windows (x86_64)</a>
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-cache-aarch64-macos.tar.gz"
                class="col-span-2 flex min-h-11 items-center justify-center bg-gray-800 px-3 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download cache build for Apple Silicon macOS">macOS (Apple Silicon / aarch64)</a>
           </div>
@@ -244,18 +248,19 @@
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>~5.8 MB binary</div>
           </div>
           <div class="grid grid-cols-2 gap-px rounded-lg overflow-hidden bg-gray-700 text-xs font-semibold border border-gray-700">
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-proxy-x86_64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-proxy-x86_64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-gray-800 px-2 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download proxy build for Linux x86_64">
               Linux (x86_64)
             </a>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-proxy-aarch64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-proxy-aarch64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-gray-800 px-2 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download proxy build for Linux ARM64">
               Linux (aarch64)
             </a>
-            <span aria-disabled="true" class="col-span-2 flex min-h-11 cursor-not-allowed flex-col items-center justify-center bg-gray-900 px-3 py-2 text-center text-gray-600">Windows (x86_64)<small>v1.8.2</small></span>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-proxy-aarch64-macos.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-proxy-x86_64-windows.zip"
+               class="col-span-2 flex min-h-11 items-center justify-center bg-gray-800 px-3 py-2.5 text-center text-white hover:bg-gray-700 transition-colors">Windows (x86_64)</a>
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-proxy-aarch64-macos.tar.gz"
                class="col-span-2 flex min-h-11 items-center justify-center bg-gray-800 px-3 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download proxy build for Apple Silicon macOS">macOS (Apple Silicon / aarch64)</a>
           </div>
@@ -279,18 +284,19 @@
             <div class="flex items-center gap-2 text-xs text-gray-500"><svg class="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>Prometheus + OpenTelemetry</div>
           </div>
           <div class="grid grid-cols-2 gap-px rounded-lg overflow-hidden bg-gray-700 text-xs font-semibold border border-gray-700">
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-wasm-x86_64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-wasm-x86_64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-gray-800 px-2 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download Wasm build for Linux x86_64">
               Linux (x86_64)
             </a>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-wasm-aarch64-linux.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-wasm-aarch64-linux.tar.gz"
                class="flex min-h-11 items-center justify-center bg-gray-800 px-2 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download Wasm build for Linux ARM64">
               Linux (aarch64)
             </a>
-            <span aria-disabled="true" class="col-span-2 flex min-h-11 cursor-not-allowed flex-col items-center justify-center bg-gray-900 px-3 py-2 text-center text-gray-600">Windows (x86_64)<small>v1.8.2</small></span>
-            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-wasm-aarch64-macos.tar.gz"
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-wasm-x86_64-windows.zip"
+               class="col-span-2 flex min-h-11 items-center justify-center bg-gray-800 px-3 py-2.5 text-center text-white hover:bg-gray-700 transition-colors">Windows (x86_64)</a>
+            <a href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-wasm-aarch64-macos.tar.gz"
                class="col-span-2 flex min-h-11 items-center justify-center bg-gray-800 px-3 py-2.5 text-center text-white hover:bg-gray-700 transition-colors"
                aria-label="Download Wasm build for Apple Silicon macOS">macOS (Apple Silicon / aarch64)</a>
           </div>
@@ -303,9 +309,9 @@
         <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2 mb-5">
           <div>
             <h2 class="text-2xl font-bold text-white">Platform Downloads</h2>
-            <p class="text-gray-500 text-sm mt-1">Linux x86_64 · Linux aarch64 · macOS Apple Silicon</p>
+            <p class="text-gray-500 text-sm mt-1">Linux x86_64 · Linux aarch64 · Windows x86_64 · macOS Apple Silicon</p>
           </div>
-          <span class="text-xs text-gray-500">Windows: v1.8.2</span>
+          <span class="text-xs text-gray-500">Supported Platforms</span>
         </div>
 
         <div class="overflow-x-auto rounded-xl border border-gray-800">
@@ -322,52 +328,52 @@
             <tbody class="divide-y divide-gray-800/60">
               <tr class="hover:bg-gray-900/40 transition-colors">
                 <td class="px-4 py-3 font-semibold text-white">Full</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-full-x86_64-linux.tar.gz">x86_64-linux</a></td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-full-aarch64-linux.tar.gz">aarch64-linux</a></td>
-                <td class="px-4 py-3 text-gray-600">v1.8.2</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-full-aarch64-macos.tar.gz">aarch64-macos</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-full-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-full-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-full-x86_64-windows.zip">x86_64-windows</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-full-aarch64-macos.tar.gz">aarch64-macos</a></td>
               </tr>
               <tr class="hover:bg-gray-900/40 transition-colors">
                 <td class="px-4 py-3 font-semibold text-white">Wasm</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-wasm-x86_64-linux.tar.gz">x86_64-linux</a></td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-wasm-aarch64-linux.tar.gz">aarch64-linux</a></td>
-                <td class="px-4 py-3 text-gray-600">v1.8.2</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-wasm-aarch64-macos.tar.gz">aarch64-macos</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-wasm-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-wasm-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-wasm-x86_64-windows.zip">x86_64-windows</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-wasm-aarch64-macos.tar.gz">aarch64-macos</a></td>
               </tr>
               <tr class="hover:bg-gray-900/40 transition-colors">
                 <td class="px-4 py-3 font-semibold text-white">PHP</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-php-x86_64-linux.tar.gz">x86_64-linux</a></td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-php-aarch64-linux.tar.gz">aarch64-linux</a></td>
-                <td class="px-4 py-3 text-gray-600">v1.8.2</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-php-aarch64-macos.tar.gz">aarch64-macos</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-php-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-php-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-php-x86_64-windows.zip">x86_64-windows</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-php-aarch64-macos.tar.gz">aarch64-macos</a></td>
               </tr>
               <tr class="hover:bg-gray-900/40 transition-colors">
                 <td class="px-4 py-3 font-semibold text-white">Load Balancer</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-load-balancer-x86_64-linux.tar.gz">x86_64-linux</a></td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-load-balancer-aarch64-linux.tar.gz">aarch64-linux</a></td>
-                <td class="px-4 py-3 text-gray-600">v1.8.2</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-load-balancer-aarch64-macos.tar.gz">aarch64-macos</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-load-balancer-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-load-balancer-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-load-balancer-x86_64-windows.zip">x86_64-windows</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-load-balancer-aarch64-macos.tar.gz">aarch64-macos</a></td>
               </tr>
               <tr class="hover:bg-gray-900/40 transition-colors">
                 <td class="px-4 py-3 font-semibold text-white">Cache</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-cache-x86_64-linux.tar.gz">x86_64-linux</a></td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-cache-aarch64-linux.tar.gz">aarch64-linux</a></td>
-                <td class="px-4 py-3 text-gray-600">v1.8.2</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-cache-aarch64-macos.tar.gz">aarch64-macos</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-cache-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-cache-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-cache-x86_64-windows.zip">x86_64-windows</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-cache-aarch64-macos.tar.gz">aarch64-macos</a></td>
               </tr>
               <tr class="hover:bg-gray-900/40 transition-colors">
                 <td class="px-4 py-3 font-semibold text-white">Proxy</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-proxy-x86_64-linux.tar.gz">x86_64-linux</a></td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-proxy-aarch64-linux.tar.gz">aarch64-linux</a></td>
-                <td class="px-4 py-3 text-gray-600">v1.8.2</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-proxy-aarch64-macos.tar.gz">aarch64-macos</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-proxy-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-proxy-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-proxy-x86_64-windows.zip">x86_64-windows</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-proxy-aarch64-macos.tar.gz">aarch64-macos</a></td>
               </tr>
               <tr class="hover:bg-gray-900/40 transition-colors">
                 <td class="px-4 py-3 font-semibold text-white">Config tester</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-config-tester-x86_64-linux.tar.gz">x86_64-linux</a></td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-config-tester-aarch64-linux.tar.gz">aarch64-linux</a></td>
-                <td class="px-4 py-3 text-gray-600">v1.8.2</td>
-                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-config-tester-aarch64-macos.tar.gz">aarch64-macos</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-config-tester-x86_64-linux.tar.gz">x86_64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-config-tester-aarch64-linux.tar.gz">aarch64-linux</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-config-tester-x86_64-windows.zip">x86_64-windows</a></td>
+                <td class="px-4 py-3"><a class="text-cyan-400 hover:text-cyan-300" href="https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-config-tester-aarch64-macos.tar.gz">aarch64-macos</a></td>
               </tr>
             </tbody>
           </table>
@@ -378,8 +384,10 @@
       <div class="mb-14" x-data="{ tab: 'tarball' }">
         <h2 class="text-2xl font-bold text-white mb-6">Installation</h2>
 
-        <div class="flex gap-2 mb-5 border-b border-gray-800 pb-4">
+        <div class="flex flex-wrap gap-2 mb-5 border-b border-gray-800 pb-4">
           <button @click="tab = 'tarball'" :class="tab==='tarball' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/40' : 'text-gray-500 border-gray-700 hover:text-gray-300'" class="px-4 py-2 text-sm font-medium border rounded-lg transition-colors">Tarball</button>
+          <button @click="tab = 'windows'" :class="tab==='windows' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/40' : 'text-gray-500 border-gray-700 hover:text-gray-300'" class="px-4 py-2 text-sm font-medium border rounded-lg transition-colors">Windows</button>
+          <button @click="tab = 'macos'" :class="tab==='macos' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/40' : 'text-gray-500 border-gray-700 hover:text-gray-300'" class="px-4 py-2 text-sm font-medium border rounded-lg transition-colors">macOS</button>
           <button @click="tab = 'container'" :class="tab==='container' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/40' : 'text-gray-500 border-gray-700 hover:text-gray-300'" class="px-4 py-2 text-sm font-medium border rounded-lg transition-colors">Container (Podman)</button>
           <button @click="tab = 'systemd'" :class="tab==='systemd' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/40' : 'text-gray-500 border-gray-700 hover:text-gray-300'" class="px-4 py-2 text-sm font-medium border rounded-lg transition-colors">Systemd Service</button>
           <button @click="tab = 'acme'" :class="tab==='acme' ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/40' : 'text-gray-500 border-gray-700 hover:text-gray-300'" class="px-4 py-2 text-sm font-medium border rounded-lg transition-colors">ACME Setup</button>
@@ -390,16 +398,16 @@
             <div class="px-4 py-2.5 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — tarball installation</span></div>
 <pre class="language-bash"><code class="language-bash"># 1. Download the full Linux build tarball
 # Use aarch64-linux instead of x86_64-linux on ARM64 servers.
-curl -L https://github.com/valkyoth/fluxheim/releases/download/v1.8.1/fluxheim-1.8.1-full-x86_64-linux.tar.gz \
-  -o fluxheim-1.8.1.tar.gz
+curl -fLO https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-full-x86_64-linux.tar.gz
 
 # 2. Verify and extract
-tar xzf fluxheim-1.8.1.tar.gz
+curl -fLO https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/SHA256SUMS-x86_64-linux.txt
+grep '  fluxheim-1.8.2-full-x86_64-linux.tar.gz$' SHA256SUMS-x86_64-linux.txt | sha256sum -c -
+tar xzf fluxheim-1.8.2-full-x86_64-linux.tar.gz
 
 # 3. Move binary and helper tools to system path
-sudo mv fluxheim /usr/local/bin/
-sudo mv fluxheim-acme /usr/local/bin/            # ACME companion
-sudo mv fluxheim-config-tester /usr/local/bin/   # Config validator
+cd fluxheim-1.8.2-full-x86_64-linux
+sudo install -m 0755 fluxheim fluxheim-acme /usr/local/bin/
 
 # 4. Create config directory and add your config
 sudo mkdir -p /etc/fluxheim /srv/fluxheim
@@ -413,24 +421,77 @@ sudo fluxheim --config /etc/fluxheim/fluxheim.toml</code></pre>
           </div>
         </div>
 
+        <div x-show="tab === 'windows'" class="space-y-4">
+          <div class="code-win">
+            <div class="px-4 py-2.5 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">PowerShell — Windows x86_64</span></div>
+<pre class="language-powershell"><code class="language-powershell">$Version = "1.8.2"
+$Archive = "fluxheim-$Version-full-x86_64-windows.zip"
+$BaseUrl = "https://github.com/valkyoth/fluxheim/releases/download/v$Version"
+$InstallDir = Join-Path $env:LOCALAPPDATA "Fluxheim"
+
+Invoke-WebRequest "$BaseUrl/$Archive" -OutFile $Archive
+Invoke-WebRequest "$BaseUrl/SHA256SUMS-x86_64-windows.txt" -OutFile SHA256SUMS.txt
+$Line = @(Get-Content SHA256SUMS.txt | Where-Object { $_ -like "*  $Archive" })
+if ($Line.Count -ne 1) { throw "Archive checksum entry is missing or duplicated" }
+$Expected = ($Line[0] -split '\s+')[0].ToLowerInvariant()
+$Actual = (Get-FileHash $Archive -Algorithm SHA256).Hash.ToLowerInvariant()
+if ($Actual -cne $Expected) { throw "Archive checksum verification failed" }
+
+New-Item -ItemType Directory -Force -Path $InstallDir | Out-Null
+Expand-Archive -LiteralPath $Archive -DestinationPath $InstallDir -Force
+$Bundle = Join-Path $InstallDir "fluxheim-$Version-full-x86_64-windows"
+
+& "$Bundle\fluxheim.exe" --config "$InstallDir\fluxheim.toml" --check-config
+& "$Bundle\fluxheim.exe" --config "$InstallDir\fluxheim.toml"</code></pre>
+          </div>
+          <div class="p-4 bg-amber-500/5 border border-amber-500/20 rounded-xl">
+            <p class="text-amber-300 text-sm"><strong>Unsigned preview:</strong> This is an unsigned portable preview. Keep SmartScreen and PowerShell security enabled; Authenticode signing and a Windows service installer are not yet provided. Managed PHP-FPM supervision is Unix-only; Windows supports external TCP FastCGI pools.</p>
+          </div>
+        </div>
+
+        <div x-show="tab === 'macos'" class="space-y-4">
+          <div class="code-win">
+            <div class="px-4 py-2.5 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — macOS Apple Silicon</span></div>
+<pre class="language-bash"><code class="language-bash">VERSION="1.8.2"
+PROFILE="full"
+ARCHIVE="fluxheim-${VERSION}-${PROFILE}-aarch64-macos.tar.gz"
+BASE_URL="https://github.com/valkyoth/fluxheim/releases/download/v${VERSION}"
+
+curl -fLO "${BASE_URL}/${ARCHIVE}"
+curl -fLO "${BASE_URL}/SHA256SUMS-aarch64-macos.txt"
+grep "  ${ARCHIVE}$" SHA256SUMS-aarch64-macos.txt | shasum -a 256 -c -
+tar -xzf "$ARCHIVE"
+
+install -d "$HOME/.local/bin"
+install -m 0755 "fluxheim-${VERSION}-${PROFILE}-aarch64-macos/fluxheim" "$HOME/.local/bin/fluxheim"
+install -m 0755 "fluxheim-${VERSION}-${PROFILE}-aarch64-macos/fluxheim-acme" "$HOME/.local/bin/fluxheim-acme"
+
+fluxheim --config "$HOME/.config/fluxheim/fluxheim.toml" --check-config
+fluxheim --config "$HOME/.config/fluxheim/fluxheim.toml"</code></pre>
+          </div>
+          <div class="p-4 bg-amber-500/5 border border-amber-500/20 rounded-xl">
+            <p class="text-amber-300 text-sm"><strong>Unsigned preview:</strong> This is an unsigned command-line preview. Keep Gatekeeper enabled; Developer ID signing, notarisation, and launchd integration are not yet provided.</p>
+          </div>
+        </div>
+
         <div x-show="tab === 'container'" class="space-y-4">
           <div class="code-win">
             <div class="px-4 py-2.5 border-b border-gray-700/40 bg-gray-900/60"><span class="text-xs font-mono text-gray-500">bash — rootless Podman</span></div>
 <pre class="language-bash"><code class="language-bash"># Pull GHCR images (Wasm, full, load-balancer, cache, proxy, and PHP variants)
-podman pull ghcr.io/valkyoth/fluxheim:v1.8.1         # full
-podman pull ghcr.io/valkyoth/fluxheim:v1.8.1-wasm
-podman pull ghcr.io/valkyoth/fluxheim:v1.8.1-load-balancer # load balancer
-podman pull ghcr.io/valkyoth/fluxheim:v1.8.1-cache   # cache edge
-podman pull ghcr.io/valkyoth/fluxheim:v1.8.1-proxy   # proxy edge
-podman pull ghcr.io/valkyoth/fluxheim:v1.8.1-php     # managed PHP-FPM
+podman pull ghcr.io/valkyoth/fluxheim:v1.8.2         # full
+podman pull ghcr.io/valkyoth/fluxheim:v1.8.2-wasm
+podman pull ghcr.io/valkyoth/fluxheim:v1.8.2-load-balancer # load balancer
+podman pull ghcr.io/valkyoth/fluxheim:v1.8.2-cache   # cache edge
+podman pull ghcr.io/valkyoth/fluxheim:v1.8.2-proxy   # proxy edge
+podman pull ghcr.io/valkyoth/fluxheim:v1.8.2-php     # managed PHP-FPM
 
 # Same build set is available on Quay
-podman pull quay.io/valkyoth/fluxheim:v1.8.1
-podman pull quay.io/valkyoth/fluxheim:v1.8.1-wasm
-podman pull quay.io/valkyoth/fluxheim:v1.8.1-load-balancer
-podman pull quay.io/valkyoth/fluxheim:v1.8.1-cache
-podman pull quay.io/valkyoth/fluxheim:v1.8.1-proxy
-podman pull quay.io/valkyoth/fluxheim:v1.8.1-php
+podman pull quay.io/valkyoth/fluxheim:v1.8.2
+podman pull quay.io/valkyoth/fluxheim:v1.8.2-wasm
+podman pull quay.io/valkyoth/fluxheim:v1.8.2-load-balancer
+podman pull quay.io/valkyoth/fluxheim:v1.8.2-cache
+podman pull quay.io/valkyoth/fluxheim:v1.8.2-proxy
+podman pull quay.io/valkyoth/fluxheim:v1.8.2-php
 
 # Run rootless — internal ports 8080 and 8443
 podman run -d \
@@ -441,7 +502,7 @@ podman run -d \
   -v /srv/sites:/srv/sites:ro \
   -v /srv/fluxheim/certs:/etc/fluxheim/certs:rw \
   -v ./fluxheim.toml:/etc/fluxheim/fluxheim.toml:ro \
-  ghcr.io/valkyoth/fluxheim:v1.8.1
+  ghcr.io/valkyoth/fluxheim:v1.8.2
 
 # Check logs
 podman logs -f fluxheim</code></pre>
@@ -519,7 +580,7 @@ enabled = true
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Linux x86_64 (kernel 4.14+)</li>
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Linux ARM64 / aarch64</li>
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>macOS Apple Silicon / aarch64</li>
-              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 20a8 8 0 100-16 8 8 0 000 16z"/></svg>Windows x86_64 (v1.8.2)</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Windows x86_64</li>
             </ul>
           </div>
           <div class="p-5 bg-gray-900/60 border border-gray-800 rounded-xl">
@@ -529,7 +590,8 @@ enabled = true
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Wolfi (minimal, hardened)</li>
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Wasm + Full, load-balancer, cache, proxy, and PHP image profiles</li>
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Alpine Linux</li>
-              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>SUSE Micro</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>SUSE Micro (non-PHP profiles)</li>
+              <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>SUSE BCI (PHP: <code class="text-cyan-400 text-xs">php-suse-bci</code>)</li>
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Debian</li>
               <li class="flex items-center gap-2"><svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>Published on GHCR and Quay</li>
             </ul>
@@ -559,8 +621,18 @@ enabled = true
               <tr class="hover:bg-gray-900/40 transition-colors">
                 <td class="px-5 py-4">
                   <div class="flex flex-wrap items-center gap-2">
-                    <span class="font-mono font-bold text-white">v1.8.1</span>
+                    <span class="font-mono font-bold text-white">v1.8.2</span>
                     <span class="px-1.5 py-0.5 text-xs bg-cyan-500/10 text-cyan-400 rounded border border-cyan-500/20">Latest</span>
+                  </div>
+                </td>
+                <td class="px-5 py-4 text-gray-400 whitespace-nowrap">2026-09</td>
+                <td class="px-5 py-4 text-gray-400">Adds unsigned native Windows x86_64 ZIP archives for all seven public profiles, preserves Windows filesystem and credential protections, and replaces the PHP SUSE Micro image with the self-contained php-suse-bci runtime.</td>
+                <td class="px-5 py-4"><a href="https://github.com/valkyoth/fluxheim/releases/tag/v1.8.2" target="_blank" rel="noopener" class="px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-lg border border-gray-700 transition-colors whitespace-nowrap">All on GitHub</a></td>
+              </tr>
+              <tr class="hover:bg-gray-900/40 transition-colors">
+                <td class="px-5 py-4">
+                  <div class="flex flex-wrap items-center gap-2">
+                    <span class="font-mono font-bold text-white">v1.8.1</span>
                   </div>
                 </td>
                 <td class="px-5 py-4 text-gray-400 whitespace-nowrap">2026-08</td>
@@ -669,6 +741,7 @@ enabled = true
   <script src="assets/js/alpine.min.js" defer></script>
   <script src="assets/js/prism.min.js"></script>
   <script src="assets/js/prism-bash.min.js"></script>
+  <script src="assets/js/prism-powershell.min.js"></script>
   <script src="assets/js/prism-toml.min.js"></script>
 </body>
 </html>

@@ -16,7 +16,7 @@ Use this implementation model:
    supervises php-fpm, and connects to its private socket while still using the
    same FastCGI request path as external php-fpm.
 
-As of the current review, `fastcgi-client 0.11.1` is available for the php-fpm
+As of the current review, `fastcgi-client 0.12.0` is used for the php-fpm
 path under Apache-2.0. Pure-Rust PHP/phprs support is no longer planned for the
 1.3 line because managed php-fpm covers the useful zero-admin deployment goal
 without adopting an immature interpreter. `ripht-php-sapi 0.1.0-rc.7` remains an
@@ -30,7 +30,7 @@ Implemented feature flags:
 
 ```toml
 php = ["proxy", "web"]
-php-fpm = ["php", "dep:fastcgi-client", "dep:tokio", "fastcgi-client/runtime-tokio"]
+php-fpm = ["php", "dep:fastcgi-client", "dep:tokio", "fastcgi-client/tokio"]
 ```
 
 `php-fpm` is the only PHP runtime feature in the 1.3 line. Managed php-fpm is a
@@ -102,6 +102,10 @@ allow_private_tcp_upstreams = true
 
 Managed php-fpm mode keeps the runtime selection in
 `[vhosts.php.fpm]` instead of adding a new compile-time PHP runtime:
+
+Managed mode requires Unix process groups and Unix sockets. On Windows, use
+the default external mode with `tcp` or `tcp_upstreams`; Windows validation
+rejects `mode = "managed"` before startup.
 
 ```toml
 [vhosts.php.fpm]
@@ -209,6 +213,11 @@ eligible:
 - Use a small allow-list for CGI/FastCGI params.
 - Reject decoded control characters in path-derived FastCGI params and avoid
   protocol-relative directory-slash redirects.
+- Apply Windows-safe segment rules on every platform: reject colons, trailing
+  dots or spaces, and Windows device aliases such as `CON`, `AUX`, `COM1`, and
+  `LPT1`. This portable URL contract also protects Linux Fluxheim deployments
+  that forward FastCGI requests to an external Windows PHP backend. Scripts
+  using those names must be renamed even when Fluxheim itself runs on Unix.
 - Set `SCRIPT_NAME`, `SCRIPT_FILENAME`, `DOCUMENT_ROOT`, `REQUEST_METHOD`,
   `QUERY_STRING`, `REQUEST_URI`, `SERVER_NAME`, `SERVER_PORT`, and
   `SERVER_PROTOCOL` explicitly.
@@ -289,8 +298,12 @@ when PHP behavior changes. The local WordPress smoke accepts `external`,
 `managed-respawn`, or `both` so the same install/login/admin flow can verify an
 operator-managed php-fpm container, every Fluxheim-managed php-fpm process
 manager mode, and the managed php-fpm post-start crash respawn watchdog.
-`scripts/smoke_fluxheim_php_wolfi.sh` verifies the self-contained Wolfi PHP
-image path with bundled `php-8.5-fpm` and managed php-fpm enabled.
+`scripts/smoke_fluxheim_php_images.sh` verifies the self-contained Wolfi,
+Alpine, Debian, and SUSE BCI PHP images. It rejects PHP module load warnings,
+checks the shared application extension baseline (including MySQLi/MySQLnd),
+and executes a real request through Fluxheim-managed PHP-FPM in every image.
+The SUSE PHP profile uses `registry.suse.com/bci/php:8` and is published as
+`php-suse-bci`; non-PHP SUSE profiles continue to use SUSE Micro.
 
 Managed php-fpm starts the php-fpm master from a retained, owner/mode-validated
 executable descriptor with a cleared environment and a fixed minimal `PATH`, so

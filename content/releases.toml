@@ -1,4 +1,10 @@
-latest = "1.8.1"
+latest = "1.8.2"
+
+[[release]]
+version = "1.8.2"
+date = "2026-09-13"
+title = "Windows portable parity"
+summary = "Adds unsigned native Windows x86_64 ZIP archives for all seven public profiles, preserves Windows filesystem and credential protections, and replaces the PHP SUSE Micro image with the self-contained php-suse-bci runtime."
 
 [[release]]
 version = "1.8.1"

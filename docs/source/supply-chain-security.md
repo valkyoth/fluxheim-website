@@ -94,6 +94,13 @@ Local development and CI should keep build environments low-trust by default:
 
 ## Human Review Roadmap
 
+Security-critical dependencies may receive a scoped manual review before the
+workspace-wide `cargo-vet` rollout. The current Windows filesystem trust
+boundary and its exact locked dependency evidence are recorded in
+[Windows Filesystem Security Audit](dependency-audits/windows-filesystem-security.md).
+`scripts/validate_windows_security_audit.py` fails the normal checks when that
+reviewed version or checksum drifts.
+
 Fluxheim should add `cargo-vet` after the 1.4.0 proxy-parity release
 stabilizes.
 
@@ -135,3 +142,8 @@ Before enabling embedded metadata by default, validate:
 - SBOM files improve traceability, but they do not prevent a malicious build.
 - FIPS or ISO/IEC 19790 TLS mode constrains cryptographic providers and TLS
   configuration. It does not validate unrelated dependency behavior.
+- Windows ACL descriptor parsing currently uses the narrowly audited
+  `windows-permissions` 0.2.x API graph recorded in the Windows filesystem
+  security audit. Before signed Windows distribution becomes a release
+  requirement, evaluate replacing that dependency with direct `windows-sys`
+  descriptor parsing so the security boundary uses one Windows API binding.
