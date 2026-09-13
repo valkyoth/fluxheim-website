@@ -54,6 +54,14 @@ async fn getting_started_uses_page_specific_translations() {
     assert!(ja_body.contains("<h2>インストール</h2>"));
     assert!(ja_body.contains("language-powershell"));
     assert!(ja_body.contains("../assets/js/prism-powershell.min.js"));
+    for digest in [
+        "1a323dcd5632e25acf2e4463e549f20cdd3d568f445f9d923b1be312ec7f9839",
+        "a725ebcccac259af6640da57ce12e7a3944c5bd0d9e7869d4001196a0c394031",
+        "a72b84720083406f318bf3fc87555eb62fd76dbd1506dbf2cd368e7364726b44",
+    ] {
+        assert!(ja_body.contains(digest));
+    }
+    assert!(!ja_body.contains("SHA256SUMS-"));
 }
 
 #[tokio::test]

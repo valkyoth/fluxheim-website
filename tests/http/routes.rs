@@ -337,8 +337,10 @@ async fn download_page_exposes_macos_and_windows_x86_64_profiles() {
     assert!(!body.contains("Windows aarch64"));
     assert!(!body.contains("Windows x86_64 / aarch64"));
     assert!(!body.contains(r#"aria-disabled="true""#));
-    assert!(body.contains("SHA256SUMS-x86_64-windows.txt"));
-    assert!(body.contains("SHA256SUMS-aarch64-macos.txt"));
+    assert!(body.contains("1a323dcd5632e25acf2e4463e549f20cdd3d568f445f9d923b1be312ec7f9839"));
+    assert!(body.contains("a72b84720083406f318bf3fc87555eb62fd76dbd1506dbf2cd368e7364726b44"));
+    assert!(body.contains("a725ebcccac259af6640da57ce12e7a3944c5bd0d9e7869d4001196a0c394031"));
+    assert!(!body.contains("SHA256SUMS-"));
     assert!(!body.contains("fluxheim-1.8.2-full-aarch64-windows.zip"));
 }
 

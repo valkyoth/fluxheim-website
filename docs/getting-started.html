@@ -117,8 +117,7 @@
 ARCHIVE="fluxheim-${VERSION}-full-x86_64-linux.tar.gz"
 BASE_URL="https://github.com/valkyoth/fluxheim/releases/download/v${VERSION}"
 curl -fLO "${BASE_URL}/${ARCHIVE}"
-curl -fLO "${BASE_URL}/SHA256SUMS-x86_64-linux.txt"
-grep "  ${ARCHIVE}$" SHA256SUMS-x86_64-linux.txt | sha256sum -c -
+echo "1a323dcd5632e25acf2e4463e549f20cdd3d568f445f9d923b1be312ec7f9839  ${ARCHIVE}" | sha256sum -c -
 tar -xzf "$ARCHIVE"
 sudo install -m 0755 "fluxheim-${VERSION}-full-x86_64-linux/fluxheim" /usr/local/bin/fluxheim</code></pre>
   <h3>macOS Apple Silicon</h3>
@@ -126,8 +125,7 @@ sudo install -m 0755 "fluxheim-${VERSION}-full-x86_64-linux/fluxheim" /usr/local
 ARCHIVE="fluxheim-${VERSION}-full-aarch64-macos.tar.gz"
 BASE_URL="https://github.com/valkyoth/fluxheim/releases/download/v${VERSION}"
 curl -fLO "${BASE_URL}/${ARCHIVE}"
-curl -fLO "${BASE_URL}/SHA256SUMS-aarch64-macos.txt"
-grep "  ${ARCHIVE}$" SHA256SUMS-aarch64-macos.txt | shasum -a 256 -c -
+echo "a725ebcccac259af6640da57ce12e7a3944c5bd0d9e7869d4001196a0c394031  ${ARCHIVE}" | shasum -a 256 -c -
 tar -xzf "$ARCHIVE"
 install -d "$HOME/.local/bin"
 install -m 0755 "fluxheim-${VERSION}-full-aarch64-macos/fluxheim" "$HOME/.local/bin/fluxheim"</code></pre>
@@ -137,10 +135,8 @@ install -m 0755 "fluxheim-${VERSION}-full-aarch64-macos/fluxheim" "$HOME/.local/
 $Archive = "fluxheim-$Version-full-x86_64-windows.zip"
 $BaseUrl = "https://github.com/valkyoth/fluxheim/releases/download/v$Version"
 Invoke-WebRequest "$BaseUrl/$Archive" -OutFile $Archive
-Invoke-WebRequest "$BaseUrl/SHA256SUMS-x86_64-windows.txt" -OutFile SHA256SUMS.txt
-$Line = @(Get-Content SHA256SUMS.txt | Where-Object { $_ -like "*  $Archive" })
-if ($Line.Count -ne 1) { throw "Archive checksum entry is missing or duplicated" }
-if ((Get-FileHash $Archive -Algorithm SHA256).Hash.ToLowerInvariant() -cne ($Line[0] -split '\s+')[0].ToLowerInvariant()) { throw "Archive checksum verification failed" }
+$Expected = "a72b84720083406f318bf3fc87555eb62fd76dbd1506dbf2cd368e7364726b44"
+if ((Get-FileHash $Archive -Algorithm SHA256).Hash.ToLowerInvariant() -cne $Expected) { throw "Archive checksum verification failed" }
 Expand-Archive -LiteralPath $Archive -DestinationPath "$env:LOCALAPPDATA\Fluxheim" -Force</code></pre>
   <p>This is an unsigned portable preview. Keep SmartScreen and PowerShell security enabled; Authenticode signing and a Windows service installer are not yet provided.</p>
   <p>Managed PHP-FPM supervision is Unix-only; Windows supports external TCP FastCGI pools.</p>
