@@ -48,6 +48,9 @@ curl -fsS "${base}/pl/" | grep -q "Pobierz v1.8.2"
 curl -fsS "${base}/ru/" | grep -q "Скачать v1.8.2"
 curl -fsS "${base}/ja/" | grep -q "ダウンロード v1.8.2"
 curl -fsS "${base}/de/download" | grep -q "Systemd-Dienst"
+curl -sS -o /dev/null -w '%{http_code} %{redirect_url}\n' \
+  "${base}/out/download/fluxheim-1.8.2-full-x86_64-windows.zip?locale=en-EU" \
+  | grep -qx "307 https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/fluxheim-1.8.2-full-x86_64-windows.zip"
 
 curl -fsS "${base}/de/docs" | grep -q "Anleitungen"
 curl -fsS "${base}/de/docs/static-sites" | grep -q "Statische Sites"

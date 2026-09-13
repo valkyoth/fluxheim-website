@@ -262,7 +262,17 @@ async fn download_outbound_redirects_only_known_artifacts() {
         assert_eq!(
             headers[header::LOCATION],
             format!("https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/{artifact}"),
-            "{profile}"
+            "macOS {profile}"
+        );
+
+        let artifact = format!("fluxheim-1.8.2-{profile}-x86_64-windows.zip");
+        let (status, headers, _body) =
+            request(&format!("/out/download/{artifact}?locale=en-EU")).await;
+        assert_eq!(status, StatusCode::TEMPORARY_REDIRECT, "Windows {profile}");
+        assert_eq!(
+            headers[header::LOCATION],
+            format!("https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/{artifact}"),
+            "Windows {profile}"
         );
     }
 
