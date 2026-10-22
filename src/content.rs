@@ -126,12 +126,44 @@ impl Site {
     }
 
     fn validate(&self) -> Result<(), String> {
+        let version = &self.config.fluxheim_version;
+        if version.split('.').count() != 3
+            || version
+                .split('.')
+                .any(|part| part.is_empty() || !part.bytes().all(|byte| byte.is_ascii_digit()))
+        {
+            return Err("Fluxheim version must contain three numeric components".to_owned());
+        }
+        let repository = self.config.github_url.strip_prefix("https://github.com/");
+        if !repository.is_some_and(|path| {
+            path.split('/').count() == 2
+                && path.split('/').all(|part| {
+                    !part.is_empty()
+                        && part != "."
+                        && part != ".."
+                        && part
+                            .bytes()
+                            .all(|byte| byte.is_ascii_alphanumeric() || b"-_.".contains(&byte))
+                })
+        }) || self.config.releases_url != format!("{}/releases", self.config.github_url)
+        {
+            return Err("release URLs must identify the same HTTPS GitHub repository".to_owned());
+        }
         if self.locales.is_empty() {
             return Err("at least one locale is required".to_owned());
         }
 
         let mut locale_ids = BTreeSet::new();
         for locale in &self.locales {
+            for value in [&locale.locale_id, &locale.html_lang, &locale.url_prefix] {
+                if value.len() > 35
+                    || !value.split('-').all(|part| {
+                        !part.is_empty() && part.bytes().all(|byte| byte.is_ascii_alphanumeric())
+                    })
+                {
+                    return Err("locale identifiers must be safe language tags".to_owned());
+                }
+            }
             if locale.locale_id.trim().is_empty()
                 || locale.html_lang.trim().is_empty()
                 || locale.url_prefix.trim().is_empty()
@@ -163,6 +195,34 @@ impl Site {
 #[cfg(test)]
 mod tests {
     use super::Site;
+
+    #[test]
+    fn rejects_unsafe_metadata() {
+        for value in ["1.2", "1.2.3\"", "1.2.3<script>", "1..3"] {
+            let mut site = Site::load().unwrap();
+            site.config.fluxheim_version = value.to_owned();
+            assert!(site.validate().is_err());
+        }
+        for value in ["en\" onload=\"alert(1)", "en/../../", "en--GB"] {
+            let mut site = Site::load().unwrap();
+            site.locales[0].html_lang = value.to_owned();
+            assert!(site.validate().is_err());
+        }
+        for value in [
+            "http://github.com/valkyoth/fluxheim",
+            "https://github.com.evil.test/valkyoth/fluxheim",
+            "https://github.com/valkyoth/fluxheim?redirect=evil",
+            "https://github.com/../fluxheim",
+        ] {
+            let mut site = Site::load().unwrap();
+            site.config.github_url = value.to_owned();
+            site.config.releases_url = format!("{value}/releases");
+            assert!(site.validate().is_err());
+        }
+        let mut site = Site::load().unwrap();
+        site.config.releases_url = "https://github.com/other/repo/releases".to_owned();
+        assert!(site.validate().is_err());
+    }
 
     #[test]
     fn loads_configured_locales() {

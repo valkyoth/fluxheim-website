@@ -223,20 +223,20 @@ fn init_providers(
         .with_http()
         .with_protocol(Protocol::HttpBinary)
         .build()?;
-    let meter_provider = SdkMeterProvider::builder()
-        .with_resource(resource.clone())
-        .with_periodic_exporter(metric_exporter)
-        .build();
-    global::set_meter_provider(meter_provider.clone());
-
     let span_exporter = opentelemetry_otlp::SpanExporter::builder()
         .with_http()
         .with_protocol(Protocol::HttpBinary)
         .build()?;
+    // Finish fallible exporter setup before starting workers or publishing providers.
+    let meter_provider = SdkMeterProvider::builder()
+        .with_resource(resource.clone())
+        .with_periodic_exporter(metric_exporter)
+        .build();
     let tracer_provider = SdkTracerProvider::builder()
         .with_resource(resource)
         .with_batch_exporter(span_exporter)
         .build();
+    global::set_meter_provider(meter_provider.clone());
     global::set_tracer_provider(tracer_provider.clone());
 
     Ok(TelemetryGuard {

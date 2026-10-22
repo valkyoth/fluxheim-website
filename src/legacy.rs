@@ -207,7 +207,10 @@ fn embedded_html(path: &Path) -> Option<&'static str> {
 fn apply_version(site: &Site, html: String) -> String {
     html.replace(
         &format!("v{SOURCE_FLUXHEIM_VERSION}"),
-        &format!("v{}", site.config.fluxheim_version),
+        &format!(
+            "v{}",
+            crate::i18n::escape_html(&site.config.fluxheim_version)
+        ),
     )
 }
 

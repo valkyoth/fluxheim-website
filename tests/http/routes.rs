@@ -378,6 +378,9 @@ async fn direct_client_click_telemetry_is_not_exposed() {
     let payload = r#"{"kind":"github","locale":"en-EU","target":"repo"}"#;
     let (status, _headers, body) =
         request_with_body(http::Method::POST, "/telemetry/click", payload).await;
+    assert_eq!(status, StatusCode::METHOD_NOT_ALLOWED);
+    assert!(body.is_empty());
+    let (status, _headers, body) = request("/telemetry/click").await;
     assert_eq!(status, StatusCode::NOT_FOUND);
     assert!(body.contains("Page not found"));
 }

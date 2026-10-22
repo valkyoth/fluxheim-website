@@ -26,7 +26,8 @@ Include:
 ## Security Baseline
 
 - Rust toolchain pinned to `1.99.1`.
-- Askama templates are compiled and type checked.
+- HTML and locale data are embedded at build time; translation output is escaped
+  and rich markup is restricted to source-approved tags.
 - Localized content is parsed from bundled TOML into typed structures.
 - Request paths are resolved against an immutable page cache rendered at startup.
 - Translation matchers are bounded per worker and released after each locale;
@@ -55,6 +56,26 @@ scripts/smoke_local.sh
 ```
 
 Review `security/pentest/README.md` before focused security testing.
+
+These checks are a local maintainer release gate; this repository does not
+enforce them through required GitHub Actions or branch protection. CodeQL uses
+GitHub Default setup. Deployments requiring enforced merge controls should
+configure them separately.
+
+## Observability Deployment Boundary
+
+The optional rootless observability stack binds its published ports to loopback.
+Its Grafana password (`admin`) and OTLP token (`fluxheim-local-otlp-token`) are
+local-development defaults, not production secrets. Set `GRAFANA_ADMIN_PASSWORD`
+and `OTEL_COLLECTOR_BEARER_TOKEN` before using the stack on a shared or production
+host. Changing Grafana's bootstrap password does not reset an existing database's
+admin password; change that password in Grafana as well.
+
+Auxiliary services have read-only roots, dropped capabilities, no-new-privileges,
+PID limits and bounded temporary storage. Prometheus and Grafana retain their
+explicit writable data volumes. Internal OTLP uses HTTP on the compose network;
+TLS/mTLS and host-specific CPU/memory ceilings are deployment choices. This
+local stack does not claim military or high-assurance isolation.
 
 ## Browser Policy Boundary
 

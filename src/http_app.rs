@@ -62,7 +62,7 @@ pub fn build_router_with_observability(site: Arc<Site>, observability: Observabi
     }
 
     let router = router
-        .fallback(render_page)
+        .fallback_service(get(render_page).with_state(state.clone()))
         .with_state(state.clone())
         .layer(middleware::from_fn_with_state(state, observe_request))
         .layer(static_header("x-content-type-options", "nosniff"))
