@@ -1,0 +1,1 @@
+r183_summary = "Posodablja Rust, stabilne odvisnosti in Wasmtime/WASI 50; utrjuje overjeno osveževanje vsebnikov; ter popravi samostojne gradnje systemd in RPM brez spremembe nastavitev."

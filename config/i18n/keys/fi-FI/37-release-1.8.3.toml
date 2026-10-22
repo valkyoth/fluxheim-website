@@ -1,0 +1,1 @@
+r183_summary = "Päivittää Rustin, vakaat riippuvuudet ja Wasmtime/WASI 50:n; vahvistaa todennettuja konttipäivityksiä; ja korjaa itsenäiset systemd- ja RPM-koonnokset muuttamatta asetuksia."

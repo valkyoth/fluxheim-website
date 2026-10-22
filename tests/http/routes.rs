@@ -108,7 +108,7 @@ async fn wasm_guide_and_release_profile_are_public() {
     assert_eq!(status, StatusCode::OK);
     assert!(body.contains("WASM extensions"));
     assert!(body.contains("profile-wasm"));
-    assert!(body.contains("v1.8.2-wasm"));
+    assert!(body.contains("v1.8.3-wasm"));
     assert!(body.contains("expected SHA-256") || body.contains("sha256"));
 
     let (de_status, _headers, de_body) = request("/de/docs/wasm").await;
@@ -118,9 +118,9 @@ async fn wasm_guide_and_release_profile_are_public() {
 
     let (download_status, _headers, download_body) = request("/download").await;
     assert_eq!(download_status, StatusCode::OK);
-    assert!(download_body.contains("fluxheim-1.8.2-wasm-x86_64-linux.tar.gz"));
-    assert!(download_body.contains("ghcr.io/valkyoth/fluxheim:v1.8.2-wasm"));
-    assert!(download_body.contains("quay.io/valkyoth/fluxheim:v1.8.2-wasm"));
+    assert!(download_body.contains("fluxheim-1.8.3-wasm-x86_64-linux.tar.gz"));
+    assert!(download_body.contains("ghcr.io/valkyoth/fluxheim:v1.8.3-wasm"));
+    assert!(download_body.contains("quay.io/valkyoth/fluxheim:v1.8.3-wasm"));
 }
 
 #[tokio::test]
@@ -133,12 +133,14 @@ async fn source_markdown_artifacts_are_served() {
 
 #[tokio::test]
 async fn release_note_artifacts_are_served() {
-    let (status, headers, body) = request("/fr/docs/releases/RELEASE_NOTES_1.8.2.md").await;
+    let (status, headers, body) = request("/fr/docs/releases/RELEASE_NOTES_1.8.3.md").await;
     assert_eq!(status, StatusCode::OK);
     assert_eq!(headers["content-type"], "text/markdown; charset=utf-8");
-    assert!(body.contains("# Fluxheim 1.8.2 Release Notes"));
-    assert!(body.contains("Windows Portable Release"));
-    assert!(body.contains("Exact-Tag Publication Gate"));
+    assert!(body.contains("# Fluxheim 1.8.3 Release Notes"));
+    assert!(body.contains("## Maintenance Scope"));
+    assert!(body.contains("**Released 22 October 2026.**"));
+    assert!(body.contains("../source/maintenance-1.8.3-qualification.md"));
+    assert!(!body.contains("../docs/maintenance-1.8.3-qualification.md"));
 }
 
 #[tokio::test]
@@ -229,21 +231,21 @@ async fn github_outbound_redirects_only_known_targets() {
 
 #[tokio::test]
 async fn download_outbound_redirects_only_known_artifacts() {
-    let artifact = "fluxheim-1.8.2-full-x86_64-linux.tar.gz";
+    let artifact = "fluxheim-1.8.3-full-x86_64-linux.tar.gz";
     let (status, headers, _body) = request(&format!("/out/download/{artifact}?locale=en-EU")).await;
     assert_eq!(status, StatusCode::TEMPORARY_REDIRECT);
     assert_eq!(
         headers[header::LOCATION],
-        format!("https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/{artifact}")
+        format!("https://github.com/valkyoth/fluxheim/releases/download/v1.8.3/{artifact}")
     );
 
-    let wasm_artifact = "fluxheim-1.8.2-wasm-x86_64-linux.tar.gz";
+    let wasm_artifact = "fluxheim-1.8.3-wasm-x86_64-linux.tar.gz";
     let (wasm_status, wasm_headers, _body) =
         request(&format!("/out/download/{wasm_artifact}?locale=en-EU")).await;
     assert_eq!(wasm_status, StatusCode::TEMPORARY_REDIRECT);
     assert_eq!(
         wasm_headers[header::LOCATION],
-        format!("https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/{wasm_artifact}")
+        format!("https://github.com/valkyoth/fluxheim/releases/download/v1.8.3/{wasm_artifact}")
     );
 
     for profile in [
@@ -255,29 +257,29 @@ async fn download_outbound_redirects_only_known_artifacts() {
         "load-balancer",
         "config-tester",
     ] {
-        let artifact = format!("fluxheim-1.8.2-{profile}-aarch64-macos.tar.gz");
+        let artifact = format!("fluxheim-1.8.3-{profile}-aarch64-macos.tar.gz");
         let (status, headers, _body) =
             request(&format!("/out/download/{artifact}?locale=en-EU")).await;
         assert_eq!(status, StatusCode::TEMPORARY_REDIRECT, "{profile}");
         assert_eq!(
             headers[header::LOCATION],
-            format!("https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/{artifact}"),
+            format!("https://github.com/valkyoth/fluxheim/releases/download/v1.8.3/{artifact}"),
             "macOS {profile}"
         );
 
-        let artifact = format!("fluxheim-1.8.2-{profile}-x86_64-windows.zip");
+        let artifact = format!("fluxheim-1.8.3-{profile}-x86_64-windows.zip");
         let (status, headers, _body) =
             request(&format!("/out/download/{artifact}?locale=en-EU")).await;
         assert_eq!(status, StatusCode::TEMPORARY_REDIRECT, "Windows {profile}");
         assert_eq!(
             headers[header::LOCATION],
-            format!("https://github.com/valkyoth/fluxheim/releases/download/v1.8.2/{artifact}"),
+            format!("https://github.com/valkyoth/fluxheim/releases/download/v1.8.3/{artifact}"),
             "Windows {profile}"
         );
     }
 
     let (unknown_status, _headers, body) =
-        request("/out/download/fluxheim-1.8.2-private-token.tar.gz").await;
+        request("/out/download/fluxheim-1.8.3-private-token.tar.gz").await;
     assert_eq!(unknown_status, StatusCode::NOT_FOUND);
     assert!(body.contains("Unknown download artifact"));
 
@@ -299,8 +301,8 @@ async fn changelog_leaves_artifact_links_to_the_download_page() {
     for route in ["/changelog", "/de/changelog"] {
         let (status, _headers, body) = request(route).await;
         assert_eq!(status, StatusCode::OK, "{route}");
-        assert!(body.contains("v1.8.2"), "{route}");
-        assert!(body.contains("releases/tag/v1.8.2"), "{route}");
+        assert!(body.contains("v1.8.3"), "{route}");
+        assert!(body.contains("releases/tag/v1.8.3"), "{route}");
         assert!(!body.contains("/out/download/"), "{route}");
         assert!(!body.contains("/releases/download/"), "{route}");
     }
@@ -321,11 +323,11 @@ async fn download_page_exposes_macos_and_windows_x86_64_profiles() {
         "config-tester",
     ] {
         assert!(
-            body.contains(&format!("fluxheim-1.8.2-{profile}-aarch64-macos.tar.gz")),
+            body.contains(&format!("fluxheim-1.8.3-{profile}-aarch64-macos.tar.gz")),
             "missing macOS profile {profile}"
         );
         assert!(
-            body.contains(&format!("fluxheim-1.8.2-{profile}-x86_64-windows.zip")),
+            body.contains(&format!("fluxheim-1.8.3-{profile}-x86_64-windows.zip")),
             "missing Windows profile {profile}"
         );
     }
@@ -337,11 +339,11 @@ async fn download_page_exposes_macos_and_windows_x86_64_profiles() {
     assert!(!body.contains("Windows aarch64"));
     assert!(!body.contains("Windows x86_64 / aarch64"));
     assert!(!body.contains(r#"aria-disabled="true""#));
-    assert!(body.contains("1a323dcd5632e25acf2e4463e549f20cdd3d568f445f9d923b1be312ec7f9839"));
-    assert!(body.contains("a72b84720083406f318bf3fc87555eb62fd76dbd1506dbf2cd368e7364726b44"));
-    assert!(body.contains("a725ebcccac259af6640da57ce12e7a3944c5bd0d9e7869d4001196a0c394031"));
+    assert!(body.contains("faaa006fd2df31d43db69919bdcd79a4abd5f3b6c1f2928525bdaa56e8b83523"));
+    assert!(body.contains("c55ced880957062debf3870387c295f149b24ae9cb9512c4655d804dd3bb55f2"));
+    assert!(body.contains("e5cd2245932bfb1727d9deb4dc3df4b117f16eddff899c9579018d3d130a3d65"));
     assert!(!body.contains("SHA256SUMS-"));
-    assert!(!body.contains("fluxheim-1.8.2-full-aarch64-windows.zip"));
+    assert!(!body.contains("fluxheim-1.8.3-full-aarch64-windows.zip"));
 }
 
 #[tokio::test]
@@ -417,7 +419,7 @@ async fn rendered_pages_use_validated_click_redirects() {
     assert!(body.contains(r#"href="/out/github/repo?locale=en-EU""#));
     assert!(
         body.contains(
-            r#"href="/out/download/fluxheim-1.8.2-full-x86_64-linux.tar.gz?locale=en-EU""#
+            r#"href="/out/download/fluxheim-1.8.3-full-x86_64-linux.tar.gz?locale=en-EU""#
         )
     );
     assert!(body.contains("navigator.sendBeacon"));

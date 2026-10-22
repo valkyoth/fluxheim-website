@@ -2,7 +2,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 const MAX_LINES: usize = 500;
-const RUST_VERSION: &str = "1.98.1";
+const RUST_VERSION: &str = "1.99.1";
 const CHECKED_EXTENSIONS: &[&str] = &["rs", "html", "toml", "sh", "yml", "md", "py"];
 const CHECKED_DIRS: &[&str] = &[
     "src",

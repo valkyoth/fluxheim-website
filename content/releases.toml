@@ -1,4 +1,10 @@
-latest = "1.8.2"
+latest = "1.8.3"
+
+[[release]]
+version = "1.8.3"
+date = "2026-10-22"
+title = "Maintenance and runtime refresh hardening"
+summary = "Updates Rust, stable dependencies, and Wasmtime/WASI 50; hardens authenticated container refreshes; and fixes standalone systemd and RPM builds without changing configuration."
 
 [[release]]
 version = "1.8.2"

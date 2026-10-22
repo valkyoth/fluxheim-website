@@ -1,0 +1,1 @@
+r183_summary = "Cập nhật Rust, các phần phụ thuộc ổn định và Wasmtime/WASI 50; tăng cường quy trình làm mới container có xác thực; đồng thời sửa các bản dựng systemd và RPM độc lập mà không thay đổi cấu hình."

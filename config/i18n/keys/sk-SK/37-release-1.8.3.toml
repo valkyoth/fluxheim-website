@@ -1,0 +1,1 @@
+r183_summary = "Aktualizuje Rust, stabilné závislosti a Wasmtime/WASI 50; posilňuje overované aktualizácie kontajnerov; a opravuje samostatné zostavenia systemd a RPM bez zmeny konfigurácie."

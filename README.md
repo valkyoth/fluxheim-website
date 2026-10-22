@@ -1,7 +1,7 @@
 # Fluxheim Website
 
 The official localized website for
-[Fluxheim](https://github.com/valkyoth/fluxheim), built as a Rust 1.98.1
+[Fluxheim](https://github.com/valkyoth/fluxheim), built as a Rust 1.99.1
 server-rendered application.
 
 The app uses Axum for HTTP routing, TOML for project/locale metadata, and a
@@ -66,7 +66,7 @@ fluxheim-website/
 Update the Fluxheim version once in `config/site.toml`:
 
 ```toml
-fluxheim_version = "1.8.2"
+fluxheim_version = "1.8.3"
 ```
 
 The Rust response renderer injects that value into download buttons, footers,
@@ -140,7 +140,7 @@ stable key shape.
 ## Running Locally
 
 ```bash
-cargo +1.98.1 run
+cargo +1.99.1 run
 ```
 
 Open <http://127.0.0.1:8080/>.
@@ -225,7 +225,7 @@ browser -> Fluxheim edge/TLS proxy -> fluxheim-website:8080
 
 Security is part of the default development path:
 
-- Rust 1.98.1 is pinned in `rust-toolchain.toml`.
+- Rust 1.99.1 is pinned in `rust-toolchain.toml`.
 - Dependencies are pinned through `Cargo.lock`.
 - `cargo-deny` policy lives in `deny.toml`.
 - Locale routing uses fixed configured locale prefixes.

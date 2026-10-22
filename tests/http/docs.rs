@@ -55,9 +55,9 @@ async fn getting_started_uses_page_specific_translations() {
     assert!(ja_body.contains("language-powershell"));
     assert!(ja_body.contains("../assets/js/prism-powershell.min.js"));
     for digest in [
-        "1a323dcd5632e25acf2e4463e549f20cdd3d568f445f9d923b1be312ec7f9839",
-        "a725ebcccac259af6640da57ce12e7a3944c5bd0d9e7869d4001196a0c394031",
-        "a72b84720083406f318bf3fc87555eb62fd76dbd1506dbf2cd368e7364726b44",
+        "faaa006fd2df31d43db69919bdcd79a4abd5f3b6c1f2928525bdaa56e8b83523",
+        "e5cd2245932bfb1727d9deb4dc3df4b117f16eddff899c9579018d3d130a3d65",
+        "c55ced880957062debf3870387c295f149b24ae9cb9512c4655d804dd3bb55f2",
     ] {
         assert!(ja_body.contains(digest));
     }

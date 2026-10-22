@@ -1,0 +1,1 @@
+r183_summary = "Rust, 안정 버전 의존성 및 Wasmtime/WASI 50으로 업데이트하고, 인증된 컨테이너 갱신을 강화하며, 설정 변경 없이 독립 systemd 및 RPM 빌드를 수정합니다."

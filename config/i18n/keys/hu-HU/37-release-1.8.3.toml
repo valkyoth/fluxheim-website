@@ -1,0 +1,1 @@
+r183_summary = "Frissíti a Rustot, a stabil függőségeket és a Wasmtime/WASI 50-et; megerősíti a hitelesített konténerfrissítést; valamint konfigurációváltozás nélkül javítja az önálló systemd- és RPM-összeállításokat."

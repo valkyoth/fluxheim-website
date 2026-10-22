@@ -2,6 +2,37 @@ use super::apply_shared_keys;
 use crate::content::Site;
 
 #[test]
+fn applies_v183_summary_in_latin_and_non_latin_locales() {
+    let site = Site::load().expect("site loads");
+    let source = concat!(
+        "<title>Changelog — Fluxheim</title>",
+        "<!-- Timeline -->",
+        "<p>Updates Rust, stable dependencies, and Wasmtime/WASI 50; hardens authenticated ",
+        "container refreshes; and fixes standalone systemd and RPM builds without changing ",
+        "configuration.</p>",
+    );
+
+    for (locale_id, expected) in [
+        ("de-DE", "Aktualisiert Rust, stabile Abhängigkeiten"),
+        ("fr-FR", "Met à jour Rust, les dépendances stables"),
+        ("ja-JP", "Rust、安定版の依存関係、Wasmtime/WASI 50へ更新"),
+        (
+            "ko-KR",
+            "Rust, 안정 버전 의존성 및 Wasmtime/WASI 50으로 업데이트",
+        ),
+        ("zh-CN", "更新 Rust、稳定版依赖项和 Wasmtime/WASI 50"),
+        ("yue-HK", "更新 Rust、穩定版相依套件同 Wasmtime/WASI 50"),
+    ] {
+        let locale = site.locale(locale_id).expect("locale exists");
+        let translated = apply_shared_keys(locale, source.to_owned(), "1.8.3");
+        assert!(
+            translated.contains(expected),
+            "missing translation for {locale_id}"
+        );
+    }
+}
+
+#[test]
 fn applies_stable_download_keys_for_release_page_copy() {
     let site = Site::load().expect("site loads");
     let de = site.locale("de-DE").expect("German locale");
