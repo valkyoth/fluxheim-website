@@ -4890,7 +4890,7 @@ circular dependencies.
   Unix-only behavior.
 - `v1.8.3`: dependency/tooling/container maintenance, Wasmtime/WASI 50 and
   Windows release-helper fixes on `1.8.x`. See the
-  [draft release notes](../release-notes/RELEASE_NOTES_1.8.3.md) and
+  [release notes](../releases/RELEASE_NOTES_1.8.3.md) and
   [maintenance gates](maintenance-releases.md). Storage-bin redesign is deferred.
 - `v1.8.4`: company-backed Apple Developer ID and Windows Authenticode signing
   foundation once the legal publisher identity and credentials exist.
