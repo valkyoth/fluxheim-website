@@ -1,1 +1,1 @@
-r183_summary = "Uppfærir Rust, stöðugar háðar einingar og Wasmtime/WASI 50; herðir auðkenndar gámaendurnýjanir; og lagar sjálfstæðar systemd- og RPM-smíðar án breytinga á stillingum."
+r183_summary = "Uppfærir Rust og stöðugar háðar einingar og færir Wasmtime/WASI í útgáfu 50, eykur öryggi auðkenndra gámauppfærslna og lagar sjálfstæðar systemd- og RPM-smíðar án þess að breyta stillingum."

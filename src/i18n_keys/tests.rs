@@ -1,4 +1,4 @@
-use super::apply_shared_keys;
+use super::{apply_shared_keys, locale_keys, text_replace::html_escaped};
 use crate::content::Site;
 
 #[test]
@@ -12,16 +12,27 @@ fn applies_v183_summary_in_latin_and_non_latin_locales() {
         "configuration.</p>",
     );
 
+    for locale in site.locales() {
+        let expected = locale_keys(&locale.locale_id)
+            .expect("locale keys exist")
+            .release_updates
+            .get("r183_summary")
+            .expect("1.8.3 summary exists");
+        let translated = apply_shared_keys(locale, source.to_owned(), "1.8.3");
+        assert!(
+            translated.contains(&html_escaped(expected)),
+            "1.8.3 summary was not rendered for {}",
+            locale.locale_id
+        );
+    }
+
     for (locale_id, expected) in [
-        ("de-DE", "Aktualisiert Rust, stabile Abhängigkeiten"),
-        ("fr-FR", "Met à jour Rust, les dépendances stables"),
-        ("ja-JP", "Rust、安定版の依存関係、Wasmtime/WASI 50へ更新"),
-        (
-            "ko-KR",
-            "Rust, 안정 버전 의존성 및 Wasmtime/WASI 50으로 업데이트",
-        ),
-        ("zh-CN", "更新 Rust、稳定版依赖项和 Wasmtime/WASI 50"),
-        ("yue-HK", "更新 Rust、穩定版相依套件同 Wasmtime/WASI 50"),
+        ("de-DE", "Aktualisiert Rust und stabile Abhängigkeiten"),
+        ("fr-FR", "Met à jour Rust et les dépendances stables"),
+        ("ja-JP", "Rustと安定版の依存関係を更新"),
+        ("ko-KR", "Rust와 안정 버전 의존성을 업데이트"),
+        ("zh-CN", "更新 Rust 和稳定版依赖项"),
+        ("yue-HK", "更新 Rust 同穩定版相依套件"),
     ] {
         let locale = site.locale(locale_id).expect("locale exists");
         let translated = apply_shared_keys(locale, source.to_owned(), "1.8.3");

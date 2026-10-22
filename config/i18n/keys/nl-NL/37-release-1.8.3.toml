@@ -1,1 +1,1 @@
-r183_summary = "Werkt Rust, stabiele afhankelijkheden en Wasmtime/WASI 50 bij; verstevigt geauthenticeerde containervernieuwingen; en herstelt zelfstandige systemd- en RPM-builds zonder configuratiewijzigingen."
+r183_summary = "Werkt Rust en de stabiele afhankelijkheden bij, brengt Wasmtime/WASI naar versie 50, beveiligt geauthenticeerde containerupdates verder en verhelpt problemen met zelfstandige systemd- en RPM-builds zonder de configuratie te wijzigen."

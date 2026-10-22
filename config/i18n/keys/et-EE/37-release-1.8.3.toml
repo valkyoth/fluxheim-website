@@ -1,1 +1,1 @@
-r183_summary = "Uuendab Rusti, stabiilsed sõltuvused ja Wasmtime/WASI 50; tugevdab autenditud konteinerivärskendusi; ning parandab eraldiseisvad systemd- ja RPM-järgud konfiguratsiooni muutmata."
+r183_summary = "Uuendab Rusti ja stabiilseid sõltuvusi ning viib Wasmtime/WASI versioonile 50, muudab autenditud konteinerivärskendused turvalisemaks ja parandab eraldiseisvad systemd- ja RPM-järgud konfiguratsiooni muutmata."

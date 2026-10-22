@@ -1,1 +1,1 @@
-r183_summary = "Aktualisiert Rust, stabile Abhängigkeiten und Wasmtime/WASI 50; macht authentifizierte Container-Aktualisierungen sicherer; und richtet eigenständige systemd- und RPM-Builds, ohne dass si an da Konfiguration wos ändert."
+r183_summary = "Bringt Rust und de stabiln Obhängigkeiten auf'n neichastn Stand, hebt Wasmtime/WASI auf Version 50, macht authentifizierte Container-Aktualisierungen sicherer und richt de eigenständign systemd- und RPM-Builds, ohne dass se wos an da Konfiguration ändert."

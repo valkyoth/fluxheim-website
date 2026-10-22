@@ -1,1 +1,1 @@
-r183_summary = "Ažurira Rust, stabilne ovisnosti i Wasmtime/WASI 50; pojačava autentificirana osvježavanja spremnika; te popravlja samostalne systemd i RPM međuverzije bez promjene konfiguracije."
+r183_summary = "Ažurira Rust i stabilne ovisnosti, podiže Wasmtime/WASI na verziju 50, povećava sigurnost autentificiranih osvježavanja spremnika te popravlja samostalne systemd i RPM gradnje bez promjene konfiguracije."

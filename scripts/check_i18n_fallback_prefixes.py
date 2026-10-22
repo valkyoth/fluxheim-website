@@ -71,7 +71,9 @@ def has_bad_prefix(value: str, locale_id: str, display_name: str) -> bool:
             return True
         if value.startswith(f"{prefix} cache-policy update:"):
             return True
-    return value.startswith("Nederlandse cache-policy update:")
+    return value.startswith(
+        ("Nederlandse cache-policy update:", "Technischa Notiz:")
+    )
 
 
 if __name__ == "__main__":

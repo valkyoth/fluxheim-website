@@ -1,1 +1,1 @@
-r183_summary = "Actualitza Rust, les dependències estables i Wasmtime/WASI 50; reforça les renovacions autenticades de contenidors; i corregeix les compilacions independents de systemd i RPM sense canviar la configuració."
+r183_summary = "Actualitza Rust i les dependències estables, porta Wasmtime/WASI a la versió 50, reforça la seguretat de les actualitzacions autenticades de contenidors i corregeix les compilacions independents de systemd i RPM sense canviar la configuració."
