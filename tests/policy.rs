@@ -128,6 +128,34 @@ fn website_compose_keeps_rootless_hardening() {
 }
 
 #[test]
+fn observability_services_inherit_hardening() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let compose = fs::read_to_string(root.join("container/observability/podman-compose.yml"))
+        .expect("observability compose");
+    let hardening = "
+x-hardening: &hardening
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  pids_limit: 256
+  tmpfs:
+    - /tmp:rw,noexec,nosuid,nodev,size=32m,mode=1777
+";
+    assert!(
+        compose.contains(hardening),
+        "shared hardening must stay intact"
+    );
+    for service in ["otel-collector", "prometheus", "jaeger", "grafana"] {
+        let expected = format!("\n  {service}:\n    <<: *hardening\n");
+        assert!(
+            compose.contains(&expected),
+            "{service} must inherit the hardening anchor"
+        );
+    }
+    assert!(!compose.contains("--web.enable-lifecycle"));
+}
+
+#[test]
 fn startup_memory_gate_uses_the_cargo_emitted_binary() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
     let gate = fs::read_to_string(root.join("scripts/check_startup_memory.sh"))
